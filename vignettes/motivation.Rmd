@@ -1,0 +1,57 @@
+---
+title: "Motivation of the dataset package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Motivation of the dataset package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Lovers of the tidy data concept and [tidyverse](https://www.tidyverse.org/) know that the world is full of untidy data tables that give on average 5-times more work to tidy up then to actually do analytical work with them. But that’s not the only problem with datasets.  Datasets without codebooks cannot be intelligently matched with other information sources.  Data without reference to an authoritative copy cannot be validated against accidental damage during processing.  A dataset without bibliographic references is not ready for publication. 
+
+## FAIR: findable datasets
+
+
+```{r setup}
+library(dataset)
+library(data.table)
+iris_dataset <- datacite(
+  df = data.table(iris),
+  Title = "Iris Dataset",
+  Creator = person("Anderson", "Edgar", role = "aut"),
+  Publisher=" American Iris Society",
+  PublicationYear = 1935,
+  Description = "This famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.",
+  Language = "en")
+```
+
+In R, objects can have arbitrary attributes.  For example, a data.frame has a class attribute that tells functions to treat the object as a data.frame.Under the hood, you still keep your data frame object of choice, the good old base r ?data.frame, or the more modern data.table or tibble.
+
+We add descriptive metadata conforming the Dublin Core and [DataCite standard](https://schema.datacite.org/) as data frame attributes, because they must clearly describe the dataset. The dataset-level attributes do not interfere with the tidy data concept, because the tidy data concept relates to the contents of the data frame.
+
+```{r printdataset}
+print(iris_dataset)
+```
+
+
+```{r printbibliograpny}
+print(dataset_bibentry(iris_dataset), style="citation")
+```
+
+## Interoperable datasets
+
+The dataset package creates data frame templates that confirm the tidy data concept, but goes beyond the it, and organize them for survey processing, statistical aggregation and publication. Our templates follow international metadata standards and data organization recommendations, and translates them on three R object times, the base R data.frames, and their modern tibble (tidyverse) and data.table (DT) versions.
+
+We aim for interoperability, even if not full compliance, with the W3C Dataset concept, the SDMX Dataset concept, and DDI concept for survey data.  These metadata concepts are mainly used in the semantic web to foster machine-to-machine communication. Because our dataset classes are not designed for web services, but for producing research output in R that will easily integrate into them, we subjectively select specifications from the W3C and SDMX Dataset concepts (which are largely harmonized, and are special cases of the Datacube), and DDI standards for surveys and Dublin Core and DataCite standards for publication and reuse. Our selection criteria will be practical usability in reproducible research in R, particularly in the tidy data and tidymodels framework.  
+
+Our real goal is to facilitate efficient reproducible research workflows that perform flawlessly tasks that most R users, even scientific researchers, are unfamiliar with---or if they are familiar with them, they find it boring, because they will usually not get credited for it as analyst or researchers.  We want to help processing survey data in a way that it can find its way to a survey archive.  We want to help the statistical processing and analysis of survey, accounts, and other transactional data into formats that easy to publish or add to relational databases or semantic web applications.  
+
+
+The W3C Dataset concept (or more general Datacube) concept is far too general for practical specification for our purposes.  We will use small parts of these international standards, and our selection therefore will be subjective.  

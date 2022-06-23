@@ -13,43 +13,79 @@ knitr::opts_chunk$set(
 )
 ```
 
-# StatCodelists
+# The dataset R Package
 
 <!-- badges: start -->
+[![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6703765.svg)](https://doi.org/10.5281/zenodo.6703765)
+[![Follow rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov) 
+[![Follow author](https://img.shields.io/twitter/follow/digitalmusicobs.svg?style=social)](https://twitter.com/intent/follow?screen_name=digitalmusicobs)
 <!-- badges: end -->
 
-The goal of StatCodelists is to ...
+The goal of dataset is to create datasets from standared R objects (data.fame, data.table, tibble, or well-structured lists like json) that are highly interoperable and can be placed into relational databases, semantic web applications, archives, repositories.  They follow the [FAIR](https://www.go-fair.org/fair-principles/) principles: they are findable, accessible, interoperable and reusable. 
 
 ## Installation
 
-You can install the development version of StatCodelists like so:
+You can install the development version of dataset from Github:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+devtools::install_package(dataobservatory-eu/dataset)
+```
+## FAir: Findable & Accessible Datasets
+
+If you work with R, you are almost certainly familiar with the iris dataset.  The *?iris* will provide you with some information about this often used dataset in tutorials. But how you make sure that you do not forget its important properties?
+
+The function datacite [DataCite](https://datacite.org/) add at least the mandatory properties of the [DataCite Metadata Schema 4.3](https://schema.datacite.org/), a list of core metadata properties chosen for an accurate and consistent identification of a resource for citation and retrieval purposes. DataCite is largely interoperable to the other similar international standard, the [Dublin Core](https://www.dublincore.org/).  We will later add similar `dublincore` function, however, the practical differences are so small that adjustments, if needed, can be easily made by hand.
+
+```{r datacite}
+library(dataset)
+iris_dataset <- datacite(
+  df = iris,
+  Title = "Iris Dataset",
+  Creator = person("Anderson", "Edgar", role = "aut"),
+  Publisher=" American Iris Society",
+  PublicationYear = 1935,
+  Description = "This famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.",
+  Language = "en")
 ```
 
-## Example
+The `df` parameter can be any well-structured R object that meets the definition of a dataset: a data.frame, or an inherited class of it (data.table, [tibble](https://tibble.tidyverse.org/)); or a well-structured list (for example, a [json](https://arxiv.org/abs/1403.2805) object.)
 
-Cross-domain concepts in the SDMX framework describe concepts relevant to many, if not all, statistical domains. SDMX recommends using these concepts whenever feasible in SDMX structures and messages to promote the reuse and exchange of statistical information and related metadata between organisations. 
-
-Code lists are predefined sets of terms from which some statistical coded concepts take their values. SDMX cross-domain code lists are used to support cross-domain concepts. The use of common code lists will help users to work even more efficiently, easing the maintenance of and reducing the need for mapping systems and interfaces delivering data and metadata to them. Therefore, a choice over code lists has a great impact on the efficiency of data sharing.
-
-StatCodelists helps the use of the latest codelist in your R workflow.
-
-```{r codebooks}
-library(StatCodelists)
-data("codebooks")
-codebooks
+```{r bibentry}
+iris_bibentry <- dataset_bibentry(iris_dataset)
+toBibtex(iris_bibentry)
+```
+```{r bibliography, results='asis'}
+print(iris_bibentry, sytle="html")
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
 
-```{r get}
-get_codelist(codelist="CL_FREQ", var_name = "FREQ")
+## faIR: Interoperable & Reusable Datasets
+
+The interoperability and reusability of datasets is greatly enhanced if they follow a standardized and practical format.  Our datasets follow the tidy data principles^[Wickham, H.(2014). Tidy Data. Journal of Statistical Software, 59(10), 1–23. <https://doi.org/10.18637/jss.v059.i10>] and are interoperable with the W3C [DF Data Cube Vocabulary]^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/#metadata>] (semantic web) and SDMX (statistical) dataset definitions.
+
+Both W3C and SDMX uses are more complex object, the Datacube in its description. The dataset is a redused datacube. To adhere to tidy data principles and easy use in reproducible resaerch workflows, we further reduced our subjective definition of the dataset. 
+
+- `obs_id`: The unique identifier of the observations. If they are not present, the row.names() will be used---R row names may be lost when exporting to non-R files and it is better to make them explicit. In a tidy dataset there are exactly one observation identifier, because each row represents an observation.
+- `dimensions`: Variables that can be used for aggregation, for examaple, around a geographical concept like countries. The most important dimensions are a geographical concept (where was the measurement made) and a time concept (when was the measurement made, or what is the reference time period.)
+- `measurements`: Actual measurements of the observations.
+- `attributes`: Non-measured attributes, categories or constants.
+- `unit`: The unit of the measurement(s). In the tidy data defintion, each table has only one unit, measurements in different units go into different tables.
+- `dataset_id`:  The identifier of the dataset. When joining datasets, it may be desirable to keep the unit observation ids. The `dataset_id` and the `obs_id` will be used to create unique resource identifiers (URIs). 
+
+```{r dataset}
+iris_ds <- dataset ( x = iris,
+                     Title = "Iris Dataset",
+                     dataset_id = "iris_dataset", 
+                     obs_id = NULL,
+                     dimensions = NULL,
+                     measurements = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
+                     attributes = c("Species"),
+                     unit = list(code="MM", label = "milimeters")
+)
+attributes(iris_ds)
 ```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/v1/examples>.
-
+If your application needs URIs, the first 5 elements of the iris dataset can be referenced as `dataset_id#obs_id` will be used to create unique resource identifiers (URIs). For the first five observations of the `iris` dataset: `r paste("iris_dataset", 1:5, sep="#", collapse ="','")`
 
 ## Code of Conduct
 

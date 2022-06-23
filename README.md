@@ -1,206 +1,179 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# StatCodelists
+# The dataset R Package
 
 <!-- badges: start -->
+
+[![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6703765.svg)](https://doi.org/10.5281/zenodo.6703765)
+[![Follow
+rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
+[![Follow
+author](https://img.shields.io/twitter/follow/digitalmusicobs.svg?style=social)](https://twitter.com/intent/follow?screen_name=digitalmusicobs)
 <!-- badges: end -->
 
-The goal of StatCodelists is to …
+The goal of dataset is to create datasets from standared R objects
+(data.fame, data.table, tibble, or well-structured lists like json) that
+are highly interoperable and can be placed into relational databases,
+semantic web applications, archives, repositories. They follow the
+[FAIR](https://www.go-fair.org/fair-principles/) principles: they are
+findable, accessible, interoperable and reusable.
 
 ## Installation
 
-You can install the development version of StatCodelists like so:
+You can install the development version of dataset like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+devtools::install_package(dataobservatory-eu/dataset)
 ```
 
-## Example
+## FAir: Findable & Accessible Datasets
 
-Cross-domain concepts in the SDMX framework describe concepts relevant
-to many, if not all, statistical domains. SDMX recommends using these
-concepts whenever feasible in SDMX structures and messages to promote
-the reuse and exchange of statistical information and related metadata
-between organisations.
+If you work with R, you are almost certainly familiar with the iris
+dataset. The *?iris* will provide you with some information about this
+often used dataset in tutorials. But how you make sure that you do not
+forget its important properties?
 
-Code lists are predefined sets of terms from which some statistical
-coded concepts take their values. SDMX cross-domain code lists are used
-to support cross-domain concepts. The use of common code lists will help
-users to work even more efficiently, easing the maintenance of and
-reducing the need for mapping systems and interfaces delivering data and
-metadata to them. Therefore, a choice over code lists has a great impact
-on the efficiency of data sharing.
-
-StatCodelists helps the use of the latest codelist in your R workflow.
+The function datacite [DataCite](https://datacite.org/) add at least the
+mandatory properties of the [DataCite Metadata Schema
+4.3](https://schema.datacite.org/), a list of core metadata properties
+chosen for an accurate and consistent identification of a resource for
+citation and retrieval purposes. DataCite is largely interoperable to
+the other similar international standard, the [Dublin
+Core](https://www.dublincore.org/). We will later add similar
+`dublincore` function, however, the practical differences are so small
+that adjustments, if needed, can be easily made by hand.
 
 ``` r
-library(StatCodelists)
-data("codebooks")
-codebooks
-#>                                                                               concept
-#> 1                                                                            Activity
-#> 2                                                                                 Age
-#> 3                                                             Civil or marital status
-#> 4              Classification of Individual Consumption According to Purpose (COICOP)
-#> 5                               Classification of the Functions of Government (COFOG)
-#> 6              Classification of the Outlays of Producers According to Purpose (COPP)
-#> 7  Classification of the Purposes of Non-Profit Institutions Serving Households COPNI
-#> 8                                                              Confidentiality status
-#> 9                                                                            Currency
-#> 10                                                                           Decimals
-#> 11                                                             Degree of Urbanisation
-#> 12                                                                          Frequency
-#> 13                                                                 Geographical areas
-#> 14                                                                 Observation status
-#> 15                                                                         Occupation
-#> 16                                                              Organisation concepts
-#> 17                                                                Seasonal adjustment
-#> 18                                                                                Sex
-#> 19                                                                        Time format
-#> 20                                                           Time period – collection
-#> 21                                                                    Unit multiplier
-#>               codebook authority
-#> 1          CL_ACTIVITY      SDMX
-#> 2               CL_AGE      SDMX
-#> 3      CL_CIVIL_STATUS      SDMX
-#> 4            CL_COICOP      SDMX
-#> 5             CL_COFOG      SDMX
-#> 6              CL_COPP      SDMX
-#> 7             CL_COPNI      SDMX
-#> 8       CL_CONF_STATUS      SDMX
-#> 9          CL_CURRENCY      SDMX
-#> 10         CL_DECIMALS      SDMX
-#> 11          CL_DEG_URB      SDMX
-#> 12             CL_FREQ      SDMX
-#> 13             CL_AREA      SDMX
-#> 14       CL_OBS_STATUS      SDMX
-#> 15       CL_OCCUPATION      SDMX
-#> 16     CL_ORGANISATION      SDMX
-#> 17  CL_SEASONAL_ADJUST      SDMX
-#> 18              CL_SEX      SDMX
-#> 19      CL_TIME_FORMAT      SDMX
-#> 20 CL_TIME_PER_COLLECT      SDMX
-#> 21        CL_UNIT_MULT      SDMX
+library(dataset)
+iris_dataset <- datacite(
+  df = iris,
+  Title = "Iris Dataset",
+  Creator = person("Anderson", "Edgar", role = "aut"),
+  Publisher=" American Iris Society",
+  PublicationYear = 1935,
+  Description = "This famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.",
+  Language = "en")
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+The `df` parameter can be any well-structured R object that meets the
+definition of a dataset: a data.frame, or an inherited class of it
+(data.table, [tibble](https://tibble.tidyverse.org/)); or a
+well-structured list (for example, a
+[json](https://arxiv.org/abs/1403.2805) object.)
 
 ``` r
-get_codelist(codelist="CL_FREQ", var_name = "FREQ")
-#>    FREQ                  name
-#> 1     A                Annual
-#> 2    A2              Biennial
-#> 3    A3             Triennial
-#> 4    A4           Quadrennial
-#> 5    A5          Quinquennial
-#> 6   A10             Decennial
-#> 7   A20           Bidecennial
-#> 8   A30          Tridecennial
-#> 9   A_3    Three times a year
-#> 10    S Half-yearly, semester
-#> 11    Q             Quarterly
-#> 12    M               Monthly
-#> 13   M2             Bimonthly
-#> 14  M_2           Semimonthly
-#> 15  M_3   Three times a month
-#> 16    W                Weekly
-#> 17   W2              Biweekly
-#> 18   W3             Triweekly
-#> 19   W4           Four-weekly
-#> 20  W_2            Semiweekly
-#> 21  W_3    Three times a week
-#> 22    D                 Daily
-#> 23  D_2           Twice a day
-#> 24    H                Hourly
-#> 25   H2              Bihourly
-#> 26   H3             Trihourly
-#> 27    B Daily – business week
-#> 28    N              Minutely
-#> 29    I             Irregular
-#> 30   OA     Occasional annual
-#> 31   OM    Occasional monthly
-#> 32   _O                 Other
-#> 33   _U           Unspecified
-#> 34   _Z        Not applicable
-#>                                                                                                                                                                                                                                                                                                                                                                                                                                                                          description
-#> 1                                                                                                                                                                                                                                                                                                                                                                                                                           To be used for data collected or disseminated every year
-#> 2                                                                                                                                                                                                                                                                                                                                                                                                                      To be used for data collected or disseminated every two years
-#> 3                                                                                                                                                                                                                                                                                                                                                                                                                    To be used for data collected or disseminated every three years
-#> 4                                                                                                                                                                                                                                                                                                                                                                                                                     To be used for data collected or disseminated every four years
-#> 5                                                                                                                                                                                                                                                                                                                                                                                                                     To be used for data collected or disseminated every five years
-#> 6                                                                                                                                                                                                                                                                                                                                                                                                                      To be used for data collected or disseminated every ten years
-#> 7                                                                                                                                                                                                                                                                                                                                                                                                                   To be used for data collected or disseminated every twenty years
-#> 8                                                                                                                                                                                                                                                                                                                                                                                                                   To be used for data collected or disseminated every thirty years
-#> 9                                                                                                                                                                                                                                                                                                                                                                                                                   To be used for data collected or disseminated three times a year
-#> 10                                                                                                                                                                                                                                                                                                                                                                                                                      To be used for data collected or disseminated every semester
-#> 11                                                                                                                                                                                                                                                                                                                                                                                                                       To be used for data collected or disseminated every quarter
-#> 12                                                                                                                                                                                                                                                                                                                                                                                                                         To be used for data collected or disseminated every month
-#> 13                                                                                                                                                                                                                                                                                                                                                                                                                    To be used for data collected or disseminated every two months
-#> 14                                                                                                                                                                                                                                                                                                                                                                                                                       To be used for data collected or disseminated twice a month
-#> 15                                                                                                                                                                                                                                                                                                                                                                                                                 To be used for data collected or disseminated three times a month
-#> 16                                                                                                                                                                                                                                                                                                                                                                                                                          To be used for data collected or disseminated every week
-#> 17                                                                                                                                                                                                                                                                                                                                                                                                                     To be used for data collected or disseminated every two weeks
-#> 18                                                                                                                                                                                                                                                                                                                                                                                                                   To be used for data collected or disseminated every three weeks
-#> 19                                                                                                                                                                                                                                                                                                                                                                                                                    To be used for data collected or disseminated every four weeks
-#> 20                                                                                                                                                                                                                                                                                                                                                                                                                        To be used for data collected or disseminated twice a week
-#> 21                                                                                                                                                                                                                                                                                                                                                                                                                  To be used for data collected or disseminated three times a week
-#> 22                                                                                                                                                                                                                                                                                                                                                                                                                           To be used for data collected or disseminated every day
-#> 23                                                                                                                                                                                                                                                                                                                                                                                                                         To be used for data collected or disseminated twice a day
-#> 24                                                                                                                                                                                                                                                                                                                                                                                                                          To be used for data collected or disseminated every hour
-#> 25                                                                                                                                                                                                                                                                                                                                                                                                                     To be used for data collected or disseminated every two hours
-#> 26                                                                                                                                                                                                                                                                                                                                                                                                                   To be used for data collected or disseminated every three hours
-#> 27                                                                                                                                                                                                                                                                                                    Similar to "daily", however there are no observations for Saturdays and Sundays (so, neither “missing values” nor “numeric values” should be provided for Saturday and Sunday)
-#> 28                                                                          While N denotes "minutely", usually, there may be no observations every minute (for several series the frequency is usually "irregular" within a day/days). And though observations may be sparse (not collected or disseminated every minute), missing values do not need to be given for the minutes when no observations exist: in any case the time stamp determines when an observation is observed
-#> 29                                                                                                                                                 To be used with irregular time series that stores data for a sequence of arbitrary timepoints. Irregular time series are appropriate when the data arrives unpredictably, such as when the application records every stock trade or when random events are recorded (the interval between each element can be a different length)
-#> 30 The event occurs occasionally with an infrequent update that could span from 1 year to several years between events. It implies a survey that experiences a gap for several years prior to the next survey update (this is commonly linked to funding available to run a specific survey (i.e. health surveys), whereas a regular annual survey refers typically to ‘programs’ that are funded regularly and fall under the Statistics Act, and therefore never experience a gap)
-#> 31                                                                                                                                                                                                                                                              The event occurs occasionally with an infrequent update that could span from 1 month to several months between events. It implies a survey that experiences a gap for several months prior to the next survey update
-#> 32                                                                                                                                                                                                                                               To be used when the qualitative or quantitative values that a variable takes in a data set is associated to multiple occurrences with frequency other than the already defined ones (for example every 5 hours and 32 minutes etc.)
-#> 33                                                                                                                                                                              To be used when a set of values are reported within a time range but not associated to sub ranges. Often this could happen in case of missing or sparse information. (Let’s say we have two observations for 2020 but we do not know if they are part of a monthly reporting or quarterly reporting)
-#> 34                                                                                                                                                                                                                                                                              To be used when the qualitative or quantitative values that a variable takes in a data set is not associated to multiple occurrences (only single occurrence exists) one can use the _Z as frequency
-#>    name_locale description_locale
-#> 1           en                 en
-#> 2           en                 en
-#> 3           en                 en
-#> 4           en                 en
-#> 5           en                 en
-#> 6           en                 en
-#> 7           en                 en
-#> 8           en                 en
-#> 9           en                 en
-#> 10          en                 en
-#> 11          en                 en
-#> 12          en                 en
-#> 13          en                 en
-#> 14          en                 en
-#> 15          en                 en
-#> 16          en                 en
-#> 17          en                 en
-#> 18          en                 en
-#> 19          en                 en
-#> 20          en                 en
-#> 21          en                 en
-#> 22          en                 en
-#> 23          en                 en
-#> 24          en                 en
-#> 25          en                 en
-#> 26          en                 en
-#> 27          en                 en
-#> 28          en                 en
-#> 29          en                 en
-#> 30          en                 en
-#> 31          en                 en
-#> 32          en                 en
-#> 33          en                 en
-#> 34          en                 en
+iris_bibentry <- dataset_bibentry(iris_dataset)
+toBibtex(iris_bibentry)
+#> @Misc{,
+#>   title = {Iris Dataset},
+#>   year = {1935},
+#>   author = {Anderson Edgar},
+#>   size = {9448},
+#> }
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/v1/examples>.
+``` r
+print(iris_bibentry, sytle="html")
+```
+
+Edgar A (1935). “Iris Dataset.”
+
+## faIR: Interoperable & Reusable Datasets
+
+The interoperability and reusability of datasets is greatly enhanced if
+they follow a standardized and practical format. Our datasets follow the
+tidy data principles[^1] and are interoperable with the W3C \[DF Data
+Cube Vocabulary\][^2] (semantic web) and SDMX (statistical) dataset
+definitions.
+
+Both W3C and SDMX uses are more complex object, the Datacube in its
+description. The dataset is a redused datacube. To adhere to tidy data
+principles and easy use in reproducible resaerch workflows, we further
+reduced our subjective definition of the dataset.
+
+-   `obs_id`: The unique identifier of the observations. If they are not
+    present, the row.names() will be used—R row names may be lost when
+    exporting to non-R files and it is better to make them explicit. In
+    a tidy dataset there are exactly one observation identifier, because
+    each row represents an observation.
+-   `dimensions`: Variables that can be used for aggregation, for
+    examaple, around a geographical concept like countries. The most
+    important dimensions are a geographical concept (where was the
+    measurement made) and a time concept (when was the measurement made,
+    or what is the reference time period.)
+-   `measurements`: Actual measurements of the observations.
+-   `attributes`: Non-measured attributes, categories or constants.
+-   `unit`: The unit of the measurement(s). In the tidy data defintion,
+    each table has only one unit, measurements in different units go
+    into different tables.
+-   `dataset_id`: The identifier of the dataset. When joining datasets,
+    it may be desirable to keep the unit observation ids. The
+    `dataset_id` and the `obs_id` will be used to create unique resource
+    identifiers (URIs).
+
+``` r
+iris_ds <- dataset ( x = iris,
+                     Title = "Iris Dataset",
+                     dataset_id = "iris_dataset", 
+                     obs_id = NULL,
+                     dimensions = NULL,
+                     measurements = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
+                     attributes = c("Species"),
+                     unit = list(code="MM", label = "milimeters")
+)
+attributes(iris_ds)
+#> $names
+#> [1] "obs_id"       "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" 
+#> [6] "Species"     
+#> 
+#> $class
+#> [1] "data.frame" "dataset"   
+#> 
+#> $row.names
+#>   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
+#>  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
+#>  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54
+#>  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72
+#>  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90
+#>  [91]  91  92  93  94  95  96  97  98  99 100 101 102 103 104 105 106 107 108
+#> [109] 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126
+#> [127] 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144
+#> [145] 145 146 147 148 149 150
+#> 
+#> $Modified
+#> [1] "2022-06-23 17:40:26 CEST"
+#> 
+#> $dataset_id
+#> [1] "iris_dataset"
+#> 
+#> $obs_id
+#> [1] "obs_id"
+#> 
+#> $unit
+#> $unit$code
+#> [1] "MM"
+#> 
+#> $unit$label
+#> [1] "milimeters"
+#> 
+#> 
+#> $dimensions
+#> [1] ""
+#> 
+#> $measurements
+#> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" 
+#> 
+#> $attributes
+#> [1] "Species"
+```
+
+If your application needs URIs, the first 5 elements of the iris dataset
+can be referenced as `dataset_id#obs_id` will be used to create unique
+resource identifiers (URIs). For the first five observations of the
+`iris` dataset:
+iris_dataset#1,iris_dataset#2,iris_dataset#3,iris_dataset#4,iris_dataset#5
 
 ## Code of Conduct
 
@@ -208,3 +181,9 @@ Please note that the StatCodelists project is released with a
 [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
+
+[^1]: Wickham, H.(2014). Tidy Data. Journal of Statistical Software,
+    59(10), 1–23. <https://doi.org/10.18637/jss.v059.i10>
+
+[^2]: RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014
+    <https://www.w3.org/TR/vocab-data-cube/#metadata>
