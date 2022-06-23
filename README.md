@@ -22,7 +22,7 @@ findable, accessible, interoperable and reusable.
 
 ## Installation
 
-You can install the development version of dataset like so:
+You can install the development version of dataset from Github:
 
 ``` r
 devtools::install_package(dataobservatory-eu/dataset)
@@ -84,9 +84,11 @@ Edgar A (1935). “Iris Dataset.”
 
 The interoperability and reusability of datasets is greatly enhanced if
 they follow a standardized and practical format. Our datasets follow the
-tidy data principles[^1] and are interoperable with the W3C \[DF Data
-Cube Vocabulary\][^2] (semantic web) and SDMX (statistical) dataset
-definitions.
+tidy data principles[^1] and are interoperable with the W3C <sup>\[DF
+Data Cube Vocabulary\]</sup>\[RDF Data Cube Vocabulary, W3C
+Recommendation 16 January 2014
+<https://www.w3.org/TR/vocab-data-cube/#metadata>\] (semantic web) and
+SDMX (statistical) dataset definitions.
 
 Both W3C and SDMX uses are more complex object, the Datacube in its
 description. The dataset is a redused datacube. To adhere to tidy data
@@ -143,7 +145,7 @@ attributes(iris_ds)
 #> [145] 145 146 147 148 149 150
 #> 
 #> $Modified
-#> [1] "2022-06-23 17:40:26 CEST"
+#> [1] "2022-06-23 17:54:32 CEST"
 #> 
 #> $dataset_id
 #> [1] "iris_dataset"
@@ -173,7 +175,7 @@ If your application needs URIs, the first 5 elements of the iris dataset
 can be referenced as `dataset_id#obs_id` will be used to create unique
 resource identifiers (URIs). For the first five observations of the
 `iris` dataset:
-iris_dataset#1,iris_dataset#2,iris_dataset#3,iris_dataset#4,iris_dataset#5
+iris_dataset#1’,‘iris_dataset#2’,‘iris_dataset#3’,‘iris_dataset#4’,’iris_dataset#5
 
 ## Code of Conduct
 
@@ -184,6 +186,3 @@ By contributing to this project, you agree to abide by its terms.
 
 [^1]: Wickham, H.(2014). Tidy Data. Journal of Statistical Software,
     59(10), 1–23. <https://doi.org/10.18637/jss.v059.i10>
-
-[^2]: RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014
-    <https://www.w3.org/TR/vocab-data-cube/#metadata>
