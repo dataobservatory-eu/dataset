@@ -1,15 +1,21 @@
-Package: StatCodelists
-Title: Use Standardized Statistical Codelists
+Package: dataset
+Title: Create interoperable and well described data frames
 Version: 0.0.0.9000
 Authors@R: 
     person("Daniel", "Antal", , "daniel.antal@dataobservatory.eu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7513-6760"))
-Description: Retrieve standardized statistical codelists.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Description: Create well-documented, well-described, interoperable datasets in R.
+License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 Depends: 
     R (>= 2.10)
 LazyData: true
+Imports: 
+    datasets,
+    utils
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
