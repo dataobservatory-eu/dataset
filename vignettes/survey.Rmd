@@ -1,0 +1,102 @@
+---
+title: "The survey Class"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The survey Class}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dataset)
+library(declared)
+```
+
+You need the latest development version of [declared](https://github.com/dusadrian/declared).
+
+```{r, eval=FALSE}
+remotes::install_github('dusadrian/declared')
+```
+
+
+The survey class will be derived from the `dataset` class. 
+
+```{r}
+obs_id <- c("Saschia Iemand", "Jane Doe", "Jack Doe", "Pim Iemand", "Matti Virtanen" )
+sex <- declared ( c(1,1,0,-1,1), 
+                  labels = c(Male = 0, Female = 1, DK = -1), 
+                  na_values = -1)
+geo <- c("NL-ZH", "IE-05", "GB-NIR", "NL-ZH", "FI1C")
+```
+
+```{r}
+difficulty_bills <- declared (
+  c(0,1,2,-1,0), 
+  labels = c(Never = 0,  Time_to_time = 1, Always = 2, DK = -1)
+)
+age_exact <- declared (
+  c( 34,45,21,55,-1), 
+  labels = c( A = 34,A = 45,A  = 21, A= 55, DK = -1)
+)
+listen_spotify <- declared (
+  c(0,1,9,0,1),
+  labels = c( No = 0, Yes = 1,Inap = 9), 
+  na_values = 9
+)
+```
+
+```{r}
+raw_survey <- data.frame ( 
+  obs_id = obs_id, 
+  geo = geo, 
+  listen_spotify = listen_spotify,
+  sex = sex,
+  age_exact = age_exact, 
+  difficulty_bills = difficulty_bills
+)
+
+tiny_survey <- dataset (raw_survey, dataset_id = "sample_survey", 
+         obs_id = "obs_id", dimensions = "geo", measurements = c("listen_spotify", "sex", "age_exact", "difficulty_bills"), Title = "Tiny Survey")
+```
+
+```{r}
+attributes(tiny_survey)
+```
+What I find illogical and difficult for use in harmonization tasks is that a valid, but not present label cannot be record in `declared`.
+
+```{r, eval=FALSE}
+# This is not valied in declared
+listen_spotify <- declared (
+  c(0,1,9,0,1),
+  labels = c( No = 0, Yes = 1,Inap = 9, DK -1)
+  )
+```
+
+```{r}
+tiny_survey_datacite <- datacite(tiny_survey, Title = "Tiny Survey", Creator = person("Daniel", "Antal"), Publisher = "Reprex", PublicationYear = 2022, Subject = "Surveys", Language = "en")
+```
+
+The `survey` class inherits elements of the `dataset` class, but it will be more strictly defined.  I am considering to make  `declared` every single column except for the `obs_id`. Even `numeric` types with `Inap` and `DK` would map nicely to `CL_OBS_STATUS` SDMX codes that make missing observation explicit, and try to categorize them.
+
+```{r}
+tiny_summary <- use_function(tiny_survey_datacite, .f="summary")
+```
+
+Is the `summary` method implemented for `declared`? Both `dataset` and `survey` will need new `print` and `summary` methods.
+
+```{r}
+tiny_summary
+```
+The `survey` (should) contain the entire processing history from creation, and optionally the `DataCite` schemaf for publication created with `datacite()`.  A similar `dublincore` function will be defined for dataset description.
+
+```{r}
+attributes(tiny_survey_datacite)
+```
+Eventually, a connection to the packages [zen4R](https://github.com/eblondel/zen4R) will make sure that the correctly described dataset can get a Zenodo record, recieve a DOI, the DOI recorded in the object, and upload to Zenodo.

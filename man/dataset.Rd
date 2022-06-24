@@ -11,7 +11,7 @@ dataset(
   dimensions = NULL,
   measurements = NULL,
   attributes = NULL,
-  unit = NA_character_,
+  unit = NULL,
   Title = NULL,
   Subject = NULL,
   Publisher = NULL,

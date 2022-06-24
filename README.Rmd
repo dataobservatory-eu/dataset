@@ -29,7 +29,7 @@ The goal of dataset is to create datasets from standared R objects (data.fame, d
 You can install the development version of dataset from Github:
 
 ``` r
-devtools::install_package(dataobservatory-eu/dataset)
+remotes::install_package(dataobservatory-eu/dataset)
 ```
 ## FAir: Findable & Accessible Datasets
 
@@ -66,6 +66,47 @@ The interoperability and reusability of datasets is greatly enhanced if they fol
 
 Both W3C and SDMX uses are more complex object, the Datacube in its description. The dataset is a redused datacube. To adhere to tidy data principles and easy use in reproducible resaerch workflows, we further reduced our subjective definition of the dataset. 
 
+- The `dataset` constructor first subsets the dataset for the `obs_id` observation identifier, and if it is missing, it creates one.
+- Then it selects the `dimensions`, such as geographic concept or time concept. The iris dataset does not have these variables, so we do not select anything.
+- Next we select the `measurements`.  In case only one `measurement` is present, we have a long-form dataset that can be easily serialized into an `RDF` object, for example. 
+- Next we select any `attributes` that are unlikely to be used for statistical aggregation (unlike the dimensions) and which are not measured values. 
+- We can pass on further optional dataset attributes. These attributes do not correspond with a single observation, rather the entire dataset.
+
+```{r}
+petal_length <- dataset(iris, 
+        obs_id = NULL, 
+        dimensions=NULL, 
+        measurements = "Petal.Length", 
+        attributes = "Species", 
+        Title = "Iris Subset", unit = "mm", 
+        Publisher = "Reprex")
+
+petal_width <- dataset(iris, 
+        obs_id = NULL, 
+        dimensions=NULL, 
+        measurements = "Petal.Width", 
+        attributes = "Species", 
+        Title = "Iris Subset", unit = "mm", 
+        Publisher = "Reprex")
+
+require(dplyr)
+petal_length %>% left_join (petal_width, by = c("obs_id", "Species"))
+```
+The obvious motivation of this format is that the datasets can be easily integrated, joined, combined, because they are tidy.
+
+In a the long form, they easily lend themselves for RDF format:
+
+```{r}
+names(petal_width)[2] <- "measurement"
+petal_width$petal_dimension <- "Petal width"
+names(petal_length)[2] <- "measurement"
+petal_length$petal_dimension <- "Petal length"
+
+head(use_function(petal_width,  .f = "rbind", y = petal_length))
+
+```
+
+
 - `obs_id`: The unique identifier of the observations. If they are not present, the row.names() will be used---R row names may be lost when exporting to non-R files and it is better to make them explicit. In a tidy dataset there are exactly one observation identifier, because each row represents an observation.
 - `dimensions`: Variables that can be used for aggregation, for examaple, around a geographical concept like countries. The most important dimensions are a geographical concept (where was the measurement made) and a time concept (when was the measurement made, or what is the reference time period.)
 - `measurements`: Actual measurements of the observations.
@@ -73,7 +114,12 @@ Both W3C and SDMX uses are more complex object, the Datacube in its description.
 - `unit`: The unit of the measurement(s). In the tidy data defintion, each table has only one unit, measurements in different units go into different tables.
 - `dataset_id`:  The identifier of the dataset. When joining datasets, it may be desirable to keep the unit observation ids. The `dataset_id` and the `obs_id` will be used to create unique resource identifiers (URIs). 
 
+
+## Reproducible Datasets
+
 ```{r dataset}
+temp_file <- file.path(tempdir(), "iris.csv")
+write.csv(iris, temp_file)
 iris_ds <- dataset ( x = iris,
                      Title = "Iris Dataset",
                      dataset_id = "iris_dataset", 

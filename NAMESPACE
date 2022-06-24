@@ -3,6 +3,8 @@
 export(datacite)
 export(dataset)
 export(dataset_bibentry)
+export(read_dataset)
+export(use_function)
 importFrom(assertthat,assert_that)
 importFrom(utils,bibentry)
 importFrom(utils,person)

@@ -31,7 +31,7 @@ dataset <- function(x,
                     dimensions = NULL,
                     measurements = NULL,
                     attributes = NULL,
-                    unit = NA_character_,
+                    unit = NULL,
                     Title = NULL,
                     Subject = NULL,
                     Publisher = NULL,
@@ -42,6 +42,9 @@ dataset <- function(x,
     x$obs_id <- row.names(x)
   }
 
+  arguments <- list ( dataset_id = dataset_id, obs_id = obs_id, dimension=dimensions, measurements = measurements, attributes = attributes,
+                      Title = Title, Subject = Subject, Publisher = Publisher, License = License )
+  arguments_chr <- paste(paste0(names(arguments), "=", arguments), collapse = ", ")
 
   dataset <- subset(x, select = obs_id)
 
@@ -66,8 +69,10 @@ dataset <- function(x,
     dataset <- cbind(dataset, subset(x, select = attributes))
   } else { attributes = ""}
 
+  created_time <- Sys.time()
   attr(dataset, "class") <- c(class(dataset), "dataset")
-  attr(dataset, "Modified") <- Sys.time()
+  attr(dataset, "Date") <- add_date ( NULL, time = created_time, dateType = "Created", dateInformation = paste0("dataset::dataset(",arguments_chr, ")"))
+
 
   attr(dataset, "dataset_id") <- dataset_id
   attr(dataset, "obs_id") <- "obs_id"

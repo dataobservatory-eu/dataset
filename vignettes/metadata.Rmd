@@ -1,0 +1,54 @@
+---
+title: "Metadata handling"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Metadata handling}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dataset)
+```
+
+
+```{r createdataset}
+temp_path <- file.path(tempdir(), "iris.csv")
+write.csv(iris, file = temp_path, row.names = F)
+iris_ds <- read_dataset(
+  dataset_id = "iris_dataset",
+  obs_id = NULL, 
+  dimensions = NULL, 
+  measurements = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
+  attributes = "Species",
+  Title = "Iris Dataset", 
+  unit = list(code = "MM", label = "millimeter"),
+  .f = "utils::read.csv", temp_path )
+
+iris_ds <- datacite(iris_ds,
+                    Title = "Iris Dataset",
+                    Creator = person("Anderson", "Edgar", role = "aut"),
+                    Publisher=" American Iris Society",
+                    PublicationYear = 1935,
+                    Geolocation = "US",
+                    Language = "en")
+```
+
+Currently, the DataCite properties (all mandatory, and what was filled up from the optional ones) can be seen along with standard R metadata. As a property of the `dataset` class, which follows W3C and SDMX standards, and `survey`, which will follow DDI standards, the history of the `dataset` from creation (import) will be recorded as attribute metadata.
+
+The `dataset` and `survey` are strictly tidy datasets and they can be used to create `SDMX` compatible statistical dataset (with standard coding), and they can be placed in SQL-based APIs or they can be serialized as `RDF` for SPARQL applications. 
+
+The `dataset` and `survey` classes are optimized to be published and placed into (semantic) web applications.
+
+```{r}
+attributes(iris_ds)
+```
+
+

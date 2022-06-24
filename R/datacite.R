@@ -90,7 +90,7 @@ datacite <- function(df, Title, Creator, Publisher, PublicationYear = "THIS",
 #'    Creator = person("Anderson", "Edgar", role = "aut"),
 #'    Publisher=" American Iris Society",
 #'    PublicationYear = 1935,
-#'    geoLocation = "US",
+#'    Geolocation = "US",
 #'    Language = "en")
 #'
 #' dataset_bibentry(datacite_iris)

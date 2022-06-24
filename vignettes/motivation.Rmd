@@ -16,6 +16,12 @@ knitr::opts_chunk$set(
 
 Lovers of the tidy data concept and [tidyverse](https://www.tidyverse.org/) know that the world is full of untidy data tables that give on average 5-times more work to tidy up then to actually do analytical work with them. But that’s not the only problem with datasets.  Datasets without codebooks cannot be intelligently matched with other information sources.  Data without reference to an authoritative copy cannot be validated against accidental damage during processing.  A dataset without bibliographic references is not ready for publication. 
 
+The `dataset` and `survey` are strictly tidy datasets and they can be used to create `SDMX` compatible statistical dataset (with standard coding), and they can be placed in SQL-based APIs or they can be serialized as `RDF` for SPARQL applications. 
+
+The `dataset` and `survey` classes are optimized to be published and placed into (semantic) web applications.
+
+Furthermore, they are fully reproducible, they carry their entire history, which makes their metadata converstible to DDI-Lifecycle.
+
 ## FAIR: findable datasets
 
 
@@ -43,6 +49,23 @@ print(iris_dataset)
 
 ```{r printbibliograpny}
 print(dataset_bibentry(iris_dataset), style="citation")
+```
+## Reproducible datasets
+
+```{r}
+temp_path <- file.path(tempdir(), "iris.csv")
+write.csv(iris, file = temp_path)
+iris_ds <- read_dataset(
+  dataset_id = "iris_dataset",
+  obs_id = NULL, 
+  dimensions = NULL, 
+  measurements = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
+  attributes = "Species",
+  Title = "Iris Dataset", 
+  unit = list(code = "MM", label = "millimeter"),
+  .f = "utils::read.csv", temp_path)
+
+attributes(iris_ds)
 ```
 
 ## Interoperable datasets

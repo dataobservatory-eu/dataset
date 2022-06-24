@@ -1,6 +1,6 @@
 Package: dataset
 Title: Create interoperable and well-documented data frames
-Version: 0.1.0.001
+Version: 0.1.0.004
 Authors@R: 
     person("Daniel", "Antal", , "daniel.antal@dataobservatory.eu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7513-6760"))
