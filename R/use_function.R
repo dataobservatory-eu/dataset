@@ -19,21 +19,43 @@ use_function <- function(dataset, .f = "base::subset", ... ) {
 
   arguments <- list(...)
 
+  loaded_pkgs <- utils::sessionInfo()
+  my_packages <- loaded_pkgs$otherPkgs
+
+  pkg_uri <- gsub(" ", "", paste("rpackage_base_R_", loaded_pkgs$R.version$major, "_",
+                                 gsub("\\.", "_", loaded_pkgs$R.version$minor), "_on_platform_",
+                                 loaded_pkgs$R.version$platform))
   if ( grepl("::", .f)) {
     f_name <- strsplit(.f, "::")
     if ( length(f_name[[1]]) == 2) {
       package_name <- f_name[[1]][1]
       function_name <- f_name[[1]][2]
+
+      pkg_nr <- which(package_name == names(loaded_pkgs$loadedOnly))
+
+      if (length(pkg_nr)==0) {
+        pkg_version <- ""
+      }  else {
+        pkg_uri <- loaded_pkgs$loadedOnly[[pkg_nr]]$Version
+        pkg_uri <- paste0(" (rpackage_", pkg_name, "_", pkg_uri, ")")
+      }
+
     } else {
       package_name = "base"
-      function_name = f_fanem[[1]][1]
+      function_name = f_fname[[1]][1]
     }
   } else { package_name = "base"}
 
-
   return_dataset <- eval(parse(text = .f))(dataset, ...)
-  attr(return_dataset, "Date") <- add_date (attr(dataset, "Date"), Sys.time(), "Updated", dateInformation = paste0("run function:" ,.f))
-  attr(return_dataset, "RelatedItem") <- add_relitem(attr(dataset, "RelatedItem"), package_name, "IsCompiledBy")
+
+  if (is.null(return_dataset)) stop("Error")
+
+  attr(return_dataset, "Date") <- add_date (attr(return_dataset, "Date"), Sys.time(), "Updated", dateInformation = paste0("call:" ,.f))
+
+  new_item <-  add_relitem( RelatedIdentifier = attr(return_dataset, "RelatedIdentifier"),
+                            package_name, "IsCompiledBy")
+
+  attr(return_dataset, "RelatedIdentifier") <- new_item
 
   if ( ! "dataset" %in% class(return_dataset)) {
     class(return_dataset) <- c(class(return_dataset), "dataset")
@@ -72,8 +94,36 @@ read_dataset <- function(dataset_id,
                           measurements = measurements, attributes = attributes, Title = Title)
   arguments <- list(...)
 
-  x <- eval(parse(text = .f))( ...)
-  assertthat::assert_that(inherits(x, "data.frame"))
+  loaded_pkgs <- utils::sessionInfo()
+  my_packages <- loaded_pkgs$otherPkgs
+
+  pkg_uri <- gsub(" ", "", paste("rpackage_base_R_", loaded_pkgs$R.version$major, "_",
+                                 gsub("\\.", "_", loaded_pkgs$R.version$minor), "_on_platform_",
+                                 loaded_pkgs$R.version$platform))
+  if ( grepl("::", .f)) {
+    f_name <- strsplit(.f, "::")
+    if ( length(f_name[[1]]) == 2) {
+      package_name <- f_name[[1]][1]
+      function_name <- f_name[[1]][2]
+
+      pkg_nr <- which(package_name == names(loaded_pkgs$loadedOnly))
+
+      if (length(pkg_nr)==0) {
+        pkg_version <- ""
+      }  else {
+        pkg_uri <- loaded_pkgs$loadedOnly[[pkg_nr]]$Version
+        pkg_uri <- paste0(" (rpackage_", pkg_name, "_", pkg_uri, ")")
+      }
+
+    } else {
+      package_name = "base"
+      function_name = f_fname[[1]][1]
+    }
+  } else { package_name = "base"}
+
+
+  x <- eval(parse(text = .f))(...)
+  ## x <- eval(parse(text = .f))(file)
   read_time <- Sys.time()
   tmp <- dataset (x = x,
                   dataset_id = "dataset_id", obs_id = NULL,
@@ -89,11 +139,13 @@ read_dataset <- function(dataset_id,
     argument_chr = ""
   } else {
     argument_chr <- paste(paste0(names(arguments), "=", arguments), collapse = ", ")
-
   }
 
-  new_date <- add_date ( NULL, time = read_time, dateType = "Created", dateInformation = paste0(.f, "(", argument_chr, ")"))
+  new_date <- add_date ( NULL, time = read_time, dateType = "Created", dateInformation = paste0("call:", .f, "(", argument_chr, ")", pkg_uri))
   attr(tmp, "Date") <-  new_date
+
+  new_item <-  add_relitem( NULL, package_name, "IsCompiledBy")
+  attr(tmp, "RelatedIdentifier") <- new_item
   tmp
 }
 

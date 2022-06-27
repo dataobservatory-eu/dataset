@@ -70,7 +70,8 @@ dataset <- function(x,
   } else { attributes = ""}
 
   created_time <- Sys.time()
-  attr(dataset, "class") <- c(class(dataset), "dataset")
+  attr(dataset, "class") <- c( "dataset", class(dataset))
+  attr(dataset, "Title") <- Title
   attr(dataset, "Date") <- add_date ( NULL, time = created_time, dateType = "Created", dateInformation = paste0("dataset::dataset(",arguments_chr, ")"))
 
 
@@ -85,5 +86,31 @@ dataset <- function(x,
   attr(dataset, "License") <- License
 
   dataset
+}
+
+#' @rdname dataset
+#' @export
+is.dataset <- function(x) inherits(x, "dataset")
+
+print.dataset <- function(x, ...) {
+
+  cat(attr(x, "Title"))
+  cat('\n')
+  cat(paste0("dataset_id=",attr(x, "dataset_id"), "; observations=", attr(x, "obs_id"), "\n"))
+  if(nrow(x)>10) {
+    n_row <- nrow(x)
+    x <- x[1:10,]
+    }
+  NextMethod()
+
+  if (n_row>10) {
+    cat(paste0("... ", n_row-10, " further observations.\n"))
+  }
+  cat(paste0("Measurements=", paste(attr(x, "measurements"), collapse=",")))
+  if (!is.null(attr(x, "unit"))) {
+    unit_list <- attr(x, "unit")
+    cat(paste0(" in unit=", unit_list$code, " (", unit_list$label, ")"))
+  }
+
 }
 

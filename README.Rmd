@@ -118,20 +118,36 @@ head(use_function(petal_width,  .f = "rbind", y = petal_length))
 ## Reproducible Datasets
 
 ```{r dataset}
-temp_file <- file.path(tempdir(), "iris.csv")
-write.csv(iris, temp_file)
-iris_ds <- dataset ( x = iris,
-                     Title = "Iris Dataset",
-                     dataset_id = "iris_dataset", 
-                     obs_id = NULL,
-                     dimensions = NULL,
-                     measurements = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
-                     attributes = c("Species"),
-                     unit = list(code="MM", label = "milimeters")
+population_dataset <- dataset::read_dataset(
+  "demo_pjan", Title = "Population of Select Countries",
+  dimensions = c("age", "sex", "geo", "time"), 
+  measurements = "values", 
+  attributes = NULL,
+  unit = "NR",
+  .f = "eurostat::get_eurostat",
+  id = "demo_pjan",
+  
+  filters = list(
+    unit = "NR",
+    age=  c("TOTAL", "Y_LT1"), 
+    geo = c("UK", "XK", "AT"), 
+    time = c(2010:2020)
+  )
 )
-attributes(iris_ds)
+
+summary_population <- use_function(dataset = population_dataset, .f = "summary")
 ```
-If your application needs URIs, the first 5 elements of the iris dataset can be referenced as `dataset_id#obs_id` will be used to create unique resource identifiers (URIs). For the first five observations of the `iris` dataset: `r paste("iris_dataset", 1:5, sep="#", collapse ="','")`
+
+If your application needs URIs, the first 5 elements of the iris dataset can be referenced as `dataset_id#obs_id` will be used to create unique resource identifiers (URIs). For the first five observations of the `population_dataset` dataset: `r paste("population_dataset", 1:5, sep="#", collapse ="','")`
+
+```{r}
+knitr::kable(attr(summary_population, "Date"))
+```
+
+```{r}
+attr(population_dataset, "RelatedIdentifier")
+```
+
 
 ## Code of Conduct
 

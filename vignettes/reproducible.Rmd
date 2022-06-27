@@ -48,14 +48,13 @@ Let's apply a very simple function (method) on this dataset, the summary functio
 
 ```{r useafunction}
 iris_summary <- use_function(dataset = iris_ds, .f = "summary")
-iris_summary
 ```
 
 The new dataset, `iris_summary` shows that it was created by a `read.csv` call and them the `summary` method created its current form and contents.
 
 
 ```{r showhistory}
-attributes(iris_summary)
+knitr::kable(attr(iris_summary, "Date"))
 ```
 The `dataset` class maintains the entire processing history and all the bibliographic references of the functions that contributed to its creation. [There version will be recorded, too.] This creates the full reproducability of the `dataset` class.
 

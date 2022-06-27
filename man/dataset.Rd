@@ -2,6 +2,7 @@
 % Please edit documentation in R/dataset.R
 \name{dataset}
 \alias{dataset}
+\alias{is.dataset}
 \title{Structure a data frame to dataset}
 \usage{
 dataset(
@@ -17,6 +18,8 @@ dataset(
   Publisher = NULL,
   License = NULL
 )
+
+is.dataset(x)
 }
 \arguments{
 \item{x}{A data.frame or interited tibble, data.frame, or a structured list.}

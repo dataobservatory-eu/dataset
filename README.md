@@ -129,7 +129,6 @@ petal_width <- dataset(iris,
 
 require(dplyr)
 #> Loading required package: dplyr
-#> Warning: package 'dplyr' was built under R version 4.1.3
 #> 
 #> Attaching package: 'dplyr'
 #> The following objects are masked from 'package:stats':
@@ -336,76 +335,47 @@ head(use_function(petal_width,  .f = "rbind", y = petal_length))
 ## Reproducible Datasets
 
 ``` r
-temp_file <- file.path(tempdir(), "iris.csv")
-write.csv(iris, temp_file)
-iris_ds <- dataset ( x = iris,
-                     Title = "Iris Dataset",
-                     dataset_id = "iris_dataset", 
-                     obs_id = NULL,
-                     dimensions = NULL,
-                     measurements = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
-                     attributes = c("Species"),
-                     unit = list(code="MM", label = "milimeters")
+population_dataset <- dataset::read_dataset(
+  "demo_pjan", Title = "Population of Select Countries",
+  dimensions = c("age", "sex", "geo", "time"), 
+  measurements = "values", 
+  attributes = NULL,
+  unit = "NR",
+  .f = "eurostat::get_eurostat",
+  id = "demo_pjan",
+  
+  filters = list(
+    unit = "NR",
+    age=  c("TOTAL", "Y_LT1"), 
+    geo = c("UK", "XK", "AT"), 
+    time = c(2010:2020)
+  )
 )
-attributes(iris_ds)
-#> $names
-#> [1] "obs_id"       "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" 
-#> [6] "Species"     
-#> 
-#> $class
-#> [1] "data.frame" "dataset"   
-#> 
-#> $row.names
-#>   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
-#>  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
-#>  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54
-#>  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72
-#>  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90
-#>  [91]  91  92  93  94  95  96  97  98  99 100 101 102 103 104 105 106 107 108
-#> [109] 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126
-#> [127] 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144
-#> [145] 145 146 147 148 149 150
-#> 
-#> $Date
-#> $Date$Date
-#> [1] "2022-06-24 09:45:07 CEST"
-#> 
-#> $Date$dateType
-#> [1] "Created"
-#> 
-#> $Date$dateInformation
-#> [1] "dataset::dataset(dataset_id=iris_dataset, obs_id=obs_id, dimension=NULL, measurements=c(\"Sepal.Length\", \"Sepal.Width\", \"Petal.Length\", \"Petal.Width\"), attributes=Species, Title=Iris Dataset, Subject=NULL, Publisher=NULL, License=NULL)"
-#> 
-#> 
-#> $dataset_id
-#> [1] "iris_dataset"
-#> 
-#> $obs_id
-#> [1] "obs_id"
-#> 
-#> $unit
-#> $unit$code
-#> [1] "MM"
-#> 
-#> $unit$label
-#> [1] "milimeters"
-#> 
-#> 
-#> $dimensions
-#> [1] ""
-#> 
-#> $measurements
-#> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" 
-#> 
-#> $attributes
-#> [1] "Species"
+#> Warning in is.null(filters) || filters != "none": 'length(x) = 4 > 1' in
+#> coercion to 'logical(1)'
+
+summary_population <- use_function(dataset = population_dataset, .f = "summary")
 ```
 
 If your application needs URIs, the first 5 elements of the iris dataset
 can be referenced as `dataset_id#obs_id` will be used to create unique
 resource identifiers (URIs). For the first five observations of the
-`iris` dataset:
-iris_dataset#1’,‘iris_dataset#2’,‘iris_dataset#3’,‘iris_dataset#4’,’iris_dataset#5
+`population_dataset` dataset:
+population_dataset#1’,‘population_dataset#2’,‘population_dataset#3’,‘population_dataset#4’,’population_dataset#5
+
+``` r
+knitr::kable(attr(summary_population, "Date"))
+```
+
+| Date                | dateType | dateInformation |
+|:--------------------|:---------|:----------------|
+| 2022-06-27 13:31:11 | Updated  | call:summary    |
+
+``` r
+attr(population_dataset, "RelatedIdentifier")
+#>                      RelatedIdentifier relatedIdentifierType relationType
+#> 1 https://doi.org/10.32614/RJ-2017-019                   URI IsCompiledBy
+```
 
 ## Code of Conduct
 
