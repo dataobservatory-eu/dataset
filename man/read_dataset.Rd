@@ -7,11 +7,13 @@
 read_dataset(
   dataset_id,
   obs_id = NULL,
-  Title,
-  dimensions,
-  measurements,
-  attributes,
+  dim_names,
+  measure_names,
+  attribute_names,
   unit,
+  Title = NULL,
+  Publisher = NULL,
+  PublicationYear = NULL,
   .f = "utils::read.csv",
   ...
 )
@@ -19,16 +21,18 @@ read_dataset(
 \arguments{
 \item{obs_id}{The observation identifier.}
 
-\item{Title}{The title of the dataset, corresponds to datacite:Title, dct:title, rdfs:label.}
-
-\item{dimensions}{The columns in the data frame that are dimensions, and maybe used
+\item{dim_names}{The columns in the data frame that are dimensions, and maybe used
 for statistical aggregation.}
 
-\item{measurements}{The measurements in the data frame.}
+\item{measure_names}{The measurements in the data frame.}
 
-\item{attributes}{Not measured attributes of the observations}
+\item{attribute_names}{Not measured attributes of the observations}
 
 \item{unit}{The unit of the measurements}
+
+\item{Title}{The title of the dataset, corresponds to datacite:Title, dct:title, rdfs:label.}
+
+\item{Publisher}{Corresponds to dct:Publisher and datacite:Publisher.}
 
 \item{.f}{A function (from an installed package)}
 

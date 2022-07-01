@@ -62,8 +62,17 @@ raw_survey <- data.frame (
   difficulty_bills = difficulty_bills
 )
 
-tiny_survey <- dataset (raw_survey, dataset_id = "sample_survey", 
-         obs_id = "obs_id", dimensions = "geo", measurements = c("listen_spotify", "sex", "age_exact", "difficulty_bills"), Title = "Tiny Survey")
+tiny_datacube <- as.datacube( x= raw_survey,
+                              obs_id = "obs_id",
+                              dim_names = "geo", 
+                              measure_names = c("listen_spotify", "sex",
+                                                "age_exact", "difficulty_bills"), 
+                              attribute_names = NULL
+                              )
+
+tiny_survey <- dataset (tiny_datacube, 
+                        dataset_id = "tiny_survey",
+                        Title = "Tiny Survey")
 ```
 
 ```{r}
@@ -80,7 +89,13 @@ listen_spotify <- declared (
 ```
 
 ```{r}
-tiny_survey_datacite <- datacite(tiny_survey, Title = "Tiny Survey", Creator = person("Daniel", "Antal"), Publisher = "Reprex", PublicationYear = 2022, Subject = "Surveys", Language = "en")
+tiny_survey_datacite <- datacite(tiny_survey, 
+                                 Title = "Tiny Survey", 
+                                 Creator = person("Daniel", "Antal"), 
+                                 Publisher = "Reprex", 
+                                 PublicationYear = 2022, 
+                                 Subject = "Surveys", 
+                                 Language = "en")
 ```
 
 The `survey` class inherits elements of the `dataset` class, but it will be more strictly defined.  I am considering to make  `declared` every single column except for the `obs_id`. Even `numeric` types with `Inap` and `DK` would map nicely to `CL_OBS_STATUS` SDMX codes that make missing observation explicit, and try to categorize them.

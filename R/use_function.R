@@ -86,13 +86,25 @@ use_function <- function(dataset, .f = "base::subset", ... ) {
 #' attributes(iris_ds)
 
 read_dataset <- function(dataset_id,
-                         obs_id = NULL, Title, dimensions, measurements, attributes,
+                         obs_id = NULL,
+                         dim_names, measure_names, attribute_names,
                          unit,
+                         Title = NULL, Publisher = NULL, PublicationYear = NULL,
                          .f= "utils::read.csv", ...) {
 
-  named_arguments = list (dataset_id, obs_id = obs_id, dimensions = dimensions,
-                          measurements = measurements, attributes = attributes, Title = Title)
+  named_arguments = list (dataset_id, obs_id = obs_id,
+                          dim_names = dim_names,
+                          measure_names = measure_names,
+                          attribute_names = attribute_names,
+                          Title = Title, Publisher = Publisher,
+                          PublicationYear = PublicationYear,
+                          .f = .f)
   arguments <- list(...)
+
+  argument_chr_1 <- paste(paste0(names(named_arguments)[-1], "=", named_arguments[-1]), collapse = ",")
+  argument_chr_2 <- paste(paste0(names(arguments), "=", arguments), collapse = ",")
+  argument_chr <- paste(argument_chr_1, argument_chr_2, collapse = ", ")
+  # ... missing
 
   loaded_pkgs <- utils::sessionInfo()
   my_packages <- loaded_pkgs$otherPkgs
@@ -112,7 +124,7 @@ read_dataset <- function(dataset_id,
         pkg_version <- ""
       }  else {
         pkg_uri <- loaded_pkgs$loadedOnly[[pkg_nr]]$Version
-        pkg_uri <- paste0(" (rpackage_", pkg_name, "_", pkg_uri, ")")
+        pkg_uri <- paste0(" (rpackage_", package_name, "_", pkg_uri, ")")
       }
 
     } else {
@@ -122,18 +134,30 @@ read_dataset <- function(dataset_id,
   } else { package_name = "base"}
 
 
+  created_time <- Sys.time()
   x <- eval(parse(text = .f))(...)
   ## x <- eval(parse(text = .f))(file)
-  read_time <- Sys.time()
-  tmp <- dataset (x = x,
-                  dataset_id = "dataset_id", obs_id = NULL,
-                  dimensions = dimensions,
-                  measurements = measurements,
-                  attributes = attributes,
-                  unit = unit,
-                  Title = Title)
 
-  assertthat::assert_that(inherits(tmp, "dataset"))
+  tmp <- as.datacube (x = x,
+                      dim_names = dim_names,
+                      measure_names = measure_names,
+                      attribute_names = attribute_names)
+
+  assertthat::assert_that(inherits(tmp, "datacube"))
+
+
+  tmp <- dataset (tmp,
+                  Title = Title,
+                  Publisher = Publisher,
+                  PublicationYear = PublicationYear,
+                  unit = unit)
+
+  new_date <- created_time
+
+  new_date <- add_date ( NULL, time = created_time,
+                         dateType = "Created",
+                         dateInformation = paste0("call:", .f, "(", argument_chr, ")", pkg_uri))
+  attr(tmp, "Date") <-  new_date
 
   if ( is.null(arguments)  | length(arguments)==0) {
     argument_chr = ""
@@ -141,11 +165,10 @@ read_dataset <- function(dataset_id,
     argument_chr <- paste(paste0(names(arguments), "=", arguments), collapse = ", ")
   }
 
-  new_date <- add_date ( NULL, time = read_time, dateType = "Created", dateInformation = paste0("call:", .f, "(", argument_chr, ")", pkg_uri))
-  attr(tmp, "Date") <-  new_date
 
   new_item <-  add_relitem( NULL, package_name, "IsCompiledBy")
   attr(tmp, "RelatedIdentifier") <- new_item
+  attr(tmp, "Identifier") <- dataset_id
   tmp
 }
 

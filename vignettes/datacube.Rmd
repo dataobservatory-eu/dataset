@@ -1,0 +1,84 @@
+---
+title: "Datasets and the data cube model"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Datasets and the data cube model}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE}
+library(dataset)
+library(dplyr, quietly = TRUE)
+load(here::here("data-raw", "population_ds.Rda"))
+```
+
+## Data cube
+
+The data cube is a type of data set that can be used for statistical purposes. A cube is organized according to a set of dimensions, attributes and measures. We collectively call these _components_.
+
+## Attributes
+
+The `attributes` of the data cube contain structural metadata of a dataset. What is the unit of measurement? Is it a normal value or a series break? Is the value measured or estimated? They can be added to observations, or higher levels (slices, datacubes.)
+
+```{r}
+set.seed(1)
+population_ds %>% 
+  as.data.frame() %>% as_tibble() %>%
+  select ( -.data$INDICATOR ) %>%
+  group_by ( .data$METHOD ) %>%
+  sample_frac(size = .1)
+```
+`OBS_STATUS` and `METHOD` are observation-level attributes: they show if the `VALUE` measurement is an actual or estimated (E) or forecasted (F) value. The `METHOD` describes the estimation or forecasting used.
+
+In tidy datasets, each table (dataset) has only one unit of observation, in this case, `NR` (number). Because it applies to every observation, it can be attached directly to the dataset instead of attaching it to every single observation as a new column.
+
+```{r}
+attr(population_ds, "unit")
+```
+
+## Dimensions
+
+The dimension components serve to identify the observations. A set of values for all the dimension components is sufficient to identify a single observation. Examples of dimensions include the time to which the observation applies, or a geographic region which the observation covers.
+
+```{r}
+set.seed(1)
+population_ds %>% 
+  as.data.frame() %>% as_tibble() %>%
+  select ( .data$OBS, .data$GEO, .data$TIME, .data$VALUE ) %>%
+  group_by (.data$GEO) %>%
+  sample_frac(size = .1)
+```
+
+This datacube-type dataset has two dimensions, `GEO` for the reference geographical concept (country where the data was collected and aggregated) and `TIME` for a reference period. In this case, the data collection frequency is `A` (annual) and the reference period is the entire year.  However, for compatibility with `D` daily data, the reference period is set at the beginning of the period. Often it is necessary to state if the annual data, in comparison with daily data, be connected to the begin, end, middle, etc of the period.  In this case, for example, `2008-01-01` should correspond with balance sheet items of this day, and not `2008-12-31` (which in accounting are usually assumed to be equivalent with `2009-01-01`.)
+
+## Measurement 
+
+A datacube can have one or more measurements. The _measure_ components represent the phenomenon being observed.
+
+While a data cube can have any number of measures, the tidy data principle suggests that you should only add measures with a same unit of measurement in one dataset.
+
+## Unit of measure
+
+A tidy dataset contains one unit of measure.  However, scaling factors as attributes are allowed.  There is a very useful SDMX codelist to use unit scaling factors, `CL_UNIT_MULT`.
+
+```{r}
+library(statcodelists)
+data("CL_UNIT_MULT")
+CL_UNIT_MULT
+```
+If you use the population dataset from this example, where the observations are in `NR`, the unit multiplier is `0` (units).  You can easily combine this dataset with GDP expressed in million euros with the unit multiplier `6` (millions).  This will tell you to calculate GDP per capita (i.e., GPD divided by the population) with multiplying GDP expressed in `M_EUR` with `1-e6` or a million, and then make the division with `NR` expressed in units.
+
+Storing the unit multiplier is useful for comparisons like this.  Of course, well-designed codelists have clear unit multipliers, and therefore sums expressed in `M_EUR` (million euros) or `T_EUR` (thousand euros) are easily brought to a common unit of measure.
+
+The unit and unit of measure are not special attributes in the [W3C data cube model](https://www.w3.org/TR/vocab-data-cube/#cubes-model-datasets) or SDMX. We treat them as a separate sub-component becasue of their importance in the tidy data principles. Whenever dissimilar units are used for measurement, any further work with the data requires unit adjustment (and necessary unit testing) which breaks the tidy data pipeline.
+
+
+

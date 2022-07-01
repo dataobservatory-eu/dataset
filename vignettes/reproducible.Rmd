@@ -30,14 +30,15 @@ temp_path <- file.path(tempdir(), "iris.csv")
 write.csv(iris, file = temp_path, row.names = F)
 iris_ds <- read_dataset(
   dataset_id = "iris_dataset",
-  obs_id = NULL, 
-  dimensions = NULL, 
-  measurements = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
-  attributes = "Species",
-  Title = "Iris Dataset", 
+  obs_id = NULL,
+  dim_names = NULL,
+  measure_names = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
+  attribute_names = "Species",
+  Title = "Iris Dataset",
   unit = list(code = "MM", label = "millimeter"),
-  .f = "utils::read.csv", temp_path )
+  .f = "utils::read.csv", file = temp_path )
 ```
+
 That attributes of the dataset contain the creation date and the function call that created the dataset.  The related items contain the bibliographic reference to the creator function. Because we used a local file, the entire path is recorded for reproduciability. A similar function will be defined for internet URLs.
 
 ```{r}

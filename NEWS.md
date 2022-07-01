@@ -1,3 +1,7 @@
+# dataset 0.1.1.
+
+* The [datacube](https://dataset.dataobservatory.eu/articles/datacube.html) class defined as SDMX/W3C datacube. All datasets must be datacues.
+
 # dataset 0.1.0.
 
 * Added the [Motivation of the dataset package](https://dataset.dataobservatory.eu/articles/motivation.html) vignette article.

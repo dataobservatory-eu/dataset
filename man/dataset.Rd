@@ -14,8 +14,10 @@ dataset(
   attributes = NULL,
   unit = NULL,
   Title = NULL,
-  Subject = NULL,
+  Creator = NULL,
+  PublicationYear = NULL,
   Publisher = NULL,
+  Subject = NULL,
   License = NULL
 )
 
@@ -26,20 +28,20 @@ is.dataset(x)
 
 \item{obs_id}{The observation identifier.}
 
-\item{dimensions}{The columns in the data frame that are dimensions, and maybe used
-for statistical aggregation.}
-
-\item{measurements}{The measurements in the data frame.}
-
-\item{attributes}{Not measured attributes of the observations}
-
 \item{unit}{The unit of the measurements}
 
 \item{Title}{The title of the dataset, corresponds to datacite:Title, dct:title, rdfs:label.}
 
+\item{Publisher}{Corresponds to dct:Publisher and datacite:Publisher.}
+
 \item{Subject}{Corresponds to dct:subject, datacite:Subject.}
 
-\item{Publisher}{Corresponds to dct:Publisher and datacite:Publisher.}
+\item{dim_names}{The columns in the data frame that are dimensions, and maybe used
+for statistical aggregation.}
+
+\item{measure_names}{The measurements in the data frame.}
+
+\item{attribute_names}{Not measured attributes of the observations}
 
 \item{Licence}{Corresponds to dct:License and datacite:License.}
 }

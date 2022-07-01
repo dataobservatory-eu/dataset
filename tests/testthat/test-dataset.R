@@ -1,14 +1,14 @@
-iris_ds <- dataset (  x = iris,
-                      Title = "Iris dataset",
-                      dataset_id = "iris_dataset", obs_id = NULL,
-                      dimensions = NULL,
-                      measurements = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
-                      attributes = c("Species"),
-                      unit = list(code="MM", label = "milimeters")
-)
+iris_ds <- as.datacube ( x = iris[1:6,],
+                         obs_id = NULL,
+                         dim_names = NULL,
+                         measure_names = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
+                         attribute_names = "Species")
 
-attributes(iris_ds)
-
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+iris_dataset <- dataset(iris_ds)
+test_that("dataset", {
+  expect_equal(attr(iris_dataset, "Title"), "Untitled Dataset")
+  expect_equal(attr(iris_dataset, "Creator")$given, "unknown creator")
+  expect_equal(attr(iris_dataset, "Publisher"), "<not yet published>")
+  expect_equal(attr(iris_dataset, "PublicationYear"), as.integer(substr(as.character(Sys.Date()),1,4)
+))
 })

@@ -7,6 +7,8 @@
 
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6703765.svg)](https://doi.org/10.5281/zenodo.6703765)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/antaldaniel/dataset)
+[![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow
 rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
 [![Follow
@@ -111,21 +113,17 @@ reduced our subjective definition of the dataset.
     dataset.
 
 ``` r
-petal_length <- dataset(iris, 
+petal_length <- as.datacube(subset(iris, select = c("Petal.Length", "Species")), 
         obs_id = NULL, 
-        dimensions=NULL, 
-        measurements = "Petal.Length", 
-        attributes = "Species", 
-        Title = "Iris Subset", unit = "mm", 
-        Publisher = "Reprex")
+        dim_names=NULL, 
+        measure_names = "Petal.Length", 
+        attribute_names = "Species")
 
-petal_width <- dataset(iris, 
+petal_width <- as.datacube(subset(iris, select = c("Petal.Width", "Species")), 
         obs_id = NULL, 
-        dimensions=NULL, 
-        measurements = "Petal.Width", 
-        attributes = "Species", 
-        Title = "Iris Subset", unit = "mm", 
-        Publisher = "Reprex")
+        dim_names=NULL, 
+        measure_names = "Petal.Width", 
+        attribute_names = "Species")
 
 require(dplyr)
 #> Loading required package: dplyr
@@ -335,11 +333,12 @@ head(use_function(petal_width,  .f = "rbind", y = petal_length))
 ## Reproducible Datasets
 
 ``` r
-population_dataset <- dataset::read_dataset(
-  "demo_pjan", Title = "Population of Select Countries",
-  dimensions = c("age", "sex", "geo", "time"), 
-  measurements = "values", 
-  attributes = NULL,
+population_dataset <- read_dataset(
+  "demo_pjan", 
+  Title = "Population of Select Countries",
+  dim_names = c("age", "sex", "geo", "time"), 
+  measure_names = "values", 
+  attribute_names = NULL,
   unit = "NR",
   .f = "eurostat::get_eurostat",
   id = "demo_pjan",
@@ -369,7 +368,7 @@ knitr::kable(attr(summary_population, "Date"))
 
 | Date                | dateType | dateInformation |
 |:--------------------|:---------|:----------------|
-| 2022-06-27 13:31:11 | Updated  | call:summary    |
+| 2022-07-02 01:28:12 | Updated  | call:summary    |
 
 ``` r
 attr(population_dataset, "RelatedIdentifier")
