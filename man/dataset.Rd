@@ -5,65 +5,25 @@
 \alias{is.dataset}
 \title{Structure a data frame to dataset}
 \usage{
-dataset(
-  x,
-  dataset_id = "dataset_id",
-  obs_id = NULL,
-  dimensions = NULL,
-  measurements = NULL,
-  attributes = NULL,
-  unit = NULL,
-  Title = NULL,
-  Creator = NULL,
-  PublicationYear = NULL,
-  Publisher = NULL,
-  Subject = NULL,
-  License = NULL
-)
+dataset(x, dimensions, measures, attributes, ...)
 
 is.dataset(x)
 }
 \arguments{
 \item{x}{A data.frame or interited tibble, data.frame, or a structured list.}
 
-\item{obs_id}{The observation identifier.}
+\item{dimensions}{The name or column number of the dimensions within the dataset.}
 
-\item{unit}{The unit of the measurements}
+\item{measures}{The name or column number of the measures within the dataset.}
 
-\item{Title}{The title of the dataset, corresponds to datacite:Title, dct:title, rdfs:label.}
+\item{attributes}{The name or column number of the attributes within the dataset.}
 
-\item{Publisher}{Corresponds to dct:Publisher and datacite:Publisher.}
-
-\item{Subject}{Corresponds to dct:subject, datacite:Subject.}
-
-\item{dim_names}{The columns in the data frame that are dimensions, and maybe used
-for statistical aggregation.}
-
-\item{measure_names}{The measurements in the data frame.}
-
-\item{attribute_names}{Not measured attributes of the observations}
-
-\item{Licence}{Corresponds to dct:License and datacite:License.}
+\item{...}{sdmx_attributes}
 }
 \description{
-Structure a data frame to dataset
+A constructor for the dataset class.
 }
 \details{
 Loosely follows the \href{https://www.w3.org/TR/vocab-data-cube/}{The RDF Data Cube Vocabulary},
 but with far stricter definition.
 }
-\examples{
-dataset (x = iris,
-         title = "Iris Dataset",
-         dataset_id = "iris_dataset", obs_id = NULL,
-         dimensions = NULL,
-         measurements = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
-         attributes = c("Species"),
-         unit = list(column="", code="MM", label = "milimeters")
-          )
-}
-\seealso{
-Other metadata functions: 
-\code{\link{datacite}()}
-}
-\concept{metadata functions}

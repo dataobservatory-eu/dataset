@@ -1,127 +1,89 @@
 #' @title Structure a data frame to dataset
+#' @description A DataSet is a collection of statistical data that corresponds to a defined structure.
 #' @details Loosely follows the \href{https://www.w3.org/TR/vocab-data-cube/}{The RDF Data Cube Vocabulary},
-#' but with far stricter definition.
+#' but without the definition of data slices.\cr
+#' \code{bibentry_dataset()} is  a wrapper around \code{\link[utils:bibentry]{bibentry}} to correctly turn the
+#' metadata of the dataset into a bibentry object.
 #' @param x A data.frame or interited tibble, data.frame, or a structured list.
-#' @param obs_id The observation identifier.
-#' @param dim_names The columns in the data frame that are dimensions, and maybe used
-#' for statistical aggregation.
-#' @param measure_names The measurements in the data frame.
-#' @param attribute_names Not measured attributes of the observations
-#' @param unit The unit of the measurements
-#' @param Title The title of the dataset, corresponds to datacite:Title, dct:title, rdfs:label.
-#' @param Subject Corresponds to dct:subject, datacite:Subject.
-#' @param Publisher Corresponds to dct:Publisher and datacite:Publisher.
-#' @param Licence Corresponds to dct:License and datacite:License.
-#' @importFrom assertthat assert_that
-#' @family metadata functions
+#' @param dimensions The name or column number of the dimensions within the dataset.
+#' @param measures The name or column number of the measures within the dataset.
+#' @param attributes The name or column number of the attributes within the dataset.
+#' @param sdmx_attributes The optional dimensions and attributes that conform with
+#' SDMX. \code{c("time", "geo")} will mark the "time" and "geo" attributes as conforming to
+#' sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl}{sdmx-attribute}.
+#' @param title The title of the dataset, corresponds to datacite:Title, dct:title, rdfs:label.
+#' @param label The label of the dataset, corresponds to rdfs::label.
+#' @param subject Corresponds to dct:subject, datacite:Subject.
+#' @param creator Corresponds to
+#' @param publisher Corresponds to dct:publisher and datacite:Publisher.
+#' @param type It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.
+#' @param issued Corresponds to
+#' @importFrom utils toBibtex
 #' @examples
-#' dataset (x = iris,
-#'          title = "Iris Dataset",
-#'          dataset_id = "iris_dataset", obs_id = NULL,
-#'          dimensions = NULL,
-#'          measurements = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
-#'          attributes = c("Species"),
-#'          unit = list(column="", code="MM", label = "milimeters")
-#'           )
+#' my_dataset <- dataset (x,
+#' dimensions = c(1,2),
+#' measures = 3,
+#' attributes = c(4,5),
+#' sdmx_attributes = c("time", "freq"),
+#' title = "Example dataset",
+#' creator = person("Jane", "Doe"),
+#' publisher = "Publishing Co.",
+#' issued = as.Date("2022-07-14")
+#' )
+#'
+#' utils::toBibtex(bibentry_dataset(my_dataset))
+#'
 #' @export
 
 dataset <- function(x,
-                    dataset_id = "dataset_id",
-                    obs_id = NULL,
                     dimensions = NULL,
-                    measurements = NULL,
-                    attributes = NULL,
-                    unit = NULL,
-                    Title = NULL,
-                    Creator = NULL,
-                    PublicationYear = NULL,
-                    Publisher = NULL,
-                    Subject = NULL,
-                    License = NULL) {
+                    measures = NULL,
+                    attributes=NULL,
+                    sdmx_attributes = NULL,
+                    title = NULL,
+                    label = NULL,
+                    creator = NULL,
+                    publisher = NULL,
+                    issued = NULL,
+                    type = list ( type = "Dataset",
+                                  URI = "http://purl.org/dc/dcmitype/Dataset")
+                    ) {
 
-  assertthat::assert_that(is.datacube(x),
-                          msg = "in dataset(x, ...): x must be a datacube object.")
+  x <- dimensions_add(x, dimensions, sdmx_attributes)
+  x <- measures_add(x, measures)
+  x <- attributes_add(x, attributes, sdmx_attributes)
 
+  attr(x, "title") <- title
+  attr(x, "label") <- label
+  attr(x, "creator") <- creator
+  attr(x, "publisher") <- publisher
+  if (is.null(issued)) issued <- Sys.Date()
+  attr(x, "issued") <- issued
+  attr(x, "type") <- type
 
-  arguments <- list ( dataset_id = dataset_id,
-                      obs_id = obs_id, dimension=dimensions, measurements = measurements, attributes = attributes,
-                      Title = Title, Subject = Subject, Publisher = Publisher, License = License )
-  arguments_chr <- paste(paste0(names(arguments), "=", arguments), collapse = ", ")
-
-
-  created_time <- Sys.time()
-  dataset <- x
-  attr(dataset, "class") <- c( "dataset", class(x))
-  attr(dataset, "Title") <- Title
-  attr(dataset, "Date") <- add_date ( NULL, time = created_time, dateType = "Created", dateInformation = paste0("dataset::dataset(",arguments_chr, ")"))
-
-    assertthat::assert_that(is.datacube(x),
-                          msg = "in dataset(x, ...): x must be a datacube object.")
-
-  if(is.null(Creator)) {
-    Creator <- person(given="unknown creator")
-  } else {
-    assertthat::assert_that(inherits(Creator, "person"),
-                            msg = "in dataset(x, ..., Creator): Creator must be a person object.")
-  }
-
-  if(is.null(Title)) {
-    Title <- "Untitled Dataset"
-  } else {
-    assertthat::assert_that(inherits(Title, "character"),
-                            msg = "in dataset(x, ..., Title): Title must be a character string.")
-  }
-
-  if(is.null(Publisher)) {
-    Publisher <- "<not yet published>"
-  } else {
-    assertthat::assert_that(inherits(Publisher, "character"),
-                            msg = "in dataset(x, ..., Publisher): Publisher must be a character string.")
-  }
-
-  if(is.null(PublicationYear)) {
-    PublicationYear <- as.integer(substr(as.character(Sys.Date()),1,4))
-  } else {
-    assertthat::assert_that(is.numeric(round(as.numeric(as.character(PublicationYear)),0)),
-                            msg = "in dataset(x, ..., PublicationYear): PublicationYear must be an integer.")
-  }
-
-  ## DataCite mandatory
-  attr(dataset, "Identifier") <- deparse(substitute(x))
-  attr(dataset, "Creator") <- Creator
-  attr(dataset, "Title") <- as.character(Title)
-  attr(dataset, "Publisher") <- as.character(Publisher)
-  attr(dataset, "PublicationYear") <- as.integer(round(as.numeric(as.character(PublicationYear)),0))
-  attr(dataset, "ResourceType") <- "Dataset"
-
-  new_date <- add_date ( NULL, time = created_time,
-                         dateType = "Created",
-                         dateInformation = paste0("call: dataset(...)"))
-  attr(dataset, "Date") <-  new_date
-
-  attr(dataset, "unit") <- unit
-  attr(dataset, "Subject") <- Subject
-
-  attr(dataset, "License") <- License
-
-  dataset
+  attr(x, "class") <- c("dataset", class(x))
+  x
 }
 
+print <- function(x, ...) { UseMethod("print")}
+summary <- function(x, ...) { UseMethod("summary")}
 
 #' @rdname dataset
 #' @export
-is.dataset <- function(x) inherits(x, "dataset")
+summary.dataset <- function(x, ...) { NextMethod()}
 
+#' @rdname dataset
+#' @export
 print.dataset <- function(x, ...) {
 
-  cat(paste0(Title, " [", attr(x, "Identifier"), "] by ", paste(attr(x, "Creator")$given, attr(x, "Creator")$family, sep = " "), "\n"))
-  cat(paste0("Published by ", attr(x, "Publisher"), " (", attr(x, "PublicationYear"), ")", "\n"))
+  #cat(paste0(Title, " [", attr(x, "Identifier"), "] by ", paste(attr(x, "Creator")$given, attr(x, "Creator")$family, sep = " "), "\n"))
+  #cat(paste0("Published by ", attr(x, "Publisher"), " (", attr(x, "PublicationYear"), ")", "\n"))
 
-  n_row <- nrow(as.data.frame(x))
+  n_row <- nrow(x)
 
   if(n_row>10) {
     x <- x[1:10,]
-    }
+  }
   NextMethod()
   if (!is.null(attr(x, "unit"))) {
     unit_list <- attr(x, "unit")
@@ -130,17 +92,230 @@ print.dataset <- function(x, ...) {
   if (n_row>10) {
     cat(paste0("\n... ", n_row-10, " further observations.\n"))
   }
-
-  #further_attributes <- ifelse (is.null(attr(x, "Subject")),
-  #                              "", paste0("Subject: ", attr(x, "Subject")) )
-
-  #cat (further_attributes)
-
 }
 
-summary.dataset <- function (x, ...) {
-  summary(as.data.frame(x))
-  #UseMethod("summary.dataset")
-  }
-#summary.dataset.datacube <- function(x, ...) { x <- as.data.frame(x) NextMethod()}
 
+#' @rdname dataset
+#' @export
+is.dataset <- function(x) inherits(x, "dataset")
+
+
+#' @inheritParams dataset
+#' @importFrom utils bibentry
+#' @rdname dataset
+#' @family citation functions
+#' @export
+bibentry_dataset <- function(x) {
+
+  extractyear <- function(date) {
+    format(date, format="%Y")
+  }
+
+  if ( is.numeric(attr(x, "issued"))) {
+    year_nr <- attr(x, "issued")
+  } else if (inherits(attr(x, "issued"), "POSIXt") | inherits(attr(x, "issued"), "Date")) {
+    year_nr <- extractyear (attr(x, "issued"))
+  } else {
+    year_nr = attr(x, "issued")}
+
+  bibentry(
+    bibtype = "Misc",
+    title = attr(x, "title"),
+    author = attr(x, "creator"),
+    publisher = attr(x, "publisher"),
+    size = attr(x, "Size"),
+    year = year_nr)
+}
+
+
+#' @title Dimensions of a dataset
+#' @details Do not confuse with \code{base::\link{dim}}. The \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{dimension} in the definition
+#' of the DataSet is different from the 'dimension' definition of the R language.
+#' @inheritParams dataset
+#' @export
+#' @seealso \code{\link{base::dim}}
+#' @examples
+#' df <- data.frame ( sex = c("M", "F"), value = c(1,2))
+#' dimensions_add(df, "sex", sdmx_attributes = "sex")
+dimensions <- function(x) attr(x, "dimensions")
+
+#' @inheritParams dataset
+#' @rdname dimensions
+
+dimensions_add <- function(x, dimensions, sdmx_attributes = NULL) {
+
+  if ( any(is.null(dimensions) | is.na(dimensions) | length(dimensions)==0) ) return(x)
+
+  ss <- subset(x, select = dimensions)
+
+  defined_by <- function(s) {
+    isDefinedBy = ifelse (names(ss) %in% sdmx_attributes,
+                          "https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl",
+                          "http://purl.org/linked-data/cube")
+    names(isDefinedBy) <- names(ss)
+    isDefinedBy
+  }
+
+  attr(x, "dimensions") <-  list ( names = names(ss),
+         class = sapply (ss, class),
+         isDefinedBy = defined_by(ss),
+         codelist = sapply(ss, function(x) NULL))
+
+  x
+}
+
+#' @title Measures of a dataset
+#' @details See the W3C and SDMX definition of a \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{measure}.
+#' @inheritParams dataset
+#' @export
+measures <- function(x) attr(x, "measures")
+
+#' @inheritParams measures
+#' @param sdmx_attributes The optional SDMX dimensions.
+#' @rdname measures
+#' @export
+#' @examples
+#' df <- data.frame ( sex = c("M", "F"), value = c(1,2))
+#' df <- measures_add(df, "value")
+#' measures(df)
+
+measures_add <- function(x, measures) {
+
+  if ( any(is.null(measures) | is.na(measures) | length(measures)==0) ) return(x)
+
+  ss <- subset(x, select = measures)
+
+
+  attr(x, "measures") <-  list ( names = names(ss),
+                                   class = sapply (ss, class),
+                                   isDefinedBy =   "http://purl.org/linked-data/cube",
+                                   codelist = sapply(ss, function(x) NULL))
+
+  x
+}
+
+#' @title Attributes of a dataset
+#' @details Do not confuse with \code{base::\link{attributes}}.
+#' See the W3C and SDMX definition of a \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{attribute}.
+#' @inheritParams dataset
+#' @export
+attributes_dataset <- function(x) attr(x, "attributes")
+
+#' @inheritParams dataset
+#' @rdname attributes_dataset
+#' @export
+
+attributes_add <- function(x, attributes, sdmx_attributes = NULL) {
+
+  if ( any(is.null(attributes) | is.na(attributes) | length(attributes)==0) ) return(x)
+
+  ss <- subset(x, select = attributes)
+
+  defined_by <- function(s) {
+    isDefinedBy = ifelse (names(ss) %in% sdmx_attributes,
+                          "https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl",
+                          "http://purl.org/linked-data/cube")
+    names(isDefinedBy) <- names(ss)
+    isDefinedBy
+  }
+
+  attr(x, "attributes") <-  list ( names = names(ss),
+                                   class = sapply (ss, class),
+                                   isDefinedBy = defined_by(ss),
+                                   codelist = sapply(ss, function(x) NULL))
+
+  x
+}
+
+#' @keywords internal
+dimensions_names <- function(x, dimensions)   {
+
+  if ( is.character(dimensions)) {
+    dimensions <- which(names(x) %in% dimensions)
+    not_in_dataset <- (! (which (dimensions %in% names(x))))
+    if (length(not_in_dataset>0)) {
+      warning("dimensions_get(x, dimensions, ...): ", paste(dimensions[not_in_dataset], collapse = ", "), " not in dataset.")
+    }
+  }
+
+  if ( is.numeric(dimensions) ) {
+    not_in_dataset <- dimensions[which (! dimensions %in% 1:ncol(x))]
+
+    if (length(not_in_dataset>0)) {
+      warning("dimensions_get(x, dimensions, ...): ", paste(not_in_dataset, collapse = ", "), " not in dataset.")
+    }
+
+    if ( all(dimensions %in% not_in_dataset)) {
+      stop("dimensions_get(x, dimensions, ...): none of ", paste(dimensions, collapse = ", "), " in dataset.")
+    }
+    names(x)[as.integer(dimensions[! dimensions %in% not_in_dataset])]
+  }
+}
+
+#' @keywords internal
+measures_names <- function(x, measures)   {
+
+  if ( is.character(measures)) {
+    measures <- which(names(x) %in% measures)
+    not_in_dataset <- (! (which (measures %in% names(x))))
+    if (length(not_in_dataset>0)) {
+      warning("measures_get(x, measures, ...): ", paste(measures[not_in_dataset], collapse = ", "), " not in dataset.")
+    }
+  }
+
+  if ( is.numeric(measures) ) {
+    not_in_dataset <- measures[which (! measures %in% 1:ncol(x))]
+
+    if (length(not_in_dataset>0)) {
+      warning("measures_get(x, measures, ...): ", paste(not_in_dataset, collapse = ", "), " not in dataset.")
+    }
+
+    if ( all(measures %in% not_in_dataset)) {
+      stop("measures_get(x, measures, ...): none of ", paste(measures, collapse = ", "), " in dataset.")
+    }
+    names(x)[as.integer(measures[! measures %in% not_in_dataset])]
+  }
+}
+
+#' @keywords internal
+attributes_names <- function(x, attributes)   {
+
+  if ( is.character(attributes)) {
+    attributes <- which(names(x) %in% attributes)
+    not_in_dataset <- (! (which (attributes %in% names(x))))
+    if (length(not_in_dataset>0)) {
+      warning("attributes_get(x, attributes, ...): ", paste(attributes[not_in_dataset], collapse = ", "), " not in dataset.")
+    }
+  }
+
+  if ( is.numeric(attributes) ) {
+    not_in_dataset <- attributes[which (! attributes %in% 1:ncol(x))]
+
+    if (length(not_in_dataset>0)) {
+      warning("attributes_get(x, attributes, ...): ", paste(not_in_dataset, collapse = ", "), " not in dataset.")
+    }
+
+    if ( all(attributes %in% not_in_dataset)) {
+      stop("attributes_get(x, attributes, ...): none of ", paste(attributes, collapse = ", "), " in dataset.")
+    }
+    names(x)[as.integer(attributes[! attributes %in% not_in_dataset])]
+  }
+}
+
+#' @keywords internal
+dot.names <- function (dots) {
+  if (length (dots) > 0 && is.null (get_expr (dots [[1]]))) { return (NULL) }
+  dot_names <- dots
+  if (length (dot_names) == 0) { return (character(0)) }
+  dot_names
+}
+
+#' @keywords internal
+arg.names <- function (args) {
+  if (deparse (args) == "c()") { return (character(0)) }
+  if (deparse (args) == "list()") { return (character(0)) }
+  if (is.null (args)) { return (NULL) }
+  names <- sapply (args, deparse)
+  if (length (names) > 1) { names <- names [-1] }
+  return (names)
+}

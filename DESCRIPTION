@@ -1,8 +1,10 @@
 Package: dataset
 Title: Create interoperable and well-documented data frames
-Version: 0.1.1
+Version: 0.1.1.004
 Authors@R: 
-    person("Daniel", "Antal", , "daniel.antal@dataobservatory.eu", role = c("aut", "cre"),
+    person(given = "Daniel", family = "Antal", 
+           email = "daniel.antal@dataobservatory.eu", 
+           role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7513-6760"))
 Description: Create well-documented, well-described, interoperable datasets in R for 
     publication and use on the (semantic) web.
@@ -18,6 +20,8 @@ LazyData: true
 Imports: 
     assertthat,
     datasets,
+    ISOcodes,
+    rlang,
     utils
 Suggests: 
     knitr,

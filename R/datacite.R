@@ -1,4 +1,4 @@
-#' @title Add DataCite metadata to a data frame
+#' @title Add DataCite metadata to an object
 #'
 #' @description Add metadata conforming the \href{https://schema.datacite.org/}{DataCite Metadata Schema}
 #' to datasets, i.e. structured R data.frame or list objects, for an accurate and consistent identification
@@ -19,19 +19,30 @@
 #' @details The \code{ResourceType} property will be by definition "Dataset".
 #' The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
 #' @param Creator The main researchers involved in producing the data, or the authors of the publication, in priority order. To supply multiple creators, repeat this property.
-#' @param Pulisher The name of the entity that holds, archives, publishes prints, distributes, releases, issues, or produces the resource. This property will be used to formulate the citation, so consider the prominence of the role. For software, use Publisher for the code repository. If there is an entity other than a code repository, that "holds, archives, publishes, prints, distributes, releases, issues, or produces" the code, use the property Contributor/contributorType/ hostingInstitution for the code repository.
+#' @param Pulisher The name of the entity that holds, archives, publishes prints, distributes,
+#' releases, issues, or produces the resource. This property will be used to formulate the
+#' citation, so consider the prominence of the role. For software, use Publisher for the
+#' code repository. If there is an entity other than a code repository, that "holds, archives,
+#' publishes, prints, distributes, releases, issues, or produces" the code, use the property
+#' Contributor/contributorType/ hostingInstitution for the code repository. Corresponds to dct:Publisher in
+#' \code{\link{dublincore}}.
 #' @param PublicationYear The year when the data was or will be made publicly available in \code{YYYY} format.
-#' @param Subject Recommended for discovery. Subject, keyword, classification code, or key phrase describing the resource.
+#' @param Subject Recommended for discovery. Subject, keyword, classification code, or key
+#' phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}.
 #' @param Contributor Recommended for discover. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.
-#' @param Date Recommended for discovery.
-#' @param Language  The primary language of the resource. Allowed values are taken from IETF BCP 47, ISO 639-1 language.
+#' @param Date Recommended for discovery in DataCite. Similar to \href{http://purl.org/dc/elements/1.1/date}{dct:date} in
+#' \code{\link{dublincore}}.
+#' @param Language  The primary language of the resource. Allowed values are taken from
+#' IETF BCP 47, ISO 639-1 language code. See \code{\link{add_language}}.
 #' @param AlternateIdentifier An identifier or identifiers other than the primary Identifier applied to the resource being registered. This may be any alphanumeric string which is unique within its domain of issue. May be used for local identifiers. AlternateIdentifier should be used for another identifier of the same instance (same location, same file).
-#' @param RelatedIdentifier Recommended for discovery.
-#' @param Format Technical format of the resource.
-#' @param Version Free text. Suggested practice: track major_version.minor_version.
+#' @param RelatedIdentifier Recommended for discovery. Similar to \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.
+#' @param Format Technical format of the resource. Similar to \href{http://purl.org/dc/elements/1.1/format}{dct:format}.
+#' @param Version Free text. Suggested practice: track major_version.minor_version. See \code{\link{add_version}}.
 #' @param Rights  Any rights information for this resource. The property may be repeated to record complex rights characteristics.
 #' Free text.
-#' @param Description Recommended for discovery. All additional information that does not fit in any of the other categories. May be used for technical information. A free text.
+#' @param Description Recommended for discovery. All additional information that does not
+#' fit in any of the other categories. May be used for technical information. A free text.
+#' Similar to \href{http://purl.org/dc/elements/1.1/description}{dct:description}.
 #' @param Geolocation Recommended for discovery. Spatial region or named place where the data was gathered or about which the data is focused.
 #' @param FundingReference Information about financial support (funding) for the resource being registered.
 #' @return An R object with at least the mandatory DataCite attributes.
@@ -41,15 +52,29 @@
 #' @family metadata functions
 #' @export
 #' @examples
-#' datacite_dataset(df = iris,
-#'                  Title = "Iris Dataset",
-#'                  Creator = person("Anderson", "Edgar", role = "aut"),
-#'                  Publisher=" American Iris Society",
-#'                  PublicationYear = 1935,
-#'                  geoLocation = "US",
-#'                  Language = "en")
+#' datacite_add(
+#'    df = iris,
+#'    title = "Iris Dataset",
+#'    Creator = person("Anderson", "Edgar", role = "aut"),
+#'    Publisher= "American Iris Society",
+#'    PublicationYear = 1935,
+#'    Geolocation = "US",
+#'    Language = "en")
+#'
+#' datacite(df)
 
-datacite <- function(df, Title, Creator, Publisher, PublicationYear = "THIS",
+datacite <- function(df) {
+
+  attributes_dataset <- attributes(df)
+  attributes_dataset$row.names <- NULL
+  attributes_dataset$class <- NULL
+
+  attributes_dataset
+}
+
+#' @rdname datacite
+#' @export
+datacite_add <- function(df, Title, Creator, Publisher, PublicationYear = "THIS",
                      Subject = NULL, Contributor = NULL, Date = NULL,
                      Language = NULL,
                      AlternateIdentifer = NULL, RelatedIdentifier = NULL,
@@ -59,51 +84,23 @@ datacite <- function(df, Title, Creator, Publisher, PublicationYear = "THIS",
 
   if (PublicationYear == "THIS") as.integer(substr(Sys.Date(),1,4))
 
-  attr(df, "Title") <- Title
-  attr(df, "Creator") <- Creator
-  attr(df, "Publiser") <- Publisher
+  attr(df, "title") <- Title
+  attr(df, "creator") <- Creator
+  attr(df, "publisher") <- Publisher
+  attr(df, "issued") <- ifelse(is.null(Date), PublicationYear, Date)
   attr(df, "PublicationYear") <- PublicationYear
   attr(df, "ResourceType") <- ifelse(inherits(df, "data.frame"), "Dataset",
-                                     ifelse (inherits(df, "list"), "Dataset", "Other R object"))
-  attr(df, "Size") <- object.size(df)
+                                     ifelse (inherits(df, "list"), "Dataset",
+                                             "Other R object"))
+
   attr(df, "Description") <- Description
   attr(df, "Geolocation") <- Geolocation
 
-  attr(df, "class") <- c(attr(df, "class"), "DataCite")
+  if (!is.null(Language)) df <- add_language (df, Language)
+  if (!is.null(Version)) df <- add_version (df, Version)
+
+  df <- add_size(df)
   df
-}
-
-
-#' @title Create a bibentry for a well-described data frame
-#' @description This is a wrapper around \code{\link[utils:bibentry]{bibentry}} to correctly
-#' use the attributes added to a dataset by \code{\link{datacite}}.
-#' @param dataset A dataset.
-#' @importFrom utils bibentry
-#' @return A bibentry.
-#' @family citation functions
-#' @seealso datacite
-#' @export
-#' @examples
-#' datacite_iris <- datacite_dataset(
-#'    df = iris,
-#'    Title = "Iris Dataset",
-#'    Creator = person("Anderson", "Edgar", role = "aut"),
-#'    Publisher=" American Iris Society",
-#'    PublicationYear = 1935,
-#'    Geolocation = "US",
-#'    Language = "en")
-#'
-#' dataset_bibentry(datacite_iris)
-
-dataset_bibentry <- function (dataset) {
-
-  bibentry( bibtype = "Misc",
-            title = attr(dataset, "Title"),
-            year = attr(dataset, "PublicationYear"),
-            publisher = attr(dataset, "Publisher"),
-            author = attr(dataset, "Creator"),
-            size = attr(dataset, "Size")
-            )
 }
 
 

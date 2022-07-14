@@ -2,13 +2,16 @@
 % Please edit documentation in R/datacite.R
 \name{datacite}
 \alias{datacite}
-\title{Add DataCite metadata to a data frame}
+\alias{datacite_add}
+\title{Add DataCite metadata to an object}
 \source{
 \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite 4.3 Mandatory Properties} and
 \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
 }
 \usage{
-datacite(
+datacite(df)
+
+datacite_add(
   df,
   Title,
   Creator,
@@ -36,30 +39,41 @@ structured R list.}
 
 \item{PublicationYear}{The year when the data was or will be made publicly available in \code{YYYY} format.}
 
-\item{Subject}{Recommended for discovery. Subject, keyword, classification code, or key phrase describing the resource.}
+\item{Subject}{Recommended for discovery. Subject, keyword, classification code, or key
+phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}.}
 
 \item{Contributor}{Recommended for discover. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.}
 
-\item{Date}{Recommended for discovery.}
+\item{Date}{Recommended for discovery in DataCite. Similar to \href{http://purl.org/dc/elements/1.1/date}{dct:date} in
+\code{\link{dublincore}}.}
 
-\item{Language}{The primary language of the resource. Allowed values are taken from IETF BCP 47, ISO 639-1 language.}
+\item{Language}{The primary language of the resource. Allowed values are taken from
+IETF BCP 47, ISO 639-1 language code. See \code{\link{add_language}}.}
 
-\item{RelatedIdentifier}{Recommended for discovery.}
+\item{RelatedIdentifier}{Recommended for discovery. Similar to \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.}
 
-\item{Format}{Technical format of the resource.}
+\item{Format}{Technical format of the resource. Similar to \href{http://purl.org/dc/elements/1.1/format}{dct:format}.}
 
-\item{Version}{Free text. Suggested practice: track major_version.minor_version.}
+\item{Version}{Free text. Suggested practice: track major_version.minor_version. See \code{\link{add_version}}.}
 
 \item{Rights}{Any rights information for this resource. The property may be repeated to record complex rights characteristics.
 Free text.}
 
-\item{Description}{Recommended for discovery. All additional information that does not fit in any of the other categories. May be used for technical information. A free text.}
+\item{Description}{Recommended for discovery. All additional information that does not
+fit in any of the other categories. May be used for technical information. A free text.
+Similar to \href{http://purl.org/dc/elements/1.1/description}{dct:description}.}
 
 \item{Geolocation}{Recommended for discovery. Spatial region or named place where the data was gathered or about which the data is focused.}
 
 \item{FundingReference}{Information about financial support (funding) for the resource being registered.}
 
-\item{Pulisher}{The name of the entity that holds, archives, publishes prints, distributes, releases, issues, or produces the resource. This property will be used to formulate the citation, so consider the prominence of the role. For software, use Publisher for the code repository. If there is an entity other than a code repository, that "holds, archives, publishes, prints, distributes, releases, issues, or produces" the code, use the property Contributor/contributorType/ hostingInstitution for the code repository.}
+\item{Pulisher}{The name of the entity that holds, archives, publishes prints, distributes,
+releases, issues, or produces the resource. This property will be used to formulate the
+citation, so consider the prominence of the role. For software, use Publisher for the
+code repository. If there is an entity other than a code repository, that "holds, archives,
+publishes, prints, distributes, releases, issues, or produces" the code, use the property
+Contributor/contributorType/ hostingInstitution for the code repository. Corresponds to dct:Publisher in
+\code{\link{dublincore}}.}
 
 \item{AlternateIdentifier}{An identifier or identifiers other than the primary Identifier applied to the resource being registered. This may be any alphanumeric string which is unique within its domain of issue. May be used for local identifiers. AlternateIdentifier should be used for another identifier of the same instance (same location, same file).}
 }
@@ -87,16 +101,19 @@ The \code{ResourceType} property will be by definition "Dataset".
 The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
 }
 \examples{
-datacite_dataset(df = iris,
-                 Title = "Iris Dataset",
-                 Creator = person("Anderson", "Edgar", role = "aut"),
-                 Publisher=" American Iris Society",
-                 PublicationYear = 1935,
-                 geoLocation = "US",
-                 Language = "en")
+datacite_add(
+   df = iris,
+   title = "Iris Dataset",
+   Creator = person("Anderson", "Edgar", role = "aut"),
+   Publisher= "American Iris Society",
+   PublicationYear = 1935,
+   Geolocation = "US",
+   Language = "en")
+
+datacite(df)
 }
 \seealso{
 Other metadata functions: 
-\code{\link{dataset}()}
+\code{\link{dublincore}()}
 }
 \concept{metadata functions}
