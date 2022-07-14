@@ -7,7 +7,7 @@
 
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6833823.svg)](https://10.5281/zenodo.6833823)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/antaldaniel/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.1.2-blue.svg)](https://github.com/antaldaniel/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow
 rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
@@ -171,16 +171,16 @@ petal_length %>%
   left_join (petal_width, by = c("Species")) %>%
   sample_n(10)
 #>    Petal.Length    Species Petal.Width
-#> 1           5.1  virginica         1.7
-#> 2           4.9 versicolor         1.5
-#> 3           1.0     setosa         0.2
-#> 4           6.1  virginica         1.8
-#> 5           4.0 versicolor         1.2
-#> 6           5.6  virginica         2.1
-#> 7           4.6 versicolor         1.5
-#> 8           1.5     setosa         0.2
-#> 9           1.3     setosa         0.2
-#> 10          6.1  virginica         2.4
+#> 1           1.5     setosa         0.2
+#> 2           4.3 versicolor         1.5
+#> 3           4.5 versicolor         1.5
+#> 4           1.0     setosa         0.2
+#> 5           5.6  virginica         1.8
+#> 6           4.5 versicolor         1.4
+#> 7           1.4     setosa         0.2
+#> 8           4.8  virginica         2.1
+#> 9           6.7  virginica         2.0
+#> 10          4.1 versicolor         1.1
 ```
 
 The obvious motivation of this format is that the datasets can be easily
