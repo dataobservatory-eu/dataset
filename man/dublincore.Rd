@@ -9,10 +9,10 @@
 \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
 }
 \usage{
-dublincore(df)
+dublincore(x)
 
 dublincore_add(
-  df,
+  x,
   title,
   creator,
   publisher,
@@ -27,7 +27,7 @@ dublincore_add(
 )
 }
 \arguments{
-\item{df}{An R object of type data.frame, or inherited data.table, tibble; alternatively a well
+\item{x}{An R object of type data.frame, or inherited data.table, tibble; alternatively a well
 structured R list.}
 
 \item{title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
@@ -47,12 +47,12 @@ discovery in \code{\link{datacite}}.}
 \item{source}{A related resource from which the described resource is derived. See \href{http://purl.org/dc/elements/1.1/source}{dct:source}.}
 
 \item{language}{The primary language of the resource. Allowed values are taken from
-IETF BCP 47, ISO 639-1 language code. See \code{\link{add_language}}. Corresponds to Language in Datacite.}
+IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}. Corresponds to Language in Datacite.}
 
 \item{format}{The file format, physical medium, or dimensions of the resource.
 \href{    http://purl.org/dc/elements/1.1/format}{dct:format}
 Examples of dimensions include size and duration. Recommended best practice is to use a controlled
-vocabulary such as the list of Internet Media Types \link{MIME}. It is simlar to \code{Format} in
+vocabulary such as the list of Internet Media Types \link{MIME}. It is similar to \code{Format} in
 \code{\link{datacite}}.}
 
 \item{rights}{Corresponds to \href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
@@ -104,20 +104,21 @@ The \code{ResourceType} property will be by definition "Dataset".
 The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
 }
 \examples{
-dublincore_add(
-     df = iris,
-     title = "Iris Dataset",
-     creator = person("Anderson", "Edgar", role = "aut"),
-     publisher= "American Iris Society",
-     source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-     date = 1935,
-     language = "en"
-     )
+dct_iris <- dublincore_add(
+                   x = iris,
+                   title = "Iris Dataset",
+                   creator = person("Anderson", "Edgar", role = "aut"),
+                   publisher = "American Iris Society",
+                   source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+                   date = 1935,
+                   language = "en"
+                   )
 
-dublincore(df)
+dublincore(dct_iris)
 }
 \seealso{
 Other metadata functions: 
-\code{\link{datacite}()}
+\code{\link{datacite}()},
+\code{\link{size_add}()}
 }
 \concept{metadata functions}

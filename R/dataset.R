@@ -11,11 +11,7 @@
 #' @param sdmx_attributes The optional dimensions and attributes that conform with
 #' SDMX. \code{c("time", "geo")} will mark the "time" and "geo" attributes as conforming to
 #' sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl}{sdmx-attribute}.
-#' @param title The title of the dataset, corresponds to datacite:Title, dct:title, rdfs:label.
-#' @param label The label of the dataset, corresponds to rdfs::label.
-#' @param subject Corresponds to dct:subject, datacite:Subject.
-#' @param creator Corresponds to
-#' @param publisher Corresponds to dct:publisher and datacite:Publisher.
+#' @inheritParams dublincore_add
 #' @param type It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.
 #' @param issued Corresponds to
 #' @importFrom utils toBibtex

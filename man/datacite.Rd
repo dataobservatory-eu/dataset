@@ -9,10 +9,10 @@
 \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
 }
 \usage{
-datacite(df)
+datacite(x)
 
 datacite_add(
-  df,
+  x,
   Title,
   Creator,
   Publisher,
@@ -32,10 +32,19 @@ datacite_add(
 )
 }
 \arguments{
-\item{df}{An R object of type data.frame, or inherited data.table, tibble; alternatively a well
+\item{x}{An R object of type data.frame, or inherited data.table, tibble; alternatively a well
 structured R list.}
 
+\item{Title}{A name or title by which a resource is known. May be the title of a dataset
+or the name of a piece of software. Similar to \href{http://purl.org/dc/elements/1.1/title}{dct:title}.}
+
 \item{Creator}{The main researchers involved in producing the data, or the authors of the publication, in priority order. To supply multiple creators, repeat this property.}
+
+\item{Publisher}{The name of the entity that holds, archives, publishes prints,
+distributes, releases, issues, or produces the resource. This property will be used to
+formulate the citation, so consider the prominence of the role.
+For software, use Publisher for the code repository. Mandatory in DataCite, and similar to
+dct:publisher}
 
 \item{PublicationYear}{The year when the data was or will be made publicly available in \code{YYYY} format.}
 
@@ -48,13 +57,13 @@ phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1
 \code{\link{dublincore}}.}
 
 \item{Language}{The primary language of the resource. Allowed values are taken from
-IETF BCP 47, ISO 639-1 language code. See \code{\link{add_language}}.}
+IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}.}
 
 \item{RelatedIdentifier}{Recommended for discovery. Similar to \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.}
 
 \item{Format}{Technical format of the resource. Similar to \href{http://purl.org/dc/elements/1.1/format}{dct:format}.}
 
-\item{Version}{Free text. Suggested practice: track major_version.minor_version. See \code{\link{add_version}}.}
+\item{Version}{Free text. Suggested practice: track major_version.minor_version. See \code{\link{version_add}}.}
 
 \item{Rights}{Any rights information for this resource. The property may be repeated to record complex rights characteristics.
 Free text.}
@@ -82,7 +91,7 @@ An R object with at least the mandatory DataCite attributes.
 }
 \description{
 Add metadata conforming the \href{https://schema.datacite.org/}{DataCite Metadata Schema}
-to datasets, i.e. structured R data.frame or list objects, for an accurate and consistent identification
+to datasets, i.e. structured R data.frame or list dfects, for an accurate and consistent identification
 of a resource for citation and retrieval purposes.
 }
 \details{
@@ -101,19 +110,20 @@ The \code{ResourceType} property will be by definition "Dataset".
 The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
 }
 \examples{
-datacite_add(
-   df = iris,
-   title = "Iris Dataset",
-   Creator = person("Anderson", "Edgar", role = "aut"),
+my_iris <- datacite_add(
+   x = iris,
+   Title = "Iris Dataset",
+   Creator = person(family = "Anderson", given = "Edgar", role = "aut"),
    Publisher= "American Iris Society",
    PublicationYear = 1935,
    Geolocation = "US",
    Language = "en")
 
-datacite(df)
+datacite(my_iris)
 }
 \seealso{
 Other metadata functions: 
-\code{\link{dublincore}()}
+\code{\link{dublincore}()},
+\code{\link{size_add}()}
 }
 \concept{metadata functions}

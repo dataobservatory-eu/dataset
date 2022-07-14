@@ -1,13 +1,18 @@
 Package: dataset
 Title: Create interoperable and well-documented data frames
-Version: 0.1.1.004
+Date: 2022-07-14
+Version: 0.1.2
 Authors@R: 
     person(given = "Daniel", family = "Antal", 
            email = "daniel.antal@dataobservatory.eu", 
            role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0001-7513-6760"))
-Description: Create well-documented, well-described, interoperable datasets in R for 
-    publication and use on the (semantic) web.
+           comment = c(ORCID = "0000-0001-7513-6760")
+           )
+Description: Create well-documented, well-described, interoperable datasets in R ready for 
+    publication and use on the (semantic) web. A subjective interpretation of the W3C DataSet
+    standard used in Statistical Data and Metadata eXchange standards, and the application of
+    the connected Dublin Core and DataCite standards to improve the findability, accessibility,
+    interoperability and reusability of the datasets with improved, standardized metadata.
 License: GPL (>= 3)
 URL: https://github.com/dataobservatory-eu/dataset
 BugReports: https://github.com/dataobservatory-eu/dataset/issues

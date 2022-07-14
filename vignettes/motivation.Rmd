@@ -27,12 +27,11 @@ Furthermore, they are fully reproducible, they carry their entire history, which
 
 ```{r setup}
 library(dataset)
-library(data.table)
-iris_dataset <- datacite(
-  df = data.table(iris),
+iris_datacite  <- datacite_add(
+  x = iris,
   Title = "Iris Dataset",
   Creator = person("Anderson", "Edgar", role = "aut"),
-  Publisher=" American Iris Society",
+  Publisher="American Iris Society",
   PublicationYear = 1935,
   Description = "This famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.",
   Language = "en")
@@ -43,25 +42,30 @@ In R, objects can have arbitrary attributes.  For example, a data.frame has a cl
 We add descriptive metadata conforming the Dublin Core and [DataCite standard](https://schema.datacite.org/) as data frame attributes, because they must clearly describe the dataset. The dataset-level attributes do not interfere with the tidy data concept, because the tidy data concept relates to the contents of the data frame.
 
 ```{r printdataset}
-print(iris_dataset)
+datacite(iris_datacite)
 ```
 
 
 ```{r printbibliograpny}
-print(dataset_bibentry(iris_dataset), style="citation")
+print(bibentry_dataset(iris_datacite), style="text")
 ```
+
+```{r BibTex}
+toBibtex(bibentry_dataset(iris_datacite))
+```
+
 ## Reproducible datasets
 
-```{r}
+```{r reproducible, eval=FALSE}
 temp_path <- file.path(tempdir(), "iris.csv")
 write.csv(iris, file = temp_path)
 iris_dataset <- read_dataset(
   dataset_id = "iris_dataset",
   obs_id = NULL,
-  dim_names = NULL,
-  measure_names = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
-  attribute_names = "Species",
-  Title = "Iris Dataset",
+  dimensions = NULL,
+  measures = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
+  attributes = "Species",
+  title = "Iris Dataset",
   unit = list(code = "MM", label = "millimeter"),
   .f = "utils::read.csv", file = temp_path )
 attributes(iris_dataset)
@@ -75,5 +79,6 @@ We aim for interoperability, even if not full compliance, with the W3C Dataset c
 
 Our real goal is to facilitate efficient reproducible research workflows that perform flawlessly tasks that most R users, even scientific researchers, are unfamiliar with---or if they are familiar with them, they find it boring, because they will usually not get credited for it as analyst or researchers.  We want to help processing survey data in a way that it can find its way to a survey archive.  We want to help the statistical processing and analysis of survey, accounts, and other transactional data into formats that easy to publish or add to relational databases or semantic web applications.  
 
-
 The W3C Dataset concept (or more general Datacube) concept is far too general for practical specification for our purposes.  We will use small parts of these international standards, and our selection therefore will be subjective.  
+
+See: [Linked SDMX Data](https://csarven.ca/linked-sdmx-data)

@@ -14,7 +14,7 @@
 #' research ecosystem and to assess the use of their DOIs within that ecosystem.
 #' DataCite is an active participant in the research community and promotes data sharing
 #' and citation through community-building efforts and outreach activities.
-#' @param df An R object of type data.frame, or inherited data.table, tibble; alternatively a well
+#' @param x An R object of type data.frame, or inherited data.table, tibble; alternatively a well
 #' structured R list.
 #' @details The \code{ResourceType} property will be by definition "Dataset".
 #' The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
@@ -38,11 +38,11 @@
 #' discovery in \code{\link{datacite}}.
 #' @param source A related resource from which the described resource is derived. See \href{http://purl.org/dc/elements/1.1/source}{dct:source}.
 #' @param language The primary language of the resource. Allowed values are taken from
-#' IETF BCP 47, ISO 639-1 language code. See \code{\link{add_language}}. Corresponds to Language in Datacite.
+#' IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}. Corresponds to Language in Datacite.
 #' @param format The file format, physical medium, or dimensions of the resource.
 #' \href{	http://purl.org/dc/elements/1.1/format}{dct:format}
 #' Examples of dimensions include size and duration. Recommended best practice is to use a controlled
-#' vocabulary such as the list of Internet Media Types [MIME]. It is simlar to \code{Format} in
+#' vocabulary such as the list of Internet Media Types [MIME]. It is similar to \code{Format} in
 #' \code{\link{datacite}}.
 #' @param rights  Corresponds to \href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
 #' \code{\link{datacite}} Rights. Information about rights held in and over the resource.
@@ -65,21 +65,21 @@
 #' @family metadata functions
 #' @export
 #' @examples
-#' dublincore_add(
-#'      df = iris,
-#'      title = "Iris Dataset",
-#'      creator = person("Anderson", "Edgar", role = "aut"),
-#'      publisher= "American Iris Society",
-#'      source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-#'      date = 1935,
-#'      language = "en"
-#'      )
+#' dct_iris <- dublincore_add(
+#'                    x = iris,
+#'                    title = "Iris Dataset",
+#'                    creator = person("Anderson", "Edgar", role = "aut"),
+#'                    publisher = "American Iris Society",
+#'                    source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+#'                    date = 1935,
+#'                    language = "en"
+#'                    )
 #'
-#' dublincore(df)
+#' dublincore(dct_iris)
 
-dublincore <- function(df) {
+dublincore <- function(x) {
 
-  attributes_dataset <- attributes(df)
+  attributes_dataset <- attributes(x)
   attributes_dataset$row.names <- NULL
   attributes_dataset$class <- NULL
   attributes_dataset$Size <- NULL
@@ -89,31 +89,30 @@ dublincore <- function(df) {
 
 #' @rdname dublincore
 #' @export
-dublincore_add <- function(df, title,creator, publisher,
-                     subject = NULL,
-                     date = NULL,
-                     source = NULL,
-                     language = NULL,
-                     format = NULL,
-                     rights = NULL,
-                     description = NULL,
-                     type = NULL) {
+dublincore_add <- function(x,
+                           title, creator, publisher,
+                           subject = NULL,
+                           date = NULL,
+                           source = NULL,
+                           language = NULL,
+                           format = NULL,
+                           rights = NULL,
+                           description = NULL,
+                           type = NULL) {
 
-  if (PublicationYear == "THIS") as.integer(substr(Sys.Date(),1,4))
 
-  attr(df, "title") <- title
-  attr(df, "creator") <- creator
-  attr(df, "source") <- source
-  attr(df, "publisher") <- publisher
-  attr(df, "issued") <- ifelse(is.null(Date), PublicationYear, Date)
-  attr(df, "type") <- type
-  attr(df, "description") <- description
+  attr(x, "title") <- title
+  attr(x, "creator") <- creator
+  attr(x, "source") <- source
+  attr(x, "publisher") <- publisher
+  attr(x, "issued") <- date
+  attr(x, "type") <- type
+  attr(x, "description") <- description
 
-  if (!is.null(Language)) df <- add_language (df, Language)
-  if (!is.null(Version)) df <- add_version (df, Version)
+  if (!is.null(language)) x <- language_add (x, language)
 
-  df <- add_size(df)
-  df
+  x <- size_add(x)
+  x
 }
 
 

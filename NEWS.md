@@ -1,6 +1,8 @@
-# dataset 0.1.1.
+# dataset 0.1.2.
 
-* The [datacube](https://dataset.dataobservatory.eu/articles/datacube.html) class defined as SDMX/W3C datacube. All datasets must be datacues.
+* The definition of the [dataset](https://dataset.dataobservatory.eu/articles/datacube.html) class, an improved data.frame (tibble, DT) R object with standardized strucutre and metadata.
+* Adding and reading [DublinCore](https://dataset.dataobservatory.eu/articles/dublincore.html) metadata and [DataCite](https://dataset.dataobservatory.eu/articles/datacite.html) mandatory and recommended [FAIR metadata](https://www.go-fair.org/fair-principles/) metadata.
+
 
 # dataset 0.1.0.
 

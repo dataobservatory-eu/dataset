@@ -2,12 +2,33 @@
 % Please edit documentation in R/dataset.R
 \name{dataset}
 \alias{dataset}
+\alias{summary.dataset}
+\alias{print.dataset}
 \alias{is.dataset}
+\alias{bibentry_dataset}
 \title{Structure a data frame to dataset}
 \usage{
-dataset(x, dimensions, measures, attributes, ...)
+dataset(
+  x,
+  dimensions = NULL,
+  measures = NULL,
+  attributes = NULL,
+  sdmx_attributes = NULL,
+  title = NULL,
+  label = NULL,
+  creator = NULL,
+  publisher = NULL,
+  issued = NULL,
+  type = list(type = "Dataset", URI = "http://purl.org/dc/dcmitype/Dataset")
+)
+
+\method{summary}{dataset}(x, ...)
+
+\method{print}{dataset}(x, ...)
 
 is.dataset(x)
+
+bibentry_dataset(x)
 }
 \arguments{
 \item{x}{A data.frame or interited tibble, data.frame, or a structured list.}
@@ -18,12 +39,42 @@ is.dataset(x)
 
 \item{attributes}{The name or column number of the attributes within the dataset.}
 
-\item{...}{sdmx_attributes}
+\item{sdmx_attributes}{The optional dimensions and attributes that conform with
+SDMX. \code{c("time", "geo")} will mark the "time" and "geo" attributes as conforming to
+sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl}{sdmx-attribute}.}
+
+\item{title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
+\code{\link{datacite}} allows the use of alternate titles, too.}
+
+\item{creator}{An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
+Corresponds to \code{Creator} in \code{\link{datacite}}.}
+
+\item{issued}{Corresponds to}
+
+\item{type}{It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.}
 }
 \description{
-A constructor for the dataset class.
+A DataSet is a collection of statistical data that corresponds to a defined structure.
 }
 \details{
 Loosely follows the \href{https://www.w3.org/TR/vocab-data-cube/}{The RDF Data Cube Vocabulary},
-but with far stricter definition.
+but without the definition of data slices.\cr
+\code{bibentry_dataset()} is  a wrapper around \code{\link[utils:bibentry]{bibentry}} to correctly turn the
+metadata of the dataset into a bibentry object.
 }
+\examples{
+my_dataset <- dataset (x,
+dimensions = c(1,2),
+measures = 3,
+attributes = c(4,5),
+sdmx_attributes = c("time", "freq"),
+title = "Example dataset",
+creator = person("Jane", "Doe"),
+publisher = "Publishing Co.",
+issued = as.Date("2022-07-14")
+)
+
+utils::toBibtex(bibentry_dataset(my_dataset))
+
+}
+\concept{citation functions}

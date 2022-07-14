@@ -28,3 +28,9 @@ add_date <- function( Date = NULL, time, dateType, dateInformation) {
     rbind(Date, date_item)
   }
 }
+
+
+
+
+
+

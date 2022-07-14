@@ -18,27 +18,27 @@ knitr::opts_chunk$set(
 library(dataset)
 ```
 
+## FAIR metadata
+
+Our `dataset` R package aims to help the Findability, Accessibility, Interoperability, and Reuse of digital assets, particularly datacubes and datasets used in statistics and data analysis. The [FAIR](https://www.go-fair.org/fair-principles/) "…emphasise machine-actionability (i.e., the capacity of computational systems to find, access, interoperate, and reuse data with none or minimal human intervention) because humans increasingly rely on computational support to deal with data as a result of the increase in volume, complexity, and creation speed of data."
+
+The `dataset` package adds metadata to R objects for full compatibility with the [Dublin Core Metadata Elements 1.1](https://www.dublincore.org/specifications/dublin-core/dces/), the [DataCite Mandatory Properties 4.4](https://support.datacite.org/docs/datacite-metadata-schema-44) and the [DataCite Recommended and Optional Properties 4.3](https://support.datacite.org/docs/schema-optional-properties-v43).
+
+The `Dublin Core` is an ISO Standard 15836:2009 since February 2009 [ISO15836]. Currently the 15 "core" elements are part of a bigger [DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/).
+
+
 
 ```{r createdataset}
-temp_path <- file.path(tempdir(), "iris.csv")
-write.csv(iris, file = temp_path, row.names = F)
-iris_ds <- read_dataset(
-  dataset_id = "iris_dataset",
-  obs_id = NULL,
-  dim_names = NULL,
-  measure_names = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
-  attribute_names = "Species",
-  Title = "Iris Dataset",
-  unit = list(code = "MM", label = "millimeter"),
-  .f = "utils::read.csv", file = temp_path )
+iris_ds <- datacite_add(iris,
+                        Title = "Iris Dataset",
+                        Creator = person(family ="Anderson", given ="Edgar", role = "aut"),
+                        Publisher=" American Iris Society",
+                        PublicationYear = 1935,
+                        Geolocation = "US",
+                        Language = "en", 
+                        Version = "1.0")
 
-iris_ds <- datacite(iris_ds,
-                    Title = "Iris Dataset",
-                    Creator = person("Anderson", "Edgar", role = "aut"),
-                    Publisher=" American Iris Society",
-                    PublicationYear = 1935,
-                    Geolocation = "US",
-                    Language = "en")
+datacite(iris_ds)
 ```
 
 Currently, the DataCite properties (all mandatory, and what was filled up from the optional ones) can be seen along with standard R metadata. As a property of the `dataset` class, which follows W3C and SDMX standards, and `survey`, which will follow DDI standards, the history of the `dataset` from creation (import) will be recorded as attribute metadata.
@@ -47,8 +47,18 @@ The `dataset` and `survey` are strictly tidy datasets and they can be used to cr
 
 The `dataset` and `survey` classes are optimized to be published and placed into (semantic) web applications.
 
-```{r}
-attributes(iris_ds)
+```{r showattributes}
+dct_iris <- dublincore_add(
+  x = iris,
+  title = "Iris Dataset",
+  creator = person("Edgar", "Anderson", role = "aut"),
+  publisher= "American Iris Society",
+  source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+  date = 1935,
+  language = "en"
+)
+
+dublincore(dct_iris)
 ```
 
 

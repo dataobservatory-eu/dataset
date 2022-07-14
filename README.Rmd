@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6703765.svg)](https://doi.org/10.5281/zenodo.6703765)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6833823.svg)](https://10.5281/zenodo.6833823)
 [![devel-version](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/antaldaniel/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov) 
@@ -41,8 +41,8 @@ The function datacite [DataCite](https://datacite.org/) add at least the mandato
 
 ```{r datacite}
 library(dataset)
-iris_dataset <- datacite(
-  df = iris,
+iris_dataset <- datacite_add(
+  x = iris,
   Title = "Iris Dataset",
   Creator = person("Anderson", "Edgar", role = "aut"),
   Publisher=" American Iris Society",
@@ -50,11 +50,14 @@ iris_dataset <- datacite(
   Description = "This famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.",
   Language = "en")
 ```
+```{r}
+datacite(iris_dataset)
+```
 
 The `df` parameter can be any well-structured R object that meets the definition of a dataset: a data.frame, or an inherited class of it (data.table, [tibble](https://tibble.tidyverse.org/)); or a well-structured list (for example, a [json](https://arxiv.org/abs/1403.2805) object.)
 
 ```{r bibentry}
-iris_bibentry <- dataset_bibentry(iris_dataset)
+iris_bibentry <- bibentry_dataset(iris_dataset)
 toBibtex(iris_bibentry)
 ```
 ```{r bibliography, results='asis'}
@@ -64,7 +67,7 @@ print(iris_bibentry, sytle="html")
 
 ## faIR: Interoperable & Reusable Datasets
 
-The interoperability and reusability of datasets is greatly enhanced if they follow a standardized and practical format.  Our datasets follow the tidy data principles^[Wickham, H.(2014). Tidy Data. Journal of Statistical Software, 59(10), 1–23. <https://doi.org/10.18637/jss.v059.i10>] and are interoperable with the W3C ^[DF Data Cube Vocabulary]^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/#metadata>] (semantic web) and SDMX (statistical) dataset definitions.
+The interoperability and reusability of datasets is greatly enhanced if they follow a standardized and practical format.  Our datasets follow the tidy data principles^[Wickham, H.(2014). Tidy Data. Journal of Statistical Software, 59(10), 1–23. <https://doi.org/10.18637/jss.v059.i10>] and are interoperable with the W3C^[DF Data Cube Vocabulary]^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/#metadata>] (semantic web) and SDMX (statistical) dataset definitions.
 
 Both W3C and SDMX uses are more complex object, the Datacube in its description. The dataset is a redused datacube. To adhere to tidy data principles and easy use in reproducible resaerch workflows, we further reduced our subjective definition of the dataset. 
 
@@ -75,77 +78,22 @@ Both W3C and SDMX uses are more complex object, the Datacube in its description.
 - We can pass on further optional dataset attributes. These attributes do not correspond with a single observation, rather the entire dataset.
 
 ```{r}
-petal_length <- as.datacube(subset(iris, select = c("Petal.Length", "Species")), 
-        obs_id = NULL, 
-        dim_names=NULL, 
-        measure_names = "Petal.Length", 
-        attribute_names = "Species")
+petal_length <- dataset(subset(iris, select = c("Petal.Length", "Species")), 
+        dimensions=NULL, 
+        measures = "Petal.Length", 
+        attributes = "Species")
 
-petal_width <- as.datacube(subset(iris, select = c("Petal.Width", "Species")), 
-        obs_id = NULL, 
-        dim_names=NULL, 
-        measure_names = "Petal.Width", 
-        attribute_names = "Species")
+petal_width <- dataset(subset(iris, select = c("Petal.Width", "Species")), 
+        dimensions=NULL, 
+        measures = "Petal.Width", 
+        attribute = "Species")
 
 require(dplyr)
-petal_length %>% left_join (petal_width, by = c("obs_id", "Species"))
+petal_length %>%
+  left_join (petal_width, by = c("Species")) %>%
+  sample_n(10)
 ```
 The obvious motivation of this format is that the datasets can be easily integrated, joined, combined, because they are tidy.
-
-In a the long form, they easily lend themselves for RDF format:
-
-```{r}
-names(petal_width)[2] <- "measurement"
-petal_width$petal_dimension <- "Petal width"
-names(petal_length)[2] <- "measurement"
-petal_length$petal_dimension <- "Petal length"
-
-head(use_function(petal_width,  .f = "rbind", y = petal_length))
-
-```
-
-
-- `obs_id`: The unique identifier of the observations. If they are not present, the row.names() will be used---R row names may be lost when exporting to non-R files and it is better to make them explicit. In a tidy dataset there are exactly one observation identifier, because each row represents an observation.
-- `dimensions`: Variables that can be used for aggregation, for examaple, around a geographical concept like countries. The most important dimensions are a geographical concept (where was the measurement made) and a time concept (when was the measurement made, or what is the reference time period.)
-- `measurements`: Actual measurements of the observations.
-- `attributes`: Non-measured attributes, categories or constants.
-- `unit`: The unit of the measurement(s). In the tidy data defintion, each table has only one unit, measurements in different units go into different tables.
-- `dataset_id`:  The identifier of the dataset. When joining datasets, it may be desirable to keep the unit observation ids. The `dataset_id` and the `obs_id` will be used to create unique resource identifiers (URIs). 
-
-
-## Reproducible Datasets
-
-```{r dataset}
-population_dataset <- read_dataset(
-  "demo_pjan", 
-  Title = "Population of Select Countries",
-  dim_names = c("age", "sex", "geo", "time"), 
-  measure_names = "values", 
-  attribute_names = NULL,
-  unit = "NR",
-  .f = "eurostat::get_eurostat",
-  id = "demo_pjan",
-  
-  filters = list(
-    unit = "NR",
-    age=  c("TOTAL", "Y_LT1"), 
-    geo = c("UK", "XK", "AT"), 
-    time = c(2010:2020)
-  )
-)
-
-summary_population <- use_function(dataset = population_dataset, .f = "summary")
-```
-
-If your application needs URIs, the first 5 elements of the iris dataset can be referenced as `dataset_id#obs_id` will be used to create unique resource identifiers (URIs). For the first five observations of the `population_dataset` dataset: `r paste("population_dataset", 1:5, sep="#", collapse ="','")`
-
-```{r}
-knitr::kable(attr(summary_population, "Date"))
-```
-
-```{r}
-attr(population_dataset, "RelatedIdentifier")
-```
 
 
 ## Code of Conduct

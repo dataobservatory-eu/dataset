@@ -2,3 +2,42 @@ url: ~
 template:
   bootstrap: 5
 
+home:
+  links:
+  - text: http://dataset.dataobservatory.eu
+    href: http://dataset.dataobservatory.eu
+
+
+authors:
+  Daniel Antal:
+    href: https://reprex.nl/authors/daniel_antal/
+  Reprex:
+    href: https://reprex.nl/
+    html: <img src="https://reprex.nl/authors/admin/avatar_hud66277e7f64fbf44513e7a4881e2a94f_35557_270x270_fill_lanczos_center_2.png"
+      height="24" />
+
+
+reference:
+  - title: "Dataset"
+    desc: >
+      Work with DataSet objects that resemble the [W3C](https://www.w3.org/TR/vocab-data-cube/) and SDMX datacube model.
+    contents:
+      - dataset
+      - dimensions
+      - dimensions_add
+      - measures
+      - measures_add
+      - attributes_add
+  - title: "FAIR metadata"
+    desc: >
+      Add and read [FAIR metadata](https://www.go-fair.org/fair-principles/)
+      to improve the Findability, Accessibility, Interoperability, and Reuse of digital datasets.
+    contents:
+      - dublincore
+      - dublincore_add
+      - datacite
+      - datacite_add
+      - size_add
+      - language_add
+      - language_get
+      - version_add

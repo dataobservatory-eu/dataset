@@ -62,21 +62,18 @@ raw_survey <- data.frame (
   difficulty_bills = difficulty_bills
 )
 
-tiny_datacube <- as.datacube( x= raw_survey,
-                              obs_id = "obs_id",
-                              dim_names = "geo", 
-                              measure_names = c("listen_spotify", "sex",
-                                                "age_exact", "difficulty_bills"), 
-                              attribute_names = NULL
-                              )
-
-tiny_survey <- dataset (tiny_datacube, 
-                        dataset_id = "tiny_survey",
-                        Title = "Tiny Survey")
+survey_dataset  <- dataset( x= raw_survey,
+                            dimensions = "geo", 
+                            measures = c("listen_spotify", "sex",
+                                         "age_exact", "difficulty_bills"), 
+                            attributes = NULL, 
+                            sdmx_attributes = "geo", 
+                            title = "Tiny Survey", 
+                            creator = person("Jane", "Doe"))
 ```
 
 ```{r}
-attributes(tiny_survey)
+datacite(survey_dataset)
 ```
 What I find illogical and difficult for use in harmonization tasks is that a valid, but not present label cannot be record in `declared`.
 
@@ -89,29 +86,26 @@ listen_spotify <- declared (
 ```
 
 ```{r}
-tiny_survey_datacite <- datacite(tiny_survey, 
-                                 Title = "Tiny Survey", 
-                                 Creator = person("Daniel", "Antal"), 
-                                 Publisher = "Reprex", 
-                                 PublicationYear = 2022, 
-                                 Subject = "Surveys", 
-                                 Language = "en")
+survey_dataset <- datacite_add(survey_dataset, 
+                               Title = "Tiny Survey", 
+                               Creator = person("Daniel", "Antal"), 
+                               Publisher = "Reprex", 
+                               PublicationYear = 2022, 
+                               Subject = "Surveys", 
+                               Language = "en")
 ```
 
 The `survey` class inherits elements of the `dataset` class, but it will be more strictly defined.  I am considering to make  `declared` every single column except for the `obs_id`. Even `numeric` types with `Inap` and `DK` would map nicely to `CL_OBS_STATUS` SDMX codes that make missing observation explicit, and try to categorize them.
 
 ```{r}
-tiny_summary <- use_function(tiny_survey_datacite, .f="summary")
+datacite(survey_dataset)
 ```
 
 Is the `summary` method implemented for `declared`? Both `dataset` and `survey` will need new `print` and `summary` methods.
 
 ```{r}
-tiny_summary
+summary(survey_dataset)
 ```
-The `survey` (should) contain the entire processing history from creation, and optionally the `DataCite` schemaf for publication created with `datacite()`.  A similar `dublincore` function will be defined for dataset description.
+The `survey` (should) contain the entire processing history from creation, and optionally the `DataCite` schema for publication created with `datacite_add()`.  A similar `dublincore_add` function uses the Dublin Core metadata definitions.
 
-```{r}
-attributes(tiny_survey_datacite)
-```
 Eventually, a connection to the packages [zen4R](https://github.com/eblondel/zen4R) will make sure that the correctly described dataset can get a Zenodo record, recieve a DOI, the DOI recorded in the object, and upload to Zenodo.

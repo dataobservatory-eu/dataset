@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6703765.svg)](https://doi.org/10.5281/zenodo.6703765)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6833823.svg)](https://10.5281/zenodo.6833823)
 [![devel-version](https://img.shields.io/badge/devel%20version-0.1.1-blue.svg)](https://github.com/antaldaniel/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow
@@ -49,14 +49,47 @@ that adjustments, if needed, can be easily made by hand.
 
 ``` r
 library(dataset)
-iris_dataset <- datacite(
-  df = iris,
+iris_dataset <- datacite_add(
+  x = iris,
   Title = "Iris Dataset",
   Creator = person("Anderson", "Edgar", role = "aut"),
   Publisher=" American Iris Society",
   PublicationYear = 1935,
   Description = "This famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.",
   Language = "en")
+```
+
+``` r
+datacite(iris_dataset)
+#> $names
+#> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"     
+#> 
+#> $title
+#> [1] "Iris Dataset"
+#> 
+#> $creator
+#> [1] "Anderson Edgar [aut]"
+#> 
+#> $publisher
+#> [1] " American Iris Society"
+#> 
+#> $issued
+#> [1] 1935
+#> 
+#> $PublicationYear
+#> [1] 1935
+#> 
+#> $ResourceType
+#> [1] "Dataset"
+#> 
+#> $description
+#> [1] "This famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica."
+#> 
+#> $language
+#> [1] "eng"
+#> 
+#> $Size
+#> [1] "10.34 kB [10.09 KiB]"
 ```
 
 The `df` parameter can be any well-structured R object that meets the
@@ -66,13 +99,14 @@ well-structured list (for example, a
 [json](https://arxiv.org/abs/1403.2805) object.)
 
 ``` r
-iris_bibentry <- dataset_bibentry(iris_dataset)
+iris_bibentry <- bibentry_dataset(iris_dataset)
 toBibtex(iris_bibentry)
 #> @Misc{,
 #>   title = {Iris Dataset},
-#>   year = {1935},
 #>   author = {Anderson Edgar},
-#>   size = {9448},
+#>   publisher = { American Iris Society},
+#>   size = {10.34 kB [10.09 KiB]},
+#>   year = {1935},
 #> }
 ```
 
@@ -86,7 +120,7 @@ Edgar A (1935). “Iris Dataset.”
 
 The interoperability and reusability of datasets is greatly enhanced if
 they follow a standardized and practical format. Our datasets follow the
-tidy data principles[^1] and are interoperable with the W3C <sup>\[DF
+tidy data principles[^1] and are interoperable with the W3C<sup>\[DF
 Data Cube Vocabulary\]</sup>\[RDF Data Cube Vocabulary, W3C
 Recommendation 16 January 2014
 <https://www.w3.org/TR/vocab-data-cube/#metadata>\] (semantic web) and
@@ -113,17 +147,15 @@ reduced our subjective definition of the dataset.
     dataset.
 
 ``` r
-petal_length <- as.datacube(subset(iris, select = c("Petal.Length", "Species")), 
-        obs_id = NULL, 
-        dim_names=NULL, 
-        measure_names = "Petal.Length", 
-        attribute_names = "Species")
+petal_length <- dataset(subset(iris, select = c("Petal.Length", "Species")), 
+        dimensions=NULL, 
+        measures = "Petal.Length", 
+        attributes = "Species")
 
-petal_width <- as.datacube(subset(iris, select = c("Petal.Width", "Species")), 
-        obs_id = NULL, 
-        dim_names=NULL, 
-        measure_names = "Petal.Width", 
-        attribute_names = "Species")
+petal_width <- dataset(subset(iris, select = c("Petal.Width", "Species")), 
+        dimensions=NULL, 
+        measures = "Petal.Width", 
+        attribute = "Species")
 
 require(dplyr)
 #> Loading required package: dplyr
@@ -135,246 +167,24 @@ require(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
-petal_length %>% left_join (petal_width, by = c("obs_id", "Species"))
-#>     obs_id Petal.Length    Species Petal.Width
-#> 1        1          1.4     setosa         0.2
-#> 2        2          1.4     setosa         0.2
-#> 3        3          1.3     setosa         0.2
-#> 4        4          1.5     setosa         0.2
-#> 5        5          1.4     setosa         0.2
-#> 6        6          1.7     setosa         0.4
-#> 7        7          1.4     setosa         0.3
-#> 8        8          1.5     setosa         0.2
-#> 9        9          1.4     setosa         0.2
-#> 10      10          1.5     setosa         0.1
-#> 11      11          1.5     setosa         0.2
-#> 12      12          1.6     setosa         0.2
-#> 13      13          1.4     setosa         0.1
-#> 14      14          1.1     setosa         0.1
-#> 15      15          1.2     setosa         0.2
-#> 16      16          1.5     setosa         0.4
-#> 17      17          1.3     setosa         0.4
-#> 18      18          1.4     setosa         0.3
-#> 19      19          1.7     setosa         0.3
-#> 20      20          1.5     setosa         0.3
-#> 21      21          1.7     setosa         0.2
-#> 22      22          1.5     setosa         0.4
-#> 23      23          1.0     setosa         0.2
-#> 24      24          1.7     setosa         0.5
-#> 25      25          1.9     setosa         0.2
-#> 26      26          1.6     setosa         0.2
-#> 27      27          1.6     setosa         0.4
-#> 28      28          1.5     setosa         0.2
-#> 29      29          1.4     setosa         0.2
-#> 30      30          1.6     setosa         0.2
-#> 31      31          1.6     setosa         0.2
-#> 32      32          1.5     setosa         0.4
-#> 33      33          1.5     setosa         0.1
-#> 34      34          1.4     setosa         0.2
-#> 35      35          1.5     setosa         0.2
-#> 36      36          1.2     setosa         0.2
-#> 37      37          1.3     setosa         0.2
-#> 38      38          1.4     setosa         0.1
-#> 39      39          1.3     setosa         0.2
-#> 40      40          1.5     setosa         0.2
-#> 41      41          1.3     setosa         0.3
-#> 42      42          1.3     setosa         0.3
-#> 43      43          1.3     setosa         0.2
-#> 44      44          1.6     setosa         0.6
-#> 45      45          1.9     setosa         0.4
-#> 46      46          1.4     setosa         0.3
-#> 47      47          1.6     setosa         0.2
-#> 48      48          1.4     setosa         0.2
-#> 49      49          1.5     setosa         0.2
-#> 50      50          1.4     setosa         0.2
-#> 51      51          4.7 versicolor         1.4
-#> 52      52          4.5 versicolor         1.5
-#> 53      53          4.9 versicolor         1.5
-#> 54      54          4.0 versicolor         1.3
-#> 55      55          4.6 versicolor         1.5
-#> 56      56          4.5 versicolor         1.3
-#> 57      57          4.7 versicolor         1.6
-#> 58      58          3.3 versicolor         1.0
-#> 59      59          4.6 versicolor         1.3
-#> 60      60          3.9 versicolor         1.4
-#> 61      61          3.5 versicolor         1.0
-#> 62      62          4.2 versicolor         1.5
-#> 63      63          4.0 versicolor         1.0
-#> 64      64          4.7 versicolor         1.4
-#> 65      65          3.6 versicolor         1.3
-#> 66      66          4.4 versicolor         1.4
-#> 67      67          4.5 versicolor         1.5
-#> 68      68          4.1 versicolor         1.0
-#> 69      69          4.5 versicolor         1.5
-#> 70      70          3.9 versicolor         1.1
-#> 71      71          4.8 versicolor         1.8
-#> 72      72          4.0 versicolor         1.3
-#> 73      73          4.9 versicolor         1.5
-#> 74      74          4.7 versicolor         1.2
-#> 75      75          4.3 versicolor         1.3
-#> 76      76          4.4 versicolor         1.4
-#> 77      77          4.8 versicolor         1.4
-#> 78      78          5.0 versicolor         1.7
-#> 79      79          4.5 versicolor         1.5
-#> 80      80          3.5 versicolor         1.0
-#> 81      81          3.8 versicolor         1.1
-#> 82      82          3.7 versicolor         1.0
-#> 83      83          3.9 versicolor         1.2
-#> 84      84          5.1 versicolor         1.6
-#> 85      85          4.5 versicolor         1.5
-#> 86      86          4.5 versicolor         1.6
-#> 87      87          4.7 versicolor         1.5
-#> 88      88          4.4 versicolor         1.3
-#> 89      89          4.1 versicolor         1.3
-#> 90      90          4.0 versicolor         1.3
-#> 91      91          4.4 versicolor         1.2
-#> 92      92          4.6 versicolor         1.4
-#> 93      93          4.0 versicolor         1.2
-#> 94      94          3.3 versicolor         1.0
-#> 95      95          4.2 versicolor         1.3
-#> 96      96          4.2 versicolor         1.2
-#> 97      97          4.2 versicolor         1.3
-#> 98      98          4.3 versicolor         1.3
-#> 99      99          3.0 versicolor         1.1
-#> 100    100          4.1 versicolor         1.3
-#> 101    101          6.0  virginica         2.5
-#> 102    102          5.1  virginica         1.9
-#> 103    103          5.9  virginica         2.1
-#> 104    104          5.6  virginica         1.8
-#> 105    105          5.8  virginica         2.2
-#> 106    106          6.6  virginica         2.1
-#> 107    107          4.5  virginica         1.7
-#> 108    108          6.3  virginica         1.8
-#> 109    109          5.8  virginica         1.8
-#> 110    110          6.1  virginica         2.5
-#> 111    111          5.1  virginica         2.0
-#> 112    112          5.3  virginica         1.9
-#> 113    113          5.5  virginica         2.1
-#> 114    114          5.0  virginica         2.0
-#> 115    115          5.1  virginica         2.4
-#> 116    116          5.3  virginica         2.3
-#> 117    117          5.5  virginica         1.8
-#> 118    118          6.7  virginica         2.2
-#> 119    119          6.9  virginica         2.3
-#> 120    120          5.0  virginica         1.5
-#> 121    121          5.7  virginica         2.3
-#> 122    122          4.9  virginica         2.0
-#> 123    123          6.7  virginica         2.0
-#> 124    124          4.9  virginica         1.8
-#> 125    125          5.7  virginica         2.1
-#> 126    126          6.0  virginica         1.8
-#> 127    127          4.8  virginica         1.8
-#> 128    128          4.9  virginica         1.8
-#> 129    129          5.6  virginica         2.1
-#> 130    130          5.8  virginica         1.6
-#> 131    131          6.1  virginica         1.9
-#> 132    132          6.4  virginica         2.0
-#> 133    133          5.6  virginica         2.2
-#> 134    134          5.1  virginica         1.5
-#> 135    135          5.6  virginica         1.4
-#> 136    136          6.1  virginica         2.3
-#> 137    137          5.6  virginica         2.4
-#> 138    138          5.5  virginica         1.8
-#> 139    139          4.8  virginica         1.8
-#> 140    140          5.4  virginica         2.1
-#> 141    141          5.6  virginica         2.4
-#> 142    142          5.1  virginica         2.3
-#> 143    143          5.1  virginica         1.9
-#> 144    144          5.9  virginica         2.3
-#> 145    145          5.7  virginica         2.5
-#> 146    146          5.2  virginica         2.3
-#> 147    147          5.0  virginica         1.9
-#> 148    148          5.2  virginica         2.0
-#> 149    149          5.4  virginica         2.3
-#> 150    150          5.1  virginica         1.8
+petal_length %>%
+  left_join (petal_width, by = c("Species")) %>%
+  sample_n(10)
+#>    Petal.Length    Species Petal.Width
+#> 1           5.1  virginica         1.7
+#> 2           4.9 versicolor         1.5
+#> 3           1.0     setosa         0.2
+#> 4           6.1  virginica         1.8
+#> 5           4.0 versicolor         1.2
+#> 6           5.6  virginica         2.1
+#> 7           4.6 versicolor         1.5
+#> 8           1.5     setosa         0.2
+#> 9           1.3     setosa         0.2
+#> 10          6.1  virginica         2.4
 ```
 
 The obvious motivation of this format is that the datasets can be easily
 integrated, joined, combined, because they are tidy.
-
-In a the long form, they easily lend themselves for RDF format:
-
-``` r
-names(petal_width)[2] <- "measurement"
-petal_width$petal_dimension <- "Petal width"
-names(petal_length)[2] <- "measurement"
-petal_length$petal_dimension <- "Petal length"
-
-head(use_function(petal_width,  .f = "rbind", y = petal_length))
-#>   obs_id measurement Species petal_dimension
-#> 1      1         0.2  setosa     Petal width
-#> 2      2         0.2  setosa     Petal width
-#> 3      3         0.2  setosa     Petal width
-#> 4      4         0.2  setosa     Petal width
-#> 5      5         0.2  setosa     Petal width
-#> 6      6         0.4  setosa     Petal width
-```
-
--   `obs_id`: The unique identifier of the observations. If they are not
-    present, the row.names() will be used—R row names may be lost when
-    exporting to non-R files and it is better to make them explicit. In
-    a tidy dataset there are exactly one observation identifier, because
-    each row represents an observation.
--   `dimensions`: Variables that can be used for aggregation, for
-    examaple, around a geographical concept like countries. The most
-    important dimensions are a geographical concept (where was the
-    measurement made) and a time concept (when was the measurement made,
-    or what is the reference time period.)
--   `measurements`: Actual measurements of the observations.
--   `attributes`: Non-measured attributes, categories or constants.
--   `unit`: The unit of the measurement(s). In the tidy data defintion,
-    each table has only one unit, measurements in different units go
-    into different tables.
--   `dataset_id`: The identifier of the dataset. When joining datasets,
-    it may be desirable to keep the unit observation ids. The
-    `dataset_id` and the `obs_id` will be used to create unique resource
-    identifiers (URIs).
-
-## Reproducible Datasets
-
-``` r
-population_dataset <- read_dataset(
-  "demo_pjan", 
-  Title = "Population of Select Countries",
-  dim_names = c("age", "sex", "geo", "time"), 
-  measure_names = "values", 
-  attribute_names = NULL,
-  unit = "NR",
-  .f = "eurostat::get_eurostat",
-  id = "demo_pjan",
-  
-  filters = list(
-    unit = "NR",
-    age=  c("TOTAL", "Y_LT1"), 
-    geo = c("UK", "XK", "AT"), 
-    time = c(2010:2020)
-  )
-)
-#> Warning in is.null(filters) || filters != "none": 'length(x) = 4 > 1' in
-#> coercion to 'logical(1)'
-
-summary_population <- use_function(dataset = population_dataset, .f = "summary")
-```
-
-If your application needs URIs, the first 5 elements of the iris dataset
-can be referenced as `dataset_id#obs_id` will be used to create unique
-resource identifiers (URIs). For the first five observations of the
-`population_dataset` dataset:
-population_dataset#1’,‘population_dataset#2’,‘population_dataset#3’,‘population_dataset#4’,’population_dataset#5
-
-``` r
-knitr::kable(attr(summary_population, "Date"))
-```
-
-| Date                | dateType | dateInformation |
-|:--------------------|:---------|:----------------|
-| 2022-07-02 01:28:12 | Updated  | call:summary    |
-
-``` r
-attr(population_dataset, "RelatedIdentifier")
-#>                      RelatedIdentifier relatedIdentifierType relationType
-#> 1 https://doi.org/10.32614/RJ-2017-019                   URI IsCompiledBy
-```
 
 ## Code of Conduct
 
