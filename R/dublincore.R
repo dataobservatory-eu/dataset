@@ -90,7 +90,8 @@ dublincore <- function(x) {
 #' @rdname dublincore
 #' @export
 dublincore_add <- function(x,
-                           title, creator, publisher,
+                           title = NULL, creator=NULL,
+                           publisher=NULL,
                            subject = NULL,
                            date = NULL,
                            source = NULL,
@@ -98,13 +99,37 @@ dublincore_add <- function(x,
                            format = NULL,
                            rights = NULL,
                            description = NULL,
-                           type = NULL) {
+                           type = NULL,
+                           overwrite = TRUE) {
 
 
-  attr(x, "title") <- title
+  if (is.null(attr(x, "title"))) {
+    attr(x, "title") <- title
+  } else if ( overwrite ) {
+    attr(x, "title") <- title
+  } else {
+    message ("The dataset has already a title: ",  attr(x, "title") )
+  }
+
+  if (is.null(attr(x, "creator"))) {
+    attr(x, "creator") <- creator
+  } else if ( overwrite ) {
+    attr(x, "creator") <- creator
+  } else {
+    message ("The dataset has already a creator: ",  attr(x, "creator") )
+  }
+
   attr(x, "creator") <- creator
   attr(x, "source") <- source
-  attr(x, "publisher") <- publisher
+
+  if (is.null(attr(x, "publisher"))) {
+    attr(x, "publisher") <- publisher
+  } else if ( overwrite ) {
+    attr(x, "publisher") <- publisher
+  } else {
+    message ("The dataset has already a publisher: ",  attr(x, "publisher") )
+  }
+
   attr(x, "issued") <- date
   attr(x, "type") <- type
   attr(x, "description") <- description

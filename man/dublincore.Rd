@@ -13,9 +13,9 @@ dublincore(x)
 
 dublincore_add(
   x,
-  title,
-  creator,
-  publisher,
+  title = NULL,
+  creator = NULL,
+  publisher = NULL,
   subject = NULL,
   date = NULL,
   source = NULL,
@@ -23,7 +23,8 @@ dublincore_add(
   format = NULL,
   rights = NULL,
   description = NULL,
-  type = NULL
+  type = NULL,
+  overwrite = TRUE
 )
 }
 \arguments{

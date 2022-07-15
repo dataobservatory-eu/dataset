@@ -1,0 +1,22 @@
+---
+title: "From dataset To RDF"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{From dataset To RDF}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dataset)
+```
+
+Our datasets are defined in a way that their dimensions can be easily and unambigously reduced to triples for RDF applications; they can be easily serialized to, or synchronized with semantic web applications with the [rdflib](https://cran.r-project.org/web/packages/rdflib/vignettes/rdf_intro.html) package^[Carl Boettiger: [A tidyverse lover’s intro to RDF](https://cran.r-project.org/web/packages/rdflib/vignettes/rdf_intro.html)].
+

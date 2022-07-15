@@ -16,16 +16,27 @@ knitr::opts_chunk$set(
 
 Lovers of the tidy data concept and [tidyverse](https://www.tidyverse.org/) know that the world is full of untidy data tables that give on average 5-times more work to tidy up then to actually do analytical work with them. But that’s not the only problem with datasets.  Datasets without codebooks cannot be intelligently matched with other information sources.  Data without reference to an authoritative copy cannot be validated against accidental damage during processing.  A dataset without bibliographic references is not ready for publication. 
 
-The `dataset` and `survey` are strictly tidy datasets and they can be used to create `SDMX` compatible statistical dataset (with standard coding), and they can be placed in SQL-based APIs or they can be serialized as `RDF` for SPARQL applications. 
+The motivation of the ecosystem of the [dataset](https://dataset.dataobservatory.eu/), [statcodelists](https://statcodelists.dataobservatory.eu/), and the dataobservatory packages is to provide a comprehensive toolkit that helps many reproducible research tasks.
 
-The `dataset` and `survey` classes are optimized to be published and placed into (semantic) web applications.
+The [dataset](https://dataset.dataobservatory.eu/) package aims to produce well-formatted and well-documented data.frames, tibbles or data.tables that can be easily synchronized with web resources (such as statistical web APIs), and which are ready to published on open science repositories with metadata that makes them findable, accessible and interoperable in library catalogues and in statistical applications.
 
-Furthermore, they are fully reproducible, they carry their entire history, which makes their metadata converstible to DDI-Lifecycle.
+The primary aim of dataset is to build well-documented data.frames, tibbles or data.tables that follow the W3C [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) based on the statistical SDMX data cube model^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>]. Such standard R objects (data.fame, data.table, tibble, or well-structured lists like json) become highly interoperable and can be placed into relational databases, semantic web applications, archives, repositories.  They follow the [FAIR](https://www.go-fair.org/fair-principles/) principles: they are findable, accessible, interoperable and reusable. 
+
+Our [datasets](https://dataset.dataobservatory.eu/reference/dataset.html):
+- [x] contain Dublin Core or DataCite (or both) metadata that makes the findable and easier accessible via online libraries
+- [x] are easily reduced to linked open data formats to be serialized to, or synchronized with semantic web applications
+- [x] follow the datacube model of the Statistical Data and Metadata eXchange, therefore allowing easy refreshing with new data from the source of the analytical work
+- [x] contain processing metadata that greatly enhance the reproducibility of the results, and the reviewability of the contents of the dataset, including metadata defined by the [DDI]
+- [x] relatively lightweight in dependencies and easily works with data.frame, tibble or data.table R objects.
+
+We also aim to replace the `survey` in the [retroharmonize](https://retroharmonize.dataobservatory.eu/) survey harmonization package to an inherited dataset that is optimalized to contain social sciences survey data.
+
+The connecting [statcodelists](https://statcodelists.dataobservatory.eu/) packages facilitates further reproducability with standardized, natural language independent codelists for categorical variables. Such categorical variables are correctly interpreted in a wide array of statistical applications and can be easily joined with data from many countries irrespective of the primary sources' language.
 
 ## FAIR: findable datasets
 
 
-```{r setup}
+```{r datacite}
 library(dataset)
 iris_datacite  <- datacite_add(
   x = iris,
@@ -46,13 +57,6 @@ datacite(iris_datacite)
 ```
 
 
-```{r printbibliograpny}
-print(bibentry_dataset(iris_datacite), style="text")
-```
-
-```{r BibTex}
-toBibtex(bibentry_dataset(iris_datacite))
-```
 
 ## Reproducible datasets
 

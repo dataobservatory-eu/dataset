@@ -17,6 +17,28 @@ authors:
       height="24" />
 
 
+articles:
+  - title: "Planned functionality"
+    desc: >
+     This package is in an early development phase. The current dataset S3 class is inherited
+         from the base R data.frame. Later versions may change to the modern
+         [tibble](https://tibble.tidyverse.org/), which carries a larger dependency footprint
+         but easier to work with. Easy interoperability with the
+         [DT](https://rstudio.github.io/DT/) package--which provides an Rinterface to the [DataTables](https://datatables.net/)
+         JavaScript library---remains a top development priority.
+    contents:
+      - motivation
+      - survey
+      - RDF
+      - reproducible
+  - title: "Datasets with FAIR metadata"
+    desc: >
+     Our `dataset` R package aims to help the Findability, Accessibility, Interoperability,
+         and Reuse of digital assets, particularly datacubes and datasets used in statistics and data
+         analysis.
+    contents:
+      - metadata
+
 reference:
   - title: "Dataset"
     desc: >

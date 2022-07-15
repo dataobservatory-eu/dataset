@@ -8,7 +8,7 @@
 #' (DOIs) for research data and other research outputs. Organizations within the research
 #' community join DataCite as members to be able to assign DOIs to all their research
 #' outputs. This way, their outputs become discoverable and associated metadata is made
-#' available to the community.
+#' available to the community.\cr
 #' DataCite then develops additional services to improve the DOI management experience,
 #' making it easier for our members to connect and share their DOIs with the broader
 #' research ecosystem and to assess the use of their DOIs within that ecosystem.
@@ -31,7 +31,7 @@
 #' @param PublicationYear The year when the data was or will be made publicly available in \code{YYYY} format.
 #' @param Subject Recommended for discovery. Subject, keyword, classification code, or key
 #' phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}.
-#' @param Contributor Recommended for discover. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.
+#' @param Contributor Recommended for discovery. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.
 #' @param Date Recommended for discovery in DataCite. Similar to \href{http://purl.org/dc/elements/1.1/date}{dct:date} in
 #' \code{\link{dublincore}}.
 #' @param Publisher The name of the entity that holds, archives, publishes prints,
@@ -214,7 +214,7 @@ language_get <- function (x) {
 version_add <- function(x, version ) {
 
   assertthat::assert_that(is.null(dim(version)),
-                          msg = "add_language(x, version): version must be a character string or a number that can be coerced into a character string of length=1.")
+                          msg = "verion_add(x, version): version must be a character string or a number that can be coerced into a character string of length=1.")
 
   attr(x, "Version") <- version
   x

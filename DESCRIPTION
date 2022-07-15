@@ -1,7 +1,7 @@
 Package: dataset
 Title: Create interoperable and well-documented data frames
-Date: 2022-07-14
-Version: 0.1.2
+Date: 2022-07-15
+Version: 0.1.2.0002
 Authors@R: 
     person(given = "Daniel", family = "Antal", 
            email = "daniel.antal@dataobservatory.eu", 
