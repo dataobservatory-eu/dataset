@@ -39,11 +39,13 @@ Our [datasets](https://dataset.dataobservatory.eu/reference/dataset.html):
 
 - [x] Contain Dublin Core or DataCite (or both) metadata that makes the findable and easier accessible via online libraries. See vignette article [Datasets With FAIR Metadata](https://dataset.dataobservatory.eu/articles/metadata.html).
 
-- [x] Their dimensions can be easily and unambigously reduced to triples for RDF applications; they can be easily serialized to, or synchronized with semantic web applications. See vignette article [From dataset To RDF](https://dataset.dataobservatory.eu/articles/metadata.html);
+- [x] Their dimensions can be easily and unambigously reduced to triples for RDF applications; they can be easily serialized to, or synchronized with semantic web applications. See vignette article [From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html);
 
 - [x] Contain processing metadata that greatly enhance the reproducibility of the results, and the reviewability of the contents of the dataset, including metadata defined by the [DDI Alliance](https://ddialliance.org/), which is particularly helpful for not yet processed data;
 
 - [x] Follow the datacube model of the [Statistical Data and Metadata eXchange](https://sdmx.org/), therefore allowing easy refreshing with new data from the source of the analytical work, and particularly useful for datasets containing results of statistical operations in R;
+
+- [x] Correct exporting with FAIR metadata to the most used file formats and straighforward publication to open science repositories with correct bibliographical and use metadata. See [Export And Publish a dataset](https://dataset.dataobservatory.eu/articles/publish.html)
 
 - [x] Relatively lightweight in dependencies and easily works with data.frame, [tibble](https://tibble.tidyverse.org/) or [data.table](https://rstudio.github.io/DT/) R objects.
 
@@ -64,7 +66,7 @@ my_iris_dataset <- dataset(
 my_iris_dataset <- dublincore_add(
   x = my_iris_dataset,
   creator = person("Edgar", "Anderson", role = "aut"),
-  publisher= "American Iris Society",
+  publisher = "American Iris Society",
   source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
   date = 1935,
   language = "en"

@@ -30,6 +30,7 @@ articles:
       - motivation
       - survey
       - RDF
+      - publish
       - reproducible
   - title: "Datasets with FAIR metadata"
     desc: >

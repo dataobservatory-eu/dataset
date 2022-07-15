@@ -87,7 +87,7 @@ my_iris_dataset <- dataset(
 my_iris_dataset <- dublincore_add(
   x = my_iris_dataset,
   creator = person("Edgar", "Anderson", role = "aut"),
-  publisher= "American Iris Society",
+  publisher = "American Iris Society",
   source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
   date = 1935,
   language = "en"
