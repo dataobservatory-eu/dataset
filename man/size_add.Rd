@@ -11,7 +11,7 @@ size_add(x)
 }
 \value{
 The estimated object size in memory is added as an attribute to \code{x} in SI
-kB and IEC KiB (legalcy Kb) units,
+kB and IEC KiB (legacy Kb) units,
 rounded to two decimals.
 }
 \description{

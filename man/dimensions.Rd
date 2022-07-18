@@ -10,7 +10,7 @@ dimensions(x)
 dimensions_add(x, dimensions, sdmx_attributes = NULL)
 }
 \arguments{
-\item{x}{A data.frame or interited tibble, data.frame, or a structured list.}
+\item{x}{A data.frame or inherited tibble, data.frame, or a structured list.}
 
 \item{dimensions}{The name or column number of the dimensions within the dataset.}
 

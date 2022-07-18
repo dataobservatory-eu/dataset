@@ -15,6 +15,7 @@ datacite_add(
   x,
   Title,
   Creator,
+  Identifier = NULL,
   Publisher,
   PublicationYear = "THIS",
   Subject = NULL,
@@ -28,7 +29,8 @@ datacite_add(
   Rights = NULL,
   Description = NULL,
   Geolocation = NULL,
-  FundingReference = NULL
+  FundingReference = NULL,
+  overwrite = TRUE
 )
 }
 \arguments{
@@ -38,7 +40,13 @@ structured R list.}
 \item{Title}{A name or title by which a resource is known. May be the title of a dataset
 or the name of a piece of software. Similar to \href{http://purl.org/dc/elements/1.1/title}{dct:title}.}
 
-\item{Creator}{The main researchers involved in producing the data, or the authors of the publication, in priority order. To supply multiple creators, repeat this property.}
+\item{Creator}{The main researchers involved in producing the data, or the authors of the publication, in
+priority order. To supply multiple creators, repeat this property.}
+
+\item{Identifier}{The Identifier is a unique string that identifies a resource. For software, determine
+whether the identifier is for a specific version of a piece of software, (per the \href{Force11 Software
+Citation Principles}{https://force11.org/info/software-citation-principles-published-2016/},
+or for all versions. Similar to \code{dct:title} in \code{\link{dublincore}}.}
 
 \item{Publisher}{The name of the entity that holds, archives, publishes prints,
 distributes, releases, issues, or produces the resource. This property will be used to
@@ -74,7 +82,11 @@ Similar to \href{http://purl.org/dc/elements/1.1/description}{dct:description}.}
 
 \item{Geolocation}{Recommended for discovery. Spatial region or named place where the data was gathered or about which the data is focused.}
 
-\item{FundingReference}{Information about financial support (funding) for the resource being registered.}
+\item{FundingReference}{Information about financial support (funding) for the resource
+being registered.}
+
+\item{overwrite}{If pre-existing metadata properties should be overwritten,
+defaults to \code{TRUE}.}
 
 \item{Pulisher}{The name of the entity that holds, archives, publishes prints, distributes,
 releases, issues, or produces the resource. This property will be used to formulate the

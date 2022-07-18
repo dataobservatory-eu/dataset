@@ -20,7 +20,12 @@
 #' The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
 #' @param Title  A name or title by which a resource is known. May be the title of a dataset
 #' or the name of a piece of software. Similar to \href{http://purl.org/dc/elements/1.1/title}{dct:title}.
-#' @param Creator The main researchers involved in producing the data, or the authors of the publication, in priority order. To supply multiple creators, repeat this property.
+#' @param Creator The main researchers involved in producing the data, or the authors of the publication, in
+#' priority order. To supply multiple creators, repeat this property.
+#' @param Identifier  The Identifier is a unique string that identifies a resource. For software, determine
+#' whether the identifier is for a specific version of a piece of software, (per the \href{Force11 Software
+#' Citation Principles}{https://force11.org/info/software-citation-principles-published-2016/},
+#' or for all versions. Similar to \code{dct:title} in \code{\link{dublincore}}.
 #' @param Pulisher The name of the entity that holds, archives, publishes prints, distributes,
 #' releases, issues, or produces the resource. This property will be used to formulate the
 #' citation, so consider the prominence of the role. For software, use Publisher for the
@@ -51,7 +56,10 @@
 #' fit in any of the other categories. May be used for technical information. A free text.
 #' Similar to \href{http://purl.org/dc/elements/1.1/description}{dct:description}.
 #' @param Geolocation Recommended for discovery. Spatial region or named place where the data was gathered or about which the data is focused.
-#' @param FundingReference Information about financial support (funding) for the resource being registered.
+#' @param FundingReference Information about financial support (funding) for the resource
+#' being registered.
+#' @param overwrite If pre-existing metadata properties should be overwritten,
+#' defaults to \code{TRUE}.
 #' @return An R object with at least the mandatory DataCite attributes.
 #' @importFrom utils person
 #' @source \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite 4.3 Mandatory Properties} and
@@ -81,20 +89,25 @@ datacite <- function(x) {
 
 #' @rdname datacite
 #' @export
-datacite_add <- function(x, Title, Creator, Publisher,
+datacite_add <- function(x, Title, Creator,
+                         Identifier = NULL, Publisher,
                          PublicationYear = "THIS",
                          Subject = NULL, Contributor = NULL, Date = NULL,
                          Language = NULL,
                          AlternateIdentifer = NULL, RelatedIdentifier = NULL,
                          Format = NULL, Version = NULL, Rights = NULL,
                          Description = NULL, Geolocation = NULL,
-                         FundingReference = NULL ) {
+                         FundingReference = NULL,
+                         overwrite = TRUE) {
 
   if (PublicationYear == "THIS") as.integer(substr(Sys.Date(),1,4))
 
   attr(x, "title") <- Title
   attr(x, "creator") <- Creator
   attr(x, "publisher") <- Publisher
+
+  x <- identifier_add(x, identifer = Identifier, overwrite = overwrite)
+
   attr(x, "issued") <- ifelse(is.null(Date), PublicationYear, Date)
   attr(x, "PublicationYear") <- PublicationYear
   attr(x, "ResourceType") <- ifelse(inherits(x, "data.frame"), "Dataset",
@@ -118,7 +131,7 @@ datacite_add <- function(x, Title, Creator, Publisher,
 #' The object size is estimated with \code{[utils]{object.size}}.
 #' @param x An R object, such as a data.frame, a tibble, or a character vector.
 #' @return The estimated object size in memory is added as an attribute to \code{x} in SI
-#' kB and IEC KiB (legalcy Kb) units,
+#' kB and IEC KiB (legacy Kb) units,
 #' rounded to two decimals.
 #' @family metadata functions
 #' @examples
@@ -151,7 +164,7 @@ size_add <- function(x) {
 #' @param language The language to be added to the object attributes, added by name, or
 #' as a 2- or 3-character code for the language. You can add a language code or language name,
 #' and the parameter is normalised to \code{tolower(language)}. (The ISO 639 standard capitalizes
-#' langauge names and uses lower case for the codes.)
+#' language names and uses lower case for the codes.)
 #' @param iso_639_code Defaults to \code{ISO 639-3}, alternative is \code{ISO 639-1}.
 #' @return The Language is added to the \code{x} as
 #' \code{ISO 639-1}, the Datacite recommendation, or \code{ISO 639-3} used by the

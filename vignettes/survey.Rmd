@@ -89,6 +89,7 @@ listen_spotify <- declared (
 survey_dataset <- datacite_add(survey_dataset, 
                                Title = "Tiny Survey", 
                                Creator = person("Daniel", "Antal"), 
+                               Identifier = "https://doi.org/xxxx.yyyyy",
                                Publisher = "Reprex", 
                                PublicationYear = 2022, 
                                Subject = "Surveys", 
@@ -108,4 +109,4 @@ summary(survey_dataset)
 ```
 The `survey` (should) contain the entire processing history from creation, and optionally the `DataCite` schema for publication created with `datacite_add()`.  A similar `dublincore_add` function uses the Dublin Core metadata definitions.
 
-Eventually, a connection to the packages [zen4R](https://github.com/eblondel/zen4R) will make sure that the correctly described dataset can get a Zenodo record, recieve a DOI, the DOI recorded in the object, and upload to Zenodo.
+Eventually, a connection to the packages [zen4R](https://github.com/eblondel/zen4R) will make sure that the correctly described dataset can get a Zenodo record, receive a DOI, the DOI recorded in the object, and upload to Zenodo.

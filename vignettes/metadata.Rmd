@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setupknitr, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -32,7 +32,8 @@ The `Dublin Core` is an ISO Standard 15836:2009 since February 2009 [ISO15836]. 
 iris_ds <- datacite_add(iris,
                         Title = "Iris Dataset",
                         Creator = person(family ="Anderson", given ="Edgar", role = "aut"),
-                        Publisher=" American Iris Society",
+                        Identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+                        Publisher= "American Iris Society",
                         PublicationYear = 1935,
                         Geolocation = "US",
                         Language = "en", 
@@ -48,8 +49,8 @@ dct_iris <- dublincore_add(
   x = iris,
   title = "Iris Dataset",
   creator = person("Edgar", "Anderson", role = "aut"),
-  publisher= "American Iris Society",
-  source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+  publisher = "American Iris Society",
+  identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
   date = 1935,
   language = "en"
 )
@@ -68,7 +69,8 @@ iris_dataset <- datacite_add(
   x = iris,
   Title = "Iris Dataset",
   Creator = person("Anderson", "Edgar", role = "aut"),
-  Publisher=" American Iris Society",
+  Publisher= "American Iris Society",
+  Identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
   PublicationYear = 1935,
   Description = "This famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.",
   Language = "en")
@@ -76,9 +78,6 @@ iris_dataset <- datacite_add(
 ```{r}
 datacite(iris_dataset)
 ```
-
-
-
 The `x` parameter can be any well-structured R object that meets the definition of a dataset: a data.frame, or an inherited class of it (data.table, [tibble](https://tibble.tidyverse.org/)); or a well-structured list (for example, a [json](https://arxiv.org/abs/1403.2805) object.)
 
 ## Managing citations and bibliographies {#bibliography}
@@ -94,15 +93,11 @@ toBibtex(iris_bibentry)
 print(iris_bibentry, sytle="html")
 ```
 
-
-
-
-
 ## faIR: Interoperable & Reusable Datasets
 
 The interoperability and reusability of datasets is greatly enhanced if they follow a standardized and practical format.  Our datasets follow the tidy data principles^[Wickham, H.(2014). Tidy Data. Journal of Statistical Software, 59(10), 1–23. <https://doi.org/10.18637/jss.v059.i10>] and are interoperable with the W3C^[DF Data Cube Vocabulary]^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/#metadata>] (semantic web) and SDMX (statistical) dataset definitions.
 
-Both W3C and SDMX uses are more complex object, the Datacube in its description. The dataset is a redused datacube. To adhere to tidy data principles and easy use in reproducible resaerch workflows, we further reduced our subjective definition of the dataset. 
+Both W3C and SDMX uses are more complex object, the Datacube in its description. The dataset is a reused datacube. To adhere to tidy data principles and easy use in reproducible research workflows, we further reduced our subjective definition of the dataset. 
 
 - The `dataset` constructor first subsets the dataset for the `obs_id` observation identifier, and if it is missing, it creates one.
 - Then it selects the `dimensions`, such as geographic concept or time concept. The iris dataset does not have these variables, so we do not select anything.
@@ -110,7 +105,7 @@ Both W3C and SDMX uses are more complex object, the Datacube in its description.
 - Next we select any `attributes` that are unlikely to be used for statistical aggregation (unlike the dimensions) and which are not measured values. 
 - We can pass on further optional dataset attributes. These attributes do not correspond with a single observation, rather the entire dataset.
 
-```{r}
+```{r petalexample}
 petal_length <- dataset(subset(iris, select = c("Petal.Length", "Species")), 
         dimensions=NULL, 
         measures = "Petal.Length", 

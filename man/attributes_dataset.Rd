@@ -10,7 +10,7 @@ attributes_dataset(x)
 attributes_add(x, attributes, sdmx_attributes = NULL)
 }
 \arguments{
-\item{x}{A data.frame or interited tibble, data.frame, or a structured list.}
+\item{x}{A data.frame or inherited tibble, data.frame, or a structured list.}
 
 \item{attributes}{The name or column number of the attributes within the dataset.}
 

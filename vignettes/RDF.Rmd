@@ -10,8 +10,11 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  message  = FALSE,
+  comment = "#>",
+  out.width = '70%'
 )
+library(here)
 ```
 
 ```{r setup}
@@ -19,4 +22,94 @@ library(dataset)
 ```
 
 Our datasets are defined in a way that their dimensions can be easily and unambigously reduced to triples for RDF applications; they can be easily serialized to, or synchronized with semantic web applications with the [rdflib](https://cran.r-project.org/web/packages/rdflib/vignettes/rdf_intro.html) package^[Carl Boettiger: [A tidyverse lover’s intro to RDF](https://cran.r-project.org/web/packages/rdflib/vignettes/rdf_intro.html)].
+
+Because our datasets conform the tidy data concept, they can be reduced into long-form triples. 
+
+
+
+&nbsp;          | &nbsp;  | &nbsp;      | &nbsp;
+----------------|---------|-------------|-------------
+**RDF**         | subject | predicate   | object         
+**JSON**        | object  | property    | value
+**spreadsheet** | row id  | column name | cell
+**data.frame**  | key     | variable    | measurement
+**data.frame**  | key     | attribute   | value  
+
+
+Table source: [rdflib](https://cran.r-project.org/web/packages/rdflib/vignettes/rdf_intro.html)
+
+## Dimension reductions of the dataset
+
+Our datasets are tidy. 
+
+```{r, include=FALSE}
+example_dataset <- readxl::read_excel(here::here("not_included", "rdf_example.xlsx"), 
+                                      sheet = "dataset-wide")
+```
+
+```{r}
+example_dataset
+```
+
+
+You can start to reduce the dimensions, for example, with uniting the dimensions. In this case, the row identifier becomes more and more a unique resource identifier, i.e. a URI.
+
+```{r dimreduction, echo=FALSE, message=FALSE}
+knitr::include_graphics(here::here("vignettes", "RDF_chart_1.png"))
+```
+
+Eventually you can reduce the entire dataset into a triple. The `uri` uniquely defines the observations, the `component` maintains the W3C/SDMX datacube models main structural element, and the `value` field the value of the dimension, measurement or attribute.
+
+```{r, message=FALSE}
+library(tidyr)
+library(dplyr)
+example_long <- example_dataset %>%
+  unite("uri", 
+        all_of(c("rowid", "time", "geo", "sex", "value", "unit", "freq", "status")), 
+        remove = FALSE) %>%
+  mutate_all ( as.character) %>%
+  pivot_longer(
+    cols = -any_of("uri"),
+    names_to = "component",
+    values_to = "value"
+  )
+```
+
+
+```{r dimreduction2, echo=FALSE, message=FALSE, out.width='75%'}
+knitr::include_graphics(here::here("vignettes", "RDF_chart_2.png"))
+```
+
+## The benefit of standard codelists
+
+In this example, except for the measurement of the observation, we used only SDMX-attribute conform variable names and codes.  The advantage of this approach is that it is very easy to increase the dimensions of the dataset, and add human-readable labels, potentially in many natural languages.
+
+```{r}
+set.seed(2022)
+library(statcodelists)
+example_long %>%
+   filter (.data$component == "sex") %>%
+   left_join(statcodelists::CL_SEX %>%
+              rename ( value = .data$id ), 
+            by = "value") %>%
+  bind_rows (
+    example_long %>%
+      filter (.data$component == "freq") %>%
+      left_join(statcodelists::CL_FREQ %>%
+              dplyr::rename ( value = .data$id ), 
+            by = "value") 
+  )  %>% 
+    bind_rows (
+    example_long %>%
+      filter (.data$component == "status") %>%
+      left_join(statcodelists::CL_OBS_STATUS %>%
+              dplyr::rename ( value = .data$id ), 
+            by = "value") 
+  ) %>%
+  group_by (.data$component) %>%
+  sample_frac( size = 0.3 ) %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper()
+
+```
 

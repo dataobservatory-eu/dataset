@@ -10,7 +10,7 @@ measures(x)
 measures_add(x, measures)
 }
 \arguments{
-\item{x}{A data.frame or interited tibble, data.frame, or a structured list.}
+\item{x}{A data.frame or inherited tibble, data.frame, or a structured list.}
 
 \item{measures}{The name or column number of the measures within the dataset.}
 

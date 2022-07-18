@@ -6,8 +6,8 @@
 <!-- badges: start -->
 
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6833823.svg)](https://10.5281/zenodo.6833823)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.1.2-blue.svg)](https://github.com/antaldaniel/dataset)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6854273.svg)](https://10.5281/zenodo.6854273)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.1.3-blue.svg)](https://github.com/antaldaniel/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow
 rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
@@ -45,7 +45,7 @@ Our
     triples for RDF applications; they can be easily serialized to, or
     synchronized with semantic web applications. See vignette article
     [From dataset To
-    RDF](https://dataset.dataobservatory.eu/articles/metadata.html);
+    RDF](https://dataset.dataobservatory.eu/articles/RDF.html).
 
 -   [x] Contain processing metadata that greatly enhance the
     reproducibility of the results, and the reviewability of the
@@ -59,18 +59,27 @@ Our
     particularly useful for datasets containing results of statistical
     operations in R;
 
+-   [x] Correct exporting with FAIR metadata to the most used file
+    formats and straightforward publication to open science repositories
+    with correct bibliographical and use metadata. See [Export And
+    Publish a
+    dataset](https://dataset.dataobservatory.eu/articles/publish.html)
+
 -   [x] Relatively lightweight in dependencies and easily works with
     data.frame, [tibble](https://tibble.tidyverse.org/) or
     [data.table](https://rstudio.github.io/DT/) R objects.
 
-This package is in an early development phase. The current dataset S3
-class is inherited from the base R data.frame. Later versions may change
-to the modern [tibble](https://tibble.tidyverse.org/), which carries a
-larger dependency footprint but easier to work with. Easy
-interoperability with the [DT](https://rstudio.github.io/DT/)
-package–which provides an Rinterface to the
-[DataTables](https://datatables.net/) JavaScript library— remains a top
-development priority.
+## Structure
+
+Following the datacube model, our datasets are data frames with clearly
+defined dimensions (`time`, `geo`, `sex`), meausurements (`value`), and
+attributes (`unit`, `freq`, `status`). In this example, all dimensions
+and values are following the SDMX attribute definition, i.e. they have a
+standardized, natural language independent codelist. (To use these
+codelists, use the
+[statcodelist](https://statcodelists.dataobservatory.eu/) data package.)
+
+<img src="vignettes/RDF_chart_1.png" width="100%" />
 
 ## Getting started
 
@@ -158,6 +167,9 @@ dublincore(my_iris_dataset)
 #> $issued
 #> [1] 1935
 #> 
+#> $identifer
+#> [1] NA
+#> 
 #> $creator
 #> [1] "Edgar Anderson [aut]"
 #> 
@@ -171,10 +183,16 @@ dublincore(my_iris_dataset)
 #> [1] "eng"
 ```
 
-## Motivation
+## Development plans
 
-Carl Boettiger: [A tidyverse lover’s intro to
-RDF](https://cran.r-project.org/web/packages/rdflib/vignettes/rdf_intro.html)
+This package is in an early development phase. The current dataset S3
+class is inherited from the base R data.frame. Later versions may change
+to the modern [tibble](https://tibble.tidyverse.org/), which carries a
+larger dependency footprint but easier to work with. Easy
+interoperability with the [DT](https://rstudio.github.io/DT/)
+package–which provides an Rinterface to the
+[DataTables](https://datatables.net/) JavaScript library— remains a top
+development priority.
 
 ## Code of Conduct
 

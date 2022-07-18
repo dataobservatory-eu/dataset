@@ -4,7 +4,7 @@
 #' but without the definition of data slices.\cr
 #' \code{bibentry_dataset()} is  a wrapper around \code{\link[utils:bibentry]{bibentry}} to correctly turn the
 #' metadata of the dataset into a bibentry object.
-#' @param x A data.frame or interited tibble, data.frame, or a structured list.
+#' @param x A data.frame or inherited tibble, data.frame, or a structured list.
 #' @param dimensions The name or column number of the dimensions within the dataset.
 #' @param measures The name or column number of the measures within the dataset.
 #' @param attributes The name or column number of the attributes within the dataset.

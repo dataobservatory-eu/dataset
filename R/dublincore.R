@@ -22,6 +22,14 @@
 #' \code{\link{datacite}} allows the use of alternate titles, too.
 #' @param creator An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
 #' Corresponds to \code{Creator} in \code{\link{datacite}}.
+#' @param identifier An unambiguous reference to the resource within a given context.
+#' Recommended practice is to identify the resource by means of a string conforming to an
+#' identification system. Examples include International Standard Book Number (ISBN),
+#' Digital Object Identifier (DOI), and Uniform Resource Name (URN).
+#' Select and identifier scheme from
+#' \href{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html#URI-SCHEMES}{registered URI schemes maintained by IANA}.
+#' More details: \href{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}.
+#' Similar to \code{Identifier} in \code{\link{datacite}}.
 #' @param pulisher Corresponds to dct:publisher and Publisher in DataCite.
 #' The name of the entity that holds, archives, publishes prints, distributes, releases,
 #' issues, or produces the resource. This property will be used to formulate the citation,
@@ -59,6 +67,8 @@
 #' For a dataset, the correct term is \code{Dataset}.
 #' To describe the file format, physical medium, or dimensions of the resource, use the
 #' Format element.
+#' @param overwrite If pre-existing metadata properties should be overwritten,
+#' defaults to \code{TRUE}.
 #' @importFrom utils person
 #' @source \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite 4.3 Mandatory Properties} and
 #' \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
@@ -90,8 +100,10 @@ dublincore <- function(x) {
 #' @rdname dublincore
 #' @export
 dublincore_add <- function(x,
-                           title = NULL, creator=NULL,
-                           publisher=NULL,
+                           title = NULL,
+                           creator = NULL,
+                           identifier = NULL,
+                           publisher = NULL,
                            subject = NULL,
                            date = NULL,
                            source = NULL,
@@ -110,6 +122,8 @@ dublincore_add <- function(x,
   } else {
     message ("The dataset has already a title: ",  attr(x, "title") )
   }
+
+  x <- identifier_add(x, identifer = identifier, overwrite = overwrite)
 
   if (is.null(attr(x, "creator"))) {
     attr(x, "creator") <- creator
@@ -141,3 +155,19 @@ dublincore_add <- function(x,
 }
 
 
+#' @keywords internal
+identifier_add <- function(x, identifer, overwrite) {
+
+  if (is.null(attr(x, "identifer"))) {
+    if (is.null(identifer)) {
+      attr(x, "identifer") <- NA_character_
+    } else {
+      attr(x, "identifer") <- identifer
+      }
+    } else if ( overwrite ) {
+    attr(x, "identifer") <- identifier
+  } else {
+    message ("The dataset has already an identifier: ",  attr(x, "identifier") )
+  }
+  x
+}
