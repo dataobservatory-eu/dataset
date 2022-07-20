@@ -20,13 +20,30 @@ library(dataset)
 
 ## FAIR metadata
 
-Our `dataset` R package aims to help the Findability, Accessibility, Interoperability, and Reuse of digital assets, particularly datacubes and datasets used in statistics and data analysis. The [FAIR](https://www.go-fair.org/fair-principles/) "…emphasise machine-actionability (i.e., the capacity of computational systems to find, access, interoperate, and reuse data with none or minimal human intervention) because humans increasingly rely on computational support to deal with data as a result of the increase in volume, complexity, and creation speed of data."
+Our `dataset` R package aims to increase the *Findability, Accessibility, Interoperability,* and *Reuse* of digital assets, particularly datacubes and datasets used in statistics and data analysis. The [FAIR](https://www.go-fair.org/fair-principles/) principles  "…emphasise machine-actionability (i.e., the capacity of computational systems to find, access, interoperate, and reuse data with none or minimal human intervention) because humans increasingly rely on computational support to deal with data as a result of the increase in volume, complexity, and creation speed of data."
 
-The `dataset` package adds metadata to R objects for full compatibility with the [Dublin Core Metadata Elements 1.1](https://www.dublincore.org/specifications/dublin-core/dces/), the [DataCite Mandatory Properties 4.4](https://support.datacite.org/docs/datacite-metadata-schema-44) and the [DataCite Recommended and Optional Properties 4.3](https://support.datacite.org/docs/schema-optional-properties-v43).
+The `dataset` package adds metadata to R objects for full compatibility [The RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) [which includes the DataSet definition], which is harmonized with the [Statistical Data and Metadata eXchange](https://sdmx.org/).  This is necessary to correctly import data from statistical sources or from the semantic web, and harmonize the processed results with such services.
 
-The `Dublin Core` is an ISO Standard 15836:2009 since February 2009 [ISO15836]. Currently the 15 "core" elements are part of a bigger [DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/).
+The [The RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in itself uses some core elements fo the [Dublin Core Metadata Elements 1.1](https://www.dublincore.org/specifications/dublin-core/dces/), which is a library metadata standard to archive, store, and find information. The `dataset` R package goes beyond the DataSet definition and allows to add all the *Dublin Core Metadata Elements 1.1*, and to add the [DataCite Mandatory Properties 4.4](https://support.datacite.org/docs/datacite-metadata-schema-44) and the [DataCite Recommended and Optional Properties 4.3](https://support.datacite.org/docs/schema-optional-properties-v43).
+
+The `Dublin Core` is an ISO Standard 15836:2009 since February 2009 [ISO15836]. Currently the 15 "core" elements are part of a bigger [DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/). The *DataCite* mandatory elements are narrower than the DublinCore elements, and the full DataCite is broader. The two standards are very-well harmonized with little difference.
+
+We give a preference for *DataCite*, because it is a more modern standard that is better sutited to document software and data products. It is also the preferred choice of the EU open repositories that are used to deposit publicly funded research results, including datasets.
 
 
+```{r}
+iris_ds <- dataset(x=iris, 
+                   dimensions=NULL, 
+                   measures=c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
+                   attributes = "Species", 
+                   Title = "Iris Dataset", 
+                   Label = "The famous iris dataset used in R examples")
+
+dublincore(iris_ds)
+```
+The `dataset()` constructor adds W3C/SDMX compatible strucutral metadata (declares the measured values and the attributes of the observations) and some Dublin Core data for findability (these are properties that are the same in DataCite.)
+
+You can add more descriptive metadata to further support discovery, interoperability.  You do not need the `dataset()` class, any data.frame, i.e. `data.frame()`, `tibble::tibble()` or `data.table::data.table()` will do. The dataset constructor does not alter the data or the data strucutre of a data frame or an object inherited from data frame, only adds standardized metadata to it. 
 
 ```{r createdataset}
 iris_ds <- datacite_add(iris,
@@ -40,6 +57,14 @@ iris_ds <- datacite_add(iris,
                         Version = "1.0")
 
 datacite(iris_ds)
+```
+```{r, message=FALSE, eval=FALSE}
+library(data.table)
+```
+```{r, eval=FALSE}
+datacite_add(x = data.table::data.table(iris), 
+             Title = "Iris Dataset", 
+             Creator =  person(family ="Anderson", given ="Edgar", role = "aut"))
 ```
 
 Currently, the DataCite properties (all mandatory, and what was filled up from the optional ones) can be seen along with standard R metadata. As a property of the `dataset` class, which follows W3C and SDMX standards, and `survey`, which will follow DDI standards, the history of the `dataset` from creation (import) will be recorded as attribute metadata.
@@ -115,8 +140,11 @@ petal_width <- dataset(subset(iris, select = c("Petal.Width", "Species")),
         dimensions = NULL, 
         measures   = "Petal.Width", 
         attribute  = "Species")
-
+```
+```{r loaddplyr, message=FALSE}
 require(dplyr)
+```
+```{r petalexampleprint}
 petal_length %>%
   left_join (petal_width, by = c("Species")) %>%
   sample_n(10)

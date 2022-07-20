@@ -19,7 +19,7 @@ BugReports: https://github.com/dataobservatory-eu/dataset/issues
 Encoding: UTF-8
 Langugage: en-GB
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
 Depends: 
     R (>= 2.10)
 LazyData: true
