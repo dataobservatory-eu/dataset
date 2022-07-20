@@ -18,11 +18,11 @@
 #' structured R list.
 #' @details The \code{ResourceType} property will be by definition "Dataset".
 #' The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
-#' @param title \href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
+#' @param Title \href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
 #' \code{\link{datacite}} allows the use of alternate titles, too.
-#' @param creator An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
+#' @param Creator An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
 #' Corresponds to \code{Creator} in \code{\link{datacite}}.
-#' @param identifier An unambiguous reference to the resource within a given context.
+#' @param Identifier An unambiguous reference to the resource within a given context.
 #' Recommended practice is to identify the resource by means of a string conforming to an
 #' identification system. Examples include International Standard Book Number (ISBN),
 #' Digital Object Identifier (DOI), and Uniform Resource Name (URN).
@@ -30,7 +30,7 @@
 #' \href{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html#URI-SCHEMES}{registered URI schemes maintained by IANA}.
 #' More details: \href{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}.
 #' Similar to \code{Identifier} in \code{\link{datacite}}.
-#' @param pulisher Corresponds to dct:publisher and Publisher in DataCite.
+#' @param Publisher Corresponds to dct:publisher and Publisher in DataCite.
 #' The name of the entity that holds, archives, publishes prints, distributes, releases,
 #' issues, or produces the resource. This property will be used to formulate the citation,
 #' so consider the prominence of the role. For software, use Publisher for the
@@ -38,31 +38,31 @@
 #' "holds, archives, publishes, prints, distributes, releases, issues, or produces" the
 #' code, use the property Contributor/contributorType/ hostingInstitution for the code
 #' repository.
-#' @param subject In \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. In
+#' @param Subject In \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. In
 #' \code{\link{datacite}} it is a recommended property for discovery.
-#' @param date Corresponds to a point or period of time associated with an event in the
+#' @param Date Corresponds to a point or period of time associated with an event in the
 #' lifecycle of the resource. \href{http://purl.org/dc/elements/1.1/date}{dct:date}.
 #' \code{Date} is also recommended for
 #' discovery in \code{\link{datacite}}.
-#' @param source A related resource from which the described resource is derived. See \href{http://purl.org/dc/elements/1.1/source}{dct:source}.
-#' @param language The primary language of the resource. Allowed values are taken from
+#' @param Source A related resource from which the described resource is derived. See \href{http://purl.org/dc/elements/1.1/source}{dct:source}.
+#' @param Language The primary language of the resource. Allowed values are taken from
 #' IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}. Corresponds to Language in Datacite.
-#' @param format The file format, physical medium, or dimensions of the resource.
+#' @param Format The file format, physical medium, or dimensions of the resource.
 #' \href{	http://purl.org/dc/elements/1.1/format}{dct:format}
 #' Examples of dimensions include size and duration. Recommended best practice is to use a controlled
 #' vocabulary such as the list of Internet Media Types [MIME]. It is similar to \code{Format} in
 #' \code{\link{datacite}}.
-#' @param rights  Corresponds to \href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
+#' @param Rights  Corresponds to \href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
 #' \code{\link{datacite}} Rights. Information about rights held in and over the resource.
 #' Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights.
-#' @param description An account of the resource. It may include but is not limited to:
+#' @param Description An account of the resource. It may include but is not limited to:
 #' an abstract, a table of contents, a graphical representation, or a free-text account of the resource.
 #' \href{http://purl.org/dc/elements/1.1/description}{dct:description}. In
 #' \code{\link{datacite}} it is recommended for discovery.
-#' @param relation A related resource. Recommended best practice is to identify the related
+#' @param Relation A related resource. Recommended best practice is to identify the related
 #' resource by means of a string conforming to a formal identification system. See: \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.
 #' Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended for discovery.
-#' @param type The nature or genre of the resource. Recommended best practice is to use a controlled vocabulary such as the DCMI Type Vocabulary
+#' @param Type The nature or genre of the resource. Recommended best practice is to use a controlled vocabulary such as the DCMI Type Vocabulary
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-type-vocabulary/}{[DCMITYPE]}.
 #' For a dataset, the correct term is \code{Dataset}.
 #' To describe the file format, physical medium, or dimensions of the resource, use the
@@ -77,12 +77,12 @@
 #' @examples
 #' dct_iris <- dublincore_add(
 #'                    x = iris,
-#'                    title = "Iris Dataset",
-#'                    creator = person("Anderson", "Edgar", role = "aut"),
-#'                    publisher = "American Iris Society",
-#'                    source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-#'                    date = 1935,
-#'                    language = "en"
+#'                    Title = "Iris Dataset",
+#'                    Creator = person("Anderson", "Edgar", role = "aut"),
+#'                    Publisher = "American Iris Society",
+#'                    Source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+#'                    Date = 1935,
+#'                    Language = "en"
 #'                    )
 #'
 #' dublincore(dct_iris)
@@ -100,55 +100,71 @@ dublincore <- function(x) {
 #' @rdname dublincore
 #' @export
 dublincore_add <- function(x,
-                           title = NULL,
-                           creator = NULL,
-                           identifier = NULL,
-                           publisher = NULL,
-                           subject = NULL,
-                           date = NULL,
-                           source = NULL,
-                           language = NULL,
-                           format = NULL,
-                           rights = NULL,
-                           description = NULL,
-                           type = NULL,
+                           Title = NULL,
+                           Creator = NULL,
+                           Identifier = NULL,
+                           Publisher = NULL,
+                           Subject = NULL,
+                           Date = NULL,
+                           Source = NULL,
+                           Language = NULL,
+                           Format = NULL,
+                           Rights = NULL,
+                           Relation = NULL,
+                           Description = NULL,
+                           Type = NULL,
                            overwrite = TRUE) {
 
 
-  if (is.null(attr(x, "title"))) {
-    attr(x, "title") <- title
+  if (is.null(attr(x, "Title"))) {
+    attr(x, "Title") <- Title
   } else if ( overwrite ) {
-    attr(x, "title") <- title
+    attr(x, "Title") <- Title
   } else {
-    message ("The dataset has already a title: ",  attr(x, "title") )
+    message ("The dataset has already a Title: ",  attr(x, "Title") )
   }
 
-  x <- identifier_add(x, identifer = identifier, overwrite = overwrite)
+  x <- identifier_add(x, Identifier = Identifier, overwrite = overwrite)
 
-  if (is.null(attr(x, "creator"))) {
-    attr(x, "creator") <- creator
+  if (is.null(attr(x, "Creator"))) {
+    attr(x, "Creator") <- Creator
   } else if ( overwrite ) {
-    attr(x, "creator") <- creator
+    attr(x, "Creator") <- Creator
   } else {
-    message ("The dataset has already a creator: ",  attr(x, "creator") )
+    message ("The dataset has already a Creator: ",  attr(x, "Creator") )
   }
 
-  attr(x, "creator") <- creator
-  attr(x, "source") <- source
+  attr(x, "Creator") <- Creator
+  attr(x, "Source") <- Source
 
-  if (is.null(attr(x, "publisher"))) {
-    attr(x, "publisher") <- publisher
+  if (is.null(attr(x, "Publisher"))) {
+    attr(x, "Publisher") <- Publisher
   } else if ( overwrite ) {
-    attr(x, "publisher") <- publisher
+    attr(x, "Publisher") <- Publisher
   } else {
-    message ("The dataset has already a publisher: ",  attr(x, "publisher") )
+    message ("The dataset has already a Publisher: ",  attr(x, "Publisher") )
   }
 
-  attr(x, "issued") <- date
-  attr(x, "type") <- type
-  attr(x, "description") <- description
+  if (is.null(attr(x, "Rights"))) {
+    attr(x, "Rights") <- Rights
+  } else if ( overwrite ) {
+    attr(x, "Rights") <- Rights
+  } else {
+    message ("The dataset has already a Rights declaration: ",  attr(x, "Rights") )
+  }
 
-  if (!is.null(language)) x <- language_add (x, language)
+  if (is.null(attr(x, "Format"))) {
+    attr(x, "Format") <- Format
+  } else if ( overwrite ) {
+    attr(x, "Format") <- Format
+  } else {
+    message ("The dataset has already a Format: ",  attr(x, "Format") )
+  }
+  attr(x, "Issued") <- Date
+  attr(x, "Type") <- Type
+  attr(x, "Description") <- Description
+
+  if (!is.null(Language)) x <- language_add (x, Language)
 
   x <- size_add(x)
   x
@@ -156,18 +172,18 @@ dublincore_add <- function(x,
 
 
 #' @keywords internal
-identifier_add <- function(x, identifer, overwrite) {
+identifier_add <- function(x, Identifier, overwrite) {
 
-  if (is.null(attr(x, "identifer"))) {
-    if (is.null(identifer)) {
-      attr(x, "identifer") <- NA_character_
+  if (is.null(attr(x, "Identifier"))) {
+    if (is.null(Identifier)) {
+      attr(x, "Identifier") <- NA_character_
     } else {
-      attr(x, "identifer") <- identifer
+      attr(x, "Identifier") <- Identifier
       }
     } else if ( overwrite ) {
-    attr(x, "identifer") <- identifier
+    attr(x, "Identifier") <- Identifier
   } else {
-    message ("The dataset has already an identifier: ",  attr(x, "identifier") )
+    message ("The dataset has already an Identifier: ",  attr(x, "Identifier") )
   }
   x
 }

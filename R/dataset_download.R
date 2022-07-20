@@ -6,7 +6,6 @@
 #' @inheritParams dataset
 #' @param type A file type.  Currently only \code{csv} is implemented that
 #' invokes \code{utils::download.file}.
-#' @param type A file type
 #' @return A \code{\link{dataset}} with the downloaded dataset.
 #' @examples
 #' dataset_download(
@@ -19,29 +18,30 @@
 #' )
 #' @export
 
-dataset_download  <- function(title,
-                                  dimensions = NULL,
-                                  measures = NULL,
-                                  attributes = NULL,
-                                  identifer = NULL,
-                                  url,
-                                  type = "csv", ...) {
+dataset_download  <- function(Title,
+                              dimensions = NULL,
+                              measures = NULL,
+                              attributes = NULL,
+                              Identifer = NULL,
+                              url,
+                              type = "csv", ...) {
 
-  dataset_download_csv(title=title,
+  dataset_download_csv(Title=Title,
                        dimensions=dimensions,
                        measures=measures,
                        attributes=attributes,
+                       Identifer = Identifier,
                        type = "csv")
 }
 
 
 #' @rdname dataset_download
 #' @keywords internal
-dataset_download_csv  <- function(title,
+dataset_download_csv  <- function(Title,
                                   dimensions = NULL,
                                   measures = NULL,
                                   attributes = NULL,
-                                  identifer = NULL,
+                                  Identifer = NULL,
                                   url,
                                   type = "csv",
                                   destfile = NULL,
@@ -61,8 +61,8 @@ dataset_download_csv  <- function(title,
   tmp <- read.csv(destfile)
   ds <- dataset ( x = tmp,
             dimensions = dimensions, measures = measures, attributes = attributes,
-            title  = title )
+            Title  = Title )
 
-  dublincore_add (ds, identifier = identifer)
+  dublincore_add (ds, Identifier = Identifer)
 }
 

@@ -2,7 +2,7 @@
 #' @description A DataSet is a collection of statistical data that corresponds to a defined structure.
 #' @details Loosely follows the \href{https://www.w3.org/TR/vocab-data-cube/}{The RDF Data Cube Vocabulary},
 #' but without the definition of data slices.\cr
-#' \code{bibentry_dataset()} is  a wrapper around \code{\link[utils:bibentry]{bibentry}} to correctly turn the
+#' \code{bibentry_dataset()} is a wrapper around \code{\link[utils:bibentry]{bibentry}} to correctly turn the
 #' metadata of the dataset into a bibentry object.
 #' @param x A data.frame or inherited tibble, data.frame, or a structured list.
 #' @param dimensions The name or column number of the dimensions within the dataset.
@@ -12,8 +12,8 @@
 #' SDMX. \code{c("time", "geo")} will mark the "time" and "geo" attributes as conforming to
 #' sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl}{sdmx-attribute}.
 #' @inheritParams dublincore_add
-#' @param type It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.
-#' @param issued Corresponds to
+#' @param Type It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.
+#' @param Issued Corresponds to \href{http://purl.org/dc/elements/1.1/date}{dct:date}.
 #' @importFrom utils toBibtex
 #' @examples
 #' my_dataset <- dataset (x,
@@ -34,14 +34,14 @@
 dataset <- function(x,
                     dimensions = NULL,
                     measures = NULL,
-                    attributes=NULL,
+                    attributes = NULL,
                     sdmx_attributes = NULL,
-                    title = NULL,
-                    label = NULL,
-                    creator = NULL,
-                    publisher = NULL,
-                    issued = NULL,
-                    type = list ( type = "Dataset",
+                    Title = NULL,
+                    Label = NULL,
+                    Creator = NULL,
+                    Publisher = NULL,
+                    Issued = NULL,
+                    Type = list ( type = "Dataset",
                                   URI = "http://purl.org/dc/dcmitype/Dataset")
                     ) {
 
@@ -49,13 +49,13 @@ dataset <- function(x,
   x <- measures_add(x, measures)
   x <- attributes_add(x, attributes, sdmx_attributes)
 
-  attr(x, "title") <- title
-  attr(x, "label") <- label
-  attr(x, "creator") <- creator
-  attr(x, "publisher") <- publisher
-  if (is.null(issued)) issued <- Sys.Date()
-  attr(x, "issued") <- issued
-  attr(x, "type") <- type
+  attr(x, "Title") <- Title
+  attr(x, "Label") <- Label
+  attr(x, "Creator") <- Creator
+  attr(x, "Publisher") <- Publisher
+  if (is.null(Issued)) Issued <- Sys.Date()
+  attr(x, "Date") <- Issued
+  attr(x, "Type") <- Type
 
   attr(x, "class") <- c("dataset", class(x))
   x
@@ -107,18 +107,18 @@ bibentry_dataset <- function(x) {
     format(date, format="%Y")
   }
 
-  if ( is.numeric(attr(x, "issued"))) {
-    year_nr <- attr(x, "issued")
-  } else if (inherits(attr(x, "issued"), "POSIXt") | inherits(attr(x, "issued"), "Date")) {
-    year_nr <- extractyear (attr(x, "issued"))
+  if ( is.numeric(attr(x, "Issued"))) {
+    year_nr <- attr(x, "Issued")
+  } else if (inherits(attr(x, "Issued"), "POSIXt") | inherits(attr(x, "issued"), "Date")) {
+    year_nr <- extractyear (attr(x, "Issued"))
   } else {
-    year_nr = attr(x, "issued")}
+    year_nr = attr(x, "Issued")}
 
   bibentry(
     bibtype = "Misc",
-    title = attr(x, "title"),
-    author = attr(x, "creator"),
-    publisher = attr(x, "publisher"),
+    title = attr(x, "Title"),
+    author = attr(x, "Creator"),
+    publisher = attr(x, "Publisher"),
     size = attr(x, "Size"),
     year = year_nr)
 }

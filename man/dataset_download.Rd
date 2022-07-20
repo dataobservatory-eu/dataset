@@ -6,22 +6,22 @@
 \title{Download data into a dataset}
 \usage{
 dataset_download(
-  title,
+  Title,
   dimensions = NULL,
   measures = NULL,
   attributes = NULL,
-  identifer = NULL,
+  Identifer = NULL,
   url,
   type = "csv",
   ...
 )
 
 dataset_download_csv(
-  title,
+  Title,
   dimensions = NULL,
   measures = NULL,
   attributes = NULL,
-  identifer = NULL,
+  Identifer = NULL,
   url,
   type = "csv",
   destfile = NULL,
@@ -32,7 +32,7 @@ dataset_download_csv(
 )
 }
 \arguments{
-\item{title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
+\item{Title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
 \code{\link{datacite}} allows the use of alternate titles, too.}
 
 \item{dimensions}{The name or column number of the dimensions within the dataset.}
@@ -45,7 +45,8 @@ dataset_download_csv(
     for the \code{"libcurl"} method) naming the URL of a resource to be
     downloaded.}
 
-\item{type}{A file type}
+\item{type}{A file type.  Currently only \code{csv} is implemented that
+invokes \code{utils::download.file}.}
 
 \item{...}{allow additional arguments to be passed, unused.}
 

@@ -13,18 +13,19 @@ dublincore(x)
 
 dublincore_add(
   x,
-  title = NULL,
-  creator = NULL,
-  identifier = NULL,
-  publisher = NULL,
-  subject = NULL,
-  date = NULL,
-  source = NULL,
-  language = NULL,
-  format = NULL,
-  rights = NULL,
-  description = NULL,
-  type = NULL,
+  Title = NULL,
+  Creator = NULL,
+  Identifier = NULL,
+  Publisher = NULL,
+  Subject = NULL,
+  Date = NULL,
+  Source = NULL,
+  Language = NULL,
+  Format = NULL,
+  Rights = NULL,
+  Relation = NULL,
+  Description = NULL,
+  Type = NULL,
   overwrite = TRUE
 )
 }
@@ -32,13 +33,13 @@ dublincore_add(
 \item{x}{An R object of type data.frame, or inherited data.table, tibble; alternatively a well
 structured R list.}
 
-\item{title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
+\item{Title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
 \code{\link{datacite}} allows the use of alternate titles, too.}
 
-\item{creator}{An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
+\item{Creator}{An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
 Corresponds to \code{Creator} in \code{\link{datacite}}.}
 
-\item{identifier}{An unambiguous reference to the resource within a given context.
+\item{Identifier}{An unambiguous reference to the resource within a given context.
 Recommended practice is to identify the resource by means of a string conforming to an
 identification system. Examples include International Standard Book Number (ISBN),
 Digital Object Identifier (DOI), and Uniform Resource Name (URN).
@@ -47,44 +48,7 @@ Select and identifier scheme from
 More details: \href{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}.
 Similar to \code{Identifier} in \code{\link{datacite}}.}
 
-\item{subject}{In \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. In
-\code{\link{datacite}} it is a recommended property for discovery.}
-
-\item{date}{Corresponds to a point or period of time associated with an event in the
-lifecycle of the resource. \href{http://purl.org/dc/elements/1.1/date}{dct:date}.
-\code{Date} is also recommended for
-discovery in \code{\link{datacite}}.}
-
-\item{source}{A related resource from which the described resource is derived. See \href{http://purl.org/dc/elements/1.1/source}{dct:source}.}
-
-\item{language}{The primary language of the resource. Allowed values are taken from
-IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}. Corresponds to Language in Datacite.}
-
-\item{format}{The file format, physical medium, or dimensions of the resource.
-\href{    http://purl.org/dc/elements/1.1/format}{dct:format}
-Examples of dimensions include size and duration. Recommended best practice is to use a controlled
-vocabulary such as the list of Internet Media Types \link{MIME}. It is similar to \code{Format} in
-\code{\link{datacite}}.}
-
-\item{rights}{Corresponds to \href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
-\code{\link{datacite}} Rights. Information about rights held in and over the resource.
-Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights.}
-
-\item{description}{An account of the resource. It may include but is not limited to:
-an abstract, a table of contents, a graphical representation, or a free-text account of the resource.
-\href{http://purl.org/dc/elements/1.1/description}{dct:description}. In
-\code{\link{datacite}} it is recommended for discovery.}
-
-\item{type}{The nature or genre of the resource. Recommended best practice is to use a controlled vocabulary such as the DCMI Type Vocabulary
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-type-vocabulary/}{\link{DCMITYPE}}.
-For a dataset, the correct term is \code{Dataset}.
-To describe the file format, physical medium, or dimensions of the resource, use the
-Format element.}
-
-\item{overwrite}{If pre-existing metadata properties should be overwritten,
-defaults to \code{TRUE}.}
-
-\item{pulisher}{Corresponds to dct:publisher and Publisher in DataCite.
+\item{Publisher}{Corresponds to dct:publisher and Publisher in DataCite.
 The name of the entity that holds, archives, publishes prints, distributes, releases,
 issues, or produces the resource. This property will be used to formulate the citation,
 so consider the prominence of the role. For software, use Publisher for the
@@ -93,9 +57,46 @@ code repository. If there is an entity other than a code repository, that
 code, use the property Contributor/contributorType/ hostingInstitution for the code
 repository.}
 
-\item{relation}{A related resource. Recommended best practice is to identify the related
+\item{Subject}{In \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. In
+\code{\link{datacite}} it is a recommended property for discovery.}
+
+\item{Date}{Corresponds to a point or period of time associated with an event in the
+lifecycle of the resource. \href{http://purl.org/dc/elements/1.1/date}{dct:date}.
+\code{Date} is also recommended for
+discovery in \code{\link{datacite}}.}
+
+\item{Source}{A related resource from which the described resource is derived. See \href{http://purl.org/dc/elements/1.1/source}{dct:source}.}
+
+\item{Language}{The primary language of the resource. Allowed values are taken from
+IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}. Corresponds to Language in Datacite.}
+
+\item{Format}{The file format, physical medium, or dimensions of the resource.
+\href{    http://purl.org/dc/elements/1.1/format}{dct:format}
+Examples of dimensions include size and duration. Recommended best practice is to use a controlled
+vocabulary such as the list of Internet Media Types \link{MIME}. It is similar to \code{Format} in
+\code{\link{datacite}}.}
+
+\item{Rights}{Corresponds to \href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
+\code{\link{datacite}} Rights. Information about rights held in and over the resource.
+Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights.}
+
+\item{Relation}{A related resource. Recommended best practice is to identify the related
 resource by means of a string conforming to a formal identification system. See: \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.
 Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended for discovery.}
+
+\item{Description}{An account of the resource. It may include but is not limited to:
+an abstract, a table of contents, a graphical representation, or a free-text account of the resource.
+\href{http://purl.org/dc/elements/1.1/description}{dct:description}. In
+\code{\link{datacite}} it is recommended for discovery.}
+
+\item{Type}{The nature or genre of the resource. Recommended best practice is to use a controlled vocabulary such as the DCMI Type Vocabulary
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-type-vocabulary/}{\link{DCMITYPE}}.
+For a dataset, the correct term is \code{Dataset}.
+To describe the file format, physical medium, or dimensions of the resource, use the
+Format element.}
+
+\item{overwrite}{If pre-existing metadata properties should be overwritten,
+defaults to \code{TRUE}.}
 }
 \description{
 Add metadata conforming the \href{https://schema.datacite.org/}{DataCite Metadata Schema}
@@ -120,12 +121,12 @@ The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically a
 \examples{
 dct_iris <- dublincore_add(
                    x = iris,
-                   title = "Iris Dataset",
-                   creator = person("Anderson", "Edgar", role = "aut"),
-                   publisher = "American Iris Society",
-                   source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-                   date = 1935,
-                   language = "en"
+                   Title = "Iris Dataset",
+                   Creator = person("Anderson", "Edgar", role = "aut"),
+                   Publisher = "American Iris Society",
+                   Source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+                   Date = 1935,
+                   Language = "en"
                    )
 
 dublincore(dct_iris)
@@ -133,6 +134,8 @@ dublincore(dct_iris)
 \seealso{
 Other metadata functions: 
 \code{\link{datacite}()},
+\code{\link{related_item_identifier}()},
+\code{\link{related_item}()},
 \code{\link{size_add}()}
 }
 \concept{metadata functions}

@@ -29,10 +29,8 @@ attr(iris_dataset, "Size")
 \seealso{
 Other metadata functions: 
 \code{\link{datacite}()},
-\code{\link{dublincore}()}
-
-Other Optional metadata: 
-\code{\link{version_add}()}
+\code{\link{dublincore}()},
+\code{\link{related_item_identifier}()},
+\code{\link{related_item}()}
 }
-\concept{Optional metadata}
 \concept{metadata functions}

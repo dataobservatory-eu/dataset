@@ -16,7 +16,7 @@ datacite_add(
   Title,
   Creator,
   Identifier = NULL,
-  Publisher,
+  Publisher = NULL,
   PublicationYear = "THIS",
   Subject = NULL,
   Contributor = NULL,
@@ -57,7 +57,8 @@ dct:publisher}
 \item{PublicationYear}{The year when the data was or will be made publicly available in \code{YYYY} format.}
 
 \item{Subject}{Recommended for discovery. Subject, keyword, classification code, or key
-phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}.}
+phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. \cr
+Use \code{\link{subject_add}} to properly add a key phrase from a controlled vocabulary.}
 
 \item{Contributor}{Recommended for discovery. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.}
 
@@ -103,7 +104,7 @@ An R object with at least the mandatory DataCite attributes.
 }
 \description{
 Add metadata conforming the \href{https://schema.datacite.org/}{DataCite Metadata Schema}
-to datasets, i.e. structured R data.frame or list dfects, for an accurate and consistent identification
+to datasets, i.e. structured R data.frame or list objects, for an accurate and consistent identification
 of a resource for citation and retrieval purposes.
 }
 \details{
@@ -136,6 +137,8 @@ datacite(my_iris)
 \seealso{
 Other metadata functions: 
 \code{\link{dublincore}()},
+\code{\link{related_item_identifier}()},
+\code{\link{related_item}()},
 \code{\link{size_add}()}
 }
 \concept{metadata functions}

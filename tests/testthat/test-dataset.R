@@ -11,10 +11,10 @@ y <- dataset (x,
               measures = 3,
               attributes = c(4,5),
               sdmx_attributes = c("time", "freq"),
-              title = "Example dataset",
-              creator = person("Jane", "Doe"),
-              publisher = "Publishing Co.",
-              issued = as.Date("2022-07-14")
+              Title = "Example dataset",
+              Creator = person("Jane", "Doe"),
+              Publisher = "Publishing Co.",
+              Issued = as.Date("2022-07-14")
               )
 
 df <- data.frame( sex = c("M", "F"), value = c(1,2))
@@ -32,7 +32,7 @@ test_that("dataset", {
 })
 
 test_that("bibentry_dataset", {
-  expect_equal(bibentry_dataset(y)$title, "Example dataset")
+  expect_equal(bibentry_dataset(y)$Title, "Example dataset")
   })
 
 

@@ -4,12 +4,12 @@
 \alias{version_add}
 \title{Add the version of the object.}
 \usage{
-version_add(x, version)
+version_add(x, Version)
 }
 \arguments{
 \item{x}{An R object, such as a data.frame, a tibble, or a character vector.}
 
-\item{version}{The version as a character set.}
+\item{Version}{The version as a character set.}
 }
 \value{
 The Version attribute as a character of length 1 is added to \code{x}.
@@ -26,9 +26,5 @@ It is not part of the "core" Dublin Core terms, but ...
 \examples{
 iris_dataset <- version_add(x = iris, version= "1.0")
 attr(iris_dataset, "Version")
-}
-\seealso{
-Other Optional metadata: 
-\code{\link{size_add}()}
 }
 \concept{Optional metadata}

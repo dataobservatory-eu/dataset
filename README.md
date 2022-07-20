@@ -90,16 +90,16 @@ my_iris_dataset <- dataset(
   dimensions = NULL, 
   measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width" ), 
   attributes = "Species", 
-  title = "Iris Dataset"
+  Title = "Iris Dataset"
 )
 
 my_iris_dataset <- dublincore_add(
   x = my_iris_dataset,
-  creator = person("Edgar", "Anderson", role = "aut"),
-  publisher = "American Iris Society",
-  source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-  date = 1935,
-  language = "en"
+  Creator = person("Edgar", "Anderson", role = "aut"),
+  Publisher = "American Iris Society",
+  Source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+  Date = 1935,
+  Language = "en"
 )
 
 dublincore(my_iris_dataset)
@@ -164,22 +164,25 @@ dublincore(my_iris_dataset)
 #> 
 #> 
 #> 
-#> $issued
-#> [1] 1935
+#> $Date
+#> [1] "2022-07-20"
 #> 
-#> $identifer
+#> $Identifier
 #> [1] NA
 #> 
-#> $creator
+#> $Creator
 #> [1] "Edgar Anderson [aut]"
 #> 
-#> $source
+#> $Source
 #> [1] "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
 #> 
-#> $publisher
+#> $Publisher
 #> [1] "American Iris Society"
 #> 
-#> $language
+#> $Issued
+#> [1] 1935
+#> 
+#> $Language
 #> [1] "eng"
 ```
 
@@ -191,13 +194,13 @@ to the modern [tibble](https://tibble.tidyverse.org/), which carries a
 larger dependency footprint but easier to work with. Easy
 interoperability with the [DT](https://rstudio.github.io/DT/)
 package–which provides an Rinterface to the
-[DataTables](https://datatables.net/) JavaScript library— remains a top
-development priority.
+[data.table](https://cran.r-project.org/web/packages/data.table/index.html)
+remains a top development priority.
 
 ## Code of Conduct
 
-Please note that the StatCodelists project is released with a
-[Contributor Code of
+Please note that the `dataset` package is released with a [Contributor
+Code of
 Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 

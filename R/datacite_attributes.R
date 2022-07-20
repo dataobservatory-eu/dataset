@@ -23,7 +23,9 @@ add_relitem <- function( RelatedIdentifier, relItem, relationType ) {
 #' @keywords internal
 add_date <- function( Date = NULL, time, dateType, dateInformation) {
 
-  date_item  <- data.frame ( Date = time, dateType = dateType, dateInformation = dateInformation)
+  date_item  <- data.frame ( Date = time,
+                             dateType = dateType,
+                             dateInformation = dateInformation)
   if ( is.null(Date) )  { date_item } else {
     rbind(Date, date_item)
   }

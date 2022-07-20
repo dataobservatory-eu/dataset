@@ -68,8 +68,8 @@ survey_dataset  <- dataset( x= raw_survey,
                                          "age_exact", "difficulty_bills"), 
                             attributes = NULL, 
                             sdmx_attributes = "geo", 
-                            title = "Tiny Survey", 
-                            creator = person("Jane", "Doe"))
+                            Title = "Tiny Survey", 
+                            Creator = person("Jane", "Doe"))
 ```
 
 ```{r}

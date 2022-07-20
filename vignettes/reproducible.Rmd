@@ -35,7 +35,7 @@ iris_ds <- read_dataset(
   dimensions = NULL,
   measures = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
   attributes = "Species",
-  title = "Iris Dataset",
+  Title = "Iris Dataset",
   unit = list(code = "MM", label = "millimeter"),
   .f = "utils::read.csv", file = temp_path )
 ```

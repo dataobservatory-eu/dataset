@@ -1,7 +1,7 @@
 #' @title Add DataCite metadata to an object
 #'
 #' @description Add metadata conforming the \href{https://schema.datacite.org/}{DataCite Metadata Schema}
-#' to datasets, i.e. structured R data.frame or list dfects, for an accurate and consistent identification
+#' to datasets, i.e. structured R data.frame or list objects, for an accurate and consistent identification
 #' of a resource for citation and retrieval purposes.
 #'
 #' @details DataCite is a leading global non-profit organisation that provides persistent identifiers
@@ -35,7 +35,8 @@
 #' \code{\link{dublincore}}.
 #' @param PublicationYear The year when the data was or will be made publicly available in \code{YYYY} format.
 #' @param Subject Recommended for discovery. Subject, keyword, classification code, or key
-#' phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}.
+#' phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. \cr
+#' Use \code{\link{subject_add}} to properly add a key phrase from a controlled vocabulary.
 #' @param Contributor Recommended for discovery. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.
 #' @param Date Recommended for discovery in DataCite. Similar to \href{http://purl.org/dc/elements/1.1/date}{dct:date} in
 #' \code{\link{dublincore}}.
@@ -90,9 +91,11 @@ datacite <- function(x) {
 #' @rdname datacite
 #' @export
 datacite_add <- function(x, Title, Creator,
-                         Identifier = NULL, Publisher,
+                         Identifier = NULL,
+                         Publisher = NULL,
                          PublicationYear = "THIS",
-                         Subject = NULL, Contributor = NULL, Date = NULL,
+                         Subject = NULL,
+                         Contributor = NULL, Date = NULL,
                          Language = NULL,
                          AlternateIdentifer = NULL, RelatedIdentifier = NULL,
                          Format = NULL, Version = NULL, Rights = NULL,
@@ -103,18 +106,20 @@ datacite_add <- function(x, Title, Creator,
   if (PublicationYear == "THIS") as.integer(substr(Sys.Date(),1,4))
 
   attr(x, "title") <- Title
-  attr(x, "creator") <- Creator
-  attr(x, "publisher") <- Publisher
+  attr(x, "Subject") <- Subject
+  attr(x, "Creator") <- Creator
+  attr(x, "Publisher") <- Publisher
 
-  x <- identifier_add(x, identifer = Identifier, overwrite = overwrite)
+  #x <- identifier_add(x, Identifer = Identifier, overwrite = overwrite)
+  attr(x, "Identifer") <- Identifier
 
-  attr(x, "issued") <- ifelse(is.null(Date), PublicationYear, Date)
+  attr(x, "Issued") <- ifelse(is.null(Date), PublicationYear, Date)
   attr(x, "PublicationYear") <- PublicationYear
   attr(x, "ResourceType") <- ifelse(inherits(x, "data.frame"), "Dataset",
                                      ifelse (inherits(x, "list"), "Dataset",
                                              "Other R object"))
 
-  attr(x, "description") <- Description
+  attr(x, "Description") <- Description
   attr(x, "Geolocation") <- Geolocation
 
   if (!is.null(Language)) x <- language_add (x, Language)
@@ -137,16 +142,15 @@ datacite_add <- function(x, Title, Creator,
 #' @examples
 #' iris_dataset <- size_add(iris)
 #' attr(iris_dataset, "Size")
-#' @family Optional metadata
 #' @export
 
 size_add <- function(x) {
 
   a <- object.size(x)
 
-  this_dfect_size <- paste0(round((as.numeric(a) / 1000),2), " kB [", round((as.numeric(a)/1024),2), " KiB]")
+  this_object_size <- paste0(round((as.numeric(a) / 1000),2), " kB [", round((as.numeric(a)/1024),2), " KiB]")
 
-  attr(x, "Size") <- this_dfect_size
+  attr(x, "Size") <- this_object_size
 
   x
 }
@@ -175,29 +179,29 @@ size_add <- function(x) {
 #' @family Metadata functions
 #' @export
 
-language_add <- function(x, language, iso_639_code = "639-3" ) {
+language_add <- function(x, Language, iso_639_code = "639-3" ) {
 
   ISO_639 <- ISOcodes::ISO_639_2
 
-  if (nchar(language)==2) {
-    language <- tolower(language)
-    lang_entry <- ISO_639[which(language == ISO_639$Alpha_2),]
-  } else if ( nchar(language)== 3) {
-    language <- tolower(language)
-    lang_entry <- ISO_639[which(language == ISO_639$Alpha_3),]
+  if (nchar(Language)==2) {
+    Language <- tolower(Language)
+    lang_entry <- ISO_639[which(Language == ISO_639$Alpha_2),]
+  } else if ( nchar(Language)== 3) {
+    Language <- tolower(Language)
+    lang_entry <- ISO_639[which(Language == ISO_639$Alpha_3),]
   } else {
-    language <- tolower(language)
-    lang_entry <-ISO_639[which(language == tolower(ISO_639$Name)),]
+    Language <- tolower(Language)
+    lang_entry <-ISO_639[which(Language == tolower(ISO_639$Name)),]
   }
 
   if (nrow(lang_entry)==0) {
-    stop(glue::glue("{language} is not a valid ISO 639 language code."))
+    stop(glue::glue("{Language} is not a valid ISO 639 language code."))
   }
 
   if (iso_639_code == "639-1") {
-    attr(x, "language") <- lang_entry$Alpha_2
+    attr(x, "Language") <- lang_entry$Alpha_2
   } else {
-    attr(x, "language") <- lang_entry$Alpha_3_T
+    attr(x, "Language") <- lang_entry$Alpha_3_T
   }
   x
 }
@@ -206,7 +210,7 @@ language_add <- function(x, language, iso_639_code = "639-3" ) {
 #' @family Metadata functions
 #' @export
 language_get <- function (x) {
-  attr(x, "language")
+  attr(x, "Language")
 }
 
 
@@ -217,18 +221,18 @@ language_get <- function (x) {
 #' It is not part of the "core" Dublin Core terms, but ...
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin Core metadata terms}.
 #' @param x An R object, such as a data.frame, a tibble, or a character vector.
-#' @param version The version as a character set.
+#' @param Version The version as a character set.
 #' @return The Version attribute as a character of length 1 is added to \code{x}.
 #' @examples
 #' iris_dataset <- version_add(x = iris, version= "1.0")
 #' attr(iris_dataset, "Version")
 #' @family Optional metadata
 #' @export
-version_add <- function(x, version ) {
+version_add <- function(x, Version ) {
 
   assertthat::assert_that(is.null(dim(version)),
-                          msg = "verion_add(x, version): version must be a character string or a number that can be coerced into a character string of length=1.")
+                          msg = "verion_add(x, Version): version must be a character string or a number that can be coerced into a character string of length=1.")
 
-  attr(x, "Version") <- version
+  attr(x, "Version") <- Version
   x
 }

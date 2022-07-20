@@ -60,6 +60,10 @@ reference:
       - dublincore_add
       - datacite
       - datacite_add
+      - related_item
+      - related_item_identifier
+      - subjects
+      - subject_add
       - size_add
       - language_add
       - language_get

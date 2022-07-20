@@ -47,12 +47,12 @@ Currently, the DataCite properties (all mandatory, and what was filled up from t
 ```{r showattributes}
 dct_iris <- dublincore_add(
   x = iris,
-  title = "Iris Dataset",
-  creator = person("Edgar", "Anderson", role = "aut"),
-  publisher = "American Iris Society",
-  identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-  date = 1935,
-  language = "en"
+  Title = "Iris Dataset",
+  Creator = person("Edgar", "Anderson", role = "aut"),
+  Publisher = "American Iris Society",
+  Identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+  Date = 1935,
+  Language = "en"
 )
 
 dublincore(dct_iris)
@@ -107,14 +107,14 @@ Both W3C and SDMX uses are more complex object, the Datacube in its description.
 
 ```{r petalexample}
 petal_length <- dataset(subset(iris, select = c("Petal.Length", "Species")), 
-        dimensions=NULL, 
-        measures = "Petal.Length", 
+        dimensions = NULL, 
+        measures   = "Petal.Length", 
         attributes = "Species")
 
 petal_width <- dataset(subset(iris, select = c("Petal.Width", "Species")), 
-        dimensions=NULL, 
-        measures = "Petal.Width", 
-        attribute = "Species")
+        dimensions = NULL, 
+        measures   = "Petal.Width", 
+        attribute  = "Species")
 
 require(dplyr)
 petal_length %>%

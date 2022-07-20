@@ -14,12 +14,12 @@ dataset(
   measures = NULL,
   attributes = NULL,
   sdmx_attributes = NULL,
-  title = NULL,
-  label = NULL,
-  creator = NULL,
-  publisher = NULL,
-  issued = NULL,
-  type = list(type = "Dataset", URI = "http://purl.org/dc/dcmitype/Dataset")
+  Title = NULL,
+  Label = NULL,
+  Creator = NULL,
+  Publisher = NULL,
+  Issued = NULL,
+  Type = list(type = "Dataset", URI = "http://purl.org/dc/dcmitype/Dataset")
 )
 
 \method{summary}{dataset}(x, ...)
@@ -43,15 +43,24 @@ bibentry_dataset(x)
 SDMX. \code{c("time", "geo")} will mark the "time" and "geo" attributes as conforming to
 sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl}{sdmx-attribute}.}
 
-\item{title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
+\item{Title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
 \code{\link{datacite}} allows the use of alternate titles, too.}
 
-\item{creator}{An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
+\item{Creator}{An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
 Corresponds to \code{Creator} in \code{\link{datacite}}.}
 
-\item{issued}{Corresponds to}
+\item{Publisher}{Corresponds to dct:publisher and Publisher in DataCite.
+The name of the entity that holds, archives, publishes prints, distributes, releases,
+issues, or produces the resource. This property will be used to formulate the citation,
+so consider the prominence of the role. For software, use Publisher for the
+code repository. If there is an entity other than a code repository, that
+"holds, archives, publishes, prints, distributes, releases, issues, or produces" the
+code, use the property Contributor/contributorType/ hostingInstitution for the code
+repository.}
 
-\item{type}{It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.}
+\item{Issued}{Corresponds to \href{http://purl.org/dc/elements/1.1/date}{dct:date}.}
+
+\item{Type}{It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.}
 }
 \description{
 A DataSet is a collection of statistical data that corresponds to a defined structure.
@@ -59,7 +68,7 @@ A DataSet is a collection of statistical data that corresponds to a defined stru
 \details{
 Loosely follows the \href{https://www.w3.org/TR/vocab-data-cube/}{The RDF Data Cube Vocabulary},
 but without the definition of data slices.\cr
-\code{bibentry_dataset()} is  a wrapper around \code{\link[utils:bibentry]{bibentry}} to correctly turn the
+\code{bibentry_dataset()} is a wrapper around \code{\link[utils:bibentry]{bibentry}} to correctly turn the
 metadata of the dataset into a bibentry object.
 }
 \examples{
