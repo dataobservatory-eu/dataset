@@ -75,15 +75,41 @@ survey_dataset  <- dataset( x= raw_survey,
 ```{r}
 datacite(survey_dataset)
 ```
-What I find illogical and difficult for use in harmonization tasks is that a valid, but not present label cannot be record in `declared`.
+
+It is a good practice to define valid, but not present labels in `declared`, because in the retrospective harmonization workflow they may be concatenaded (binded) together with further observations that do have the currently not used label. 
+
+In this example, the `DK` or declined label is not in use.
 
 ```{r, eval=FALSE}
 # This is not valied in declared
-listen_spotify <- declared (
+listen_spotify <- declared(
   c(0,1,9,0,1),
-  labels = c( No = 0, Yes = 1,Inap = 9, DK -1)
+  labels = c( No = 0, Yes = 1,Inap = 9, DK =-1), 
+  na_values = c(9, -1)
   )
 ```
+
+
+
+```{r}
+print(listen_spotify)
+```
+
+
+```{r}
+c(listen_spotify, declared(
+  c(-1,-1,-1),
+  labels = c( No = 0, Yes = 1,Inap = 9, DK =-1)
+  ))
+```
+
+```{r}
+summary(listen_spotify)
+```
+
+
+
+
 
 ```{r}
 survey_dataset <- datacite_add(survey_dataset, 
