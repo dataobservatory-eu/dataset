@@ -73,14 +73,14 @@ metadata of the dataset into a bibentry object.
 }
 \examples{
 my_dataset <- dataset (x,
-dimensions = c(1,2),
-measures = 3,
-attributes = c(4,5),
-sdmx_attributes = c("time", "freq"),
-title = "Example dataset",
-creator = person("Jane", "Doe"),
-publisher = "Publishing Co.",
-issued = as.Date("2022-07-14")
+    dimensions = c(1,2),
+    measures = 3,
+    attributes = c(4,5),
+    sdmx_attributes = c("time", "freq"),
+    Title = "Example dataset",
+    Creator = person("Jane", "Doe"),
+    Publisher = "Publishing Co.",
+    Issued = as.Date("2022-07-14")
 )
 
 utils::toBibtex(bibentry_dataset(my_dataset))

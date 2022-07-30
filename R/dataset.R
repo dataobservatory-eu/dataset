@@ -17,14 +17,14 @@
 #' @importFrom utils toBibtex
 #' @examples
 #' my_dataset <- dataset (x,
-#' dimensions = c(1,2),
-#' measures = 3,
-#' attributes = c(4,5),
-#' sdmx_attributes = c("time", "freq"),
-#' title = "Example dataset",
-#' creator = person("Jane", "Doe"),
-#' publisher = "Publishing Co.",
-#' issued = as.Date("2022-07-14")
+#'     dimensions = c(1,2),
+#'     measures = 3,
+#'     attributes = c(4,5),
+#'     sdmx_attributes = c("time", "freq"),
+#'     Title = "Example dataset",
+#'     Creator = person("Jane", "Doe"),
+#'     Publisher = "Publishing Co.",
+#'     Issued = as.Date("2022-07-14")
 #' )
 #'
 #' utils::toBibtex(bibentry_dataset(my_dataset))
@@ -45,9 +45,11 @@ dataset <- function(x,
                                   URI = "http://purl.org/dc/dcmitype/Dataset")
                     ) {
 
+
+
   x <- dimensions_add(x, dimensions, sdmx_attributes)
   x <- measures_add(x, measures)
-  x <- attributes_add(x, attributes, sdmx_attributes)
+  x <- attributes_measurements_add(x, attributes, sdmx_attributes)
 
   attr(x, "Title") <- Title
   attr(x, "Label") <- Label
@@ -191,17 +193,18 @@ measures_add <- function(x, measures) {
 }
 
 #' @title Attributes of a dataset
-#' @details Do not confuse with \code{base::\link{attributes}}.
+#' @details Do not confuse with \code{base::\link{attributes}}, which applies to the attributes
+#' of the entire dataset, and not each observation (measurement) row.
 #' See the W3C and SDMX definition of a \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{attribute}.
 #' @inheritParams dataset
 #' @export
-attributes_dataset <- function(x) attr(x, "attributes")
+attributes_measurements <- function(x) attr(x, "attributes")
 
 #' @inheritParams dataset
-#' @rdname attributes_dataset
+#' @rdname attributes_measurements
 #' @export
 
-attributes_add <- function(x, attributes, sdmx_attributes = NULL) {
+attributes_measurements_add <- function(x, attributes, sdmx_attributes = NULL) {
 
   if ( any(is.null(attributes) | is.na(attributes) | length(attributes)==0) ) return(x)
 

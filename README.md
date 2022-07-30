@@ -16,14 +16,33 @@ author](https://img.shields.io/twitter/follow/digitalmusicobs.svg?style=social)]
 <!-- badges: end -->
 
 The primary aim of dataset is to build well-documented data.frames,
-tibbles or data.tables that follow the W3C [Data Cube
-Vocabulary](https://www.w3.org/TR/vocab-data-cube/) based on the
-statistical SDMX data cube model[^1]. Such standard R objects
-(data.fame, data.table, tibble, or well-structured lists like json)
-become highly interoperable and can be placed into relational databases,
-semantic web applications, archives, repositories. They follow the
-[FAIR](https://www.go-fair.org/fair-principles/) principles: they are
-findable, accessible, interoperable and reusable.
+tibbles or data.tables that translate well into the W3C DataSet
+definition within the [Data Cube
+Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible
+manner. The data cube model in itself is is originated in the
+[Statistical Data and Metadata eXchange](https://sdmx.org/), and it is
+almost fully harmonzied with the Resource Description Framework (RDF),
+the standard model for data interchange on the web[^1].
+
+A mapping of R objects into these models has numerous advantages:
+
+1.  Makes data importing easier and less error-prone;
+2.  Leaves plenty of room for documentation automation, resulting in far
+    better reusability and reproducability;
+3.  The publication of results from R following the
+    [FAIR](https://www.go-fair.org/fair-principles/) principles is far
+    easier, making the work of the R user more findable, more
+    accessible, more interoperable and more reusable by other users;
+4.  Makes the placement into relational databases, semantic web
+    applications, archives, repositories possible without time-consuming
+    and costly data wrangling (See [From dataset To
+    RDF](https://dataset.dataobservatory.eu/articles/RDF.html)).
+
+Our package functions work with any structured R ojects (data.fame,
+data.table, tibble, or well-structured lists like json), however, the
+best functionality is achieved by the (See [The dataset S3
+Class](https://dataset.dataobservatory.eu/articles/dataset.html)), which
+is inherited from `data.frame()`.
 
 ## Installation
 
@@ -32,54 +51,6 @@ You can install the development version of dataset from Github:
 ``` r
 remotes::install_package(dataobservatory-eu/dataset)
 ```
-
-Our
-[datasets](https://dataset.dataobservatory.eu/reference/dataset.html):
-
--   [x] Contain Dublin Core or DataCite (or both) metadata that makes
-    the findable and easier accessible via online libraries. See
-    vignette article [Datasets With FAIR
-    Metadata](https://dataset.dataobservatory.eu/articles/metadata.html).
-
--   [x] Their dimensions can be easily and unambigously reduced to
-    triples for RDF applications; they can be easily serialized to, or
-    synchronized with semantic web applications. See vignette article
-    [From dataset To
-    RDF](https://dataset.dataobservatory.eu/articles/RDF.html).
-
--   [x] Contain processing metadata that greatly enhance the
-    reproducibility of the results, and the reviewability of the
-    contents of the dataset, including metadata defined by the [DDI
-    Alliance](https://ddialliance.org/), which is particularly helpful
-    for not yet processed data;
-
--   [x] Follow the datacube model of the [Statistical Data and Metadata
-    eXchange](https://sdmx.org/), therefore allowing easy refreshing
-    with new data from the source of the analytical work, and
-    particularly useful for datasets containing results of statistical
-    operations in R;
-
--   [x] Correct exporting with FAIR metadata to the most used file
-    formats and straightforward publication to open science repositories
-    with correct bibliographical and use metadata. See [Export And
-    Publish a
-    dataset](https://dataset.dataobservatory.eu/articles/publish.html)
-
--   [x] Relatively lightweight in dependencies and easily works with
-    data.frame, [tibble](https://tibble.tidyverse.org/) or
-    [data.table](https://rstudio.github.io/DT/) R objects.
-
-## Structure
-
-Following the datacube model, our datasets are data frames with clearly
-defined dimensions (`time`, `geo`, `sex`), meausurements (`value`), and
-attributes (`unit`, `freq`, `status`). In this example, all dimensions
-and values are following the SDMX attribute definition, i.e. they have a
-standardized, natural language independent codelist. (To use these
-codelists, use the
-[statcodelist](https://statcodelists.dataobservatory.eu/) data package.)
-
-<img src="vignettes/RDF_chart_1.png" width="100%" />
 
 ## Getting started
 
@@ -165,7 +136,7 @@ dublincore(my_iris_dataset)
 #> 
 #> 
 #> $Date
-#> [1] "2022-07-20"
+#> [1] "2022-07-30"
 #> 
 #> $Identifier
 #> [1] NA
@@ -192,10 +163,97 @@ This package is in an early development phase. The current dataset S3
 class is inherited from the base R data.frame. Later versions may change
 to the modern [tibble](https://tibble.tidyverse.org/), which carries a
 larger dependency footprint but easier to work with. Easy
-interoperability with the [DT](https://rstudio.github.io/DT/)
-package–which provides an Rinterface to the
+interoperability with the
 [data.table](https://cran.r-project.org/web/packages/data.table/index.html)
-remains a top development priority.
+package remains a top development priority.
+
+## The datacube model in R
+
+According to the [RDF Data Cube
+Vocabulary](https://www.w3.org/TR/vocab-data-cube/) DataSet is a
+collection of statistical data that corresponds to a defined structure.
+The data in a data set can be roughly described as belonging to one of
+the following kinds:
+
+-   `Observations`: these are the measured values, and the cells of a
+    data frame object in R.
+-   `Organizational structure`: To locate an observation within the
+    hypercube, one has at least to know the value of each dimension at
+    which the observation is located, so these values must be specified
+    for each observation. Datasets can have additional organizational
+    structure in the form of slices as described in section 7.2.
+-   `Structural metadata`: Metadata to interpret the data. What is the
+    unit of measurement? Is it a normal value or a series break? Is the
+    value measured or estimated? These metadata are provided as
+    attributes and can be attached to individual observations, or to
+    higher levels.
+-   `Reference metadata`: Metadata that describes the dataset as a
+    whole, such as categorization of the dataset, its publisher, or an
+    endpoint where it can be accessed.
+
+| Information  | dataset                              |
+|:------------:|--------------------------------------|
+|  dimensions  | first column section of the dataset  |
+| measurements | second column section of the dataset |
+|  attributes  | third column section of the dataset  |
+|  reference   | attributes of the R object           |
+
+Our dataset class follows the organizational model of the datacube,
+which is used by the [Statistical Data and Metadata
+eXchange](https://sdmx.org/), and which is also described in a
+non-normative manner by the the [RDF Data Cube
+Vocabulary](https://www.w3.org/TR/vocab-data-cube/). While the SDMX
+standards predate the Resource Description Framework (RDF) framework for
+the semantic web, they are already harmonized to a great deal, which
+enables users and data publishers to create machine-to-machine
+connections among statistical data. Our goal is to create a modern data
+frame object in R with utilities that allow the R user to benefit from
+synchronizing data with semantic web applications, including statistical
+resources, libraries, or open science repositories.
+
+<img src="vignettes/dataset_structure.png" width="100%" />
+
+The [The dataset S3
+Class](https://dataset.dataobservatory.eu/articles/dataset.html)
+vignette explains in more detail our interpretation of the datacube
+model, and some considerations and dilemmas that we are facing in the
+further development of this early stage package.
+
+Our
+[datasets](https://dataset.dataobservatory.eu/reference/dataset.html):
+
+-   [x] Contain Dublin Core or DataCite (or both) metadata that makes
+    the findable and easier accessible via online libraries. See
+    vignette article [Datasets With FAIR
+    Metadata](https://dataset.dataobservatory.eu/articles/metadata.html).
+
+-   [x] Their dimensions can be easily and unambigously reduced to
+    triples for RDF applications; they can be easily serialized to, or
+    synchronized with semantic web applications. See vignette article
+    [From dataset To
+    RDF](https://dataset.dataobservatory.eu/articles/RDF.html).
+
+-   [x] Contain processing metadata that greatly enhance the
+    reproducibility of the results, and the reviewability of the
+    contents of the dataset, including metadata defined by the [DDI
+    Alliance](https://ddialliance.org/), which is particularly helpful
+    for not yet processed data;
+
+-   [x] Follow the datacube model of the [Statistical Data and Metadata
+    eXchange](https://sdmx.org/), therefore allowing easy refreshing
+    with new data from the source of the analytical work, and
+    particularly useful for datasets containing results of statistical
+    operations in R;
+
+-   [x] Correct exporting with FAIR metadata to the most used file
+    formats and straightforward publication to open science repositories
+    with correct bibliographical and use metadata. See [Export And
+    Publish a
+    dataset](https://dataset.dataobservatory.eu/articles/publish.html)
+
+-   [x] Relatively lightweight in dependencies and easily works with
+    data.frame, [tibble](https://tibble.tidyverse.org/) or
+    [data.table](https://rstudio.github.io/DT/) R objects.
 
 ## Code of Conduct
 

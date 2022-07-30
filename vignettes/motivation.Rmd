@@ -14,15 +14,24 @@ knitr::opts_chunk$set(
 )
 ```
 
+The primary aim of dataset is to build well-documented data.frames, tibbles or data.tables that translate well into the W3C DataSet definition within the [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible manner. The data cube model in itself is is originated in the [Statistical Data and Metadata eXchange](https://sdmx.org/), and it is almost fully harmonzied with the Resource Description Framework (RDF), the standard model for data interchange on the web. 
+
+A mapping of R objects into these models has numerous advantages: it makes data importing easier and less error-prone; it leaves plenty of room for documentation automation; and it makes the publication of results from R following the FAIR principles much easier.
+
 Lovers of the tidy data concept and [tidyverse](https://www.tidyverse.org/) know that the world is full of untidy data tables that give on average 5-times more work to tidy up then to actually do analytical work with them. But that’s not the only problem with datasets.  Datasets without codebooks cannot be intelligently matched with other information sources.  Data without reference to an authoritative copy cannot be validated against accidental damage during processing.  A dataset without bibliographic references is not ready for publication. 
 
+
+
 The motivation of the ecosystem of the [dataset](https://dataset.dataobservatory.eu/), [statcodelists](https://statcodelists.dataobservatory.eu/), and the dataobservatory packages is to provide a comprehensive toolkit that helps many reproducible research tasks.
+
+Our dataset class follows the organizational model of the datacube, which is used by the [Statistical Data and Metadata eXchange](https://sdmx.org/), and which is also described in a non-normative manner by the the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/). While the SDMX standards predate the Resource Description Framework (RDF) framework for the semantic web, they are already harmonized to a great deal, which enables users and data publishers to create machine-to-machine connections among statistical data. Our goal is to create a modern data frame object in R with utilities that allow the R user to benefit from synchronizing data with semantic web applications, including statistical resources, libraries, or open science repositories.
 
 The [dataset](https://dataset.dataobservatory.eu/) package aims to produce well-formatted and well-documented data.frames, tibbles or data.tables that can be easily synchronized with web resources (such as statistical web APIs), and which are ready to published on open science repositories with metadata that makes them findable, accessible and interoperable in library catalogues and in statistical applications.
 
 The primary aim of dataset is to build well-documented data.frames, tibbles or data.tables that follow the W3C [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) based on the statistical SDMX data cube model^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>]. Such standard R objects (data.fame, data.table, tibble, or well-structured lists like json) become highly interoperable and can be placed into relational databases, semantic web applications, archives, repositories.  They follow the [FAIR](https://www.go-fair.org/fair-principles/) principles: they are findable, accessible, interoperable and reusable. 
 
 Our [datasets](https://dataset.dataobservatory.eu/reference/dataset.html):
+
 - [x] contain Dublin Core or DataCite (or both) metadata that makes the findable and easier accessible via online libraries
 - [x] are easily reduced to linked open data formats to be serialized to, or synchronized with semantic web applications
 - [x] follow the datacube model of the Statistical Data and Metadata eXchange, therefore allowing easy refreshing with new data from the source of the analytical work

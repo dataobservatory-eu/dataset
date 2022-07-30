@@ -81,11 +81,11 @@
 
 datacite <- function(x) {
 
-  attributes_dataset <- attributes(x)
-  attributes_dataset$row.names <- NULL
-  attributes_dataset$class <- NULL
+  attributes_measurements <- attributes(x)
+  attributes_measurements$row.names <- NULL
+  attributes_measurements$class <- NULL
 
-  attributes_dataset
+  attributes_measurements
 }
 
 #' @rdname datacite

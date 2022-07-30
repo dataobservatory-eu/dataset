@@ -2,8 +2,8 @@
 
 S3method(print,dataset)
 S3method(summary,dataset)
-export(attributes_add)
-export(attributes_dataset)
+export(attributes_measurements)
+export(attributes_measurements_add)
 export(bibentry_dataset)
 export(datacite)
 export(datacite_add)

@@ -18,6 +18,20 @@ knitr::opts_chunk$set(
 library(dataset)
 ```
 
+According to the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) DataSet is a collection of statistical data that corresponds to a defined structure. The data in a data set can be roughly described as belonging to one of the following kinds:
+
+- `Observations`: these are the measured values, and the cells of a data frame object in R.
+- `Organizational structure`: To locate an observation within the hypercube, one has at least to know the value of each dimension at which the observation is located, so these values must be specified for each observation. Datasets can have additional organizational structure in the form of slices as described in section 7.2.
+- `Structural metadata`: Metadata to interpret the data. What is the unit of measurement? Is it a normal value or a series break? Is the value measured or estimated? These metadata are provided as attributes and can be attached to individual observations, or to higher levels.
+- `Reference metadata`: Metadata that describes the dataset as a whole, such as categorization of the dataset, its publisher, or an endpoint where it can be accessed.
+
+| Information | dataset |
+|:--:|----|
+| dimensions   |  first column section of the dataset   |
+| measurements |  second column section of the dataset  |
+| attributes   |  third column section of the dataset   |
+| reference    |  attributes of the R object            |
+
 ## FAIR metadata
 
 Our `dataset` R package aims to increase the *Findability, Accessibility, Interoperability,* and *Reuse* of digital assets, particularly datacubes and datasets used in statistics and data analysis. The [FAIR](https://www.go-fair.org/fair-principles/) principles  "…emphasise machine-actionability (i.e., the capacity of computational systems to find, access, interoperate, and reuse data with none or minimal human intervention) because humans increasingly rely on computational support to deal with data as a result of the increase in volume, complexity, and creation speed of data."

@@ -18,6 +18,15 @@ authors:
 
 
 articles:
+  - title: "Datasets"
+    desc: >
+     Our `dataset` R package aims to help the Findability, Accessibility, Interoperability,
+         and Reuse of digital assets, particularly datacubes and datasets used in statistics and data
+         analysis.
+    contents:
+      - dataset
+      - metadata
+      - motivation
   - title: "Planned functionality"
     desc: >
      This package is in an early development phase. The current dataset S3 class is inherited
@@ -27,18 +36,10 @@ articles:
          [DT](https://rstudio.github.io/DT/) package--which provides an Rinterface to the [DataTables](https://datatables.net/)
          JavaScript library---remains a top development priority.
     contents:
-      - motivation
       - survey
       - RDF
       - publish
       - reproducible
-  - title: "Datasets with FAIR metadata"
-    desc: >
-     Our `dataset` R package aims to help the Findability, Accessibility, Interoperability,
-         and Reuse of digital assets, particularly datacubes and datasets used in statistics and data
-         analysis.
-    contents:
-      - metadata
 
 reference:
   - title: "Dataset"
@@ -50,7 +51,8 @@ reference:
       - dimensions_add
       - measures
       - measures_add
-      - attributes_add
+      - attributes_measurements
+      - attributes_measurements_add
   - title: "FAIR metadata"
     desc: >
       Add and read [FAIR metadata](https://www.go-fair.org/fair-principles/)
