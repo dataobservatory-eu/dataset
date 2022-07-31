@@ -29,6 +29,8 @@ title_add <- function(x, Title, titleType = NULL) {
                             "TranslatedTitle",
                             "Other")
 
+  if (is.null(Title)) return(x)
+
   if (length(Title)==1 & is.null(titleType)) {
     attr(x, "Title") <- Title
     return(x)

@@ -35,7 +35,7 @@ A mapping of R objects into these models has numerous advantages:
 3. The publication of results from R following the [FAIR](https://www.go-fair.org/fair-principles/) principles is far easier, making the work of the R user more findable, more accessible, more interoperable and more reusable by other users;
 4. Makes the placement into relational databases, semantic web applications, archives, repositories possible without time-consuming and costly data wrangling (See [From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html)).
 
-Our package functions work with any structured R ojects (data.fame, data.table, tibble, or well-structured lists like json), however, the best functionality is achieved by the (See [The dataset S3 Class](https://dataset.dataobservatory.eu/articles/dataset.html)), which is inherited from `data.frame()`.
+Our package functions work with any structured R objects (data.fame, data.table, tibble, or well-structured lists like json), however, the best functionality is achieved by the (See [The dataset S3 Class](https://dataset.dataobservatory.eu/articles/dataset.html)), which is inherited from `data.frame()`.
 
 ## Installation
 
@@ -102,7 +102,7 @@ Our [datasets](https://dataset.dataobservatory.eu/reference/dataset.html):
 
 - [x] Contain Dublin Core or DataCite (or both) metadata that makes the findable and easier accessible via online libraries. See vignette article [Datasets With FAIR Metadata](https://dataset.dataobservatory.eu/articles/metadata.html).
 
-- [x] Their dimensions can be easily and unambigously reduced to triples for RDF applications; they can be easily serialized to, or synchronized with semantic web applications. See vignette article [From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html).
+- [x] Their dimensions can be easily and unambiguously reduced to triples for RDF applications; they can be easily serialized to, or synchronized with semantic web applications. See vignette article [From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html).
 
 - [x] Contain processing metadata that greatly enhance the reproducibility of the results, and the reviewability of the contents of the dataset, including metadata defined by the [DDI Alliance](https://ddialliance.org/), which is particularly helpful for not yet processed data;
 

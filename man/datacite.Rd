@@ -134,7 +134,6 @@ datacite(my_iris)
 \seealso{
 Other metadata functions: 
 \code{\link{dublincore}()},
-\code{\link{related_item_identifier}()},
 \code{\link{related_item}()},
 \code{\link{size_add}()}
 }

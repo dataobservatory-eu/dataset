@@ -30,7 +30,6 @@ attr(iris_dataset, "Size")
 Other metadata functions: 
 \code{\link{datacite}()},
 \code{\link{dublincore}()},
-\code{\link{related_item_identifier}()},
 \code{\link{related_item}()}
 }
 \concept{metadata functions}

@@ -1,41 +1,23 @@
 
-
-related_item_type = "dataset"
-related_item_identifier <-  list (
-  scheme = "url",
-  identifier =  "https://zenodo.org/record/5703222#.YZYkm2DMLIU",
-  relation =  "compiles",
-  resource_type =  "dataset"
-)
-
-creator = person ("Daniel", "Antal", role = "aut")
-title = "Dataset title"
-publisher = "zenodo"
-publication_year = 2022
-
-
-related_item_identifer ()
-
-related_item <- function(x) {
-
-}
-
-
-rel_item_1 <- list (
-  scheme = "url",
-  identifier = "https://zenodo.org/record/5704568#.YZYkc2DMLIU",
-  relation = "compiles",
-  resource_type = "dataset")
-rel_item_2 <- list (
-  scheme = "url",
-  identifier =  "https://zenodo.org/record/5703222#.YZYkm2DMLIU",
-  relation =  "compiles",
-  resource_type =  "dataset"
+related_item_identifier(Identifier = "https://zenodo.org/record/5703222#.YZYkm2DMLIU",
+                        relatedIdentifierType = "DOI",
+                        relationType = "CompiledBy",
+                        schemeURI = "URI",
+                        resourceTypeGeneral = "Dataset"
 )
 
 
-list  ( "my_rec"= rel_item_1, "eurostat_2021"= rel_item_2)
+my_rel_item  <- related_item (Identifier = "https://zenodo.org/record/5703222#.YZYkm2DMLIU",
+                              Creator = person ("Daniel", "Antal", role = "aut"),
+                              Publisher = "Zenodo",
+                              PublicationYear = 2022,
+                              relatedIdentifierType = "DOI",
+                              relationType = "CompiledBy",
+                              schemeURI = "URI",
+                              resourceTypeGeneral = "Dataset")
 
-test_that("multiplication works", {
-  expect_equal(2 * 2, 4)
+
+test_that("rel_item works", {
+  expect_equal(my_rel_item$Publisher, "Zenodo" )
+  expect_equal(my_rel_item$PublicationYear, 2022 )
 })

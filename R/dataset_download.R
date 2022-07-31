@@ -1,7 +1,7 @@
 #' @title Download data into a dataset
 #' @description A wrapper around \code{\link{dataset}} and
 #' an import function.
-#' @importFrom utils download.file
+#' @importFrom utils download.file read.csv
 #' @inheritParams utils::download.file
 #' @inheritParams dataset
 #' @inheritParams dublincore
@@ -27,7 +27,7 @@ dataset_download  <- function(Title,
                               dimensions = NULL,
                               measures = NULL,
                               attributes = NULL,
-                              Identifer = NULL,
+                              Identifier = NULL,
                               url,
                               type = "csv", ...) {
 
@@ -35,7 +35,7 @@ dataset_download  <- function(Title,
                        dimensions=dimensions,
                        measures=measures,
                        attributes=attributes,
-                       Identifer = Identifier,
+                       Identifier = Identifier,
                        type = "csv")
 }
 
@@ -46,7 +46,7 @@ dataset_download_csv  <- function(Title,
                                   dimensions = NULL,
                                   measures = NULL,
                                   attributes = NULL,
-                                  Identifer = NULL,
+                                  Identifier = NULL,
                                   url,
                                   type = "csv",
                                   destfile = NULL,
@@ -65,9 +65,11 @@ dataset_download_csv  <- function(Title,
 
   tmp <- read.csv(destfile)
   ds <- dataset ( x = tmp,
-            dimensions = dimensions, measures = measures, attributes = attributes,
-            Title  = Title )
+                  dimensions = dimensions,
+                  measures = measures,
+                  attributes = attributes,
+                  Title  = Title )
 
-  dublincore_add (ds, Identifier = Identifer)
+  dublincore_add (ds, Identifier = Identifier)
 }
 

@@ -12,7 +12,7 @@
 #' SDMX. \code{c("time", "geo")} will mark the "time" and "geo" attributes as conforming to
 #' sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl}{sdmx-attribute}.
 #' @param Label may be used to provide a human-readable version of the dataset's name.
-#' A text description (opionally with a language tag) as defined by
+#' A text description (optionally with a language tag) as defined by
 #' \href{https://www.w3.org/TR/rdf-schema/#ch_label}{rdfs:label}.
 #' @inheritParams dublincore_add
 #' @param Type It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.
@@ -45,6 +45,8 @@ dataset <- function(x,
                     Creator = NULL,
                     Publisher = NULL,
                     Issued = NULL,
+                    Identifier = NULL,
+                    Subject = NULL,
                     Type = list ( type = "Dataset",
                                   URI = "http://purl.org/dc/dcmitype/Dataset")
                     ) {
@@ -54,13 +56,13 @@ dataset <- function(x,
   x <- attributes_measurements_add(x, attributes, sdmx_attributes)
 
 
-  dublincore_add(x,
-                 Title = Title,
-                 Creator = Creator,
-                 Identifier = Identifier,
-                 Publisher = Publisher,
-                 Subject = Subject
-                 )
+  x <- dublincore_add(x,
+                      Title = Title,
+                      Creator = Creator,
+                      Identifier = Identifier,
+                      Publisher = Publisher,
+                      Subject = Subject
+  )
 
   if (is.null(Issued)) Issued <- Sys.Date()
   attr(x, "Date") <- Issued
@@ -105,6 +107,7 @@ is.dataset <- function(x) inherits(x, "dataset")
 
 #' @inheritParams dataset
 #' @importFrom utils bibentry
+#' @importFrom utils citation
 #' @rdname dataset
 #' @family citation functions
 #' @export
@@ -305,6 +308,7 @@ attributes_names <- function(x, attributes)   {
 }
 
 #' @keywords internal
+#' @importFrom rlang get_expr
 dot.names <- function (dots) {
   if (length (dots) > 0 && is.null (get_expr (dots [[1]]))) { return (NULL) }
   dot_names <- dots

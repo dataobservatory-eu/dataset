@@ -57,8 +57,8 @@ code repository. If there is an entity other than a code repository, that
 code, use the property Contributor/contributorType/ hostingInstitution for the code
 repository.}
 
-\item{Subject}{In \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. In
-\code{\link{datacite}} it is a recommended property for discovery.}
+\item{Subject}{Defaults to \code{NULL}. See \code{\link{Subject}} to add subject descriptions
+to your dataset.}
 
 \item{Date}{Corresponds to a point or period of time associated with an event in the
 lifecycle of the resource. \href{http://purl.org/dc/elements/1.1/date}{dct:date}.
@@ -134,7 +134,6 @@ dublincore(dct_iris)
 \seealso{
 Other metadata functions: 
 \code{\link{datacite}()},
-\code{\link{related_item_identifier}()},
 \code{\link{related_item}()},
 \code{\link{size_add}()}
 }

@@ -6,9 +6,8 @@ my_iris <- title_add(my_iris,
                      titleType = c("AlternativeTitle", "Title")
 )
 
-
-
 test_that("title_add works", {
   expect_equal(dataset_title(my_iris), list(Title = "Iris Dataset",
                                             AlternativeTitle = "The Famous Dataset"))
+  expect_equal(dataset_title(title_add(data.frame(), Title = "Hello")), "Hello")
 })

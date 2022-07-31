@@ -33,8 +33,7 @@ articles:
          from the base R data.frame. Later versions may change to the modern
          [tibble](https://tibble.tidyverse.org/), which carries a larger dependency footprint
          but easier to work with. Easy interoperability with the
-         [DT](https://rstudio.github.io/DT/) package--which provides an Rinterface to the [DataTables](https://datatables.net/)
-         JavaScript library---remains a top development priority.
+         [data.table](https://cran.r-project.org/web/packages/data.table/index.html) package remains a top development priority.
     contents:
       - survey
       - RDF
@@ -66,7 +65,6 @@ reference:
       - dataset_title
       - title_add
       - related_item
-      - related_item_identifier
       - subjects
       - subject_add
       - size_add

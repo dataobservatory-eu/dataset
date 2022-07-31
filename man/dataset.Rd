@@ -19,6 +19,8 @@ dataset(
   Creator = NULL,
   Publisher = NULL,
   Issued = NULL,
+  Identifier = NULL,
+  Subject = NULL,
   Type = list(type = "Dataset", URI = "http://purl.org/dc/dcmitype/Dataset")
 )
 
@@ -47,7 +49,7 @@ sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical
 \code{\link{datacite}} allows the use of alternate titles, too.}
 
 \item{Label}{may be used to provide a human-readable version of the dataset's name.
-A text description (opionally with a language tag) as defined by
+A text description (optionally with a language tag) as defined by
 \href{https://www.w3.org/TR/rdf-schema/#ch_label}{rdfs:label}.}
 
 \item{Creator}{An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
@@ -63,6 +65,18 @@ code, use the property Contributor/contributorType/ hostingInstitution for the c
 repository.}
 
 \item{Issued}{Corresponds to \href{http://purl.org/dc/elements/1.1/date}{dct:date}.}
+
+\item{Identifier}{An unambiguous reference to the resource within a given context.
+Recommended practice is to identify the resource by means of a string conforming to an
+identification system. Examples include International Standard Book Number (ISBN),
+Digital Object Identifier (DOI), and Uniform Resource Name (URN).
+Select and identifier scheme from
+\href{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html#URI-SCHEMES}{registered URI schemes maintained by IANA}.
+More details: \href{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}.
+Similar to \code{Identifier} in \code{\link{datacite}}.}
+
+\item{Subject}{Defaults to \code{NULL}. See \code{\link{Subject}} to add subject descriptions
+to your dataset.}
 
 \item{Type}{It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.}
 

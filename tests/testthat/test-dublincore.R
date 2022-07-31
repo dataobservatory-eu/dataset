@@ -12,3 +12,6 @@ test_that("dublincore works", {
   expect_equal(dublincore(dct_iris)$Language, 'eng')
   expect_equal(dublincore(dct_iris)$Creator, person("Edgar", "Anderson", role = "aut"))
 })
+
+
+dublincore_add(data.frame(), Creator = person("Jane", "Doe"))

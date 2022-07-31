@@ -10,7 +10,7 @@ dataset_download(
   dimensions = NULL,
   measures = NULL,
   attributes = NULL,
-  Identifer = NULL,
+  Identifier = NULL,
   url,
   type = "csv",
   ...
@@ -21,7 +21,7 @@ dataset_download_csv(
   dimensions = NULL,
   measures = NULL,
   attributes = NULL,
-  Identifer = NULL,
+  Identifier = NULL,
   url,
   type = "csv",
   destfile = NULL,
@@ -40,6 +40,15 @@ dataset_download_csv(
 \item{measures}{The name or column number of the measures within the dataset.}
 
 \item{attributes}{The name or column number of the attributes within the dataset.}
+
+\item{Identifier}{An unambiguous reference to the resource within a given context.
+Recommended practice is to identify the resource by means of a string conforming to an
+identification system. Examples include International Standard Book Number (ISBN),
+Digital Object Identifier (DOI), and Uniform Resource Name (URN).
+Select and identifier scheme from
+\href{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html#URI-SCHEMES}{registered URI schemes maintained by IANA}.
+More details: \href{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}.
+Similar to \code{Identifier} in \code{\link{datacite}}.}
 
 \item{url}{a \code{\link{character}} string (or longer vector e.g.,
     for the \code{"libcurl"} method) naming the URL of a resource to be

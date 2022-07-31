@@ -1,56 +1,90 @@
 #' @title Create a related item identifer
 #' @return A list
 #' @inheritParams datacite
-#' @param relation_type Seee
-#' @param resource_type Seee
-#' @param scheme See, recommended to use \code{"URL"} or \code{"DOI"}.
-#' @family metadata functions
+#' @param relatedIdentifierType See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12a-relatedidentifiertype}{relatedIdentifierType}.
+#' @param relationType See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12b-relationtype}{relationType}.
+#' @param schemeURI  See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12d-schemeuri}{schemeURI}.
+#' @param schemeType  See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12e-schemetype}{schemeType}.
+#' @param resourceTypeGeneral See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#101-resourcetypegeneral}{resourceTypeGeneral}.
 #' @examples
-#' related_item_identifer
-#' @export
-
-related_item_identifier <- function(scheme, Identifier, relation_type, resource_type) {
-  list ( scheme = scheme,
-         Identifier = identifier,
-         relationType = relation,
-         resource_type = resouce_type)
-}
+#' my_item <- related_item (Identifier = "https://zenodo.org/record/5703222#.YZYkm2DMLIU",
+#'                          Creator = person ("Daniel", "Antal", role = "aut"),
+#'                          Publisher = "Zenodo",
+#'                          PublicationYear = 2022,
+#'                          relatedIdentifierType = "DOI",
+#'                          relationType = "CompiledBy",
+#'                          schemeURI = "URI",
+#'                          resourceTypeGeneral = "Dataset")
 
 
 #' @title Create a related item
+#' @description Create a
+#' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12-relatedidentifier}{RelatedIdentifier},
+#' attribute, which is recommended for discovery in \code{DataCite}.
 #' @inheritParams datacite
 #' @param related_item_identifier A list created with \code{\link{related_item_identifier}}.
+#' @param Volume The volume of the related item (optional).
+#' @param Issue The issue number of the related item (optional).
+#' @param Edition The edition of the related item (optional).
+#' @param Number The number of the related item (optional).
+#' @param numberType The type of the number (optional).
+#' @param firstPage The first page of the related item (optional).
+#' @param lastPage The first page of the related item (optional).
 #' @return a related item.
 #' @family metadata functions
 #' @export
 
-related_item <- function(related_item_identifier,
-                         creator, title,
-                         publication_year,
-                         volume = NULL,
-                         issue = NULL,
-                         number = NULL, number_type = NULL,
-                         first_page = NULL, last_page = NULL,
-                         publisher = NULL,
-                         edition = NULL,
-                         contributor = NULL){
+related_item <- function(Identifier,
+                         Creator, Title,
+                         relatedIdentifierType,
+                         relationType,
+                         schemeURI = NA_character_,
+                         schemeType = NA_character_,
+                         resourceTypeGeneral = NA_character_,
+                         PublicationYear = NULL,
+                         Volume = NULL,
+                         Issue = NULL,
+                         Number = NULL, numberType = NULL,
+                         firstPage = NULL, lastPage = NULL,
+                         Publisher = NULL,
+                         Edition = NULL,
+                         Contributor = NULL){
 
-  rel_item <- list (
-    relatedItemIdentifier = related_item_identifier,
-    Creator = creator,
-    Title = title,
-    PublicationYear = publication_year,
-    Publisher = publisher)
+  rel_item <- related_item_identifier (Identifier = Identifier,
+                                       relatedIdentifierType = relatedIdentifierType,
+                                       relationType = relationType,
+                                       schemeURI = schemeURI,
+                                       schemeType = schemeType,
+                                       resourceTypeGeneral = resourceTypeGeneral)
 
-  if (!is.null(publisher)) rel_item <-c(related_items, Publisher = publisher)
-  if (!is.null(contributor)) rel_item <-c(related_items, Contributor = contributor)
-  if (!is.null(number)) rel_item <-c(related_items, number = number)
-  if (!is.null(edition)) rel_item <-c(related_items, edition = edition)
-  if (!is.null(volume)) rel_item <-c(related_items, volume = volume)
-  if (!is.null(issue)) rel_item <-c(related_items, issue = issue)
-  if (!is.null(first_page)) rel_item <-c(related_items, firstPage = first_page)
-  if (!is.null(last_page)) rel_item <-c(related_items, lastPage = last_page)
+  if (!is.null(Publisher)) rel_item$Publisher <- Publisher
+  if (!is.null(PublicationYear)) rel_item$PublicationYear <- PublicationYear
+  if (!is.null(Contributor)) rel_item$Contributor <- Contributor
+  if (!is.null(Number)) rel_item$Number <- Number
+  if (!is.null(numberType)) rel_item$numberType <- numberType
+  if (!is.null(Edition)) rel_item$Edition <- Edition
+  if (!is.null(Volume)) rel_item$Volume <- Volume
+  if (!is.null(Issue)) rel_item$Issue <- Issue
+  if (!is.null(firstPage)) rel_item$firstPage <- firstPage
+  if (!is.null(lastPage)) rel_item$lastPage <- lastPage
 
   rel_item
 }
+
+#' @inheritParams related_item
+#' @keywords internal
+related_item_identifier <- function(Identifier,
+                                    relatedIdentifierType,
+                                    relationType,
+                                    schemeURI = NA_character_,
+                                    schemeType = NA_character_,
+                                    resourceTypeGeneral = NA_character_) {
+  data.frame ( Identifier = Identifier,
+               relatedIdentifierType = relatedIdentifierType,
+               relationType = relationType,
+               schemeURI = schemeURI,
+               schemeType = schemeType,
+               resourceTypeGeneral = resourceTypeGeneral )
+}
+
 
