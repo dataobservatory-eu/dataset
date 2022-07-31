@@ -73,7 +73,7 @@ IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}. Correspond
 \item{Format}{The file format, physical medium, or dimensions of the resource.
 \href{    http://purl.org/dc/elements/1.1/format}{dct:format}
 Examples of dimensions include size and duration. Recommended best practice is to use a controlled
-vocabulary such as the list of Internet Media Types \link{MIME}. It is similar to \code{Format} in
+vocabulary such as the list of \href{https://www.iana.org/assignments/media-types/media-types.xhtml}{Internet Media Types, formerly known as MIME}. It is similar to \code{Format} in
 \code{\link{datacite}}.}
 
 \item{Rights}{Corresponds to \href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
@@ -90,7 +90,7 @@ an abstract, a table of contents, a graphical representation, or a free-text acc
 \code{\link{datacite}} it is recommended for discovery.}
 
 \item{Type}{The nature or genre of the resource. Recommended best practice is to use a controlled vocabulary such as the DCMI Type Vocabulary
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-type-vocabulary/}{\link{DCMITYPE}}.
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-type-vocabulary/}{DCMITYPE}.
 For a dataset, the correct term is \code{Dataset}.
 To describe the file format, physical medium, or dimensions of the resource, use the
 Format element.}

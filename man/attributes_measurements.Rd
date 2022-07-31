@@ -14,9 +14,7 @@ attributes_measurements_add(x, attributes, sdmx_attributes = NULL)
 
 \item{attributes}{The name or column number of the attributes within the dataset.}
 
-\item{sdmx_attributes}{The optional dimensions and attributes that conform with
-SDMX. \code{c("time", "geo")} will mark the "time" and "geo" attributes as conforming to
-sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl}{sdmx-attribute}.}
+\item{sdmx_attributes}{The optional SDMX dimensions.}
 }
 \description{
 Attributes of a dataset

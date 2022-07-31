@@ -14,6 +14,7 @@ datacite(x)
 datacite_add(
   x,
   Title,
+  titleType = NULL,
   Creator,
   Identifier = NULL,
   Publisher = NULL,
@@ -22,7 +23,7 @@ datacite_add(
   Contributor = NULL,
   Date = NULL,
   Language = NULL,
-  AlternateIdentifer = NULL,
+  AlternateIdentifier = NULL,
   RelatedIdentifier = NULL,
   Format = NULL,
   Version = NULL,
@@ -37,15 +38,19 @@ datacite_add(
 \item{x}{An R object of type data.frame, or inherited data.table, tibble; alternatively a well
 structured R list.}
 
-\item{Title}{A name or title by which a resource is known. May be the title of a dataset
-or the name of a piece of software. Similar to \href{http://purl.org/dc/elements/1.1/title}{dct:title}.}
+\item{Title}{The name(s) or title(s) by which a resource is known. May be the title of a dataset
+or the name of a piece of software. Similar to \href{http://purl.org/dc/elements/1.1/title}{dct:title}.\cr
+See \code{\link{dataset_title}} for adding further titles.}
+
+\item{titleType}{For a single \code{Title} defaults to \code{NULL}. Otherwise you can add
+a Subtitle, an Alternative Title and an Other Title. See \code{\link{dataset_title}}.}
 
 \item{Creator}{The main researchers involved in producing the data, or the authors of the publication, in
 priority order. To supply multiple creators, repeat this property.}
 
 \item{Identifier}{The Identifier is a unique string that identifies a resource. For software, determine
-whether the identifier is for a specific version of a piece of software, (per the \href{Force11 Software
-Citation Principles}{https://force11.org/info/software-citation-principles-published-2016/},
+whether the identifier is for a specific version of a piece of software, (per the
+\href{https://force11.org/info/software-citation-principles-published-2016/}{Force11 Software Citation Principles},
 or for all versions. Similar to \code{dct:title} in \code{\link{dublincore}}.}
 
 \item{Publisher}{The name of the entity that holds, archives, publishes prints,
@@ -68,6 +73,8 @@ Use \code{\link{subject_add}} to properly add a key phrase from a controlled voc
 \item{Language}{The primary language of the resource. Allowed values are taken from
 IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}.}
 
+\item{AlternateIdentifier}{An identifier or identifiers other than the primary Identifier applied to the resource being registered. This may be any alphanumeric string which is unique within its domain of issue. May be used for local identifiers. AlternateIdentifier should be used for another identifier of the same instance (same location, same file).}
+
 \item{RelatedIdentifier}{Recommended for discovery. Similar to \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.}
 
 \item{Format}{Technical format of the resource. Similar to \href{http://purl.org/dc/elements/1.1/format}{dct:format}.}
@@ -88,16 +95,6 @@ being registered.}
 
 \item{overwrite}{If pre-existing metadata properties should be overwritten,
 defaults to \code{TRUE}.}
-
-\item{Pulisher}{The name of the entity that holds, archives, publishes prints, distributes,
-releases, issues, or produces the resource. This property will be used to formulate the
-citation, so consider the prominence of the role. For software, use Publisher for the
-code repository. If there is an entity other than a code repository, that "holds, archives,
-publishes, prints, distributes, releases, issues, or produces" the code, use the property
-Contributor/contributorType/ hostingInstitution for the code repository. Corresponds to dct:Publisher in
-\code{\link{dublincore}}.}
-
-\item{AlternateIdentifier}{An identifier or identifiers other than the primary Identifier applied to the resource being registered. This may be any alphanumeric string which is unique within its domain of issue. May be used for local identifiers. AlternateIdentifier should be used for another identifier of the same instance (same location, same file).}
 }
 \value{
 An R object with at least the mandatory DataCite attributes.

@@ -4,6 +4,7 @@
 #' @importFrom utils download.file
 #' @inheritParams utils::download.file
 #' @inheritParams dataset
+#' @inheritParams dublincore
 #' @param type A file type.  Currently only \code{csv} is implemented that
 #' invokes \code{utils::download.file}.
 #' @return A \code{\link{dataset}} with the downloaded dataset.

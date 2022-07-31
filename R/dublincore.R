@@ -50,7 +50,7 @@
 #' @param Format The file format, physical medium, or dimensions of the resource.
 #' \href{	http://purl.org/dc/elements/1.1/format}{dct:format}
 #' Examples of dimensions include size and duration. Recommended best practice is to use a controlled
-#' vocabulary such as the list of Internet Media Types [MIME]. It is similar to \code{Format} in
+#' vocabulary such as the list of \href{https://www.iana.org/assignments/media-types/media-types.xhtml}{Internet Media Types, formerly known as MIME}. It is similar to \code{Format} in
 #' \code{\link{datacite}}.
 #' @param Rights  Corresponds to \href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
 #' \code{\link{datacite}} Rights. Information about rights held in and over the resource.
@@ -63,7 +63,7 @@
 #' resource by means of a string conforming to a formal identification system. See: \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.
 #' Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended for discovery.
 #' @param Type The nature or genre of the resource. Recommended best practice is to use a controlled vocabulary such as the DCMI Type Vocabulary
-#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-type-vocabulary/}{[DCMITYPE]}.
+#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-type-vocabulary/}{DCMITYPE}.
 #' For a dataset, the correct term is \code{Dataset}.
 #' To describe the file format, physical medium, or dimensions of the resource, use the
 #' Format element.
@@ -115,13 +115,12 @@ dublincore_add <- function(x,
                            Type = NULL,
                            overwrite = TRUE) {
 
-
   if (is.null(attr(x, "Title"))) {
-    attr(x, "Title") <- Title
+    x <- title_add(x, Title = Title, titleType = NULL)
   } else if ( overwrite ) {
-    attr(x, "Title") <- Title
+    x <- title_add(x, Title = Title, titleType = NULL)
   } else {
-    message ("The dataset has already a Title: ",  attr(x, "Title") )
+    message ("The dataset has already a Title: ",  dataset_title(x) )
   }
 
   x <- identifier_add(x, Identifier = Identifier, overwrite = overwrite)

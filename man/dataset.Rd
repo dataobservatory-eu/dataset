@@ -46,6 +46,10 @@ sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical
 \item{Title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
 \code{\link{datacite}} allows the use of alternate titles, too.}
 
+\item{Label}{may be used to provide a human-readable version of the dataset's name.
+A text description (opionally with a language tag) as defined by
+\href{https://www.w3.org/TR/rdf-schema/#ch_label}{rdfs:label}.}
+
 \item{Creator}{An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
 Corresponds to \code{Creator} in \code{\link{datacite}}.}
 
@@ -61,6 +65,8 @@ repository.}
 \item{Issued}{Corresponds to \href{http://purl.org/dc/elements/1.1/date}{dct:date}.}
 
 \item{Type}{It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.}
+
+\item{...}{Other parameters for the \code{print} and \code{summary} methods.}
 }
 \description{
 A DataSet is a collection of statistical data that corresponds to a defined structure.

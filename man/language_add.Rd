@@ -12,12 +12,12 @@ language_get(x)
 \arguments{
 \item{x}{An R object, such as a data.frame, a tibble, or a character vector.}
 
-\item{iso_639_code}{Defaults to \code{ISO 639-3}, alternative is \code{ISO 639-1}.}
-
-\item{language}{The language to be added to the object attributes, added by name, or
+\item{Language}{The language to be added to the object attributes, added by name, or
 as a 2- or 3-character code for the language. You can add a language code or language name,
 and the parameter is normalised to \code{tolower(language)}. (The ISO 639 standard capitalizes
 language names and uses lower case for the codes.)}
+
+\item{iso_639_code}{Defaults to \code{ISO 639-3}, alternative is \code{ISO 639-1}.}
 }
 \value{
 The Language is added to the \code{x} as

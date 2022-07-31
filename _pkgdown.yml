@@ -53,6 +53,7 @@ reference:
       - measures_add
       - attributes_measurements
       - attributes_measurements_add
+      - dataset_export
   - title: "FAIR metadata"
     desc: >
       Add and read [FAIR metadata](https://www.go-fair.org/fair-principles/)
@@ -62,6 +63,8 @@ reference:
       - dublincore_add
       - datacite
       - datacite_add
+      - dataset_title
+      - title_add
       - related_item
       - related_item_identifier
       - subjects

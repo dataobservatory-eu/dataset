@@ -26,15 +26,16 @@ subjects <- function(x) {
 }
 
 #' @rdname subjects
+#' @importFrom assertthat assert_that
 #' @export
 subject_add <- function(x, term, scheme, identifier) {
 
-  assertthat::assert_that(all.equal(length(term), length(scheme), length(identifier)),
-                          msg = "subject_add(term, scheme, identifer): you must give the same number of terms, schemes, identifers.")
+  assert_that(all.equal(length(term), length(scheme), length(identifier)),
+              msg = "subject_add(term, scheme, identifer): you must give the same number of terms, schemes, identifers.")
 
-  attr(x, "Subject") <-   data.frame ( term = term,
-                                       scheme = scheme,
-                                       identifier = identifier)
+  attr(x, "Subject") <- data.frame(term = term,
+                                   scheme = scheme,
+                                   identifier = identifier)
 
   x
 }

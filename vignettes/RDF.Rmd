@@ -8,13 +8,16 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
+library(knitr)
 knitr::opts_chunk$set(
   collapse = TRUE,
   message  = FALSE,
   comment = "#>",
-  out.width = '70%'
+  out.width = '90%'
 )
 library(here)
+library(readxl)
+library(kableExtra)
 ```
 
 ```{r setup}
@@ -44,12 +47,13 @@ Table source: [rdflib](https://cran.r-project.org/web/packages/rdflib/vignettes/
 
 Our datasets are tidy. 
 
-```{r, include=FALSE}
-example_dataset <- readxl::read_excel(here::here("not_included", "rdf_example.xlsx"), 
+```{r importexamplexlsx, include=FALSE}
+example_dataset <- readxl::read_excel(here("data-raw", 
+                                           "rdf_example.xlsx"), 
                                       sheet = "dataset-wide")
 ```
 
-```{r}
+```{r printexampledataset}
 example_dataset
 ```
 
@@ -57,7 +61,7 @@ example_dataset
 You can start to reduce the dimensions, for example, with uniting the dimensions. In this case, the row identifier becomes more and more a unique resource identifier, i.e. a URI.
 
 ```{r dimreduction, echo=FALSE, message=FALSE}
-knitr::include_graphics(here::here("vignettes", "RDF_chart_1.png"))
+include_graphics(here("vignettes", "RDF_chart_1.png"))
 ```
 
 Eventually you can reduce the entire dataset into a triple. The `uri` uniquely defines the observations, the `component` maintains the W3C/SDMX datacube models main structural element, and the `value` field the value of the dimension, measurement or attribute.
@@ -79,16 +83,17 @@ example_long <- example_dataset %>%
 
 
 ```{r dimreduction2, echo=FALSE, message=FALSE, out.width='75%'}
-knitr::include_graphics(here::here("vignettes", "RDF_chart_2.png"))
+include_graphics(here("vignettes", "RDF_chart_2.png"))
 ```
 
 ## The benefit of standard codelists
 
 In this example, except for the measurement of the observation, we used only SDMX-attribute conform variable names and codes.  The advantage of this approach is that it is very easy to increase the dimensions of the dataset, and add human-readable labels, potentially in many natural languages.
 
-```{r}
+```{r statcodelistsexample}
 set.seed(2022)
 library(statcodelists)
+
 example_long %>%
    filter (.data$component == "sex") %>%
    left_join(statcodelists::CL_SEX %>%

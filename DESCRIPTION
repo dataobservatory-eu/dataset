@@ -1,7 +1,7 @@
 Package: dataset
 Title: Create interoperable and well-documented data frames
-Date: 2022-07-29
-Version: 0.1.3.0003
+Date: 2022-07-31
+Version: 0.1.3.0005
 Authors@R: 
     person(given = "Daniel", family = "Antal", 
            email = "daniel.antal@dataobservatory.eu", 
@@ -25,9 +25,7 @@ Depends:
 LazyData: true
 Imports: 
     assertthat,
-    datasets,
     ISOcodes,
-    rlang,
     utils
 Suggests: 
     here,

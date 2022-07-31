@@ -4,12 +4,15 @@
 \alias{related_item_identifier}
 \title{Create a related item identifer}
 \usage{
-related_item_identifier(scheme, identifier, relation_type, resource_type)
+related_item_identifier(scheme, Identifier, relation_type, resource_type)
 }
 \arguments{
 \item{scheme}{See, recommended to use \code{"URL"} or \code{"DOI"}.}
 
-\item{identifier}{The unique identifier of the resource.}
+\item{Identifier}{The Identifier is a unique string that identifies a resource. For software, determine
+whether the identifier is for a specific version of a piece of software, (per the
+\href{https://force11.org/info/software-citation-principles-published-2016/}{Force11 Software Citation Principles},
+or for all versions. Similar to \code{dct:title} in \code{\link{dublincore}}.}
 
 \item{relation_type}{Seee}
 

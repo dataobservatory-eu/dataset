@@ -11,9 +11,13 @@
 #' @param sdmx_attributes The optional dimensions and attributes that conform with
 #' SDMX. \code{c("time", "geo")} will mark the "time" and "geo" attributes as conforming to
 #' sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl}{sdmx-attribute}.
+#' @param Label may be used to provide a human-readable version of the dataset's name.
+#' A text description (opionally with a language tag) as defined by
+#' \href{https://www.w3.org/TR/rdf-schema/#ch_label}{rdfs:label}.
 #' @inheritParams dublincore_add
 #' @param Type It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.
 #' @param Issued Corresponds to \href{http://purl.org/dc/elements/1.1/date}{dct:date}.
+#' @param ... Other parameters for the \code{print} and \code{summary} methods.
 #' @importFrom utils toBibtex
 #' @examples
 #' my_dataset <- dataset (x,
@@ -45,16 +49,19 @@ dataset <- function(x,
                                   URI = "http://purl.org/dc/dcmitype/Dataset")
                     ) {
 
-
-
   x <- dimensions_add(x, dimensions, sdmx_attributes)
   x <- measures_add(x, measures)
   x <- attributes_measurements_add(x, attributes, sdmx_attributes)
 
-  attr(x, "Title") <- Title
-  attr(x, "Label") <- Label
-  attr(x, "Creator") <- Creator
-  attr(x, "Publisher") <- Publisher
+
+  dublincore_add(x,
+                 Title = Title,
+                 Creator = Creator,
+                 Identifier = Identifier,
+                 Publisher = Publisher,
+                 Subject = Subject
+                 )
+
   if (is.null(Issued)) Issued <- Sys.Date()
   attr(x, "Date") <- Issued
   attr(x, "Type") <- Type
@@ -63,15 +70,13 @@ dataset <- function(x,
   x
 }
 
-print <- function(x, ...) { UseMethod("print")}
+print   <- function(x, ...) { UseMethod("print")}
 summary <- function(x, ...) { UseMethod("summary")}
 
 #' @rdname dataset
-#' @export
 summary.dataset <- function(x, ...) { NextMethod()}
 
 #' @rdname dataset
-#' @export
 print.dataset <- function(x, ...) {
 
   #cat(paste0(Title, " [", attr(x, "Identifier"), "] by ", paste(attr(x, "Creator")$given, attr(x, "Creator")$family, sep = " "), "\n"))
@@ -127,11 +132,10 @@ bibentry_dataset <- function(x) {
 
 
 #' @title Dimensions of a dataset
-#' @details Do not confuse with \code{base::\link{dim}}. The \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{dimension} in the definition
+#' @details Do not confuse with \code{base::dim}. The \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{dimension} in the definition
 #' of the DataSet is different from the 'dimension' definition of the R language.
 #' @inheritParams dataset
 #' @export
-#' @seealso \code{\link{base::dim}}
 #' @examples
 #' df <- data.frame ( sex = c("M", "F"), value = c(1,2))
 #' dimensions_add(df, "sex", sdmx_attributes = "sex")
@@ -139,7 +143,6 @@ dimensions <- function(x) attr(x, "dimensions")
 
 #' @inheritParams dataset
 #' @rdname dimensions
-
 dimensions_add <- function(x, dimensions, sdmx_attributes = NULL) {
 
   if ( any(is.null(dimensions) | is.na(dimensions) | length(dimensions)==0) ) return(x)
@@ -169,7 +172,6 @@ dimensions_add <- function(x, dimensions, sdmx_attributes = NULL) {
 measures <- function(x) attr(x, "measures")
 
 #' @inheritParams measures
-#' @param sdmx_attributes The optional SDMX dimensions.
 #' @rdname measures
 #' @export
 #' @examples
@@ -201,6 +203,7 @@ measures_add <- function(x, measures) {
 attributes_measurements <- function(x) attr(x, "attributes")
 
 #' @inheritParams dataset
+#' @param sdmx_attributes The optional SDMX dimensions.
 #' @rdname attributes_measurements
 #' @export
 

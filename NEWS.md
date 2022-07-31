@@ -1,4 +1,8 @@
-# # dataset 0.1.3.
+# dataset 0.1.4.
+
+* `dataset_export` is implemented with filetype = 'csv'.
+
+# dataset 0.1.3.
 
 * Vignette articles started to develop and consult the development plan of the project. See  [From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html), [Export and Publish A dataset Object](https://dataset.dataobservatory.eu/articles/publish.html), [Datasets with FAIR metadata](https://dataset.dataobservatory.eu/articles/metadata.html), all [comments](https://github.com/dataobservatory-eu/dataset/issues/) are welcome.
 * New functions: `download_dataset()`, `dublincore()`, `datacite()`, and the `dataset()` constructor.

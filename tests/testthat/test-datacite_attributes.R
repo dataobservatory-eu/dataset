@@ -16,13 +16,13 @@ test_that("Size atttriubte is set", {
 })
 
 test_that("Version atttriubte is set", {
-  expect_equal(attr(version_add(x = iris, version= "1.0"), "Version"), "1.0")
+  expect_equal(attr(version_add(x = iris, Version= "1.0"), "Version"), "1.0")
 })
 
 
 test_that("Language atttriubte is set", {
-  expect_equal(attr(language_add(x = iris, language= "hungarian", iso_639_code = "639-1"), "language"), "hu")
-  expect_equal(attr(language_add(x = iris, language= "English"), "language"), "eng")
-  expect_equal(attr(language_add(x = iris, language= "nl", iso_639_code = "639-1"), "language"), "nl")
+  expect_equal(attr(language_add(x = iris, Language= "hungarian", iso_639_code = "639-1"), "Language"), "hu")
+  expect_equal(attr(language_add(x = iris, Language= "English"), "Language"), "eng")
+  expect_equal(attr(language_add(x = iris, Language= "nl", iso_639_code = "639-1"), "Language"), "nl")
 })
 

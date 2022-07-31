@@ -18,15 +18,18 @@
 #' structured R list.
 #' @details The \code{ResourceType} property will be by definition "Dataset".
 #' The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
-#' @param Title  A name or title by which a resource is known. May be the title of a dataset
-#' or the name of a piece of software. Similar to \href{http://purl.org/dc/elements/1.1/title}{dct:title}.
+#' @param Title The name(s) or title(s) by which a resource is known. May be the title of a dataset
+#' or the name of a piece of software. Similar to \href{http://purl.org/dc/elements/1.1/title}{dct:title}.\cr
+#' See \code{\link{dataset_title}} for adding further titles.
+#' @param titleType For a single \code{Title} defaults to \code{NULL}. Otherwise you can add
+#' a Subtitle, an Alternative Title and an Other Title. See \code{\link{dataset_title}}.
 #' @param Creator The main researchers involved in producing the data, or the authors of the publication, in
 #' priority order. To supply multiple creators, repeat this property.
-#' @param Identifier  The Identifier is a unique string that identifies a resource. For software, determine
-#' whether the identifier is for a specific version of a piece of software, (per the \href{Force11 Software
-#' Citation Principles}{https://force11.org/info/software-citation-principles-published-2016/},
+#' @param Identifier The Identifier is a unique string that identifies a resource. For software, determine
+#' whether the identifier is for a specific version of a piece of software, (per the
+#' \href{https://force11.org/info/software-citation-principles-published-2016/}{Force11 Software Citation Principles},
 #' or for all versions. Similar to \code{dct:title} in \code{\link{dublincore}}.
-#' @param Pulisher The name of the entity that holds, archives, publishes prints, distributes,
+#' @param Publisher The name of the entity that holds, archives, publishes prints, distributes,
 #' releases, issues, or produces the resource. This property will be used to formulate the
 #' citation, so consider the prominence of the role. For software, use Publisher for the
 #' code repository. If there is an entity other than a code repository, that "holds, archives,
@@ -45,7 +48,7 @@
 #' formulate the citation, so consider the prominence of the role.
 #' For software, use Publisher for the code repository. Mandatory in DataCite, and similar to
 #' dct:publisher
-#' @param Language  The primary language of the resource. Allowed values are taken from
+#' @param Language The primary language of the resource. Allowed values are taken from
 #' IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}.
 #' @param AlternateIdentifier An identifier or identifiers other than the primary Identifier applied to the resource being registered. This may be any alphanumeric string which is unique within its domain of issue. May be used for local identifiers. AlternateIdentifier should be used for another identifier of the same instance (same location, same file).
 #' @param RelatedIdentifier Recommended for discovery. Similar to \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.
@@ -90,14 +93,17 @@ datacite <- function(x) {
 
 #' @rdname datacite
 #' @export
-datacite_add <- function(x, Title, Creator,
+datacite_add <- function(x,
+                         Title,
+                         titleType = NULL,
+                         Creator,
                          Identifier = NULL,
                          Publisher = NULL,
                          PublicationYear = "THIS",
                          Subject = NULL,
                          Contributor = NULL, Date = NULL,
                          Language = NULL,
-                         AlternateIdentifer = NULL, RelatedIdentifier = NULL,
+                         AlternateIdentifier = NULL, RelatedIdentifier = NULL,
                          Format = NULL, Version = NULL, Rights = NULL,
                          Description = NULL, Geolocation = NULL,
                          FundingReference = NULL,
@@ -105,7 +111,8 @@ datacite_add <- function(x, Title, Creator,
 
   if (PublicationYear == "THIS") as.integer(substr(Sys.Date(),1,4))
 
-  attr(x, "title") <- Title
+  x <- title_add (x, Title = Title, titleType = titleType)
+
   attr(x, "Subject") <- Subject
   attr(x, "Creator") <- Creator
   attr(x, "Publisher") <- Publisher
@@ -139,6 +146,7 @@ datacite_add <- function(x, Title, Creator,
 #' kB and IEC KiB (legacy Kb) units,
 #' rounded to two decimals.
 #' @family metadata functions
+#' @importFrom utils object.size
 #' @examples
 #' iris_dataset <- size_add(iris)
 #' attr(iris_dataset, "Size")
@@ -165,7 +173,7 @@ size_add <- function(x) {
 #' The attribute \code{language} is added to the object. It will be exported into DataCite
 #' applications in a capitalized \code{Lanugage} format.
 #' @param x An R object, such as a data.frame, a tibble, or a character vector.
-#' @param language The language to be added to the object attributes, added by name, or
+#' @param Language The language to be added to the object attributes, added by name, or
 #' as a 2- or 3-character code for the language. You can add a language code or language name,
 #' and the parameter is normalised to \code{tolower(language)}. (The ISO 639 standard capitalizes
 #' language names and uses lower case for the codes.)
@@ -195,7 +203,7 @@ language_add <- function(x, Language, iso_639_code = "639-3" ) {
   }
 
   if (nrow(lang_entry)==0) {
-    stop(glue::glue("{Language} is not a valid ISO 639 language code."))
+    stop(paste0("Language=", Language, " is not a valid ISO 639 language code."))
   }
 
   if (iso_639_code == "639-1") {

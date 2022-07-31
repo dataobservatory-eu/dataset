@@ -22,13 +22,10 @@ sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical
 Dimensions of a dataset
 }
 \details{
-Do not confuse with \code{base::\link{dim}}. The \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{dimension} in the definition
+Do not confuse with \code{base::dim}. The \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{dimension} in the definition
 of the DataSet is different from the 'dimension' definition of the R language.
 }
 \examples{
 df <- data.frame ( sex = c("M", "F"), value = c(1,2))
 dimensions_add(df, "sex", sdmx_attributes = "sex")
-}
-\seealso{
-\code{\link{base::dim}}
 }

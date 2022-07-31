@@ -1,6 +1,6 @@
 #' @title Create a related item identifer
 #' @return A list
-#' @param identifier The unique identifier of the resource.
+#' @inheritParams datacite
 #' @param relation_type Seee
 #' @param resource_type Seee
 #' @param scheme See, recommended to use \code{"URL"} or \code{"DOI"}.
@@ -9,7 +9,7 @@
 #' related_item_identifer
 #' @export
 
-related_item_identifier <- function(scheme, identifier, relation_type, resource_type) {
+related_item_identifier <- function(scheme, Identifier, relation_type, resource_type) {
   list ( scheme = scheme,
          Identifier = identifier,
          relationType = relation,
