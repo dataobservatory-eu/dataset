@@ -20,7 +20,12 @@
 #' @param ... Other parameters for the \code{print} and \code{summary} methods.
 #' @importFrom utils toBibtex
 #' @examples
-#' my_dataset <- dataset (x,
+#' my_dataset <- dataset (
+#'     x = data.frame (time = rep(c(2019:2022),2),
+#'                     geo = c(rep("NL",4), rep("BE",4)),
+#'                     value = c(1,3,2,4,2,3,1,5),
+#'                     unit = rep("NR",8),
+#'                     freq = rep("A",8)),
 #'     dimensions = c(1,2),
 #'     measures = 3,
 #'     attributes = c(4,5),
@@ -146,6 +151,7 @@ dimensions <- function(x) attr(x, "dimensions")
 
 #' @inheritParams dataset
 #' @rdname dimensions
+#' @export
 dimensions_add <- function(x, dimensions, sdmx_attributes = NULL) {
 
   if ( any(is.null(dimensions) | is.na(dimensions) | length(dimensions)==0) ) return(x)
@@ -209,7 +215,6 @@ attributes_measurements <- function(x) attr(x, "attributes")
 #' @param sdmx_attributes The optional SDMX dimensions.
 #' @rdname attributes_measurements
 #' @export
-
 attributes_measurements_add <- function(x, attributes, sdmx_attributes = NULL) {
 
   if ( any(is.null(attributes) | is.na(attributes) | length(attributes)==0) ) return(x)

@@ -75,7 +75,7 @@ Select and identifier scheme from
 More details: \href{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}.
 Similar to \code{Identifier} in \code{\link{datacite}}.}
 
-\item{Subject}{Defaults to \code{NULL}. See \code{\link{Subject}} to add subject descriptions
+\item{Subject}{Defaults to \code{NULL}. See \code{\link{subject}} to add subject descriptions
 to your dataset.}
 
 \item{Type}{It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.}
@@ -92,7 +92,12 @@ but without the definition of data slices.\cr
 metadata of the dataset into a bibentry object.
 }
 \examples{
-my_dataset <- dataset (x,
+my_dataset <- dataset (
+    x = data.frame (time = rep(c(2019:2022),2),
+                    geo = c(rep("NL",4), rep("BE",4)),
+                    value = c(1,3,2,4,2,3,1,5),
+                    unit = rep("NR",8),
+                    freq = rep("A",8)),
     dimensions = c(1,2),
     measures = 3,
     attributes = c(4,5),

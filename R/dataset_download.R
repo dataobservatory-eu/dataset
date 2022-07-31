@@ -12,6 +12,7 @@
 #'
 #' dest_file <- file.path(tempdir(), "5813772.csv")
 #'
+#' \dontrun{
 #' dataset_download(
 #'     Title = "Environmental Subsidies and Similar Transfers from Europe to the Rest of the World",
 #'     dimensions = c("time", "geo"),
@@ -21,6 +22,7 @@
 #'     destfile = dest_file,
 #'     url = "https://doi.org/10.5281/zenodo.5813772"
 #' )
+#' }
 #' @export
 
 dataset_download  <- function(Title,
@@ -36,6 +38,7 @@ dataset_download  <- function(Title,
                        measures=measures,
                        attributes=attributes,
                        Identifier = Identifier,
+                       url = url,
                        type = "csv")
 }
 
@@ -63,7 +66,22 @@ dataset_download_csv  <- function(Title,
                 mode = mode,
                 cacheOK = cacheOK)
 
+
+
   tmp <- read.csv(destfile)
+
+  if(!all(dimensions %in% names(tmp))) {
+    stop("Not all dimensions are present in ", url)
+  }
+
+  if(!all(measures %in% names(tmp))) {
+    stop("Not all measures are present in ", url)
+  }
+
+  if(!all(attributes %in% names(tmp))) {
+    stop("Not all attributes are present in ", url)
+  }
+
   ds <- dataset ( x = tmp,
                   dimensions = dimensions,
                   measures = measures,

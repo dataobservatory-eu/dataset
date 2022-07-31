@@ -35,10 +35,6 @@ test_that("bibentry_dataset", {
   expect_equal(bibentry_dataset(y)$Title, "Example dataset")
   })
 
-
-
-
-
 #iris_ds <- as.datacube ( x = iris[1:6,],
 #                         obs_id = NULL,
 #                         dim_names = NULL,

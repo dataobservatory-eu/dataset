@@ -71,8 +71,6 @@ dct:publisher}
 \item{Edition}{The edition of the related item (optional).}
 
 \item{Contributor}{Recommended for discovery. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.}
-
-\item{related_item_identifier}{A list created with \code{\link{related_item_identifier}}.}
 }
 \value{
 A list

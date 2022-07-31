@@ -57,7 +57,7 @@ code repository. If there is an entity other than a code repository, that
 code, use the property Contributor/contributorType/ hostingInstitution for the code
 repository.}
 
-\item{Subject}{Defaults to \code{NULL}. See \code{\link{Subject}} to add subject descriptions
+\item{Subject}{Defaults to \code{NULL}. See \code{\link{subject}} to add subject descriptions
 to your dataset.}
 
 \item{Date}{Corresponds to a point or period of time associated with an event in the

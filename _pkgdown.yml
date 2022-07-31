@@ -63,14 +63,12 @@ reference:
       - datacite
       - datacite_add
       - dataset_title
-      - title_add
+      - title
       - related_item
-      - subjects
-      - subject_add
+      - subject
       - size_add
-      - language_add
-      - language_get
-      - version_add
+      - language
+      - version
   - title: "Reproducible research workflows"
     desc: >
       Improve reproducability with recording data lifecycle, processing history as

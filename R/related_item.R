@@ -22,7 +22,6 @@
 #' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12-relatedidentifier}{RelatedIdentifier},
 #' attribute, which is recommended for discovery in \code{DataCite}.
 #' @inheritParams datacite
-#' @param related_item_identifier A list created with \code{\link{related_item_identifier}}.
 #' @param Volume The volume of the related item (optional).
 #' @param Issue The issue number of the related item (optional).
 #' @param Edition The edition of the related item (optional).

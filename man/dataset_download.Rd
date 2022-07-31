@@ -94,6 +94,7 @@ an import function.
 
 dest_file <- file.path(tempdir(), "5813772.csv")
 
+\dontrun{
 dataset_download(
     Title = "Environmental Subsidies and Similar Transfers from Europe to the Rest of the World",
     dimensions = c("time", "geo"),
@@ -103,5 +104,6 @@ dataset_download(
     destfile = dest_file,
     url = "https://doi.org/10.5281/zenodo.5813772"
 )
+}
 }
 \keyword{internal}

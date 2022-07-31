@@ -67,7 +67,7 @@
 #' For a dataset, the correct term is \code{Dataset}.
 #' To describe the file format, physical medium, or dimensions of the resource, use the
 #' Format element.
-#' @param Subject Defaults to \code{NULL}. See \code{\link{Subject}} to add subject descriptions
+#' @param Subject Defaults to \code{NULL}. See \code{\link{subject}} to add subject descriptions
 #' to your dataset.
 #' @param overwrite If pre-existing metadata properties should be overwritten,
 #' defaults to \code{TRUE}.

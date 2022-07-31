@@ -1,5 +1,9 @@
 #' @title Read / Add DataCite metadata to an object
 #' @description Read/Add a Title attribute to a dataset or R object
+#' @details
+#' For Dublin Core metadata, use Title as a character vector of length 1, with
+#' titleType = \code{NULL}.\cr
+#' For DataCite, provide a vector of titles and an equal length of titleType parameters.
 #' @examples
 #' my_iris <- iris
 #' my_iris <- title_add(my_iris,
@@ -12,14 +16,9 @@ dataset_title <- function(x) {
   attr(x, "Title")
 }
 
-#' @title Add a Title attribute
-#' @details
-#' For Dublin Core metadata, use Title as a character vector of length 1, with
-#' titleType = \code{NULL}.\cr
-#' For DataCite, provide a vector of titles and an equal length of titleType parameters.
 #' @inheritParams datacite
 #' @rdname dataset_title
-
+#' @export
 
 title_add <- function(x, Title, titleType = NULL) {
 

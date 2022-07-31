@@ -47,10 +47,10 @@ Table source: [rdflib](https://cran.r-project.org/web/packages/rdflib/vignettes/
 
 Our datasets are tidy. 
 
-```{r importexamplexlsx, include=FALSE}
-example_dataset <- readxl::read_excel(here("data-raw", 
-                                           "rdf_example.xlsx"), 
-                                      sheet = "dataset-wide")
+```{r importexamplexlsx}
+example_dataset <- readxl::read_excel(
+  system.file("extdata", "rdf_example.xlsx", package = "dataset"), 
+  sheet = "dataset-wide")
 ```
 
 ```{r printexampledataset}
