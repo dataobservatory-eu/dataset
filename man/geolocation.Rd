@@ -12,12 +12,12 @@ geolocation(x, overwrite = TRUE) <- value
 \arguments{
 \item{x}{An R object, such as a data.frame, a tibble, or a data.table.}
 
-\item{value}{The  \code{Geolocation} as a character string.}
-
 \item{overwrite}{If the attributes should be overwritten. In case it is set to \code{FALSE},
 it gives a message with the current \code{Geolocation} property instead of overwriting it.
 Defaults to \code{TRUE} when the attribute is set to \code{value} regardless of previous
 setting.}
+
+\item{value}{The  \code{Geolocation} as a character string.}
 }
 \value{
 The \code{Geolocation} attribute as a character of length 1 is added to \code{x}.

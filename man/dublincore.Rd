@@ -34,7 +34,7 @@ dublincore_add(
 structured R list.}
 
 \item{Title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
-\code{\link{datacite}} allows the use of alternate titles, too. See \code{\link{title}}.}
+\code{\link{datacite}} allows the use of alternate titles, too. See \code{\link{dataset_title}}.}
 
 \item{Creator}{An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
 Corresponds to \code{Creator} in \code{\link{datacite}}. See \code{\link{creator}}.}

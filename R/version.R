@@ -23,7 +23,7 @@ version <- function(x) {
 
 #' @rdname version
 #' @export
-`version<-` <- function(x, value ) {
+`version<-` <- function(x, overwrite = FALSE, value ) {
 
   if (is.null(value)) {
     attr(x, "Version") <- NULL
@@ -34,6 +34,13 @@ version <- function(x) {
    stop("version(x) <- value: value must be a character string or a number that can be coerced into a character string of length=1.")
   }
 
-  attr(x, "Version") <- value
+
+  if ((is.null(attr(x, "Version"))) | overwrite ) {
+    attr(x, "Version") <- value
+  } else {
+    message("The object already has a Version property:", version(x),
+            "\nYou can set a new version with version(x, overwrite=TRUE) <- ", value)
+  }
+
   x
 }

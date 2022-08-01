@@ -2,7 +2,7 @@
 #' @description A DataSet is a collection of statistical data that corresponds to a defined structure.
 #' @details Loosely follows the \href{https://www.w3.org/TR/vocab-data-cube/}{The RDF Data Cube Vocabulary},
 #' but without the definition of data slices.\cr
-#' \code{bibentry_dataset()} is a wrapper around \code{\link[utils:bibentry]{bibentry}} to correctly turn the
+#' \code{\link{bibentry_dataset}} is a wrapper around \code{\link[utils:bibentry]{bibentry}} to correctly turn the
 #' metadata of the dataset into a bibentry object.
 #' @param x A data.frame or inherited tibble, data.frame, or a structured list.
 #' @param Dimensions The name or column number of the dimensions within the dataset.
@@ -22,7 +22,6 @@
 #' @param Type It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.
 #' @param Issued Corresponds to \href{http://purl.org/dc/elements/1.1/date}{dct:date}.
 #' @param ... Other parameters for the \code{print} and \code{summary} methods.
-#' @param value The name or column number of the within the dataset.
 #' @importFrom utils toBibtex
 #' @examples
 #' my_dataset <- dataset (
@@ -40,9 +39,6 @@
 #'     Publisher = "Publishing Co.",
 #'     Issued = as.Date("2022-07-14")
 #' )
-#'
-#' utils::toBibtex(bibentry_dataset(my_dataset))
-#'
 #' @export
 
 dataset <- function(x,
@@ -125,8 +121,9 @@ dimensions <- function(x) attr(x, "dimensions")
 
 #' @inheritParams dataset
 #' @rdname dimensions
+#' @param value The name or column number of the within the dataset.
 #' @export
-`dimensions<-` <- function(x, value, sdmx_attributes = NULL) {
+`dimensions<-` <- function(x, sdmx_attributes = NULL, value) {
 
   if ( any(is.null(value) | is.na(value) | length(value)==0) ) {
     attr(x, "dimensions") <- NULL
@@ -161,6 +158,7 @@ measures <- function(x) attr(x, "measures")
 
 #' @inheritParams measures
 #' @rdname measures
+#' @param value The name or column number of the within the dataset.
 #' @export
 #' @examples
 #' df <- data.frame ( sex = c("M", "F"), value = c(1,2))
@@ -200,10 +198,11 @@ measures <- function(x) attr(x, "measures")
 attributes_measures <- function(x) attr(x, "attributes")
 
 #' @inheritParams dataset
+#' @param value The name or column number of the within the dataset.
 #' @param sdmx_attributes The optional SDMX dimensions.
 #' @rdname attributes_measures
 #' @export
-`attributes_measures<-` <- function(x, value, sdmx_attributes = NULL) {
+`attributes_measures<-` <- function(x, sdmx_attributes = NULL, value) {
 
   if ( any(is.null(value) | is.na(value) | length(value)==0) ) return(x)
 

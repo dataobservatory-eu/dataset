@@ -7,17 +7,17 @@
 \usage{
 version(x)
 
-version(x) <- value
+version(x, overwrite = FALSE) <- value
 }
 \arguments{
 \item{x}{An R object, such as a data.frame, a tibble, or a data.table.}
-
-\item{value}{The \code{Version} as a character set.}
 
 \item{overwrite}{If the \code{Version} attribute should be overwritten. In case it is set to \code{FALSE},
 it gives a message with the current\code{Version} property instead of overwriting it.
 Defaults to \code{TRUE} when the attribute is set to \code{value} regardless of previous
 setting.}
+
+\item{value}{The \code{Version} as a character set.}
 }
 \value{
 The \code{Version} attribute as a character of length 1 is added to \code{x}.

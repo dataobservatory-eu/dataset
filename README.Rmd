@@ -18,13 +18,12 @@ rlang::check_installed("here")
 
 <!-- badges: start -->
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6854273.svg)](https://10.5281/zenodo.6854273)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.1.3-blue.svg)](https://github.com/antaldaniel/dataset)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6950435.svg)](https://10.5281/zenodo.6950435)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.1.4-blue.svg)](https://github.com/antaldaniel/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov) 
 [![Follow author](https://img.shields.io/twitter/follow/digitalmusicobs.svg?style=social)](https://twitter.com/intent/follow?screen_name=digitalmusicobs)
 <!-- badges: end -->
-
 
 The primary aim of dataset is create well-referenced, well-described, interoperable datasets from data.frames, tibbles or data.tables that translate well into the W3C DataSet definition within the [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible manner. The data cube model in itself is is originated in the [Statistical Data and Metadata eXchange](https://sdmx.org/), and it is almost fully harmonzied with the Resource Description Framework (RDF), the standard model for data interchange on the web^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>]. 
 
@@ -90,7 +89,7 @@ According to the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cub
 | reference    |  attributes of the R object            |
 
 
-Our dataset class follows the organizational model of the datacube, which is used by the [Statistical Data and Metadata eXchange](https://sdmx.org/), and which is also described in a non-normative manner by the the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/). While the SDMX standards predate the Resource Description Framework (RDF) framework for the semantic web, they are already harmonized to a great deal, which enables users and data publishers to create machine-to-machine connections among statistical data. Our goal is to create a modern data frame object in R with utilities that allow the R user to benefit from synchronizing data with semantic web applications, including statistical resources, libraries, or open science repositories.
+Our dataset class follows the organizational model of the datacube, which is used by the [Statistical Data and Metadata eXchange](https://sdmx.org/), and which is also described in a non-normative manner by the the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/). While the SDMX standards predate the Resource Description Framework (RDF) framework for the semantic web, they are already harmonised to a great deal, which enables users and data publishers to create machine-to-machine connections among statistical data. Our goal is to create a modern data frame object in R with utilities that allow the R user to benefit from synchronizing data with semantic web applications, including statistical resources, libraries, or open science repositories.
 
 ```{r structure, echo=FALSE, message=FALSE}
 knitr::include_graphics(here::here("vignettes", "dataset_structure.png"))

@@ -49,6 +49,7 @@ reference:
       - dimensions
       - measures
       - attributes_measures
+      - bibentry_dataset
   - title: "FAIR metadata"
     desc: >
       Add and read [FAIR metadata](https://www.go-fair.org/fair-principles/)

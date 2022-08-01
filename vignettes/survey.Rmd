@@ -75,7 +75,7 @@ survey_dataset  <- dataset( x= raw_survey,
 datacite(survey_dataset)
 ```
 
-It is a good practice to define valid, but not present labels in `declared`, because in the retrospective harmonization workflow they may be concatenaded (binded) together with further observations that do have the currently not used label. 
+It is a good practice to define valid, but not present labels in `declared`, because in the retrospective harmonization workflow they may be concatenated (binded) together with further observations that do have the currently not used label. 
 
 In this example, the `DK` or declined label is not in use.
 

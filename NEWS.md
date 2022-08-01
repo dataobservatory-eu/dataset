@@ -1,7 +1,7 @@
 # dataset 0.1.4.
 
 * `dataset_export()` is implemented with filetype = 'csv'.
-* Replacement functions are added to simple properties `identifier()`, `publisher()`, `publication_year()`, `language()`, `description()`,  `dataset_source()` [to avoid confustion with the base R source() function], `geolocation()`, `rights()`, `version()`.
+* Replacement functions are added to simple properties `identifier()`, `publisher()`, `publication_year()`, `language()`, `description()`,  `dataset_source()` [to avoid confusion with the base R source() function], `geolocation()`, `rights()`, `version()`.
 * Functions to work with structured referencial metadata: `dataset_title()`, `dataset_title_create()`, `subject()`, `subject_create()`.
 * The Type property is handled by `resource_type()`
 

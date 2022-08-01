@@ -20,6 +20,9 @@ subject_create(
 \arguments{
 \item{x}{An R object}
 
+\item{overwrite}{Defaults to \code{FALSE}, in which case new subject(x) <- "Subject" calls
+are binding further Subjects to the already set Subject properties.}
+
 \item{value}{Subject terms, or a Subject object created by \code{\link{subject_create}}.}
 
 \item{term}{A term, or a character vector of multiple terms.}

@@ -26,7 +26,7 @@ description <- function(x) {
 
 #' @rdname description
 #' @export
-`description<-`  <- function(x, value, overwrite = TRUE) {
+`description<-`  <- function(x,  overwrite = TRUE, value) {
 
   if (is.null(attr(x, "Description"))) {
     if (is.null(value)) {

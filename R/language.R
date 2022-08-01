@@ -28,7 +28,7 @@ language <- function (x) {
 
 #' @rdname language
 #' @export
-`language<-` <- function(x, value, iso_639_code = "639-3" ) {
+`language<-` <- function(x, iso_639_code = "639-3", value ) {
 
   if (is.null(value)) {
     attr(x, "Language") <- NULL

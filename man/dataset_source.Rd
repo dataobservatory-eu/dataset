@@ -13,10 +13,10 @@ dataset_source(x, overwrite = TRUE) <- value
 \item{x}{An R object of type data.frame, or inherited data.table, tibble; alternatively a well
 structured R list.}
 
-\item{value}{The \code{Source} as a character string of lengths one.}
-
 \item{overwrite}{If pre-existing metadata properties should be overwritten,
 defaults to \code{TRUE}.}
+
+\item{value}{The \code{Source} as a character string of lengths one.}
 }
 \value{
 The \code{Source} attribute as a character of length 1 is added to \code{x}.

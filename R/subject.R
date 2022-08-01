@@ -13,6 +13,8 @@
 #' provide the schemeURIs in the same order as the terms. Optional.
 #' @param valueURI The URI of the subject term. If there are multiple terms,
 #' provide the valueURIs in the same order as the terms. Optional.
+#' @param overwrite Defaults to \code{FALSE}, in which case new subject(x) <- "Subject" calls
+#' are binding further Subjects to the already set Subject properties.
 #' @return The subjects as a data.frame of terms
 #' @examples
 #' x <- data.frame( geo = c("AL", "MK"),
@@ -41,7 +43,7 @@ subject <- function(x) {
 
 #' @rdname subject
 #' @export
-`subject<-` <- function(x, value, overwrite = FALSE ) {
+`subject<-` <- function(x, overwrite = FALSE, value) {
 
   if (is.null(value)) {
     attr(x, "Subject") <- NULL

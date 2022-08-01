@@ -26,7 +26,7 @@ geolocation <- function(x) {
 
 #' @rdname geolocation
 #' @export
-`geolocation<-` <- function(x, value, overwrite = TRUE) {
+`geolocation<-` <- function(x,  overwrite = TRUE, value) {
 
   if (is.null(attr(x, "Geolocation"))) {
     if (is.null(value)) {

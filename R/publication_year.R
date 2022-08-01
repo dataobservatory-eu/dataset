@@ -25,7 +25,7 @@ publication_year <- function(x) {
 
 #' @rdname publication_year
 #' @export
-`publication_year<-`  <- function(x, value, overwrite = TRUE) {
+`publication_year<-`  <- function(x,  overwrite = TRUE, value) {
 
   if (is.null(attr(x, "publication_year"))) {
     if (is.null(value)) {

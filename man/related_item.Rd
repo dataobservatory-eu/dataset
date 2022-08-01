@@ -2,7 +2,7 @@
 % Please edit documentation in R/related_item.R
 \name{related_item}
 \alias{related_item}
-\title{Create a related item identifer}
+\title{Create a related item identifier}
 \usage{
 related_item(
   Identifier,

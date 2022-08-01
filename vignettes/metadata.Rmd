@@ -56,9 +56,9 @@ iris_ds <- dataset(x=iris,
 
 dublincore(iris_ds)
 ```
-The `dataset()` constructor adds W3C/SDMX compatible strucutral metadata (declares the measured values and the attributes of the observations) and some Dublin Core data for findability (these are properties that are the same in DataCite.)
+The `dataset()` constructor adds W3C/SDMX compatible structural metadata (declares the measured values and the attributes of the observations) and some Dublin Core data for findability (these are properties that are the same in DataCite.)
 
-You can add more descriptive metadata to further support discovery, interoperability.  You do not need the `dataset()` class, any data.frame, i.e. `data.frame()`, `tibble::tibble()` or `data.table::data.table()` will do. The dataset constructor does not alter the data or the data strucutre of a data frame or an object inherited from data frame, only adds standardized metadata to it. 
+You can add more descriptive metadata to further support discovery, interoperability.  You do not need the `dataset()` class, any data.frame, i.e. `data.frame()`, `tibble::tibble()` or `data.table::data.table()` will do. The dataset constructor does not alter the data or the data structure of a data frame or an object inherited from data frame, only adds standardized metadata to it. 
 
 ```{r createdataset}
 iris_ds <- datacite_add(iris,

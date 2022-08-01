@@ -106,7 +106,7 @@ datacite(rd_e_gerdtot)
 ```
 
 
-Following the datacube model, our datasets are data frames with clearly defined dimensions (`time`, `geo`, `sex`), meausurements (`value`), and attributes (`unit`, `freq`, `status`). In this example, all dimensions and values are following the SDMX attribute definition, i.e. they have a standardized, natural language independent codelist.  (To use these codelists, use the [statcodelist](https://statcodelists.dataobservatory.eu/) data package.)
+Following the datacube model, our datasets are data frames with clearly defined dimensions (`time`, `geo`, `sex`), measurements (`value`), and attributes (`unit`, `freq`, `status`). In this example, all dimensions and values are following the SDMX attribute definition, i.e. they have a standardized, natural language independent codelist.  (To use these codelists, use the [statcodelist](https://statcodelists.dataobservatory.eu/) data package.)
 
 ```{r structure, echo=FALSE, message=FALSE}
 include_graphics(here("vignettes", "dataset_structure.png"))
@@ -122,7 +122,7 @@ We recommend the use of an explicit row identifier. The popular modern R data fr
 
 One of the advantages of using an explicit row identifier is that it can form the root for minting a URI for the entire dataset by collapsing all dimensions and attributes into a concatenated string starting with the row identifier. This will make your dataset ready to be used in triplets, a strict, tidy, three-column long-form dataset used in linked open data applications. As mentioned earlier, in homogeneous (or homogeneously subsetted) datasets, you could move the dimensions and the attributes out from the data frame cells into the descriptive attributes. However, if you want to work with linked data, you must have all structural information present in the data cells, because this makes it possible that different data publisher's data can be linked together without having a utopistic, global database map. 
 
-In the following example, we concatenate the `rowed`, and the `time`, `geo` and `sex` dimensions into a single URI.  We can do this, because in a well-organized dataset the combination of dimensions is unique (otherwise we would be just simply duplicating an observation.) However, adding the attributes to the URI would be superfluous, because there combinaton is not unique in the observations. 
+In the following example, we concatenate the `rowed`, and the `time`, `geo` and `sex` dimensions into a single URI.  We can do this, because in a well-organized dataset the combination of dimensions is unique (otherwise we would be just simply duplicating an observation.) However, adding the attributes to the URI would be superfluous, because there combination is not unique in the observations. 
 
 ```{r dimreduction, echo=FALSE, message=FALSE}
 include_graphics(here("vignettes", "RDF_chart_1.png"))

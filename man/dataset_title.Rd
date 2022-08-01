@@ -15,11 +15,11 @@ dataset_title_create(Title, titleType = "Title")
 \arguments{
 \item{x}{An R object}
 
-\item{value}{The name(s) or title(s) by which a resource is known. A character string or
-a Title object created by \code{\link{title_create}}.Similar to
-\href{http://purl.org/dc/elements/1.1/title}{dct:title}.}
-
 \item{overwrite}{Defaults to \code{FALSE}.}
+
+\item{value}{The name(s) or title(s) by which a resource is known. A character string or
+a Title object created by \code{\link{dataset_title_create}}.Similar to
+\href{http://purl.org/dc/elements/1.1/title}{dct:title}.}
 
 \item{Title}{The name(s) or title(s) by which a resource is known, includeing \code{Title},
 \code{AlternativeTitle},  \code{Subtitle},  \code{TranslatedTitle},  \code{OtherTitle}.
@@ -43,9 +43,11 @@ In the DataCite definition, several titles can be used.
 }
 \examples{
 my_iris <- iris
-dataset_title(my_iris) <- dataset_title_create(Title = c("Iris Dataset",
-                                                         "The famous iris dataset of the R examples"),
-                                               titleType = c("Title", "Subtitle"))
+dataset_title(my_iris) <- dataset_title_create(
+    Title = c("Iris Dataset",
+    "The famous iris dataset of the R examples"),
+    titleType = c("Title", "Subtitle")
+    )
 dataset_title(my_iris)
 
  y <- data.frame()

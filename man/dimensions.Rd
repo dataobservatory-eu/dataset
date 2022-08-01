@@ -12,11 +12,11 @@ dimensions(x, sdmx_attributes = NULL) <- value
 \arguments{
 \item{x}{A data.frame or inherited tibble, data.frame, or a structured list.}
 
-\item{value}{The name or column number of the within the dataset.}
-
 \item{sdmx_attributes}{The optional dimensions and attributes that conform with
 SDMX. \code{c("time", "geo")} will mark the "time" and "geo" attributes as conforming to
 sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl}{sdmx-attribute}.}
+
+\item{value}{The name or column number of the within the dataset.}
 }
 \description{
 Dimensions of a dataset

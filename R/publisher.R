@@ -27,7 +27,7 @@ publisher<- function(x) {
 
 #' @rdname publisher
 #' @export
-`publisher<-` <- function(x, overwrite = TRUE, value) {
+`publisher<-` <- function(x,  overwrite = TRUE, value) {
 
   if ( is.null(value)) {
     attr(x, "Publisher") <- NA_character_

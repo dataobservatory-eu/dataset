@@ -34,7 +34,7 @@ identifier <- function(x) {
 
 #' @rdname identifier
 #' @export
-`identifier<-`  <- function(x, value, overwrite = TRUE) {
+`identifier<-`  <- function(x,  overwrite = TRUE, value) {
 
   if (is.null(attr(x, "Identifier"))) {
     if (is.null(value)) {

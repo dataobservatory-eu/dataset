@@ -18,7 +18,7 @@ dataset_source <- function(x) {
 
 #' @rdname dataset_source
 #' @export
-`dataset_source<-` <- function(x, value, overwrite = TRUE) {
+`dataset_source<-` <- function(x,  overwrite = TRUE, value) {
 
   if (is.null(attr(x, "Source"))) {
     if (is.null(value)) {

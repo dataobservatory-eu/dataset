@@ -12,9 +12,9 @@ attributes_measures(x, sdmx_attributes = NULL) <- value
 \arguments{
 \item{x}{A data.frame or inherited tibble, data.frame, or a structured list.}
 
-\item{value}{The name or column number of the within the dataset.}
-
 \item{sdmx_attributes}{The optional SDMX dimensions.}
+
+\item{value}{The name or column number of the within the dataset.}
 }
 \description{
 Attributes of a dataset

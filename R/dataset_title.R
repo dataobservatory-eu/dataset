@@ -9,7 +9,7 @@
 #' Use \code{\link{dataset_title_create}} to create a several title entries.
 #' @param x An R object
 #' @param value The name(s) or title(s) by which a resource is known. A character string or
-#' a Title object created by \code{\link{title_create}}.Similar to
+#' a Title object created by \code{\link{dataset_title_create}}.Similar to
 #' \href{http://purl.org/dc/elements/1.1/title}{dct:title}.
 #' @param titleType In DataCite, the controlled values are
 #' \code{AlternativeTitle}, \code{Subtitle}, \code{TranslatedTitle}, \code{Other}. When no titleType is given (as in
@@ -18,9 +18,11 @@
 #' @return The titles as a data.frame with a titleTypes column.
 #' @examples
 #' my_iris <- iris
-#' dataset_title(my_iris) <- dataset_title_create(Title = c("Iris Dataset",
-#'                                                          "The famous iris dataset of the R examples"),
-#'                                                titleType = c("Title", "Subtitle"))
+#' dataset_title(my_iris) <- dataset_title_create(
+#'     Title = c("Iris Dataset",
+#'     "The famous iris dataset of the R examples"),
+#'     titleType = c("Title", "Subtitle")
+#'     )
 #' dataset_title(my_iris)
 #'
 #'  y <- data.frame()
@@ -36,7 +38,7 @@ dataset_title <- function(x) {
 
 #' @rdname dataset_title
 #' @export
-`dataset_title<-` <- function(x, value, overwrite = FALSE ) {
+`dataset_title<-` <- function(x, overwrite = FALSE, value) {
 
   if (is.null(value)) {
     attr(x, "Title") <- NULL

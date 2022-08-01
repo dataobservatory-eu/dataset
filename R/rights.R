@@ -25,7 +25,7 @@ rights <- function(x) {
 
 #' @rdname rights
 #' @export
-`rights<-` <- function(x, value, overwrite = TRUE) {
+`rights<-` <- function(x,  overwrite = TRUE, value) {
 
   if (is.null(attr(x, "Rights"))) {
     if (is.null(value)) {
