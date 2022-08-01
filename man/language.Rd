@@ -2,17 +2,17 @@
 % Please edit documentation in R/language.R
 \name{language}
 \alias{language}
-\alias{language_add}
-\title{Get/Add the primary language of the dataset}
+\alias{language<-}
+\title{Get/Set the primary language of the dataset}
 \usage{
 language(x)
 
-language_add(x, Language, iso_639_code = "639-3")
+language(x, iso_639_code = "639-3") <- value
 }
 \arguments{
 \item{x}{An R object, such as a data.frame, a tibble, or a character vector.}
 
-\item{Language}{The language to be added to the object attributes, added by name, or
+\item{value}{The language to be added to the object attributes, added by name, or
 as a 2- or 3-character code for the language. You can add a language code or language name,
 and the parameter is normalised to \code{tolower(language)}. (The ISO 639 standard capitalizes
 language names and uses lower case for the codes.)}
@@ -37,7 +37,21 @@ The attribute \code{language} is added to the object. It will be exported into D
 applications in a capitalized \code{Lanugage} format.
 }
 \examples{
-iris_dataset <- language_add(x = iris, Language= "English")
-attr(iris_dataset, "Language")
+iris_dataset <- iris
+language(iris_dataset) <- "English"
+language(iris_dataset)
 }
-\concept{Metadata functions}
+\seealso{
+Other Reference metadata functions: 
+\code{\link{creator}()},
+\code{\link{dataset_source}()},
+\code{\link{description}()},
+\code{\link{geolocation}()},
+\code{\link{identifier}()},
+\code{\link{publication_year}()},
+\code{\link{publisher}()},
+\code{\link{rights}()},
+\code{\link{size}()},
+\code{\link{version}()}
+}
+\concept{Reference metadata functions}

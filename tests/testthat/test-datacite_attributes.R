@@ -11,18 +11,3 @@ dont_test <- function() {
 }
 
 
-test_that("Size atttriubte is set", {
-  expect_equal(attr(size_add(iris), "Size"), "7.26 kB [7.09 KiB]")
-})
-
-test_that("Version atttriubte is set", {
-  expect_equal(attr(version_add(x = iris, Version= "1.0"), "Version"), "1.0")
-})
-
-
-test_that("Language atttriubte is set", {
-  expect_equal(attr(language_add(x = iris, Language= "hungarian", iso_639_code = "639-1"), "Language"), "hu")
-  expect_equal(attr(language_add(x = iris, Language= "English"), "Language"), "eng")
-  expect_equal(attr(language_add(x = iris, Language= "nl", iso_639_code = "639-1"), "Language"), "nl")
-})
-

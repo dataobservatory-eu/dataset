@@ -2,17 +2,17 @@
 % Please edit documentation in R/dataset.R
 \name{measures}
 \alias{measures}
-\alias{measures_add}
+\alias{measures<-}
 \title{Measures of a dataset}
 \usage{
 measures(x)
 
-measures_add(x, measures)
+measures(x) <- value
 }
 \arguments{
 \item{x}{A data.frame or inherited tibble, data.frame, or a structured list.}
 
-\item{measures}{The name or column number of the measures within the dataset.}
+\item{value}{The name or column number of the within the dataset.}
 }
 \description{
 Measures of a dataset
@@ -22,6 +22,6 @@ See the W3C and SDMX definition of a \href{https://www.w3.org/TR/vocab-data-cube
 }
 \examples{
 df <- data.frame ( sex = c("M", "F"), value = c(1,2))
-df <- measures_add(df, "value")
+measures(df) <- "value"
 measures(df)
 }

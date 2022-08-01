@@ -24,11 +24,9 @@ You need the latest development version of [declared](https://github.com/dusadri
 ```{r, eval=FALSE}
 remotes::install_github('dusadrian/declared')
 ```
-
-
 The survey class will be derived from the `dataset` class. 
 
-```{r}
+```{r vectordefinition}
 obs_id <- c("Saschia Iemand", "Jane Doe", "Jack Doe", "Pim Iemand", "Matti Virtanen" )
 sex <- declared ( c(1,1,0,-1,1), 
                   labels = c(Male = 0, Female = 1, DK = -1), 
@@ -36,11 +34,12 @@ sex <- declared ( c(1,1,0,-1,1),
 geo <- c("NL-ZH", "IE-05", "GB-NIR", "NL-ZH", "FI1C")
 ```
 
-```{r}
+```{r declareddefinition}
 difficulty_bills <- declared (
   c(0,1,2,-1,0), 
-  labels = c(Never = 0,  Time_to_time = 1, Always = 2, DK = -1)
-)
+  labels = c(Never = 0, Time_to_time = 1, Always = 2, DK = -1)
+  )
+
 age_exact <- declared (
   c( 34,45,21,55,-1), 
   labels = c( A = 34,A = 45,A  = 21, A= 55, DK = -1)
@@ -52,7 +51,7 @@ listen_spotify <- declared (
 )
 ```
 
-```{r}
+```{r dataframedefinition}
 raw_survey <- data.frame ( 
   obs_id = obs_id, 
   geo = geo, 
@@ -63,16 +62,16 @@ raw_survey <- data.frame (
 )
 
 survey_dataset  <- dataset( x= raw_survey,
-                            dimensions = "geo", 
-                            measures = c("listen_spotify", "sex",
+                            Dimensions = "geo", 
+                            Measures = c("listen_spotify", "sex",
                                          "age_exact", "difficulty_bills"), 
-                            attributes = NULL, 
+                            Attributes = NULL, 
                             sdmx_attributes = "geo", 
                             Title = "Tiny Survey", 
                             Creator = person("Jane", "Doe"))
 ```
 
-```{r}
+```{r datacite}
 datacite(survey_dataset)
 ```
 
@@ -91,19 +90,19 @@ listen_spotify <- declared(
 
 
 
-```{r}
+```{r printadecleared}
 print(listen_spotify)
 ```
 
 
-```{r}
+```{r concatenatedeclared}
 c(listen_spotify, declared(
   c(-1,-1,-1),
   labels = c( No = 0, Yes = 1,Inap = 9, DK =-1)
   ))
 ```
 
-```{r}
+```{r summarizedeclared}
 summary(listen_spotify)
 ```
 
@@ -111,7 +110,7 @@ summary(listen_spotify)
 
 
 
-```{r}
+```{r dataciteadataset}
 survey_dataset <- datacite_add(survey_dataset, 
                                Title = "Tiny Survey", 
                                Creator = person("Daniel", "Antal"), 
@@ -124,13 +123,13 @@ survey_dataset <- datacite_add(survey_dataset,
 
 The `survey` class inherits elements of the `dataset` class, but it will be more strictly defined.  I am considering to make  `declared` every single column except for the `obs_id`. Even `numeric` types with `Inap` and `DK` would map nicely to `CL_OBS_STATUS` SDMX codes that make missing observation explicit, and try to categorize them.
 
-```{r}
+```{r showdatacite}
 datacite(survey_dataset)
 ```
 
 Is the `summary` method implemented for `declared`? Both `dataset` and `survey` will need new `print` and `summary` methods.
 
-```{r}
+```{r summarizedataset}
 summary(survey_dataset)
 ```
 The `survey` (should) contain the entire processing history from creation, and optionally the `DataCite` schema for publication created with `datacite_add()`.  A similar `dublincore_add` function uses the Dublin Core metadata definitions.

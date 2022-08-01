@@ -47,12 +47,8 @@ reference:
     contents:
       - dataset
       - dimensions
-      - dimensions_add
       - measures
-      - measures_add
-      - attributes_measurements
-      - attributes_measurements_add
-      - dataset_export
+      - attributes_measures
   - title: "FAIR metadata"
     desc: >
       Add and read [FAIR metadata](https://www.go-fair.org/fair-principles/)
@@ -63,15 +59,25 @@ reference:
       - datacite
       - datacite_add
       - dataset_title
-      - title
-      - related_item
+      - identifier
+      - creator
+      - publisher
       - subject
-      - size_add
+      - subject_create
+      - size
       - language
+      - description
+      - dataset_source
+      - publication_year
+      - geolocation
+      - rights
       - version
+      - resource_type
+      - related_item
   - title: "Reproducible research workflows"
     desc: >
       Improve reproducability with recording data lifecycle, processing history as
       standardized metadata.
     contents:
       - dataset_download
+      - dataset_export

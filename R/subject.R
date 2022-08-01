@@ -5,19 +5,33 @@
 #' recommended as a best practice to use a controlled vocabulary. \cr
 #' In DataCite, subjects are defined as key phrases from a controlled library.
 #' @param x An R object
+#' @param value Subject terms, or a Subject object created by \code{\link{subject_create}}.
 #' @param term A term, or a character vector of multiple terms.
-#' @param scheme The scheme to which the term correspondes. If there are multiple terms,
-#' provide the scheme(s) in the same order.
-#' @param identifier The identifier of the term definition(s), in the order of the terms.
+#' @param subjectScheme The scheme to which the term correspondes. If there are multiple terms,
+#' provide the subjectScheme(s) in the same order. Optional.
+#' @param schemeURI The URI(s) of the subject identifier scheme. If there are multiple terms,
+#' provide the schemeURIs in the same order as the terms. Optional.
+#' @param valueURI The URI of the subject term. If there are multiple terms,
+#' provide the valueURIs in the same order as the terms. Optional.
 #' @return The subjects as a data.frame of terms
 #' @examples
-#' x <- data.frame()
-#' subject_add (x, term = c("R (Computer program language)",
-#'                          "Questionnaires--Computer programs"),
-#'                 scheme = rep("url", 2),
-#'                 identifier = c("https://id.loc.gov/authorities/subjects/sh2002004407.html",
-#'                                "http://id.worldcat.org/fast/1085693/") )
+#' x <- data.frame( geo = c("AL", "MK"),
+#'                 value = c(1,2))
+#' my_subject <- subject_create (
+#'                   term = c("R (Computer program language)",
+#'                            "Questionnaires--Computer programs"),
+#'                   subjectScheme = rep("LC Subject Headings", 2),
+#'                   schemeURI = rep("http://id.loc.gov/authorities/subjects",2),
+#'                   valueURI = c("https://id.loc.gov/authorities/subjects/sh2002004407.html",
+#'                                "http://id.worldcat.org/fast/1085693/")
+#' )
+#'  subject(x) <- my_subject
 #'  subject(x)
+#'
+#'  y <- data.frame()
+#'  subject(y) <- "R (Computer program language)"
+#'  subject(y) <- "Questionnaires--Computer programs"
+#'  subject(y)
 #' @export
 
 subject <- function(x) {
@@ -27,15 +41,53 @@ subject <- function(x) {
 
 #' @rdname subject
 #' @export
-subject_add <- function(x, term, scheme, identifier) {
+`subject<-` <- function(x, value, overwrite = FALSE ) {
 
-  if(!all.equal(length(term), length(scheme), length(identifier))) {
-    stop("subject_add(term, scheme, identifier): you must give the same number of terms, schemes, identifiers.")
+  if (is.null(value)) {
+    attr(x, "Subject") <- NULL
+    return(x)
   }
 
-  attr(x, "Subject") <- data.frame(term = term,
-                                   scheme = scheme,
-                                   identifier = identifier)
+  if ( any(c("character", "factor") %in% class(value)) ) {
+    value <- subject_create(term = value,
+                            subjectScheme = rep(NA_character_, length(value)),
+                            schemeURI = rep(NA_character_, length(value)),
+                            valueURI = rep(NA_character_,length(value)))
+  }
+
+  if (! inherits(value, 'data.frame')) {
+    stop("subject <- value: value must be a data.frame object.")
+  }
+
+  if (! all(names(value) %in% c("term", "subjectScheme", "schemeURI", "valueURI"))) {
+    stop("subject <- value: value must be a data.frame object with 'term', 'subjectScheme', 'schemeURI' and 'valueURI' columns.")
+  }
+
+  if ((is.null(attr(x, "Subject"))) | overwrite ) {
+    attr(x, "Subject") <- value
+  } else {
+    attr(x, "Subject") <- rbind(attr(x, "Subject"), value)
+  }
 
   x
+}
+
+#' @rdname subject
+#' @export
+subject_create <- function (term,
+                            subjectScheme = NA_character_,
+                            schemeURI = NA_character_,
+                            valueURI = NA_character_) {
+  if(!all.equal(length(term), length(subjectScheme), length(schemeURI), length(valueURI))) {
+    stop("subject_add(term, subjectScheme, schemeURI, valueURI): you must give the same number of terms, subjectSchemes, subjectURIs and valueURIs.")
+  }
+
+  Subject <- data.frame(term = term,
+                        subjectScheme = subjectScheme,
+                        schemeURI = schemeURI,
+                        valueURI = valueURI)
+
+  attr(Subject, "class") <- c("Subject", "data.frame")
+
+  Subject
 }

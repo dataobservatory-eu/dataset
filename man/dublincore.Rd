@@ -25,7 +25,7 @@ dublincore_add(
   Rights = NULL,
   Relation = NULL,
   Description = NULL,
-  Type = NULL,
+  Type = "DCMITYPE:Dataset",
   overwrite = TRUE
 )
 }
@@ -34,10 +34,10 @@ dublincore_add(
 structured R list.}
 
 \item{Title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
-\code{\link{datacite}} allows the use of alternate titles, too.}
+\code{\link{datacite}} allows the use of alternate titles, too. See \code{\link{title}}.}
 
 \item{Creator}{An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
-Corresponds to \code{Creator} in \code{\link{datacite}}.}
+Corresponds to \code{Creator} in \code{\link{datacite}}. See \code{\link{creator}}.}
 
 \item{Identifier}{An unambiguous reference to the resource within a given context.
 Recommended practice is to identify the resource by means of a string conforming to an
@@ -46,16 +46,17 @@ Digital Object Identifier (DOI), and Uniform Resource Name (URN).
 Select and identifier scheme from
 \href{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html#URI-SCHEMES}{registered URI schemes maintained by IANA}.
 More details: \href{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}.
-Similar to \code{Identifier} in \code{\link{datacite}}.}
+Similar to \code{Identifier} in \code{\link{datacite}}. See \code{\link{identifier}}.}
 
-\item{Publisher}{Corresponds to dct:publisher and Publisher in DataCite.
+\item{Publisher}{Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#publisher}{dct:publisher}
+and Publisher in DataCite.
 The name of the entity that holds, archives, publishes prints, distributes, releases,
 issues, or produces the resource. This property will be used to formulate the citation,
-so consider the prominence of the role. For software, use Publisher for the
+so consider the prominence of the role. For software, use \code{Publisher} for the
 code repository. If there is an entity other than a code repository, that
 "holds, archives, publishes, prints, distributes, releases, issues, or produces" the
-code, use the property Contributor/contributorType/ hostingInstitution for the code
-repository.}
+code, use the property Contributor/contributorType/hostingInstitution for the code
+repository. See \code{\link{publisher}}.}
 
 \item{Subject}{Defaults to \code{NULL}. See \code{\link{subject}} to add subject descriptions
 to your dataset.}
@@ -65,10 +66,12 @@ lifecycle of the resource. \href{http://purl.org/dc/elements/1.1/date}{dct:date}
 \code{Date} is also recommended for
 discovery in \code{\link{datacite}}.}
 
-\item{Source}{A related resource from which the described resource is derived. See \href{http://purl.org/dc/elements/1.1/source}{dct:source}.}
+\item{Source}{A related resource from which the described resource is derived.
+See \href{http://purl.org/dc/elements/1.1/source}{dct:source} and
+\code{\link{dataset_source}}.}
 
 \item{Language}{The primary language of the resource. Allowed values are taken from
-IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}. Corresponds to Language in Datacite.}
+IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}. Corresponds to Language in Datacite.}
 
 \item{Format}{The file format, physical medium, or dimensions of the resource.
 \href{    http://purl.org/dc/elements/1.1/format}{dct:format}
@@ -78,7 +81,8 @@ vocabulary such as the list of \href{https://www.iana.org/assignments/media-type
 
 \item{Rights}{Corresponds to \href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
 \code{\link{datacite}} Rights. Information about rights held in and over the resource.
-Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights.}
+Typically, rights information includes a statement about various property rights associated with the resource,
+including intellectual property rights. See \code{\link{rights}}.}
 
 \item{Relation}{A related resource. Recommended best practice is to identify the related
 resource by means of a string conforming to a formal identification system. See: \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.
@@ -87,7 +91,7 @@ Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended fo
 \item{Description}{An account of the resource. It may include but is not limited to:
 an abstract, a table of contents, a graphical representation, or a free-text account of the resource.
 \href{http://purl.org/dc/elements/1.1/description}{dct:description}. In
-\code{\link{datacite}} it is recommended for discovery.}
+\code{\link{datacite}} it is recommended for discovery. See \code{\link{description}}.}
 
 \item{Type}{The nature or genre of the resource. Recommended best practice is to use a controlled vocabulary such as the DCMI Type Vocabulary
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-type-vocabulary/}{DCMITYPE}.
@@ -134,7 +138,6 @@ dublincore(dct_iris)
 \seealso{
 Other metadata functions: 
 \code{\link{datacite}()},
-\code{\link{related_item}()},
-\code{\link{size_add}()}
+\code{\link{related_item}()}
 }
 \concept{metadata functions}

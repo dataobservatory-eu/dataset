@@ -1,8 +1,8 @@
 my_iris_dataset <- dataset(
   x = iris,
-  dimensions = NULL,
-  measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width" ),
-  attributes = "Species",
+  Dimensions = NULL,
+  Measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width" ),
+  Attributes = "Species",
   Title = "Iris Dataset"
 )
 
@@ -15,7 +15,7 @@ my_iris_dataset <- dublincore_add(
   Language = "en"
 )
 
-dataset_export(my_iris_dataset, file.path(tempdir(), "my_iris.csv"))
+dataset_export(ds=my_iris_dataset, file = file.path(tempdir(), "my_iris.csv"))
 
 test_that("dataset_export", {
   expect_true(file.exists(file.path(tempdir(), "my_iris.csv")))

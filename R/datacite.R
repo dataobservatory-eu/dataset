@@ -36,10 +36,12 @@
 #' publishes, prints, distributes, releases, issues, or produces" the code, use the property
 #' Contributor/contributorType/ hostingInstitution for the code repository. Corresponds to dct:Publisher in
 #' \code{\link{dublincore}}.
-#' @param PublicationYear The year when the data was or will be made publicly available in \code{YYYY} format.
+#' @param PublicationYear The year when the data was or will be made publicly available in
+#' \code{YYYY} format.See \code{\link{publication_year}}.
 #' @param Subject Recommended for discovery. Subject, keyword, classification code, or key
 #' phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. \cr
-#' Use \code{\link{subject_add}} to properly add a key phrase from a controlled vocabulary.
+#' Use \code{\link{subject}} to properly add a key phrase from a controlled vocabulary
+#' and create structured Subject objects with \code{\link{subject_create}}.
 #' @param Contributor Recommended for discovery. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.
 #' @param Date Recommended for discovery in DataCite. Similar to \href{http://purl.org/dc/elements/1.1/date}{dct:date} in
 #' \code{\link{dublincore}}.
@@ -47,19 +49,25 @@
 #' distributes, releases, issues, or produces the resource. This property will be used to
 #' formulate the citation, so consider the prominence of the role.
 #' For software, use Publisher for the code repository. Mandatory in DataCite, and similar to
-#' dct:publisher
+#' dct:publisher. See \code{\link{publisher}}.
+#' @param Type Defaults to \code{Dataset}.
+#' The DataCite resourceType definition refers back to
+#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/elements/1.1/type}{dcm:type}.
+#' The \code{Type$resourceTypeGeneral} is set to  \code{Dataset}, while the user can set a more
+#' specific \code{Type$resourceType} value. See \code{\link{resource_type}}.
 #' @param Language The primary language of the resource. Allowed values are taken from
-#' IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}.
+#' IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}.
 #' @param AlternateIdentifier An identifier or identifiers other than the primary Identifier applied to the resource being registered. This may be any alphanumeric string which is unique within its domain of issue. May be used for local identifiers. AlternateIdentifier should be used for another identifier of the same instance (same location, same file).
 #' @param RelatedIdentifier Recommended for discovery. Similar to \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.
 #' @param Format Technical format of the resource. Similar to \href{http://purl.org/dc/elements/1.1/format}{dct:format}.
-#' @param Version Free text. Suggested practice: track major_version.minor_version. See \code{\link{version_add}}.
-#' @param Rights  Any rights information for this resource. The property may be repeated to record complex rights characteristics.
-#' Free text.
+#' @param Version Free text. Suggested practice: track major_version.minor_version. See \code{\link{version}}.
+#' @param Rights Any rights information for this resource. The property may be repeated to record complex rights characteristics.
+#' Free text. See \code{\link{rights}}.
 #' @param Description Recommended for discovery. All additional information that does not
 #' fit in any of the other categories. May be used for technical information. A free text.
 #' Similar to \href{http://purl.org/dc/elements/1.1/description}{dct:description}.
-#' @param Geolocation Recommended for discovery. Spatial region or named place where the data was gathered or about which the data is focused.
+#' @param Geolocation Recommended for discovery. Spatial region or named place where the data was gathered
+#' or about which the data is focused. See \code{\link{geolocation}}.
 #' @param FundingReference Information about financial support (funding) for the resource
 #' being registered.
 #' @param overwrite If pre-existing metadata properties should be overwritten,
@@ -75,7 +83,7 @@
 #'    x = iris,
 #'    Title = "Iris Dataset",
 #'    Creator = person(family = "Anderson", given = "Edgar", role = "aut"),
-#'    Publisher= "American Iris Society",
+#'    Publisher = "American Iris Society",
 #'    PublicationYear = 1935,
 #'    Geolocation = "US",
 #'    Language = "en")
@@ -84,11 +92,11 @@
 
 datacite <- function(x) {
 
-  attributes_measurements <- attributes(x)
-  attributes_measurements$row.names <- NULL
-  attributes_measurements$class <- NULL
+  attributes_measures <- attributes(x)
+  attributes_measures$row.names <- NULL
+  attributes_measures$class <- NULL
 
-  attributes_measurements
+  attributes_measures
 }
 
 #' @rdname datacite
@@ -101,9 +109,12 @@ datacite_add <- function(x,
                          Publisher = NULL,
                          PublicationYear = "THIS",
                          Subject = NULL,
-                         Contributor = NULL, Date = NULL,
+                         Type = "Dataset",
+                         Contributor = NULL,
+                         Date = NULL,
                          Language = NULL,
-                         AlternateIdentifier = NULL, RelatedIdentifier = NULL,
+                         AlternateIdentifier = NULL,
+                         RelatedIdentifier = NULL,
                          Format = NULL, Version = NULL, Rights = NULL,
                          Description = NULL, Geolocation = NULL,
                          FundingReference = NULL,
@@ -111,54 +122,112 @@ datacite_add <- function(x,
 
   if (PublicationYear == "THIS") as.integer(substr(Sys.Date(),1,4))
 
-  x <- title_add (x, Title = Title, titleType = titleType)
+  ## Set the Title property ------------------------------------------------
+  if (is.null(attr(x, "Title"))) {
+    dataset_title(x) <- Title
+  } else if ( overwrite ) {
+    dataset_title(x, overwrite = TRUE) <- Title
+  } else {
+    message ("The dataset already has Title(s): ", dataset_title(x) )
+  }
 
-  attr(x, "Subject") <- Subject
-  attr(x, "Creator") <- Creator
-  attr(x, "Publisher") <- Publisher
+  ## Set the Subject property ------------------------------------------------
+  if (is.null(attr(x, "Subject"))) {
+    subject(x) <- Subject
+  } else if ( overwrite ) {
+    subject(x) <- subject
+  } else {
+    message ("The dataset already has Subject(s): ", subject(x) )
+  }
 
-  #x <- identifier_add(x, Identifer = Identifier, overwrite = overwrite)
-  attr(x, "Identifer") <- Identifier
+  ## Set the Creator property ---------------------------------------------
+  if (is.null(attr(x, "Creator"))) {
+    attr(x, "Creator") <- Creator
+  } else if ( overwrite ) {
+    attr(x, "Creator") <- Creator
+  } else {
+    message ("The dataset already has a Creator: ",  attr(x, "Creator") )
+  }
+  ## Set the Identifier property --------------------------------
+  if (is.null(attr(x, "Identifier"))) {
+    identifier(x) <- Identifier
+  } else if ( overwrite ) {
+    identifier(x) <- Identifier
+  } else {
+    message ("The dataset already has a Identifier: ", identifier(x) )
+  }
+
+  ## Set the Publication property --------------------------------
+  if (is.null(attr(x, "Publisher"))) {
+    publisher(x) <- Publisher
+  } else if ( overwrite ) {
+    publisher(x) <- Publisher
+  } else {
+    message ("The dataset already has a Publisher: ", publisher(x) )
+  }
+
 
   attr(x, "Issued") <- ifelse(is.null(Date), PublicationYear, Date)
-  attr(x, "PublicationYear") <- PublicationYear
-  attr(x, "ResourceType") <- ifelse(inherits(x, "data.frame"), "Dataset",
-                                     ifelse (inherits(x, "list"), "Dataset",
-                                             "Other R object"))
 
-  attr(x, "Description") <- Description
-  attr(x, "Geolocation") <- Geolocation
+  ## Set the PublicationYear property --------------------------------
+  if (is.null(attr(x, "PublicationYear"))) {
+    publication_year(x) <- PublicationYear
+  } else if ( overwrite ) {
+    publication_year(x) <- PublicationYear
+  } else {
+    message ("The dataset already has a PublicationYear property: ", publication_year(x) )
+  }
 
-  if (!is.null(Language)) x <- language_add (x, Language)
-  if (!is.null(Version))  x <- version_add (x, Version)
+  ## Set the Type property ---------------------------------------------
+  resource_type(x) <- Type
 
-  x <- size_add(x)
+  ## Set the Description property ---------------------------------------------------
+  if (is.null(attr(x, "Description"))) {
+    description(x) <- Description
+  } else if ( overwrite ) {
+    description(x) <- Description
+  } else {
+    message ("The dataset already has a Description property: ", description(x) )
+  }
+
+
+  ## Set the Geolocation property -----------------------------------------------
+  if (is.null(attr(x, "Geolocation"))) {
+    geolocation(x) <- Geolocation
+  } else if ( overwrite ) {
+    geolocation(x) <- Geolocation
+  } else {
+    message ("The dataset already has a Geolocation property: ", geolocation(x) )
+  }
+
+  ## Set the Language property -------------------------------------------------
+  if (is.null(attr(x, "Language"))) {
+    language(x) <- Language
+  } else if ( overwrite ) {
+    language(x) <- Language
+  } else {
+    message ("The dataset already has a Language property: ", language(x) )
+  }
+
+  ## Set the Version property -------------------------------------------------
+  if (is.null(attr(x, "Version"))) {
+    version(x) <- Version
+  } else if ( overwrite ) {
+    version(x) <- Version
+  } else {
+    message ("The dataset already has a version property: ", version(x) )
+  }
+
+  ## Set the Right property ---------------------------------------------
+  if (is.null(attr(x, "Rights"))) {
+    rights(x) <- Rights
+  } else if ( overwrite ) {
+    rights(x) <- Rights
+  } else {
+    message ("The dataset already has a Rights: ", rights(x) )
+  }
+
+  x <- size(x)
   x
 }
 
-#' @title Add Size metadata to an object
-#' @description Add the optional DataCite \code{Size} property as an attribute to an R object.
-#' @details \code{Size} is an optional property in
-#' \href{https://support.datacite.org/docs/schema-optional-properties-v43#13-size}{DataCite 4.3}.
-#' The object size is estimated with \code{[utils]{object.size}}.
-#' @param x An R object, such as a data.frame, a tibble, or a character vector.
-#' @return The estimated object size in memory is added as an attribute to \code{x} in SI
-#' kB and IEC KiB (legacy Kb) units,
-#' rounded to two decimals.
-#' @family metadata functions
-#' @importFrom utils object.size
-#' @examples
-#' iris_dataset <- size_add(iris)
-#' attr(iris_dataset, "Size")
-#' @export
-
-size_add <- function(x) {
-
-  a <- object.size(x)
-
-  this_object_size <- paste0(round((as.numeric(a) / 1000),2), " kB [", round((as.numeric(a)/1024),2), " KiB]")
-
-  attr(x, "Size") <- this_object_size
-
-  x
-}

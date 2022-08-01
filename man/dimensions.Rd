@@ -2,17 +2,17 @@
 % Please edit documentation in R/dataset.R
 \name{dimensions}
 \alias{dimensions}
-\alias{dimensions_add}
+\alias{dimensions<-}
 \title{Dimensions of a dataset}
 \usage{
 dimensions(x)
 
-dimensions_add(x, dimensions, sdmx_attributes = NULL)
+dimensions(x, sdmx_attributes = NULL) <- value
 }
 \arguments{
 \item{x}{A data.frame or inherited tibble, data.frame, or a structured list.}
 
-\item{dimensions}{The name or column number of the dimensions within the dataset.}
+\item{value}{The name or column number of the within the dataset.}
 
 \item{sdmx_attributes}{The optional dimensions and attributes that conform with
 SDMX. \code{c("time", "geo")} will mark the "time" and "geo" attributes as conforming to
@@ -27,5 +27,5 @@ of the DataSet is different from the 'dimension' definition of the R language.
 }
 \examples{
 df <- data.frame ( sex = c("M", "F"), value = c(1,2))
-dimensions_add(df, "sex", sdmx_attributes = "sex")
+dimensions(df, sdmx_attributes = "sex") <- "sex"
 }

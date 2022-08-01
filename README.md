@@ -15,9 +15,9 @@ rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](http
 author](https://img.shields.io/twitter/follow/digitalmusicobs.svg?style=social)](https://twitter.com/intent/follow?screen_name=digitalmusicobs)
 <!-- badges: end -->
 
-The primary aim of dataset is to build well-documented data.frames,
-tibbles or data.tables that translate well into the W3C DataSet
-definition within the [Data Cube
+The primary aim of dataset is create well-referenced, well-described,
+interoperable datasets from data.frames, tibbles or data.tables that
+translate well into the W3C DataSet definition within the [Data Cube
 Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible
 manner. The data cube model in itself is is originated in the
 [Statistical Data and Metadata eXchange](https://sdmx.org/), and it is
@@ -38,7 +38,7 @@ A mapping of R objects into these models has numerous advantages:
     and costly data wrangling (See [From dataset To
     RDF](https://dataset.dataobservatory.eu/articles/RDF.html)).
 
-Our package functions work with any structured R ojects (data.fame,
+Our package functions work with any structured R objects (data.fame,
 data.table, tibble, or well-structured lists like json), however, the
 best functionality is achieved by the (See [The dataset S3
 Class](https://dataset.dataobservatory.eu/articles/dataset.html)), which
@@ -58,9 +58,9 @@ remotes::install_package(dataobservatory-eu/dataset)
 library(dataset)
 my_iris_dataset <- dataset(
   x = iris, 
-  dimensions = NULL, 
-  measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width" ), 
-  attributes = "Species", 
+  Dimensions = NULL, 
+  Measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width" ), 
+  Attributes = "Species", 
   Title = "Iris Dataset"
 )
 
@@ -78,77 +78,44 @@ dublincore(my_iris_dataset)
 #> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"     
 #> 
 #> $dimensions
-#> $dimensions$names
-#> character(0)
-#> 
-#> $dimensions$class
-#> named list()
-#> 
-#> $dimensions$isDefinedBy
-#> named logical(0)
-#> 
-#> $dimensions$codelist
-#> named list()
-#> 
+#> [1] names       isDefinedBy codeListe  
+#> <0 rows> (or 0-length row.names)
 #> 
 #> $measures
-#> $measures$names
-#> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width" 
-#> 
-#> $measures$class
-#> Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
-#>    "numeric"    "numeric"    "numeric"    "numeric" 
-#> 
-#> $measures$isDefinedBy
-#> [1] "http://purl.org/linked-data/cube"
-#> 
-#> $measures$codelist
-#> $measures$codelist$Sepal.Length
-#> NULL
-#> 
-#> $measures$codelist$Sepal.Width
-#> NULL
-#> 
-#> $measures$codelist$Petal.Length
-#> NULL
-#> 
-#> $measures$codelist$Petal.Width
-#> NULL
-#> 
-#> 
+#>                     names   class                      isDefinedBy
+#> Sepal.Length Sepal.Length numeric http://purl.org/linked-data/cube
+#> Sepal.Width   Sepal.Width numeric http://purl.org/linked-data/cube
+#> Petal.Length Petal.Length numeric http://purl.org/linked-data/cube
+#> Petal.Width   Petal.Width numeric http://purl.org/linked-data/cube
+#>                    codeListe
+#> Sepal.Length not yet defined
+#> Sepal.Width  not yet defined
+#> Petal.Length not yet defined
+#> Petal.Width  not yet defined
 #> 
 #> $attributes
-#> $attributes$names
-#> [1] "Species"
+#>           names  class
+#> Species Species factor
+#>                                                                                                                                                   isDefinedBy
+#> Species http://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl
+#>               codeListe
+#> Species not yet defined
 #> 
-#> $attributes$class
-#>  Species 
-#> "factor" 
-#> 
-#> $attributes$isDefinedBy
-#>                            Species 
-#> "http://purl.org/linked-data/cube" 
-#> 
-#> $attributes$codelist
-#> $attributes$codelist$Species
-#> NULL
-#> 
-#> 
-#> 
-#> $Date
-#> [1] "2022-07-30"
-#> 
-#> $Identifier
-#> [1] NA
-#> 
-#> $Creator
-#> [1] "Edgar Anderson [aut]"
+#> $Type
+#>       resourceType resourceTypeGeneral
+#> 1 DCMITYPE:Dataset             Dataset
 #> 
 #> $Source
 #> [1] "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
 #> 
 #> $Publisher
 #> [1] "American Iris Society"
+#> 
+#> $Date
+#> [1] "2022-08-01"
+#> 
+#> $Creator
+#> [1] "Edgar Anderson [aut]"
 #> 
 #> $Issued
 #> [1] 1935
@@ -227,7 +194,7 @@ Our
     vignette article [Datasets With FAIR
     Metadata](https://dataset.dataobservatory.eu/articles/metadata.html).
 
--   [x] Their dimensions can be easily and unambigously reduced to
+-   [x] Their dimensions can be easily and unambiguously reduced to
     triples for RDF applications; they can be easily serialized to, or
     synchronized with semantic web applications. See vignette article
     [From dataset To

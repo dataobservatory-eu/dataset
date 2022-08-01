@@ -2,37 +2,54 @@
 % Please edit documentation in R/dataset_title.R
 \name{dataset_title}
 \alias{dataset_title}
-\alias{title_add}
-\title{Read / Add DataCite metadata to an object}
+\alias{dataset_title<-}
+\alias{dataset_title_create}
+\title{Get/set title(s) of a dataset}
 \usage{
 dataset_title(x)
 
-title_add(x, Title, titleType = NULL)
+dataset_title(x, overwrite = FALSE) <- value
+
+dataset_title_create(Title, titleType = "Title")
 }
 \arguments{
-\item{x}{An R object of type data.frame, or inherited data.table, tibble; alternatively a well
-structured R list.}
+\item{x}{An R object}
 
-\item{Title}{The name(s) or title(s) by which a resource is known. May be the title of a dataset
-or the name of a piece of software. Similar to \href{http://purl.org/dc/elements/1.1/title}{dct:title}.\cr
-See \code{\link{dataset_title}} for adding further titles.}
+\item{value}{The name(s) or title(s) by which a resource is known. A character string or
+a Title object created by \code{\link{title_create}}.Similar to
+\href{http://purl.org/dc/elements/1.1/title}{dct:title}.}
 
-\item{titleType}{For a single \code{Title} defaults to \code{NULL}. Otherwise you can add
-a Subtitle, an Alternative Title and an Other Title. See \code{\link{dataset_title}}.}
+\item{overwrite}{Defaults to \code{FALSE}.}
+
+\item{Title}{The name(s) or title(s) by which a resource is known, includeing \code{Title},
+\code{AlternativeTitle},  \code{Subtitle},  \code{TranslatedTitle},  \code{OtherTitle}.
+May be the title of a dataset
+or the name of a piece of software.
+Similar to \href{http://purl.org/dc/elements/1.1/title}{dct:title}.\cr
+Use \code{\link{dataset_title_create}} to create a several title entries.}
+
+\item{titleType}{In DataCite, the controlled values are
+\code{AlternativeTitle}, \code{Subtitle}, \code{TranslatedTitle}, \code{Other}. When no titleType is given (as in
+Dublin Core), the titleType is set to \code{Title}.}
+}
+\value{
+The titles as a data.frame with a titleTypes column.
 }
 \description{
-Read/Add a Title attribute to a dataset or R object
+Add one or more \code{Title(s)} to the dataset's metadata.
 }
 \details{
-For Dublin Core metadata, use Title as a character vector of length 1, with
-titleType = \code{NULL}.\cr
-For DataCite, provide a vector of titles and an equal length of titleType parameters.
+In the DataCite definition, several titles can be used.
 }
 \examples{
 my_iris <- iris
-my_iris <- title_add(my_iris,
-                     Title = c("The Famous Dataset", "Iris Dataset"),
-                      titleType = c("AlternativeTitle", "Title")
-                     )
+dataset_title(my_iris) <- dataset_title_create(Title = c("Iris Dataset",
+                                                         "The famous iris dataset of the R examples"),
+                                               titleType = c("Title", "Subtitle"))
 dataset_title(my_iris)
+
+ y <- data.frame()
+ dataset_title(y) <- "R (Computer program language)"
+ dataset_title(y) <- "Questionnaires--Computer programs"
+ dataset_title(y)
 }

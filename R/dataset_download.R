@@ -15,10 +15,10 @@
 #' \dontrun{
 #' dataset_download(
 #'     Title = "Environmental Subsidies and Similar Transfers from Europe to the Rest of the World",
-#'     dimensions = c("time", "geo"),
-#'     measures = "value",
-#'     attributes = c("unit", "obs_status", "method", "freq"),
-#'     identifer = "https://doi.org/10.5281/zenodo.5813772",
+#'     Dimensions = c("time", "geo"),
+#'     Measures = "value",
+#'     Attributes = c("unit", "obs_status", "method", "freq"),
+#'     Identifer = "https://doi.org/10.5281/zenodo.5813772",
 #'     destfile = dest_file,
 #'     url = "https://doi.org/10.5281/zenodo.5813772"
 #' )
@@ -26,31 +26,31 @@
 #' @export
 
 dataset_download  <- function(Title,
-                              dimensions = NULL,
-                              measures = NULL,
-                              attributes = NULL,
+                              Dimensions = NULL,
+                              Measures = NULL,
+                              Attributes = NULL,
                               Identifier = NULL,
                               url,
                               type = "csv", ...) {
 
-  dataset_download_csv(Title=Title,
-                       dimensions=dimensions,
-                       measures=measures,
-                       attributes=attributes,
+  dataset_download_csv(url = url,
+                       Title = Title,
+                       Dimensions = Dimensions,
+                       Measures = Measures,
+                       Attributes = Attributes,
                        Identifier = Identifier,
-                       url = url,
                        type = "csv")
 }
 
 
 #' @rdname dataset_download
 #' @keywords internal
-dataset_download_csv  <- function(Title,
-                                  dimensions = NULL,
-                                  measures = NULL,
-                                  attributes = NULL,
+dataset_download_csv  <- function(url,
+                                  Title,
+                                  Dimensions = NULL,
+                                  Measures = NULL,
+                                  Attributes = NULL,
                                   Identifier = NULL,
-                                  url,
                                   type = "csv",
                                   destfile = NULL,
                                   method =  'auto',
@@ -59,6 +59,7 @@ dataset_download_csv  <- function(Title,
                                   cacheOK = TRUE) {
 
   if (is.null(destfile)) destfile <- tempfile()
+
   download.file(url = url,
                 destfile = destfile,
                 method = method,
@@ -66,28 +67,30 @@ dataset_download_csv  <- function(Title,
                 mode = mode,
                 cacheOK = cacheOK)
 
-
-
   tmp <- read.csv(destfile)
 
-  if(!all(dimensions %in% names(tmp))) {
-    stop("Not all dimensions are present in ", url)
+  if(!all(Dimensions %in% names(tmp))) {
+    stop("Not all Dimensions are present in ", destfile)
   }
 
-  if(!all(measures %in% names(tmp))) {
-    stop("Not all measures are present in ", url)
+  if(!all(Measures %in% names(tmp))) {
+    stop("Not all Measures are present in ", destfile)
   }
 
-  if(!all(attributes %in% names(tmp))) {
-    stop("Not all attributes are present in ", url)
+  if(!all(Attributes %in% names(tmp))) {
+    stop("Not all Attributes are present in ", destfile)
   }
 
   ds <- dataset ( x = tmp,
-                  dimensions = dimensions,
-                  measures = measures,
-                  attributes = attributes,
+                  Dimensions = Dimensions,
+                  Measures = Measures,
+                  Attributes = Attributes,
                   Title  = Title )
 
-  dublincore_add (ds, Identifier = Identifier)
+  ds <- dublincore_add (ds,
+                        Identifier = Identifier,
+                        Source = url)
+
+  ds
 }
 

@@ -7,9 +7,9 @@
 \usage{
 dataset_download(
   Title,
-  dimensions = NULL,
-  measures = NULL,
-  attributes = NULL,
+  Dimensions = NULL,
+  Measures = NULL,
+  Attributes = NULL,
   Identifier = NULL,
   url,
   type = "csv",
@@ -17,12 +17,12 @@ dataset_download(
 )
 
 dataset_download_csv(
-  Title,
-  dimensions = NULL,
-  measures = NULL,
-  attributes = NULL,
-  Identifier = NULL,
   url,
+  Title,
+  Dimensions = NULL,
+  Measures = NULL,
+  Attributes = NULL,
+  Identifier = NULL,
   type = "csv",
   destfile = NULL,
   method = "auto",
@@ -33,13 +33,13 @@ dataset_download_csv(
 }
 \arguments{
 \item{Title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
-\code{\link{datacite}} allows the use of alternate titles, too.}
+\code{\link{datacite}} allows the use of alternate titles, too. See \code{\link{title}}.}
 
-\item{dimensions}{The name or column number of the dimensions within the dataset.}
+\item{Dimensions}{The name or column number of the dimensions within the dataset.}
 
-\item{measures}{The name or column number of the measures within the dataset.}
+\item{Measures}{The name or column number of the measures within the dataset.}
 
-\item{attributes}{The name or column number of the attributes within the dataset.}
+\item{Attributes}{The name or column number of the attributes within the dataset.}
 
 \item{Identifier}{An unambiguous reference to the resource within a given context.
 Recommended practice is to identify the resource by means of a string conforming to an
@@ -48,7 +48,7 @@ Digital Object Identifier (DOI), and Uniform Resource Name (URN).
 Select and identifier scheme from
 \href{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html#URI-SCHEMES}{registered URI schemes maintained by IANA}.
 More details: \href{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}.
-Similar to \code{Identifier} in \code{\link{datacite}}.}
+Similar to \code{Identifier} in \code{\link{datacite}}. See \code{\link{identifier}}.}
 
 \item{url}{a \code{\link{character}} string (or longer vector e.g.,
     for the \code{"libcurl"} method) naming the URL of a resource to be
@@ -97,10 +97,10 @@ dest_file <- file.path(tempdir(), "5813772.csv")
 \dontrun{
 dataset_download(
     Title = "Environmental Subsidies and Similar Transfers from Europe to the Rest of the World",
-    dimensions = c("time", "geo"),
-    measures = "value",
-    attributes = c("unit", "obs_status", "method", "freq"),
-    identifer = "https://doi.org/10.5281/zenodo.5813772",
+    Dimensions = c("time", "geo"),
+    Measures = "value",
+    Attributes = c("unit", "obs_status", "method", "freq"),
+    Identifer = "https://doi.org/10.5281/zenodo.5813772",
     destfile = dest_file,
     url = "https://doi.org/10.5281/zenodo.5813772"
 )

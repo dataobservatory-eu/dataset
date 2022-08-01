@@ -1,8 +1,8 @@
 my_ds <- dataset (data.frame(sex = c("M", "F"),
                     value = c(1,2)
                     ),
-         measures = "value",
-         dimensions = "sex")
+         Measures = "value",
+         Dimensions = "sex")
 
 iris_ds <- datacite_add(
    x = iris,
@@ -13,10 +13,8 @@ iris_ds <- datacite_add(
    Geolocation = "US",
    Language = "en")
 
-
-
-test_that("datacite works", {
+test_that("datacite() works", {
   expect_equal(datacite(iris_ds)$Language, 'eng')
   expect_equal(datacite(iris_ds)$Creator, person ( given = "Edgar", family = "Anderson", role = "aut"))
-  expect_true(grepl("KiB", attributes(size_add(my_ds))$Size))
+  expect_true(grepl("KiB", attr(iris_ds, "Size")))
 })

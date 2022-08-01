@@ -1,14 +1,14 @@
 Package: dataset
-Title: Create interoperable and well-documented data frames
-Date: 2022-07-31
-Version: 0.1.3.0007
+Title: Create interoperable and well-referenced data frames
+Date: 2022-08-01
+Version: 0.1.4
 Authors@R: 
     person(given = "Daniel", family = "Antal", 
            email = "daniel.antal@dataobservatory.eu", 
            role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7513-6760")
            )
-Description: Create well-documented, well-described, interoperable datasets in R ready for 
+Description: Create well-referenced, well-described, interoperable datasets in R ready for 
     publication and use on the (semantic) web. A subjective interpretation of the W3C DataSet
     standard used in Statistical Data and Metadata eXchange standards, and the application of
     the connected Dublin Core and DataCite standards to improve the findability, accessibility,
@@ -31,6 +31,7 @@ Imports:
 Suggests: 
     declared,
     dplyr,
+    eurostat,
     here,
     kableExtra,
     knitr,

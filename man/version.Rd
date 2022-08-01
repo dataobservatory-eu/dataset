@@ -2,32 +2,51 @@
 % Please edit documentation in R/version.R
 \name{version}
 \alias{version}
-\alias{version_add}
-\title{Get/Add the version of the object.}
+\alias{version<-}
+\title{Get/set the version of the object.}
 \usage{
 version(x)
 
-version_add(x, Version)
+version(x) <- value
 }
 \arguments{
-\item{x}{An R object, such as a data.frame, a tibble, or a character vector.}
+\item{x}{An R object, such as a data.frame, a tibble, or a data.table.}
 
-\item{Version}{The version as a character set.}
+\item{value}{The \code{Version} as a character set.}
+
+\item{overwrite}{If the \code{Version} attribute should be overwritten. In case it is set to \code{FALSE},
+it gives a message with the current\code{Version} property instead of overwriting it.
+Defaults to \code{TRUE} when the attribute is set to \code{value} regardless of previous
+setting.}
 }
 \value{
-The Version attribute as a character of length 1 is added to \code{x}.
+The \code{Version} attribute as a character of length 1 is added to \code{x}.
 }
 \description{
-Add the optional Version property as an attribute to an R object.
+Get/set the optional \code{Version} property as an attribute to an R object.
 }
 \details{
-Version is an optional property in
+\code{Version} is an optional property in
 \href{https://support.datacite.org/docs/schema-optional-properties-v43#13-size}{DataCite 4.3}.
 It is not part of the "core" Dublin Core terms, but ...
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin Core metadata terms}.
 }
 \examples{
-iris_dataset <- version_add(x = iris, Version= "1.0")
+iris_dataset <- iris
+version(iris_dataset) <- "1.0"
 version(iris_dataset)
 }
-\concept{Optional metadata}
+\seealso{
+Other Reference metadata functions: 
+\code{\link{creator}()},
+\code{\link{dataset_source}()},
+\code{\link{description}()},
+\code{\link{geolocation}()},
+\code{\link{identifier}()},
+\code{\link{language}},
+\code{\link{publication_year}()},
+\code{\link{publisher}()},
+\code{\link{rights}()},
+\code{\link{size}()}
+}
+\concept{Reference metadata functions}

@@ -20,6 +20,7 @@ datacite_add(
   Publisher = NULL,
   PublicationYear = "THIS",
   Subject = NULL,
+  Type = "Dataset",
   Contributor = NULL,
   Date = NULL,
   Language = NULL,
@@ -57,13 +58,21 @@ or for all versions. Similar to \code{dct:title} in \code{\link{dublincore}}.}
 distributes, releases, issues, or produces the resource. This property will be used to
 formulate the citation, so consider the prominence of the role.
 For software, use Publisher for the code repository. Mandatory in DataCite, and similar to
-dct:publisher}
+dct:publisher. See \code{\link{publisher}}.}
 
-\item{PublicationYear}{The year when the data was or will be made publicly available in \code{YYYY} format.}
+\item{PublicationYear}{The year when the data was or will be made publicly available in
+\code{YYYY} format.See \code{\link{publication_year}}.}
 
 \item{Subject}{Recommended for discovery. Subject, keyword, classification code, or key
 phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. \cr
-Use \code{\link{subject_add}} to properly add a key phrase from a controlled vocabulary.}
+Use \code{\link{subject}} to properly add a key phrase from a controlled vocabulary
+and create structured Subject objects with \code{\link{subject_create}}.}
+
+\item{Type}{Defaults to \code{Dataset}.
+The DataCite resourceType definition refers back to
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/elements/1.1/type}{dcm:type}.
+The \code{Type$resourceTypeGeneral} is set to  \code{Dataset}, while the user can set a more
+specific \code{Type$resourceType} value. See \code{\link{resource_type}}.}
 
 \item{Contributor}{Recommended for discovery. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.}
 
@@ -71,7 +80,7 @@ Use \code{\link{subject_add}} to properly add a key phrase from a controlled voc
 \code{\link{dublincore}}.}
 
 \item{Language}{The primary language of the resource. Allowed values are taken from
-IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}.}
+IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}.}
 
 \item{AlternateIdentifier}{An identifier or identifiers other than the primary Identifier applied to the resource being registered. This may be any alphanumeric string which is unique within its domain of issue. May be used for local identifiers. AlternateIdentifier should be used for another identifier of the same instance (same location, same file).}
 
@@ -79,16 +88,17 @@ IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}.}
 
 \item{Format}{Technical format of the resource. Similar to \href{http://purl.org/dc/elements/1.1/format}{dct:format}.}
 
-\item{Version}{Free text. Suggested practice: track major_version.minor_version. See \code{\link{version_add}}.}
+\item{Version}{Free text. Suggested practice: track major_version.minor_version. See \code{\link{version}}.}
 
 \item{Rights}{Any rights information for this resource. The property may be repeated to record complex rights characteristics.
-Free text.}
+Free text. See \code{\link{rights}}.}
 
 \item{Description}{Recommended for discovery. All additional information that does not
 fit in any of the other categories. May be used for technical information. A free text.
 Similar to \href{http://purl.org/dc/elements/1.1/description}{dct:description}.}
 
-\item{Geolocation}{Recommended for discovery. Spatial region or named place where the data was gathered or about which the data is focused.}
+\item{Geolocation}{Recommended for discovery. Spatial region or named place where the data was gathered
+or about which the data is focused. See \code{\link{geolocation}}.}
 
 \item{FundingReference}{Information about financial support (funding) for the resource
 being registered.}
@@ -124,7 +134,7 @@ my_iris <- datacite_add(
    x = iris,
    Title = "Iris Dataset",
    Creator = person(family = "Anderson", given = "Edgar", role = "aut"),
-   Publisher= "American Iris Society",
+   Publisher = "American Iris Society",
    PublicationYear = 1935,
    Geolocation = "US",
    Language = "en")
@@ -134,7 +144,6 @@ datacite(my_iris)
 \seealso{
 Other metadata functions: 
 \code{\link{dublincore}()},
-\code{\link{related_item}()},
-\code{\link{size_add}()}
+\code{\link{related_item}()}
 }
 \concept{metadata functions}

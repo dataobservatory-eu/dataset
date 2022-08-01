@@ -31,9 +31,9 @@ Use ... to pass on argument to that function.
 \examples{
 my_iris_dataset <- dataset(
      x = iris,
-     dimensions = NULL,
-     measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width" ),
-     attributes = "Species",
+     Dimensions = NULL,
+     Measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width" ),
+     Attributes = "Species",
      Title = "Iris Dataset"
 )
 

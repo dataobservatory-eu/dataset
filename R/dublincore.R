@@ -19,9 +19,9 @@
 #' @details The \code{ResourceType} property will be by definition "Dataset".
 #' The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
 #' @param Title \href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
-#' \code{\link{datacite}} allows the use of alternate titles, too.
+#' \code{\link{datacite}} allows the use of alternate titles, too. See \code{\link{title}}.
 #' @param Creator An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
-#' Corresponds to \code{Creator} in \code{\link{datacite}}.
+#' Corresponds to \code{Creator} in \code{\link{datacite}}. See \code{\link{creator}}.
 #' @param Identifier An unambiguous reference to the resource within a given context.
 #' Recommended practice is to identify the resource by means of a string conforming to an
 #' identification system. Examples include International Standard Book Number (ISBN),
@@ -29,36 +29,42 @@
 #' Select and identifier scheme from
 #' \href{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html#URI-SCHEMES}{registered URI schemes maintained by IANA}.
 #' More details: \href{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}.
-#' Similar to \code{Identifier} in \code{\link{datacite}}.
-#' @param Publisher Corresponds to dct:publisher and Publisher in DataCite.
+#' Similar to \code{Identifier} in \code{\link{datacite}}. See \code{\link{identifier}}.
+#' @param Publisher Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#publisher}{dct:publisher}
+#' and Publisher in DataCite.
 #' The name of the entity that holds, archives, publishes prints, distributes, releases,
 #' issues, or produces the resource. This property will be used to formulate the citation,
-#' so consider the prominence of the role. For software, use Publisher for the
+#' so consider the prominence of the role. For software, use \code{Publisher} for the
 #' code repository. If there is an entity other than a code repository, that
 #' "holds, archives, publishes, prints, distributes, releases, issues, or produces" the
-#' code, use the property Contributor/contributorType/ hostingInstitution for the code
-#' repository.
+#' code, use the property Contributor/contributorType/hostingInstitution for the code
+#' repository. See \code{\link{publisher}}.
 #' @param Subject In \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. In
-#' \code{\link{datacite}} it is a recommended property for discovery.
+#' \code{\link{datacite}} it is a recommended property for discovery. In DataCite, a more complex
+#' referencing is used. See \code{\link{subject}} and create structured Subject objects with
+#' \code{\link{subject_create}}.
 #' @param Date Corresponds to a point or period of time associated with an event in the
 #' lifecycle of the resource. \href{http://purl.org/dc/elements/1.1/date}{dct:date}.
 #' \code{Date} is also recommended for
 #' discovery in \code{\link{datacite}}.
-#' @param Source A related resource from which the described resource is derived. See \href{http://purl.org/dc/elements/1.1/source}{dct:source}.
+#' @param Source A related resource from which the described resource is derived.
+#' See \href{http://purl.org/dc/elements/1.1/source}{dct:source} and
+#' \code{\link{dataset_source}}.
 #' @param Language The primary language of the resource. Allowed values are taken from
-#' IETF BCP 47, ISO 639-1 language code. See \code{\link{language_add}}. Corresponds to Language in Datacite.
+#' IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}. Corresponds to Language in Datacite.
 #' @param Format The file format, physical medium, or dimensions of the resource.
 #' \href{	http://purl.org/dc/elements/1.1/format}{dct:format}
 #' Examples of dimensions include size and duration. Recommended best practice is to use a controlled
 #' vocabulary such as the list of \href{https://www.iana.org/assignments/media-types/media-types.xhtml}{Internet Media Types, formerly known as MIME}. It is similar to \code{Format} in
 #' \code{\link{datacite}}.
-#' @param Rights  Corresponds to \href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
+#' @param Rights Corresponds to \href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
 #' \code{\link{datacite}} Rights. Information about rights held in and over the resource.
-#' Typically, rights information includes a statement about various property rights associated with the resource, including intellectual property rights.
+#' Typically, rights information includes a statement about various property rights associated with the resource,
+#' including intellectual property rights. See \code{\link{rights}}.
 #' @param Description An account of the resource. It may include but is not limited to:
 #' an abstract, a table of contents, a graphical representation, or a free-text account of the resource.
 #' \href{http://purl.org/dc/elements/1.1/description}{dct:description}. In
-#' \code{\link{datacite}} it is recommended for discovery.
+#' \code{\link{datacite}} it is recommended for discovery. See \code{\link{description}}.
 #' @param Relation A related resource. Recommended best practice is to identify the related
 #' resource by means of a string conforming to a formal identification system. See: \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.
 #' Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended for discovery.
@@ -91,12 +97,12 @@
 
 dublincore <- function(x) {
 
-  attributes_measurements <- attributes(x)
-  attributes_measurements$row.names <- NULL
-  attributes_measurements$class <- NULL
-  attributes_measurements$Size <- NULL
+  attributes_measures <- attributes(x)
+  attributes_measures$row.names <- NULL
+  attributes_measures$class <- NULL
+  attributes_measures$Size <- NULL
 
-  attributes_measurements
+  attributes_measures
 }
 
 #' @rdname dublincore
@@ -114,77 +120,112 @@ dublincore_add <- function(x,
                            Rights = NULL,
                            Relation = NULL,
                            Description = NULL,
-                           Type = NULL,
+                           Type = "DCMITYPE:Dataset",
                            overwrite = TRUE) {
 
+  ## Set the Title property ------------------------------------------------
   if (is.null(attr(x, "Title"))) {
-    x <- title_add(x, Title = Title, titleType = NULL)
+    dataset_title(x) <- Title
   } else if ( overwrite ) {
-    x <- title_add(x, Title = Title, titleType = NULL)
+    dataset_title(x, overwrite = TRUE) <- Title
   } else {
-    message ("The dataset has already a Title: ",  dataset_title(x) )
+    message ("The dataset already has Title(s): ", dataset_title(x) )
   }
 
-  x <- identifier_add(x, Identifier = Identifier, overwrite = overwrite)
+  ## Set the Identifier property ---------------------------------------------
+  if (is.null(attr(x, "Identifier"))) {
+    identifier(x) <- Identifier
+  } else if ( overwrite ) {
+    identifier(x) <- Identifier
+  } else {
+    message ("The dataset already has an Identifier: ", identifier(x) )
+  }
 
+  ## Set the Creator property ---------------------------------------------
   if (is.null(attr(x, "Creator"))) {
-    attr(x, "Creator") <- Creator
+    creator(x) <- Creator
   } else if ( overwrite ) {
-    attr(x, "Creator") <- Creator
+    creator(x) <- Creator
   } else {
-    message ("The dataset has already a Creator: ",  attr(x, "Creator") )
+    message ("The dataset already has a Creator: ",  creator(x) )
   }
 
-  attr(x, "Creator") <- Creator
-  attr(x, "Source") <- Source
+  ## Set the Subject property ------------------------------------------------
+  if (is.null(attr(x, "Subject"))) {
+    subject(x) <- Subject
+  } else if ( overwrite ) {
+    subject(x) <- subject
+  } else {
+    message ("The dataset already has Subject(s): ", subject(x) )
+  }
 
+  ## Set the Source property ------------------------------------------------
+  if (is.null(attr(x, "Source"))) {
+    dataset_source(x) <- Source
+  } else if ( overwrite ) {
+    dataset_source(x, overwrite = overwrite) <- Source
+  } else {
+    message ("The dataset already has a Source: ", dataset_source(x) )
+  }
+
+  ## Set the Publisher property ---------------------------------------------
   if (is.null(attr(x, "Publisher"))) {
-    attr(x, "Publisher") <- Publisher
+    publisher(x) <- Publisher
   } else if ( overwrite ) {
-    attr(x, "Publisher") <- Publisher
+    publisher(x, overwrite = overwrite) <- Publisher
   } else {
-    message ("The dataset has already a Publisher: ",  attr(x, "Publisher") )
+    message ("The dataset already has a Publisher: ", publisher(x) )
   }
 
+  ## Set the Right property ---------------------------------------------
   if (is.null(attr(x, "Rights"))) {
-    attr(x, "Rights") <- Rights
+    rights(x) <- Rights
   } else if ( overwrite ) {
-    attr(x, "Rights") <- Rights
+    rights(x, overwrite = overwrite) <- Rights
   } else {
-    message ("The dataset has already a Rights declaration: ",  attr(x, "Rights") )
+    message ("The dataset already has a Rights (declaration): ", rights(x) )
   }
 
+  ## Set the Format property ---------------------------------------------
   if (is.null(attr(x, "Format"))) {
     attr(x, "Format") <- Format
   } else if ( overwrite ) {
     attr(x, "Format") <- Format
   } else {
-    message ("The dataset has already a Format: ",  attr(x, "Format") )
+    message ("The dataset already has a Format: ",  attr(x, "Format") )
   }
+
+  ## Set the Issued property ---------------------------------------------
   attr(x, "Issued") <- Date
-  attr(x, "Type") <- Type
-  attr(x, "Description") <- Description
 
-  if (!is.null(Language)) x <- language_add (x, Language)
+  ## Set the Type property ------------------------------------------------
+  if (is.null(Type)) {
+    Type <- resource_type(x)
+    }
+  if (is.null(Type)) Type <- "DCMITYPE:Dataset"
+  resource_type(x) <- Type
 
-  x <- size_add(x)
-  x
-}
-
-
-#' @keywords internal
-identifier_add <- function(x, Identifier, overwrite) {
-
-  if (is.null(attr(x, "Identifier"))) {
-    if (is.null(Identifier)) {
-      attr(x, "Identifier") <- NA_character_
-    } else {
-      attr(x, "Identifier") <- Identifier
-      }
-    } else if ( overwrite ) {
-    attr(x, "Identifier") <- Identifier
+  ## Set the Description property -----------------------------------------
+  if (is.null(attr(x, "Description"))) {
+    description(x) <- Description
+  } else if ( overwrite ) {
+    description(x) <- Description
   } else {
-    message ("The dataset has already an Identifier: ",  attr(x, "Identifier") )
+    message ("The dataset already has a Description property: ", description(x) )
   }
+
+  ## Set the Language property --------------------------------
+  if (is.null(attr(x, "Language"))) {
+    language(x) <- Language
+  } else if ( overwrite ) {
+    language(x) <- Language
+  } else {
+    message ("The dataset already has a Language property: ", language(x) )
+  }
+
+  x <- size(x)
   x
 }
+
+
+

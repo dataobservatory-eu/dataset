@@ -14,43 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-According to the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) DataSet is a collection of statistical data that corresponds to a defined structure. The data in a data set can be roughly described as belonging to one of the following kinds:
-
-- `Observations`: these are the measured values, and the cells of a data frame object in R.
-- `Organizational structure`: To locate an observation within the hypercube, one has at least to know the value of each dimension at which the observation is located, so these values must be specified for each observation. Datasets can have additional organizational structure in the form of slices as described in section 7.2.
-- `Structural metadata`: Metadata to interpret the data. What is the unit of measurement? Is it a normal value or a series break? Is the value measured or estimated? These metadata are provided as attributes and can be attached to individual observations, or to higher levels.
-- `Reference metadata`: Metadata that describes the dataset as a whole, such as categorization of the dataset, its publisher, or an endpoint where it can be accessed.
-
-| Information | dataset |
-|:--:|----|
-| dimensions   |  first column section of the dataset   |
-| measurements |  second column section of the dataset  |
-| attributes   |  third column section of the dataset   |
-| reference    |  attributes of the R object            |
-
-## Dimensions
-
-`Dimensions` are usually needed in data analysis, because they are used to subsetting (slicing) the dataset. They contain information about the reference time period and geographical area.
-
-In a dataset that has homogeneous dimensions (all data relate to the year 2022 and to the area of the United States) you could move the dimensions into the attributes of the R object, or simply omit them. However, dimensions are critically important for filtering out the observations (measurements) that you want to work with, or to correctly join (integrate) datasets. If you want to create a composite indicator from two datasets that related to the United States and the year 2022, you do not want to accidentally match measurements about 2021 or Canada.
-
-## Measurements
-
-The measurements are the actual observed values. In a long-form tidy dataset you usually have only one: 'value' 
-
-## Attributes
-
-Attributes are similar to dimensions, but they can be fully static and constant in a dataset.  You may have measurements for the same reference area and time available in both kilograms and tons in the same dataset, in which case you will likely use filter the correct unit of measure when you do analytical work or join (integrate) the data.
-
-If your measurement unit is always milimeters (like in the iris dataset), it is tempting to treat this as a dataset-wide constant (and therefore move it to the attributes of the data frame R object), but we do not recommend this approach. Imagine that you want to join this dataset with some other data that is measured in centimeters or inches, or a dataset that has values in both milimeters and centimeters.  To correctly match your data you will be filtering on attributes, too.
-
-Attributes that may vary across observations (rows) should remain in the dataset in the datacube model.
-
-## Reference and FAIR metadata
-
-Our `dataset` R package aims to increase the *Findability, Accessibility, Interoperability,* and *Reuse* of digital assets, particularly datacubes and datasets used in statistics and data analysis. The [FAIR](https://www.go-fair.org/fair-principles/) principles  "…emphasise machine-actionability (i.e., the capacity of computational systems to find, access, interoperate, and reuse data with none or minimal human intervention) because humans increasingly rely on computational support to deal with data as a result of the increase in volume, complexity, and creation speed of data."
-
-This is the role of the `reference metadata` in the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) and the SDMX data cube model. We generally keep the reference metadata as `attributes()` of the R object, because they do not relate to the rows (observations) of the data, but the entire set of data. However, omitting all reference metadata from the columns is not a good practice if you want your data to be used in a knowledge graph (or the semantic web, or the Web 3.0.) 
 
 ```{r setup}
 library(dataset)
@@ -60,6 +23,88 @@ library(dataset)
 library(here)
 library(knitr)
 ```
+
+According to the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) DataSet is a collection of statistical data that corresponds to a defined structure. The data in a data set can be roughly described as belonging to one of the following kinds:
+
+- `Observations`: these are the measured values, and the cells of a data frame object in R.
+- `Organizational structure`: To locate an observation within the hypercube, one has at least to know the value of each dimension at which the observation is located, so these values must be specified for each observation. Datasets can have additional organizational structure in the form of slices as described in section 7.2.
+- `Structural metadata`: Metadata to interpret the data. What is the unit of measurement? Is it a normal value or a series break? Is the value measured or estimated? These metadata are provided as attributes and can be attached to individual observations, or to higher levels.
+- `Reference metadata`: Metadata that describes the dataset as a whole, such as categorization of the dataset, its publisher, or an endpoint where it can be accessed.
+
+| Information  | dataset |
+|     :--:     |  ----|
+| dimensions   |  first column section of the dataset   |
+| measurements |  second column section of the dataset  |
+| attributes   |  third column section of the dataset   |
+| reference    |  attributes of the R object            |
+
+
+```{r, message=FALSE}
+rd_e_gerdtot <- eurostat::get_eurostat('rd_e_gerdtot')
+head(rd_e_gerdtot)
+```
+
+
+## Dimensions
+
+`Dimensions` are usually needed in data analysis, because they are used to subsetting (slicing) the dataset. They contain information about the reference time period and geographical area.
+
+In a dataset that has homogeneous dimensions (all data relate to the year 2022 and to the area of the United States) you could move the dimensions into the attributes of the R object, or simply omit them. However, dimensions are critically important for filtering out the observations (measurements) that you want to work with, or to correctly join (integrate) datasets. If you want to create a composite indicator from two datasets that related to the United States and the year 2022, you do not want to accidentally match measurements about 2021 or Canada.
+
+```{r}
+dimensions(rd_e_gerdtot) <- c("geo", "time", "sectperf")
+```
+
+
+## Measurements
+
+The measurements are the actual observed values. In a long-form tidy dataset you usually have only one: 'value' 
+
+```{r}
+measures(rd_e_gerdtot) <- "value"
+```
+
+## Attributes
+
+Attributes are similar to dimensions, but they can be fully static and constant in a dataset.  You may have measurements for the same reference area and time available in both kilograms and tons in the same dataset, in which case you will likely use filter the correct unit of measure when you do analytical work or join (integrate) the data.
+
+If your measurement unit is always milimeters (like in the iris dataset), it is tempting to treat this as a dataset-wide constant (and therefore move it to the attributes of the data frame R object), but we do not recommend this approach. Imagine that you want to join this dataset with some other data that is measured in centimeters or inches, or a dataset that has values in both milimeters and centimeters.  To correctly match your data you will be filtering on attributes, too.
+
+Attributes that may vary across observations (rows) should remain in the dataset in the datacube model. To avoid confusion with the base R `attributes()` function, we named the function that sets the attributes within a dataset to `attributes_measures()`.
+
+```{r}
+attributes_measures(rd_e_gerdtot) <- "unit"
+datacite(rd_e_gerdtot)
+```
+
+
+## Reference and FAIR metadata
+
+Our `dataset` R package aims to increase the *Findability, Accessibility, Interoperability,* and *Reuse* of digital assets, particularly datacubes and datasets used in statistics and data analysis. The [FAIR](https://www.go-fair.org/fair-principles/) principles  "…emphasise machine-actionability (i.e., the capacity of computational systems to find, access, interoperate, and reuse data with none or minimal human intervention) because humans increasingly rely on computational support to deal with data as a result of the increase in volume, complexity, and creation speed of data."
+
+This is the role of the `reference metadata` in the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) and the SDMX data cube model. We generally keep the reference metadata as `attributes()` of the R object, because they do not relate to the rows (observations) of the data, but the entire set of data. However, omitting all reference metadata from the columns is not a good practice if you want your data to be used in a knowledge graph (or the semantic web, or the Web 3.0.) 
+
+```{r, include=FALSE}
+toc <- eurostat::get_eurostat_toc()
+rd_e_gerdtot_reference <- toc[which(toc$code == "rd_e_gerdtot"),]
+
+datacite_add(rd_e_gerdtot, 
+             Title = 'GERD by sector of performance', 
+             Creator = person("Daniel", "Antal"), 
+             Identifier = 'eurostat_rd_e_gerdtot', 
+             Publisher = 'Eurostat', 
+             PublicationYear = substr(rd_e_gerdtot_reference$`last update of data`, 7,11), 
+             Subject = subject_create("Reserach", 
+               subjectScheme = "LC Subject Headings", 
+               schemeURI = "http://id.loc.gov/authorities/subjects", 
+               valueURI = "http://id.loc.gov/authorities/subjects/sh85113021"), 
+             Language = "English")
+```
+
+```{r}
+datacite(rd_e_gerdtot)
+```
+
 
 Following the datacube model, our datasets are data frames with clearly defined dimensions (`time`, `geo`, `sex`), meausurements (`value`), and attributes (`unit`, `freq`, `status`). In this example, all dimensions and values are following the SDMX attribute definition, i.e. they have a standardized, natural language independent codelist.  (To use these codelists, use the [statcodelist](https://statcodelists.dataobservatory.eu/) data package.)
 

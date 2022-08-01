@@ -5,9 +5,9 @@
 #' \code{bibentry_dataset()} is a wrapper around \code{\link[utils:bibentry]{bibentry}} to correctly turn the
 #' metadata of the dataset into a bibentry object.
 #' @param x A data.frame or inherited tibble, data.frame, or a structured list.
-#' @param dimensions The name or column number of the dimensions within the dataset.
-#' @param measures The name or column number of the measures within the dataset.
-#' @param attributes The name or column number of the attributes within the dataset.
+#' @param Dimensions The name or column number of the dimensions within the dataset.
+#' @param Measures The name or column number of the measures within the dataset.
+#' @param Attributes The name or column number of the attributes within the dataset.
 #' @param sdmx_attributes The optional dimensions and attributes that conform with
 #' SDMX. \code{c("time", "geo")} will mark the "time" and "geo" attributes as conforming to
 #' sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl}{sdmx-attribute}.
@@ -15,9 +15,14 @@
 #' A text description (optionally with a language tag) as defined by
 #' \href{https://www.w3.org/TR/rdf-schema/#ch_label}{rdfs:label}.
 #' @inheritParams dublincore_add
+#' @param Subject Recommended for discovery in DataCite. Subject, keyword, classification code, or key
+#' phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. \cr
+#' Use \code{\link{subject}} to properly add a key phrase from a controlled vocabulary
+#' and create structured Subject objects with \code{\link{subject_create}}.
 #' @param Type It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.
 #' @param Issued Corresponds to \href{http://purl.org/dc/elements/1.1/date}{dct:date}.
 #' @param ... Other parameters for the \code{print} and \code{summary} methods.
+#' @param value The name or column number of the within the dataset.
 #' @importFrom utils toBibtex
 #' @examples
 #' my_dataset <- dataset (
@@ -26,9 +31,9 @@
 #'                     value = c(1,3,2,4,2,3,1,5),
 #'                     unit = rep("NR",8),
 #'                     freq = rep("A",8)),
-#'     dimensions = c(1,2),
-#'     measures = 3,
-#'     attributes = c(4,5),
+#'     Dimensions = c(1,2),
+#'     Measures = 3,
+#'     Attributes = c(4,5),
 #'     sdmx_attributes = c("time", "freq"),
 #'     Title = "Example dataset",
 #'     Creator = person("Jane", "Doe"),
@@ -41,9 +46,9 @@
 #' @export
 
 dataset <- function(x,
-                    dimensions = NULL,
-                    measures = NULL,
-                    attributes = NULL,
+                    Dimensions = NULL,
+                    Measures = NULL,
+                    Attributes = NULL,
                     sdmx_attributes = NULL,
                     Title = NULL,
                     Label = NULL,
@@ -52,26 +57,24 @@ dataset <- function(x,
                     Issued = NULL,
                     Identifier = NULL,
                     Subject = NULL,
-                    Type = list ( type = "Dataset",
-                                  URI = "http://purl.org/dc/dcmitype/Dataset")
+                    Type = "DCMITYPE:Dataset"
                     ) {
 
-  x <- dimensions_add(x, dimensions, sdmx_attributes)
-  x <- measures_add(x, measures)
-  x <- attributes_measurements_add(x, attributes, sdmx_attributes)
-
+  dimensions(x,  sdmx_attributes = sdmx_attributes) <- Dimensions
+  measures(x) <- Measures
+  attributes_measures(x, sdmx_attributes = sdmx_attributes) <- Attributes
+  resource_type(x) <- Type
 
   x <- dublincore_add(x,
                       Title = Title,
                       Creator = Creator,
                       Identifier = Identifier,
                       Publisher = Publisher,
-                      Subject = Subject
-  )
+                      Subject = Subject,
+                      Type = Type)
 
   if (is.null(Issued)) Issued <- Sys.Date()
   attr(x, "Date") <- Issued
-  attr(x, "Type") <- Type
 
   attr(x, "class") <- c("dataset", class(x))
   x
@@ -110,35 +113,6 @@ print.dataset <- function(x, ...) {
 is.dataset <- function(x) inherits(x, "dataset")
 
 
-#' @inheritParams dataset
-#' @importFrom utils bibentry
-#' @importFrom utils citation
-#' @rdname dataset
-#' @family citation functions
-#' @export
-bibentry_dataset <- function(x) {
-
-  extractyear <- function(date) {
-    format(date, format="%Y")
-  }
-
-  if ( is.numeric(attr(x, "Issued"))) {
-    year_nr <- attr(x, "Issued")
-  } else if (inherits(attr(x, "Issued"), "POSIXt") | inherits(attr(x, "issued"), "Date")) {
-    year_nr <- extractyear (attr(x, "Issued"))
-  } else {
-    year_nr = attr(x, "Issued")}
-
-  bibentry(
-    bibtype = "Misc",
-    title = attr(x, "Title"),
-    author = attr(x, "Creator"),
-    publisher = attr(x, "Publisher"),
-    size = attr(x, "Size"),
-    year = year_nr)
-}
-
-
 #' @title Dimensions of a dataset
 #' @details Do not confuse with \code{base::dim}. The \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{dimension} in the definition
 #' of the DataSet is different from the 'dimension' definition of the R language.
@@ -146,30 +120,35 @@ bibentry_dataset <- function(x) {
 #' @export
 #' @examples
 #' df <- data.frame ( sex = c("M", "F"), value = c(1,2))
-#' dimensions_add(df, "sex", sdmx_attributes = "sex")
+#' dimensions(df, sdmx_attributes = "sex") <- "sex"
 dimensions <- function(x) attr(x, "dimensions")
 
 #' @inheritParams dataset
 #' @rdname dimensions
 #' @export
-dimensions_add <- function(x, dimensions, sdmx_attributes = NULL) {
+`dimensions<-` <- function(x, value, sdmx_attributes = NULL) {
 
-  if ( any(is.null(dimensions) | is.na(dimensions) | length(dimensions)==0) ) return(x)
+  if ( any(is.null(value) | is.na(value) | length(value)==0) ) {
+    attr(x, "dimensions") <- NULL
+    return(x)}
 
-  ss <- subset(x, select = dimensions)
-
-  defined_by <- function(s) {
-    isDefinedBy = ifelse (names(ss) %in% sdmx_attributes,
-                          "https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl",
-                          "http://purl.org/linked-data/cube")
-    names(isDefinedBy) <- names(ss)
-    isDefinedBy
+  if ( is.numeric(value)) {
+    selection <- names(x)[value]
+  } else {
+    selection <- names(x)[which(names(x) %in% value)]
   }
 
-  attr(x, "dimensions") <-  list ( names = names(ss),
-         class = sapply (ss, class),
-         isDefinedBy = defined_by(ss),
-         codelist = sapply(ss, function(x) NULL))
+  dimensions_subset <- subset(x, select = selection)
+
+  dimensions_df <- data.frame(
+    names  = names(dimensions_subset),
+    class = sapply(dimensions_subset, function(x) paste(class(x), collapse="|")),
+    isDefinedBy = rep("http://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl", length(names(dimensions_subset))),
+    codeListe = rep("not yet defined", length(names(dimensions_subset)))
+  )
+
+
+  attr(x, "dimensions") <-  dimensions_df
 
   x
 }
@@ -185,20 +164,29 @@ measures <- function(x) attr(x, "measures")
 #' @export
 #' @examples
 #' df <- data.frame ( sex = c("M", "F"), value = c(1,2))
-#' df <- measures_add(df, "value")
+#' measures(df) <- "value"
 #' measures(df)
 
-measures_add <- function(x, measures) {
+`measures<-` <- function(x, value) {
 
-  if ( any(is.null(measures) | is.na(measures) | length(measures)==0) ) return(x)
+  if ( any(is.null(value) | is.na(value) | length(value)==0) ) return(x)
 
-  ss <- subset(x, select = measures)
+  if ( is.numeric(value)) {
+    selection <- names(x)[value]
+  } else {
+    selection <- names(x)[which(names(x) %in% value)]
+  }
 
+  subset_measures <- subset(x, select = selection)
 
-  attr(x, "measures") <-  list ( names = names(ss),
-                                   class = sapply (ss, class),
-                                   isDefinedBy =   "http://purl.org/linked-data/cube",
-                                   codelist = sapply(ss, function(x) NULL))
+  measures_df <- data.frame(
+    names  = names(subset_measures),
+    class = sapply(subset_measures, function(x) paste(class(x), collapse="|")),
+    isDefinedBy = rep("http://purl.org/linked-data/cube", length(names(subset_measures))),
+    codeListe = rep("not yet defined", length(names(subset_measures)))
+  )
+
+  attr(x, "measures") <-   measures_df
 
   x
 }
@@ -209,30 +197,32 @@ measures_add <- function(x, measures) {
 #' See the W3C and SDMX definition of a \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{attribute}.
 #' @inheritParams dataset
 #' @export
-attributes_measurements <- function(x) attr(x, "attributes")
+attributes_measures <- function(x) attr(x, "attributes")
 
 #' @inheritParams dataset
 #' @param sdmx_attributes The optional SDMX dimensions.
-#' @rdname attributes_measurements
+#' @rdname attributes_measures
 #' @export
-attributes_measurements_add <- function(x, attributes, sdmx_attributes = NULL) {
+`attributes_measures<-` <- function(x, value, sdmx_attributes = NULL) {
 
-  if ( any(is.null(attributes) | is.na(attributes) | length(attributes)==0) ) return(x)
+  if ( any(is.null(value) | is.na(value) | length(value)==0) ) return(x)
 
-  ss <- subset(x, select = attributes)
-
-  defined_by <- function(s) {
-    isDefinedBy = ifelse (names(ss) %in% sdmx_attributes,
-                          "https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl",
-                          "http://purl.org/linked-data/cube")
-    names(isDefinedBy) <- names(ss)
-    isDefinedBy
+  if ( is.numeric(value)) {
+    selection <- names(x)[value]
+  } else {
+    selection <- names(x)[which(names(x) %in% value)]
   }
 
-  attr(x, "attributes") <-  list ( names = names(ss),
-                                   class = sapply (ss, class),
-                                   isDefinedBy = defined_by(ss),
-                                   codelist = sapply(ss, function(x) NULL))
+  subset_attributes <- subset(x, select = selection)
+
+  attributes_df <- data.frame(
+    names  = names(subset_attributes),
+    class = sapply(subset_attributes, function(x) paste(class(x), collapse="|")),
+    isDefinedBy = rep("http://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl", length(names(subset_attributes))),
+    codeListe = rep("not yet defined", length(names(subset_attributes)))
+  )
+
+  attr(x, "attributes") <-  attributes_df
 
   x
 }

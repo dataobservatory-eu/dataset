@@ -2,22 +2,36 @@
 % Please edit documentation in R/subject.R
 \name{subject}
 \alias{subject}
-\alias{subject_add}
+\alias{subject<-}
+\alias{subject_create}
 \title{Get/Add subject(s) to a dataset}
 \usage{
 subject(x)
 
-subject_add(x, term, scheme, identifier)
+subject(x, overwrite = FALSE) <- value
+
+subject_create(
+  term,
+  subjectScheme = NA_character_,
+  schemeURI = NA_character_,
+  valueURI = NA_character_
+)
 }
 \arguments{
 \item{x}{An R object}
 
+\item{value}{Subject terms, or a Subject object created by \code{\link{subject_create}}.}
+
 \item{term}{A term, or a character vector of multiple terms.}
 
-\item{scheme}{The scheme to which the term correspondes. If there are multiple terms,
-provide the scheme(s) in the same order.}
+\item{subjectScheme}{The scheme to which the term correspondes. If there are multiple terms,
+provide the subjectScheme(s) in the same order. Optional.}
 
-\item{identifier}{The identifier of the term definition(s), in the order of the terms.}
+\item{schemeURI}{The URI(s) of the subject identifier scheme. If there are multiple terms,
+provide the schemeURIs in the same order as the terms. Optional.}
+
+\item{valueURI}{The URI of the subject term. If there are multiple terms,
+provide the valueURIs in the same order as the terms. Optional.}
 }
 \value{
 The subjects as a data.frame of terms
@@ -32,11 +46,21 @@ recommended as a best practice to use a controlled vocabulary. \cr
 In DataCite, subjects are defined as key phrases from a controlled library.
 }
 \examples{
-x <- data.frame()
-subject_add (x, term = c("R (Computer program language)",
-                         "Questionnaires--Computer programs"),
-                scheme = rep("url", 2),
-                identifier = c("https://id.loc.gov/authorities/subjects/sh2002004407.html",
-                               "http://id.worldcat.org/fast/1085693/") )
+x <- data.frame( geo = c("AL", "MK"),
+                value = c(1,2))
+my_subject <- subject_create (
+                  term = c("R (Computer program language)",
+                           "Questionnaires--Computer programs"),
+                  subjectScheme = rep("LC Subject Headings", 2),
+                  schemeURI = rep("http://id.loc.gov/authorities/subjects",2),
+                  valueURI = c("https://id.loc.gov/authorities/subjects/sh2002004407.html",
+                               "http://id.worldcat.org/fast/1085693/")
+)
+ subject(x) <- my_subject
  subject(x)
+
+ y <- data.frame()
+ subject(y) <- "R (Computer program language)"
+ subject(y) <- "Questionnaires--Computer programs"
+ subject(y)
 }

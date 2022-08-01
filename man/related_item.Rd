@@ -48,7 +48,8 @@ See \code{\link{dataset_title}} for adding further titles.}
 
 \item{resourceTypeGeneral}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#101-resourcetypegeneral}{resourceTypeGeneral}.}
 
-\item{PublicationYear}{The year when the data was or will be made publicly available in \code{YYYY} format.}
+\item{PublicationYear}{The year when the data was or will be made publicly available in
+\code{YYYY} format.See \code{\link{publication_year}}.}
 
 \item{Volume}{The volume of the related item (optional).}
 
@@ -66,7 +67,7 @@ See \code{\link{dataset_title}} for adding further titles.}
 distributes, releases, issues, or produces the resource. This property will be used to
 formulate the citation, so consider the prominence of the role.
 For software, use Publisher for the code repository. Mandatory in DataCite, and similar to
-dct:publisher}
+dct:publisher. See \code{\link{publisher}}.}
 
 \item{Edition}{The edition of the related item (optional).}
 
@@ -95,7 +96,6 @@ my_item <- related_item (Identifier = "https://zenodo.org/record/5703222#.YZYkm2
 \seealso{
 Other metadata functions: 
 \code{\link{datacite}()},
-\code{\link{dublincore}()},
-\code{\link{size_add}()}
+\code{\link{dublincore}()}
 }
 \concept{metadata functions}
