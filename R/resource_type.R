@@ -1,7 +1,7 @@
 #' @title Get/set the resource type of the dataset.
 #' @description Get/set \code{Type} property to the dataset.
 #' @details The DataCite resourceType definition refers back to
-#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/elements/1.1/type}{dcm:type}.
+#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#https://purl.org/dc/elements/1.1/type}{dcm:type}.
 #' The \code{Type$resourceTypeGeneral} is set to  \code{Dataset}, while the user can set a more
 #' specific \code{Type$resourceType} value. (See examples.)
 #' @param x An R dataset object inherited from data.frame, tibble, or data.table.

@@ -33,10 +33,10 @@ dublincore_add(
 \item{x}{An R object of type data.frame, or inherited data.table, tibble; alternatively a well
 structured R list.}
 
-\item{Title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
+\item{Title}{\href{https://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
 \code{\link{datacite}} allows the use of alternate titles, too. See \code{\link{dataset_title}}.}
 
-\item{Creator}{An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
+\item{Creator}{An entity primarily responsible for making the resource. \href{https://purl.org/dc/elements/1.1/creator}{dct:creator}
 Corresponds to \code{Creator} in \code{\link{datacite}}. See \code{\link{creator}}.}
 
 \item{Identifier}{An unambiguous reference to the resource within a given context.
@@ -62,35 +62,35 @@ repository. See \code{\link{publisher}}.}
 to your dataset.}
 
 \item{Date}{Corresponds to a point or period of time associated with an event in the
-lifecycle of the resource. \href{http://purl.org/dc/elements/1.1/date}{dct:date}.
+lifecycle of the resource. \href{https://purl.org/dc/elements/1.1/date}{dct:date}.
 \code{Date} is also recommended for
 discovery in \code{\link{datacite}}.}
 
 \item{Source}{A related resource from which the described resource is derived.
-See \href{http://purl.org/dc/elements/1.1/source}{dct:source} and
+See \href{https://purl.org/dc/elements/1.1/source}{dct:source} and
 \code{\link{dataset_source}}.}
 
 \item{Language}{The primary language of the resource. Allowed values are taken from
 IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}. Corresponds to Language in Datacite.}
 
 \item{Format}{The file format, physical medium, or dimensions of the resource.
-\href{    http://purl.org/dc/elements/1.1/format}{dct:format}
+\href{    https://purl.org/dc/elements/1.1/format}{dct:format}
 Examples of dimensions include size and duration. Recommended best practice is to use a controlled
 vocabulary such as the list of \href{https://www.iana.org/assignments/media-types/media-types.xhtml}{Internet Media Types, formerly known as MIME}. It is similar to \code{Format} in
 \code{\link{datacite}}.}
 
-\item{Rights}{Corresponds to \href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
+\item{Rights}{Corresponds to \href{https://purl.org/dc/elements/1.1/rights}{dct:rights} and
 \code{\link{datacite}} Rights. Information about rights held in and over the resource.
 Typically, rights information includes a statement about various property rights associated with the resource,
 including intellectual property rights. See \code{\link{rights}}.}
 
 \item{Relation}{A related resource. Recommended best practice is to identify the related
-resource by means of a string conforming to a formal identification system. See: \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.
+resource by means of a string conforming to a formal identification system. See: \href{https://purl.org/dc/elements/1.1/relation}{dct:relation}.
 Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended for discovery.}
 
 \item{Description}{An account of the resource. It may include but is not limited to:
 an abstract, a table of contents, a graphical representation, or a free-text account of the resource.
-\href{http://purl.org/dc/elements/1.1/description}{dct:description}. In
+\href{https://purl.org/dc/elements/1.1/description}{dct:description}. In
 \code{\link{datacite}} it is recommended for discovery. See \code{\link{description}}.}
 
 \item{Type}{The nature or genre of the resource. Recommended best practice is to use a controlled vocabulary such as the DCMI Type Vocabulary

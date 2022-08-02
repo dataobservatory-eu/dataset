@@ -18,9 +18,9 @@
 #' structured R list.
 #' @details The \code{ResourceType} property will be by definition "Dataset".
 #' The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
-#' @param Title \href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
+#' @param Title \href{https://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
 #' \code{\link{datacite}} allows the use of alternate titles, too. See \code{\link{dataset_title}}.
-#' @param Creator An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
+#' @param Creator An entity primarily responsible for making the resource. \href{https://purl.org/dc/elements/1.1/creator}{dct:creator}
 #' Corresponds to \code{Creator} in \code{\link{datacite}}. See \code{\link{creator}}.
 #' @param Identifier An unambiguous reference to the resource within a given context.
 #' Recommended practice is to identify the resource by means of a string conforming to an
@@ -39,34 +39,34 @@
 #' "holds, archives, publishes, prints, distributes, releases, issues, or produces" the
 #' code, use the property Contributor/contributorType/hostingInstitution for the code
 #' repository. See \code{\link{publisher}}.
-#' @param Subject In \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. In
+#' @param Subject In \href{https://purl.org/dc/elements/1.1/subject}{dct:subject}. In
 #' \code{\link{datacite}} it is a recommended property for discovery. In DataCite, a more complex
 #' referencing is used. See \code{\link{subject}} and create structured Subject objects with
 #' \code{\link{subject_create}}.
 #' @param Date Corresponds to a point or period of time associated with an event in the
-#' lifecycle of the resource. \href{http://purl.org/dc/elements/1.1/date}{dct:date}.
+#' lifecycle of the resource. \href{https://purl.org/dc/elements/1.1/date}{dct:date}.
 #' \code{Date} is also recommended for
 #' discovery in \code{\link{datacite}}.
 #' @param Source A related resource from which the described resource is derived.
-#' See \href{http://purl.org/dc/elements/1.1/source}{dct:source} and
+#' See \href{https://purl.org/dc/elements/1.1/source}{dct:source} and
 #' \code{\link{dataset_source}}.
 #' @param Language The primary language of the resource. Allowed values are taken from
 #' IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}. Corresponds to Language in Datacite.
 #' @param Format The file format, physical medium, or dimensions of the resource.
-#' \href{	http://purl.org/dc/elements/1.1/format}{dct:format}
+#' \href{	https://purl.org/dc/elements/1.1/format}{dct:format}
 #' Examples of dimensions include size and duration. Recommended best practice is to use a controlled
 #' vocabulary such as the list of \href{https://www.iana.org/assignments/media-types/media-types.xhtml}{Internet Media Types, formerly known as MIME}. It is similar to \code{Format} in
 #' \code{\link{datacite}}.
-#' @param Rights Corresponds to \href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
+#' @param Rights Corresponds to \href{https://purl.org/dc/elements/1.1/rights}{dct:rights} and
 #' \code{\link{datacite}} Rights. Information about rights held in and over the resource.
 #' Typically, rights information includes a statement about various property rights associated with the resource,
 #' including intellectual property rights. See \code{\link{rights}}.
 #' @param Description An account of the resource. It may include but is not limited to:
 #' an abstract, a table of contents, a graphical representation, or a free-text account of the resource.
-#' \href{http://purl.org/dc/elements/1.1/description}{dct:description}. In
+#' \href{https://purl.org/dc/elements/1.1/description}{dct:description}. In
 #' \code{\link{datacite}} it is recommended for discovery. See \code{\link{description}}.
 #' @param Relation A related resource. Recommended best practice is to identify the related
-#' resource by means of a string conforming to a formal identification system. See: \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.
+#' resource by means of a string conforming to a formal identification system. See: \href{https://purl.org/dc/elements/1.1/relation}{dct:relation}.
 #' Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended for discovery.
 #' @param Type The nature or genre of the resource. Recommended best practice is to use a controlled vocabulary such as the DCMI Type Vocabulary
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-type-vocabulary/}{DCMITYPE}.

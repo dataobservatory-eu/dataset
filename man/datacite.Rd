@@ -40,7 +40,7 @@ datacite_add(
 structured R list.}
 
 \item{Title}{The name(s) or title(s) by which a resource is known. May be the title of a dataset
-or the name of a piece of software. Similar to \href{http://purl.org/dc/elements/1.1/title}{dct:title}.\cr
+or the name of a piece of software. Similar to \href{https://purl.org/dc/elements/1.1/title}{dct:title}.\cr
 See \code{\link{dataset_title}} for adding further titles.}
 
 \item{titleType}{For a single \code{Title} defaults to \code{NULL}. Otherwise you can add
@@ -64,19 +64,19 @@ dct:publisher. See \code{\link{publisher}}.}
 \code{YYYY} format.See \code{\link{publication_year}}.}
 
 \item{Subject}{Recommended for discovery. Subject, keyword, classification code, or key
-phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. \cr
+phrase describing the resource. Similar to \href{https://purl.org/dc/elements/1.1/subject}{dct:subject}. \cr
 Use \code{\link{subject}} to properly add a key phrase from a controlled vocabulary
 and create structured Subject objects with \code{\link{subject_create}}.}
 
 \item{Type}{Defaults to \code{Dataset}.
 The DataCite resourceType definition refers back to
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/elements/1.1/type}{dcm:type}.
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#https://purl.org/dc/elements/1.1/type}{dcm:type}.
 The \code{Type$resourceTypeGeneral} is set to  \code{Dataset}, while the user can set a more
 specific \code{Type$resourceType} value. See \code{\link{resource_type}}.}
 
 \item{Contributor}{Recommended for discovery. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.}
 
-\item{Date}{Recommended for discovery in DataCite. Similar to \href{http://purl.org/dc/elements/1.1/date}{dct:date} in
+\item{Date}{Recommended for discovery in DataCite. Similar to \href{https://purl.org/dc/elements/1.1/date}{dct:date} in
 \code{\link{dublincore}}.}
 
 \item{Language}{The primary language of the resource. Allowed values are taken from
@@ -84,9 +84,9 @@ IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}.}
 
 \item{AlternateIdentifier}{An identifier or identifiers other than the primary Identifier applied to the resource being registered. This may be any alphanumeric string which is unique within its domain of issue. May be used for local identifiers. AlternateIdentifier should be used for another identifier of the same instance (same location, same file).}
 
-\item{RelatedIdentifier}{Recommended for discovery. Similar to \href{http://purl.org/dc/elements/1.1/relation}{dct:relation}.}
+\item{RelatedIdentifier}{Recommended for discovery. Similar to \href{https://purl.org/dc/elements/1.1/relation}{dct:relation}.}
 
-\item{Format}{Technical format of the resource. Similar to \href{http://purl.org/dc/elements/1.1/format}{dct:format}.}
+\item{Format}{Technical format of the resource. Similar to \href{https://purl.org/dc/elements/1.1/format}{dct:format}.}
 
 \item{Version}{Free text. Suggested practice: track major_version.minor_version. See \code{\link{version}}.}
 
@@ -95,7 +95,7 @@ Free text. See \code{\link{rights}}.}
 
 \item{Description}{Recommended for discovery. All additional information that does not
 fit in any of the other categories. May be used for technical information. A free text.
-Similar to \href{http://purl.org/dc/elements/1.1/description}{dct:description}.}
+Similar to \href{https://purl.org/dc/elements/1.1/description}{dct:description}.}
 
 \item{Geolocation}{Recommended for discovery. Spatial region or named place where the data was gathered
 or about which the data is focused. See \code{\link{geolocation}}.}

@@ -28,7 +28,7 @@ R object.
 }
 \details{
 \code{Rights} corresponds to
-\href{http://purl.org/dc/elements/1.1/rights}{dct:rights} and
+\href{https://purl.org/dc/elements/1.1/rights}{dct:rights} and
 \code{\link{datacite}} Rights. Information about rights held in and over the resource.
 Typically, rights information includes a statement about various property rights associated with the resource,
 including intellectual property rights.

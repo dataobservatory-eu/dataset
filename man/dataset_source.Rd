@@ -27,7 +27,7 @@ R object. DO not confuse with the base R \code{source()} function.
 }
 \details{
 The \code{Source} is a related resource from which the described resource is
-derived. See \href{http://purl.org/dc/elements/1.1/source}{dct:source}.
+derived. See \href{https://purl.org/dc/elements/1.1/source}{dct:source}.
 }
 \examples{
 iris_dataset <- iris

@@ -5,12 +5,12 @@
 #'  \code{AlternativeTitle},  \code{Subtitle},  \code{TranslatedTitle},  \code{OtherTitle}.
 #' May be the title of a dataset
 #' or the name of a piece of software.
-#' Similar to \href{http://purl.org/dc/elements/1.1/title}{dct:title}.\cr
+#' Similar to \href{https://purl.org/dc/elements/1.1/title}{dct:title}.\cr
 #' Use \code{\link{dataset_title_create}} to create a several title entries.
 #' @param x An R object
 #' @param value The name(s) or title(s) by which a resource is known. A character string or
 #' a Title object created by \code{\link{dataset_title_create}}.Similar to
-#' \href{http://purl.org/dc/elements/1.1/title}{dct:title}.
+#' \href{https://purl.org/dc/elements/1.1/title}{dct:title}.
 #' @param titleType In DataCite, the controlled values are
 #' \code{AlternativeTitle}, \code{Subtitle}, \code{TranslatedTitle}, \code{Other}. When no titleType is given (as in
 #' Dublin Core), the titleType is set to \code{Title}.

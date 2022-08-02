@@ -1,4 +1,4 @@
-#' @title Create a related item identifer
+#' @title Create a related item identifier
 #' @return A list
 #' @inheritParams datacite
 #' @param relatedIdentifierType See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12a-relatedidentifiertype}{relatedIdentifierType}.

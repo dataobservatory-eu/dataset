@@ -16,11 +16,11 @@
 #' \href{https://www.w3.org/TR/rdf-schema/#ch_label}{rdfs:label}.
 #' @inheritParams dublincore_add
 #' @param Subject Recommended for discovery in DataCite. Subject, keyword, classification code, or key
-#' phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. \cr
+#' phrase describing the resource. Similar to \href{https://purl.org/dc/elements/1.1/subject}{dct:subject}. \cr
 #' Use \code{\link{subject}} to properly add a key phrase from a controlled vocabulary
 #' and create structured Subject objects with \code{\link{subject_create}}.
-#' @param Type It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.
-#' @param Issued Corresponds to \href{http://purl.org/dc/elements/1.1/date}{dct:date}.
+#' @param Type It is set by default to \href{https://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.
+#' @param Issued Corresponds to \href{https://purl.org/dc/elements/1.1/date}{dct:date}.
 #' @param ... Other parameters for the \code{print} and \code{summary} methods.
 #' @importFrom utils toBibtex
 #' @examples
@@ -140,7 +140,7 @@ dimensions <- function(x) attr(x, "dimensions")
   dimensions_df <- data.frame(
     names  = names(dimensions_subset),
     class = sapply(dimensions_subset, function(x) paste(class(x), collapse="|")),
-    isDefinedBy = rep("http://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl", length(names(dimensions_subset))),
+    isDefinedBy = rep("https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl", length(names(dimensions_subset))),
     codeListe = rep("not yet defined", length(names(dimensions_subset)))
   )
 
@@ -180,7 +180,7 @@ measures <- function(x) attr(x, "measures")
   measures_df <- data.frame(
     names  = names(subset_measures),
     class = sapply(subset_measures, function(x) paste(class(x), collapse="|")),
-    isDefinedBy = rep("http://purl.org/linked-data/cube", length(names(subset_measures))),
+    isDefinedBy = rep("https://purl.org/linked-data/cube", length(names(subset_measures))),
     codeListe = rep("not yet defined", length(names(subset_measures)))
   )
 
@@ -217,7 +217,7 @@ attributes_measures <- function(x) attr(x, "attributes")
   attributes_df <- data.frame(
     names  = names(subset_attributes),
     class = sapply(subset_attributes, function(x) paste(class(x), collapse="|")),
-    isDefinedBy = rep("http://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl", length(names(subset_attributes))),
+    isDefinedBy = rep("https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl", length(names(subset_attributes))),
     codeListe = rep("not yet defined", length(names(subset_attributes)))
   )
 

@@ -1,6 +1,6 @@
 #' @title Get/Add subject(s) to a dataset
 #' @description Add one or more subject terms to the dataset's metadata.
-#' @details In the Dublin Core elements, \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/elements/1.1/subject}{dct::subject} is
+#' @details In the Dublin Core elements, \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#https://purl.org/dc/elements/1.1/subject}{dct::subject} is
 #' defined Typically, the subject will be represented using keywords, key phrases, or classification codes. It is
 #' recommended as a best practice to use a controlled vocabulary. \cr
 #' In DataCite, subjects are defined as key phrases from a controlled library.

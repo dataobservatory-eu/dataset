@@ -42,14 +42,14 @@ is.dataset(x)
 SDMX. \code{c("time", "geo")} will mark the "time" and "geo" attributes as conforming to
 sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl}{sdmx-attribute}.}
 
-\item{Title}{\href{http://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
+\item{Title}{\href{https://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
 \code{\link{datacite}} allows the use of alternate titles, too. See \code{\link{dataset_title}}.}
 
 \item{Label}{may be used to provide a human-readable version of the dataset's name.
 A text description (optionally with a language tag) as defined by
 \href{https://www.w3.org/TR/rdf-schema/#ch_label}{rdfs:label}.}
 
-\item{Creator}{An entity primarily responsible for making the resource. \href{http://purl.org/dc/elements/1.1/creator}{dct:creator}
+\item{Creator}{An entity primarily responsible for making the resource. \href{https://purl.org/dc/elements/1.1/creator}{dct:creator}
 Corresponds to \code{Creator} in \code{\link{datacite}}. See \code{\link{creator}}.}
 
 \item{Publisher}{Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#publisher}{dct:publisher}
@@ -62,7 +62,7 @@ code repository. If there is an entity other than a code repository, that
 code, use the property Contributor/contributorType/hostingInstitution for the code
 repository. See \code{\link{publisher}}.}
 
-\item{Issued}{Corresponds to \href{http://purl.org/dc/elements/1.1/date}{dct:date}.}
+\item{Issued}{Corresponds to \href{https://purl.org/dc/elements/1.1/date}{dct:date}.}
 
 \item{Identifier}{An unambiguous reference to the resource within a given context.
 Recommended practice is to identify the resource by means of a string conforming to an
@@ -74,11 +74,11 @@ More details: \href{Guidelines for using resource identifiers in Dublin Core met
 Similar to \code{Identifier} in \code{\link{datacite}}. See \code{\link{identifier}}.}
 
 \item{Subject}{Recommended for discovery in DataCite. Subject, keyword, classification code, or key
-phrase describing the resource. Similar to \href{http://purl.org/dc/elements/1.1/subject}{dct:subject}. \cr
+phrase describing the resource. Similar to \href{https://purl.org/dc/elements/1.1/subject}{dct:subject}. \cr
 Use \code{\link{subject}} to properly add a key phrase from a controlled vocabulary
 and create structured Subject objects with \code{\link{subject_create}}.}
 
-\item{Type}{It is set by default to \href{http://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.}
+\item{Type}{It is set by default to \href{https://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.}
 
 \item{...}{Other parameters for the \code{print} and \code{summary} methods.}
 }

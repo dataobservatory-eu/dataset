@@ -19,13 +19,13 @@ dataset_title_create(Title, titleType = "Title")
 
 \item{value}{The name(s) or title(s) by which a resource is known. A character string or
 a Title object created by \code{\link{dataset_title_create}}.Similar to
-\href{http://purl.org/dc/elements/1.1/title}{dct:title}.}
+\href{https://purl.org/dc/elements/1.1/title}{dct:title}.}
 
 \item{Title}{The name(s) or title(s) by which a resource is known, includeing \code{Title},
 \code{AlternativeTitle},  \code{Subtitle},  \code{TranslatedTitle},  \code{OtherTitle}.
 May be the title of a dataset
 or the name of a piece of software.
-Similar to \href{http://purl.org/dc/elements/1.1/title}{dct:title}.\cr
+Similar to \href{https://purl.org/dc/elements/1.1/title}{dct:title}.\cr
 Use \code{\link{dataset_title_create}} to create a several title entries.}
 
 \item{titleType}{In DataCite, the controlled values are

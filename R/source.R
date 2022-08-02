@@ -2,7 +2,7 @@
 #' @description Get/set the optional \code{Source} property as an attribute to an
 #' R object. DO not confuse with the base R \code{source()} function.
 #' @details The \code{Source} is a related resource from which the described resource is
-#' derived. See \href{http://purl.org/dc/elements/1.1/source}{dct:source}.
+#' derived. See \href{https://purl.org/dc/elements/1.1/source}{dct:source}.
 #' @param value The \code{Source} as a character string of lengths one.
 #' @inheritParams dublincore
 #' @return The \code{Source} attribute as a character of length 1 is added to \code{x}.

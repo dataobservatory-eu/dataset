@@ -24,7 +24,7 @@ library(kableExtra)
 library(dataset)
 ```
 
-Our datasets are defined in a way that their dimensions can be easily and unambigously reduced to triples for RDF applications; they can be easily serialized to, or synchronized with semantic web applications with the [rdflib](https://cran.r-project.org/web/packages/rdflib/vignettes/rdf_intro.html) package^[Carl Boettiger: [A tidyverse lover’s intro to RDF](https://cran.r-project.org/web/packages/rdflib/vignettes/rdf_intro.html)].
+Our datasets are defined in a way that their dimensions can be easily and unambiguously reduced to triples for RDF applications; they can be easily serialized to, or synchronized with semantic web applications with the [rdflib](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html) package^[Carl Boettiger: [A tidyverse lover’s intro to RDF](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html)].
 
 Read more about how we adopted to datacube model of SDMX and the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) for datasets as R objects in the [The dataset S3 Class](https://dataset.dataobservatory.eu/articles/RDF.html) vignette article.
 

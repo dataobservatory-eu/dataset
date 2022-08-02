@@ -5,7 +5,7 @@ attributes_measures(df) <- "unit"
 
 test_that("dimensions() work", {
   expect_equal(dimensions(df)$names, c("sex"))
-  expect_equal(dimensions(df)$isDefinedBy, c("http://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl"))
+  expect_equal(dimensions(df)$isDefinedBy, c("https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl"))
 })
 
 test_that("measures() work", {
@@ -43,7 +43,7 @@ test_that("dataset", {
   expect_equal(attributes(y)$measures$names, c("value"))
   expect_equal(attributes(y)$attributes$names, c("unit", "freq"))
   expect_equal(as.character(attributes(y)$dimensions$isDefinedBy),
-               rep("http://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl",
+               rep("https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl",
                  2))
 })
 

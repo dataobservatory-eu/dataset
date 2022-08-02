@@ -28,7 +28,7 @@ Get/set the optional \code{Description} property as an attribute to an R object.
 \details{
 The \code{Description} is recommended for discovery in DataCite. All additional information that does not
 fit in any of the other categories. May be used for technical information. A free text.
-Similar to \href{http://purl.org/dc/elements/1.1/description}{dct:description}.
+Similar to \href{https://purl.org/dc/elements/1.1/description}{dct:description}.
 }
 \examples{
 iris_dataset <- iris

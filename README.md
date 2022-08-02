@@ -82,11 +82,11 @@ dublincore(my_iris_dataset)
 #> <0 rows> (or 0-length row.names)
 #> 
 #> $measures
-#>                     names   class                      isDefinedBy
-#> Sepal.Length Sepal.Length numeric http://purl.org/linked-data/cube
-#> Sepal.Width   Sepal.Width numeric http://purl.org/linked-data/cube
-#> Petal.Length Petal.Length numeric http://purl.org/linked-data/cube
-#> Petal.Width   Petal.Width numeric http://purl.org/linked-data/cube
+#>                     names   class                       isDefinedBy
+#> Sepal.Length Sepal.Length numeric https://purl.org/linked-data/cube
+#> Sepal.Width   Sepal.Width numeric https://purl.org/linked-data/cube
+#> Petal.Length Petal.Length numeric https://purl.org/linked-data/cube
+#> Petal.Width   Petal.Width numeric https://purl.org/linked-data/cube
 #>                    codeListe
 #> Sepal.Length not yet defined
 #> Sepal.Width  not yet defined
@@ -96,8 +96,8 @@ dublincore(my_iris_dataset)
 #> $attributes
 #>           names  class
 #> Species Species factor
-#>                                                                                                                                                   isDefinedBy
-#> Species http://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl
+#>                                                                                                                                                    isDefinedBy
+#> Species https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl
 #>               codeListe
 #> Species not yet defined
 #> 
@@ -131,8 +131,8 @@ class is inherited from the base R data.frame. Later versions may change
 to the modern [tibble](https://tibble.tidyverse.org/), which carries a
 larger dependency footprint but easier to work with. Easy
 interoperability with the
-[data.table](https://cran.r-project.org/web/packages/data.table/index.html)
-package remains a top development priority.
+[data.table](https://cran.r-project.org/package=data.table) package
+remains a top development priority.
 
 ## The datacube model in R
 
@@ -171,7 +171,7 @@ eXchange](https://sdmx.org/), and which is also described in a
 non-normative manner by the the [RDF Data Cube
 Vocabulary](https://www.w3.org/TR/vocab-data-cube/). While the SDMX
 standards predate the Resource Description Framework (RDF) framework for
-the semantic web, they are already harmonized to a great deal, which
+the semantic web, they are already harmonised to a great deal, which
 enables users and data publishers to create machine-to-machine
 connections among statistical data. Our goal is to create a modern data
 frame object in R with utilities that allow the R user to benefit from

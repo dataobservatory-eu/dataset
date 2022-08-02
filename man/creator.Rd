@@ -27,7 +27,7 @@ Add the optional \code{Creator} property as an attribute to an R object.
 }
 \details{
 The \code{Creator}
-corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/elements/1.1/creator}{dct:creator} and Creator in DataCite.
+corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#https://purl.org/dc/elements/1.1/creator}{dct:creator} and Creator in DataCite.
 The name of the entity that holds, archives, publishes prints, distributes, releases,
 issues, or produces the resource. This property will be used to formulate the citation,
 so consider the prominence of the role. For software, use \code{Creator} for the

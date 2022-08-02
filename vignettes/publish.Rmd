@@ -26,4 +26,4 @@ The planned export functions will create `csv`, `xlsx`, SPSS `sav` and STATA `dt
 
 ## Publishing functions
 
-We are planning an automatic publishing connection to [zen4R](https://github.com/eblondel/zen4R), the R language interface to the Zenodo open science repository. The `zen4R` package uses R6 classes which are known only for advanced R users. Our planned connector is a simple function that connects our s3 [dataset](), which is inherited from a simple `data.frame()` with the [depositRecord](https://github.com/eblondel/zen4R/wiki#ZenodoDeposit-publish) method of `zen4R` for immediate publication on Zenodo. 
+We are planning an automatic publishing connection to [zen4R](https://github.com/eblondel/zen4R), the R language interface to the Zenodo open science repository. The `zen4R` package uses R6 classes which are known only for advanced R users. Our planned connector is a simple function that connects our s3 `dataset()`, which is inherited from a simple `data.frame()` with the [depositRecord](https://github.com/eblondel/zen4R/wiki#ZenodoDeposit-publish) method of `zen4R` for immediate publication on Zenodo. 

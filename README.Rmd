@@ -19,7 +19,7 @@ rlang::check_installed("here")
 <!-- badges: start -->
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6950435.svg)](https://10.5281/zenodo.6950435)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.1.4-blue.svg)](https://github.com/antaldaniel/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.1.4-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov) 
 [![Follow author](https://img.shields.io/twitter/follow/digitalmusicobs.svg?style=social)](https://twitter.com/intent/follow?screen_name=digitalmusicobs)
@@ -70,7 +70,7 @@ dublincore(my_iris_dataset)
 
 ## Development plans
 
-This package is in an early development phase. The current dataset S3 class is inherited from the base R data.frame. Later versions may change to the modern [tibble](https://tibble.tidyverse.org/), which carries a larger dependency footprint but easier to work with. Easy interoperability with the [data.table](https://cran.r-project.org/web/packages/data.table/index.html) package remains a top development priority.
+This package is in an early development phase. The current dataset S3 class is inherited from the base R data.frame. Later versions may change to the modern [tibble](https://tibble.tidyverse.org/), which carries a larger dependency footprint but easier to work with. Easy interoperability with the [data.table](https://cran.r-project.org/package=data.table) package remains a top development priority.
 
 ## The datacube model in R
 
