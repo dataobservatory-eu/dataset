@@ -1,7 +1,7 @@
 Package: dataset
 Title: Create Interoperable and Well-Referenced Data Frames
 Date: 2022-08-02
-Version: 0.1.4.0001
+Version: 0.1.5
 Authors@R: 
     person(given = "Daniel", family = "Antal", 
            email = "daniel.antal@dataobservatory.eu", 
@@ -12,8 +12,8 @@ Description: Create well-referenced, well-described, interoperable datasets in R
     publication and use on the (semantic) web. A subjective interpretation of the  W3C 
     DataSet recommendation and the datacube model  <https://www.w3.org/TR/vocab-data-cube/>, 
     which is also used in the global Statistical Data and Metadata eXchange standards, 
-    the application of the connected Dublin Core <https://www.dublincore.org/specifications/dublin-core/dcmi-terms> 
-    and DataCite <https://support.datacite.org/docs/datacite-metadata-schema-44> standards 
+    the application of the connected Dublin Core <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/> 
+    and DataCite <https://support.datacite.org/docs/datacite-metadata-schema-44/> standards 
     preferred by European open science repositories to improve the findability, accessibility,
     interoperability and reusability of the datasets.
 License: GPL (>= 3)

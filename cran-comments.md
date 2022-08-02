@@ -19,4 +19,15 @@ documentation and data release on open science repositories or semantic web appl
     DataSet - this is the spelling of the dataset standard of W3c
     eXchange - the official spelling of the Statistical Data and Metadata eXchange
     findability - not in dicationary but a key word of FAIR metadata
-    reusability - also FAIR metadata
+    reusability - also FAIR metadata <https://www.go-fair.org/fair-principles/>
+
+* URL: https://sdmx.org/
+    From: inst/doc/metadata.html
+          inst/doc/motivation.html
+          README.md
+    Status: Error
+    Message: libcurl error code 60:
+      	SSL certificate problem: unable to get local issuer certificate
+      	(Status without verification: OK)
+      	
+SDMX is a very important reference point and it would not be a good solution to leave these links out of the vignettes.

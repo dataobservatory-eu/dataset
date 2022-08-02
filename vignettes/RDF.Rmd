@@ -41,7 +41,7 @@ Because our datasets conform the tidy data concept, they can be reduced into lon
 **data.frame**  | key     | attribute   | value  
 
 
-Table source: [rdflib](https://cran.r-project.org/web/packages/rdflib/vignettes/rdf_intro.html)
+Table source: [rdflib](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html)
 
 ## Dimension reductions of the dataset
 

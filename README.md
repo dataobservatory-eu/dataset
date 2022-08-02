@@ -6,8 +6,8 @@
 <!-- badges: start -->
 
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6950435.svg)](https://10.5281/zenodo.6950435)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.1.4-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6950435.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.1.5-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow
 rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
