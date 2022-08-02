@@ -9,11 +9,11 @@ Authors@R:
            comment = c(ORCID = "0000-0001-7513-6760")
            )
 Description: Create well-referenced, well-described, interoperable datasets in R ready for 
-    publication and use on the (semantic) web. A subjective interpretation of the 
-    \href{https://www.w3.org/TR/vocab-data-cube/}{W3C DataSet} recommendation and the datacube 
-    model, which is also used in the global Statistical Data and Metadata eXchange standards, 
-    the application of the connected \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin Core} 
-    and \href{https://support.datacite.org/docs/datacite-metadata-schema-44}{DataCite} standards 
+    publication and use on the (semantic) web. A subjective interpretation of the  W3C 
+    DataSet recommendation and the datacube model  <https://www.w3.org/TR/vocab-data-cube/>, 
+    which is also used in the global Statistical Data and Metadata eXchange standards, 
+    the application of the connected Dublin Core <https://www.dublincore.org/specifications/dublin-core/dcmi-terms> 
+    and DataCite <https://support.datacite.org/docs/datacite-metadata-schema-44> standards 
     preferred by European open science repositories to improve the findability, accessibility,
     interoperability and reusability of the datasets.
 License: GPL (>= 3)

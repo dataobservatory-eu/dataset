@@ -16,7 +16,7 @@
 
 # dataset 0.1.2.
 
-* The definition of the [dataset](https://dataset.dataobservatory.eu/articles/datacube.html) class, an improved data.frame (tibble, DT) R object with standardized structure and metadata.
+* The definition of the `dataset()` class, an improved data.frame (tibble, DT) R object with standardized structure and metadata.
 * Adding and reading [DublinCore](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) metadata and [DataCite](https://support.datacite.org/docs/datacite-metadata-schema-44/) mandatory and recommended [FAIR metadata](https://www.go-fair.org/fair-principles/) metadata.
 
 # dataset 0.1.0.
