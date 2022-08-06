@@ -27,7 +27,8 @@ or for all versions. Similar to \code{dct:title} in \code{\link{dublincore}}.}
 
 \item{schemeType}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12e-schemetype}{schemeType}.}
 
-\item{resourceTypeGeneral}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#101-resourcetypegeneral}{resourceTypeGeneral}.}
+\item{resourceTypeGeneral}{The general type of a resource or file.
+See \code{\link{resource_type_general}} for allowed values and validation.}
 }
 \value{
 A data.frame

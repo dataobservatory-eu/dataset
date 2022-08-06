@@ -38,6 +38,14 @@ priority order. To supply multiple creators, repeat this property.}
 or the name of a piece of software. Similar to \href{https://purl.org/dc/elements/1.1/title}{dct:title}.\cr
 See \code{\link{dataset_title}} for adding further titles.}
 
+\item{relatedIdentifierType}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12a-relatedidentifiertype}{relatedIdentifierType}.}
+
+\item{relationType}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12b-relationtype}{relationType}.}
+
+\item{schemeURI}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12d-schemeuri}{schemeURI}.}
+
+\item{schemeType}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12e-schemetype}{schemeType}.}
+
 \item{resourceTypeGeneral}{The general type of a resource or file.
 See \code{\link{resource_type_general}} for allowed values and validation.}
 

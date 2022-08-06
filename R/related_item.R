@@ -3,6 +3,10 @@
 #' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12-relatedidentifier}{RelatedIdentifier},
 #' attribute, which is recommended for discovery in \code{DataCite}.
 #' @inheritParams datacite
+#' @param relatedIdentifierType See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12a-relatedidentifiertype}{relatedIdentifierType}.
+#' @param relationType See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12b-relationtype}{relationType}.
+#' @param schemeURI  See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12d-schemeuri}{schemeURI}.
+#' @param schemeType  See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12e-schemetype}{schemeType}.
 #' @param resourceTypeGeneral The general type of a resource or file.
 #' See \code{\link{resource_type_general}} for allowed values and validation.
 #' @param Volume The volume of the related item (optional).
@@ -65,11 +69,6 @@ related_item <- function(Identifier,
 #' @title Create a related item identifier
 #' @return A data.frame
 #' @inheritParams datacite
-#' @param relatedIdentifierType See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12a-relatedidentifiertype}{relatedIdentifierType}.
-#' @param relationType See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12b-relationtype}{relationType}.
-#' @param schemeURI  See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12d-schemeuri}{schemeURI}.
-#' @param schemeType  See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12e-schemetype}{schemeType}.
-#' @param resourceTypeGeneral See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#101-resourcetypegeneral}{resourceTypeGeneral}.
 #' @inheritParams related_item
 #' @keywords internal
 related_item_identifier <- function(Identifier,
