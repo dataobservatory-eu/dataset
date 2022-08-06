@@ -1,7 +1,7 @@
 Package: dataset
 Title: Create data frames that are easier to exchange and reuse
 Date: 2022-08-06
-Version: 0.1.5.0001
+Version: 0.1.6
 Authors@R: 
     person(given = "Daniel", family = "Antal", 
            email = "daniel.antal@dataobservatory.eu", 
