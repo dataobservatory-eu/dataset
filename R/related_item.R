@@ -1,27 +1,10 @@
-#' @title Create a related item identifier
-#' @return A list
-#' @inheritParams datacite
-#' @param relatedIdentifierType See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12a-relatedidentifiertype}{relatedIdentifierType}.
-#' @param relationType See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12b-relationtype}{relationType}.
-#' @param schemeURI  See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12d-schemeuri}{schemeURI}.
-#' @param schemeType  See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12e-schemetype}{schemeType}.
-#' @param resourceTypeGeneral See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#101-resourcetypegeneral}{resourceTypeGeneral}.
-#' @examples
-#' my_item <- related_item (Identifier = "https://zenodo.org/record/5703222#.YZYkm2DMLIU",
-#'                          Creator = person ("Daniel", "Antal", role = "aut"),
-#'                          Publisher = "Zenodo",
-#'                          PublicationYear = 2022,
-#'                          relatedIdentifierType = "DOI",
-#'                          relationType = "CompiledBy",
-#'                          schemeURI = "URI",
-#'                          resourceTypeGeneral = "Dataset")
-
-
 #' @title Create a related item
 #' @description Create a
 #' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12-relatedidentifier}{RelatedIdentifier},
 #' attribute, which is recommended for discovery in \code{DataCite}.
 #' @inheritParams datacite
+#' @param resourceTypeGeneral The general type of a resource or file.
+#' See \code{\link{resource_type_general}} for allowed values and validation.
 #' @param Volume The volume of the related item (optional).
 #' @param Issue The issue number of the related item (optional).
 #' @param Edition The edition of the related item (optional).
@@ -31,6 +14,15 @@
 #' @param lastPage The first page of the related item (optional).
 #' @return a related item.
 #' @family metadata functions
+#' @examples
+#' my_item <- related_item (Identifier = "https://zenodo.org/record/5703222#.YZYkm2DMLIU",
+#'                          Creator = person ("Daniel", "Antal", role = "aut"),
+#'                          Publisher = "Zenodo",
+#'                          PublicationYear = 2022,
+#'                          relatedIdentifierType = "DOI",
+#'                          relationType = "CompiledBy",
+#'                          schemeURI = "URI",
+#'                          resourceTypeGeneral = "Dataset")
 #' @export
 
 related_item <- function(Identifier,
@@ -70,6 +62,14 @@ related_item <- function(Identifier,
   rel_item
 }
 
+#' @title Create a related item identifier
+#' @return A data.frame
+#' @inheritParams datacite
+#' @param relatedIdentifierType See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12a-relatedidentifiertype}{relatedIdentifierType}.
+#' @param relationType See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12b-relationtype}{relationType}.
+#' @param schemeURI  See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12d-schemeuri}{schemeURI}.
+#' @param schemeType  See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12e-schemetype}{schemeType}.
+#' @param resourceTypeGeneral See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#101-resourcetypegeneral}{resourceTypeGeneral}.
 #' @inheritParams related_item
 #' @keywords internal
 related_item_identifier <- function(Identifier,
@@ -78,12 +78,15 @@ related_item_identifier <- function(Identifier,
                                     schemeURI = NA_character_,
                                     schemeType = NA_character_,
                                     resourceTypeGeneral = NA_character_) {
-  data.frame ( Identifier = Identifier,
-               relatedIdentifierType = relatedIdentifierType,
-               relationType = relationType,
-               schemeURI = schemeURI,
-               schemeType = schemeType,
-               resourceTypeGeneral = resourceTypeGeneral )
+
+  relitem_identifier <- data.frame ( Identifier = Identifier,
+                                     relatedIdentifierType = relatedIdentifierType,
+                                     relationType = relationType,
+                                     schemeURI = schemeURI,
+                                     schemeType = schemeType)
+
+  resource_type_general(relitem_identifier) <- resourceTypeGeneral
+
+  relitem_identifier
+
 }
-
-

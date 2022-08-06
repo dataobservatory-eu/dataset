@@ -42,7 +42,7 @@ The [The RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in it
 
 The `Dublin Core` is an ISO Standard 15836:2009 since February 2009 [ISO15836]. Currently the 15 "core" elements are part of a bigger [DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/). The *DataCite* mandatory elements are narrower than the DublinCore elements, and the full DataCite is broader. The two standards are very-well harmonized with little difference.
 
-We give a preference for *DataCite*, because it is a more modern standard that is better sutited to document software and data products. It is also the preferred choice of the EU open repositories that are used to deposit publicly funded research results, including datasets.
+We give a preference for *DataCite*, because it is a more modern standard that is better suited for the documentation of software and data products. It is also the preferred choice of the EU open repositories that are used to deposit publicly funded research results, including datasets.
 
 
 ```{r}

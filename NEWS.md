@@ -1,4 +1,4 @@
-# dataset 0.1.5.
+# dataset 0.1.6.
 * A release candidate on CRAN after small documentation improvements.
 
 # dataset 0.1.4.

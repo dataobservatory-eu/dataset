@@ -7,9 +7,16 @@
 * Ubuntu Linux 20.04.1 LTS, R-release, GCC
 * Windows Server 2022, R-devel, 64 bit
 
-## R CMD check results
+## 0.1.6: resubmission of 0.1.5
 
-0 errors | 0 warnings | 1 note
+Apart from the correction requested by CRAN, I made some improvements in the documentation test that does not change the functionality since 0.1.5 
+
+Found the following (possibly) invalid file URIs:
+    URI: Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM
+-> changed `http` protocol in URI changed to `https`
+
+
+## On some testing environments I get 1 spelling NOTE
 
 * This is the first release of an experimental package that is aimed to provide a better underpinning for reproducible research packages in the rOpenGov collective in terms of 
 documentation and data release on open science repositories or semantic web applications.

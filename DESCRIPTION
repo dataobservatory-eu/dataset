@@ -1,16 +1,17 @@
 Package: dataset
-Title: Create Interoperable and Well-Referenced Data Frames
-Date: 2022-08-02
-Version: 0.1.5
+Title: Create data frames that are easier to exchange and reuse
+Date: 2022-08-06
+Version: 0.1.5.0001
 Authors@R: 
     person(given = "Daniel", family = "Antal", 
            email = "daniel.antal@dataobservatory.eu", 
            role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7513-6760")
            )
-Description: Create well-referenced, well-described, interoperable datasets in R ready for 
-    publication and use on the (semantic) web. A subjective interpretation of the  W3C 
-    DataSet recommendation and the datacube model  <https://www.w3.org/TR/vocab-data-cube/>, 
+Description: The aim of the dataset package is to make tidy datasets easier to release, 
+    exchange and reuse. It organizes and formats data frame R objects into well-referenced, 
+    well-described, interoperable datasets into release and reuse ready form. A subjective 
+    interpretation of the  W3C  DataSet recommendation and the datacube model  <https://www.w3.org/TR/vocab-data-cube/>, 
     which is also used in the global Statistical Data and Metadata eXchange standards, 
     the application of the connected Dublin Core <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/> 
     and DataCite <https://support.datacite.org/docs/datacite-metadata-schema-44/> standards 

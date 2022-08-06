@@ -21,7 +21,7 @@ dataset_title_create(Title, titleType = "Title")
 a Title object created by \code{\link{dataset_title_create}}.Similar to
 \href{https://purl.org/dc/elements/1.1/title}{dct:title}.}
 
-\item{Title}{The name(s) or title(s) by which a resource is known, includeing \code{Title},
+\item{Title}{The name(s) or title(s) by which a resource is known, including \code{Title},
 \code{AlternativeTitle},  \code{Subtitle},  \code{TranslatedTitle},  \code{OtherTitle}.
 May be the title of a dataset
 or the name of a piece of software.

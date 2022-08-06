@@ -1,11 +1,18 @@
 ---
-title: "Motivation of the dataset package"
+title: 'Motivation: Make Tidy Datasets Easier to Release Exchange and Reuse'
+author: "Daniel Antal"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Motivation of the dataset package}
+  %\VignetteIndexEntry{Motivation: Make Tidy Datasets Easier to Release Exchange and Reuse}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+<!--
+
+subtitle: Version 0.1.6 https:://doi.org/10.5281/zenodo.6969653
+output: pdf_document
+-->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -14,36 +21,57 @@ knitr::opts_chunk$set(
 )
 ```
 
-The primary aim of dataset is to build well-documented data.frames, tibbles or data.tables that translate well into the W3C DataSet definition within the [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible manner. The data cube model in itself is is originated in the [Statistical Data and Metadata eXchange](https://sdmx.org/), and it is almost fully harmonzied with the Resource Description Framework (RDF), the standard model for data interchange on the web. 
+The aim of the dataset package is to make tidy datasets easier to release, exchange and reuse. It organizes and formats data frame R objects into well-referenced, well-described, interoperable datasets into release and reuse ready form. We apply a subjective, R language compatible interpretation of the  W3C [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) based on the statistical SDMX data cube model^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>]. We enrich these statistical data exchange definition with similar definitions from information science and the exchange of scientific resources on open science repositories by applying the [Dublin Core](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) and [DataCite](https://support.datacite.org/docs/datacite-metadata-schema-44/) metadata specifications for R attributes to improve the findability, accessibility, interoperability and reusability of the datasets.
+
+We organize and format standard tabular data R objects (data.fame, data.table, tibble, or even well-structured lists like json and json-ld) become highly interoperable and can be placed into relational databases, semantic web applications, archives, repositories.  This puts the [FAIR](https://www.go-fair.org/fair-principles/) principles into the practice of an R environment workflow: they make these tabular data objects more findable, more accessible, interoperable and reusable. 
+
+While the tidy data standards make reuse more efficient by eliminating unnecessary data processing steps before analysis or placement in a relational database, the application of DataSet definition and the datacube model with the information science metadata standards make reuse more efficient with exchanging and combining the data with other data in different datasets. 
+
+In the first step, we organize tidy datasets according to the data cube model originally developed by the SDMX for exchanging statistical data, by clearly stating which columns are to be used for grouping, filtering and for calculations. In this step, we clearly state which tidy columns are to be used as “measurements”, “dimensions” and “attributes” of the dataset. This step will greatly simplify how we obtain tidy subsets from a dataset, or how we reduce the dimensions of a dataset to a triad or a quad to be placed on a knowledge graph. 
+
+In the second step, we add metadata is attributes to the R object (regardless if it is a data.frame or an inherited tibble/data.table object) which make the finding, understanding and the exchange of data (including refreshing data from source), its placement in a database or on a knowledge graph easier. This step will make the dataset easier to understand both for human analysis and for computers, and greatly increase their reuse potential, or the ability to review and replicate them in reproducible research. 
 
 A mapping of R objects into these models has numerous advantages: it makes data importing easier and less error-prone; it leaves plenty of room for documentation automation; and it makes the publication of results from R following the FAIR principles much easier.
 
-Lovers of the tidy data concept and [tidyverse](https://www.tidyverse.org/) know that the world is full of untidy data tables that give on average 5-times more work to tidy up then to actually do analytical work with them. But that’s not the only problem with datasets.  Datasets without codebooks cannot be intelligently matched with other information sources.  Data without reference to an authoritative copy cannot be validated against accidental damage during processing.  A dataset without bibliographic references is not ready for publication. 
+
+## Data semantics
+The tidy data principles are seemingly very simple: each variable is a column, each observation is a row, and place all new units of measurement into a new table. However, the steps of tidying up a messy dataset require practice, like solving a Rubik cube–--take a long time to do quicky.
+
+The tidy data principles frame Codd's relational algebra, particularly the third normal form  (3NF) into statistical language, and make the storage and reuse of data in relational databases optional. It suggests a format for tabular data and data semantics that makes a very important, and usually the most time (resource) consuming part of data analysis far more efficient, because the analyst does not have to reinvent the wheel all the time.The data cube model can be seen as an extension of the tidy model that makes the storage, reuse, and exchange of data among different database, or their placement on a knowledge graph optimal.
 
 
+### The data cube model
+The tidy data is designed to be easily handled in relational databases and it is an ideal format for analysis in a closed system – for example, when all your data for the analysis is stored in a well-designed relational database. This semantics is however insufficient for exchanging data with several data sources, a problem that has been attracting solutions for a long time by statistical agencies and designers of hyperlinked, web-based products. 
 
-The motivation of the ecosystem of the [dataset](https://dataset.dataobservatory.eu/), [statcodelists](https://statcodelists.dataobservatory.eu/), and the dataobservatory packages is to provide a comprehensive toolkit that helps many reproducible research tasks.
+The dataset package is inspired by the way statisticans have been for a long-time organizing data for publications: the data cube model. The data cube model has additional, non-normative prescriptions for the structure of the (tidy) dataset:  columns must be grouped into measurements, dimensions, and attributes.  The dimensions are non-measured variables, such as reference geographical areas, reference time periods that are usually used to filter out subsets (slices) from a datacube.  Attributes provide information about the measurements, such as unit of information, estimation method, and usually can be seen as metadata for modelling purposes: they contain observations (measurements) level metadata that is also often used for filtering (selecting actual, imputed or missing cases, for example.)  Measurements are in fact the observations that we want to analyze.
 
-Our dataset class follows the organizational model of the datacube, which is used by the [Statistical Data and Metadata eXchange](https://sdmx.org/), and which is also described in a non-normative manner by the the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/). While the SDMX standards predate the Resource Description Framework (RDF) framework for the semantic web, they are already harmonised to a great deal, which enables users and data publishers to create machine-to-machine connections among statistical data. Our goal is to create a modern data frame object in R with utilities that allow the R user to benefit from synchronizing data with semantic web applications, including statistical resources, libraries, or open science repositories.
+The data cube model has been long the preferred format to organize data for analytical use by SDMX.  Statistical agencies exchange with each other and publish data in datasets that are conforming the data cube model. By organizing your R tabular data like statisticians, you make your work easier to synchronize with statistical data sources: you can download or exchange date in this format.  Following the data cube model helps you to understand more easily the dataset and bring your data to be analyzed to a tidy form in one or two steps --- usually using attributes for subsetting, dimensions for grouping, and measurements to carry out arithmetic calculations like computing the group average values.
 
-The [dataset](https://dataset.dataobservatory.eu/) package aims to produce well-formatted and well-documented data.frames, tibbles or data.tables that can be easily synchronized with web resources (such as statistical web APIs), and which are ready to published on open science repositories with metadata that makes them findable, accessible and interoperable in library catalogues and in statistical applications.
+## Interoperability
+While tidying aims and preventing reinventing the wheel and many times repeating the work of bringing the data from a data storage, such as a database, into a form that an analyst can work with, reproducible research has further aims that add to the quality and inefficiency of the analysis: it aims to make the tidy datasets and the research output easier to reuse, and to review and replicate for quality control and peer review.
+Data scientists know that however simple the tidy data rules are, it takes a long time to get a feeling to easily put any messy, stored data into a tidy format. To put the data into a format that is easy to review, and which offers an easy replication is even harder. As the famous article by Monya Baker, [1,500 scientists lift the lid on reproducibility](https://rdcu.be/cTaiK) shows, the vast majority of scientists have experienced the problem that seemingly replicable, published scientific data cannot be replicated, and more worryingly, the majority of them expressed doubt about their ability to replicate their own findings. Datasets that are not easily replicated are also not easily used as building blocks for further joined, more composite data.
 
-The primary aim of dataset is to build well-documented data.frames, tibbles or data.tables that follow the W3C [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) based on the statistical SDMX data cube model^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>]. Such standard R objects (data.fame, data.table, tibble, or well-structured lists like json) become highly interoperable and can be placed into relational databases, semantic web applications, archives, repositories.  They follow the [FAIR](https://www.go-fair.org/fair-principles/) principles: they are findable, accessible, interoperable and reusable. 
+The lack of interoperability is often connected to the barrier of understanding a dataset.  Having a simple term in the column heading, and knowing that observations are in rows, variables are in columns is not always a sufficient help to understand the meaning of the dataset.  The data cube model, which explicitly states dimensions, attributes for the measurements greatly increase the understandability.
 
-Our [datasets](https://dataset.dataobservatory.eu/reference/dataset.html):
+> “Data is only potential information, raw and unprocessed, prior to anyone actually being informed by it.”
+> ---Jeffrey Pomerantz, Metadata
 
-- [x] contain Dublin Core or DataCite (or both) metadata that makes the findable and easier accessible via online libraries
-- [x] are easily reduced to linked open data formats to be serialized to, or synchronized with semantic web applications
-- [x] follow the datacube model of the Statistical Data and Metadata eXchange, therefore allowing easy refreshing with new data from the source of the analytical work
-- [x] contain processing metadata that greatly enhance the reproducibility of the results, and the reviewability of the contents of the dataset, including metadata defined by the [DDI]
-- [x] relatively lightweight in dependencies and easily works with data.frame, tibble or data.table R objects.
+Understanding data (stored in a tabular or other format) requires metadata, information by which the data can be represented in a simpler form.  The simplest and most useful metadata for this purpose is a title or a label in the RDF model, a single, human readable sentence that describes the data.
 
-We also aim to replace the `survey` in the [retroharmonize](https://retroharmonize.dataobservatory.eu/) survey harmonization package to an inherited dataset that is optimalised to contain social sciences survey data.
+The data cube model describes attributes, which can be seen as metadata about observations, to be placed into the tabular format, and dataset level metadata, such as the title.  What is missing from a tidy dataset in a data.frame, tibble or data.table format is the metadata.
 
-The connecting [statcodelists](https://statcodelists.dataobservatory.eu/) packages facilitates further reproducability with standardized, natural language independent codelists for categorical variables. Such categorical variables are correctly interpreted in a wide array of statistical applications and can be easily joined with data from many countries irrespective of the primary sources' language.
+## Attributes
+In R, attributes of an object are designed to record metadata about the object – if it is a tabular data, then about the dataset itself.  For a tidy dataset, at least the names of the columns, the names of the rows, and the name of the object in memory are recorded. R places very few restrictions on how to add metadata in the attribute fields of an object, or place new fields – you can add far more metadata than the size of the actual data frame if you like.
 
-## FAIR: findable datasets
+The dataset package defines a pseudo-class that enriches data frames with standardized metadata used in the RDF and SDMX datacube model, and the Dublin Core and DataCite metadata standards of libraries that make datasets easier to find, attribute, and more interoperable and reuseable by providing more information about their contents.
 
+The dataset class (see: `dataset()`)is a pseudo-class. Although it is defined as a class inherited from the base R data.frame S3 class, in fact, it does not alter the way you interact with the data, and for analytical purposes the object remains a data.frame. It is also a pseudo-class because the functions built in the dataset constructor work exactly as well on tibbles or data.table objects, because they only touch metadata attributes of the R object.
+
+The `dublincore()` function and its helper functions adds metadata as attributes to any R object The Dublin Core Elements are originally library standards that facilitate finding resources (files) in libraries. The RDF datacube definition, which aims to enable machines to connect datasets automatically, refers to a part of the Dublin Core definition ---however, it is a good practice to add all Dublin Core elements to a dataset.
+
+The `datacite()` functions and its helper functions adds mandatory and optional metadata from the DataCite standard, which is often preferred by open science data repositories aimed to a public storage of datasets.  The DataCite standard is newer than Dublin Core, and was specifically designed to facilitate finding, accessing, and reusing data. It greatly overlaps with Dublin Core but contains further information that is particularly useful for datasets (for example, estimated dataset object size in memory or data storage.)
+
+Both the Dublin Core Metadata Elements definition 1.1 and DataCite Metadata Scheme 4.4 refer to standard information elements, properties, for example, the ISO standard of describing the size of an object in computers, or the ISO standard of describing reference time or reference geographical areas for the data collection. Some of the helper functions of `dublincore_add()` and `datacite_add()` already validate the correct formatting of this information, some will be added in later versions.
 
 ```{r datacite}
 library(dataset)
@@ -65,31 +93,51 @@ We add descriptive metadata conforming the Dublin Core and [DataCite standard](h
 ```{r printdataset}
 datacite(iris_datacite)
 ```
-## Reproducible datasets
 
-```{r reproducible, eval=FALSE}
-temp_path <- file.path(tempdir(), "iris.csv")
-write.csv(iris, file = temp_path)
-iris_dataset <- read_dataset(
-  dataset_id = "iris_dataset",
-  obs_id = NULL,
-  dimensions = NULL,
-  measures = c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"),
-  attributes = "Species",
-  Title = "Iris Dataset",
-  unit = list(code = "MM", label = "millimeter"),
-  .f = "utils::read.csv", file = temp_path )
-attributes(iris_dataset)
-```
 
-## Interoperable datasets
 
-The dataset package creates data frame templates that confirm the tidy data concept, but goes beyond the it, and organize them for survey processing, statistical aggregation and publication. Our templates follow international metadata standards and data organization recommendations, and translates them on three R object times, the base R data.frames, and their modern tibble (tidyverse) and data.table (DT) versions.
+## Planned functionality
+The dataset package is aiming to make tidy datasets easier to release, exchange and reuse. The motivation of the ecosystem of the [dataset](https://dataset.dataobservatory.eu/), [statcodelists](https://statcodelists.dataobservatory.eu/), and the dataobservatory packages is to provide a comprehensive toolkit that helps many reproducible research tasks.
+ 
+Our real goal is to facilitate efficient reproducible research workflows that perform flawlessly tasks that most R users, even scientific researchers, are unfamiliar with---or if they are familiar with them, they find it boring, because they will usually not get credited for it as analyst or researchers
 
-We aim for interoperability, even if not full compliance, with the W3C Dataset concept, the SDMX Dataset concept, and DDI concept for survey data.  These metadata concepts are mainly used in the semantic web to foster machine-to-machine communication. Because our dataset classes are not designed for web services, but for producing research output in R that will easily integrate into them, we subjectively select specifications from the W3C and SDMX Dataset concepts (which are largely harmonised, and are special cases of the Datacube), and DDI standards for surveys and Dublin Core and DataCite standards for publication and reuse. Our selection criteria will be practical usability in reproducible research in R, particularly in the tidy data and tidymodels framework.  
+Our [datasets](https://dataset.dataobservatory.eu/reference/dataset.html):
 
-Our real goal is to facilitate efficient reproducible research workflows that perform flawlessly tasks that most R users, even scientific researchers, are unfamiliar with---or if they are familiar with them, they find it boring, because they will usually not get credited for it as analyst or researchers.  We want to help processing survey data in a way that it can find its way to a survey archive.  We want to help the statistical processing and analysis of survey, accounts, and other transactional data into formats that easy to publish or add to relational databases or semantic web applications.  
+- [x] contain Dublin Core or DataCite (or both) metadata that makes the findable and easier accessible via online libraries
+- [x] are easily reduced to linked open data formats to be serialized to, or synchronized with semantic web applications
+- [x] follow the datacube model of the Statistical Data and Metadata eXchange, therefore allowing easy refreshing with new data from the source of the analytical work
+- [x] contain processing metadata that greatly enhance the reproducibility of the results, and the reviewability of the contents of the dataset, including metadata defined by the [DDI]
+- [x] relatively lightweight in dependencies and easily works with data.frame, tibble or data.table R objects.
 
-The W3C Dataset concept (or more general Datacube) concept is far too general for practical specification for our purposes.  We will use small parts of these international standards, and our selection therefore will be subjective.  
+The datacube model is used by the W3C consortium for describing datasets, tabular data resources that can be easily connected via the internet infrastructure.  RDF , Because the SDMX standards pre-date the definition of RDF, it took a long time sufficiently harmonize RDF and SDMX to become a standard for statistical data that can be easily exchanged by humans and computers alike, therefore making it ideal for reproducible research.
+
+We also aim to replace the `survey` in the [retroharmonize](https://retroharmonize.dataobservatory.eu/) survey harmonization package to an inherited dataset that is optimalised to contain social sciences survey data.
+
+The connecting [statcodelists](https://statcodelists.dataobservatory.eu/) packages facilitates further reproducability with standardized, natural language independent codelists for categorical variables. Such categorical variables are correctly interpreted in a wide array of statistical applications and can be easily joined with data from many countries irrespective of the primary sources' language.
+
 
 See: [Linked SDMX Data](https://csarven.ca/linked-sdmx-data)
+
+## References 
+
+Baker, Monya. 2016. “1,500 Scientists Lift the Lid on Reproducibility.”
+*Nature* 533 (7604): 452–54. <https://doi.org/10.1038/533452a>.
+
+Capadisli, Sarven, Sören Auer, and Axel-Cyrille Ngonga Ngomo. 2015.
+“Linked SDMX Data: Path to High Fidelity Statistical Linked Data.”
+*Semantic Web* 6 (2): 105–12. <https://doi.org/10.3233/SW-130123>.
+
+Core, Dublin. 2020. “DCMI Metadata Terms.”
+<http://dublincore.org/specifications/dublin-core/dcmi-terms/2020-01-20/>.
+
+Group, DataCite Metadata Working. 2021. “DataCite Metadata Schema
+Documentation for the Publication and Citation of Research Data and
+Other Research Outputs. Version 4.4.” DataCite e.V.
+<https://doi.org/10.14454/3w3z-sa82>.
+
+Pomerantz, Jeffrey. 2015. *Metadata*. The MIT Press Essential Knowledge
+Series. Cambridge, MA, USA: MIT Press.
+
+Wickham, Hadley. 2014. “Tidy Data.” *Journal of Statistical Software* 59
+(10): 1–23. <https://doi.org/10.18637/jss.v059.i10>.
+

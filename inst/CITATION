@@ -1,0 +1,10 @@
+## R package reference generated from DESCRIPTION metadata
+citation(auto = meta)
+
+bibentry(bibtype = "Misc",
+         title = "The dataset R Package: Make Tidy Datasets Easier to Release Exchange and Reuse",
+         author = c(person(given ="Daniel", family = "Antal", role = "aut")),
+         year = "2022",
+         publisher = "Zenodo",
+         url = "https://dataset.dataobservatory.eu/index.html",
+         doi = "https://doi.org/10.5281/zenodo.6969653")

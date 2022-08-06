@@ -2,7 +2,7 @@
 % Please edit documentation in R/related_item.R
 \name{related_item}
 \alias{related_item}
-\title{Create a related item identifier}
+\title{Create a related item}
 \usage{
 related_item(
   Identifier,
@@ -38,15 +38,8 @@ priority order. To supply multiple creators, repeat this property.}
 or the name of a piece of software. Similar to \href{https://purl.org/dc/elements/1.1/title}{dct:title}.\cr
 See \code{\link{dataset_title}} for adding further titles.}
 
-\item{relatedIdentifierType}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12a-relatedidentifiertype}{relatedIdentifierType}.}
-
-\item{relationType}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12b-relationtype}{relationType}.}
-
-\item{schemeURI}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12d-schemeuri}{schemeURI}.}
-
-\item{schemeType}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12e-schemetype}{schemeType}.}
-
-\item{resourceTypeGeneral}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#101-resourcetypegeneral}{resourceTypeGeneral}.}
+\item{resourceTypeGeneral}{The general type of a resource or file.
+See \code{\link{resource_type_general}} for allowed values and validation.}
 
 \item{PublicationYear}{The year when the data was or will be made publicly available in
 \code{YYYY} format.See \code{\link{publication_year}}.}
@@ -74,8 +67,6 @@ dct:publisher. See \code{\link{publisher}}.}
 \item{Contributor}{Recommended for discovery. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.}
 }
 \value{
-A list
-
 a related item.
 }
 \description{

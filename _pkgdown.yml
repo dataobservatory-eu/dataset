@@ -71,6 +71,7 @@ reference:
       - dataset_source
       - publication_year
       - geolocation
+      - resource_type_general
       - rights
       - version
       - resource_type

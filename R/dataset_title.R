@@ -1,7 +1,7 @@
 #' @title Get/set title(s) of a dataset
 #' @description Add one or more \code{Title(s)} to the dataset's metadata.
 #' @details In the DataCite definition, several titles can be used.
-#' @param Title The name(s) or title(s) by which a resource is known, includeing \code{Title},
+#' @param Title The name(s) or title(s) by which a resource is known, including \code{Title},
 #'  \code{AlternativeTitle},  \code{Subtitle},  \code{TranslatedTitle},  \code{OtherTitle}.
 #' May be the title of a dataset
 #' or the name of a piece of software.

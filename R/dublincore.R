@@ -28,7 +28,7 @@
 #' Digital Object Identifier (DOI), and Uniform Resource Name (URN).
 #' Select and identifier scheme from
 #' \href{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html#URI-SCHEMES}{registered URI schemes maintained by IANA}.
-#' More details: \href{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}{http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}.
+#' More details: \href{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}.
 #' Similar to \code{Identifier} in \code{\link{datacite}}. See \code{\link{identifier}}.
 #' @param Publisher Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#publisher}{dct:publisher}
 #' and Publisher in DataCite.

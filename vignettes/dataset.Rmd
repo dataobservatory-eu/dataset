@@ -68,7 +68,7 @@ measures(rd_e_gerdtot) <- "value"
 
 Attributes are similar to dimensions, but they can be fully static and constant in a dataset.  You may have measurements for the same reference area and time available in both kilograms and tons in the same dataset, in which case you will likely use filter the correct unit of measure when you do analytical work or join (integrate) the data.
 
-If your measurement unit is always milimeters (like in the iris dataset), it is tempting to treat this as a dataset-wide constant (and therefore move it to the attributes of the data frame R object), but we do not recommend this approach. Imagine that you want to join this dataset with some other data that is measured in centimeters or inches, or a dataset that has values in both milimeters and centimeters.  To correctly match your data you will be filtering on attributes, too.
+If your measurement unit is always millimeters (like in the iris dataset), it is tempting to treat this as a dataset-wide constant (and therefore move it to the attributes of the data frame R object), but we do not recommend this approach. Imagine that you want to join this dataset with some other data that is measured in centimeters or inches, or a dataset that has values in both milimeters and centimeters.  To correctly match your data you will be filtering on attributes, too.
 
 Attributes that may vary across observations (rows) should remain in the dataset in the datacube model. To avoid confusion with the base R `attributes()` function, we named the function that sets the attributes within a dataset to `attributes_measures()`.
 
