@@ -27,6 +27,8 @@ resource_type_general <- function(relitem) {
 }
 
 #' @rdname resource_type_general
+#' @param value The general type of a resource (file), see
+#' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#101-resourcetypegeneral}{DataCite 4.4 10.1 resourceTypeGeneral}.
 #' @export
 `resource_type_general<-`  <- function(relitem, value) {
 

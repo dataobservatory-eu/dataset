@@ -18,6 +18,9 @@ resource_type_general_verify(resourceTypeGeneral)
 \arguments{
 \item{relitem}{An object created by \code{\link{related_item_identifier}}.}
 
+\item{value}{The general type of a resource (file), see
+\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#101-resourcetypegeneral}{DataCite 4.4 10.1 resourceTypeGeneral}.}
+
 \item{resourceTypeGeneral}{The general type of a resource or file.
 See \code{\link{resource_type_general}} for allowed values and validation.}
 }
