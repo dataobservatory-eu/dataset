@@ -9,11 +9,13 @@
 
 ## 0.1.6: resubmission of 0.1.5
 
-Apart from the correction requested by CRAN, I made some improvements in the documentation test that does not change the functionality since 0.1.5 
+Apart from the correction requested by CRAN, I made some improvements in the documentation test that does not change the functionality since 0.1.5.
 
 Found the following (possibly) invalid file URIs:
     URI: Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM
--> changed `http` protocol in URI changed to `https`
+-> The http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html is the correct URI for this resource, but I changed the `http` protocol `https`
+
+
 
 
 ## On some testing environments I get 1 spelling NOTE
@@ -24,10 +26,11 @@ documentation and data release on open science repositories or semantic web appl
 * Possibly misspelled words in DESCRIPTION:
     DataCite - this is the spelling of the standard
     DataSet - this is the spelling of the dataset standard of W3c
+    datacube - this is the data model of SDMX
     eXchange - the official spelling of the Statistical Data and Metadata eXchange
     findability - not in dicationary but a key word of FAIR metadata
     reusability - also FAIR metadata <https://www.go-fair.org/fair-principles/>
-
+    
 * URL: https://sdmx.org/
     From: inst/doc/metadata.html
           inst/doc/motivation.html
