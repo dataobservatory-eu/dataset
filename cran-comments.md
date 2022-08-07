@@ -9,14 +9,17 @@
 
 ## 0.1.6: resubmission of 0.1.5
 
-Apart from the correction requested by CRAN, I made some improvements in the documentation test that does not change the functionality since 0.1.5.
+This is the second resubmission because of the same wrong URIs. Apart from the correction requested by CRAN, I made some improvements in the documentation test that does not change the functionality since 0.1.5. Thanks for the help for the reviewer: indeed, the \href{xxx}{xxxx} tags were mixed up in the URIs, originally I thought that the error was triggered by the use of the http and not https protocol.
 
-Found the following (possibly) invalid file URIs:
+  Found the following (possibly) invalid file URIs:
     URI: Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM
--> The http://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html is the correct URI for this resource, but I changed the `http` protocol `https`
-
-
-
+      From: man/dataset.Rd
+    URI: Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM
+      From: man/dataset_download.Rd
+    URI: Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM
+      From: man/dublincore.Rd
+    URI: Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM
+      From: man/identifier.Rd 
 
 ## On some testing environments I get 1 spelling NOTE
 

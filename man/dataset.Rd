@@ -70,7 +70,7 @@ identification system. Examples include International Standard Book Number (ISBN
 Digital Object Identifier (DOI), and Uniform Resource Name (URN).
 Select and identifier scheme from
 \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html}{registered URI schemes maintained by IANA}.
-More details: \href{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}.
+More details: \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}.
 Similar to \code{Identifier} in \code{\link{datacite}}. See \code{\link{identifier}}.}
 
 \item{Subject}{Recommended for discovery in DataCite. Subject, keyword, classification code, or key
