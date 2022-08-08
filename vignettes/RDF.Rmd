@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setupRDFvignette, include = FALSE}
 library(knitr)
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -48,13 +48,20 @@ Table source: [rdflib](https://cran.r-project.org/package=rdflib/vignettes/rdf_i
 Our datasets are tidy. 
 
 ```{r importexamplexlsx}
-example_dataset <- readxl::read_excel(
+example_df <- readxl::read_excel(
   system.file("extdata", "rdf_example.xlsx", package = "dataset"), 
   sheet = "dataset-wide")
 ```
 
 ```{r printexampledataset}
-example_dataset
+example_dataset <- dataset (
+  x = example_df,
+  Dimensions = c("time", "geo", "sex"),
+  Measures = "value", 
+  Attributes = c("freq", "status")
+)
+
+attr(example_dataset, "local_id") <- 'rowid'
 ```
 
 
@@ -66,31 +73,84 @@ include_graphics(here("vignettes", "RDF_chart_1.png"))
 
 Eventually you can reduce the entire dataset into a triple. The `uri` uniquely defines the observations, the `component` maintains the W3C/SDMX datacube models main structural element, and the `value` field the value of the dimension, measurement or attribute.
 
-```{r, message=FALSE}
-library(tidyr)
+```{r localid, message=FALSE}
+example_ds <- dataset_uri(ds = example_dataset) 
+example_ds
+```
+```{r subsetting}
+subset( example_ds, select = c("URI", "value"))
+```
+```{r nqfile}
+nq_file <- file.path(tempdir(), "triple_file.nq")
+```
+
+```{r rdflib}
+library(rdflib)
+rdf <- rdf()
+
+for ( i in seq_len(nrow(example_ds))) {
+  rdf %>% 
+  rdf_add("", 
+          predicate = example_ds$URI[i], 
+          object = example_ds$value[i])
+}
+
+rdf_serialize(rdf, doc = nq_file)
+```
+
+
+```{r parsenqfile}
+rdf_parse(nq_file) 
+```
+```{r longform}
 library(dplyr)
-example_long <- example_dataset %>%
-  unite("uri", 
-        all_of(c("rowid", "time", "geo", "sex", "value", "unit", "freq", "status")), 
-        remove = FALSE) %>%
-  mutate_all ( as.character) %>%
-  pivot_longer(
-    cols = -any_of("uri"),
-    names_to = "component",
-    values_to = "value"
-  )
+long_dataset <- example_dataset %>%
+  select ( -.data$value) %>%
+  mutate_all( as.character)  %>%
+  tidyr::pivot_longer(cols = any_of(c("geo", "sex", "time", "unit", "freq", "status")), 
+                      names_to = "predicate",
+                      values_to = "object") %>%
+  bind_rows( example_dataset %>%
+  select ( all_of(c("rowid","value"))) %>%
+    mutate_all(as.character) %>%
+  tidyr::pivot_longer(cols = any_of(c("value")), 
+                      names_to = "predicate",
+                      values_to = "object") %>%
+    mutate ( object = as.character(object))) %>%
+  rename ( URI = .data$rowid) %>%
+  mutate ( URI = paste0("https:://example.org/my_data/", .data$URI))
+
+long_dataset %>% head()
 ```
 
 
 ```{r dimreduction2, echo=FALSE, message=FALSE, out.width='75%'}
-include_graphics(here("vignettes", "RDF_chart_2.png"))
+knitr::include_graphics(here("vignettes", "RDF_chart_2.png"))
+```
+
+```{r rdf2}
+rdf2 <- rdf()
+
+for ( i in seq_len(nrow(long_dataset))) {
+  rdf2 %>% 
+     rdf_add(subject = long_dataset$URI[i],
+             predicate = long_dataset$predicate[i], 
+             object = long_dataset$object[i])
+}
+
+rdf2
+```
+
+```{r, include=FALSE}
+rdf <- NULL
+rdf2 <- NULL
 ```
 
 ## The benefit of standard codelists
 
 In this example, except for the measurement of the observation, we used only SDMX-attribute conform variable names and codes.  The advantage of this approach is that it is very easy to increase the dimensions of the dataset, and add human-readable labels, potentially in many natural languages.
 
-```{r statcodelistsexample}
+```{r statcodelistsexample, eval=FALSE}
 set.seed(2022)
 library(statcodelists)
 

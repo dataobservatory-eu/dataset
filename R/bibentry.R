@@ -28,14 +28,14 @@
 
 bibentry_dataset <- function(ds) {
 
-  edstractyear <- function(date) {
+  extract_year <- function(date) {
     format(date, format="%Y")
   }
 
   if ( is.numeric(attr(ds, "Issued"))) {
     year_nr <- attr(ds, "Issued")
   } else if (inherits(attr(ds, "Issued"), "POSIXt") | inherits(attr(ds, "issued"), "Date")) {
-    year_nr <- edstractyear (attr(ds, "Issued"))
+    year_nr <- extract_year(attr(ds, "Issued"))
   } else {
     year_nr = attr(ds, "Issued")}
 

@@ -45,8 +45,11 @@ test_that("dataset", {
   expect_equal(as.character(attributes(y)$dimensions$isDefinedBy),
                rep("https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl",
                  2))
+  expect_equal(names(y), c("time","geo", "value", "unit", "freq"))
 })
 
+
 test_that("bibentry_dataset", {
-  expect_equal(bibentry_dataset(y)$Title, "Example dataset")
+  expect_equal(bibentry_dataset(ds=y)$Title, "Example dataset")
   })
+

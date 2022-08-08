@@ -1,3 +1,6 @@
+# dataset 0.1.6.0001
+* Add `dataset_local_id()` and `dataset_uri()` to the dataset functions.
+
 # dataset 0.1.6.
 * A release candidate on CRAN after small documentation improvements.
 

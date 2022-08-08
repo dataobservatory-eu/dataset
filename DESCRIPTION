@@ -1,7 +1,7 @@
 Package: dataset
 Title: Create Data Frames that are Easier to Exchange and Reuse
-Date: 2022-08-06
-Version: 0.1.6
+Date: 2022-08-07
+Version: 0.1.6.0001
 Authors@R: 
     person(given = "Daniel", family = "Antal", 
            email = "daniel.antal@dataobservatory.eu", 
@@ -38,6 +38,7 @@ Suggests:
     here,
     kableExtra,
     knitr,
+    rdflib,
     readxl,
     rmarkdown,
     spelling,

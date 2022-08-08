@@ -108,3 +108,9 @@ my_dataset <- dataset (
     Issued = as.Date("2022-07-14")
 )
 }
+\seealso{
+Other dataset functions: 
+\code{\link{dataset_local_id}()},
+\code{\link{dataset_uri}()}
+}
+\concept{dataset functions}

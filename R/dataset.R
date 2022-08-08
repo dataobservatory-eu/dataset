@@ -23,6 +23,7 @@
 #' @param Issued Corresponds to \href{https://purl.org/dc/elements/1.1/date}{dct:date}.
 #' @param ... Other parameters for the \code{print} and \code{summary} methods.
 #' @importFrom utils toBibtex
+#' @family dataset functions
 #' @examples
 #' my_dataset <- dataset (
 #'     x = data.frame (time = rep(c(2019:2022),2),
@@ -56,24 +57,31 @@ dataset <- function(x,
                     Type = "DCMITYPE:Dataset"
                     ) {
 
-  dimensions(x,  sdmx_attributes = sdmx_attributes) <- Dimensions
-  measures(x) <- Measures
-  attributes_measures(x, sdmx_attributes = sdmx_attributes) <- Attributes
-  resource_type(x) <- Type
+  tmp_ds <- subset(x, select = dimensions(x)$name)
+  tmp_ds <- cbind(tmp_ds, subset(x, select = measures(x)$name))
+  tmp_ds <- cbind(tmp_ds, subset(x, select = attributes_measures(x)$name))
+  tmp_ds <- cbind(tmp_ds, subset(x, select = names(x)[!names(x) %in% names(tmp_ds)]))
 
-  x <- dublincore_add(x,
-                      Title = Title,
-                      Creator = Creator,
-                      Identifier = Identifier,
-                      Publisher = Publisher,
-                      Subject = Subject,
-                      Type = Type)
+
+  dimensions(tmp_ds, sdmx_attributes = sdmx_attributes)          <- Dimensions
+  measures(tmp_ds)                                               <- Measures
+  attributes_measures(tmp_ds, sdmx_attributes = sdmx_attributes) <- Attributes
+  resource_type(tmp_ds) <- Type
+
+
+  tmp_ds <- dublincore_add(tmp_ds,
+                           Title = Title,
+                           Creator = Creator,
+                           Identifier = Identifier,
+                           Publisher = Publisher,
+                           Subject = Subject,
+                           Type = Type)
 
   if (is.null(Issued)) Issued <- Sys.Date()
-  attr(x, "Date") <- Issued
+  attr(tmp_ds, "Date") <- Issued
 
-  attr(x, "class") <- c("dataset", class(x))
-  x
+  attr(tmp_ds, "class") <- c("dataset", class(tmp_ds))
+  tmp_ds
 }
 
 print   <- function(x, ...) { UseMethod("print")}
