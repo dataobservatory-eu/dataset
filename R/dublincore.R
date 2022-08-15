@@ -81,6 +81,7 @@
 #' @source \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite 4.3 Mandatory Properties} and
 #' \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
 #' @family metadata functions
+#' @return The Dublin Core Metadata elements of the dataset.
 #' @export
 #' @examples
 #' dct_iris <- dublincore_add(

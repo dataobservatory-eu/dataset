@@ -82,6 +82,9 @@ and create structured Subject objects with \code{\link{subject_create}}.}
 
 \item{...}{Other parameters for the \code{print} and \code{summary} methods.}
 }
+\value{
+A data frame-like object with structural and referential metadata.
+}
 \description{
 A DataSet is a collection of statistical data that corresponds to a defined structure.
 }

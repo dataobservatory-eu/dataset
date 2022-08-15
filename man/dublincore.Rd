@@ -102,6 +102,9 @@ Format element.}
 \item{overwrite}{If pre-existing metadata properties should be overwritten,
 defaults to \code{TRUE}.}
 }
+\value{
+The Dublin Core Metadata elements of the dataset.
+}
 \description{
 Add metadata conforming the \href{https://schema.datacite.org/}{DataCite Metadata Schema}
 to datasets, i.e. structured R data.frame or list objects, for an accurate and consistent identification

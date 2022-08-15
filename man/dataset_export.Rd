@@ -18,6 +18,9 @@ dataset_export_csv(ds, file)
 
 \item{...}{Further parameters to be passed on to exporting functions. See details.}
 }
+\value{
+The function write a desired file on disc and does not return anything.
+}
 \description{
 Export a dataset together with reference (DataCite and Dublin Core)
 metadata.

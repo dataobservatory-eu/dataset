@@ -21,11 +21,39 @@ knitr::opts_chunk$set(
 )
 ```
 
-The aim of the dataset package is to make tidy datasets easier to release, exchange and reuse. It organizes and formats data frame R objects into well-referenced, well-described, interoperable datasets into release and reuse ready form. We apply a subjective, R language compatible interpretation of the  W3C [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) based on the statistical SDMX data cube model^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>]. We enrich these statistical data exchange definition with similar definitions from information science and the exchange of scientific resources on open science repositories by applying the [Dublin Core](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) and [DataCite](https://support.datacite.org/docs/datacite-metadata-schema-44/) metadata specifications for R attributes to improve the findability, accessibility, interoperability and reusability of the datasets.
+The aim of the 'dataset' package is to make tidy datasets easier to release, exchange and reuse. It organizes and formats data frame 'R' objects into well-referenced, well-described, interoperable datasets into release and reuse ready form. It applies a subjective, R-language compatible interpretation of the  W3C [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) based on the statistical SDMX data cube model^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>]. We enrich these statistical data exchange definition with similar definitions from information science and the exchange of scientific resources on open science repositories by applying the [Dublin Core](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) and [DataCite](https://support.datacite.org/docs/datacite-metadata-schema-44/) metadata specifications for R attributes to improve the findability, accessibility, interoperability and reusability of the datasets.
 
 We organize and format standard tabular data R objects (data.fame, data.table, tibble, or even well-structured lists like json and json-ld) become highly interoperable and can be placed into relational databases, semantic web applications, archives, repositories.  This puts the [FAIR](https://www.go-fair.org/fair-principles/) principles into the practice of an R environment workflow: they make these tabular data objects more findable, more accessible, interoperable and reusable. 
 
-While the tidy data standards make reuse more efficient by eliminating unnecessary data processing steps before analysis or placement in a relational database, the application of DataSet definition and the datacube model with the information science metadata standards make reuse more efficient with exchanging and combining the data with other data in different datasets. 
+
+## Statement of need
+
+Open science repositories and analyst comupters are full with datasets that have no provenance, structural or referential data. We believe that whenever possible, metadata should be machine-recorded when possible, and should not be detached from an R object. 
+
+There are several R packages that have overalapping goals or functionality to `dataset`, but they use a different philosophy. When exporting to different files, they should be written as exported, but no sooner, and preferably into the file that contains the data.  
+
+The [dataspice package](https://CRAN.R-project.org/package=dataspice) aims to create well-defined and referenced datasets, but follows a different schema and a different publication strategy. The dataset package follows the more restrictive W3C/SDMX "DataSet" definition within the datacube model, which is better suited to synchronize with statistical data sources. Unlike dataset, it uses a manual metadata entry from CSV files. (See the documentation of the [dataspice](https://docs.ropensci.org/dataspice/) package.)
+
+The `dataset` package aims for a higher level of reproducibality, and does not detach the metadata from the R object's attributes (it is aimed to be used in other reproducible research pacakges that will directly record provenance and other transactional metadata into the attributes.) We aim to bind together `dataspice` and `dataset` by creating export functions to csv files that contain the same metadata that dataspice records.  Generally, dataspice seems to be better suited to raw, observational data, while dataset for statistically processed data. 
+
+The intended use of `dataset` is to start correctly record referential, structural and provenance metadata retrieved by various reproducible science packages that interact with statistical data (such as the rOpenGov packages [eurostat](https://CRAN.R-project.org/package=eurostat) and [iotables](https://CRAN.R-project.org/package=iotables), or the [oecd](https://CRAN.R-project.org/package=oecd) package.
+
+Neither `dataset` or `dataspice` are very suitable of or documenting social sciences survey data, which are usually held in datasets. Our aim is to connect `dataset`, [declared](https://CRAN.R-project.org/package=declared) and [DDIwR](https://CRAN.R-project.org/package=DDIwR) to create such datasets with DDI codebook metadata.  They will create a stable new foundation of the [retroharmonize](https://CRAN.R-project.org/package=retroharmonize) package to create new, well-documented and harmonized statistical datasets from the observational datasets of social sciences surveys.
+
+The [zen4R]((https://CRAN.R-project.org/package=zen4R)) package provides reproducible export functionality to the zenodo open science repository. Interacting with `zen4R` may be intimidating for the casual R user as it uses R6 classes. Our aim to provide an export function that completely wraps the workings of `zen4R` when releasing the dataset.
+
+In our experience, while the tidy data standards make reuse more efficient by eliminating unnecessary data processing steps before analysis or placement in a relational database, the application of DataSet definition and the datacube model with the information science metadata standards make reuse more efficient with exchanging and combining the data with other data in different datasets. 
+
+Another use case we are having in mind is the releasing of the data on a knowledge graph, or in an API that uses a well-defined schema. This is the primary motivation for choosing the datacube model, because it is used by most statistical APIs. The datacube model allows easy "slicing", or dimension reduction, that allows itself to an easy modelling into RDF(S). (See later, and see a more comprehensive 
+[From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html) vignette, which in turn heavily borrows from  [A tidyverse lover’s intro to RDF](https://cran.r-project.org/web/packages/rdflib/vignettes/rdf_intro.html) by Carl Boettiger.)
+
+## Development dilemma
+
+1. The current development dilemma of `dataset` if it should develop the `dataset()` into an s3 class, and if so, should it be inherited from data.frame or tibble, keeping in mind the desire to work well with data.table objects, too.
+
+2. If not, then the `dataset()` functions should be clearly seen as helper functions to augment data.frame, tibble and data.table objects for easier use in data publication, release, placement in databases and on knowledge graphs.
+
+## The dataset constructor
 
 In the first step, we organize tidy datasets according to the data cube model originally developed by the SDMX for exchanging statistical data, by clearly stating which columns are to be used for grouping, filtering and for calculations. In this step, we clearly state which tidy columns are to be used as “measurements”, “dimensions” and “attributes” of the dataset. This step will greatly simplify how we obtain tidy subsets from a dataset, or how we reduce the dimensions of a dataset to a triad or a quad to be placed on a knowledge graph. 
 

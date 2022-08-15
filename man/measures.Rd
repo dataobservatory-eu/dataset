@@ -14,6 +14,10 @@ measures(x) <- value
 
 \item{value}{The name or column number of the within the dataset.}
 }
+\value{
+A data frame of the names, class, isDefinedBy, and codeList properties of the measurement columns of a
+dataset following the datacube model.
+}
 \description{
 Measures of a dataset
 }

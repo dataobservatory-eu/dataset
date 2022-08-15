@@ -16,6 +16,10 @@ attributes_measures(x, sdmx_attributes = NULL) <- value
 
 \item{value}{The name or column number of the within the dataset.}
 }
+\value{
+A data frame of the names, class, isDefinedBy, and codeList properties of the attributes columns of a
+dataset following the datacube model.
+}
 \description{
 Attributes of a dataset
 }

@@ -10,6 +10,7 @@
 #' @param filetype Currently only \code{'csv'} is implemented.
 #' @param ... Further parameters to be passed on to exporting functions. See details.
 #' @family export functions
+#' @return The function write a desired file on disc and does not return anything.
 #' @importFrom assertthat assert_that
 #' @seealso dataset
 #' @export

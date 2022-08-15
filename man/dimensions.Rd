@@ -18,6 +18,10 @@ sdmx. See \href{https://raw.githubusercontent.com/UKGovLD/publishing-statistical
 
 \item{value}{The name or column number of the within the dataset.}
 }
+\value{
+A data frame of the names, class, isDefinedBy, and codeList properties of the
+dimensions columns of the dataset following the datacube model.
+}
 \description{
 Dimensions of a dataset
 }

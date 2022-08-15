@@ -23,6 +23,7 @@
 #' @param Issued Corresponds to \href{https://purl.org/dc/elements/1.1/date}{dct:date}.
 #' @param ... Other parameters for the \code{print} and \code{summary} methods.
 #' @importFrom utils toBibtex
+#' @return A data frame-like object with structural and referential metadata.
 #' @family dataset functions
 #' @examples
 #' my_dataset <- dataset (
@@ -121,6 +122,8 @@ is.dataset <- function(x) inherits(x, "dataset")
 #' @details Do not confuse with \code{base::dim}. The \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{dimension} in the definition
 #' of the DataSet is different from the 'dimension' definition of the R language.
 #' @inheritParams dataset
+#' @return A data frame of the names, class, isDefinedBy, and codeList properties of the
+#' dimensions columns of the dataset following the datacube model.
 #' @export
 #' @examples
 #' df <- data.frame ( sex = c("M", "F"), value = c(1,2))
@@ -149,18 +152,20 @@ dimensions <- function(x) attr(x, "dimensions")
     names  = names(dimensions_subset),
     class = sapply(dimensions_subset, function(x) paste(class(x), collapse="|")),
     isDefinedBy = rep("https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl", length(names(dimensions_subset))),
-    codeListe = rep("not yet defined", length(names(dimensions_subset)))
+    codeList = rep("not yet defined", length(names(dimensions_subset)))
   )
 
 
   attr(x, "dimensions") <-  dimensions_df
 
-  x
+  invisible(x)
 }
 
 #' @title Measures of a dataset
 #' @details See the W3C and SDMX definition of a \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{measure}.
 #' @inheritParams dataset
+#' @return A data frame of the names, class, isDefinedBy, and codeList properties of the measurement columns of a
+#' dataset following the datacube model.
 #' @export
 measures <- function(x) attr(x, "measures")
 
@@ -194,7 +199,7 @@ measures <- function(x) attr(x, "measures")
 
   attr(x, "measures") <-   measures_df
 
-  x
+  invisible(x)
 }
 
 #' @title Attributes of a dataset
@@ -202,6 +207,8 @@ measures <- function(x) attr(x, "measures")
 #' of the entire dataset, and not each observation (measurement) row.
 #' See the W3C and SDMX definition of a \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{attribute}.
 #' @inheritParams dataset
+#' @return A data frame of the names, class, isDefinedBy, and codeList properties of the attributes columns of a
+#' dataset following the datacube model.
 #' @export
 attributes_measures <- function(x) attr(x, "attributes")
 
@@ -231,7 +238,7 @@ attributes_measures <- function(x) attr(x, "attributes")
 
   attr(x, "attributes") <-  attributes_df
 
-  x
+  invisible(x)
 }
 
 #' @keywords internal
