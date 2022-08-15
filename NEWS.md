@@ -1,3 +1,6 @@
+# dataset 0.1.7
+* After reviewing CRAN submission comments, and correcting documentation issues, submitted to [rOpenSci](https://github.com/ropensci/software-review/issues/553) for review before re-submitting to CRAN.
+
 # dataset 0.1.6.0001
 * Add `dataset_local_id()` and `dataset_uri()` to the dataset functions.
 
