@@ -86,8 +86,8 @@ metadata_header <- function(ds) {
   as.data.frame(datacite_attributes)
 
 
-  Property = unlist(lapply (seq_along(datacite_attributes), function(x) names(datacite_attributes[x])))
-  value = unlist(lapply (seq_along(datacite_attributes), function(x) as.character(unlist(datacite_attributes[x]))))
+  Property <- unlist(lapply (seq_along(datacite_attributes), function(x) names(datacite_attributes[x])))
+  value <- unlist(lapply (seq_along(datacite_attributes), function(x) as.character(unlist(datacite_attributes[x]))))
 
   csv_header <- data.frame(Property = Property,
                            value = value )

@@ -37,7 +37,7 @@ bibentry_dataset <- function(ds) {
   } else if (inherits(attr(ds, "Issued"), "POSIXt") | inherits(attr(ds, "issued"), "Date")) {
     year_nr <- extract_year(attr(ds, "Issued"))
   } else {
-    year_nr = attr(ds, "Issued")}
+    year_nr <- attr(ds, "Issued")}
 
   entry_title <- ifelse(is.null(dataset_title(ds)$Subtitle),
                         dataset_title(ds)$Title,

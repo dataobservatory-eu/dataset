@@ -63,7 +63,7 @@ dataset_local_id <- function(ds) {
 time_var_guess <- function(df) {
 
   time_var <- NULL
-  time_var <- names(df)[vapply ( 1:ncol(df), function(x) inherits(df[[x]], "Date"), logical(1))]
+  time_var <- names(df)[vapply ( seq_len(ncol(df)), function(x) inherits(df[[x]], "Date"), logical(1))]
 
   if ( is.null(time_var) | length(time_var) == 0 )  {
     possible_time_var <- which (tolower(names(df)) %in% c("time", "year", "date"))
