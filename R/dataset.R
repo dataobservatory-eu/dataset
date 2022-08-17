@@ -126,8 +126,11 @@ is.dataset <- function(x) inherits(x, "dataset")
 #' dimensions columns of the dataset following the datacube model.
 #' @export
 #' @examples
-#' df <- data.frame ( sex = c("M", "F"), value = c(1,2))
+#' df <- data.frame ( sex = c("M", "F"), value = c(1,2), unit = c("NR", "NR"))
 #' dimensions(df, sdmx_attributes = "sex") <- "sex"
+#' measures(df) <- "value"
+#' attributes_measures(df) <- "unit"
+#' dimensions(df)
 dimensions <- function(x) attr(x, "dimensions")
 
 #' @inheritParams dataset
@@ -166,6 +169,12 @@ dimensions <- function(x) attr(x, "dimensions")
 #' @inheritParams dataset
 #' @return A data frame of the names, class, isDefinedBy, and codeList properties of the measurement columns of a
 #' dataset following the datacube model.
+#' @examples
+#' df <- data.frame ( sex = c("M", "F"), value = c(1,2), unit = c("NR", "NR"))
+#' dimensions(df, sdmx_attributes = "sex") <- "sex"
+#' measures(df) <- "value"
+#' attributes_measures(df) <- "unit"
+#' measures(df)
 #' @export
 measures <- function(x) attr(x, "measures")
 
@@ -209,6 +218,12 @@ measures <- function(x) attr(x, "measures")
 #' @inheritParams dataset
 #' @return A data frame of the names, class, isDefinedBy, and codeList properties of the attributes columns of a
 #' dataset following the datacube model.
+#' @examples
+#' df <- data.frame ( sex = c("M", "F"), value = c(1,2), unit = c("NR", "NR"))
+#' dimensions(df, sdmx_attributes = "sex") <- "sex"
+#' measures(df) <- "value"
+#' attributes_measures(df) <- "unit"
+#' attributes_measures(df)
 #' @export
 attributes_measures <- function(x) attr(x, "attributes")
 
@@ -334,3 +349,5 @@ arg.names <- function (args) {
   if (length (names) > 1) { names <- names [-1] }
   return (names)
 }
+
+# END

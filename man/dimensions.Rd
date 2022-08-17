@@ -30,6 +30,9 @@ Do not confuse with \code{base::dim}. The \href{https://www.w3.org/TR/vocab-data
 of the DataSet is different from the 'dimension' definition of the R language.
 }
 \examples{
-df <- data.frame ( sex = c("M", "F"), value = c(1,2))
+df <- data.frame ( sex = c("M", "F"), value = c(1,2), unit = c("NR", "NR"))
 dimensions(df, sdmx_attributes = "sex") <- "sex"
+measures(df) <- "value"
+attributes_measures(df) <- "unit"
+dimensions(df)
 }

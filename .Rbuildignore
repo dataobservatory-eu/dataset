@@ -13,3 +13,5 @@
 ^cran-comments\.md$
 ^lastMiKTeXException
 ^CRAN-SUBMISSION$
+^codecov\.yml$
+^\.github$

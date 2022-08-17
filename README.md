@@ -13,6 +13,8 @@
 rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
 [![Follow
 author](https://img.shields.io/twitter/follow/digitalmusicobs.svg?style=social)](https://twitter.com/intent/follow?screen_name=digitalmusicobs)
+[![Codecov test
+coverage](https://codecov.io/gh/dataobservatory-eu/dataset/branch/master/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset?branch=master)
 <!-- badges: end -->
 
 The primary aim of dataset is create well-referenced, well-described,
@@ -112,7 +114,7 @@ dublincore(my_iris_dataset)
 #> [1] "American Iris Society"
 #> 
 #> $Date
-#> [1] "2022-08-15"
+#> [1] "2022-08-17"
 #> 
 #> $Creator
 #> [1] "Edgar Anderson [aut]"

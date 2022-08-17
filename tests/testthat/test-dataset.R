@@ -3,6 +3,8 @@ dimensions(df, sdmx_attributes = "sex") <- "sex"
 measures(df) <- "value"
 attributes_measures(df) <- "unit"
 
+attributes_measures(df)
+
 test_that("dimensions() work", {
   expect_equal(dimensions(df)$names, c("sex"))
   expect_equal(dimensions(df)$isDefinedBy, c("https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl"))
