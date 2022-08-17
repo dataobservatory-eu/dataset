@@ -16,6 +16,8 @@ author](https://img.shields.io/twitter/follow/digitalmusicobs.svg?style=social)]
 [![Codecov test
 coverage](https://codecov.io/gh/dataobservatory-eu/dataset/branch/master/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset?branch=master)
 [![pkgcheck](https://github.com/dataobservatory-eu/dataset/workflows/pkgcheck/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions?query=workflow%3Apkgcheck)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/dataobservatory-eu/dataset?branch=master&svg=true)](https://ci.appveyor.com/project/dataobservatory-eu/dataset)
 <!-- badges: end -->
 
 The primary aim of dataset is create well-referenced, well-described,
