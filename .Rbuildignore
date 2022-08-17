@@ -17,3 +17,4 @@
 ^\.github$
 ^appveyor\.yml$
 ^CONTRIBUTING\.md$
+^codemeta\.json$
