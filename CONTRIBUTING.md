@@ -33,7 +33,7 @@ from the `devtools` package, which will also check for consistent
 documentation, etc.
 
 
-This package uses the [travis](https://github.com/craigcitro/r-travis)
+This package uses the [AppVeyor](https://ci.appveyor.com/project/dataobservatory-eu/dataset)
 continuous testing mechanism for R to ensure that the test suite is run
 on each push to Github.  An icon at the top of the README.md indicates
 whether or not the tests are currently passing.
@@ -74,3 +74,4 @@ General Development Goals & Guidelines
 2. Using sensible defaults, (driven by use cases).
 3. Docs should point advanced users to the lower-level API when they need special cases.
 4. Maintain a consistent user-facing API.
+5. Maintain consistency with sensible RDF definitions. 
