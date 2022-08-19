@@ -143,7 +143,7 @@ dimensions <- function(x) attr(x, "dimensions")
     attr(x, "dimensions") <- NULL
     return(x)}
 
-  if ( is.numeric(value)) {
+  if (is.numeric(value)) {
     selection <- names(x)[value]
   } else {
     selection <- names(x)[which(names(x) %in% value)]
@@ -153,11 +153,10 @@ dimensions <- function(x) attr(x, "dimensions")
 
   dimensions_df <- data.frame(
     names  = names(dimensions_subset),
-    class = sapply(dimensions_subset, function(x) paste(class(x), collapse="|")),
+    class = vapply(dimensions_subset, function(x) paste(class(x), collapse="|"), character(1)),
     isDefinedBy = rep("https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl", length(names(dimensions_subset))),
     codeList = rep("not yet defined", length(names(dimensions_subset)))
   )
-
 
   attr(x, "dimensions") <-  dimensions_df
 
@@ -201,7 +200,7 @@ measures <- function(x) attr(x, "measures")
 
   measures_df <- data.frame(
     names  = names(subset_measures),
-    class = sapply(subset_measures, function(x) paste(class(x), collapse="|")),
+    class = vapply(subset_measures, function(x) paste(class(x), collapse="|"), character(1)),
     isDefinedBy = rep("https://purl.org/linked-data/cube", length(names(subset_measures))),
     codeListe = rep("not yet defined", length(names(subset_measures)))
   )
@@ -236,7 +235,7 @@ attributes_measures <- function(x) attr(x, "attributes")
 
   if ( any(is.null(value) | is.na(value) | length(value)==0) ) return(x)
 
-  if ( is.numeric(value)) {
+  if (is.numeric(value)) {
     selection <- names(x)[value]
   } else {
     selection <- names(x)[which(names(x) %in% value)]
@@ -246,7 +245,7 @@ attributes_measures <- function(x) attr(x, "attributes")
 
   attributes_df <- data.frame(
     names  = names(subset_attributes),
-    class = sapply(subset_attributes, function(x) paste(class(x), collapse="|")),
+    class = vapply(subset_attributes, function(x) paste(class(x), collapse="|"), character(1)),
     isDefinedBy = rep("https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl", length(names(subset_attributes))),
     codeListe = rep("not yet defined", length(names(subset_attributes)))
   )

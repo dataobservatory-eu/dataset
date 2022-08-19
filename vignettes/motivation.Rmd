@@ -34,7 +34,7 @@ There are several R packages that have overalapping goals or functionality to `d
 
 The [dataspice package](https://CRAN.R-project.org/package=dataspice) aims to create well-defined and referenced datasets, but follows a different schema and a different publication strategy. The dataset package follows the more restrictive W3C/SDMX "DataSet" definition within the datacube model, which is better suited to synchronize with statistical data sources. Unlike dataset, it uses a manual metadata entry from CSV files. (See the documentation of the [dataspice](https://docs.ropensci.org/dataspice/) package.)
 
-The `dataset` package aims for a higher level of reproducibality, and does not detach the metadata from the R object's attributes (it is aimed to be used in other reproducible research pacakges that will directly record provenance and other transactional metadata into the attributes.) We aim to bind together `dataspice` and `dataset` by creating export functions to csv files that contain the same metadata that dataspice records.  Generally, dataspice seems to be better suited to raw, observational data, while dataset for statistically processed data. 
+The `dataset` package aims for a higher level of reproducibility, and does not detach the metadata from the R object's attributes (it is aimed to be used in other reproducible research pacakges that will directly record provenance and other transactional metadata into the attributes.) We aim to bind together `dataspice` and `dataset` by creating export functions to csv files that contain the same metadata that dataspice records.  Generally, dataspice seems to be better suited to raw, observational data, while dataset for statistically processed data. 
 
 The intended use of `dataset` is to start correctly record referential, structural and provenance metadata retrieved by various reproducible science packages that interact with statistical data (such as the rOpenGov packages [eurostat](https://CRAN.R-project.org/package=eurostat) and [iotables](https://CRAN.R-project.org/package=iotables), or the [oecd](https://CRAN.R-project.org/package=oecd) package.
 
@@ -205,7 +205,7 @@ See: [Linked SDMX Data](https://csarven.ca/linked-sdmx-data)
 
 ## References 
 
-Baker, Monya. 2016. “1,500 Scientists Lift the Lid on Reproducibility.”
+Baker, Monya. 2016. “1,500 Scientists Lift the Lid on reproducibility.”
 *Nature* 533 (7604): 452–54. <https://doi.org/10.1038/533452a>.
 
 Capadisli, Sarven, Sören Auer, and Axel-Cyrille Ngonga Ngomo. 2015.
