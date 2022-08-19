@@ -1,18 +1,23 @@
 df <- data.frame ( sex = c("M", "F"), value = c(1,2), unit = c("NR", "NR"))
-dimensions(df, sdmx_attributes = "sex") <- "sex"
+df2 <- df
 measures(df) <- "value"
+
+test_that("measures() work", {
+  expect_null(measures(measures(df2) <- NA))
+  expect_true(inherits(measures(df), 'data.frame'))
+  expect_equal(measures(df)$names, c("value"))
+})
+
+
+dimensions(df, sdmx_attributes = "sex") <- "sex"
+
 attributes_measures(df) <- "unit"
 
 test_that("dimensions() work", {
-
   expect_equal(dimensions(df)$names, c("sex"))
   expect_equal(dimensions(df)$isDefinedBy, c("https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl"))
 })
 
-test_that("measures() work", {
-  expect_true(inherits(measures(df), 'data.frame'))
-  expect_equal(measures(df)$names, c("value"))
-})
 
 test_that("attributes_measures() work", {
   expect_true(inherits(attributes_measures(df), 'data.frame'))

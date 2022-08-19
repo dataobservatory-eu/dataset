@@ -191,7 +191,7 @@ measures <- function(x) attr(x, "measures")
 
   if ( any(is.null(value) | is.na(value) | length(value)==0) ) return(x)
 
-  if ( is.numeric(value)) {
+  if (is.numeric(value)) {
     selection <- names(x)[value]
   } else {
     selection <- names(x)[which(names(x) %in% value)]
@@ -331,23 +331,3 @@ attributes_names <- function(x, attributes)   {
   }
 }
 
-#' @keywords internal
-#' @importFrom rlang get_expr
-dot.names <- function (dots) {
-  if (length (dots) > 0 && is.null (get_expr (dots [[1]]))) { return (NULL) }
-  dot_names <- dots
-  if (length (dot_names) == 0) { return (character(0)) }
-  dot_names
-}
-
-#' @keywords internal
-arg.names <- function (args) {
-  if (deparse (args) == "c()") { return (character(0)) }
-  if (deparse (args) == "list()") { return (character(0)) }
-  if (is.null (args)) { return (NULL) }
-  names <- sapply (args, deparse)
-  if (length (names) > 1) { names <- names [-1] }
-  return (names)
-}
-
-# END
