@@ -21,3 +21,15 @@ test_that("dataset_title() adds new types of titles", {
   expect_equal(dataset_title(y)$titleType, c("Title", "Subtitle"))
 })
 
+dataset_title(y) <- dataset_title_create("This is an alternative title", titleType = "AlternativeTitle")
+
+test_that("dataset_title() adds new types of titles", {
+   expect_equal(dataset_title(y)$titleType, c("Title", "Subtitle", "AlternativeTitle"))
+})
+
+test_that("dataset_title() throws error", {
+  expect_error(dataset_title_create("This is a wrong title", titleType = "WrongTitle"))
+})
+
+
+

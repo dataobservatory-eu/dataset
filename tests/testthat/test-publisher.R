@@ -4,7 +4,9 @@ publisher(iris_dataset) <- "American Iris Society"
 
 test_that("publisher() works", {
   expect_equal(publisher(iris_dataset), "American Iris Society")
+  expect_message(publisher(iris_dataset, overwrite=FALSE) <- "Overwritten")
 })
+
 
 publisher(iris_dataset) <- NULL
 
