@@ -19,4 +19,8 @@ test_value <- paste0("geo=", my_ds$geo, "_sex=", my_ds$sex, "_time=", my_ds$time
 
 test_that("dataset_local_id() works", {
   expect_equal(dataset_local_id(ds =  my_ds)$local_id, test_value )
+  expect_equal(time_var_guess(my_ds), "time")
 })
+
+
+
