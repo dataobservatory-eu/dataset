@@ -3,7 +3,7 @@
 \name{resource_type}
 \alias{resource_type}
 \alias{resource_type<-}
-\title{Get/set the resource type of the dataset.}
+\title{Get/set the resource type of the dataset}
 \usage{
 resource_type(x)
 
