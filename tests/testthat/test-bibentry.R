@@ -12,4 +12,9 @@ a <- bibentry_dataset(iris_dataset)
 
 test_that("bibentry_dataset() works", {
   expect_equal(class(a), 'bibentry')
+  expect_equal(a$publisher, "American Iris Society")
+  expect_equal(a$year, "1935")
 })
+
+
+
