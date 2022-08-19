@@ -4,4 +4,5 @@ publication_year(iris_dataset)
 
 test_that("publication_year() works", {
   expect_equal(publication_year(iris_dataset), 1935)
+  expect_message(publication_year(iris_dataset, overwrite=F) <- 1934)
 })
