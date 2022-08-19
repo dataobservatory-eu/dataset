@@ -17,6 +17,7 @@ my_iris_dataset <- dublincore_add(
 
 dataset_export(ds=my_iris_dataset, file = file.path(tempdir(), "my_iris.csv"))
 
-test_that("dataset_export", {
+test_that("dataset_export()", {
+  expect_error(dataset_export(ds=iris, file = file.path(tempdir(), "my_iris.csv") ))
   expect_true(file.exists(file.path(tempdir(), "my_iris.csv")))
 })

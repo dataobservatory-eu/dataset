@@ -1,4 +1,4 @@
-#' @title Get/set the resource type of the dataset.
+#' @title Get/set the resource type of the dataset
 #' @description Get/set \code{Type} property to the dataset.
 #' @details The DataCite resourceType definition refers back to
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#https://purl.org/dc/elements/1.1/type}{dcm:type}.
