@@ -4,12 +4,13 @@ measures(df) <- "value"
 attributes_measures(df) <- "unit"
 
 test_that("dimensions() work", {
-  expect_true(inherits(dimensions(df), 'data.frame'))
+
   expect_equal(dimensions(df)$names, c("sex"))
   expect_equal(dimensions(df)$isDefinedBy, c("https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl"))
 })
 
 test_that("measures() work", {
+  expect_true(inherits(measures(df), 'data.frame'))
   expect_equal(measures(df)$names, c("value"))
 })
 

@@ -1,4 +1,5 @@
 test_that("dataset_title_create() works", {
+  expect_error(dataset_title_create("My title") <- list(sex="F"))
   expect_error(dataset_title_create("hello", c(1:2)))
   expect_equal(dataset_title_create("hello")$Title, "hello")
   expect_equal(dataset_title_create("hello")$titleType, "Title")
