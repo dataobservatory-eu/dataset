@@ -15,7 +15,11 @@ test_that("dataset_download() works", {
                c('dataset_code', 'time', 'geo', 'value', 'unit', 'obs_status',
                  'method', 'freq'))
   expect_true(grepl('KiB', attr(test_download, "Size")))
+  expect_equal(identifier(test_download), identifier(test_download))
+  expect_equal(dataset_source(test_download), "https://zenodo.org/record/5813772/files/environmental_transfer_from_europe_rest_world_mio_eur_s2_trf_cur_d9_total_mio_eur.csv?download=1")
+
  })
+
 
 
 
