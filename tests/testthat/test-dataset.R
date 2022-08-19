@@ -39,9 +39,12 @@ y <- dataset (x,
               Issued = as.Date("2022-07-14")
               )
 
+
 df <- data.frame( sex = c("M", "F"), value = c(1,2))
 
-test_that("dataset", {
+test_that("dataset() works", {
+  expect_true(is.dataset(y))
+  expect_equal(class(summary(y)), "table")
   expect_equal(attributes(y)$dimensions$names, c("time", "geo"))
   expect_equal(attributes(y)$measures$names, c("value"))
   expect_equal(attributes(y)$attributes$names, c("unit", "freq"))
