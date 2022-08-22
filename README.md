@@ -18,6 +18,9 @@ coverage](https://codecov.io/gh/dataobservatory-eu/dataset/branch/master/graph/b
 [![pkgcheck](https://github.com/dataobservatory-eu/dataset/workflows/pkgcheck/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions?query=workflow%3Apkgcheck)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/dataobservatory-eu/dataset?branch=master&svg=true)](https://ci.appveyor.com/project/dataobservatory-eu/dataset)
+[![Status at rOpenSci Software Peer
+Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
+
 <!-- badges: end -->
 
 The primary aim of dataset is create well-referenced, well-described,
@@ -83,7 +86,7 @@ dublincore(my_iris_dataset)
 #> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"     
 #> 
 #> $dimensions
-#> [1] names       isDefinedBy codeList   
+#> [1] names       class       isDefinedBy codeList   
 #> <0 rows> (or 0-length row.names)
 #> 
 #> $measures
@@ -117,7 +120,7 @@ dublincore(my_iris_dataset)
 #> [1] "American Iris Society"
 #> 
 #> $Date
-#> [1] "2022-08-19"
+#> [1] "2022-08-22"
 #> 
 #> $Creator
 #> [1] "Edgar Anderson [aut]"
