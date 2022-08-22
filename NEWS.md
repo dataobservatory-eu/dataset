@@ -1,4 +1,7 @@
 # dataset 0.1.7
+[![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6992467.svg)](https://doi.org/10.5281/zenodo.6992467)
+
 * After reviewing CRAN submission comments, and correcting documentation issues, submitted to [rOpenSci](https://github.com/ropensci/software-review/issues/553) for review before re-submitting to CRAN.
 
 # dataset 0.1.6.0001
@@ -9,7 +12,8 @@
 
 # dataset 0.1.4.
 
-* [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6950435.svg)](https://doi.org/10.5281/zenodo.6950435) Development version available on Zenodo.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6950435.svg)](https://doi.org/10.5281/zenodo.6950435) Development version available on Zenodo.
+
 * `dataset_export()` is implemented with filetype = 'csv'.
 * Replacement functions are added to simple properties `identifier()`, `publisher()`, `publication_year()`, `language()`, `description()`,  `dataset_source()` [to avoid confusion with the base R source() function], `geolocation()`, `rights()`, `version()`.
 * Functions to work with structured referencial metadata: `dataset_title()`, `dataset_title_create()`, `subject()`, `subject_create()`.
@@ -27,5 +31,6 @@
 
 # dataset 0.1.0.
 
-* [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6703765.svg)](https://doi.org/10.5281/zenodo.6703765) First development version release.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6703765.svg)](https://doi.org/10.5281/zenodo.6703765) First development version release.
+
 * Added the [Motivation of the dataset package](https://dataset.dataobservatory.eu/articles/motivation.html) vignette article.

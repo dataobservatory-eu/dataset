@@ -36,16 +36,16 @@ The [dataspice package](https://CRAN.R-project.org/package=dataspice) aims to cr
 
 The `dataset` package aims for a higher level of reproducibility, and does not detach the metadata from the R object's attributes (it is aimed to be used in other reproducible research pacakges that will directly record provenance and other transactional metadata into the attributes.) We aim to bind together `dataspice` and `dataset` by creating export functions to csv files that contain the same metadata that dataspice records.  Generally, dataspice seems to be better suited to raw, observational data, while dataset for statistically processed data. 
 
-The intended use of `dataset` is to start correctly record referential, structural and provenance metadata retrieved by various reproducible science packages that interact with statistical data (such as the rOpenGov packages [eurostat](https://CRAN.R-project.org/package=eurostat) and [iotables](https://CRAN.R-project.org/package=iotables), or the [oecd](https://CRAN.R-project.org/package=oecd) package.
+The intended use of `dataset` is to start correctly record referential, structural and provenance metadata retrieved by various reproducible science packages that interact with statistical data (such as the rOpenGov packages [eurostat](https://CRAN.R-project.org/package=eurostat) and [iotables](https://CRAN.R-project.org/package=iotables), or the [OECD](https://CRAN.R-project.org/package=OECD) package.
 
 Neither `dataset` or `dataspice` are very suitable of or documenting social sciences survey data, which are usually held in datasets. Our aim is to connect `dataset`, [declared](https://CRAN.R-project.org/package=declared) and [DDIwR](https://CRAN.R-project.org/package=DDIwR) to create such datasets with DDI codebook metadata.  They will create a stable new foundation of the [retroharmonize](https://CRAN.R-project.org/package=retroharmonize) package to create new, well-documented and harmonized statistical datasets from the observational datasets of social sciences surveys.
 
-The [zen4R]((https://CRAN.R-project.org/package=zen4R)) package provides reproducible export functionality to the zenodo open science repository. Interacting with `zen4R` may be intimidating for the casual R user as it uses R6 classes. Our aim to provide an export function that completely wraps the workings of `zen4R` when releasing the dataset.
+The [zen4R](https://CRAN.R-project.org/package=zen4R) package provides reproducible export functionality to the zenodo open science repository. Interacting with `zen4R` may be intimidating for the casual R user as it uses R6 classes. Our aim to provide an export function that completely wraps the workings of `zen4R` when releasing the dataset.
 
 In our experience, while the tidy data standards make reuse more efficient by eliminating unnecessary data processing steps before analysis or placement in a relational database, the application of DataSet definition and the datacube model with the information science metadata standards make reuse more efficient with exchanging and combining the data with other data in different datasets. 
 
 Another use case we are having in mind is the releasing of the data on a knowledge graph, or in an API that uses a well-defined schema. This is the primary motivation for choosing the datacube model, because it is used by most statistical APIs. The datacube model allows easy "slicing", or dimension reduction, that allows itself to an easy modelling into RDF(S). (See later, and see a more comprehensive 
-[From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html) vignette, which in turn heavily borrows from  [A tidyverse lover’s intro to RDF](https://cran.r-project.org/web/packages/rdflib/vignettes/rdf_intro.html) by Carl Boettiger.)
+[From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html) vignette, which in turn heavily borrows from  [A tidyverse lover’s intro to RDF](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html) by Carl Boettiger.)
 
 ## Development dilemma
 
@@ -184,7 +184,9 @@ For a more comprehensive
 ## Planned functionality
 The dataset package is aiming to make tidy datasets easier to release, exchange and reuse. The motivation of the ecosystem of the [dataset](https://dataset.dataobservatory.eu/), [statcodelists](https://statcodelists.dataobservatory.eu/), and the dataobservatory packages is to provide a comprehensive toolkit that helps many reproducible research tasks.
 
-Our real goal is to facilitate efficient reproducible research workflows that perform flawlessly tasks that most R users, even scientific researchers, are unfamiliar with---or if they are familiar with them, they find it boring, because they will usually not get credited for it as analyst or researchers
+The `dataset` package already has an offspring, the [surveydataset](http://surveydataset.dataobservatory.eu/), which is aimed to connect the dataset functionality with some elements of DDI, a metadata standard to work with social sciences survey data, and to connect the dataset package with the [retroharmonize](https://CRAN.R-project.org/package=retroharmonize/) package that harmonizes data from different surveys. 
+
+Our real goal is to facilitate efficient reproducible research workflows that perform flawlessly tasks that most R users, even scientific researchers, are unfamiliar with---or if they are familiar with them, they find it boring, because they will usually not get credited for it as analyst or researchers.
 
 Our [datasets](https://dataset.dataobservatory.eu/reference/dataset.html):
 
