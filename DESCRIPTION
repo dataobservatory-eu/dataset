@@ -1,13 +1,18 @@
 Package: dataset
 Title: Create Data Frames that are Easier to Exchange and Reuse
-Date: 2022-08-19
-Version: 0.1.7.3
+Date: 2022-09-24
+Version: 0.1.8
 Authors@R: 
-    person(given = "Daniel", family = "Antal", 
+    c(person(given = "Daniel", family = "Antal", 
            email = "daniel.antal@dataobservatory.eu", 
            role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7513-6760")
-           )
+           ), 
+      person(given = "Marcelo", family =  "Perlin", 
+             role = c("rev"), 
+             comment = c(ORCID = "0000-0002-9839-4268")
+             )
+      )
 Description: The aim of the 'dataset' package is to make tidy datasets easier to release, 
     exchange and reuse. It organizes and formats data frame 'R' objects into well-referenced, 
     well-described, interoperable datasets into release and reuse ready form. A subjective 

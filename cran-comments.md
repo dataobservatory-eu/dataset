@@ -7,24 +7,20 @@
 * Ubuntu Linux 20.04.1 LTS, R-release, GCC
 * Windows Server 2022, R-devel, 64 bit
 
-## 0.1.6: resubmission of 0.1.5
+## 0.1.8: resubmission of 0.1.7
 
-This is the second resubmission because of the same wrong URIs. Apart from the correction requested by CRAN, I made some improvements in the documentation test that does not change the functionality since 0.1.5. Thanks for the help for the reviewer: indeed, the \href{xxx}{xxxx} tags were mixed up in the URIs, originally I thought that the error was triggered by the use of the http and not https protocol.
+This is the third resubmission
+* Please always write package names, software names and API (application
+programming interface) names in single quotes in title and description.
+e.g: --> 'dataset'; 'R';... - > corrected
 
-  Found the following (possibly) invalid file URIs:
-    URI: Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM
-      From: man/dataset.Rd
-    URI: Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM
-      From: man/dataset_download.Rd
-    URI: Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM
-      From: man/dublincore.Rd
-    URI: Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM
-      From: man/identifier.Rd 
+* Missing Rd-tags '\value': attributes_measures.Rd ... etc -> added
+
+* Some minor improvements in presentation, documentation and unit testing from [ropensci/software-review#553](https://github.com/ropensci/software-review/issues/553#issuecomment-1244076662)
 
 ## On some testing environments I get 1 spelling NOTE
 
-* This is the first release of an experimental package that is aimed to provide a better underpinning for reproducible research packages in the rOpenGov collective in terms of 
-documentation and data release on open science repositories or semantic web applications.
+The spelling is rather thoroughly checked.  There are many false positives that are domain specific abbreviation which look common words.
 
 * Possibly misspelled words in DESCRIPTION:
     DataCite - this is the spelling of the standard

@@ -1,3 +1,7 @@
+# dataset 0.1.8
+
+* Incorporating minor changes from the [rOpenSci](https://github.com/ropensci/software-review/issues/553) and CRAN peer-reviews.
+
 # dataset 0.1.7
 [![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6992467.svg)](https://doi.org/10.5281/zenodo.6992467)
@@ -16,7 +20,7 @@
 
 * `dataset_export()` is implemented with filetype = 'csv'.
 * Replacement functions are added to simple properties `identifier()`, `publisher()`, `publication_year()`, `language()`, `description()`,  `dataset_source()` [to avoid confusion with the base R source() function], `geolocation()`, `rights()`, `version()`.
-* Functions to work with structured referencial metadata: `dataset_title()`, `dataset_title_create()`, `subject()`, `subject_create()`.
+* Functions to work with structured referential metadata: `dataset_title()`, `dataset_title_create()`, `subject()`, `subject_create()`.
 * The Type property is handled by `resource_type()`.
 
 # dataset 0.1.3.

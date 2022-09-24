@@ -27,7 +27,7 @@ are binding further Subjects to the already set Subject properties.}
 
 \item{term}{A term, or a character vector of multiple terms.}
 
-\item{subjectScheme}{The scheme to which the term correspondes. If there are multiple terms,
+\item{subjectScheme}{The scheme to which the term corresponds. If there are multiple terms,
 provide the subjectScheme(s) in the same order. Optional.}
 
 \item{schemeURI}{The URI(s) of the subject identifier scheme. If there are multiple terms,

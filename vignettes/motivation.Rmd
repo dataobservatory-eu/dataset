@@ -28,7 +28,7 @@ We organize and format standard tabular data R objects (data.fame, data.table, t
 
 ## Statement of need
 
-Open science repositories and analyst comupters are full with datasets that have no provenance, structural or referential data. We believe that whenever possible, metadata should be machine-recorded when possible, and should not be detached from an R object. 
+Open science repositories and analyst computers are full with datasets that have no provenance, structural or referential data. We believe that whenever possible, metadata should be machine-recorded when possible, and should not be detached from an R object. 
 
 There are several R packages that have overalapping goals or functionality to `dataset`, but they use a different philosophy. When exporting to different files, they should be written as exported, but no sooner, and preferably into the file that contains the data.  
 
@@ -44,7 +44,7 @@ The [zen4R](https://CRAN.R-project.org/package=zen4R) package provides reproduci
 
 In our experience, while the tidy data standards make reuse more efficient by eliminating unnecessary data processing steps before analysis or placement in a relational database, the application of DataSet definition and the datacube model with the information science metadata standards make reuse more efficient with exchanging and combining the data with other data in different datasets. 
 
-Another use case we are having in mind is the releasing of the data on a knowledge graph, or in an API that uses a well-defined schema. This is the primary motivation for choosing the datacube model, because it is used by most statistical APIs. The datacube model allows easy "slicing", or dimension reduction, that allows itself to an easy modelling into RDF(S). (See later, and see a more comprehensive 
+Another use case we are having in mind is the releasing of the data on a knowledge graph, or in an API that uses a well-defined schema. This is the primary motivation for choosing the datacube model, because it is used by most statistical APIs. The datacube model allows easy "slicing", or dimension reduction, that allows itself to an easy modeling into RDF(S). (See later, and see a more comprehensive 
 [From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html) vignette, which in turn heavily borrows from  [A tidyverse lover’s intro to RDF](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html) by Carl Boettiger.)
 
 ## Development dilemma
@@ -94,7 +94,7 @@ my_dataset
 ### The data cube model
 The tidy data is designed to be easily handled in relational databases and it is an ideal format for analysis in a closed system – for example, when all your data for the analysis is stored in a well-designed relational database. This semantics is however insufficient for exchanging data with several data sources, a problem that has been attracting solutions for a long time by statistical agencies and designers of hyperlinked, web-based products. 
 
-The dataset package is inspired by the way statisticians have been for a long-time organizing data for publications: the data cube model. The data cube model has additional, non-normative prescriptions for the structure of the (tidy) dataset:  columns must be grouped into measurements, dimensions, and attributes.  The dimensions are non-measured variables, such as reference geographical areas, reference time periods that are usually used to filter out subsets (slices) from a datacube.  Attributes provide information about the measurements, such as unit of information, estimation method, and usually can be seen as metadata for modelling purposes: they contain observations (measurements) level metadata that is also often used for filtering (selecting actual, imputed or missing cases, for example.)  Measurements are in fact the observations that we want to analyze.
+The dataset package is inspired by the way statisticians have been for a long-time organizing data for publications: the data cube model. The data cube model has additional, non-normative prescriptions for the structure of the (tidy) dataset:  columns must be grouped into measurements, dimensions, and attributes.  The dimensions are non-measured variables, such as reference geographical areas, reference time periods that are usually used to filter out subsets (slices) from a datacube.  Attributes provide information about the measurements, such as unit of information, estimation method, and usually can be seen as metadata for modeling purposes: they contain observations (measurements) level metadata that is also often used for filtering (selecting actual, imputed or missing cases, for example.)  Measurements are in fact the observations that we want to analyze.
 
 The data cube model has been long the preferred format to organize data for analytical use by SDMX.  Statistical agencies exchange with each other and publish data in datasets that are conforming the data cube model. By organizing your R tabular data like statisticians, you make your work easier to synchronize with statistical data sources: you can download or exchange date in this format.  Following the data cube model helps you to understand more easily the dataset and bring your data to be analyzed to a tidy form in one or two steps --- usually using attributes for subsetting, dimensions for grouping, and measurements to carry out arithmetic calculations like computing the group average values.
 
@@ -198,9 +198,9 @@ Our [datasets](https://dataset.dataobservatory.eu/reference/dataset.html):
 
 The datacube model is used by the W3C consortium for describing datasets, tabular data resources that can be easily connected via the internet infrastructure.  RDF , Because the SDMX standards pre-date the definition of RDF, it took a long time sufficiently harmonize RDF and SDMX to become a standard for statistical data that can be easily exchanged by humans and computers alike, therefore making it ideal for reproducible research.
 
-We also aim to replace the `survey` in the [retroharmonize](https://retroharmonize.dataobservatory.eu/) survey harmonization package to an inherited dataset that is optimalised to contain social sciences survey data.
+We also aim to replace the `survey` in the [retroharmonize](https://retroharmonize.dataobservatory.eu/) survey harmonization package to an inherited dataset that is optimized to contain social sciences survey data.
 
-The connecting [statcodelists](https://statcodelists.dataobservatory.eu/) packages facilitates further reproducability with standardized, natural language independent codelists for categorical variables. Such categorical variables are correctly interpreted in a wide array of statistical applications and can be easily joined with data from many countries irrespective of the primary sources' language.
+The connecting [statcodelists](https://statcodelists.dataobservatory.eu/) packages facilitates further reproducibility with standardized, natural language independent codelists for categorical variables. Such categorical variables are correctly interpreted in a wide array of statistical applications and can be easily joined with data from many countries irrespective of the primary sources' language.
 
 
 See: [Linked SDMX Data](https://csarven.ca/linked-sdmx-data)

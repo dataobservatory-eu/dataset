@@ -34,7 +34,7 @@ According to the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cub
 
 ## FAIR metadata
 
-Our `dataset` R package aims to increase the *Findability, Accessibility, Interoperability,* and *Reuse* of digital assets, particularly datacubes and datasets used in statistics and data analysis. The [FAIR](https://www.go-fair.org/fair-principles/) principles  "…emphasise machine-actionability (i.e., the capacity of computational systems to find, access, interoperate, and reuse data with none or minimal human intervention) because humans increasingly rely on computational support to deal with data as a result of the increase in volume, complexity, and creation speed of data."
+Our `dataset` R package aims to increase the *Findability, Accessibility, Interoperability,* and *Reuse* of digital assets, particularly datacubes and datasets used in statistics and data analysis. The [FAIR](https://www.go-fair.org/fair-principles/) principles  "…emphasize machine-actionability (i.e., the capacity of computational systems to find, access, interoperate, and reuse data with none or minimal human intervention) because humans increasingly rely on computational support to deal with data as a result of the increase in volume, complexity, and creation speed of data."
 
 The `dataset` package adds metadata to R objects for full compatibility [The RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) [which includes the DataSet definition], which is harmonized with the [Statistical Data and Metadata eXchange](https://sdmx.org/).  This is necessary to correctly import data from statistical sources or from the semantic web, and harmonize the processed results with such services.
 

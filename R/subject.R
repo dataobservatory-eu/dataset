@@ -7,7 +7,7 @@
 #' @param x An R object
 #' @param value Subject terms, or a Subject object created by \code{\link{subject_create}}.
 #' @param term A term, or a character vector of multiple terms.
-#' @param subjectScheme The scheme to which the term correspondes. If there are multiple terms,
+#' @param subjectScheme The scheme to which the term corresponds. If there are multiple terms,
 #' provide the subjectScheme(s) in the same order. Optional.
 #' @param schemeURI The URI(s) of the subject identifier scheme. If there are multiple terms,
 #' provide the schemeURIs in the same order as the terms. Optional.

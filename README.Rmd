@@ -14,28 +14,28 @@ knitr::opts_chunk$set(
 rlang::check_installed("here")
 ```
 
-# The dataset R Package
+# The dataset R Package <a href='https://dataset.dataobservatory.eu/'><img src='man/figures/logo.png' align="right" /></a>
 
 <!-- badges: start -->
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6992467.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.1.7-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7110256.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.1.8-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov) 
 [![Follow author](https://img.shields.io/twitter/follow/digitalmusicobs.svg?style=social)](https://twitter.com/intent/follow?screen_name=digitalmusicobs)
 [![Codecov test coverage](https://codecov.io/gh/dataobservatory-eu/dataset/branch/master/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset?branch=master)
 [![pkgcheck](https://github.com/dataobservatory-eu/dataset/workflows/pkgcheck/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions?query=workflow%3Apkgcheck)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/dataobservatory-eu/dataset?branch=master&svg=true)](https://ci.appveyor.com/project/dataobservatory-eu/dataset)
-[![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 
 <!-- badges: end -->
 
-The primary aim of dataset is create well-referenced, well-described, interoperable datasets from data.frames, tibbles or data.tables that translate well into the W3C DataSet definition within the [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible manner. The data cube model in itself is is originated in the [Statistical Data and Metadata eXchange](https://sdmx.org/), and it is almost fully harmonzied with the Resource Description Framework (RDF), the standard model for data interchange on the web^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>]. 
+The primary aim of dataset is create well-referenced, well-described, interoperable datasets from data.frames, tibbles or data.tables that translate well into the W3C DataSet definition within the [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible manner. The data cube model in itself is is originated in the [Statistical Data and Metadata eXchange](https://sdmx.org/), and it is almost fully harmonized with the Resource Description Framework (RDF), the standard model for data interchange on the web^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>]. 
 
 A mapping of R objects into these models has numerous advantages: 
 
 1. Makes data importing easier and less error-prone; 
-2. Leaves plenty of room for documentation automation, resulting in far better reusability and reproducability; 
+2. Leaves plenty of room for documentation automation, resulting in far better reusability and reproducibility; 
 3. The publication of results from R following the [FAIR](https://www.go-fair.org/fair-principles/) principles is far easier, making the work of the R user more findable, more accessible, more interoperable and more reusable by other users;
 4. Makes the placement into relational databases, semantic web applications, archives, repositories possible without time-consuming and costly data wrangling (See [From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html)).
 
@@ -46,7 +46,7 @@ Our package functions work with any structured R objects (data.fame, data.table,
 You can install the development version of dataset from Github:
 
 ``` r
-remotes::install_package(dataobservatory-eu/dataset)
+remotes::install_github('dataobservatory-eu/dataset')
 ```
 
 ## Getting started
@@ -93,8 +93,7 @@ According to the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cub
 | attributes   |  third column section of the dataset   |
 | reference    |  attributes of the R object            |
 
-
-Our dataset class follows the organizational model of the datacube, which is used by the [Statistical Data and Metadata eXchange](https://sdmx.org/), and which is also described in a non-normative manner by the the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/). While the SDMX standards predate the Resource Description Framework (RDF) framework for the semantic web, they are already harmonised to a great deal, which enables users and data publishers to create machine-to-machine connections among statistical data. Our goal is to create a modern data frame object in R with utilities that allow the R user to benefit from synchronizing data with semantic web applications, including statistical resources, libraries, or open science repositories.
+Our dataset class follows the organizational model of the datacube, which is used by the [Statistical Data and Metadata eXchange](https://sdmx.org/), and which is also described in a non-normative manner by the the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/). While the SDMX standards predate the Resource Description Framework (RDF) framework for the semantic web, they are already harmonized to a great deal, which enables users and data publishers to create machine-to-machine connections among statistical data. Our goal is to create a modern data frame object in R with utilities that allow the R user to benefit from synchronizing data with semantic web applications, including statistical resources, libraries, or open science repositories.
 
 ```{r structure, echo=FALSE, message=FALSE}
 knitr::include_graphics(here::here("vignettes", "dataset_structure.png"))
@@ -118,5 +117,6 @@ Our [datasets](https://dataset.dataobservatory.eu/reference/dataset.html):
 
 
 ## Code of Conduct
-
 Please note that the `dataset` package is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+
+Furthermore, [rOpenSci Community Contributing Guide](https://contributing.ropensci.org/) - *A guide to help people find ways to contribute to rOpenSci* is also applicable, because `dataset` is under software review for potential inclusion in [rOpenSci](https://github.com/ropensci/software-review/issues/553).

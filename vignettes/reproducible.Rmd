@@ -40,7 +40,7 @@ iris_ds <- read_dataset(
   .f = "utils::read.csv", file = temp_path )
 ```
 
-That attributes of the dataset contain the creation date and the function call that created the dataset.  The related items contain the bibliographic reference to the creator function. Because we used a local file, the entire path is recorded for reproducability. A similar function will be defined for internet URLs.
+That attributes of the dataset contain the creation date and the function call that created the dataset.  The related items contain the bibliographic reference to the creator function. Because we used a local file, the entire path is recorded for reproducibility. A similar function will be defined for internet URLs.
 
 ```{r}
 print(attributes(iris_ds))
@@ -58,5 +58,5 @@ The new dataset, `iris_summary` shows that it was created by a `read.csv` call a
 ```{r showhistory}
 knitr::kable(attr(iris_summary, "Date"))
 ```
-The `dataset` class maintains the entire processing history and all the bibliographic references of the functions that contributed to its creation. [There version will be recorded, too.] This creates the full reproducability of the `dataset` class.
+The `dataset` class maintains the entire processing history and all the bibliographic references of the functions that contributed to its creation. [There version will be recorded, too.] This creates the full reproducibility of the `dataset` class.
 

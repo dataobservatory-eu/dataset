@@ -68,7 +68,7 @@ measures(rd_e_gerdtot) <- "value"
 
 Attributes are similar to dimensions, but they can be fully static and constant in a dataset.  You may have measurements for the same reference area and time available in both kilograms and tons in the same dataset, in which case you will likely use filter the correct unit of measure when you do analytical work or join (integrate) the data.
 
-If your measurement unit is always millimeters (like in the iris dataset), it is tempting to treat this as a dataset-wide constant (and therefore move it to the attributes of the data frame R object), but we do not recommend this approach. Imagine that you want to join this dataset with some other data that is measured in centimeters or inches, or a dataset that has values in both milimeters and centimeters.  To correctly match your data you will be filtering on attributes, too.
+If your measurement unit is always millimeters (like in the iris dataset), it is tempting to treat this as a dataset-wide constant (and therefore move it to the attributes of the data frame R object), but we do not recommend this approach. Imagine that you want to join this dataset with some other data that is measured in centimeters or inches, or a dataset that has values in both millimeters and centimeters.  To correctly match your data you will be filtering on attributes, too.
 
 Attributes that may vary across observations (rows) should remain in the dataset in the datacube model. To avoid confusion with the base R `attributes()` function, we named the function that sets the attributes within a dataset to `attributes_measures()`.
 
@@ -80,11 +80,11 @@ datacite(rd_e_gerdtot)
 
 ## Reference and FAIR metadata
 
-Our `dataset` R package aims to increase the *Findability, Accessibility, Interoperability,* and *Reuse* of digital assets, particularly datacubes and datasets used in statistics and data analysis. The [FAIR](https://www.go-fair.org/fair-principles/) principles  "…emphasise machine-actionability (i.e., the capacity of computational systems to find, access, interoperate, and reuse data with none or minimal human intervention) because humans increasingly rely on computational support to deal with data as a result of the increase in volume, complexity, and creation speed of data."
+Our `dataset` R package aims to increase the *Findability, Accessibility, Interoperability,* and *Reuse* of digital assets, particularly datacubes and datasets used in statistics and data analysis. The [FAIR](https://www.go-fair.org/fair-principles/) principles  "…emphasize machine-actionability (i.e., the capacity of computational systems to find, access, interoperate, and reuse data with none or minimal human intervention) because humans increasingly rely on computational support to deal with data as a result of the increase in volume, complexity, and creation speed of data."
 
 This is the role of the `reference metadata` in the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) and the SDMX data cube model. We generally keep the reference metadata as `attributes()` of the R object, because they do not relate to the rows (observations) of the data, but the entire set of data. However, omitting all reference metadata from the columns is not a good practice if you want your data to be used in a knowledge graph (or the semantic web, or the Web 3.0.) 
 
-```{r, include=FALSE}
+```{r, include=TRUE}
 toc <- eurostat::get_eurostat_toc()
 rd_e_gerdtot_reference <- toc[which(toc$code == "rd_e_gerdtot"),]
 

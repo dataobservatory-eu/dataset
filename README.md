@@ -1,13 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# The dataset R Package
+# The dataset R Package <a href='https://dataset.dataobservatory.eu/'><img src='man/figures/logo.png' align="right" /></a>
 
 <!-- badges: start -->
 
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6992467.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.1.7-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![Status at rOpenSci Software Peer
+Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7110256.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.1.8-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow
 rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
@@ -18,8 +20,6 @@ coverage](https://codecov.io/gh/dataobservatory-eu/dataset/branch/master/graph/b
 [![pkgcheck](https://github.com/dataobservatory-eu/dataset/workflows/pkgcheck/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions?query=workflow%3Apkgcheck)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/dataobservatory-eu/dataset?branch=master&svg=true)](https://ci.appveyor.com/project/dataobservatory-eu/dataset)
-[![Status at rOpenSci Software Peer
-Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 
 <!-- badges: end -->
 
@@ -29,14 +29,14 @@ translate well into the W3C DataSet definition within the [Data Cube
 Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible
 manner. The data cube model in itself is is originated in the
 [Statistical Data and Metadata eXchange](https://sdmx.org/), and it is
-almost fully harmonzied with the Resource Description Framework (RDF),
+almost fully harmonized with the Resource Description Framework (RDF),
 the standard model for data interchange on the web[^1].
 
 A mapping of R objects into these models has numerous advantages:
 
 1.  Makes data importing easier and less error-prone;
 2.  Leaves plenty of room for documentation automation, resulting in far
-    better reusability and reproducability;
+    better reusability and reproducibility;
 3.  The publication of results from R following the
     [FAIR](https://www.go-fair.org/fair-principles/) principles is far
     easier, making the work of the R user more findable, more
@@ -57,7 +57,7 @@ is inherited from `data.frame()`.
 You can install the development version of dataset from Github:
 
 ``` r
-remotes::install_package(dataobservatory-eu/dataset)
+remotes::install_github('dataobservatory-eu/dataset')
 ```
 
 ## Getting started
@@ -120,7 +120,7 @@ dublincore(my_iris_dataset)
 #> [1] "American Iris Society"
 #> 
 #> $Date
-#> [1] "2022-08-22"
+#> [1] "2022-09-24"
 #> 
 #> $Creator
 #> [1] "Edgar Anderson [aut]"
@@ -179,7 +179,7 @@ eXchange](https://sdmx.org/), and which is also described in a
 non-normative manner by the the [RDF Data Cube
 Vocabulary](https://www.w3.org/TR/vocab-data-cube/). While the SDMX
 standards predate the Resource Description Framework (RDF) framework for
-the semantic web, they are already harmonised to a great deal, which
+the semantic web, they are already harmonized to a great deal, which
 enables users and data publishers to create machine-to-machine
 connections among statistical data. Our goal is to create a modern data
 frame object in R with utilities that allow the R user to benefit from
@@ -236,6 +236,12 @@ Please note that the `dataset` package is released with a [Contributor
 Code of
 Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
+
+Furthermore, [rOpenSci Community Contributing
+Guide](https://contributing.ropensci.org/) - *A guide to help people
+find ways to contribute to rOpenSci* is also applicable, because
+`dataset` is under software review for potential inclusion in
+[rOpenSci](https://github.com/ropensci/software-review/issues/553).
 
 [^1]: RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014
     <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data
