@@ -178,7 +178,7 @@ rdf_serialize(rdf, doc = nq_file)
 rdf_parse(nq_file) 
 ```
 For a more comprehensive 
-[From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html), which in turn heavily borrows from  [A tidyverse lover’s intro to RDF](https://cran.r-project.org/web/packages/rdflib/vignettes/rdf_intro.html) by Carl Boettiger. 
+[From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html), which in turn heavily borrows from  [A tidyverse lover’s intro to RDF](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html) by Carl Boettiger. 
 
 
 ## Planned functionality
