@@ -184,7 +184,7 @@ For a more comprehensive
 ## Planned functionality
 The dataset package is aiming to make tidy datasets easier to release, exchange and reuse. The motivation of the ecosystem of the [dataset](https://dataset.dataobservatory.eu/), [statcodelists](https://statcodelists.dataobservatory.eu/), and the dataobservatory packages is to provide a comprehensive toolkit that helps many reproducible research tasks.
 
-The `dataset` package already has an offspring, the [surveydataset](http://surveydataset.dataobservatory.eu/), which is aimed to connect the dataset functionality with some elements of DDI, a metadata standard to work with social sciences survey data, and to connect the dataset package with the [retroharmonize](https://CRAN.R-project.org/package=retroharmonize/) package that harmonizes data from different surveys. 
+The `dataset` package already has an offspring, the `surveydataset` package, which is aimed to connect the dataset functionality with some elements of DDI, a metadata standard to work with social sciences survey data, and to connect the dataset package with the [retroharmonize](https://CRAN.R-project.org/package=retroharmonize/) package that harmonizes data from different surveys. 
 
 Our real goal is to facilitate efficient reproducible research workflows that perform flawlessly tasks that most R users, even scientific researchers, are unfamiliar with---or if they are familiar with them, they find it boring, because they will usually not get credited for it as analyst or researchers.
 
