@@ -96,7 +96,7 @@ dest_file <- file.path(tempdir(), "5813772.csv")
 
 \donttest{
 dataset_download(
-  url = "https://zenodo.org/record/5813772/files/environmental_transfer_from_europe_rest_world_mio_eur_s2_trf_cur_d9_total_mio_eur.csv?download=1",
+  url = "https://dataset.dataobservatory.eu/environmental_transfer_from_europe_test_dataset.csv",
   Title = "Environmental Subsidies and Similar Transfers from Europe to the Rest of the World",
   Dimensions = c("time", "geo"),
   Measures = "value",
