@@ -51,7 +51,9 @@ remotes::install_github('dataobservatory-eu/dataset')
 
 ## Getting started
 
-```{r dublincore}
+The dataset constructor creates a dataset from a data.frame or similar object. 
+
+```{r initialize}
 library(dataset)
 my_iris_dataset <- dataset(
   x = iris, 
@@ -60,7 +62,11 @@ my_iris_dataset <- dataset(
   Attributes = "Species", 
   Title = "Iris Dataset"
 )
+```
 
+Then you add the metadata:
+
+```{r dublincore}
 my_iris_dataset <- dublincore_add(
   x = my_iris_dataset,
   Creator = person("Edgar", "Anderson", role = "aut"),

@@ -1,7 +1,7 @@
 try_dataset_download <- function(){
   dest_file <- file.path(tempdir(), "5813772.csv")
   try(dataset_download(
-    url = "https://zenodo.org/record/5813772/files/environmental_transfer_from_europe_rest_world_mio_eur_s2_trf_cur_d9_total_mio_eur.csv?download=1",
+    url = "https://dataset.dataobservatory.eu/environmental_transfer_from_europe_test_dataset.csv",
     Title = "Environmental Subsidies and Similar Transfers from Europe to the Rest of the World",
     Dimensions = c("time", "geo"),
     Measures = "value",
@@ -20,7 +20,7 @@ test_that("dataset_download() works", {
                  'method', 'freq'))
   expect_true(grepl('KiB', attr(test_download, "Size")))
   expect_equal(identifier(test_download), identifier(test_download))
-  expect_equal(dataset_source(test_download), "https://zenodo.org/record/5813772/files/environmental_transfer_from_europe_rest_world_mio_eur_s2_trf_cur_d9_total_mio_eur.csv?download=1")
+  expect_equal(dataset_source(test_download), "https://dataset.dataobservatory.eu/environmental_transfer_from_europe_test_dataset.csv")
  })
 
 
