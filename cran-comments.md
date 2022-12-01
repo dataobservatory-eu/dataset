@@ -1,6 +1,7 @@
 ## Test environments
 
 * Windows10 x86_64-w64-mingw32 (64-bit), R version 4.2.1, locally.
+* Ubuntu 22.04.1 LTS x86_64-pc-linux-gnu (64-bit), R verseion 4.2.1, locally
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
 * Fedora Linux, R-devel, clang, gfortran
@@ -9,14 +10,8 @@
 
 ## 0.1.8: resubmission of 0.1.7
 
-This is the third resubmission
-* Please always write package names, software names and API (application
-programming interface) names in single quotes in title and description.
-e.g: --> 'dataset'; 'R';... - > corrected
-
-* Missing Rd-tags '\value': attributes_measures.Rd ... etc -> added
-
-* Some minor improvements in presentation, documentation and unit testing from [ropensci/software-review#553](https://github.com/ropensci/software-review/issues/553#issuecomment-1244076662)
+- Please replace \dontrun with \donttest -> DONE
+- Please put functions which download data in \donttest{}. -> DONE
 
 ## On some testing environments I get 1 spelling NOTE
 

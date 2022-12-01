@@ -61,6 +61,6 @@ test_that("dataset() works", {
 
 
 test_that("bibentry_dataset", {
-  expect_equal(bibentry_dataset(ds=y)$Title, "Example dataset")
+  expect_equal(bibentry_dataset(ds=y)$title, "Example dataset")
   })
 

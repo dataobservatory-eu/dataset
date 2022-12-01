@@ -120,7 +120,7 @@ dublincore(my_iris_dataset)
 #> [1] "American Iris Society"
 #> 
 #> $Date
-#> [1] "2022-09-24"
+#> [1] "2022-12-01"
 #> 
 #> $Creator
 #> [1] "Edgar Anderson [aut]"

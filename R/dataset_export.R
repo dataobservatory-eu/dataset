@@ -48,7 +48,7 @@ dataset_export <- function(ds, file, filetype = 'csv', ...) {
 #'
 #' dataset_export_csv(my_iris_dataset, file = file.path(tempdir(), "my_iris.csv"))
 #'
-#' \dontrun{
+#' \donttest{
 #' read.csv(file.path(tempdir(), "my_iris.csv"), skip=20)
 #' read.csv(file.path(tempdir(), "my_iris.csv"))
 #' }
