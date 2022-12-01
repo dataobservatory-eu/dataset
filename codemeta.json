@@ -7,13 +7,13 @@
   "codeRepository": "https://github.com/dataobservatory-eu/dataset",
   "issueTracker": "https://github.com/dataobservatory-eu/dataset/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.1.7.1",
+  "version": "0.1.9",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.1 (2022-06-23 ucrt)",
+  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
   "author": [
     {
       "@type": "Person",
@@ -236,24 +236,12 @@
     },
     "4": {
       "@type": "SoftwareApplication",
-      "identifier": "rlang",
-      "name": "rlang",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=rlang"
-    },
-    "5": {
-      "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "1119.821KB",
+  "fileSize": "613.916KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -269,7 +257,7 @@
       ],
       "name": "dataset: Create Data Frames that are Easier to Exchange and Reuse",
       "url": "https://github.com/dataobservatory-eu/dataset",
-      "description": "R package version 0.1.7.0001"
+      "description": "R package version 0.1.9"
     },
     {
       "@type": "CreativeWork",
@@ -282,15 +270,20 @@
         }
       ],
       "name": "The dataset R Package: Create Data Frames that are Easier to Exchange and Reuse",
-      "identifier": "10.5281/zenodo.6992467",
+      "identifier": "10.5281/zenodo.7110256",
       "url": "https://dataset.dataobservatory.eu/index.html",
-      "@id": "https://doi.org/10.5281/zenodo.6992467",
-      "sameAs": "https://doi.org/10.5281/zenodo.6992467"
+      "@id": "https://doi.org/10.5281/zenodo.7110256",
+      "sameAs": "https://doi.org/10.5281/zenodo.7110256"
     }
   ],
   "releaseNotes": "https://github.com/dataobservatory-eu/dataset/blob/master/NEWS.md",
   "readme": "https://github.com/dataobservatory-eu/dataset/blob/master/README.md",
-  "contIntegration": "https://app.codecov.io/gh/dataobservatory-eu/dataset?branch=master",
+  "contIntegration": ["https://app.codecov.io/gh/dataobservatory-eu/dataset?branch=master", "https://github.com/dataobservatory-eu/dataset/actions?query=workflow%3Apkgcheck", "https://ci.appveyor.com/project/dataobservatory-eu/dataset"],
   "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html#experimental",
+  "review": {
+    "@type": "Review",
+    "url": "https://github.com/ropensci/software-review/issues/553",
+    "provider": "https://ropensci.org"
+  },
   "keywords": ["dataset", "metadata-management", "r", "rstats"]
 }
