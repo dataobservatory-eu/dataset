@@ -85,24 +85,55 @@ dataset <- function(x,
   tmp_ds
 }
 
-print   <- function(x, ...) { UseMethod("print")}
-summary <- function(x, ...) { UseMethod("summary")}
+#print   <- function(x, ...) { UseMethod("print", x)}
+#summary <- function(x, ...) { UseMethod("summary")}
 
 #' @rdname dataset
-summary.dataset <- function(x, ...) { NextMethod()}
+#' @export
+summary.dataset <- function(x, ...) {
+  print_header(x)
+
+  if( ! is.null(attr(x, "Source"))) {
+    Source  <- paste0("Source: ", attr(x, "Source"), ".\n")
+  } else if (is.na(attr(x, "Source"))) {
+    Source <- NA_character_
+  } else {
+    Source <- NA_character_
+  }
+
+  NextMethod("summary", x)
+
+  if (!is.null(attr(x, "unit"))) {
+    unit_list <- attr(x, "unit")
+    cat(paste0(" in unit=", unit_list$code, " (", unit_list$label, ")"))
+  }
+
+  if (!is.na(Source)) {
+    cat(Source)
+  }
+  }
 
 #' @rdname dataset
+#' @export
 print.dataset <- function(x, ...) {
 
-  #cat(paste0(Title, " [", attr(x, "Identifier"), "] by ", paste(attr(x, "Creator")$given, attr(x, "Creator")$family, sep = " "), "\n"))
-  #cat(paste0("Published by ", attr(x, "Publisher"), " (", attr(x, "PublicationYear"), ")", "\n"))
+  print_header(x)
+
+  if( ! is.null(attr(x, "Source"))) {
+    Source  <- paste0("Source: ", attr(x, "Source"), ".\n")
+  } else if (is.na(attr(x, "Source"))) {
+    Creator <- NA_character_
+  } else {
+    Source <- NA_character_
+  }
 
   n_row <- nrow(x)
 
   if(n_row>10) {
     x <- x[1:10,]
   }
-  NextMethod()
+  NextMethod("print", x)
+
   if (!is.null(attr(x, "unit"))) {
     unit_list <- attr(x, "unit")
     cat(paste0(" in unit=", unit_list$code, " (", unit_list$label, ")"))
@@ -110,8 +141,54 @@ print.dataset <- function(x, ...) {
   if (n_row>10) {
     cat(paste0("\n... ", n_row-10, " further observations.\n"))
   }
+
+  if (!is.na(Source)) {
+    cat(Source)
+  }
 }
 
+#' @keywords internal
+print_header <- function(x){
+
+  if( is.null(attr(x, "Title"))) {
+    Title <-  "Untitled"
+  } else {
+    Title <- attributes(x)$Title$Title
+  }
+
+  if( is.null(attr(x, "Identifier"))) {
+    Identifier <-  ""
+  } else if (is.na(attr(x, "Identifier"))) {
+    Identifier <- ""
+  } else  {
+    Identifier <- paste0(" [", attributes(x)$Identifier, "] ")
+  }
+
+  if( is.null(attr(x, "Creator"))) {
+    Creator <-  ""
+  } else if (is.na(attr(x, "Creator"))) {
+    Creator <- ""
+  } else {
+    Creator <- paste0(" by ", paste(attr(x, "Creator")$given, attr(x, "Creator")$family, sep = " "))
+  }
+
+  cat(paste0(Title, Identifier, Creator, "\n"))
+
+  if( is.null(attr(x, "Publisher"))) {
+    Publisher <-  ""
+  } else if (is.na(attr(x, "Publisher"))) {
+    Publisher <- ""
+  } else {
+    Publisher <- paste0("Published by ", attr(x, "Publisher"))
+
+    if ( !is.null(attr(x, "PublicationYear")) ) {
+      cat(Publisher, " (", attr(x, "PublicationYear"), ")", "\n")
+    } else { cat (paste0(Publisher, "\n"))
+    }
+  }
+
+
+}
 
 #' @rdname dataset
 #' @export
@@ -205,7 +282,7 @@ measures <- function(x) attr(x, "measures")
     codeListe = rep("not yet defined", length(names(subset_measures)))
   )
 
-  attr(x, "measures") <-   measures_df
+  attr(x, "measures") <- measures_df
 
   invisible(x)
 }

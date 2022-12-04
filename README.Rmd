@@ -18,12 +18,13 @@ rlang::check_installed("here")
 
 <!-- badges: start -->
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dataset)](https://cran.r-project.org/package=dataset)
+[![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/dataset)](https://cran.r-project.org/package=dataset)
 [![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7110256.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.1.8-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7391890.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.1.9-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov) 
-[![Follow author](https://img.shields.io/twitter/follow/digitalmusicobs.svg?style=social)](https://twitter.com/intent/follow?screen_name=digitalmusicobs)
 [![Codecov test coverage](https://codecov.io/gh/dataobservatory-eu/dataset/branch/master/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset?branch=master)
 [![pkgcheck](https://github.com/dataobservatory-eu/dataset/workflows/pkgcheck/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions?query=workflow%3Apkgcheck)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/dataobservatory-eu/dataset?branch=master&svg=true)](https://ci.appveyor.com/project/dataobservatory-eu/dataset)
@@ -49,6 +50,12 @@ You can install the development version of dataset from Github:
 remotes::install_github('dataobservatory-eu/dataset')
 ```
 
+or install from CRAN:
+``` r
+install.packages('dataset')
+```
+
+
 ## Getting started
 
 The dataset constructor creates a dataset from a data.frame or similar object. 
@@ -62,6 +69,8 @@ my_iris_dataset <- dataset(
   Attributes = "Species", 
   Title = "Iris Dataset"
 )
+
+is.dataset(my_iris_dataset)
 ```
 
 Then you add the metadata:
@@ -76,9 +85,22 @@ my_iris_dataset <- dublincore_add(
   Language = "en"
 )
 
-dublincore(my_iris_dataset)
+print(my_iris_dataset)
 ```
 
+```{r summary_dataset}
+summary(my_iris_dataset)
+```
+
+
+```{r dublincoremetadata,echo=TRUE}
+metadata <- dublincore(x=my_iris_dataset)
+```
+Beware that the metadata variable is more structured than the printed version.
+
+```{r strmetadata}
+str(metadata)
+```
 ## Development plans
 
 This package is in an early development phase. The current dataset S3 class is inherited from the base R data.frame. Later versions may change to the modern [tibble](https://tibble.tidyverse.org/), which carries a larger dependency footprint but easier to work with. Easy interoperability with the [data.table](https://cran.r-project.org/package=data.table) package remains a top development priority.

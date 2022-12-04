@@ -6,15 +6,15 @@
 <!-- badges: start -->
 
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dataset)](https://cran.r-project.org/package=dataset)
+[![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/dataset)](https://cran.r-project.org/package=dataset)
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7110256.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.1.8-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7391890.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.1.9-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow
 rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
-[![Follow
-author](https://img.shields.io/twitter/follow/digitalmusicobs.svg?style=social)](https://twitter.com/intent/follow?screen_name=digitalmusicobs)
 [![Codecov test
 coverage](https://codecov.io/gh/dataobservatory-eu/dataset/branch/master/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset?branch=master)
 [![pkgcheck](https://github.com/dataobservatory-eu/dataset/workflows/pkgcheck/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions?query=workflow%3Apkgcheck)
@@ -60,6 +60,12 @@ You can install the development version of dataset from Github:
 remotes::install_github('dataobservatory-eu/dataset')
 ```
 
+or install from CRAN:
+
+``` r
+install.packages('dataset')
+```
+
 ## Getting started
 
 The dataset constructor creates a dataset from a data.frame or similar
@@ -74,6 +80,9 @@ my_iris_dataset <- dataset(
   Attributes = "Species", 
   Title = "Iris Dataset"
 )
+
+is.dataset(my_iris_dataset)
+#> [1] TRUE
 ```
 
 Then you add the metadata:
@@ -87,56 +96,85 @@ my_iris_dataset <- dublincore_add(
   Date = 1935,
   Language = "en"
 )
+#> The dataset already has Title(s): Iris DatasetTitle
+#> The dataset already has a Source: NA
 
-dublincore(my_iris_dataset)
-#> $names
-#> [1] "Sepal.Length" "Sepal.Width"  "Petal.Length" "Petal.Width"  "Species"     
+print(my_iris_dataset)
+#> Iris Dataset by Edgar Anderson
+#> Published by American Iris Society
+#>    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+#> 1           5.1         3.5          1.4         0.2  setosa
+#> 2           4.9         3.0          1.4         0.2  setosa
+#> 3           4.7         3.2          1.3         0.2  setosa
+#> 4           4.6         3.1          1.5         0.2  setosa
+#> 5           5.0         3.6          1.4         0.2  setosa
+#> 6           5.4         3.9          1.7         0.4  setosa
+#> 7           4.6         3.4          1.4         0.3  setosa
+#> 8           5.0         3.4          1.5         0.2  setosa
+#> 9           4.4         2.9          1.4         0.2  setosa
+#> 10          4.9         3.1          1.5         0.1  setosa
 #> 
-#> $dimensions
-#> [1] names       class       isDefinedBy codeList   
-#> <0 rows> (or 0-length row.names)
-#> 
-#> $measures
-#>                     names   class                       isDefinedBy
-#> Sepal.Length Sepal.Length numeric https://purl.org/linked-data/cube
-#> Sepal.Width   Sepal.Width numeric https://purl.org/linked-data/cube
-#> Petal.Length Petal.Length numeric https://purl.org/linked-data/cube
-#> Petal.Width   Petal.Width numeric https://purl.org/linked-data/cube
-#>                    codeListe
-#> Sepal.Length not yet defined
-#> Sepal.Width  not yet defined
-#> Petal.Length not yet defined
-#> Petal.Width  not yet defined
-#> 
-#> $attributes
-#>           names  class
-#> Species Species factor
-#>                                                                                                                                                    isDefinedBy
-#> Species https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-attribute.ttl
-#>               codeListe
-#> Species not yet defined
-#> 
-#> $Type
-#>       resourceType resourceTypeGeneral
-#> 1 DCMITYPE:Dataset             Dataset
-#> 
-#> $Source
-#> [1] "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
-#> 
-#> $Publisher
-#> [1] "American Iris Society"
-#> 
-#> $Date
-#> [1] "2022-12-01"
-#> 
-#> $Creator
-#> [1] "Edgar Anderson [aut]"
-#> 
-#> $Issued
-#> [1] 1935
-#> 
-#> $Language
-#> [1] "eng"
+#> ... 140 further observations.
+#> Source: NA.
+```
+
+``` r
+summary(my_iris_dataset)
+#> Iris Dataset by Edgar Anderson
+#> Published by American Iris Society
+#> Source: NA.
+```
+
+``` r
+metadata <- dublincore(x=my_iris_dataset)
+#> Title: Iris Dataset | titleType: Title 
+#> Publiser:  American Iris Society  | Source:  NA  | Date:  19330  | Language:  eng  | Identifier:   | Rights:   | Description:   | 
+#> names:  Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species 
+#> - dimensions: <none>
+#> - measures: Sepal.Length (numeric)  Sepal.Width (numeric)  Petal.Length (numeric)  Petal.Width (numeric)  
+#> - attributes: Species (factor)
+```
+
+Beware that the metadata variable is more structured than the printed
+version.
+
+``` r
+str(metadata)
+#> List of 12
+#>  $ names     : chr [1:5] "Sepal.Length" "Sepal.Width" "Petal.Length" "Petal.Width" ...
+#>  $ dimensions:'data.frame':  0 obs. of  4 variables:
+#>   ..$ names      : chr(0) 
+#>   ..$ class      : chr(0) 
+#>   ..$ isDefinedBy: chr(0) 
+#>   ..$ codeList   : chr(0) 
+#>  $ measures  :'data.frame':  4 obs. of  4 variables:
+#>   ..$ names      : chr [1:4] "Sepal.Length" "Sepal.Width" "Petal.Length" "Petal.Width"
+#>   ..$ class      : chr [1:4] "numeric" "numeric" "numeric" "numeric"
+#>   ..$ isDefinedBy: chr [1:4] "https://purl.org/linked-data/cube" "https://purl.org/linked-data/cube" "https://purl.org/linked-data/cube" "https://purl.org/linked-data/cube"
+#>   ..$ codeListe  : chr [1:4] "not yet defined" "not yet defined" "not yet defined" "not yet defined"
+#>  $ attributes:'data.frame':  1 obs. of  4 variables:
+#>   ..$ names      : chr "Species"
+#>   ..$ class      : chr "factor"
+#>   ..$ isDefinedBy: chr "https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/"| __truncated__
+#>   ..$ codeListe  : chr "not yet defined"
+#>  $ Type      :'data.frame':  1 obs. of  2 variables:
+#>   ..$ resourceType       : chr "DCMITYPE:Dataset"
+#>   ..$ resourceTypeGeneral: chr "Dataset"
+#>  $ Title     :'data.frame':  1 obs. of  2 variables:
+#>   ..$ Title    : chr "Iris Dataset"
+#>   ..$ titleType: chr "Title"
+#>  $ Source    : chr NA
+#>  $ Publisher : chr "American Iris Society"
+#>  $ Date      : Date[1:1], format: "2022-12-04"
+#>  $ Creator   :Class 'person'  hidden list of 1
+#>   ..$ :List of 5
+#>   .. ..$ given  : chr "Edgar"
+#>   .. ..$ family : chr "Anderson"
+#>   .. ..$ role   : chr "aut"
+#>   .. ..$ email  : NULL
+#>   .. ..$ comment: NULL
+#>  $ Issued    : num 1935
+#>  $ Language  : chr "eng"
 ```
 
 ## Development plans

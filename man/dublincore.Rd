@@ -26,7 +26,7 @@ dublincore_add(
   Relation = NULL,
   Description = NULL,
   Type = "DCMITYPE:Dataset",
-  overwrite = TRUE
+  overwrite = FALSE
 )
 }
 \arguments{

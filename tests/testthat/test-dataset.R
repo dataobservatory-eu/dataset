@@ -8,7 +8,6 @@ test_that("measures() work", {
   expect_equal(measures(df)$names, c("value"))
 })
 
-
 dimensions(df, sdmx_attributes = "sex") <- "sex"
 
 attributes_measures(df) <- "unit"
@@ -44,6 +43,7 @@ y <- dataset (x,
               Issued = as.Date("2022-07-14")
               )
 
+print(y)
 
 df <- data.frame( sex = c("M", "F"), value = c(1,2))
 
