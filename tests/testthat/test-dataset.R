@@ -9,7 +9,6 @@ test_that("measures() work", {
 })
 
 dimensions(df, sdmx_attributes = "sex") <- "sex"
-
 attributes_measures(df) <- "unit"
 
 test_that("dimensions() work", {
@@ -43,7 +42,7 @@ y <- dataset (x,
               Issued = as.Date("2022-07-14")
               )
 
-print(y)
+
 
 df <- data.frame( sex = c("M", "F"), value = c(1,2))
 
@@ -59,6 +58,27 @@ test_that("dataset() works", {
   expect_equal(names(y), c("time","geo", "value", "unit", "freq"))
 })
 
+summary_y <- summary(y)
+
+test_that("summary.dataset() works", {
+  expect_equal(dataset_title(summary_y)$Title, paste0("Summary: ", dataset_title(y)$Title))
+  expect_equal(class(summary_y), "table")
+})
+
+subset_y <- subset(y, select = c("value", "unit"))
+
+test_that("subset.dataset() works", {
+  expect_equal(dataset_title(subset_y),
+               dataset_title_create(paste0(dataset::dataset_title(y)$Title, " (subset)"))
+               )
+  expect_equal(class(subset_y), c("dataset", "data.frame"))
+})
+
+test_that("`[.dataset` works", {
+  expect_equal(class(y[ c(1,2)]), c("dataset", "data.frame"))
+  expect_equal(class(y[, 1]), c("integer"))
+  expect_equal(y[4:5,2], c("NL", "BE"))
+})
 
 test_that("bibentry_dataset", {
   expect_equal(bibentry_dataset(ds=y)$title, "Example dataset")

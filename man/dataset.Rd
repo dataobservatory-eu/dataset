@@ -2,9 +2,11 @@
 % Please edit documentation in R/dataset.R
 \name{dataset}
 \alias{dataset}
+\alias{is.dataset}
+\alias{subset.dataset}
+\alias{[.dataset}
 \alias{summary.dataset}
 \alias{print.dataset}
-\alias{is.dataset}
 \title{Structure a data frame to dataset}
 \usage{
 dataset(
@@ -23,11 +25,15 @@ dataset(
   Type = "DCMITYPE:Dataset"
 )
 
+is.dataset(x)
+
+\method{subset}{dataset}(x, ...)
+
+\method{[}{dataset}(x, i, j, ...)
+
 \method{summary}{dataset}(x, ...)
 
 \method{print}{dataset}(x, ...)
-
-is.dataset(x)
 }
 \arguments{
 \item{x}{A data.frame or inherited tibble, data.frame, or a structured list.}

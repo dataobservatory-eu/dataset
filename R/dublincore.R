@@ -141,9 +141,6 @@ dublincore <- function(x) {
     cat("- attributes:", paste0(attributes_measures$attributes$names, " (", attributes_measures$attributes$class, ") "), "\n")
   }
 
-
-
-
   invisible(attributes_measures)
 }
 
@@ -163,7 +160,7 @@ dublincore_add <- function(x,
                            Relation = NULL,
                            Description = NULL,
                            Type = "DCMITYPE:Dataset",
-                           overwrite = FALSE) {
+                           overwrite = TRUE) {
 
   ## Set the Title property ------------------------------------------------
   if (is.null(attr(x, "Title"))) {

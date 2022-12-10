@@ -56,6 +56,11 @@ reference:
       - measures
       - attributes_measures
       - bibentry_dataset
+  - title: "Replication Dataset"
+    desc: >
+      Edgar Anderson's Iris Dataset with dataset metadata recorded as attributes.
+    contents:
+       - iris_dataset
   - title: "FAIR metadata"
     desc: >
       Add and read [FAIR metadata](https://www.go-fair.org/fair-principles/)

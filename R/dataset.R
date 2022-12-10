@@ -85,8 +85,122 @@ dataset <- function(x,
   tmp_ds
 }
 
-#print   <- function(x, ...) { UseMethod("print", x)}
-#summary <- function(x, ...) { UseMethod("summary")}
+
+zzz <- function() {
+  new_dataset(y,
+              Dimensions = attr(x, "Dimensions"),
+              Measures = attr(x, "Dimensions"),
+              Attributes = attr(x, "Dimensions"),
+              sdmx_attributes = attr(x, "Dimensions"),
+              Title = dataset::dataset_title_create(paste0(attr(x, "Title")$Title[1] , " (subset)")),
+              Label = attr(x, "Label"),
+              Creator = attr(x, "Creator"),
+              Publisher = attr(x, "Publisher"),
+              Issued = attr(x, "Issued"),
+              Identifier = attr(x, "Identifier"),
+              Subject = attr(x, "Subject"),
+              Type = "DCMITYPE:Dataset" )
+}
+
+
+#' @rdname dataset
+#' @export
+is.dataset <- function(x) inherits(x, "dataset")
+
+
+#' @keywords internal
+new_dataset <- function(x,
+                        Dimensions = NULL,
+                        Measures = NULL,
+                        Attributes = NULL,
+                        sdmx_attributes = NULL,
+                        Title = NULL,
+                        Label = NULL,
+                        Creator = NULL,
+                        Publisher = NULL,
+                        Issued = NULL,
+                        Identifier = NULL,
+                        Subject = NULL,
+                        Source = NULL,
+                        Language = NULL,
+                        Format = NULL,
+                        Relation = NULL,
+                        Rights = NULL,
+                        Description = NULL,
+                        Type = "DCMITYPE:Dataset") {
+
+  stopifnot(inherits(x, "data.frame"))
+
+  tmp_ds <- dublincore_add(x,
+                           Title = Title,
+                           Creator = Creator,
+                           Identifier = Identifier,
+                           Publisher = Publisher,
+                           Subject = Subject,
+                           Language = Language,
+                           Format = Format,
+                           Rights = Rights,
+                           Relation = Relation,
+                           Description = Description,
+                           Type = Type,
+                           overwrite = TRUE)
+
+  if (is.null(Issued)) Issued <- Sys.Date()
+  attr(tmp_ds, "Date") <- Issued
+
+  if (!inherits(tmp_ds, "dataset")) {
+    attr(tmp_ds, "class") <- c("dataset", class(tmp_ds))
+  }
+
+  tmp_ds
+}
+
+#' @rdname dataset
+#' @export
+subset.dataset <- function(x, ...) {
+
+  subset_title <- paste0(dataset::dataset_title(x)$Title, " (subset)")
+  y <- NextMethod()
+  new_dataset(y,
+              Dimensions = attr(x, "Dimensions"),
+              Measures = attr(x, "Dimensions"),
+              Attributes = attr(x, "Dimensions"),
+              sdmx_attributes = attr(x, "Dimensions"),
+              Title = dataset_title_create(subset_title),
+              Label = attr(x, "Label"),
+              Creator = attr(x, "Creator"),
+              Publisher = attr(x, "Publisher"),
+              Issued = attr(x, "Issued"),
+              Identifier = attr(x, "Identifier"),
+              Subject = attr(x, "Subject"),
+              Type = "DCMITYPE:Dataset" )
+}
+
+
+#' @rdname dataset
+#' @export
+`[.dataset` <- function(x, i, j, ...) {
+  y <- NextMethod()
+  if (inherits(y, "data.frame")) {
+    subset_title <- paste0(dataset::dataset_title(x)$Title, " (subset)")
+    new_dataset(y,
+                Dimensions = attr(x, "Dimensions"),
+                Measures = attr(x, "Dimensions"),
+                Attributes = attr(x, "Dimensions"),
+                sdmx_attributes = attr(x, "Dimensions"),
+                Title = dataset_title_create(subset_title),
+                Label = attr(x, "Label"),
+                Creator = attr(x, "Creator"),
+                Publisher = attr(x, "Publisher"),
+                Issued = attr(x, "Issued"),
+                Identifier = attr(x, "Identifier"),
+                Subject = attr(x, "Subject"),
+                Type = "DCMITYPE:Dataset" )
+  } else {
+    y
+  }
+
+}
 
 #' @rdname dataset
 #' @export
@@ -101,7 +215,9 @@ summary.dataset <- function(x, ...) {
     Source <- NA_character_
   }
 
-  NextMethod("summary", x)
+  y <- NextMethod()
+  dataset::dataset_title(y, overwrite = T) <- dataset::dataset_title_create(paste0("Summary: ", attr(x, "Title")$Title[1]))
+  print(y)
 
   if (!is.null(attr(x, "unit"))) {
     unit_list <- attr(x, "unit")
@@ -111,18 +227,23 @@ summary.dataset <- function(x, ...) {
   if (!is.na(Source)) {
     cat(Source)
   }
-  }
+
+  invisible(y)
+}
 
 #' @rdname dataset
 #' @export
 print.dataset <- function(x, ...) {
-
   print_header(x)
+  source_attribute <- attr(x, "Source")
 
-  if( ! is.null(attr(x, "Source"))) {
-    Source  <- paste0("Source: ", attr(x, "Source"), ".\n")
-  } else if (is.na(attr(x, "Source"))) {
-    Creator <- NA_character_
+  if( ! is.null(source_attribute) ) {
+    Source <- "Source:"
+    if (length(attr(x, "Source")>0)) {
+      Source  <- paste0(Source, attr(x, "Source"), ".\n")
+    }
+  } else if (is.na(source_attribute)) {
+    Source <- NA_character_
   } else {
     Source <- NA_character_
   }
@@ -132,7 +253,8 @@ print.dataset <- function(x, ...) {
   if(n_row>10) {
     x <- x[1:10,]
   }
-  NextMethod("print", x)
+
+  NextMethod()
 
   if (!is.null(attr(x, "unit"))) {
     unit_list <- attr(x, "unit")
@@ -186,14 +308,7 @@ print_header <- function(x){
     } else { cat (paste0(Publisher, "\n"))
     }
   }
-
-
 }
-
-#' @rdname dataset
-#' @export
-is.dataset <- function(x) inherits(x, "dataset")
-
 
 #' @title Dimensions of a dataset
 #' @details Do not confuse with \code{base::dim}. The \href{https://www.w3.org/TR/vocab-data-cube/#dsd-dimensions}{dimension} in the definition
