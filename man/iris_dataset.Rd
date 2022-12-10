@@ -10,11 +10,13 @@ Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, and Species.
 }
 \source{
 Fisher, R. A. (1936) The use of multiple measurements in taxonomic problems.
-Annals of Eugenics, \strong{7}, Part II, 179–188.
+Annals of Eugenics, \strong{7}, Part II,
+\href{https://onlinelibrary.wiley.com/doi/epdf/10.1111/j.1469-1809.1936.tb02137.x}{179–188}.
 
 The data were collected by Anderson, Edgar (1935).
 The irises of the Gaspe Peninsula,
-Bulletin of the American Iris Society, \strong{59}, 2–5.
+Bulletin of the American Iris Society, \strong{59},
+\href{https://www.biodiversitylibrary.org/item/270486#page/344/mode/1up}{2–5}.
 }
 \usage{
 iris_dataset

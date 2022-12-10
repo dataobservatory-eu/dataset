@@ -135,7 +135,7 @@ print(iris_bibentry, sytle="html")
 
 ## faIR: Interoperable & Reusable Datasets
 
-The interoperability and reusability of datasets is greatly enhanced if they follow a standardized and practical format.  Our datasets follow the tidy data principles^[Wickham, H.(2014). Tidy Data. Journal of Statistical Software, 59(10), 1–23. <https://doi.org/10.18637/jss.v059.i10>] and are interoperable with the W3C^[DF Data Cube Vocabulary]^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/#metadata>] (semantic web) and SDMX (statistical) dataset definitions.
+The interoperability and reusability of datasets is greatly enhanced if they follow a standardized and practical format.  Our datasets follow the tidy data principles^[Wickham, H.(2014). Tidy Data. Journal of Statistical Software, 59(10), 1–23. <https://doi.org/10.18637/jss.v059.i10> and are interoperable with the W3C DF Data Cube Vocabulary^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/#metadata> (semantic web) and SDMX (statistical) dataset definitions.
 
 Both W3C and SDMX uses are more complex object, the Datacube in its description. The dataset is a reused datacube. To adhere to tidy data principles and easy use in reproducible research workflows, we further reduced our subjective definition of the dataset. 
 
@@ -148,15 +148,15 @@ Both W3C and SDMX uses are more complex object, the Datacube in its description.
 ```{r petalexample}
 petal_length <- dataset(subset(iris, 
                                select = c("Petal.Length", "Species")), 
-        Dimensions = NULL, 
-        Measures   = "Petal.Length", 
-        Attributes = "Species")
+                        Dimensions = NULL, 
+                        Measures   = "Petal.Length", 
+                        Attributes = "Species")
 
 petal_width <- dataset(subset(iris, 
                               select = c("Petal.Width", "Species")), 
-        Dimensions = NULL, 
-        Measures   = "Petal.Width", 
-        Attribute  = "Species")
+                       Dimensions = NULL, 
+                       Measures   = "Petal.Width", 
+                       Attribute  = "Species")
 ```
 ```{r loaddplyr, message=FALSE}
 require(dplyr)
