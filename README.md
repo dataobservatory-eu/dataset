@@ -11,7 +11,7 @@
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7391890.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.1.9.0001-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.1.9.0002-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow
 rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
@@ -96,11 +96,9 @@ my_iris_dataset <- dublincore_add(
   Date = 1935,
   Language = "en"
 )
-#> The dataset already has Title(s): Iris DatasetTitle
-#> The dataset already has a Source: NA
 
 print(my_iris_dataset)
-#> Iris Dataset by Edgar Anderson
+#> Untitled by Edgar Anderson
 #> Published by American Iris Society
 #>    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #> 1           5.1         3.5          1.4         0.2  setosa
@@ -115,20 +113,34 @@ print(my_iris_dataset)
 #> 10          4.9         3.1          1.5         0.1  setosa
 #> 
 #> ... 140 further observations.
-#> Source: NA.
+#> Source:https://doi.org/10.1111/j.1469-1809.1936.tb02137.x.
 ```
 
 ``` r
 summary(my_iris_dataset)
-#> Iris Dataset by Edgar Anderson
+#> Untitled by Edgar Anderson
 #> Published by American Iris Society
-#> Source: NA.
+#>   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+#>  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+#>  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+#>  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+#>  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+#>  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+#>  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+#>        Species  
+#>  setosa    :50  
+#>  versicolor:50  
+#>  virginica :50  
+#>                 
+#>                 
+#>                 
+#> Source: https://doi.org/10.1111/j.1469-1809.1936.tb02137.x.
 ```
 
 ``` r
 metadata <- dublincore(x=my_iris_dataset)
-#> Title: Iris Dataset | titleType: Title 
-#> Publiser:  American Iris Society  | Source:  NA  | Date:  19330  | Language:  eng  | Identifier:   | Rights:   | Description:   | 
+#> :  
+#> Publiser:  American Iris Society  | Source:  https://doi.org/10.1111/j.1469-1809.1936.tb02137.x  | Date:  19336  | Language:  eng  | Identifier:   | Rights:   | Description:   | 
 #> names:  Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species 
 #> - dimensions: <none>
 #> - measures: Sepal.Length (numeric)  Sepal.Width (numeric)  Petal.Length (numeric)  Petal.Width (numeric)  
@@ -140,7 +152,7 @@ version.
 
 ``` r
 str(metadata)
-#> List of 12
+#> List of 11
 #>  $ names     : chr [1:5] "Sepal.Length" "Sepal.Width" "Petal.Length" "Petal.Width" ...
 #>  $ dimensions:'data.frame':  0 obs. of  4 variables:
 #>   ..$ names      : chr(0) 
@@ -160,12 +172,9 @@ str(metadata)
 #>  $ Type      :'data.frame':  1 obs. of  2 variables:
 #>   ..$ resourceType       : chr "DCMITYPE:Dataset"
 #>   ..$ resourceTypeGeneral: chr "Dataset"
-#>  $ Title     :'data.frame':  1 obs. of  2 variables:
-#>   ..$ Title    : chr "Iris Dataset"
-#>   ..$ titleType: chr "Title"
-#>  $ Source    : chr NA
+#>  $ Source    : chr "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
 #>  $ Publisher : chr "American Iris Society"
-#>  $ Date      : Date[1:1], format: "2022-12-04"
+#>  $ Date      : Date[1:1], format: "2022-12-10"
 #>  $ Creator   :Class 'person'  hidden list of 1
 #>   ..$ :List of 5
 #>   .. ..$ given  : chr "Edgar"

@@ -31,7 +31,7 @@ is.dataset(x)
 
 \method{[}{dataset}(x, i, j, ...)
 
-\method{summary}{dataset}(x, ...)
+\method{summary}{dataset}(object, ...)
 
 \method{print}{dataset}(x, ...)
 }
@@ -87,6 +87,12 @@ and create structured Subject objects with \code{\link{subject_create}}.}
 \item{Type}{It is set by default to \href{https://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.}
 
 \item{...}{Other parameters for the \code{print} and \code{summary} methods.}
+
+\item{i}{elements to extract or replace: numeric, character, empty or logical.}
+
+\item{j}{elements to extract or replace: numeric, character, empty or logical.}
+
+\item{object}{an object for which a summary is desired.}
 }
 \value{
 A data frame-like object with structural and referential metadata.

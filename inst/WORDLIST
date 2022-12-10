@@ -25,6 +25,7 @@ DublinCore
 FAir
 Findability
 Findable
+Gaspe
 Geolocation
 Github
 Hadley
@@ -51,7 +52,9 @@ UNSD
 URI
 URIs
 WS
+Wadsworth
 Wickham
+Wilks
 Zenodo
 actionability
 bibentry
@@ -125,10 +128,10 @@ schemeType
 schemeURI
 schemeURIs
 sdmx
+setosa
 statcodelist
 statcodelists
 subjectScheme
-surveydataset
 tibble
 tibbles
 tidyverse
@@ -139,6 +142,8 @@ understandability
 unescap
 utopistic
 valueURIs
+versicolor
+virginica
 wor
 www
 zenodo

@@ -85,24 +85,6 @@ dataset <- function(x,
   tmp_ds
 }
 
-
-zzz <- function() {
-  new_dataset(y,
-              Dimensions = attr(x, "Dimensions"),
-              Measures = attr(x, "Dimensions"),
-              Attributes = attr(x, "Dimensions"),
-              sdmx_attributes = attr(x, "Dimensions"),
-              Title = dataset::dataset_title_create(paste0(attr(x, "Title")$Title[1] , " (subset)")),
-              Label = attr(x, "Label"),
-              Creator = attr(x, "Creator"),
-              Publisher = attr(x, "Publisher"),
-              Issued = attr(x, "Issued"),
-              Identifier = attr(x, "Identifier"),
-              Subject = attr(x, "Subject"),
-              Type = "DCMITYPE:Dataset" )
-}
-
-
 #' @rdname dataset
 #' @export
 is.dataset <- function(x) inherits(x, "dataset")
@@ -178,6 +160,8 @@ subset.dataset <- function(x, ...) {
 
 
 #' @rdname dataset
+#' @param i elements to extract or replace: numeric, character, empty or logical.
+#' @param j elements to extract or replace: numeric, character, empty or logical.
 #' @export
 `[.dataset` <- function(x, i, j, ...) {
   y <- NextMethod()
@@ -203,24 +187,25 @@ subset.dataset <- function(x, ...) {
 }
 
 #' @rdname dataset
+#' @param object an object for which a summary is desired.
 #' @export
-summary.dataset <- function(x, ...) {
-  print_header(x)
+summary.dataset <- function(object, ...) {
+  print_header(object)
 
-  if( ! is.null(attr(x, "Source"))) {
-    Source  <- paste0("Source: ", attr(x, "Source"), ".\n")
-  } else if (is.na(attr(x, "Source"))) {
+  if( ! is.null(attr(object, "Source"))) {
+    Source  <- paste0("Source: ", attr(object, "Source"), ".\n")
+  } else if (is.na(attr(object, "Source"))) {
     Source <- NA_character_
   } else {
     Source <- NA_character_
   }
 
   y <- NextMethod()
-  dataset::dataset_title(y, overwrite = T) <- dataset::dataset_title_create(paste0("Summary: ", attr(x, "Title")$Title[1]))
+  dataset::dataset_title(y, overwrite = T) <- dataset::dataset_title_create(paste0("Summary: ", attr(object, "Title")$Title[1]))
   print(y)
 
-  if (!is.null(attr(x, "unit"))) {
-    unit_list <- attr(x, "unit")
+  if (!is.null(attr(object, "unit"))) {
+    unit_list <- attr(object, "unit")
     cat(paste0(" in unit=", unit_list$code, " (", unit_list$label, ")"))
   }
 
