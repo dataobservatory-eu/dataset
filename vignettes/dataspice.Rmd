@@ -107,3 +107,4 @@ build_site(path = file.path(dataspice_path, "dataspice.json"),
 dataset_to_dataspice(iris_dataset)
 ```
 
+[Iris Dataset (dataspice template)](https://dataset.dataobservatory.eu/dataspice/index.html)
