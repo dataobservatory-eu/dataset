@@ -1,17 +1,17 @@
 {
   "@context": "http://schema.org",
   "type": "Dataset",
-  "name": "Iris Dataset",
+  "name": "Unknown",
   "creator": [
     {
       "type": "Person",
       "id": null,
       "affiliation": null,
-      "name": "Anderson Edgar [aut]"
+      "name": "Edgar Anderson [aut]"
     }
   ],
-  "description": "This famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.",
-  "datePublished": "2022-12-10",
+  "description": "This famous (Fisher's or Anderson's) iris data set \ngives the measurements in centimeters of the variables sepal length and width \nand petal length and width, respectively, for 50 flowers from each of \nthree species of iris.",
+  "datePublished": 1935,
   "keywords": {},
   "funder": null,
   "temporalCoverage": "1935/1935",

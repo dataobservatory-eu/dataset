@@ -14,43 +14,52 @@ knitr::opts_chunk$set(
 )
 ```
 
+The [ROpenSci](https://ropensci.org/) collective has an R package that aims to increase the metadata qualities of published datasets. Although the [dataspice](https://github.com/ropensci/dataspice) package is philosophically different—it is not aimed for programmatic use, and it does not use the DublinCore or DataCite metadata definitions used by libraries—it is easy to connect its functionality with `dataset` in a more programmatic way. 
+
 ```{r setup}
 library(dataset)
 library(here)
-description(iris_dataset) <- "This famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris."
+description(iris_dataset) <- "This famous (Fisher's or Anderson's) iris data set 
+gives the measurements in centimeters of the variables sepal length and width 
+and petal length and width, respectively, for 50 flowers from each of 
+three species of iris."
 ```
 
+We create grammatically the auxiliary files of dataspice in the `tempdir()`, and then save the resulting JSON-LD file and the html overview on the `/datascpice` subdirectory. 
 
-```{r}
+```{r, eval=FALSE}
 library(dataspice)
-dataset_to_dataspice <- function(ds, 
-                                 fileName = "https://zenodo.org/record/7421899/files/iris.csv?download=1",
-                                 aux_path = file.path(tempdir()), 
-                                 geographicDescription = "Gaspe Peninsula, Canada",
-                                 dataspice_path = here::here("dataspice"), 
-                                 southBoundCoord = "47.976593", 
-                                 northBoundCoord = "49.2526866",
-                                 eastBoundCoord = "-64.504089", 
-                                 westBoundCoord = "-66.7947692",
-                                 startDate = "1935", 
-                                 endDate = "1935",
-                                 var_labels = c(
-                                   "Measurement of sepal lenght (cm)",
-                                   "Measurement of sepal width (cm)",
-                                   "Measurement of petal length (cm)",
-                                   "Measurement of petal width (cm)",
-                                   "Name of species, iris [species]"
-                                 ),
-                                 unitText = c(rep("centimeter", 4), NA_character_)
-                                 ) {
-access <- data.frame(
+dataset_to_dataspice <- function(
+    ds, 
+    fileName = "https://zenodo.org/record/7421899/files/iris.csv?download=1",
+    aux_path = file.path(tempdir()), 
+    geographicDescription = "Gaspe Peninsula, Canada",
+    dataspice_path = here::here("dataspice"), 
+    southBoundCoord = "47.976593", 
+    northBoundCoord = "49.2526866",
+    eastBoundCoord = "-64.504089", 
+    westBoundCoord = "-66.7947692",
+    startDate = "1935", 
+    endDate = "1935",
+    var_labels = c(
+      "Measurement of sepal lenght (cm)",
+      "Measurement of sepal width (cm)",
+      "Measurement of petal length (cm)",
+      "Measurement of petal width (cm)",
+      "Name of species, iris [species]"
+    ),
+    unitText = c(rep("centimeter", 4), NA_character_)
+) {
+  access <- data.frame(
   fileName = fileName,
   name = NA_character_,
   contentUrl	= NA_character_, 
   encodingFormat = NA_character_
 )  
 
-write.csv(x = access, file = file.path(aux_path, "access.csv"), row.names = F)
+write.csv(x = access, 
+          file = file.path(aux_path, "access.csv"), 
+          row.names = F)
 
 title_text <- dataset_title(ds)$Title[1]
 if (is.null(title_text)) title_text <- "Unknown"
@@ -58,7 +67,7 @@ if (is.null(title_text)) title_text <- "Unknown"
 biblio <- data.frame(
   title	= title_text, 
   description	= description(ds), 
-  datePublished	= issued(ds), 
+  datePublished	= attr(ds, "Issued"),
   citation = NA_character_,
   keywords = NA_character_, 
   license	= rights(ds), 
@@ -81,7 +90,9 @@ creators <- data.frame(
   affiliation  = NA_character_
 )
 
-write.csv(x = creators, file = file.path(aux_path, "creators.csv"), row.names = F)
+write.csv(x = creators, 
+          file = file.path(aux_path, "creators.csv"), 
+          row.names = F)
 
 variableName = names(ds)
 
@@ -92,10 +103,14 @@ attributes <- data.frame(
   unitText = unitText
 )
 
-write.csv(x = attributes, file = file.path(aux_path, "attributes.csv"), row.names = F)
+write.csv(x = attributes, 
+          file = file.path(aux_path, "attributes.csv"), 
+          row.names = F)
 
 write_spice(aux_path)
-file.copy(file.path(aux_path, "dataspice.json"), file.path(dataspice_path, "dataspice.json"), overwrite = T)
+file.copy(file.path(aux_path, "dataspice.json"), 
+          file.path(dataspice_path, "dataspice.json"), 
+          overwrite = T)
 
 build_site(path = file.path(dataspice_path, "dataspice.json"), 
            out_path = here::here("dataspice", "index.html"))
@@ -103,8 +118,10 @@ build_site(path = file.path(dataspice_path, "dataspice.json"),
 
 ```
 
-```{r}
+We just run the code with the `iris_dataset`.
+
+```{r, eval=FALSE}
 dataset_to_dataspice(iris_dataset)
 ```
 
-[Iris Dataset (dataspice template)](https://dataset.dataobservatory.eu/dataspice/index.html)
+See on [GitHub](https://github.com/dataobservatory-eu/dataset/tree/master/dataspice) the resulting files or view the HTML file in your browser: [Iris Dataset (dataspice template)](https://dataset.dataobservatory.eu/dataspice/index.html)

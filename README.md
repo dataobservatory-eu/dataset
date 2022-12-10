@@ -280,6 +280,10 @@ Our
     Publish a
     dataset](https://dataset.dataobservatory.eu/articles/publish.html)
 
+-   [x] Use programmatically the
+    [dataspice](https://github.com/ropensci/dataspice) package to
+    publish dataset documentation.
+
 -   [x] Relatively lightweight in dependencies and easily works with
     data.frame, [tibble](https://tibble.tidyverse.org/) or
     [data.table](https://rstudio.github.io/DT/) R objects.

@@ -1,6 +1,7 @@
-# dataset 0.1.9
+# dataset 0.1.9.0003
 
 * New methods for the `dataset()` s3 class: `print.dataset()`, `summary.dataset()`, `subset.dataset`, `[.dataset`.
+* New vignette on how to use the [dataspice](https://github.com/ropensci/dataspice) package programatically for publishing dataset documentation.
 
 # dataset 0.1.9
 
