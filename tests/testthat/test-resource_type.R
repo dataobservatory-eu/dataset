@@ -8,4 +8,8 @@ test_that("resource_type() works", {
   expect_equal(resource_type(y)$resourceType, "Census Data")
   expect_equal(resource_type(x)$resourceType, "Dataset")
   expect_equal(resource_type(y)$resourceTypeGeneral, "Dataset")
+  expect_equal(attr(y, "Type"), list(
+    resourceType = "Census Data",
+    resourceTypeGeneral = "Dataset" ))
 })
+

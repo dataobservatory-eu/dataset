@@ -22,7 +22,7 @@ rlang::check_installed("here")
 [![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/dataset)](https://cran.r-project.org/package=dataset)
 [![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7391890.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.1.9.0002-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.1.9.0004-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov) 
 [![Codecov test coverage](https://codecov.io/gh/dataobservatory-eu/dataset/branch/master/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset?branch=master)
@@ -55,19 +55,19 @@ or install from CRAN:
 install.packages('dataset')
 ```
 
-
 ## Getting started
 
-The dataset constructor creates a dataset from a data.frame or similar object. 
+The `dataset()` constructor creates a dataset from a data.frame or similar object. 
 
 ```{r initialize}
 library(dataset)
 my_iris_dataset <- dataset(
   x = iris, 
   Dimensions = NULL, 
-  Measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width" ), 
+  Measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width"), 
   Attributes = "Species", 
-  Title = "Iris Dataset"
+  Title = "Iris Dataset", 
+  Issued = 1936
 )
 
 is.dataset(my_iris_dataset)

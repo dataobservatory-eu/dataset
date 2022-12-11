@@ -1,6 +1,6 @@
-#' Edgar Anderson's Iris Data
+#' @title Edgar Anderson's Iris Data
 #'
-#' This famous (Fisher's or Anderson's) iris data set gives the measurements in
+#' @description This famous (Fisher's or Anderson's) iris data set gives the measurements in
 #' centimeters of the variables sepal length and width and petal length and
 #' width, respectively, for 50 flowers from each of 3 species of iris.
 #' The species are \emph{Iris setosa}, \emph{versicolor}, and \emph{virginica}.
@@ -25,5 +25,3 @@
 #' Bulletin of the American Iris Society, \strong{59},
 #' \href{https://www.biodiversitylibrary.org/item/270486#page/344/mode/1up}{2–5}.
 "iris_dataset"
-
-

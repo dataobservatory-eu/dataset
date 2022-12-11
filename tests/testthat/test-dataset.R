@@ -48,6 +48,7 @@ df <- data.frame( sex = c("M", "F"), value = c(1,2))
 
 test_that("dataset() works", {
   expect_true(is.dataset(y))
+  expect_equal(dataset_title(y)$Title, "Example dataset")
   expect_equal(class(summary(y)), "table")
   expect_equal(attributes(y)$dimensions$names, c("time", "geo"))
   expect_equal(attributes(y)$measures$names, c("value"))

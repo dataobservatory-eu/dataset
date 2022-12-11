@@ -8,7 +8,7 @@
 #' @param value The \code{Type$resourceTypeGeneral} is set to  \code{Dataset},
 #' while the user can set a more specific \code{Type$resourceType} value with the \code{value}
 #' argument. To initialize a \code{Type} parameter use \code{resource_type(x) <- "Dataset"}.
-#' @return Returns the \code{x} object with the \code{Type} attribute.
+#' @return Returns the \code{x} object with the \code{Type} attribute as a list.
 #' The Type$resourceTypeGeneral is set to \code{Dataset}.
 #' @examples
 #' x <- data.frame()
@@ -30,12 +30,12 @@ resource_type <- function(x) {
 `resource_type<-` <- function(x, value) {
 
   if ( value == "Dataset") {
-    value <- data.frame(
+    value <- list(
       resourceType = "Dataset",
       resourceTypeGeneral = "Dataset"
     )
   } else {
-    value <- data.frame(
+    value <- list(
       resourceType = value,
       resourceTypeGeneral = "Dataset"
     )

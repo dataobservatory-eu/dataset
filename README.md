@@ -11,7 +11,7 @@
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7391890.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.1.9.0002-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.1.9.0004-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow
 rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
@@ -68,17 +68,18 @@ install.packages('dataset')
 
 ## Getting started
 
-The dataset constructor creates a dataset from a data.frame or similar
-object.
+The `dataset()` constructor creates a dataset from a data.frame or
+similar object.
 
 ``` r
 library(dataset)
 my_iris_dataset <- dataset(
   x = iris, 
   Dimensions = NULL, 
-  Measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width" ), 
+  Measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width"), 
   Attributes = "Species", 
-  Title = "Iris Dataset"
+  Title = "Iris Dataset", 
+  Issued = 1936
 )
 
 is.dataset(my_iris_dataset)
@@ -98,7 +99,7 @@ my_iris_dataset <- dublincore_add(
 )
 
 print(my_iris_dataset)
-#> Untitled by Edgar Anderson
+#> Iris Dataset by Edgar Anderson
 #> Published by American Iris Society
 #>    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #> 1           5.1         3.5          1.4         0.2  setosa
@@ -118,7 +119,7 @@ print(my_iris_dataset)
 
 ``` r
 summary(my_iris_dataset)
-#> Untitled by Edgar Anderson
+#> Iris Dataset by Edgar Anderson
 #> Published by American Iris Society
 #>   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
 #>  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
@@ -139,8 +140,8 @@ summary(my_iris_dataset)
 
 ``` r
 metadata <- dublincore(x=my_iris_dataset)
-#> :  
-#> Publiser:  American Iris Society  | Source:  https://doi.org/10.1111/j.1469-1809.1936.tb02137.x  | Date:  19336  | Language:  eng  | Identifier:   | Rights:   | Description:   | 
+#> Title: Iris Dataset 
+#> Publiser:  American Iris Society  | Source:  https://doi.org/10.1111/j.1469-1809.1936.tb02137.x  | Date:  1936  | Language:  eng  | Identifier:   | Rights:   | Description:   | 
 #> names:  Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species 
 #> - dimensions: <none>
 #> - measures: Sepal.Length (numeric)  Sepal.Width (numeric)  Petal.Length (numeric)  Petal.Width (numeric)  
@@ -169,12 +170,12 @@ str(metadata)
 #>   ..$ class      : chr "factor"
 #>   ..$ isDefinedBy: chr "https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/"| __truncated__
 #>   ..$ codeListe  : chr "not yet defined"
-#>  $ Type      :'data.frame':  1 obs. of  2 variables:
+#>  $ Type      :List of 2
 #>   ..$ resourceType       : chr "DCMITYPE:Dataset"
 #>   ..$ resourceTypeGeneral: chr "Dataset"
-#>  $ Source    : chr "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
-#>  $ Publisher : chr "American Iris Society"
-#>  $ Date      : Date[1:1], format: "2022-12-10"
+#>  $ Title     :List of 1
+#>   ..$ Title: chr "Iris Dataset"
+#>  $ Date      : num 1936
 #>  $ Creator   :Class 'person'  hidden list of 1
 #>   ..$ :List of 5
 #>   .. ..$ given  : chr "Edgar"
@@ -182,7 +183,8 @@ str(metadata)
 #>   .. ..$ role   : chr "aut"
 #>   .. ..$ email  : NULL
 #>   .. ..$ comment: NULL
-#>  $ Issued    : num 1935
+#>  $ Source    : chr "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
+#>  $ Publisher : chr "American Iris Society"
 #>  $ Language  : chr "eng"
 ```
 

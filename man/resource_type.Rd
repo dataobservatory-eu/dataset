@@ -17,7 +17,7 @@ while the user can set a more specific \code{Type$resourceType} value with the \
 argument. To initialize a \code{Type} parameter use \code{resource_type(x) <- "Dataset"}.}
 }
 \value{
-Returns the \code{x} object with the \code{Type} attribute.
+Returns the \code{x} object with the \code{Type} attribute as a list.
 The Type$resourceTypeGeneral is set to \code{Dataset}.
 }
 \description{
