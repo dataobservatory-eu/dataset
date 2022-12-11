@@ -158,9 +158,11 @@ petal_width <- dataset(subset(iris,
                        Measures   = "Petal.Width", 
                        Attribute  = "Species")
 ```
+
 ```{r loaddplyr, message=FALSE}
-require(dplyr)
+library(dplyr)
 ```
+
 ```{r petalexampleprint}
 petal_length %>%
   left_join (petal_width, by = c("Species")) %>%

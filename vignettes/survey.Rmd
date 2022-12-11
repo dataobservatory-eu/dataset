@@ -39,7 +39,6 @@ difficulty_bills <- declared (
   c(0,1,2,-1,0), 
   labels = c(Never = 0, Time_to_time = 1, Always = 2, DK = -1)
   )
-
 age_exact <- declared (
   c( 34,45,21,55,-1), 
   labels = c( A = 34,A = 45,A  = 21, A= 55, DK = -1)
@@ -71,15 +70,15 @@ survey_dataset  <- dataset( x= raw_survey,
                             Creator = person("Jane", "Doe"))
 ```
 
-```{r datacite}
-datacite(survey_dataset)
+```{r dublincore}
+dublincore(survey_dataset)
 ```
 
 It is a good practice to define valid, but not present labels in `declared`, because in the retrospective harmonization workflow they may be concatenated (binded) together with further observations that do have the currently not used label. 
 
 In this example, the `DK` or declined label is not in use.
 
-```{r, eval=FALSE}
+```{r}
 # This is not valied in declared
 listen_spotify <- declared(
   c(0,1,9,0,1),
@@ -107,24 +106,21 @@ summary(listen_spotify)
 ```
 
 
-
-
-
 ```{r dataciteadataset}
-survey_dataset <- datacite_add(survey_dataset, 
+survey_dataset <- dublincore_add(survey_dataset, 
                                Title = "Tiny Survey", 
                                Creator = person("Daniel", "Antal"), 
                                Identifier = "https://doi.org/xxxx.yyyyy",
                                Publisher = "Reprex", 
-                               PublicationYear = 2022, 
+                               Date = 2022, 
                                Subject = "Surveys", 
                                Language = "en")
 ```
 
 The `survey` class inherits elements of the `dataset` class, but it will be more strictly defined.  I am considering to make  `declared` every single column except for the `obs_id`. Even `numeric` types with `Inap` and `DK` would map nicely to `CL_OBS_STATUS` SDMX codes that make missing observation explicit, and try to categorize them.
 
-```{r showdatacite}
-datacite(survey_dataset)
+```{r showdublincore}
+dublincore(survey_dataset)
 ```
 
 Is the `summary` method implemented for `declared`? Both `dataset` and `survey` will need new `print` and `summary` methods.

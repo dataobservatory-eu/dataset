@@ -43,6 +43,7 @@ In the DataCite definition, several titles can be used.
 }
 \examples{
 my_iris <- iris
+
 dataset_title(my_iris) <- dataset_title_create(
     Title = c("Iris Dataset",
     "The famous iris dataset of the R examples"),

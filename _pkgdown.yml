@@ -33,7 +33,7 @@ articles:
       - motivation
   - title: "Compatibility"
     desc: >
-     Works with dataspice.
+     The `dataspice` R package can be used programatically with dataset.
     contents:
        - dataspice
   - title: "Planned functionality"

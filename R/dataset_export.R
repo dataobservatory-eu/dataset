@@ -67,6 +67,8 @@ dataset_export_csv <- function(ds, file) {
   names(add_ds)      <- names(file_header)
   table_to_write     <- rbind(file_header, real_header, add_ds)
 
+  file.exists(file)
+
   write.csv(table_to_write, file, row.names = FALSE)
 }
 
@@ -75,6 +77,13 @@ metadata_header <- function(ds) {
 
   datacite_attributes  <- datacite(ds)
   datacite_attributes  <- datacite_attributes[which(names(datacite_attributes)!="names")]
+  titles <- unlist(datacite_attributes$Title)
+  if ( length(titles)==1) {
+    titles <- as.character(titles)
+  } else {
+    titles <- paste(paste0(names(titles), "=", as.character(titles)), collapse = "; ")
+  }
+  datacite_attributes$Title <- titles
   datacite_attributes$dimensions <- lapply ( datacite_attributes$dimensions, function(x)paste(x, collapse ="|") )$names
   datacite_attributes$measures   <- lapply ( datacite_attributes$measures, function(x)paste(x, collapse ="|") )$names
   datacite_attributes$attributes <- lapply ( datacite_attributes$attributes, function(x)paste(x, collapse ="|") )$names
@@ -83,8 +92,12 @@ metadata_header <- function(ds) {
   datacite_attributes$Creator    <- as.character(datacite_attributes$Creator)
   datacite_attributes$Type       <- paste0("resourceType=", unique(datacite_attributes$Type$resourceType), "|resourceTypeGeneral=", unique(datacite_attributes$Type$resourceTypeGeneral))
   datacite_attributes$Language   <- as.character(language(ds))
-  as.data.frame(datacite_attributes)
 
+  fn_length_null_to_na <- function(x) ifelse(length(x)==0, NA_character_, x)
+  datacite_attributes <- lapply (datacite_attributes, fn_length_null_to_na)
+  #as.data.frame(datacite_attributes)
+
+  #datacite_attributes
 
   Property <- unlist(lapply (seq_along(datacite_attributes), function(x) names(datacite_attributes[x])))
   value <- unlist(lapply (seq_along(datacite_attributes), function(x) as.character(unlist(datacite_attributes[x]))))

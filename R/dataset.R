@@ -192,10 +192,14 @@ subset.dataset <- function(x, ...) {
 summary.dataset <- function(object, ...) {
   print_header(object)
 
-  if( ! is.null(attr(object, "Source"))) {
-    Source  <- paste0("Source: ", attr(object, "Source"), ".\n")
-  } else if (is.na(attr(object, "Source"))) {
-    Source <- NA_character_
+  source_attribute <- attr(object, "Source")
+
+  if( ! is.null(source_attribute) ) {
+    Source <- "Source:"
+    if (length(source_attribute)>0) {
+      Source  <- paste0(Source, source_attribute, ".\n")
+    } else if (is.na(source_attribute)) {
+      Source <- NA_character_ }
   } else {
     Source <- NA_character_
   }
@@ -224,12 +228,11 @@ print.dataset <- function(x, ...) {
 
   if( ! is.null(source_attribute) ) {
     Source <- "Source:"
-    if (length(attr(x, "Source")>0)) {
-      Source  <- paste0(Source, attr(x, "Source"), ".\n")
-    }
-  } else if (is.na(source_attribute)) {
-    Source <- NA_character_
-  } else {
+    if (length(source_attribute)>0) {
+      Source  <- paste0(Source, source_attribute, ".\n")
+    } else if (is.na(source_attribute)) {
+      Source <- NA_character_ }
+    } else {
     Source <- NA_character_
   }
 

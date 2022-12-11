@@ -18,6 +18,7 @@
 #' @return The titles as a data.frame with a titleTypes column.
 #' @examples
 #' my_iris <- iris
+#'
 #' dataset_title(my_iris) <- dataset_title_create(
 #'     Title = c("Iris Dataset",
 #'     "The famous iris dataset of the R examples"),
@@ -32,7 +33,6 @@
 #' @export
 
 dataset_title <- function(x) {
-
   attr(x, "Title")
 }
 
