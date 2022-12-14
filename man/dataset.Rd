@@ -125,6 +125,7 @@ my_dataset <- dataset (
 }
 \seealso{
 Other dataset functions: 
+\code{\link{as.data.frame}()},
 \code{\link{dataset_local_id}()},
 \code{\link{dataset_uri}()}
 }

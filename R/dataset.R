@@ -89,6 +89,25 @@ dataset <- function(x,
 #' @export
 is.dataset <- function(x) inherits(x, "dataset")
 
+#' @title Coerce dataset to a data frame
+#' @description Coerce a dataset into a data frame.
+#' @param x A dataset.
+#' @param row.names NULL or a character vector giving the row names for the data frame. Missing values are not allowed.
+#' @param optional logical. See also the \code{make.names} argument of the matrix method.
+#' @param ... additional arguments to be passed to or from methods.
+#' @return Coerces a dataset into a data.frame. The attributes are retained.
+#' @family dataset functions
+#' @export
+`as.data.frame` <- function (x, row.names =NULL, optional = FALSE, ...) {
+  UseMethod ("as.data.frame")
+}
+
+#' @rdname as.data.frame
+#' @export
+`as.data.frame.dataset` <- function(x, row.names=NULL, optional = FALSE, ...) {
+  NextMethod()
+}
+
 
 #' @keywords internal
 new_dataset <- function(x,

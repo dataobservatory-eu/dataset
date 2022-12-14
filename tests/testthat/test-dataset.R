@@ -41,9 +41,6 @@ y <- dataset (x,
               Publisher = "Publishing Co.",
               Issued = as.Date("2022-07-14")
               )
-
-
-
 df <- data.frame( sex = c("M", "F"), value = c(1,2))
 
 test_that("dataset() works", {
@@ -58,6 +55,11 @@ test_that("dataset() works", {
                  2))
   expect_equal(names(y), c("time","geo", "value", "unit", "freq"))
 })
+
+test_that("as.data.frame.dataset() works", {
+  expect_equal(class(as.data.frame(y)),"data.frame")
+})
+
 
 summary_y <- summary(y)
 

@@ -55,6 +55,7 @@ reference:
       Work with DataSet objects that resemble the [W3C](https://www.w3.org/TR/vocab-data-cube/) and SDMX datacube model.
     contents:
       - dataset
+      - as.data.frame.dataset
       - dataset_local_id
       - dataset_uri
       - dimensions

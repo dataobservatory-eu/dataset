@@ -15,11 +15,28 @@ knitr::opts_chunk$set(
 ```
 
 
-```{r setup}
+```{r setup, message=FALSE}
 library(dataset)
 ```
 
-```{r, include=FALSE}
+In the R language, datasets are usually contained in a data.frame() object, or in one of their modernized versions.  For example, tibble::tibble() or data.table::data.table() are inherited from the base data.frame().
+
+The base data.frame() constructor, like most base R types, is very flexible.  It allows the use of any kind of metadata attached to the object.
+
+```{r data-frame-example}
+foo <- data.frame( x = c(1,2), y = c(3,4))
+attr(foo, "Title") <- "My Foo Object"
+attributes(foo)
+```
+
+For reproducible research, publication, or linking resources on the web, the standardization of metadata is critically important. The aim `dataset()` class is a modernized data.frame that has standardized attributes.
+
+```{r iris}
+dataset_title(iris_dataset)
+publisher(iris_dataset)
+```
+
+```{r, include=FALSE, message=FALSE}
 library(here)
 library(knitr)
 ```
@@ -39,7 +56,7 @@ According to the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cub
 | reference    |  attributes of the R object            |
 
 
-```{r, message=FALSE}
+```{r eurostat-example, message=FALSE}
 rd_e_gerdtot <- eurostat::get_eurostat('rd_e_gerdtot')
 head(rd_e_gerdtot)
 ```
@@ -72,7 +89,7 @@ If your measurement unit is always millimeters (like in the iris dataset), it is
 
 Attributes that may vary across observations (rows) should remain in the dataset in the datacube model. To avoid confusion with the base R `attributes()` function, we named the function that sets the attributes within a dataset to `attributes_measures()`.
 
-```{r}
+```{r attributes}
 attributes_measures(rd_e_gerdtot) <- "unit"
 datacite(rd_e_gerdtot)
 ```
@@ -84,7 +101,7 @@ Our `dataset` R package aims to increase the *Findability, Accessibility, Intero
 
 This is the role of the `reference metadata` in the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) and the SDMX data cube model. We generally keep the reference metadata as `attributes()` of the R object, because they do not relate to the rows (observations) of the data, but the entire set of data. However, omitting all reference metadata from the columns is not a good practice if you want your data to be used in a knowledge graph (or the semantic web, or the Web 3.0.) 
 
-```{r, include=TRUE}
+```{r datacite, include=TRUE}
 toc <- eurostat::get_eurostat_toc()
 rd_e_gerdtot_reference <- toc[which(toc$code == "rd_e_gerdtot"),]
 

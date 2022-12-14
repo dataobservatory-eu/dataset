@@ -46,6 +46,7 @@ dataset_uri(my_ds)
 }
 \seealso{
 Other dataset functions: 
+\code{\link{as.data.frame}()},
 \code{\link{dataset_local_id}()},
 \code{\link{dataset}()}
 }
