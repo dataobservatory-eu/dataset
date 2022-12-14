@@ -7,13 +7,19 @@
   "codeRepository": "https://github.com/dataobservatory-eu/dataset",
   "issueTracker": "https://github.com/dataobservatory-eu/dataset/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
   "runtimePlatform": "R version 4.1.2 (2021-11-01)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -33,6 +39,18 @@
     }
   ],
   "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "dataspice",
+      "name": "dataspice",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dataspice"
+    },
     {
       "@type": "SoftwareApplication",
       "identifier": "covr",
@@ -236,12 +254,17 @@
     },
     "4": {
       "@type": "SoftwareApplication",
+      "identifier": "stats",
+      "name": "stats"
+    },
+    "5": {
+      "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "613.916KB",
+  "fileSize": "637.332KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -257,7 +280,7 @@
       ],
       "name": "dataset: Create Data Frames that are Easier to Exchange and Reuse",
       "url": "https://github.com/dataobservatory-eu/dataset",
-      "description": "R package version 0.1.9"
+      "description": "R package version 0.2.0"
     },
     {
       "@type": "CreativeWork",
@@ -285,5 +308,6 @@
     "url": "https://github.com/ropensci/software-review/issues/553",
     "provider": "https://ropensci.org"
   },
-  "keywords": ["dataset", "metadata-management", "r", "rstats"]
+  "keywords": ["dataset", "metadata-management", "r", "rstats"],
+  "relatedLink": "https://CRAN.R-project.org/package=dataset"
 }
