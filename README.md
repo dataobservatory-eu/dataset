@@ -28,9 +28,9 @@ interoperable datasets from data.frames, tibbles or data.tables that
 translate well into the W3C DataSet definition within the [Data Cube
 Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible
 manner. The data cube model in itself is is originated in the
-[Statistical Data and Metadata eXchange](https://sdmx.org/), and it is
-almost fully harmonized with the Resource Description Framework (RDF),
-the standard model for data interchange on the web[^1].
+*Statistical Data and Metadata eXchange*, and it is almost fully
+harmonized with the Resource Description Framework (RDF), the standard
+model for data interchange on the web[^1].
 
 A mapping of R objects into these models has numerous advantages:
 
@@ -73,6 +73,11 @@ similar object.
 
 ``` r
 library(dataset)
+#> 
+#> Attaching package: 'dataset'
+#> The following object is masked from 'package:base':
+#> 
+#>     as.data.frame
 my_iris_dataset <- dataset(
   x = iris, 
   Dimensions = NULL, 
@@ -135,7 +140,7 @@ summary(my_iris_dataset)
 #>                 
 #>                 
 #>                 
-#> Source: https://doi.org/10.1111/j.1469-1809.1936.tb02137.x.
+#> Source:https://doi.org/10.1111/j.1469-1809.1936.tb02137.x.
 ```
 
 ``` r

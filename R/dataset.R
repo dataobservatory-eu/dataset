@@ -3,7 +3,9 @@
 #' @details Loosely follows the \href{https://www.w3.org/TR/vocab-data-cube/}{The RDF Data Cube Vocabulary},
 #' but without the definition of data slices.\cr
 #' \code{\link{bibentry_dataset}} is a wrapper around \code{\link[utils:bibentry]{bibentry}} to correctly turn the
-#' metadata of the dataset into a bibentry object.
+#' metadata of the dataset into a bibentry object.\cr
+#' \code{as.data.frame} coerces a dataset into a data.frame in a way that the metadata attributes
+#' are retained.
 #' @param x A data.frame or inherited tibble, data.frame, or a structured list.
 #' @param Dimensions The name or column number of the dimensions within the dataset.
 #' @param Measures The name or column number of the measures within the dataset.
@@ -21,7 +23,7 @@
 #' and create structured Subject objects with \code{\link{subject_create}}.
 #' @param Type It is set by default to \href{https://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.
 #' @param Issued Corresponds to \href{https://purl.org/dc/elements/1.1/date}{dct:date}.
-#' @param ... Other parameters for the \code{print} and \code{summary} methods.
+#' @param ... Other parameters for the \code{print}, \code{summary} and \code{as.data.frame} methods.
 #' @importFrom utils toBibtex
 #' @return A data frame-like object with structural and referential metadata.
 #' @family dataset functions
@@ -89,22 +91,19 @@ dataset <- function(x,
 #' @export
 is.dataset <- function(x) inherits(x, "dataset")
 
-#' @title Coerce dataset to a data frame
-#' @description Coerce a dataset into a data frame.
-#' @param x A dataset.
-#' @param row.names NULL or a character vector giving the row names for the data frame. Missing values are not allowed.
-#' @param optional logical. See also the \code{make.names} argument of the matrix method.
-#' @param ... additional arguments to be passed to or from methods.
-#' @return Coerces a dataset into a data.frame. The attributes are retained.
-#' @family dataset functions
+#' @rdname dataset
+#' @examples
+#' ## iris_dataset is a dataset class version of iris
+#' as.data.frame(iris_dataset)
+#' @seealso iris_dataset
 #' @export
-`as.data.frame` <- function (x, row.names =NULL, optional = FALSE, ...) {
+`as.data.frame` <- function (x, ...) {
   UseMethod ("as.data.frame")
 }
 
-#' @rdname as.data.frame
+#' @rdname dataset
 #' @export
-`as.data.frame.dataset` <- function(x, row.names=NULL, optional = FALSE, ...) {
+`as.data.frame.dataset` <- function(x, ...) {
   NextMethod()
 }
 

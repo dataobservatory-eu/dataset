@@ -17,8 +17,7 @@
 #' Wadsworth & Brooks/Cole.
 #' @source
 #' Fisher, R. A. (1936) The use of multiple measurements in taxonomic problems.
-#' Annals of Eugenics, \strong{7}, Part II,
-#' \href{https://onlinelibrary.wiley.com/doi/epdf/10.1111/j.1469-1809.1936.tb02137.x}{179–188}.
+#' Annals of Eugenics, \strong{7}, Part II, p179–188.
 #'
 #' The data were collected by Anderson, Edgar (1935).
 #' The irises of the Gaspe Peninsula,

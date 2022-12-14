@@ -3,6 +3,8 @@
 \name{dataset}
 \alias{dataset}
 \alias{is.dataset}
+\alias{as.data.frame}
+\alias{as.data.frame.dataset}
 \alias{subset.dataset}
 \alias{[.dataset}
 \alias{summary.dataset}
@@ -26,6 +28,10 @@ dataset(
 )
 
 is.dataset(x)
+
+as.data.frame(x, ...)
+
+\method{as.data.frame}{dataset}(x, ...)
 
 \method{subset}{dataset}(x, ...)
 
@@ -86,7 +92,7 @@ and create structured Subject objects with \code{\link{subject_create}}.}
 
 \item{Type}{It is set by default to \href{https://purl.org/dc/dcmitype/Dataset}{DCMITYPE:Dataset}.}
 
-\item{...}{Other parameters for the \code{print} and \code{summary} methods.}
+\item{...}{Other parameters for the \code{print}, \code{summary} and \code{as.data.frame} methods.}
 
 \item{i}{elements to extract or replace: numeric, character, empty or logical.}
 
@@ -104,7 +110,9 @@ A DataSet is a collection of statistical data that corresponds to a defined stru
 Loosely follows the \href{https://www.w3.org/TR/vocab-data-cube/}{The RDF Data Cube Vocabulary},
 but without the definition of data slices.\cr
 \code{\link{bibentry_dataset}} is a wrapper around \code{\link[utils:bibentry]{bibentry}} to correctly turn the
-metadata of the dataset into a bibentry object.
+metadata of the dataset into a bibentry object.\cr
+\code{as.data.frame} coerces a dataset into a data.frame in a way that the metadata attributes
+are retained.
 }
 \examples{
 my_dataset <- dataset (
@@ -122,10 +130,13 @@ my_dataset <- dataset (
     Publisher = "Publishing Co.",
     Issued = as.Date("2022-07-14")
 )
+## iris_dataset is a dataset class version of iris
+as.data.frame(iris_dataset)
 }
 \seealso{
+iris_dataset
+
 Other dataset functions: 
-\code{\link{as.data.frame}()},
 \code{\link{dataset_local_id}()},
 \code{\link{dataset_uri}()}
 }
