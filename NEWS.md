@@ -2,6 +2,7 @@
 
 * New methods for the `dataset()` s3 class: `print.dataset()`, `summary.dataset()`, `subset.dataset`, `[.dataset`, `as.data.frame()`.
 * New vignette on how to use the [dataspice](https://github.com/ropensci/dataspice) package programmatically for publishing dataset documentation.
+* Released on CRAN.
 
 # dataset 0.1.9
 
