@@ -8,4 +8,4 @@
 * Ubuntu Linux 20.04.1 LTS, R-release, GCC
 * Windows Server 2022, R-devel, 64 bit
 
-This is a minor new release with improved methods on the dataset s3 class. It also removes a link that created a NOTE in the README.
+This is a documentation improvement.  The latency of the Eurostat data warehouse triggered a broken link alarm on CRAN with one of the builds. That part of the vignette is not evaluated anymore, as the code chunk only served tutorial purposes. The same vignette text was very slightly altered for readability.
