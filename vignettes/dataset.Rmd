@@ -64,9 +64,10 @@ head(rd_e_gerdtot)
 
 ## Dimensions
 
-`Dimensions` are usually needed in data analysis, because they are used to subsetting (slicing) the dataset. They contain information about the reference time period and geographical area.
+`Dimensions` are usually needed in data analysis because they are used to subsetting (slicing) the dataset. They contain information about the reference time period and geographical area.
 
-In a dataset that has homogeneous dimensions (all data relate to the year 2022 and to the area of the United States) you could move the dimensions into the attributes of the R object, or simply omit them. However, dimensions are critically important for filtering out the observations (measurements) that you want to work with, or to correctly join (integrate) datasets. If you want to create a composite indicator from two datasets that related to the United States and the year 2022, you do not want to accidentally match measurements about 2021 or Canada.
+In a dataset that has homogeneous dimensions (all data relate to the year 2022 and the area of the United States), you could move the dimensions into the attributes of the R object, or simply omit them. However, dimensions are critically important for filtering out the observations (measurements) that you want to work with or to correctly join (integrate) datasets. If you want to create a composite indicator from two datasets that are related to the United States and the year 2022, you do not want to match measurements about 2021 or Canada accidentally.
+
 
 ```{r}
 dimensions(rd_e_gerdtot) <- c("geo", "time", "sectperf")
@@ -101,7 +102,7 @@ Our `dataset` R package aims to increase the *Findability, Accessibility, Intero
 
 This is the role of the `reference metadata` in the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) and the SDMX data cube model. We generally keep the reference metadata as `attributes()` of the R object, because they do not relate to the rows (observations) of the data, but the entire set of data. However, omitting all reference metadata from the columns is not a good practice if you want your data to be used in a knowledge graph (or the semantic web, or the Web 3.0.) 
 
-```{r datacite, include=TRUE}
+```{r datacite, include=TRUE, eval=FALSE}
 toc <- eurostat::get_eurostat_toc()
 rd_e_gerdtot_reference <- toc[which(toc$code == "rd_e_gerdtot"),]
 
@@ -139,11 +140,11 @@ We recommend the use of an explicit row identifier. The popular modern R data fr
 
 One of the advantages of using an explicit row identifier is that it can form the root for minting a URI for the entire dataset by collapsing all dimensions and attributes into a concatenated string starting with the row identifier. This will make your dataset ready to be used in triplets, a strict, tidy, three-column long-form dataset used in linked open data applications. As mentioned earlier, in homogeneous (or homogeneously subsetted) datasets, you could move the dimensions and the attributes out from the data frame cells into the descriptive attributes. However, if you want to work with linked data, you must have all structural information present in the data cells, because this makes it possible that different data publisher's data can be linked together without having a utopistic, global database map. 
 
-In the following example, we concatenate the `rowed`, and the `time`, `geo` and `sex` dimensions into a single URI.  We can do this, because in a well-organized dataset the combination of dimensions is unique (otherwise we would be just simply duplicating an observation.) However, adding the attributes to the URI would be superfluous, because there combination is not unique in the observations. 
+In the following example, we concatenate the `rowid`, and the `time`, `geo` and `sex` dimensions into a single URI.  We can do this because in a well-organized dataset the combination of dimensions is unique (otherwise, we would be just simply duplicating an observation.) However, adding the attributes to the URI would be superfluous because their combination is not unique in the observations.
 
 ```{r dimreduction, echo=FALSE, message=FALSE}
 include_graphics(here("vignettes", "RDF_chart_1.png"))
 ```
 
-The [From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html) vignette article shows you how you can organize your data into strict, tidy, three-column triples that can be serialized into RDF data. 
+The [From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html) vignette article shows you how to organize your data into strict, tidy, three-column triples that can be serialized into RDF data. 
 
