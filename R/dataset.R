@@ -15,7 +15,7 @@
 #' the current year.
 #' @param version The version of the dataset. If left emtpy (NULL), defaults to
 #' \code{'0.1.0'}
-#' @param subject The subject of the data frame, as a subject type.
+#' @param Subject The subject of the data frame, as a subject type.
 #' @param description The optional \code{Description} property as an attribute to
 #' an R object.
 #' @param language The primary language of the dataset, for example \code{'eng'}.

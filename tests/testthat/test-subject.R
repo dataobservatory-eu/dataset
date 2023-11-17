@@ -1,45 +1,55 @@
-a <- data.frame()
-subject(a) <- NULL
+Subject (term = "Dataset",
+        schemeURI = "http://id.loc.gov/authorities/subjects",
+        valueURI = "https://id.loc.gov/authorities/subjects/sh2018002256",
+        subjectScheme = "LCCH",
+        prefix = "lcch:")
 
-test_that("subject_create() can return NULL", {
-  expect_equal(subject(a), NULL)
+irissubject <- new_Subject (term  = "Irises (plants)",
+                        schemeURI = "http://id.loc.gov/authorities/subjects",
+                        valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
+                        subjectScheme = "LCCH",
+                        prefix = "lcch:")
+
+test_that("Subject() works as a constructor", {
+  expect_true(is.subject(x=irissubject))
+  expect_equal(irissubject$prefix, "lcch:")
+  expect_equal(irissubject$valueURI, "https://id.loc.gov/authorities/subjects/sh85068079")
 })
 
+irissubject
 
-x <- data.frame( geo = c("AL", "MK"),
-                 value = c(1,2))
-my_subject <- subject_create (
-  term = c("R (Computer program language)",
-           "Questionnaires--Computer programs"),
-  subjectScheme = rep("LC Subject Headings", 2),
-  schemeURI = rep("http://id.loc.gov/authorities/subjects",2),
-  valueURI = c("https://id.loc.gov/authorities/subjects/sh2002004407.html",
-                 "http://id.worldcat.org/fast/1085693/")
-  )
-
-
-simple_subjects <- subject_create(term = c("hello", "hi"),
-                                  subjectScheme = rep(NA_character_, 2),
-                                  schemeURI = rep(NA_character_,2),
-                                  valueURI = rep(NA_character_,2))
-
-test_that("subject_create() works", {
-  expect_equal(simple_subjects$term, c("hello", 'hi'))
-  expect_equal(my_subject$schemeURI, rep("http://id.loc.gov/authorities/subjects", 2))
-})
-
-
-subject(x) <- my_subject
-
-y <- data.frame()
-subject(y) <- "R (Computer program language)"
-subject(y) <- "Questionnaires--Computer programs"
+ds <- dataset(iris,
+              title = "The iris Dataset",
+              author = c(
+                person(family ="Anderson",
+                       given ="Edgar",
+                       role = "aut")
+              ),
+              identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+              year = "1935",
+              version = "1.0",
+              description = "The famous dataset that is distributed with R.",
+              url = "https://en.wikipedia.org/wiki/Iris_flower_data_set",
+              subject = Subject (term  = "Dataset",
+                                 subjectScheme = "LCCH",
+                                 schemeURI = "http://id.loc.gov/authorities/subjects",
+                                 valueURI = "https://id.loc.gov/authorities/subjects/sh2018002256",
+                                 prefix = "lcch:")
+)
 
 
 test_that("subject() works", {
-  expect_equal(subject(x)$term,  as.character(c("R (Computer program language)",
-                                    "Questionnaires--Computer programs")))
-  expect_equal(subject(y)$term, as.character(c("R (Computer program language)", "Questionnaires--Computer programs")))
+  expect_true(is.subject(subject(ds)))
+  expect_equal(subject(ds)$prefix, "lcch:")
+  expect_equal(subject(ds)$valueURI, "https://id.loc.gov/authorities/subjects/sh2018002256")
 })
 
+subject(ds)
 
+subject(ds) <- irissubject
+
+test_that("subject <- assignment works", {
+  expect_true(is.subject(subject(ds)))
+  expect_equal(subject(ds)$prefix, "lcch:")
+  expect_equal(subject(ds)$valueURI, "https://id.loc.gov/authorities/subjects/sh85068079")
+})
