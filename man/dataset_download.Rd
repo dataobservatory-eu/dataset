@@ -35,12 +35,6 @@ dataset_download_csv(
 \item{Title}{\href{https://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
 \code{\link{datacite}} allows the use of alternate titles, too. See \code{\link{dataset_title}}.}
 
-\item{Dimensions}{The name or column number of the dimensions within the dataset.}
-
-\item{Measures}{The name or column number of the measures within the dataset.}
-
-\item{Attributes}{The name or column number of the attributes within the dataset.}
-
 \item{Identifier}{An unambiguous reference to the resource within a given context.
 Recommended practice is to identify the resource by means of a string conforming to an
 identification system. Examples include International Standard Book Number (ISBN),

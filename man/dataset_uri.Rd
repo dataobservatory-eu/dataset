@@ -46,7 +46,6 @@ dataset_uri(my_ds)
 }
 \seealso{
 Other dataset functions: 
-\code{\link{dataset_local_id}()},
-\code{\link{dataset}()}
+\code{\link{dataset_local_id}()}
 }
 \concept{dataset functions}

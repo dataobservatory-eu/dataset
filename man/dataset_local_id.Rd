@@ -36,7 +36,6 @@ my_ds <- dataset (x = data.frame (
 }
 \seealso{
 Other dataset functions: 
-\code{\link{dataset_uri}()},
-\code{\link{dataset}()}
+\code{\link{dataset_uri}()}
 }
 \concept{dataset functions}
