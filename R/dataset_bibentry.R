@@ -1,0 +1,31 @@
+#' @title Get the bibliographic entries of a dataset
+#' @description A dataset constructed with \code{\link{dataset}} records most of the
+#' dataset-level metadata in an bibentry object, which allows the printing or saving
+#' the bibliographic record in HTML, BibLatex and other formats.
+#' For further information on
+#' the \code{bibentry} class see \code{utils::\link[utils]{bibentry}}.
+#' @param ds A dataset object created by \code{\link{dataset}}.
+#' @return The \code{\link[utils]{bibentry}} object of the dataset.
+#' @importFrom utils bibentry
+#' @examples
+#' ds <- dataset(iris,
+#'         title = "The iris Dataset",
+#'         author = c(
+#'            person(family ="Anderson",
+#'                   given ="Edgar",
+#'                   role = "aut")
+#'                  ),
+#'          identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+#'          year = "1935",
+#'          version = "1.0",
+#'          description = "The famous dataset that is distributed with R.",
+#'          url = "https://en.wikipedia.org/wiki/Iris_flower_data_set",
+#'          resourceType = "Dataset"
+#'          )
+#' print(ds, style="text")
+#' print(ds, style="Bibtex")
+#' @export
+
+dataset_bibentry <- function(ds) {
+  attr(ds, "DataBibentry")
+}

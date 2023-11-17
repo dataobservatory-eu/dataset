@@ -137,5 +137,3 @@ summary.dataset <- function(object, ...) {
   cat(paste0("Further metadata: describe(", deparse(substitute(object)), ")\n"))
 }
 
-
-
