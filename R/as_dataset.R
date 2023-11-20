@@ -28,17 +28,6 @@ as_dataset.data.frame <- function(x,
                                   subject = NULL,
                                   language = NULL) {
 
-  assertthat::assert_that(inherits(author, "person"),
-                          msg="The person person must be created with utils::person().")
-
-  if (is.null(year)) year <- substr(as.character(Sys.Date()), 1,4)
-  if (is.null(version)) version  <- "0.1.0" else version <- as.character(version)
-  if (is.null(publisher)) publisher <- ":tba"
-  if (is.null(identifier)) identifier <- ":tba"
-  if (is.null(description)) description <- ":unas"
-  if (is.null(language)) language <- ":unas"
-  if (is.null(subject)) subject <- new_Subject(NULL)
-
   DataBibentry  <- utils::bibentry(bibtype="Misc",
                                    title = title,
                                    author = author,
@@ -50,6 +39,8 @@ as_dataset.data.frame <- function(x,
                                    description  = description,
                                    language = language
   )
+
+  if (is.null(subject)) subject <- new_Subject("")
 
   new_dataset(x,
               DataBibentry = DataBibentry,
