@@ -18,38 +18,50 @@
 #' @return The Creator attribute as a character of length 1 is added to \code{x}.
 #' @importFrom utils person
 #' @examples
-#' iris_dataset <- iris
-#' creator(iris_dataset) <- person("Anderson", "Edgar", role = "aut")
-#' creator(iris_dataset)
+#' ds <- dataset(iris,
+#'               title = "The iris Dataset",
+#'               author = c(
+#'                 person(family ="Anderson",
+#'                        given ="Edgar",
+#'                        role = "aut")
+#'               ),
+#'               identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+#'               year = "1935",
+#'               version = "1.0",
+#'               description = "The famous dataset that is distributed with R.")
 #' @family Reference metadata functions
 #' @export
-creator<- function(x) {
-  attr(x, "Creator")
+creator<- function(ds) {
+
+  ds_bibentry <- dataset_bibentry(ds)
+  ds_bibentry$author
 }
 
 #' @rdname creator
 #' @export
-`creator<-` <- function(x, overwrite = TRUE, value) {
+`creator<-` <- function(ds, overwrite = TRUE, value) {
 
   if (is.null(value)) {
-    attr(x, "Creator") <- NULL
-    return(x)
+    return(ds)
   }
 
   if (!inherits(value, "person")) {
     stop("creator <- value: value must be a utils::person object.")
   }
 
-  if (is.null(attr(x, "Creator"))) {
-    if (is.null(value)) {
-      attr(x, "Creator") <- NA_character_
-    } else {
-      attr(x, "Creator") <- value
-    }
-  } else if ( overwrite ) {
-    attr(x, "Creator") <- value
+  ds_creator <- dataset_bibentry(ds)$author
+
+
+  if ( overwrite ) {
+    ds_creator <- value
   } else {
-    message ("The dataset has already an Creator: ",  creator(x) )
+    ds_creator <- c(ds_creator, value)
   }
-  x
+
+  databibentry <- attr(ds, "DataBibentry")
+  databibentry$author <- ds_creator
+  attr(ds, "DataBibentry") <- databibentry
+  ds
 }
+
+
