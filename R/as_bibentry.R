@@ -18,6 +18,7 @@ as_bibentry <- function(bibtype="Misc",
   description <-  ifelse (is.null(arguments$description), as.character(":unas"), as.character(arguments$description))
   language <-  ifelse (is.null(arguments$language), ":unas", as.character(arguments$language))
   subject <-  ifelse (is.null(arguments$subject), new_Subject(NULL), arguments$subject)
+  format <-  ifelse (is.null(arguments$format), "application/r-rds", arguments$format)
 
   tmp <- bibentry(bibtype=bibtype,
                   title = title,
@@ -28,7 +29,8 @@ as_bibentry <- function(bibtype="Misc",
                   identifier = identifier,
                   version = version,
                   description  = description,
-                  language = language)
+                  language = language,
+                  format = format)
 
   if (!is.null(arguments$format)) tmp$format <- arguments$format
   if (!is.null(arguments$rights)) tmp$rights <- arguments$right
@@ -39,6 +41,9 @@ as_bibentry <- function(bibtype="Misc",
     tmp$author <- c(tmp$author, arguments$contributor)
   }
   if (!is.null(arguments$date)) tmp$date <- arguments$date
+  if (!is.null(arguments$type)) tmp$type <- arguments$type
+  if (!is.null(arguments$coverage)) tmp$coverage <- arguments$coverage
+  if (!is.null(arguments$source)) tmp$source <- arguments$source
   if (!is.null(arguments$geolocation)) tmp$geolocation <- arguments$geolocation
   if (!is.null(arguments$fundingreference)) tmp$fundingreference <- arguments$fundingreference
   tmp
