@@ -1,7 +1,7 @@
-#' @title Add DataCite metadata to an object
+#' @title Add DataCite metadata to a bibentry object
 #'
 #' @description Add metadata conforming the \href{https://schema.datacite.org/}{DataCite Metadata Schema}
-#' to datasets, i.e. structured R data.frame or list objects, for an accurate and consistent identification
+#' to a \code{utils::\link[utils]{bibentry}} object, for an accurate and consistent identification
 #' of a resource for citation and retrieval purposes.
 #'
 #' @details DataCite is a leading global non-profit organisation that provides persistent identifiers
@@ -72,15 +72,14 @@
 #' being registered.
 #' @param overwrite If pre-existing metadata properties should be overwritten,
 #' defaults to \code{TRUE}.
-#' @return An R object with at least the mandatory DataCite attributes.
-#' @importFrom utils person
+#' @return A \code{utils::\link[utils]{bibentry}} object DataCite attributes.
+#' @importFrom utils person bibentry
 #' @source \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite 4.3 Mandatory Properties} and
 #' \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
 #' @family metadata functions
 #' @export
 #' @examples
-#' my_iris <- datacite_add(
-#'    x = iris,
+#' datacite(
 #'    Title = "Iris Dataset",
 #'    Creator = person(family = "Anderson", given = "Edgar", role = "aut"),
 #'    Publisher = "American Iris Society",
@@ -88,146 +87,96 @@
 #'    Geolocation = "US",
 #'    Language = "en")
 #'
-#' datacite(my_iris)
 
-datacite <- function(x) {
+datacite <- function(Title,
+                     Creator,
+                     Identifier = NULL,
+                     Publisher = NULL,
+                     PublicationYear = NULL,
+                     Subject = NULL,
+                     Type = "Dataset",
+                     Contributor = NULL,
+                     DateList = NULL,
+                     Language = NULL,
+                     AlternateIdentifier = NULL,
+                     RelatedIdentifier = NULL,
+                     Format = NULL, Version = NULL, Rights = NULL,
+                     Description = NULL, Geolocation = NULL,
+                     FundingReference = NULL) {
 
-  attributes_measures <- attributes(x)
-  attributes_measures$row.names <- NULL
-  attributes_measures$class <- NULL
+  DateList <- ifelse (is.null(Date), ":tba", as.character(DateList))
+  Format <- ifelse (is.null(Format), ":tba", as.character(Format))
+  AlternateIdentifier <- ifelse (is.null(AlternateIdentifier), ":unas", AlternateIdentifier)
+  RelatedIdentifier <- ifelse (is.null(RelatedIdentifier), ":unas", RelatedIdentifier)
+  Rights <- ifelse (is.null(Rights), ":tba", as.character(Rights))
+  Geolocation <- ifelse (is.null(Geolocation), ":unas", as.character(Geolocation))
+  FundingReference <- ifelse (is.null(FundingReference), ":unas", as.character(FundingReference))
 
-  attributes_measures
+  new_datacite(Title = Title,
+               Creator = Creator,
+               Identifier = Identifier,
+               Publisher = Publisher,
+               PublicationYear = PublicationYear,
+               Subject = Subject,
+               Type = "Dataset",
+               Contributor = Contributor,
+               DateList = DateList,
+               Language = Language,
+               AlternateIdentifier = AlternateIdentifier,
+               RelatedIdentifier = RelatedIdentifier,
+               Forma = Format,
+               Version = Version,
+               Rights = Rights,
+               Description = Description,
+               Geolocation = Geolocation,
+               FundingReference = FundingReference)
+}
+
+
+new_datacite <- function (Title,
+                          Creator,
+                          Identifier,
+                          Publisher,
+                          PublicationYear,
+                          Subject,
+                          Type = "Dataset",
+                          Contributor,
+                          DateList,
+                          Language,
+                          AlternateIdentifier,
+                          RelatedIdentifier,
+                          Format, Version, Rights,
+                          Description, Geolocation,
+                          FundingReference) {
+
+  datacite_object <- as_bibentry(title = Title,
+                                 author = Creator,
+                                 publisher = Publisher,
+                                 year = PublicationYear,
+                                 date = DateList,
+                                 language = Language,
+                                 alternateidentifier = AlternateIdentifier,
+                                 relatedidentifier = RelatedIdentifier,
+                                 format = Format,
+                                 version = Version,
+                                 rights = Rights,
+                                 description = description,
+                                 geolocation = Geolocation,
+                                 fundingreference = FundingReference)
+
+  class(datacite_object) <- c("datacite", class(datacite_object))
+  datacite_object
+}
+
+
+#' @rdname datacite
+is.datacite <- function(x) {
+  UseMethod("is.datacite", x)
 }
 
 #' @rdname datacite
-#' @export
-datacite_add <- function(x,
-                         Title,
-                         titleType = NULL,
-                         Creator,
-                         Identifier = NULL,
-                         Publisher = NULL,
-                         PublicationYear = "THIS",
-                         Subject = NULL,
-                         Type = "Dataset",
-                         Contributor = NULL,
-                         Date = NULL,
-                         Language = NULL,
-                         AlternateIdentifier = NULL,
-                         RelatedIdentifier = NULL,
-                         Format = NULL, Version = NULL, Rights = NULL,
-                         Description = NULL, Geolocation = NULL,
-                         FundingReference = NULL,
-                         overwrite = TRUE) {
+#' @param x An object that is tested if it has a class "datacite".
+#' @exportS3Method
+is.datacite.datacite <- function(x) inherits(x, "datacite")
 
-  if (PublicationYear == "THIS") as.integer(substr(Sys.Date(),1,4))
-
-  ## Set the Title property ------------------------------------------------
-  if (is.null(attr(x, "Title"))) {
-    dataset_title(x) <- Title
-  } else if ( overwrite ) {
-    dataset_title(x, overwrite = TRUE) <- Title
-  } else {
-    message ("The dataset already has Title(s): ", dataset_title(x) )
-  }
-
-  ## Set the Subject property ------------------------------------------------
-  if (is.null(attr(x, "Subject"))) {
-    subject(x) <- Subject
-  } else if ( overwrite ) {
-    subject(x) <- subject
-  } else {
-    message ("The dataset already has Subject(s): ", subject(x) )
-  }
-
-  ## Set the Creator property ---------------------------------------------
-  if (is.null(attr(x, "Creator"))) {
-    attr(x, "Creator") <- Creator
-  } else if ( overwrite ) {
-    attr(x, "Creator") <- Creator
-  } else {
-    message ("The dataset already has a Creator: ",  attr(x, "Creator") )
-  }
-  ## Set the Identifier property --------------------------------
-  if (is.null(attr(x, "Identifier"))) {
-    identifier(x) <- Identifier
-  } else if ( overwrite ) {
-    identifier(x) <- Identifier
-  } else {
-    message ("The dataset already has a Identifier: ", identifier(x) )
-  }
-
-  ## Set the Publication property --------------------------------
-  if (is.null(attr(x, "Publisher"))) {
-    publisher(x) <- Publisher
-  } else if ( overwrite ) {
-    publisher(x) <- Publisher
-  } else {
-    message ("The dataset already has a Publisher: ", publisher(x) )
-  }
-
-
-  attr(x, "Issued") <- ifelse(is.null(Date), PublicationYear, Date)
-
-  ## Set the PublicationYear property --------------------------------
-  if (is.null(attr(x, "PublicationYear"))) {
-    publication_year(x) <- PublicationYear
-  } else if ( overwrite ) {
-    publication_year(x) <- PublicationYear
-  } else {
-    message ("The dataset already has a PublicationYear property: ", publication_year(x) )
-  }
-
-  ## Set the Type property ---------------------------------------------
-  resource_type(x) <- Type
-
-  ## Set the Description property ---------------------------------------------------
-  if (is.null(attr(x, "Description"))) {
-    description(x) <- Description
-  } else if ( overwrite ) {
-    description(x) <- Description
-  } else {
-    message ("The dataset already has a Description property: ", description(x) )
-  }
-
-
-  ## Set the Geolocation property -----------------------------------------------
-  if (is.null(attr(x, "Geolocation"))) {
-    geolocation(x) <- Geolocation
-  } else if ( overwrite ) {
-    geolocation(x) <- Geolocation
-  } else {
-    message ("The dataset already has a Geolocation property: ", geolocation(x) )
-  }
-
-  ## Set the Language property -------------------------------------------------
-  if (is.null(attr(x, "Language"))) {
-    language(x) <- Language
-  } else if ( overwrite ) {
-    language(x) <- Language
-  } else {
-    message ("The dataset already has a Language property: ", language(x) )
-  }
-
-  ## Set the Version property -------------------------------------------------
-  if (is.null(attr(x, "Version"))) {
-    version(x) <- Version
-  } else if ( overwrite ) {
-    version(x) <- Version
-  } else {
-    message ("The dataset already has a version property: ", version(x) )
-  }
-
-  ## Set the Right property ---------------------------------------------
-  if (is.null(attr(x, "Rights"))) {
-    rights(x) <- Rights
-  } else if ( overwrite ) {
-    rights(x) <- Rights
-  } else {
-    message ("The dataset already has a Rights: ", rights(x) )
-  }
-
-  x <- size(x)
-  x
-}
 

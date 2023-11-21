@@ -2,13 +2,12 @@
 #' @keywords internal
 #' @importFrom assertthat assert_that
 #' @importFrom utils bibentry
-as_bibentry <- function(x,
-                        bibtype="Misc",
+as_bibentry <- function(bibtype="Misc",
                         title,
                         author, ... ) {
 
   assertthat::assert_that(inherits(author, "person"),
-                          msg="The person person must be created with utils::person().")
+                          msg="The author must be created with utils::person().")
 
   arguments <- list(...)
 
@@ -20,16 +19,28 @@ as_bibentry <- function(x,
   language <-  ifelse (is.null(arguments$language), ":unas", as.character(arguments$language))
   subject <-  ifelse (is.null(arguments$subject), new_Subject(NULL), arguments$subject)
 
-  bibentry(bibtype=bibtype,
-           title = title,
-           author = author,
-           publisher = publisher,
-           year = year,
-           resourceType = "Dataset",
-           identifier = identifier,
-           version = version,
-           description  = description,
-           language = language)
+  tmp <- bibentry(bibtype=bibtype,
+                  title = title,
+                  author = author,
+                  publisher = publisher,
+                  year = year,
+                  resourceType = "Dataset",
+                  identifier = identifier,
+                  version = version,
+                  description  = description,
+                  language = language)
 
+  if (!is.null(arguments$format)) tmp$format <- arguments$format
+  if (!is.null(arguments$rights)) tmp$rights <- arguments$right
+  if (!is.null(arguments$contributor)) {
+    assertthat::assert_that(inherits(arguments$contributor, "person"),
+                            msg="The contributor must be created with utils::person().")
+
+    tmp$author <- c(tmp$author, arguments$contributor)
+  }
+  if (!is.null(arguments$date)) tmp$date <- arguments$date
+  if (!is.null(arguments$geolocation)) tmp$geolocation <- arguments$geolocation
+  if (!is.null(arguments$fundingreference)) tmp$fundingreference <- arguments$fundingreference
+  tmp
 }
 

@@ -2,27 +2,24 @@
 % Please edit documentation in R/datacite.R
 \name{datacite}
 \alias{datacite}
-\alias{datacite_add}
-\title{Add DataCite metadata to an object}
+\alias{is.datacite}
+\alias{is.datacite.datacite}
+\title{Add DataCite metadata to a bibentry object}
 \source{
 \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite 4.3 Mandatory Properties} and
 \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
 }
 \usage{
-datacite(x)
-
-datacite_add(
-  x,
+datacite(
   Title,
-  titleType = NULL,
   Creator,
   Identifier = NULL,
   Publisher = NULL,
-  PublicationYear = "THIS",
+  PublicationYear = NULL,
   Subject = NULL,
   Type = "Dataset",
   Contributor = NULL,
-  Date = NULL,
+  DateList = NULL,
   Language = NULL,
   AlternateIdentifier = NULL,
   RelatedIdentifier = NULL,
@@ -31,20 +28,17 @@ datacite_add(
   Rights = NULL,
   Description = NULL,
   Geolocation = NULL,
-  FundingReference = NULL,
-  overwrite = TRUE
+  FundingReference = NULL
 )
+
+is.datacite(x)
+
+\method{is.datacite}{datacite}(x)
 }
 \arguments{
-\item{x}{An R object of type data.frame, or inherited data.table, tibble; alternatively a well
-structured R list.}
-
 \item{Title}{The name(s) or title(s) by which a resource is known. May be the title of a dataset
 or the name of a piece of software. Similar to \href{https://purl.org/dc/elements/1.1/title}{dct:title}.\cr
 See \code{\link{dataset_title}} for adding further titles.}
-
-\item{titleType}{For a single \code{Title} defaults to \code{NULL}. Otherwise you can add
-a Subtitle, an Alternative Title and an Other Title. See \code{\link{dataset_title}}.}
 
 \item{Creator}{The main researchers involved in producing the data, or the authors of the publication, in
 priority order. To supply multiple creators, repeat this property.}
@@ -76,9 +70,6 @@ specific \code{Type$resourceType} value. See \code{\link{resource_type}}.}
 
 \item{Contributor}{Recommended for discovery. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.}
 
-\item{Date}{Recommended for discovery in DataCite. Similar to \href{https://purl.org/dc/elements/1.1/date}{dct:date} in
-\code{\link{dublincore}}.}
-
 \item{Language}{The primary language of the resource. Allowed values are taken from
 IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}.}
 
@@ -103,15 +94,23 @@ or about which the data is focused. See \code{\link{geolocation}}.}
 \item{FundingReference}{Information about financial support (funding) for the resource
 being registered.}
 
+\item{x}{An object that is tested if it has a class "datacite".}
+
+\item{titleType}{For a single \code{Title} defaults to \code{NULL}. Otherwise you can add
+a Subtitle, an Alternative Title and an Other Title. See \code{\link{dataset_title}}.}
+
+\item{Date}{Recommended for discovery in DataCite. Similar to \href{https://purl.org/dc/elements/1.1/date}{dct:date} in
+\code{\link{dublincore}}.}
+
 \item{overwrite}{If pre-existing metadata properties should be overwritten,
 defaults to \code{TRUE}.}
 }
 \value{
-An R object with at least the mandatory DataCite attributes.
+A \code{utils::\link[utils]{bibentry}} object DataCite attributes.
 }
 \description{
 Add metadata conforming the \href{https://schema.datacite.org/}{DataCite Metadata Schema}
-to datasets, i.e. structured R data.frame or list objects, for an accurate and consistent identification
+to a \code{utils::\link[utils]{bibentry}} object, for an accurate and consistent identification
 of a resource for citation and retrieval purposes.
 }
 \details{
@@ -130,8 +129,7 @@ The \code{ResourceType} property will be by definition "Dataset".
 The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
 }
 \examples{
-my_iris <- datacite_add(
-   x = iris,
+datacite(
    Title = "Iris Dataset",
    Creator = person(family = "Anderson", given = "Edgar", role = "aut"),
    Publisher = "American Iris Society",
@@ -139,7 +137,6 @@ my_iris <- datacite_add(
    Geolocation = "US",
    Language = "en")
 
-datacite(my_iris)
 }
 \seealso{
 Other metadata functions: 
