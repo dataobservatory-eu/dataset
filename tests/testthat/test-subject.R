@@ -1,22 +1,15 @@
-Subject (term = "Dataset",
-        schemeURI = "http://id.loc.gov/authorities/subjects",
-        valueURI = "https://id.loc.gov/authorities/subjects/sh2018002256",
-        subjectScheme = "LCCH",
-        prefix = "lcch:")
-
 irissubject <- new_Subject (term  = "Irises (plants)",
                         schemeURI = "http://id.loc.gov/authorities/subjects",
                         valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
                         subjectScheme = "LCCH",
                         prefix = "lcch:")
 
-test_that("Subject() works as a constructor", {
+test_that("subject() works as a constructor", {
   expect_true(is.subject(x=irissubject))
   expect_equal(irissubject$prefix, "lcch:")
   expect_equal(irissubject$valueURI, "https://id.loc.gov/authorities/subjects/sh85068079")
 })
 
-irissubject
 
 ds <- dataset(iris,
               title = "The iris Dataset",
@@ -44,7 +37,6 @@ test_that("subject() works", {
   expect_equal(subject(ds)$valueURI, "https://id.loc.gov/authorities/subjects/sh2018002256")
 })
 
-subject(ds)
 
 subject(ds) <- irissubject
 

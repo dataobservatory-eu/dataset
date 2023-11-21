@@ -1,12 +1,7 @@
-
-
-myBibentry <- as_bibentry(iris,
-                          author = c(person(family ="Anderson", given ="Edgar",
+myBibentry <- as_bibentry(author = c(person(family ="Anderson", given ="Edgar",
                                             role = "aut")),
                           title = "The iris Dataset")
 
-
-print(myBibentry, "Bibtex")
 
 test_that("as_bibentry() internal function works", {
   expect_equal(myBibentry$title, "The iris Dataset")

@@ -13,7 +13,7 @@
 #' subject schemes, like ANZSRC, which do not have valueURIs for each subject term.
 #' @return A named list with the subject term, the subject scheme, URIs and prefix.
 #' @examples
-#' Subject ("Dataset",
+#' subject ("Dataset",
 #'         schemeURI = "http://id.loc.gov/authorities/subjects",
 #'         valueURI = "https://id.loc.gov/authorities/subjects/sh2018002256",
 #'         subjectScheme = "LCCH",
@@ -37,7 +37,7 @@
 #' @export
 
 
-Subject <- function(term,
+subject <- function(term,
                     schemeURI = NULL,
                     valueURI = NULL,
                     prefix = NULL,
@@ -60,8 +60,10 @@ Subject <- function(term,
     # this is not nice
     class(subject) <- c("subject", class(subject))
   } else {
-    subject <- new_Subject(term=term, subjectScheme=subjectScheme,
-                           schemeURI=schemeURI, valueURI=valueURI,
+    subject <- new_Subject(term=term,
+                           subjectScheme=subjectScheme,
+                           schemeURI=schemeURI,
+                           valueURI=valueURI,
                            classificationCode = classificationCode,
                            prefix = prefix)
   }
@@ -104,7 +106,7 @@ new_Subject <- function(term,
   subject
 }
 
-#' @rdname Subject
+#' @rdname subject
 #' @param ds A dataset which has or needs a subject field in the metadata
 #' attributes.
 #' @return The Subject field of the dataset's attributes.
@@ -112,18 +114,19 @@ subject <- function(ds) {
   attr(ds, "Subject")
 }
 
-#' @rdname Subject
-#' @param subject A subject field created by \code{\link{Subject}}.
-`subject<-` <- function(ds, subject) {
-  attr(ds, "Subject") <- subject
+#' @rdname subject
+#' @param subject A subject field created by \code{\link{subject}}.
+`subject<-` <- function(ds, value) {
+  attr(ds, "Subject") <- value
+  invisible(ds)
 }
 
-#' @rdname Subject
+#' @rdname subject
 is.subject <- function(x) {
   UseMethod("is.subject", x)
 }
 
-#' @rdname Subject
+#' @rdname subject
 #' @param x An object that is tested if it has a class "subject".
 #' @exportS3Method
 is.subject.subject <- function(x) ifelse(inherits(x, "subject"), TRUE, FALSE)
