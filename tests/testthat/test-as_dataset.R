@@ -1,8 +1,9 @@
 myiris <- iris
-converted <- as_dataset(iris,
+converted <- as_dataset(x=iris,
                         author = c(person(family ="Anderson", given ="Edgar",
                                           role = "aut")),
-                        title = "The iris Dataset")
+                        title = "The iris Dataset",
+                        datasource = "https://zenodo.org/record/7421899/files/iris.csv?download=1")
 
 test_that("as_dataset method works", {
   expect_true(is.dataset(converted))
@@ -16,4 +17,6 @@ test_that("as_dataset method works", {
                "The iris Dataset")
   expect_equal(attr(converted, "DataBibentry")$resourcetype,
                "Dataset")
+  expect_equal(attr(converted, "DataBibentry")$source,
+               source = "https://zenodo.org/record/7421899/files/iris.csv?download=1")
 })

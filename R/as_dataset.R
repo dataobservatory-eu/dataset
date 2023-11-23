@@ -10,7 +10,8 @@ as_dataset <- function(x,
                        description = NULL,
                        version = NULL,
                        subject = NULL,
-                       language = NULL) {
+                       language = NULL,
+                       datasource = NULL) {
   UseMethod("as_dataset", x)
 }
 
@@ -26,7 +27,8 @@ as_dataset.data.frame <- function(x,
                                   description = NULL,
                                   version = NULL,
                                   subject = NULL,
-                                  language = NULL) {
+                                  language = NULL,
+                                  datasource = NULL) {
 
   DataBibentry  <- utils::bibentry(bibtype="Misc",
                                    title = title,
@@ -37,8 +39,8 @@ as_dataset.data.frame <- function(x,
                                    identifier = identifier,
                                    version = version,
                                    description  = description,
-                                   language = language
-  )
+                                   language = language,
+                                   source = datasource )
 
   if (is.null(subject)) subject <- new_Subject("")
 

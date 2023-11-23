@@ -40,12 +40,14 @@ as_bibentry <- function(bibtype="Misc",
 
     tmp$author <- c(tmp$author, arguments$contributor)
   }
+
   if (!is.null(arguments$date)) tmp$date <- arguments$date
   if (!is.null(arguments$type)) tmp$type <- arguments$type
   if (!is.null(arguments$coverage)) tmp$coverage <- arguments$coverage
-  if (!is.null(arguments$source)) tmp$source <- arguments$source
+  if (!is.null(arguments$datasource)) tmp$source <- arguments$datasource
   if (!is.null(arguments$geolocation)) tmp$geolocation <- arguments$geolocation
   if (!is.null(arguments$fundingreference)) tmp$fundingreference <- arguments$fundingreference
+
   tmp
 }
 

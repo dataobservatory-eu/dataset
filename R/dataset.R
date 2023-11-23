@@ -20,6 +20,9 @@
 #' an R object.
 #' @param language The primary language of the dataset, for example \code{'eng'}.
 #' Defaults to \code{NULL} that sets it to the unassigned value \code{':unas'}.
+#' @param datasource The source of the dataset,
+#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI: Source},
+#' which corresponds to a \code{relatedItem} in the DataCite vocabulary.
 #' @return A dataset object, which is a data.frame or inherited object with rich
 #' metadata.
 #' @examples
@@ -49,6 +52,7 @@ dataset  <- function(x,
                      subject = NULL,
                      description = NULL,
                      language = NULL,
+                     datasource = NULL
                      ... ) {
 
   arguments <- list(...)
@@ -61,7 +65,8 @@ dataset  <- function(x,
              year=year,
              version=version,
              subject=subject,
-             language=language)
+             language=language,
+             datasource=datasource)
 }
 
 #' @keywords internal
