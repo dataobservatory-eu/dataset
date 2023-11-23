@@ -13,6 +13,20 @@ ds <- dataset(iris,
          resourceType = "Dataset"
          )
 
-test_that("multiplication works", {
+tempcon <- tempfile()
+
+test_that("dataset_bibentry() works", {
   expect_equal(class(dataset_bibentry(ds)), "bibentry")
+  expect_message(dataset_bibentry(ds, style = "cool"))
 })
+
+writeLines(text = paste(format(dataset_bibentry(ds), "Bibtex"), collapse = "\n\n"),
+           tempcon )
+
+read_bibtex <- readLines(tempcon)
+
+test_that("dataset_bibentry() works", {
+  expect_equal(read_bibtex[1], "@Misc{,")
+  expect_equal(read_bibtex[2], "  title = {The iris Dataset},")
+})
+

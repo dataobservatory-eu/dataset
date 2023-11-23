@@ -22,15 +22,27 @@
 #' @family Reference metadata functions
 #' @export
 publisher<- function(x) {
-  attr(x, "Publisher")
+
+  assertthat::assert_that(is.dataset(x),
+                          msg = "publisher(x) must be a dataset object created with dataset() or as_dataset().")
+
+
+  DataBibentry <- dataset_bibentry(x)
+  DataBibentry$publisher
 }
 
 #' @rdname publisher
 #' @export
 `publisher<-` <- function(x,  overwrite = TRUE, value) {
 
+  assertthat::assert_that(is.dataset(x),
+                          msg = "publisher(x) must be a dataset object created with dataset() or as_dataset().")
+
+  DataBibentry <- invisible(dataset_bibentry(x))
+
   if ( is.null(value)) {
-    attr(x, "Publisher") <- NA_character_
+    DataBibentry$publisher <- ":tba"
+    attr(x, "DataBibentry") <- DataBibentry
     return(x)
   }
 
@@ -38,13 +50,18 @@ publisher<- function(x) {
     stop("publisher(x) <- value: value must be of length 1.")
     }
 
-  if (is.null(attr(x, "Publisher"))) {
-     attr(x, "Publisher") <- value
-    } else if ( overwrite ) {
-    attr(x, "Publisher") <- value
+  is_tba <- DataBibentry$publisher ==  ":tba"
+
+  if (is.null(DataBibentry$publisher)) {
+    DataBibentry$publisher <- value
+    } else if (is_tba) {
+      DataBibentry$publisher <- value
+      }else if ( overwrite ) {
+      DataBibentry$publisher <- value
   } else {
-    message ("The dataset has already an Publisher: ",  publisher(x) )
+    message ("The dataset has already an Publisher: ",    DataBibentry$publisher )
   }
 
+  attr(x, "DataBibentry") <- DataBibentry
   x
 }
