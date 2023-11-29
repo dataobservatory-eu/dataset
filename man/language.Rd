@@ -44,7 +44,7 @@ language(iris_dataset)
 \seealso{
 Other Reference metadata functions: 
 \code{\link{creator}()},
-\code{\link{dataset_source}()},
+\code{\link{datasource}()},
 \code{\link{description}()},
 \code{\link{geolocation}()},
 \code{\link{identifier}()},

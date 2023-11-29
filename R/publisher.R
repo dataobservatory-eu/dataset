@@ -16,7 +16,6 @@
 #' @param value The \code{Publisher} as a character set.
 #' @return The Publisher attribute as a character of length 1 is added to \code{x}.
 #' @examples
-#' iris_dataset <- iris
 #' publisher(iris_dataset) <- "American Iris Society"
 #' publisher(iris_dataset)
 #' @family Reference metadata functions
@@ -25,7 +24,6 @@ publisher<- function(x) {
 
   assertthat::assert_that(is.dataset(x),
                           msg = "publisher(x) must be a dataset object created with dataset() or as_dataset().")
-
 
   DataBibentry <- dataset_bibentry(x)
   DataBibentry$publisher
@@ -48,20 +46,20 @@ publisher<- function(x) {
 
   if (length(value)>1) {
     stop("publisher(x) <- value: value must be of length 1.")
-    }
+  }
 
   is_tba <- DataBibentry$publisher ==  ":tba"
 
   if (is.null(DataBibentry$publisher)) {
     DataBibentry$publisher <- value
-    } else if (is_tba) {
-      DataBibentry$publisher <- value
-      }else if ( overwrite ) {
-      DataBibentry$publisher <- value
+  } else if (is_tba) {
+    DataBibentry$publisher <- value
+  }else if ( overwrite ) {
+    DataBibentry$publisher <- value
   } else {
     message ("The dataset has already an Publisher: ",    DataBibentry$publisher )
   }
 
   attr(x, "DataBibentry") <- DataBibentry
-  x
+  invisible(x)
 }

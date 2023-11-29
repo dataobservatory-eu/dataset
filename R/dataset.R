@@ -52,7 +52,7 @@ dataset  <- function(x,
                      subject = NULL,
                      description = NULL,
                      language = NULL,
-                     datasource = NULL
+                     datasource = NULL,
                      ... ) {
 
   arguments <- list(...)

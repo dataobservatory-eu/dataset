@@ -36,14 +36,13 @@ code, use the property Contributor/contributorType/ hostingInstitution for the c
 repository.
 }
 \examples{
-iris_dataset <- iris
 publisher(iris_dataset) <- "American Iris Society"
 publisher(iris_dataset)
 }
 \seealso{
 Other Reference metadata functions: 
 \code{\link{creator}()},
-\code{\link{dataset_source}()},
+\code{\link{datasource}()},
 \code{\link{description}()},
 \code{\link{geolocation}()},
 \code{\link{identifier}()},

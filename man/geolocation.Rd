@@ -42,7 +42,7 @@ geolocation(iris_dataset, overwrite = FALSE) <- "GB"
 \seealso{
 Other Reference metadata functions: 
 \code{\link{creator}()},
-\code{\link{dataset_source}()},
+\code{\link{datasource}()},
 \code{\link{description}()},
 \code{\link{identifier}()},
 \code{\link{language}},

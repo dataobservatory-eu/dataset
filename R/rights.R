@@ -20,23 +20,43 @@
 #' @family Reference metadata functions
 #' @export
 rights <- function(x) {
-  attr(x, "Rights")
+  assertthat::assert_that(is.dataset(x),
+                          msg = "rights(x): x must be a dataset object created with dataset() or as_dataset().")
+  DataBibentry <- dataset_bibentry(x)
+  DataBibentry$source
 }
 
 #' @rdname rights
 #' @export
 `rights<-` <- function(x,  overwrite = TRUE, value) {
 
-  if (is.null(attr(x, "Rights"))) {
-    if (is.null(value)) {
-      attr(x, "Rights") <- NA_character_
-    } else {
-      attr(x, "Rights") <- value
-    }
-  } else if ( overwrite ) {
-    attr(x, "Rights") <- value
-  } else {
-    message ("The dataset has already an Rights: ",  rights(x) )
+  assertthat::assert_that(is.dataset(x),
+                          msg = "rights(x): x must be a dataset object created with dataset() or as_dataset().")
+
+  DataBibentry <- invisible(dataset_bibentry(x))
+
+  if ( is.null(value) ) {
+    DataBibentry$source <- ":unas"
+    attr(x, "DataBibentry") <- DataBibentry
+    return(invisible(x))
   }
-  x
+
+  if (length(value)>1) {
+    stop("rights(x) <- value: value must be of length 1.")
+  }
+
+  is_unas <- DataBibentry$source  ==  ":unas"
+
+  if (is.null(DataBibentry$rights)) {
+    DataBibentry$rights <- value
+  } else if (is_unas) {
+    DataBibentry$rights <- value
+  }else if ( overwrite ) {
+    DataBibentry$rights <- value
+  } else {
+    message ("The dataset has already a rights field: ",    DataBibentry$rights )
+  }
+
+  attr(x, "DataBibentry") <- DataBibentry
+  invisible(x)
 }

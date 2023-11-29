@@ -30,6 +30,8 @@ as_dataset.data.frame <- function(x,
                                   language = NULL,
                                   datasource = NULL) {
 
+  cat(datasource)
+
   DataBibentry  <- utils::bibentry(bibtype="Misc",
                                    title = title,
                                    author = author,
