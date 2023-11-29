@@ -32,18 +32,6 @@ dataset_download_csv(
 )
 }
 \arguments{
-\item{Title}{\href{https://purl.org/dc/elements/1.1/title}{dct:title}, a name given to the resource.
-\code{\link{datacite}} allows the use of alternate titles, too. See \code{\link{dataset_title}}.}
-
-\item{Identifier}{An unambiguous reference to the resource within a given context.
-Recommended practice is to identify the resource by means of a string conforming to an
-identification system. Examples include International Standard Book Number (ISBN),
-Digital Object Identifier (DOI), and Uniform Resource Name (URN).
-Select and identifier scheme from
-\href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html}{registered URI schemes maintained by IANA}.
-More details: \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}.
-Similar to \code{Identifier} in \code{\link{datacite}}. See \code{\link{identifier}}.}
-
 \item{url}{a \code{\link{character}} string (or longer vector e.g.,
     for the \code{"libcurl"} method) naming the URL of a resource to be
     downloaded.}

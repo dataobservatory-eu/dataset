@@ -13,7 +13,7 @@ dataset_uri(
 \arguments{
 \item{ds}{A dataset object.}
 
-\item{prefix}{The prefix of the globally unique wor identifier (URI or CURIe),
+\item{prefix}{The prefix of the globally unique for identifier (URI or CURIe),
 defaults to \code{"https:://example.org/my_data/"}.}
 
 \item{keep_local_id}{Defaults to \code{FALSE}.}

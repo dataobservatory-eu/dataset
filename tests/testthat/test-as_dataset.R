@@ -5,6 +5,7 @@ converted <- as_dataset(x=iris,
                         title = "The iris Dataset",
                         datasource = "https://zenodo.org/record/7421899/files/iris.csv?download=1")
 
+
 test_that("as_dataset method works", {
   expect_true(is.dataset(converted))
   expect_equal(class(attr(converted, "DataBibentry")), "bibentry")
@@ -18,5 +19,5 @@ test_that("as_dataset method works", {
   expect_equal(attr(converted, "DataBibentry")$resourcetype,
                "Dataset")
   expect_equal(attr(converted, "DataBibentry")$source,
-               source = "https://zenodo.org/record/7421899/files/iris.csv?download=1")
+               "https://zenodo.org/record/7421899/files/iris.csv?download=1")
 })

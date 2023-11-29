@@ -51,7 +51,7 @@ ds <- dataset(iris,
 }
 \seealso{
 Other Reference metadata functions: 
-\code{\link{dataset_source}()},
+\code{\link{datasource}()},
 \code{\link{description}()},
 \code{\link{geolocation}()},
 \code{\link{identifier}()},

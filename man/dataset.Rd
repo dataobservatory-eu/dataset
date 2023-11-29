@@ -21,7 +21,8 @@ as_dataset(
   description = NULL,
   version = NULL,
   subject = NULL,
-  language = NULL
+  language = NULL,
+  datasource = NULL
 )
 
 \method{as_dataset}{data.frame}(
@@ -34,7 +35,8 @@ as_dataset(
   description = NULL,
   version = NULL,
   subject = NULL,
-  language = NULL
+  language = NULL,
+  datasource = NULL
 )
 
 dataset(
@@ -48,6 +50,7 @@ dataset(
   subject = NULL,
   description = NULL,
   language = NULL,
+  datasource = NULL,
   ...
 )
 
@@ -89,6 +92,10 @@ an R object.}
 
 \item{language}{The primary language of the dataset, for example \code{'eng'}.
 Defaults to \code{NULL} that sets it to the unassigned value \code{':unas'}.}
+
+\item{datasource}{The source of the dataset,
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI: Source},
+which corresponds to a \code{relatedItem} in the DataCite vocabulary.}
 
 \item{...}{Further arguments passed on to generic methods
 like \code{summary(x, ...)}.}

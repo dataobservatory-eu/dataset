@@ -8,9 +8,6 @@ iris_dataset <- dataset(
   description = "This famous (Fisher's or Anderson's) iris data set."
 )
 
-a <-
-is.null(a)
-
 test_that("publisher() works", {
   expect_true(is.null(publisher(iris_dataset)))
 })
