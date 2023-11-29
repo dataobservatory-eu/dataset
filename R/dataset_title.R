@@ -33,15 +33,25 @@
 #' @export
 
 dataset_title <- function(x) {
-  attr(x, "Title")
+  assert_that(is.dataset(x),
+              msg = "dataset_title(x) must be a dataset object created with dataset() or as_dataset().")
+
+  DataBibentry <- dataset_bibentry(x)
+  DataBibentry$dataset_title
 }
 
 #' @rdname dataset_title
 #' @export
 `dataset_title<-` <- function(x, overwrite = FALSE, value) {
 
+  assert_that(is.dataset(x),
+              msg = "In dataset_title(x) <- x must be a dataset object created with dataset() or as_dataset().")
+
+  DataBibentry <- invisible(dataset_bibentry(x))
+
   if (is.null(value)) {
-    attr(x, "Title") <- NULL
+    DataBibentry$title <- ":tba"
+    attr(x, "DataBibentry") <- DataBibentry
     return(x)
   }
 
@@ -54,36 +64,41 @@ dataset_title <- function(x) {
     }
   }
 
-  if (! inherits(value, 'list')) {
-    stop("title(x) <- value: value must be a character, a factor, or a list object.")
+  #if (! inherits(value, 'list')) {
+  #  stop("title(x) <- value: value must be a character, a factor, or a list object.")
+  #}
+
+  #if (! all(names(value) %in%  c("Title", "AlternativeTitle", "Subtitle", "TranslatedTitle", "Other"))) {
+  #  stop("title(x) <- value: value must be a list object with a'Title' and optional 'AlternativeTitle', `Subtitle`, `TranslatedTitle` and `Other` columns.")
+  #}
+
+
+  if (is.null(DataBibentry$title) | overwrite ) {
+    DataBibentry$title <- value
   }
 
-  if (! all(names(value) %in%  c("Title", "AlternativeTitle", "Subtitle", "TranslatedTitle", "Other"))) {
-    stop("title(x) <- value: value must be a list object with a'Title' and optional 'AlternativeTitle', `Subtitle`, `TranslatedTitle` and `Other` columns.")
-  }
-
-  if ((is.null(attr(x, "Title"))) | overwrite ) {
-    attr(x, "Title") <- value
-  } else {
-    attr(x, "Title") <- c(attr(x, "Title"), value)
-  }
+  attr(x, "DataBibentry") <- DataBibentry
   x
 }
 
 #' @rdname dataset_title
 #' @importFrom stats setNames
-#' @export
+#' @keywords internal
 dataset_title_create <- function (Title,
                                   titleType = "Title") {
 
-  if ( any(! titleType %in% c("Title", "AlternativeTitle", "Subtitle", "TranslatedTitle", "Other"))) {
-    stop("title_create(Title, titleType): all titleType(s) must be one of 'Title', 'AlternativeTitle', 'Subtitle', 'TranslatedTitle', 'Other'")
-  }
+  old_function <- function() {
 
-  if(!all.equal(length(Title), length(titleType))) {
-    stop("title_create(Title, titleType): you must input the same number of Titles, titleTypes values.")
-  }
+    if ( any(! titleType %in% c("Title", "AlternativeTitle", "Subtitle", "TranslatedTitle", "Other"))) {
+      stop("title_create(Title, titleType): all titleType(s) must be one of 'Title', 'AlternativeTitle', 'Subtitle', 'TranslatedTitle', 'Other'")
+    }
 
-  as.list(stats::setNames(Title, titleType))
+    if(!all.equal(length(Title), length(titleType))) {
+      stop("title_create(Title, titleType): you must input the same number of Titles, titleTypes values.")
+    }
+
+    as.list(stats::setNames(Title, titleType))
+
+  }
 
 }
