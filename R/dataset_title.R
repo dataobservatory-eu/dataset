@@ -17,19 +17,11 @@
 #' @param overwrite Defaults to \code{FALSE}.
 #' @return The titles as a data.frame with a titleTypes column.
 #' @examples
-#' my_iris <- iris
+#' y <- iris_dataset
+#' dataset_title(y)
 #'
-#' dataset_title(my_iris) <- dataset_title_create(
-#'     Title = c("Iris Dataset",
-#'     "The famous iris dataset of the R examples"),
-#'     titleType = c("Title", "Subtitle")
-#'     )
-#' dataset_title(my_iris)
-#'
-#'  y <- data.frame()
-#'  dataset_title(y) <- "R (Computer program language)"
-#'  dataset_title(y) <- "Questionnaires--Computer programs"
-#'  dataset_title(y)
+#' dataset_title(y) <- "The Famous Iris Dataset"
+#' dataset_title(y)
 #' @export
 
 dataset_title <- function(x) {

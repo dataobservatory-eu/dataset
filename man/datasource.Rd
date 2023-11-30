@@ -2,9 +2,12 @@
 % Please edit documentation in R/datasource.R
 \name{datasource}
 \alias{datasource}
+\alias{datasource<-}
 \title{Get/set the Source of the object.}
 \usage{
 datasource(x)
+
+datasource(x, overwrite = TRUE) <- value
 }
 \arguments{
 \item{x}{An object that is tested if it has a class "dublincore".}

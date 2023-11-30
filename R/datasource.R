@@ -12,22 +12,23 @@
 #' datasource(iris_dataset) <- "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
 #' datasource(iris_dataset)
 #' @family Reference metadata functions
+#' @importFrom assertthat assert_that
 #' @export
 datasource <- function(x) {
 
-  assertthat::assert_that(is.dataset(x),
-                          msg = "datasource(x) must be a dataset object created with dataset() or as_dataset().")
+  assert_that(is.dataset(x),
+              msg = "datasource(x) must be a dataset object created with dataset() or as_dataset().")
   DataBibentry <- dataset_bibentry(x)
   DataBibentry$source
 
 }
 
-#' @rdname dataset_source
+#' @rdname datasource
 #' @export
 `datasource<-` <- function(x,  overwrite = TRUE, value) {
 
-  assertthat::assert_that(is.dataset(x),
-                          msg = "datasource(x): x must be a dataset object created with dataset() or as_dataset().")
+  assert_that(is.dataset(x),
+              msg = "datasource(x): x must be a dataset object created with dataset() or as_dataset().")
 
   DataBibentry <- invisible(dataset_bibentry(x))
 

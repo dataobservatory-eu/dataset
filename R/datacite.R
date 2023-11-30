@@ -78,6 +78,7 @@
 #' \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
 #' @family metadata functions
 #' @export
+#' @importFrom utils bibentry
 #' @examples
 #' datacite(
 #'    Title = "Iris Dataset",
@@ -100,11 +101,14 @@ datacite <- function(Title,
                      Language = NULL,
                      AlternateIdentifier = NULL,
                      RelatedIdentifier = NULL,
-                     Format = NULL, Version = NULL, Rights = NULL,
-                     Description = NULL, Geolocation = NULL,
+                     Format = NULL,
+                     Version = NULL,
+                     Rights = NULL,
+                     Description = NULL,
+                     Geolocation = NULL,
                      FundingReference = NULL) {
 
-  DateList <- ifelse (is.null(Date), ":tba", as.character(DateList))
+  DateList <- ifelse (is.null(DateList), ":tba", as.character(DateList))
   Format <- ifelse (is.null(Format), ":tba", as.character(Format))
   AlternateIdentifier <- ifelse (is.null(AlternateIdentifier), ":unas", AlternateIdentifier)
   RelatedIdentifier <- ifelse (is.null(RelatedIdentifier), ":unas", RelatedIdentifier)
@@ -149,20 +153,21 @@ new_datacite <- function (Title,
                           Description, Geolocation,
                           FundingReference) {
 
-  datacite_object <- as_bibentry(title = Title,
-                                 author = Creator,
-                                 publisher = Publisher,
-                                 year = PublicationYear,
-                                 date = DateList,
-                                 language = Language,
-                                 alternateidentifier = AlternateIdentifier,
-                                 relatedidentifier = RelatedIdentifier,
-                                 format = Format,
-                                 version = Version,
-                                 rights = Rights,
-                                 description = description,
-                                 geolocation = Geolocation,
-                                 fundingreference = FundingReference)
+  datacite_object <- bibentry(bibtype = "Misc",
+                              title = Title,
+                              author = Creator,
+                              publisher = Publisher,
+                              year = PublicationYear,
+                              date = DateList,
+                              language = Language,
+                              alternateidentifier = AlternateIdentifier,
+                              relatedidentifier = RelatedIdentifier,
+                              format = Format,
+                              version = Version,
+                              rights = Rights,
+                              description = Description,
+                              geolocation = Geolocation,
+                              fundingreference = FundingReference)
 
   class(datacite_object) <- c("datacite", class(datacite_object))
   datacite_object

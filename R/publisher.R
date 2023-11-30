@@ -19,11 +19,12 @@
 #' publisher(iris_dataset) <- "American Iris Society"
 #' publisher(iris_dataset)
 #' @family Reference metadata functions
+#' @importFrom assertthat assert_that
 #' @export
 publisher<- function(x) {
 
-  assertthat::assert_that(is.dataset(x),
-                          msg = "publisher(x) must be a dataset object created with dataset() or as_dataset().")
+  assert_that(is.dataset(x),
+              msg = "publisher(x) must be a dataset object created with dataset() or as_dataset().")
 
   DataBibentry <- dataset_bibentry(x)
   DataBibentry$publisher
@@ -33,8 +34,8 @@ publisher<- function(x) {
 #' @export
 `publisher<-` <- function(x,  overwrite = TRUE, value) {
 
-  assertthat::assert_that(is.dataset(x),
-                          msg = "publisher(x) must be a dataset object created with dataset() or as_dataset().")
+  assert_that(is.dataset(x),
+              msg = "publisher(x) must be a dataset object created with dataset() or as_dataset().")
 
   DataBibentry <- invisible(dataset_bibentry(x))
 
