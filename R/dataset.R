@@ -115,8 +115,6 @@ validate_dataset <- function(x,
     stop("dataset(Bibentry=...) must be inherited from a bibentry, not ", wrong_class)
   }
 
-  class(subject)
-
   if (! inherits(subject, "subject") )   {
     wrong_class <- class(subject)
     stop("dataset(subject=...) must be inherited from a subject [created by dataset::subject()], not ", wrong_class)
