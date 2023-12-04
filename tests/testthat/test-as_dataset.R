@@ -5,6 +5,7 @@ converted <- as_dataset(x=iris,
                         title = "The iris Dataset",
                         datasource = "https://zenodo.org/record/7421899/files/iris.csv?download=1")
 
+converted_bibentry <- attr(converted, "DataBibentry")
 
 test_that("as_dataset method works", {
   expect_true(is.dataset(converted))
