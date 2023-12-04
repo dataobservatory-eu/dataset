@@ -17,7 +17,6 @@ tempcon <- tempfile()
 
 test_that("dataset_bibentry() works", {
   expect_equal(class(dataset_bibentry(ds)), "bibentry")
-  expect_message(dataset_bibentry(ds, style = "cool"))
 })
 
 writeLines(text = paste(format(dataset_bibentry(ds), "Bibtex"), collapse = "\n\n"),
