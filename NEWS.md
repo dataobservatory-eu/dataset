@@ -3,6 +3,8 @@
 The devel branch contains new code that is not is validated, but as a whole the package is not working consistently.
 
 0.2.2: New s3 classes for DataCite and Dublin Core bibliographic entries.
+0.2.3: new subject class for recording subjects
+0.2.4: All tests are passing.
 
 
 # dataset 0.2.1

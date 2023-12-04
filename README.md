@@ -32,100 +32,40 @@ manner. The data cube model in itself is is originated in the
 harmonized with the Resource Description Framework (RDF), the standard
 model for data interchange on the web[^1].
 
-A mapping of R objects into these models has numerous advantages:
-
-1.  Makes data importing easier and less error-prone;
-2.  Leaves plenty of room for documentation automation, resulting in far
-    better reusability and reproducibility;
-3.  The publication of results from R following the
-    [FAIR](https://www.go-fair.org/fair-principles/) principles is far
-    easier, making the work of the R user more findable, more
-    accessible, more interoperable and more reusable by other users;
-4.  Makes the placement into relational databases, semantic web
-    applications, archives, repositories possible without time-consuming
-    and costly data wrangling (See [From dataset To
-    RDF](https://dataset.dataobservatory.eu/articles/RDF.html)).
-
-Our package functions work with any structured R objects (data.fame,
-data.table, tibble, or well-structured lists like json), however, the
-best functionality is achieved by the (See [The dataset S3
-Class](https://dataset.dataobservatory.eu/articles/dataset.html)), which
-is inherited from `data.frame()`.
-
-## Installation
-
-You can install the development version of dataset from Github:
-
-``` r
-remotes::install_github('dataobservatory-eu/dataset')
-```
-
-or install from CRAN:
-
-``` r
-install.packages('dataset')
-```
-
-## Getting started
-
-The `dataset()` constructor creates a dataset from a data.frame or
-similar object.
+The development version of the `dataset` package is very significantly
+differnet from the CRAN release. The documentation has not been
+rewritten yet!
 
 ``` r
 library(dataset)
-#> 
-#> Attaching package: 'dataset'
-#> The following object is masked from 'package:base':
-#> 
-#>     as.data.frame
-my_iris_dataset <- dataset(
-  x = iris, 
-  Dimensions = NULL, 
-  Measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width"), 
-  Attributes = "Species", 
-  Title = "Iris Dataset", 
-  Issued = 1936
+iris_ds <- dataset(
+  x = iris,
+  title = "Iris Dataset",
+  author = person("Edgar", "Anderson", role = "aut"),
+  publisher = "American Iris Society",
+  source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+  date = 1935,
+  language = "en",
+  description = "This famous (Fisher's or Anderson's) iris data set."
 )
-
-is.dataset(my_iris_dataset)
-#> [1] TRUE
 ```
 
-Then you add the metadata:
+It is mandatory to add a `title`, `author` to a dataset, and if the
+`date` is not specified, the current date will be added.
+
+As the dataset at this point is just created, if it is not published
+yet, the `identifer` receives the default `:tba` value, a `version` of
+0.1.0 and the `:unas` (unassigned) `publisher` field.
+
+The dataset behaves as expected, with all data.frame methods applicable.
+If the dataset was originally a tibble or data.table object, it retained
+all methods of these s3 classes because the dataset class only
+implements further methods in the attributes of the original object.
 
 ``` r
-my_iris_dataset <- dublincore_add(
-  x = my_iris_dataset,
-  Creator = person("Edgar", "Anderson", role = "aut"),
-  Publisher = "American Iris Society",
-  Source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-  Date = 1935,
-  Language = "en"
-)
-
-print(my_iris_dataset)
-#> Iris Dataset by Edgar Anderson
-#> Published by American Iris Society
-#>    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#> 1           5.1         3.5          1.4         0.2  setosa
-#> 2           4.9         3.0          1.4         0.2  setosa
-#> 3           4.7         3.2          1.3         0.2  setosa
-#> 4           4.6         3.1          1.5         0.2  setosa
-#> 5           5.0         3.6          1.4         0.2  setosa
-#> 6           5.4         3.9          1.7         0.4  setosa
-#> 7           4.6         3.4          1.4         0.3  setosa
-#> 8           5.0         3.4          1.5         0.2  setosa
-#> 9           4.4         2.9          1.4         0.2  setosa
-#> 10          4.9         3.1          1.5         0.1  setosa
-#> 
-#> ... 140 further observations.
-#> Source:https://doi.org/10.1111/j.1469-1809.1936.tb02137.x.
-```
-
-``` r
-summary(my_iris_dataset)
-#> Iris Dataset by Edgar Anderson
-#> Published by American Iris Society
+summary(iris_ds)
+#> Anderson E (2023). "Iris Dataset."
+#> Further metadata: describe(iris_ds)
 #>   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
 #>  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
 #>  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
@@ -139,161 +79,108 @@ summary(my_iris_dataset)
 #>  virginica :50  
 #>                 
 #>                 
-#>                 
-#> Source:https://doi.org/10.1111/j.1469-1809.1936.tb02137.x.
+#> 
+```
+
+A brief description of the extended metadata attributes:
+
+``` r
+describe(iris_ds)
+#> Iris Dataset 
+#> Dataset with 150 observations (rows) and 5 variables (columns).
+#> Description: :unas
+#> Creator: Edgar Anderson [aut]
+#> Publisher: American Iris Society
+#> Rights: :unas
 ```
 
 ``` r
-metadata <- dublincore(x=my_iris_dataset)
-#> Title: Iris Dataset 
-#> Publiser:  American Iris Society  | Source:  https://doi.org/10.1111/j.1469-1809.1936.tb02137.x  | Date:  1936  | Language:  eng  | Identifier:   | Rights:   | Description:   | 
-#> names:  Sepal.Length, Sepal.Width, Petal.Length, Petal.Width, Species 
-#> - dimensions: <none>
-#> - measures: Sepal.Length (numeric)  Sepal.Width (numeric)  Petal.Length (numeric)  Petal.Width (numeric)  
-#> - attributes: Species (factor)
+# Remove lengthy attributes to see what is going on under the hoods:
+iris_ds2 <- iris_ds
+attr(iris_ds2, "DataStructure") <- NULL; attr(iris_ds2, "row.names") <- NULL
+str(iris_ds2)
+#> Classes 'dataset' and 'data.frame':  0 obs. of  5 variables:
+#>  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
+#>  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
+#>  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
+#>  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
+#>  $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
+#>  - attr(*, "DataBibentry")=Class 'bibentry'  hidden list of 1
+#>   ..$ :List of 11
+#>   .. ..$ title       : chr "Iris Dataset"
+#>   .. ..$ author      :Class 'person'  hidden list of 1
+#>   .. .. ..$ :List of 5
+#>   .. .. .. ..$ given  : chr "Edgar"
+#>   .. .. .. ..$ family : chr "Anderson"
+#>   .. .. .. ..$ role   : chr "aut"
+#>   .. .. .. ..$ email  : NULL
+#>   .. .. .. ..$ comment: NULL
+#>   .. ..$ publisher   : chr "American Iris Society"
+#>   .. ..$ year        : chr "2023"
+#>   .. ..$ resourcetype: chr "Dataset"
+#>   .. ..$ identifier  : chr ":tba"
+#>   .. ..$ version     : chr "0.1.0"
+#>   .. ..$ description : chr ":unas"
+#>   .. ..$ language    : chr "en"
+#>   .. ..$ format      : chr "application/r-rds"
+#>   .. ..$ rights      : chr ":unas"
+#>   .. ..- attr(*, "bibtype")= chr "Misc"
+#>  - attr(*, "Subject")=List of 6
+#>   ..$ term              : chr ""
+#>   ..$ subjectScheme     : chr ""
+#>   ..$ schemeURI         : chr ""
+#>   ..$ valueURI          : chr ""
+#>   ..$ classificationCode: NULL
+#>   ..$ prefix            : chr ""
+#>   ..- attr(*, "class")= chr [1:2] "subject" "list"
 ```
-
-Beware that the metadata variable is more structured than the printed
-version.
 
 ``` r
-str(metadata)
-#> List of 11
-#>  $ names     : chr [1:5] "Sepal.Length" "Sepal.Width" "Petal.Length" "Petal.Width" ...
-#>  $ dimensions:'data.frame':  0 obs. of  4 variables:
-#>   ..$ names      : chr(0) 
-#>   ..$ class      : chr(0) 
-#>   ..$ isDefinedBy: chr(0) 
-#>   ..$ codeList   : chr(0) 
-#>  $ measures  :'data.frame':  4 obs. of  4 variables:
-#>   ..$ names      : chr [1:4] "Sepal.Length" "Sepal.Width" "Petal.Length" "Petal.Width"
-#>   ..$ class      : chr [1:4] "numeric" "numeric" "numeric" "numeric"
-#>   ..$ isDefinedBy: chr [1:4] "https://purl.org/linked-data/cube" "https://purl.org/linked-data/cube" "https://purl.org/linked-data/cube" "https://purl.org/linked-data/cube"
-#>   ..$ codeListe  : chr [1:4] "not yet defined" "not yet defined" "not yet defined" "not yet defined"
-#>  $ attributes:'data.frame':  1 obs. of  4 variables:
-#>   ..$ names      : chr "Species"
-#>   ..$ class      : chr "factor"
-#>   ..$ isDefinedBy: chr "https://purl.org/linked-data/cube|https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/"| __truncated__
-#>   ..$ codeListe  : chr "not yet defined"
-#>  $ Type      :List of 2
-#>   ..$ resourceType       : chr "DCMITYPE:Dataset"
-#>   ..$ resourceTypeGeneral: chr "Dataset"
-#>  $ Title     :List of 1
-#>   ..$ Title: chr "Iris Dataset"
-#>  $ Date      : num 1936
-#>  $ Creator   :Class 'person'  hidden list of 1
-#>   ..$ :List of 5
-#>   .. ..$ given  : chr "Edgar"
-#>   .. ..$ family : chr "Anderson"
-#>   .. ..$ role   : chr "aut"
-#>   .. ..$ email  : NULL
-#>   .. ..$ comment: NULL
-#>  $ Source    : chr "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
-#>  $ Publisher : chr "American Iris Society"
-#>  $ Language  : chr "eng"
+paste0("Publisher:", publisher(iris_ds2))
+#> [1] "Publisher:American Iris Society"
+paste0("Rights:", rights(iris_ds2))
+#> [1] "Rights::unas"
+paste0("Rights:", rights(iris_ds2))
+#> [1] "Rights::unas"
 ```
 
-## Development plans
+The descriptive metadata are added to a `utils::bibentry` object which
+has many printing options (see `?bibentry`).
 
-This package is in an early development phase. The current dataset S3
-class is inherited from the base R data.frame. Later versions may change
-to the modern [tibble](https://tibble.tidyverse.org/), which carries a
-larger dependency footprint but easier to work with. Easy
-interoperability with the
-[data.table](https://cran.r-project.org/package=data.table) package
-remains a top development priority.
+``` r
+mybibentry <- dataset_bibentry(iris_ds)
+print(mybibentry, "text")
+#> Anderson E (2023). "Iris Dataset."
+print(mybibentry, "Bibtex")
+#> @Misc{,
+#>   title = {Iris Dataset},
+#>   author = {Edgar Anderson},
+#>   publisher = {American Iris Society},
+#>   year = {2023},
+#>   resourcetype = {Dataset},
+#>   identifier = {:tba},
+#>   version = {0.1.0},
+#>   description = {:unas},
+#>   language = {en},
+#>   format = {application/r-rds},
+#>   rights = {:unas},
+#> }
+```
 
-## The datacube model in R
+``` r
+rights(iris_ds2) <- "CC0"
+rights(iris_ds2)
+#> [1] "CC0"
+rights(iris_ds2, overwrite = FALSE) <- "GNU-2"
+#> The dataset has already a rights field: CC0
+```
 
-According to the [RDF Data Cube
-Vocabulary](https://www.w3.org/TR/vocab-data-cube/) DataSet is a
-collection of statistical data that corresponds to a defined structure.
-The data in a data set can be roughly described as belonging to one of
-the following kinds:
+Some important metadata is protected from accidental overwriting (except
+for the default `:unas` unassigned and `:tba` to-be-announced values.)
 
--   `Observations`: these are the measured values, and the cells of a
-    data frame object in R.
--   `Organizational structure`: To locate an observation within the
-    hypercube, one has at least to know the value of each dimension at
-    which the observation is located, so these values must be specified
-    for each observation. Datasets can have additional organizational
-    structure in the form of slices as described in section 7.2.
--   `Structural metadata`: Metadata to interpret the data. What is the
-    unit of measurement? Is it a normal value or a series break? Is the
-    value measured or estimated? These metadata are provided as
-    attributes and can be attached to individual observations, or to
-    higher levels.
--   `Reference metadata`: Metadata that describes the dataset as a
-    whole, such as categorization of the dataset, its publisher, or an
-    endpoint where it can be accessed.
-
-| Information  | dataset                              |
-|:------------:|--------------------------------------|
-|  dimensions  | first column section of the dataset  |
-| measurements | second column section of the dataset |
-|  attributes  | third column section of the dataset  |
-|  reference   | attributes of the R object           |
-
-Our dataset class follows the organizational model of the datacube,
-which is used by the [Statistical Data and Metadata
-eXchange](https://sdmx.org/), and which is also described in a
-non-normative manner by the the [RDF Data Cube
-Vocabulary](https://www.w3.org/TR/vocab-data-cube/). While the SDMX
-standards predate the Resource Description Framework (RDF) framework for
-the semantic web, they are already harmonized to a great deal, which
-enables users and data publishers to create machine-to-machine
-connections among statistical data. Our goal is to create a modern data
-frame object in R with utilities that allow the R user to benefit from
-synchronizing data with semantic web applications, including statistical
-resources, libraries, or open science repositories.
-
-<img src="vignettes/dataset_structure.png" width="100%" />
-
-The [The dataset S3
-Class](https://dataset.dataobservatory.eu/articles/dataset.html)
-vignette explains in more detail our interpretation of the datacube
-model, and some considerations and dilemmas that we are facing in the
-further development of this early stage package.
-
-Our
-[datasets](https://dataset.dataobservatory.eu/reference/dataset.html):
-
--   [x] Contain Dublin Core or DataCite (or both) metadata that makes
-    the findable and easier accessible via online libraries. See
-    vignette article [Datasets With FAIR
-    Metadata](https://dataset.dataobservatory.eu/articles/metadata.html).
-
--   [x] Their dimensions can be easily and unambiguously reduced to
-    triples for RDF applications; they can be easily serialized to, or
-    synchronized with semantic web applications. See vignette article
-    [From dataset To
-    RDF](https://dataset.dataobservatory.eu/articles/RDF.html).
-
--   [x] Contain processing metadata that greatly enhance the
-    reproducibility of the results, and the reviewability of the
-    contents of the dataset, including metadata defined by the [DDI
-    Alliance](https://ddialliance.org/), which is particularly helpful
-    for not yet processed data;
-
--   [x] Follow the datacube model of the [Statistical Data and Metadata
-    eXchange](https://sdmx.org/), therefore allowing easy refreshing
-    with new data from the source of the analytical work, and
-    particularly useful for datasets containing results of statistical
-    operations in R;
-
--   [x] Correct exporting with FAIR metadata to the most used file
-    formats and straightforward publication to open science repositories
-    with correct bibliographical and use metadata. See [Export And
-    Publish a
-    dataset](https://dataset.dataobservatory.eu/articles/publish.html)
-
--   [x] Use programmatically the
-    [dataspice](https://github.com/ropensci/dataspice) package to
-    publish dataset documentation.
-
--   [x] Relatively lightweight in dependencies and easily works with
-    data.frame, [tibble](https://tibble.tidyverse.org/) or
-    [data.table](https://rstudio.github.io/DT/) R objects.
+``` r
+rights(iris_ds2, overwrite = TRUE)  <- "GNU-2"
+```
 
 ## Code of Conduct
 
