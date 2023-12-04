@@ -1,11 +1,17 @@
-#' @rdname dataset
+#' @title Describe a dataset object
+#' @param x A dataset object.
+#' @return No object is returned, but they key attributes are printed on the screen.
+#' @export
 describe <- function(x) {
   UseMethod("describe", x)
 }
 
-#' @rdname dataset
+#' @rdname describe
 #' @exportS3Method
 describe.dataset <- function(x){
+
+  assertthat::assert_that(is.dataset(x),
+                          msg="describe(ds): ds must be a dataset object.")
 
   DataBibentry <- attr(x, "DataBibentry")
 
@@ -34,6 +40,10 @@ describe.dataset <- function(x){
 
   if(! is.null(DataBibentry[[1]]$publisher) ) {
     cat(paste0("Publisher: ", as.character(DataBibentry[[1]]$publisher), "\n"))
+  }
+
+  if(! is.null(DataBibentry[[1]]$rights) ) {
+    cat(paste0("Rights: ", as.character(DataBibentry[[1]]$rights), "\n"))
   }
 
   #if(!is.null(attr(x, "Subject"))) {

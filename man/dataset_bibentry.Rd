@@ -8,9 +8,6 @@ dataset_bibentry(ds, style = "text")
 }
 \arguments{
 \item{ds}{A dataset object created by \code{\link{dataset}}.}
-
-\item{style}{Defaults to \code{"text"}, alternatives: \code{"Bibtex"},
-\code{"citation"}, \code{"html"}, \code{"R"}.}
 }
 \value{
 The \code{\link[utils]{bibentry}} object of the dataset.
@@ -38,6 +35,5 @@ ds <- dataset(iris,
          resourceType = "Dataset"
          )
 
-dataset_bibentry(ds, style="text")
-dataset_bibentry(ds, style="Bibtex")
+dataset_bibentry(ds)
 }

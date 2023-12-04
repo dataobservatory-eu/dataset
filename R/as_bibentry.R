@@ -4,21 +4,23 @@
 #' @importFrom utils bibentry
 as_bibentry <- function(bibtype="Misc",
                         title,
-                        author, ... ) {
+                        author,
+                        ... ) {
 
   assertthat::assert_that(inherits(author, "person"),
                           msg="The author must be created with utils::person().")
 
   arguments <- list(...)
 
-  year <- ifelse (is.null(arguments$year), substr(as.character(Sys.Date()), 1,4), as.character(arguments$year))
-  version <- ifelse (is.null(arguments$version), "0.1.0", as.character(arguments$version))
-  publisher <-  ifelse (is.null(arguments$publisher), ":tba", as.character(arguments$publisher))
-  identifier <-  ifelse (is.null(arguments$identifier), ":tba", as.character(arguments$identifier))
+  year        <- ifelse (is.null(arguments$year), substr(as.character(Sys.Date()), 1,4), as.character(arguments$year))
+  version     <- ifelse (is.null(arguments$version), "0.1.0", as.character(arguments$version))
+  publisher   <-  ifelse (is.null(arguments$publisher), ":unas", as.character(arguments$publisher))
+  identifier  <-  ifelse (is.null(arguments$identifier), ":tba", as.character(arguments$identifier))
   description <-  ifelse (is.null(arguments$description), as.character(":unas"), as.character(arguments$description))
-  language <-  ifelse (is.null(arguments$language), ":unas", as.character(arguments$language))
-  subject <-  ifelse (is.null(arguments$subject), new_Subject(NULL), arguments$subject)
-  format <-  ifelse (is.null(arguments$format), "application/r-rds", arguments$format)
+  language    <-  ifelse (is.null(arguments$language), ":unas", as.character(arguments$language))
+  subject     <-  ifelse (is.null(arguments$subject), new_Subject(NULL), arguments$subject)
+  format      <-  ifelse (is.null(arguments$format), "application/r-rds", arguments$format)
+  rights      <-  ifelse (is.null(arguments$rights), ":unas", as.character(arguments$rights))
 
   tmp <- bibentry(bibtype=bibtype,
                   title = title,
@@ -30,10 +32,10 @@ as_bibentry <- function(bibtype="Misc",
                   version = version,
                   description  = description,
                   language = language,
-                  format = format)
+                  format = format,
+                  rights = rights)
 
   if (!is.null(arguments$format)) tmp$format <- arguments$format
-  if (!is.null(arguments$rights)) tmp$rights <- arguments$right
   if (!is.null(arguments$contributor)) {
     assertthat::assert_that(inherits(arguments$contributor, "person"),
                             msg="The contributor must be created with utils::person().")

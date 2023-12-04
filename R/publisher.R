@@ -11,8 +11,7 @@
 #' @param x An R object, such as a data.frame, a tibble, or a data.table.
 #' @param overwrite If the attributes should be overwritten. In case it is set to \code{FALSE},
 #' it gives a message with the current \code{Publisher} property instead of overwriting it.
-#' Defaults to \code{TRUE} when the attribute is set to \code{value} regardless of previous
-#' setting.
+#' Defaults to \code{FALSE}.
 #' @param value The \code{Publisher} as a character set.
 #' @return The Publisher attribute as a character of length 1 is added to \code{x}.
 #' @examples
@@ -27,7 +26,7 @@ publisher<- function(x) {
               msg = "publisher(x) must be a dataset object created with dataset() or as_dataset().")
 
   DataBibentry <- dataset_bibentry(x)
-  DataBibentry$publisher
+  as.character(DataBibentry$publisher)
 }
 
 #' @rdname publisher

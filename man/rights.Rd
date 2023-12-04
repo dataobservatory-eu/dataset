@@ -7,15 +7,14 @@
 \usage{
 rights(x)
 
-rights(x, overwrite = TRUE) <- value
+rights(x, overwrite = FALSE) <- value
 }
 \arguments{
 \item{x}{An R object, such as a data.frame, a tibble, or a data.table.}
 
 \item{overwrite}{If the \code{Rights} attribute should be overwritten. In case it is set to \code{FALSE},
 it gives a message with the current \code{Rights} property instead of overwriting it.
-Defaults to \code{TRUE} when the attribute is set to \code{value} regardless of previous
-setting.}
+Defaults to \code{FALSE}.}
 
 \item{value}{The \code{Rights} as a character set.}
 }
@@ -34,7 +33,7 @@ Typically, rights information includes a statement about various property rights
 including intellectual property rights.
 }
 \examples{
-iris_dataset <- iris
+rights(iris_dataset)
 rights(iris_dataset) <- "CC-BY-SA"
 rights(iris_dataset)
 }

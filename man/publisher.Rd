@@ -14,8 +14,7 @@ publisher(x, overwrite = TRUE) <- value
 
 \item{overwrite}{If the attributes should be overwritten. In case it is set to \code{FALSE},
 it gives a message with the current \code{Publisher} property instead of overwriting it.
-Defaults to \code{TRUE} when the attribute is set to \code{value} regardless of previous
-setting.}
+Defaults to \code{FALSE}.}
 
 \item{value}{The \code{Publisher} as a character set.}
 }

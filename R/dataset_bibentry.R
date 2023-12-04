@@ -5,8 +5,6 @@
 #' For further information on
 #' the \code{bibentry} class see \code{utils::\link[utils]{bibentry}}.
 #' @param ds A dataset object created by \code{\link{dataset}}.
-#' @param style Defaults to \code{"text"}, alternatives: \code{"Bibtex"},
-#' \code{"citation"}, \code{"html"}, \code{"R"}.
 #' @return The \code{\link[utils]{bibentry}} object of the dataset.
 #' @importFrom utils bibentry
 #' @examples
@@ -25,19 +23,11 @@
 #'          resourceType = "Dataset"
 #'          )
 #'
-#' dataset_bibentry(ds, style="text")
-#' dataset_bibentry(ds, style="Bibtex")
+#' dataset_bibentry(ds)
 #' @export
 
 dataset_bibentry <- function(ds, style = "text") {
 
   DataBibentry <- attr(ds, "DataBibentry")
-
-  if( ! style %in% c("Bibtex", "citation", "html", "latex", "R", "text") ) {
-    message('dataset_bibentry(ds, style="..." must be any of "text", "Bibtex", "citation",\n"html", "latex", "R".  Using "text".')
-    DataBibentry
-  } else {
-    print(DataBibentry, style = style)
-    invisible(DataBibentry)
-  }
+  DataBibentry
 }

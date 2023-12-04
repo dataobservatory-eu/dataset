@@ -10,11 +10,10 @@
 #' @param value The \code{Rights} as a character set.
 #' @param overwrite If the \code{Rights} attribute should be overwritten. In case it is set to \code{FALSE},
 #' it gives a message with the current \code{Rights} property instead of overwriting it.
-#' Defaults to \code{TRUE} when the attribute is set to \code{value} regardless of previous
-#' setting.
+#' Defaults to \code{FALSE}.
 #' @return The \code{Rights} attribute as a character of length 1 is added to \code{x}.
 #' @examples
-#' iris_dataset <- iris
+#' rights(iris_dataset)
 #' rights(iris_dataset) <- "CC-BY-SA"
 #' rights(iris_dataset)
 #' @family Reference metadata functions
@@ -22,13 +21,15 @@
 rights <- function(x) {
   assertthat::assert_that(is.dataset(x),
                           msg = "rights(x): x must be a dataset object created with dataset() or as_dataset().")
+
   DataBibentry <- dataset_bibentry(x)
-  DataBibentry$source
+  as.character(DataBibentry$rights)
+
 }
 
 #' @rdname rights
 #' @export
-`rights<-` <- function(x,  overwrite = TRUE, value) {
+`rights<-` <- function(x,  overwrite = FALSE, value) {
 
   assertthat::assert_that(is.dataset(x),
                           msg = "rights(x): x must be a dataset object created with dataset() or as_dataset().")
@@ -36,7 +37,7 @@ rights <- function(x) {
   DataBibentry <- invisible(dataset_bibentry(x))
 
   if ( is.null(value) ) {
-    DataBibentry$source <- ":unas"
+    DataBibentry$rights <- ":unas"
     attr(x, "DataBibentry") <- DataBibentry
     return(invisible(x))
   }
@@ -45,13 +46,13 @@ rights <- function(x) {
     stop("rights(x) <- value: value must be of length 1.")
   }
 
-  is_unas <- DataBibentry$source  ==  ":unas"
+  is_unas <- DataBibentry$rights  ==  ":unas"
 
   if (is.null(DataBibentry$rights)) {
     DataBibentry$rights <- value
   } else if (is_unas) {
     DataBibentry$rights <- value
-  }else if ( overwrite ) {
+  }else if (overwrite) {
     DataBibentry$rights <- value
   } else {
     message ("The dataset has already a rights field: ",    DataBibentry$rights )

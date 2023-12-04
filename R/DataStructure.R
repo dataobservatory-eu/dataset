@@ -10,8 +10,9 @@
 
 DataStructure <- function(x) {
 
-  assert_that(is.dataset(x),
-              msg = "DataStructure(x): ds must be a dataset created by dataset() or as_dataset().")
+  if (!is.dataset(x)) {
+    stop("DataStructure(x): x must be a dataset created by dataset() or as_dataset().")
+  }
 
   attr(x, "DataStructure")
 }
@@ -33,9 +34,9 @@ DataStructure <- function(x) {
 
 DataStructure_update <- function(x, value) {
 
-  assert_that(is.dataset(x),
-              msg = "DataStructure(x): ds must be a dataset created by dataset() or as_dataset().")
-
+  if (!is.dataset(x)) {
+    stop("DataStructure_update(x): x must be a dataset created by dataset() or as_dataset().")
+  }
   attr(x, "DataStructure") <- value
 
   invisible(x)

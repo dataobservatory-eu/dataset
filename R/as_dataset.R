@@ -11,7 +11,8 @@ as_dataset <- function(x,
                        version = NULL,
                        subject = NULL,
                        language = NULL,
-                       datasource = NULL) {
+                       datasource = NULL,
+                       rights = NULL) {
   UseMethod("as_dataset", x)
 }
 
@@ -28,21 +29,21 @@ as_dataset.data.frame <- function(x,
                                   version = NULL,
                                   subject = NULL,
                                   language = NULL,
-                                  datasource = NULL) {
+                                  datasource = NULL,
+                                  rights = NULL) {
 
-  cat(datasource)
-
-  DataBibentry  <- utils::bibentry(bibtype="Misc",
-                                   title = title,
-                                   author = author,
-                                   publisher = publisher,
-                                   year = year,
-                                   resourceType = "Dataset",
-                                   identifier = identifier,
-                                   version = version,
-                                   description  = description,
-                                   language = language,
-                                   source = datasource )
+  DataBibentry  <- as_bibentry(bibtype="Misc",
+                               title = title,
+                               author = author,
+                               publisher = publisher,
+                               year = year,
+                               resourceType = "Dataset",
+                               identifier = identifier,
+                               version = version,
+                               description  = description,
+                               language = language,
+                               datasource = datasource,
+                               rights = rights)
 
   if (is.null(subject)) subject <- new_Subject("")
 

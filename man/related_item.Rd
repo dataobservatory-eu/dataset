@@ -46,8 +46,7 @@ See \code{\link{dataset_title}} for adding further titles.}
 
 \item{schemeType}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12e-schemetype}{schemeType}.}
 
-\item{resourceTypeGeneral}{The general type of a resource or file.
-See \code{\link{resource_type_general}} for allowed values and validation.}
+\item{resourceTypeGeneral}{The general type of a resource or file.}
 
 \item{PublicationYear}{The year when the data was or will be made publicly available in
 \code{YYYY} format.See \code{\link{publication_year}}.}

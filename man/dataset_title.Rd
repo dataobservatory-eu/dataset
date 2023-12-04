@@ -2,50 +2,33 @@
 % Please edit documentation in R/dataset_title.R
 \name{dataset_title}
 \alias{dataset_title}
-\alias{dataset_title<-}
-\alias{dataset_title_create}
-\title{Get/set title(s) of a dataset}
+\alias{set_dataset_title}
+\title{Get/set title of a dataset}
 \usage{
 dataset_title(x)
 
-dataset_title(x, overwrite = FALSE) <- value
-
-dataset_title_create(Title, titleType = "Title")
+set_dataset_title(x, value)
 }
 \arguments{
-\item{x}{An R object}
+\item{x}{A dataset object.}
 
-\item{overwrite}{Defaults to \code{FALSE}.}
-
-\item{value}{The name(s) or title(s) by which a resource is known. A character string or
-a Title object created by \code{\link{dataset_title_create}}.Similar to
+\item{value}{The name(s) or title(s) by which a resource is known. See:
 \href{https://purl.org/dc/elements/1.1/title}{dct:title}.}
-
-\item{Title}{The name(s) or title(s) by which a resource is known, including \code{Title},
-\code{AlternativeTitle},  \code{Subtitle},  \code{TranslatedTitle},  \code{OtherTitle}.
-May be the title of a dataset
-or the name of a piece of software.
-Similar to \href{https://purl.org/dc/elements/1.1/title}{dct:title}.\cr
-Use \code{\link{dataset_title_create}} to create a several title entries.}
-
-\item{titleType}{In DataCite, the controlled values are
-\code{AlternativeTitle}, \code{Subtitle}, \code{TranslatedTitle}, \code{Other}. When no titleType is given (as in
-Dublin Core), the titleType is set to \code{Title}.}
 }
 \value{
-The titles as a data.frame with a titleTypes column.
+A string with the dataset's title; \code{set_dataset_title} returns
+a dataset object with the changed (main) title.
 }
 \description{
-Add one or more \code{Title(s)} to the dataset's metadata.
+Get or reset the dataset's main title.
 }
 \details{
-In the DataCite definition, several titles can be used.
+In the DataCite definition, several titles can be used; it is not
+yet implemented.
 }
 \examples{
-y <- iris_dataset
-dataset_title(y)
+dataset_title(iris_dataset)
 
-dataset_title(y) <- "The Famous Iris Dataset"
+y <- set_dataset_title(iris_dataset, "The Famous Iris Dataset")
 dataset_title(y)
 }
-\keyword{internal}

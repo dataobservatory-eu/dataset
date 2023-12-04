@@ -22,7 +22,12 @@
 #' Defaults to \code{NULL} that sets it to the unassigned value \code{':unas'}.
 #' @param datasource The source of the dataset,
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI: Source},
-#' which corresponds to a \code{relatedItem} in the DataCite vocabulary.
+#' which corresponds to a \code{relatedItem} in the DataCite vocabulary. We use
+#' \code{datasource} instead of \code{source} to avoid naming conflicts with the
+#' base R  \code{source()} function.
+#' @param rights Any rights information for this resource. The property may be
+#' repeated to record complex rights characteristics.
+#' Free text, defaults to \code{":unas"} for unassigned values. See \code{\link{rights}}.
 #' @return A dataset object, which is a data.frame or inherited object with rich
 #' metadata.
 #' @examples
@@ -53,6 +58,7 @@ dataset  <- function(x,
                      description = NULL,
                      language = NULL,
                      datasource = NULL,
+                     rights = NULL,
                      ... ) {
 
   arguments <- list(...)
@@ -66,7 +72,8 @@ dataset  <- function(x,
              version=version,
              subject=subject,
              language=language,
-             datasource=datasource)
+             datasource=datasource,
+             rights=rights)
 }
 
 #' @keywords internal
@@ -138,7 +145,60 @@ print.dataset <- function(x, ...) {
 summary.dataset <- function(object, ...) {
   args <- list(...)
   print(attr(object, "DataBibentry"))
-  NextMethod()
   cat(paste0("Further metadata: describe(", deparse(substitute(object)), ")\n"))
+  NextMethod()
+ }
+
+
+#' @title Get / Set a variable labels in a dataset
+#' @param x A dataset.
+var_labels <- function(x) {
+  UseMethod("var_labels", x)
 }
 
+set_var_labels <- function(x, value) {
+  UseMethod("set_var_labels")
+}
+
+#' @rdname var_labels
+#' @exportS3Method
+var_labels.dataset <- function(x) {
+  dsd <- attr(x, "DataStructure", exact = TRUE)
+  vapply (names(dsd), function(x) unlist(dsd[[x]]$label), character(1))
+}
+
+#' @rdname var_labels
+#' @examples
+#' relabelled <- set_var_labels(
+#'                iris_dataset,
+#'                 c(Sepal.Length="The sepal length measured in centimeters.",
+#'                   Sepal.Width="The sepal width measured in centimeters.",
+#'                   Species="The species of the iris observed.")
+#'                  )
+#' var_labels(relabelled)
+#'
+#' @exportS3Method
+`set_var_labels.dataset` <- function(x, value) {
+  dsd <- attr(x, "DataStructure")
+
+  original_labels <-  vapply (names(dsd), function(x) unlist(dsd[[x]]$label), character(1))
+  to_change <- which(  names(dsd) %in% names(value) )
+  new_labels <- original_labels
+
+  new_labels <- vapply(seq_along(original_labels),
+                       function(x) {
+                         ifelse (x %in% to_change,
+                                 yes = value[which(names(value)==names(original_labels)[x])],
+                                 no = original_labels[x])
+                       }, character(1))
+
+  dsd2 <- dsd
+
+  for ( i in seq_along(dsd)) {
+    dsd2[[i]]$label <- new_labels[i]
+  }
+
+  attr(x, "DataStructure") <- dsd2
+
+  invisible(x)
+}
