@@ -22,7 +22,7 @@ dublincore(
   relation = NULL,
   format = "application/r-rds",
   rights = NULL,
-  source = NULL,
+  datasource = NULL,
   description = NULL,
   coverage = NULL
 )
@@ -61,14 +61,19 @@ lifecycle of the resource. \href{https://purl.org/dc/elements/1.1/date}{dct:date
 \code{Date} is also recommended for
 discovery in \code{\link{datacite}}, but it requires a different formatting.}
 
+\item{relation}{A related resource. Recommended best practice is to identify the related
+resource by means of a string conforming to a formal identification system. See: \href{https://purl.org/dc/elements/1.1/relation}{dct:relation}.
+Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended for discovery.}
+
 \item{rights}{Corresponds to \href{https://purl.org/dc/elements/1.1/rights}{dct:rights} and
 \code{\link{datacite}} Rights. Information about rights held in and over the resource.
 Typically, rights information includes a statement about various property rights associated with the resource,
 including intellectual property rights. See \code{\link{rights}}.}
 
-\item{source}{A related resource from which the described resource is derived.
-See \href{https://purl.org/dc/elements/1.1/source}{dct:source} and
-\code{\link{dataset_source}}.}
+\item{datasource}{The source of the dataset,
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI: Source},
+which corresponds to a \code{relatedItem} in the DataCite vocabulary. We use
+\code{datasource} instead of \code{source} to avoid naming conflicts with the}
 
 \item{description}{An account of the resource. It may include but is not limited to:
 an abstract, a table of contents, a graphical representation, or a free-text account of the resource.
@@ -87,6 +92,10 @@ code repository. If there is an entity other than a code repository, that
 code, use the property Contributor/contributorType/hostingInstitution for the code
 repository. See \code{\link{publisher}}.}
 
+\item{source}{A related resource from which the described resource is derived.
+See \href{https://purl.org/dc/elements/1.1/source}{dct:source} and
+\code{\link{dataset_source}}.}
+
 \item{Language}{The primary language of the resource. Allowed values are taken from
 IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}. Corresponds to Language in Datacite.}
 
@@ -95,10 +104,6 @@ IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}. Corresponds to
 Examples of dimensions include size and duration. Recommended best practice is to use a controlled
 vocabulary such as the list of \href{https://www.iana.org/assignments/media-types/media-types.xhtml}{Internet Media Types, formerly known as MIME}. It is similar to \code{Format} in
 \code{\link{datacite}}.}
-
-\item{Relation}{A related resource. Recommended best practice is to identify the related
-resource by means of a string conforming to a formal identification system. See: \href{https://purl.org/dc/elements/1.1/relation}{dct:relation}.
-Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended for discovery.}
 }
 \value{
 The Dublin Core Metadata elements of the dataset in a \code{utils::\link[utils]{bibentry}} object.
@@ -129,7 +134,7 @@ dublincore(
   title = "Iris Dataset",
   creator = person("Edgar", "Anderson", role = "aut"),
   publisher = "American Iris Society",
-  source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+  datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
   date = 1935,
   language = "en",
   description = "This famous (Fisher's or Anderson's) iris data set gives the

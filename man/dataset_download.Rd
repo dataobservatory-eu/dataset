@@ -5,65 +5,29 @@
 \alias{dataset_download_csv}
 \title{Download data into a dataset}
 \usage{
-dataset_download(
-  Title,
-  Dimensions = NULL,
-  Measures = NULL,
-  Attributes = NULL,
-  Identifier = NULL,
-  url,
-  type = "csv",
-  ...
-)
+dataset_download(url, title, author, destfile, type = "csv", ...)
 
-dataset_download_csv(
-  url,
-  Title,
-  Dimensions = NULL,
-  Measures = NULL,
-  Attributes = NULL,
-  Identifier = NULL,
-  type = "csv",
-  destfile = NULL,
-  method = "auto",
-  quiet = TRUE,
-  mode = "wb",
-  cacheOK = TRUE
-)
+dataset_download_csv(url, title, author, destfile = NULL, ...)
 }
 \arguments{
 \item{url}{a \code{\link{character}} string (or longer vector e.g.,
     for the \code{"libcurl"} method) naming the URL of a resource to be
     downloaded.}
 
-\item{type}{A file type.  Currently only \code{csv} is implemented that
-invokes \code{utils::download.file}.}
+\item{title}{The title of the dataset.}
 
-\item{...}{allow additional arguments to be passed, unused.}
+\item{author}{A single person or a vector of persons as authors, declared with
+\code{\link[utils:person]{person}}.}
 
 \item{destfile}{a character string (or vector, see the \code{url}
     argument) with the file path where the downloaded file is to be
     saved.  Tilde-expansion is performed.}
 
-\item{method}{Method to be used for downloading files.  Current
-    download methods are \code{"internal"}, \code{"wininet"} (Windows
-    only) \code{"libcurl"}, \code{"wget"} and \code{"curl"}, and there
-    is a value \code{"auto"}: see \sQuote{Details} and \sQuote{Note}.
+\item{type}{A file type.  Currently only \code{csv} is implemented that
+invokes \code{utils::download.file}.}
 
-    The method can also be set through the option
-    \code{"download.file.method"}: see \code{\link{options}()}.
-  }
-
-\item{quiet}{If \code{TRUE}, suppress status messages (if any), and
-    the progress bar.}
-
-\item{mode}{character.  The mode with which to write the file.  Useful
-    values are \code{"w"}, \code{"wb"} (binary), \code{"a"} (append) and
-    \code{"ab"}.  Not used for methods \code{"wget"} and \code{"curl"}.
-    See also \sQuote{Details}, notably about using \code{"wb"} for Windows.
-  }
-
-\item{cacheOK}{logical.  Is a server-side cached value acceptable?}
+\item{...}{Further arguments passed on to generic methods
+like \code{summary(x, ...)}.}
 }
 \value{
 A \code{\link{dataset}} with the downloaded dataset.

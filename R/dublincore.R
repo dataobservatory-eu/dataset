@@ -66,7 +66,7 @@
 #' an abstract, a table of contents, a graphical representation, or a free-text account of the resource.
 #' \href{https://purl.org/dc/elements/1.1/description}{dct:description}. In
 #' \code{\link{datacite}} it is recommended for discovery. See \code{\link{description}}.
-#' @param Relation A related resource. Recommended best practice is to identify the related
+#' @param relation A related resource. Recommended best practice is to identify the related
 #' resource by means of a string conforming to a formal identification system. See: \href{https://purl.org/dc/elements/1.1/relation}{dct:relation}.
 #' Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended for discovery.
 #' @param type The nature or genre of the resource. Recommended best practice is to use a controlled vocabulary such as the DCMI Type Vocabulary
@@ -76,6 +76,10 @@
 #' Format element.
 #' @param subject Defaults to \code{NULL}. See \code{\link{subject}} to add subject descriptions
 #' to your dataset.
+#' @param datasource The source of the dataset,
+#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI: Source},
+#' which corresponds to a \code{relatedItem} in the DataCite vocabulary. We use
+#' \code{datasource} instead of \code{source} to avoid naming conflicts with the
 #' @importFrom utils person bibentry
 #' @source \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/}{	DCMI Metadata Terms}.
 #' @family metadata functions
@@ -86,7 +90,7 @@
 #'   title = "Iris Dataset",
 #'   creator = person("Edgar", "Anderson", role = "aut"),
 #'   publisher = "American Iris Society",
-#'   source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+#'   datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
 #'   date = 1935,
 #'   language = "en",
 #'   description = "This famous (Fisher's or Anderson's) iris data set gives the
@@ -108,17 +112,18 @@ dublincore <- function(
     relation = NULL,
     format = "application/r-rds",
     rights = NULL,
-    source = NULL,
+    datasource = NULL,
     description = NULL,
     coverage = NULL) {
 
   date <- ifelse (is.null(date), ":tba", as.character(date))
+  identifier <- ifelse (is.null(identifier), ":tba", as.character(identifier))
   format <- ifelse (is.null(format), ":tba", as.character(format))
   relation <- ifelse (is.null(relation), ":unas", relation)
   format <- ifelse (is.null(relation), ":unas", relation)
   rights <- ifelse (is.null(rights), ":tba", as.character(rights))
   coverage <- ifelse (is.null(coverage), ":unas", as.character(coverage))
-  source <- ifelse (is.null(source), ":unas", as.character(source))
+  datasource <- ifelse (is.null(datasource), ":unas", as.character(datasource))
 
   new_dublincore(title = title,
                  creator = creator,
@@ -132,7 +137,7 @@ dublincore <- function(
                  relation = relation,
                  format = format,
                  rights = rights,
-                 source = source,
+                 datasource = datasource,
                  description = description,
                  coverage = coverage)
 }
@@ -150,7 +155,7 @@ new_dublincore <- function (title,
                             relation = NULL,
                             format = NULL,
                             rights = NULL,
-                            source = NULL,
+                            datasource = NULL,
                             description = NULL,
                             coverage = NULL) {
 
@@ -166,7 +171,7 @@ new_dublincore <- function (title,
                                    rights = rights,
                                    description = description,
                                    type = type,
-                                   source = source,
+                                   datasource = datasource,
                                    coverage = coverage)
 
   class(dublincore_object) <- c("dublincore", class(dublincore_object))

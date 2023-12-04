@@ -2,12 +2,12 @@
 % Please edit documentation in R/dataset_title.R
 \name{dataset_title}
 \alias{dataset_title}
-\alias{set_dataset_title}
+\alias{dataset_title<-}
 \title{Get/set title of a dataset}
 \usage{
 dataset_title(x)
 
-set_dataset_title(x, value)
+dataset_title(x, overwrite = FALSE) <- value
 }
 \arguments{
 \item{x}{A dataset object.}

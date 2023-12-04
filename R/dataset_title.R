@@ -1,26 +1,16 @@
-#' @title Get/set title(s) of a dataset
-#' @description Add one or more \code{Title(s)} to the dataset's metadata.
-#' @details In the DataCite definition, several titles can be used.
-#' @param Title The name(s) or title(s) by which a resource is known, including \code{Title},
-#'  \code{AlternativeTitle},  \code{Subtitle},  \code{TranslatedTitle},  \code{OtherTitle}.
-#' May be the title of a dataset
-#' or the name of a piece of software.
-#' Similar to \href{https://purl.org/dc/elements/1.1/title}{dct:title}.\cr
-#' Use \code{\link{dataset_title_create}} to create a several title entries.
-#' @param x An R object
-#' @param value The name(s) or title(s) by which a resource is known. A character string or
-#' a Title object created by \code{\link{dataset_title_create}}.Similar to
+#' @title Get/set title of a dataset
+#' @description Get or reset the dataset's main title.
+#' @details In the DataCite definition, several titles can be used; it is not
+#' yet implemented.
+#' @param x A dataset object.
+#' @param value The name(s) or title(s) by which a resource is known. See:
 #' \href{https://purl.org/dc/elements/1.1/title}{dct:title}.
-#' @param titleType In DataCite, the controlled values are
-#' \code{AlternativeTitle}, \code{Subtitle}, \code{TranslatedTitle}, \code{Other}. When no titleType is given (as in
-#' Dublin Core), the titleType is set to \code{Title}.
-#' @param overwrite Defaults to \code{FALSE}.
-#' @return The titles as a data.frame with a titleTypes column.
+#' @return A string with the dataset's title; \code{set_dataset_title} returns
+#' a dataset object with the changed (main) title.
 #' @examples
-#' y <- iris_dataset
-#' dataset_title(y)
+#' dataset_title(iris_dataset)
 #'
-#' dataset_title(y) <- "The Famous Iris Dataset"
+#' y <- set_dataset_title(iris_dataset, "The Famous Iris Dataset")
 #' dataset_title(y)
 #' @export
 
@@ -29,15 +19,16 @@ dataset_title <- function(x) {
               msg = "dataset_title(x) must be a dataset object created with dataset() or as_dataset().")
 
   DataBibentry <- dataset_bibentry(x)
-  DataBibentry$dataset_title
+  DataBibentry$title
 }
 
 #' @rdname dataset_title
+#' @importFrom stats setNames
 #' @export
-`dataset_title<-` <- function(x, overwrite = FALSE, value) {
+`dataset_title<-` <- function(x,  overwrite = FALSE, value) {
 
   assert_that(is.dataset(x),
-              msg = "In dataset_title(x) <- x must be a dataset object created with dataset() or as_dataset().")
+              msg = "title(x) <- x must be a dataset object created with dataset() or as_dataset().")
 
   DataBibentry <- invisible(dataset_bibentry(x))
 
@@ -51,8 +42,8 @@ dataset_title <- function(x) {
     if (length(value)>1) {
       stop("title(x) <- value: if you have multiple titles, use dataset_title_create()")
     } else {
-      value <- dataset_title_create(Title = value,
-                                    titleType = "Title")
+      #value <- dataset_title_create(Title = value,
+       #                             titleType = "Title")
     }
   }
 
@@ -65,7 +56,9 @@ dataset_title <- function(x) {
   #}
 
 
-  if (is.null(DataBibentry$title) | overwrite ) {
+  if (! DataBibentry$title %in% c(":unas", ":tba", "") & ! overwrite ) {
+      warning("The dataset already has a title: ", DataBibentry$title)
+  } else {
     DataBibentry$title <- value
   }
 
@@ -73,7 +66,6 @@ dataset_title <- function(x) {
   x
 }
 
-#' @rdname dataset_title
 #' @importFrom stats setNames
 #' @keywords internal
 dataset_title_create <- function (Title,

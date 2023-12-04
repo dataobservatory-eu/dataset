@@ -36,7 +36,6 @@
 #'
 #' @export
 
-
 subject <- function(term,
                     schemeURI = NULL,
                     valueURI = NULL,
@@ -114,10 +113,32 @@ subject <- function(ds) {
   attr(ds, "Subject")
 }
 
+value <- list(term  = "Dataset",
+              subjectScheme = "LCCH",
+              schemeURI = "http://id.loc.gov/authorities/subjects",
+              valueURI = "https://id.loc.gov/authorities/subjects/sh2018002256",
+              prefix = "lcch:")
+
 #' @rdname subject
 #' @param subject A subject field created by \code{\link{subject}}.
 `subject<-` <- function(ds, value) {
-  attr(ds, "Subject") <- value
+
+  if (is.character(value)) {
+    value <- list(term=value)
+  }
+
+  if (is.null(value$subjectScheme)) value$subjectScheme <- ""
+  if (is.null(value$schemeURI)) value$schemeURI <- ""
+  if (is.null(value$valueURI)) value$valueURI <- ""
+  if (is.null(value$prefix)) value$prefix <- ""
+
+  attr(ds, "Subject") <- new_Subject(term = value$term,
+                                     schemeURI = value$schemeURI,
+                                     valueURI = value$valueURI,
+                                     prefix = value$prefix,
+                                     subjectScheme = value$subjectScheme,
+                                     classificationCode = value$classificationCode )
+
   invisible(ds)
 }
 

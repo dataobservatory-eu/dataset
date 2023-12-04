@@ -1,7 +1,7 @@
 #' @title Create a globally unique row identifier
 #' @description Add a globally unique row identifier to a dataset object.
 #' @param ds A dataset object.
-#' @param prefix The prefix of the globally unique wor identifier (URI or CURIe),
+#' @param prefix The prefix of the globally unique for identifier (URI or CURIe),
 #' defaults to \code{"https:://example.org/my_data/"}.
 #' @param keep_local_id Defaults to \code{FALSE}.
 #' @family dataset functions
