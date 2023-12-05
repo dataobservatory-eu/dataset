@@ -21,6 +21,8 @@ library(dataset)
 
 In the R language, datasets are usually contained in a data.frame() object, or in one of their modernized versions.  For example, tibble::tibble() or data.table::data.table() are inherited from the base data.frame().
 
+> This documentation is not updated yet to the development version of the [datset] package.
+
 The base data.frame() constructor, like most base R types, is very flexible.  It allows the use of any kind of metadata attached to the object.
 
 ```{r data-frame-example}
@@ -32,7 +34,7 @@ attributes(foo)
 For reproducible research, publication, or linking resources on the web, the standardization of metadata is critically important. The aim `dataset()` class is a modernized data.frame that has standardized attributes.
 
 ```{r iris}
-dataset_title(iris_dataset)
+describe(iris_dataset)
 publisher(iris_dataset)
 ```
 
@@ -69,7 +71,7 @@ head(rd_e_gerdtot)
 In a dataset that has homogeneous dimensions (all data relate to the year 2022 and the area of the United States), you could move the dimensions into the attributes of the R object, or simply omit them. However, dimensions are critically important for filtering out the observations (measurements) that you want to work with or to correctly join (integrate) datasets. If you want to create a composite indicator from two datasets that are related to the United States and the year 2022, you do not want to match measurements about 2021 or Canada accidentally.
 
 
-```{r}
+```{r, eval=FALSE}
 dimensions(rd_e_gerdtot) <- c("geo", "time", "sectperf")
 ```
 
@@ -78,7 +80,7 @@ dimensions(rd_e_gerdtot) <- c("geo", "time", "sectperf")
 
 The measurements are the actual observed values. In a long-form tidy dataset you usually have only one: 'value' 
 
-```{r}
+```{r, eval=FALSE}
 measures(rd_e_gerdtot) <- "value"
 ```
 
@@ -90,7 +92,7 @@ If your measurement unit is always millimeters (like in the iris dataset), it is
 
 Attributes that may vary across observations (rows) should remain in the dataset in the datacube model. To avoid confusion with the base R `attributes()` function, we named the function that sets the attributes within a dataset to `attributes_measures()`.
 
-```{r attributes}
+```{r attributes, eval=FALSE}
 attributes_measures(rd_e_gerdtot) <- "unit"
 datacite(rd_e_gerdtot)
 ```
@@ -102,25 +104,25 @@ Our `dataset` R package aims to increase the *Findability, Accessibility, Intero
 
 This is the role of the `reference metadata` in the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) and the SDMX data cube model. We generally keep the reference metadata as `attributes()` of the R object, because they do not relate to the rows (observations) of the data, but the entire set of data. However, omitting all reference metadata from the columns is not a good practice if you want your data to be used in a knowledge graph (or the semantic web, or the Web 3.0.) 
 
-```{r datacite, include=TRUE, eval=FALSE}
+```{r datacite, include=TRUE, eval=TRUE}
 toc <- eurostat::get_eurostat_toc()
 rd_e_gerdtot_reference <- toc[which(toc$code == "rd_e_gerdtot"),]
 
-datacite_add(rd_e_gerdtot, 
-             Title = 'GERD by sector of performance', 
-             Creator = person("Daniel", "Antal"), 
-             Identifier = 'eurostat_rd_e_gerdtot', 
-             Publisher = 'Eurostat', 
-             PublicationYear = substr(rd_e_gerdtot_reference$`last update of data`, 7,11), 
-             Subject = subject_create("Reserach", 
-               subjectScheme = "LC Subject Headings", 
-               schemeURI = "http://id.loc.gov/authorities/subjects", 
-               valueURI = "http://id.loc.gov/authorities/subjects/sh85113021"), 
-             Language = "English")
+rd_e_gerdtot_bibentry <- datacite(
+  Title = 'GERD by sector of performance', 
+  Creator = person("Daniel", "Antal"), 
+  Identifier = 'eurostat_rd_e_gerdtot', 
+  Publisher = 'Eurostat', 
+  PublicationYear = substr(rd_e_gerdtot_reference$`last update of data`, 7,11), 
+  Subject = subject_create("Reserach", 
+                           subjectScheme = "LC Subject Headings", 
+                           schemeURI = "http://id.loc.gov/authorities/subjects", 
+                           valueURI = "http://id.loc.gov/authorities/subjects/sh85113021"), 
+  Language = "English")
 ```
 
-```{r}
-datacite(rd_e_gerdtot)
+```{r print-datacite, results='asis'}
+datacite(rd_e_gerdtot_bibentry, "Bibtex")
 ```
 
 

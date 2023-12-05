@@ -29,7 +29,13 @@ articles:
          analysis.
     contents:
       - dataset
+      - metadata
       - motivation
+  - title: "Compatibility"
+    desc: >
+     The `dataspice` R package can be used programatically with dataset.
+    contents:
+       - dataspice
   - title: "Planned functionality"
     desc: >
      This package is in an early development phase. The current dataset S3 class is inherited
@@ -39,6 +45,9 @@ articles:
          [data.table](https://cran.r-project.org/web/packages/data.table/index.html) package remains a top development priority.
     contents:
       - survey
+      - RDF
+      - publish
+      - reproducible
 
 reference:
   - title: "Dataset"
@@ -46,10 +55,13 @@ reference:
       Work with DataSet objects that resemble the [W3C](https://www.w3.org/TR/vocab-data-cube/) and SDMX datacube model.
     contents:
       - dataset
-      - dataset_bibentry
-      - describe
-      - DataStructure
+      - as.data.frame.dataset
+      - dataset_local_id
       - dataset_uri
+      - dimensions
+      - measures
+      - attributes_measures
+      - bibentry_dataset
   - title: "Replication Dataset"
     desc: >
       Edgar Anderson's Iris Dataset with dataset metadata recorded as attributes.
@@ -61,25 +73,30 @@ reference:
       to improve the Findability, Accessibility, Interoperability, and Reuse of digital datasets.
     contents:
       - dublincore
+      - dublincore_add
       - datacite
+      - datacite_add
       - dataset_title
       - identifier
       - creator
       - publisher
-      - geolocation
-      - datasource
-      - publication_year
       - subject
+      - subject_create
       - size
       - language
       - description
+      - dataset_source
+      - publication_year
+      - geolocation
+      - resource_type_general
       - rights
       - version
+      - resource_type
       - related_item
-      - var_labels
   - title: "Reproducible research workflows"
     desc: >
       Improve reproducability with recording data lifecycle, processing history as
       standardized metadata.
     contents:
       - dataset_download
+      - dataset_export

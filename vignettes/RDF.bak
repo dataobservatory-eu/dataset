@@ -24,6 +24,8 @@ library(kableExtra)
 library(dataset)
 ```
 
+> This documentation is not updated yet to the development version of the [datset] package.
+
 Our datasets are defined in a way that their dimensions can be easily and unambiguously reduced to triples for RDF applications; they can be easily serialized to, or synchronized with semantic web applications with the [rdflib](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html) package^[Carl Boettiger: [A tidyverse lover’s intro to RDF](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html)].
 
 Read more about how we adopted to datacube model of SDMX and the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) for datasets as R objects in the [The dataset S3 Class](https://dataset.dataobservatory.eu/articles/RDF.html) vignette article.
@@ -53,7 +55,7 @@ example_df <- readxl::read_excel(
   sheet = "dataset-wide")
 ```
 
-```{r printexampledataset}
+```{r printexampledataset, eval=FALSE}
 example_dataset <- dataset (
   x = example_df,
   Dimensions = c("time", "geo", "sex"),
@@ -73,7 +75,7 @@ include_graphics(here("vignettes", "RDF_chart_1.png"))
 
 Eventually you can reduce the entire dataset into a triple. The `uri` uniquely defines the observations, the `component` maintains the W3C/SDMX datacube models main structural element, and the `value` field the value of the dimension, measurement or attribute.
 
-```{r localid, message=FALSE}
+```{r localid, message=FALSE, eval=FALSE}
 example_ds <- dataset_uri(ds = example_dataset) 
 example_ds
 ```
@@ -84,7 +86,7 @@ subset( example_ds, select = c("URI", "value"))
 nq_file <- file.path(tempdir(), "triple_file.nq")
 ```
 
-```{r rdflib}
+```{r rdflib, eval=FALSE}
 library(rdflib)
 rdf <- rdf()
 
@@ -99,7 +101,7 @@ rdf_serialize(rdf, doc = nq_file)
 ```
 
 
-```{r parsenqfile}
+```{r parsenqfile, eval=FALSE}
 rdf_parse(nq_file) 
 ```
 ```{r longform}
@@ -128,7 +130,7 @@ long_dataset %>% head()
 knitr::include_graphics(here("vignettes", "RDF_chart_2.png"))
 ```
 
-```{r rdf2}
+```{r rdf2, eval=FALSE}
 rdf2 <- rdf()
 
 for ( i in seq_len(nrow(long_dataset))) {

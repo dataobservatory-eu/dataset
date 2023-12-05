@@ -7,6 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -24,10 +25,14 @@ You need the latest development version of [declared](https://github.com/dusadri
 ```{r, eval=FALSE}
 remotes::install_github('dusadrian/declared')
 ```
+
 The survey class will be derived from the `dataset` class. 
 
+> This documentation is not updated yet to the development version of the [datset] package.
+
 ```{r vectordefinition}
-obs_id <- c("Saschia Iemand", "Jane Doe", "Jack Doe", "Pim Iemand", "Matti Virtanen" )
+obs_id <- c("Saschia Iemand", "Jane Doe", 
+            "Jack Doe", "Pim Iemand", "Matti Virtanen" )
 sex <- declared ( c(1,1,0,-1,1), 
                   labels = c(Male = 0, Female = 1, DK = -1), 
                   na_values = -1)
@@ -61,16 +66,17 @@ raw_survey <- data.frame (
 )
 
 survey_dataset  <- dataset( x= raw_survey,
-                            Dimensions = "geo", 
-                            Measures = c("listen_spotify", "sex",
-                                         "age_exact", "difficulty_bills"), 
-                            Attributes = NULL, 
-                            sdmx_attributes = "geo", 
-                            Title = "Tiny Survey", 
-                            Creator = person("Jane", "Doe"))
+                            title = "Tiny Survey", 
+                            author = person("Jane", "Doe")
+                            )
 ```
 
-```{r dublincore}
+
+```{r bibentry}
+dataset_bibentry(survey_dataset)
+```
+
+```{r dublincore, eval=FALSE}
 dublincore(survey_dataset)
 ```
 
@@ -106,21 +112,20 @@ summary(listen_spotify)
 ```
 
 
-```{r dataciteadataset}
-survey_dataset <- dublincore_add(survey_dataset, 
-                               Title = "Tiny Survey", 
-                               Creator = person("Daniel", "Antal"), 
-                               Identifier = "https://doi.org/xxxx.yyyyy",
-                               Publisher = "Reprex", 
-                               Date = 2022, 
-                               Subject = "Surveys", 
-                               Language = "en")
+```{r print-dublincore-metadata}
+dc_tiny_survey <- dublincore(
+  title = "Tiny Survey", 
+  creator = person("Daniel", "Antal"), 
+  identifier = 'https://doi.org/example', 
+  publisher = "Example Publishing", 
+  subject = "Surveys", 
+  language = "en")
 ```
 
 The `survey` class inherits elements of the `dataset` class, but it will be more strictly defined.  I am considering to make  `declared` every single column except for the `obs_id`. Even `numeric` types with `Inap` and `DK` would map nicely to `CL_OBS_STATUS` SDMX codes that make missing observation explicit, and try to categorize them.
 
-```{r showdublincore}
-dublincore(survey_dataset)
+```{r showdublincore, results="asis"}
+print(dc_tiny_survey, "Bibtex")
 ```
 
 Is the `summary` method implemented for `declared`? Both `dataset` and `survey` will need new `print` and `summary` methods.

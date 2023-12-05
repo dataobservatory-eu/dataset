@@ -19,3 +19,5 @@
 ^CONTRIBUTING\.md$
 ^codemeta\.json$
 ^dataspice$
+^old-functions$
+^tests - Shortcut\.lnk$
