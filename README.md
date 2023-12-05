@@ -34,7 +34,8 @@ model for data interchange on the web[^1].
 
 The development version of the `dataset` package is very significantly
 differnet from the CRAN release. The documentation has not been
-rewritten yet!
+rewritten yet! You can follow the discussion of this package on
+[rOpenSci](https://github.com/ropensci/software-review/issues/553).
 
 ``` r
 library(dataset)
