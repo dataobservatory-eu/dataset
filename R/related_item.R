@@ -29,7 +29,8 @@
 #' @export
 
 related_item <- function(Identifier,
-                         Creator, Title,
+                         Creator,
+                         Title,
                          relatedIdentifierType,
                          relationType,
                          schemeURI = NA_character_,
@@ -38,7 +39,8 @@ related_item <- function(Identifier,
                          PublicationYear = NULL,
                          Volume = NULL,
                          Issue = NULL,
-                         Number = NULL, numberType = NULL,
+                         Number = NULL,
+                         numberType = NULL,
                          firstPage = NULL, lastPage = NULL,
                          Publisher = NULL,
                          Edition = NULL,
@@ -82,8 +84,6 @@ related_item_identifier <- function(Identifier,
                                      relationType = relationType,
                                      schemeURI = schemeURI,
                                      schemeType = schemeType)
-
-  resource_type_general(relitem_identifier) <- resourceTypeGeneral
 
   relitem_identifier
 

@@ -12,6 +12,15 @@ test_that("dataset() works", {
   expect_equal(var_labels(y), c( a="", b=""))
 })
 
+example_ds <- dataset(x = data.frame(a=1, b=2),
+                      author = person("Joe", "Doe"),
+                      title = "Example dataset")
+
+
+test_that("is.dataset() works", {
+  expect_true(is.dataset(example_ds))
+})
+
 z <- set_var_labels(y, c( a="Example 1", b="Example 2"))
 
 test_that("dataset() works", {
@@ -22,3 +31,4 @@ test_that("dataset() needs a title:", {
   expect_error(dataset (data.frame ( a = 1:3,
                                      b = 5:7)) )
 })
+

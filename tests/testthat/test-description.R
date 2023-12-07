@@ -1,7 +1,5 @@
-description(x=iris_dataset) <- "The famous iris dataset used in R language examples."
-
 test_that("description() <- assignment works", {
-  expect_equal(description(iris_dataset), "The famous iris dataset used in R language examples.")
+  expect_equal(description(iris_dataset), "The famous (Fisher's or Anderson's) iris data set.")
   expect_warning(description(iris_dataset, overwrite=F) <- "Overwritten.")
 })
 

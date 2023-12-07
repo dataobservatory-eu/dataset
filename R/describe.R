@@ -44,7 +44,7 @@ describe.dataset <- function(x){
 
   dataset_description <- description(x)
 
-  if(! is.null(dataset_author) & ! dataset_description %in% empty_values ) {
+  if(! is.null(dataset_description) & ! dataset_description %in% empty_values ) {
     cat(paste0("Description: ", as.character(dataset_description), "\n"))
   }
 
@@ -52,10 +52,6 @@ describe.dataset <- function(x){
 
   if(! is.null(dataset_author) & ! dataset_author %in% empty_values ) {
     cat(paste0("Creator: ", as.character(dataset_author), "\n"))
-  }
-
-  if(! is.null(DataBibentry[[1]]$author) ) {
-    cat(paste0("Creator: ", as.character(DataBibentry[[1]]$author), "\n"))
   }
 
   dataset_publisher <- publisher(x)

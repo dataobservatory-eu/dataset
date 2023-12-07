@@ -10,6 +10,12 @@ iris_ds <- dataset(
   description = "This famous (Fisher's or Anderson's) iris data set."
 )
 
+example_ds <- dataset(x = data.frame(a=1, b=2),
+                      author = person("Joe", "Doe"),
+                      title = "Example dataset")
+
+
 test_that("describe() works", {
   expect_output(describe(iris_ds))
+  expect_output(describe(x=example_ds))
 })

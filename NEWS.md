@@ -2,6 +2,9 @@
 
 The devel branch contains new code that is not is validated, but as a whole the package is not working consistently.
 
+# dataset 0.2.6
+* All tests are passing, all examples are running.
+
 # dataset 0.2.5 
 * `datacite()` has a new interface and an  `as_datacite()` retrieval version. See the `Working with DataCite Metadata` vignette.
 * `dublincore()` has a new interface and an  `as_dublincore()` version. See the `Working with Dublin Core Metadata` vignette.

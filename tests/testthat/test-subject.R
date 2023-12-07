@@ -1,10 +1,18 @@
-irissubject <- new_Subject (term  = "Irises (plants)",
-                            schemeURI = "http://id.loc.gov/authorities/subjects",
-                            valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
-                            subjectScheme = "LCCH",
-                            prefix = "lcch:")
+irissubject <- subject_create (term  = "Irises (plants)",
+                               schemeURI = "http://id.loc.gov/authorities/subjects",
+                               valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
+                               subjectScheme = "LCCH",
+                               prefix = "lcch:")
+subject(iris_dataset,
+        overwrite = TRUE) <- subject_create(
+                                  term  = "Irises (plants)",
+                                  schemeURI = "http://id.loc.gov/authorities/subjects",
+                                  valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
+                                  subjectScheme = "LCCH",
+                                  prefix = "lcch:")
 
-test_that("new_Subject() works as a constructor", {
+subject(iris_dataset)
+test_that("subject_create works as a constructor", {
   expect_true(is.subject(x=irissubject))
   expect_equal(irissubject$prefix, "lcch:")
   expect_equal(irissubject$valueURI, "https://id.loc.gov/authorities/subjects/sh85068079")
@@ -12,11 +20,11 @@ test_that("new_Subject() works as a constructor", {
 
 
 myiris <- iris_dataset
-subject(myiris) <- list  (term  = "Irises (plants)",
-                          schemeURI = "http://id.loc.gov/authorities/subjects",
-                          valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
-                          subjectScheme = "LCCH",
-                          prefix = "lcch:")
+subject(myiris) <- subject_create(term  = "Irises (plants)",
+                                  schemeURI = "http://id.loc.gov/authorities/subjects",
+                                  valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
+                                  subjectScheme = "LCCH",
+                                  prefix = "lcch:")
 
 test_that("subject() works", {
   expect_true(is.subject(subject(myiris)))

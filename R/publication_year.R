@@ -13,7 +13,6 @@
 #' @return Returns the \code{year} metadata field of the \code{DataBibentry} of
 #' the dataset
 #' @examples
-#' iris_dataset <- iris
 #' publication_year(iris_dataset)
 #' publication_year(iris_dataset) <- 1936
 #' @family Reference metadata functions

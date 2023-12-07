@@ -10,7 +10,7 @@
 #' Defaults to \code{FALSE}, when it gives a warning at an accidental overwrite attempt.
 #' @return The \code{Description} attribute as a character of length 1 is added to \code{x}.
 #' @examples
-#' description(iris_dataset) <- "The famous iris dataset used in R language examples."
+#' description(iris_dataset, overwrite = TRUE) <- "The famous iris dataset used in R language examples."
 #' description(iris_dataset)
 #' @family Reference metadata functions
 #' @export

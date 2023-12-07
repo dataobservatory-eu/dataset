@@ -33,7 +33,6 @@ See
 \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#publicationyearadditional-guidance}{Publication Year: DataCite Additional Guidance}.
 }
 \examples{
-iris_dataset <- iris
 publication_year(iris_dataset)
 publication_year(iris_dataset) <- 1936
 }

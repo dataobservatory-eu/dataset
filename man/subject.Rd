@@ -2,28 +2,30 @@
 % Please edit documentation in R/subject.R
 \name{subject}
 \alias{subject}
+\alias{subject_create}
 \alias{subject<-}
 \alias{is.subject}
-\alias{is.subject.subject}
-\title{Create a subject}
+\title{Create/add/retrieve a subject}
 \usage{
 subject(x)
 
-subject(x)
+subject_create(
+  term,
+  schemeURI = NULL,
+  valueURI = NULL,
+  prefix = NULL,
+  subjectScheme = NULL,
+  classificationCode = NULL
+)
 
-subject(ds) <- value
+subject(x, overwrite = FALSE) <- value
 
 is.subject(x)
-
-\method{is.subject}{subject}(x)
 }
 \arguments{
-\item{x}{An object that is tested if it has a class "subject".}
+\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
 
 \item{term}{A subject term, for example, \code{"Data sets"}.}
-
-\item{subjectScheme}{The name of the subject scheme or classification code or
-authority if one is used. It is a namespace.}
 
 \item{schemeURI}{The URI of the subject identifier scheme, for example
 \code{"http://id.loc.gov/authorities/subjects"}}
@@ -35,39 +37,33 @@ authority if one is used. It is a namespace.}
 \code{"lcch:"} representing \code{"http://id.loc.gov/authorities/subjects"}.
 Widely used namespaces (schemes) have conventional abbreviations.}
 
+\item{subjectScheme}{The name of the subject scheme or classification code or
+authority if one is used. It is a namespace.}
+
 \item{classificationCode}{The classificationCode subproperty may be used for
 subject schemes, like ANZSRC, which do not have valueURIs for each subject term.}
 
-\item{subject}{A subject field created by \code{\link{subject}}.}
+\item{overwrite}{If the attributes should be overwritten. In case it is set to \code{FALSE},
+it gives a message with the current \code{Subject} property instead of overwriting it.
+Defaults to \code{FALSE}.}
+
+\item{value}{A subject field created by \code{\link{subject}}.}
 }
 \value{
-A named list with the subject term, the subject scheme, URIs and prefix.
-
 The Subject field of the dataset's attributes.
+
+A named list with the subject term, the subject scheme, URIs and prefix.
 }
 \description{
-Create a subject
+Create/add/retrieve a subject
 }
 \examples{
-subject ("Dataset",
-        schemeURI = "http://id.loc.gov/authorities/subjects",
-        valueURI = "https://id.loc.gov/authorities/subjects/sh2018002256",
-        subjectScheme = "LCCH",
-        prefix = "lcch:")
-
- ds <- dataset(iris,
-        title = "The iris Dataset",
-        author = c(
-           person(family ="Anderson",
-           given ="Edgar",
-           role = "aut")
-           ),
-         identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-         year = "1935",
-         version = "1.0",
-         description = "The famous dataset that is distributed with R.",
-         url = "https://en.wikipedia.org/wiki/Iris_flower_data_set",
-         resourceType = "Dataset"
-         )
-
+subject(iris_dataset,
+        overwrite = TRUE) <- subject_create(
+                                  term  = "Irises (plants)",
+                                  schemeURI = "http://id.loc.gov/authorities/subjects",
+                                  valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
+                                  subjectScheme = "LCCH",
+                                  prefix = "lcch:")
+subject(iris_dataset)
 }

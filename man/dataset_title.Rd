@@ -28,7 +28,6 @@ yet implemented.
 }
 \examples{
 dataset_title(iris_dataset)
-
-y <- set_dataset_title(iris_dataset, "The Famous Iris Dataset")
-dataset_title(y)
+dataset_title(iris_dataset, overwrite = TRUE) <-"The Famous Iris Dataset"
+dataset_title(iris_dataset)
 }

@@ -9,9 +9,8 @@
 #' a dataset object with the changed (main) title.
 #' @examples
 #' dataset_title(iris_dataset)
-#'
-#' y <- set_dataset_title(iris_dataset, "The Famous Iris Dataset")
-#' dataset_title(y)
+#' dataset_title(iris_dataset, overwrite = TRUE) <-"The Famous Iris Dataset"
+#' dataset_title(iris_dataset)
 #' @export
 
 dataset_title <- function(x) {

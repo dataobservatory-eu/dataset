@@ -57,7 +57,6 @@ reference:
       - dataset_bibentry
       - describe
       - DataStructure
-      - dataset_uri
   - title: "Replication Dataset"
     desc: >
       Edgar Anderson's Iris Dataset with dataset metadata recorded as attributes.
