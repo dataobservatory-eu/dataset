@@ -2,18 +2,21 @@
 % Please edit documentation in R/var_labels.R
 \name{var_labels}
 \alias{var_labels}
+\alias{set_var_labels}
 \alias{var_labels.dataset}
 \alias{set_var_labels.dataset}
 \title{Get / Set a variable labels in a dataset}
 \usage{
 var_labels(x)
 
+set_var_labels(x, value)
+
 \method{var_labels}{dataset}(x)
 
 \method{set_var_labels}{dataset}(x, value)
 }
 \arguments{
-\item{x}{A dataset.}
+\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
 
 \item{value}{A character vector for labelling the variables with
 \code{set_var_labels}.}

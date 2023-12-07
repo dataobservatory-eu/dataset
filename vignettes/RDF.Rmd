@@ -24,7 +24,7 @@ library(kableExtra)
 library(dataset)
 ```
 
-> This documentation is not updated yet to the development version of the [datset] package.
+> This documentation is not updated yet to the development version of the [dataset] package.
 
 Our datasets are defined in a way that their dimensions can be easily and unambiguously reduced to triples for RDF applications; they can be easily serialized to, or synchronized with semantic web applications with the [rdflib](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html) package^[Carl Boettiger: [A tidyverse lover’s intro to RDF](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html)].
 

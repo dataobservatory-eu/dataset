@@ -78,7 +78,7 @@ lifecycle of the resource. \href{https://purl.org/dc/elements/1.1/date}{dct:date
 discovery in \code{\link{datacite}}, but it requires a different formatting.}
 
 \item{language}{A language of the dataset. See
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/language/}{DCMI: Langauge}.}
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/language/}{DCMI: Language}.}
 
 \item{relation}{A related resource. Recommended best practice is to identify the related
 resource by means of a string conforming to a formal identification system. See: \href{https://purl.org/dc/elements/1.1/relation}{dct:relation}.

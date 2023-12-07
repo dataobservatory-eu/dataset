@@ -31,7 +31,7 @@ The \code{Creator}
 corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/}{dct:creator}
 in Dublin Core and Creator in DataCite.
 The name of the entity that holds, archives, publishes prints, distributes,
-releases, issues, or produces the datast. This property will be used to
+releases, issues, or produces the dataset. This property will be used to
 formulate the citation, so consider the prominence of the role.
 }
 \examples{

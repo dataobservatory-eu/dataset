@@ -1,9 +1,12 @@
 #' @title Get / Set a variable labels in a dataset
-#' @param x A dataset.
+#' @param x A dataset object created with \code{dataset::\link{dataset}}.
+#' @export
 var_labels <- function(x) {
   UseMethod("var_labels", x)
 }
 
+#' @rdname var_labels
+#' @export
 set_var_labels <- function(x, value) {
   UseMethod("set_var_labels")
 }

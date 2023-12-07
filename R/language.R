@@ -1,7 +1,7 @@
 #' @title Get/Set the primary language of the dataset
 #' @description Add the optional Language property as an attribute to an R object.
 #' @details Language is an optional property in DataCite 4.4; see:
-#' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#9-language}{datacite:Langugage}\cr
+#' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#9-language}{datacite:Language}\cr
 #' It is a part of the "core" of the
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin Core metadata terms}.
 #' The language parameter is validated against the \code{[ISOcodes]{ISO_639_2}} table.\cr

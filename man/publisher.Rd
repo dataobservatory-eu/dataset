@@ -10,7 +10,7 @@ publisher(x)
 publisher(x, overwrite = TRUE) <- value
 }
 \arguments{
-\item{x}{An R object, such as a data.frame, a tibble, or a data.table.}
+\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
 
 \item{overwrite}{If the attributes should be overwritten. In case it is set
 to \code{FALSE},it gives a warning with the current \code{publisher}

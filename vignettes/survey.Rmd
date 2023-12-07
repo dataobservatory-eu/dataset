@@ -28,7 +28,7 @@ remotes::install_github('dusadrian/declared')
 
 The survey class will be derived from the `dataset` class. 
 
-> This documentation is not updated yet to the development version of the [datset] package.
+> This documentation is not updated yet to the development version of the [dataset] package.
 
 ```{r vectordefinition}
 obs_id <- c("Saschia Iemand", "Jane Doe", 

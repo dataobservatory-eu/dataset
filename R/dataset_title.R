@@ -80,7 +80,7 @@ dataset_title_create <- function (Title,
     }
 
     if(!all.equal(length(Title), length(titleType))) {
-      stop("title_create(Title, titleType): you must input the same number of Titles, titleTypes values.")
+      stop("title_create(Title, titleType): you must input the same number of Titles and titleType values.")
     }
 
     as.list(stats::setNames(Title, titleType))

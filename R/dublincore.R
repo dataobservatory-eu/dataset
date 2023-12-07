@@ -80,7 +80,7 @@
 #' @param contributor An entity responsible for making contributions to the dataset. See
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/contributor/}{DCMI: Contributor}.
 #' @param language A language of the dataset. See
-#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/language/}{DCMI: Langauge}.
+#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/language/}{DCMI: Language}.
 #' @importFrom utils person bibentry
 #' @source \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/}{	DCMI Metadata Terms}.
 #' @family metadata functions

@@ -21,7 +21,7 @@ library(dataset)
 
 In the R language, datasets are usually contained in a data.frame() object, or in one of their modernized versions.  For example, tibble::tibble() or data.table::data.table() are inherited from the base data.frame().
 
-> This documentation is not updated yet to the development version of the [datset] package.
+> This documentation is not updated yet to the development version of the [dataset] package.
 
 The base data.frame() constructor, like most base R types, is very flexible.  It allows the use of any kind of metadata attached to the object.
 

@@ -84,7 +84,7 @@ be announced later.}
 \item{description}{The optional \code{Description} property as an attribute to
 an R object.}
 
-\item{version}{The version of the dataset. If left emtpy (NULL), defaults to
+\item{version}{The version of the dataset. If left empty (NULL), defaults to
 \code{'0.1.0'}}
 
 \item{subject}{The subject of the data frame, as a subject type.}
