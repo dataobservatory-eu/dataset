@@ -1,9 +1,16 @@
 ## Test environments
 
+Local:
 * Windows10 x86_64-w64-mingw32 (64-bit), R version 4.2.1, locally.
 * Ubuntu 22.04.1 LTS x86_64-pc-linux-gnu (64-bit), R version 4.2.1, locally
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
+Appveyor:
+* Windows Server 2019 x64 (build 17763); R version 4.3.2 Patched (2023-12-01 r85659 ucr)
+
+r_hub:
 *  Windows Server 2022 x64 (build 20348); R Under development (unstable)
 *  Fedora Linux, R-devel, clang, gfortran
 *  Ubuntu Linux 20.04.1 LTS, R-release, GCC
+
+On some machines I see a fake spelling error that is a part of a badge on the top of README. ON another virtual machine I found detritus from MikTek (presumably from building vignettes) but I cannot replicate it on others, it may be a setting issue with r_hub.

@@ -11,7 +11,7 @@
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7440192.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.2.1-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.2.6-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Follow
 rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
@@ -20,7 +20,6 @@ coverage](https://codecov.io/gh/dataobservatory-eu/dataset/branch/master/graph/b
 [![pkgcheck](https://github.com/dataobservatory-eu/dataset/workflows/pkgcheck/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions?query=workflow%3Apkgcheck)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/dataobservatory-eu/dataset?branch=master&svg=true)](https://ci.appveyor.com/project/dataobservatory-eu/dataset)
-
 [![R-CMD-check](https://github.com/dataobservatory-eu/dataset/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
