@@ -26,8 +26,7 @@ dataset_download_csv(url, title, author, destfile = NULL, ...)
 \item{type}{A file type.  Currently only \code{csv} is implemented that
 \code{\link[utils:download.file]{utils::download.file}}.}
 
-\item{...}{Further arguments passed on to generic methods
-like \code{summary(x, ...)}.}
+\item{...}{Various parameters to pass on to the downloading functions.}
 }
 \value{
 A \code{\link{dataset}} with the downloaded dataset.
@@ -40,15 +39,12 @@ an import function.
 \donttest{
 dest_file <- file.path(tempdir(), "iris.csv")
 dataset_download(
-  url = "https://zenodo.org/record/7421899/files/iris.csv?download=1",
-  Dimensions = NULL,
-  Measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width" ),
-  Attributes = "Species",
-  Title = "Iris Dataset",
-  Publisher = "American Iris Society",
-  Identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-  destfile = dest_file
-)
+   url = "https://zenodo.org/record/7421899/files/iris.csv?download=1",
+   title = "Iris Dataset",
+   author = person(given="Edgar", family="Anderson"),
+   publisher = "American Iris Society",
+   identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+   destfile = dest_file)
 }
 }
 \keyword{internal}

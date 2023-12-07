@@ -2,6 +2,7 @@
 #' @description A wrapper around \code{\link{dataset}} and
 #' an import function.
 #' @importFrom utils download.file read.csv
+#' @param ... Various parameters to pass on to the downloading functions.
 #' @inheritParams dataset
 #' @param type A file type.  Currently only \code{csv} is implemented that
 #'  \code{\link[utils:download.file]{utils::download.file}}.
@@ -10,19 +11,14 @@
 #' \donttest{
 #' dest_file <- file.path(tempdir(), "iris.csv")
 #' dataset_download(
-#'   url = "https://zenodo.org/record/7421899/files/iris.csv?download=1",
-#'   Dimensions = NULL,
-#'   Measures = c("Sepal.Length", "Sepal.Width",  "Petal.Length", "Petal.Width" ),
-#'   Attributes = "Species",
-#'   Title = "Iris Dataset",
-#'   Publisher = "American Iris Society",
-#'   Identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-#'   destfile = dest_file
-#' )
+#'    url = "https://zenodo.org/record/7421899/files/iris.csv?download=1",
+#'    title = "Iris Dataset",
+#'    author = person(given="Edgar", family="Anderson"),
+#'    publisher = "American Iris Society",
+#'    identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+#'    destfile = dest_file)
 #' }
 #' @export
-
-
 dataset_download  <- function(url,
                               title,
                               author,
@@ -38,8 +34,6 @@ dataset_download  <- function(url,
   } else {
     stop ('Currently only dataset_download(..., type = "csv" is implemented')
   }
-
-
 }
 
 
@@ -62,6 +56,5 @@ dataset_download_csv  <- function(url,
                   title = title,
                   author = author,
                   ...)
-
   ds
 }
