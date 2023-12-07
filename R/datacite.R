@@ -37,7 +37,7 @@
 #' distributes, releases, issues, or produces the resource. This property will be used to
 #' formulate the citation, so consider the prominence of the role.
 #' For software, use Publisher for the code repository. Mandatory in DataCite, and similar to
-#' dct:publisher. See \code{\link{publisher}}.
+#' \code{dct:publisher}. See \code{\link{publisher}}.
 #' @param Type Defaults to \code{Dataset}.
 #' The DataCite resourceType definition refers back to
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#https://purl.org/dc/elements/1.1/type}{dcm:type}.
@@ -45,12 +45,19 @@
 #' specific \code{Type$resourceType} value. See \code{\link{resource_type}}.
 #' @param Language The primary language of the resource. Allowed values are taken from
 #' IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}.
-#' @param AlternateIdentifier An identifier or identifiers other than the primary Identifier applied to the resource being registered. This may be any alphanumeric string unique within its domain of issue. It may be used for local identifiers. AlternateIdentifier should be used for another identifier of the same instance (same location, same file).
+#' @param AlternateIdentifier An identifier or identifiers other than the primary
+#' Identifier applied to the resource being registered. This may be any
+#' alphanumeric string unique within its domain of issue. It may be used for
+#' local identifiers. \code{AlternateIdentifier} should be used for another
+#' identifier of the same instance (same location, same file).
 #' @param RelatedIdentifier Recommended for discovery. Similar to \href{https://purl.org/dc/elements/1.1/relation}{dct:relation}.
 #' @param Format Technical format of the resource. Similar to \href{https://purl.org/dc/elements/1.1/format}{dct:format}.
 #' @param Version Free text. Suggested practice: track major_version.minor_version. See \code{\link{version}}.
 #' @param Rights Any rights information for this resource. The property may be repeated to record complex rights characteristics.
 #' Free text. See \code{\link{rights}}.
+#' @param DateList DataCite 4.4 allows to set multiple dates to a resource, they should
+#' be added as a list. See:
+#' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#8-date}{datacite:Date}.
 #' @param Description Recommended for discovery. All additional information that does not
 #' fit in any of the other categories. It may be used for technical information—a free text.
 #' Similar to \href{https://purl.org/dc/elements/1.1/description}{dct:description}.
@@ -65,6 +72,7 @@
 #' @source \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite 4.3 Mandatory Properties} and
 #' \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
 #' @family metadata functions
+#' @importFrom utils person bibentry
 #' @examples
 #' datacite(
 #'    Title = "Iris Dataset",
@@ -76,8 +84,6 @@
 #'
 #' as_datacite(iris_dataset, type="dataset")
 #' @export
-#' @importFrom utils person bibentry
-
 
 datacite <- function(Title,
                      Creator,
@@ -128,6 +134,8 @@ datacite <- function(Title,
 
 #' @rdname datacite
 #' @param x A dataset object created with \code{dataset::\link{dataset}}.
+#' @param type A DataCite 4.4  metadata can be returned as a \code{type="list"},
+#' a \code{type="dataset"}, or a \code{type="bibentry"} (default).
 #' @param ... Optional parameters to add to a \code{datacite} object.
 #' \code{author=person("Jane", "Doe")} adds an author to the citation
 #' object if \code{type="dataset"}.

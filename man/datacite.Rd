@@ -54,7 +54,7 @@ or for all versions. Similar to \code{dct:title} in \code{\link{dublincore}}.}
 distributes, releases, issues, or produces the resource. This property will be used to
 formulate the citation, so consider the prominence of the role.
 For software, use Publisher for the code repository. Mandatory in DataCite, and similar to
-dct:publisher. See \code{\link{publisher}}.}
+\code{dct:publisher}. See \code{\link{publisher}}.}
 
 \item{PublicationYear}{The year when the data was or will be made publicly available in
 \code{YYYY} format.See \code{\link{publication_year}}.}
@@ -72,10 +72,18 @@ specific \code{Type$resourceType} value. See \code{\link{resource_type}}.}
 
 \item{Contributor}{Recommended for discovery. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.}
 
+\item{DateList}{DataCite 4.4 allows to set multiple dates to a resource, they should
+be added as a list. See:
+\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#8-date}{datacite:Date}.}
+
 \item{Language}{The primary language of the resource. Allowed values are taken from
 IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}.}
 
-\item{AlternateIdentifier}{An identifier or identifiers other than the primary Identifier applied to the resource being registered. This may be any alphanumeric string unique within its domain of issue. It may be used for local identifiers. AlternateIdentifier should be used for another identifier of the same instance (same location, same file).}
+\item{AlternateIdentifier}{An identifier or identifiers other than the primary
+Identifier applied to the resource being registered. This may be any
+alphanumeric string unique within its domain of issue. It may be used for
+local identifiers. \code{AlternateIdentifier} should be used for another
+identifier of the same instance (same location, same file).}
 
 \item{RelatedIdentifier}{Recommended for discovery. Similar to \href{https://purl.org/dc/elements/1.1/relation}{dct:relation}.}
 
@@ -97,6 +105,9 @@ or about which the data is focused. See \code{\link{geolocation}}.}
 being registered.}
 
 \item{x}{An object that is tested if it has a class "datacite".}
+
+\item{type}{A DataCite 4.4  metadata can be returned as a \code{type="list"},
+a \code{type="dataset"}, or a \code{type="bibentry"} (default).}
 
 \item{...}{Optional parameters to add to a \code{datacite} object.
 \code{author=person("Jane", "Doe")} adds an author to the citation

@@ -34,9 +34,6 @@ language <- function (x) {
 }
 
 #' @rdname language
-#' @param overwrite If the attributes should be overwritten. In case it is set
-#' to \code{FALSE},it gives a warning with the current \code{language}
-#' property instead of overwriting it. Defaults to \code{FALSE}.
 #' @export
 `language<-` <- function(x, iso_639_code = "639-3", value ) {
 

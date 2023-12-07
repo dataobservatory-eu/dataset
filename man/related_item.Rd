@@ -66,7 +66,7 @@ or the name of a piece of software. Similar to \href{https://purl.org/dc/element
 distributes, releases, issues, or produces the resource. This property will be used to
 formulate the citation, so consider the prominence of the role.
 For software, use Publisher for the code repository. Mandatory in DataCite, and similar to
-dct:publisher. See \code{\link{publisher}}.}
+\code{dct:publisher}. See \code{\link{publisher}}.}
 
 \item{Edition}{The edition of the related item (optional).}
 

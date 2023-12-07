@@ -18,10 +18,6 @@ language(x, iso_639_code = "639-3") <- value
 as a 2- or 3-character code for the language. You can add a language code or language name,
 and the parameter is normalized to \code{tolower(language)}. (The ISO 639 standard capitalizes
 language names and uses lower case for the codes.)}
-
-\item{overwrite}{If the attributes should be overwritten. In case it is set
-to \code{FALSE},it gives a warning with the current \code{language}
-property instead of overwriting it. Defaults to \code{FALSE}.}
 }
 \value{
 The Language is added to the \code{x} as
