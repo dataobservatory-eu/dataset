@@ -4,20 +4,23 @@
 \alias{dataset_bibentry}
 \title{Get the bibliographic entries of a dataset}
 \usage{
-dataset_bibentry(ds, style = "text")
+dataset_bibentry(x, style = "text")
 }
 \arguments{
-\item{ds}{A dataset object created by \code{\link{dataset}}.}
+\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
 }
 \value{
 The \code{\link[utils]{bibentry}} object of the dataset.
 }
 \description{
 A dataset constructed with \code{\link{dataset}} records most of the
-dataset-level metadata in an bibentry object, which allows the printing or saving
-the bibliographic record in HTML, BibLatex and other formats.
-For further information on
-the \code{bibentry} class see \code{utils::\link[utils]{bibentry}}.
+dataset-level metadata in a \code{bibentry} object.
+A dataset constructed with \code{\link{dataset}} records most of the
+dataset-level metadata in a bibentry object. This class is defined in the
+\emph{utils} package, and it is installed by default with R;
+using the gives wide interoperability with other packages and allows
+printing or saving the bibliographic record in HTML, BibLatex and other
+formats. For further information see \code{utils::\link[utils]{bibentry}}.
 }
 \examples{
 ds <- dataset(iris,

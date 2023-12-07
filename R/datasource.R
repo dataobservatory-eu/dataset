@@ -5,8 +5,8 @@
 #' derived. See \href{https://purl.org/dc/elements/1.1/source}{dct:source}. In Datacite,
 #' the source is described by a \code{relatedIdentifierType} with the property
 #' \code{relationType="isDerivedFrom"}.
+#' @param x A dataset object created with \code{dataset::\link{dataset}}.
 #' @param value The \code{Source} as a character string of lengths one.
-#' @inheritParams dublincore
 #' @return The \code{Source} attribute as a character of length 1 is added to \code{x}.
 #' @examples
 #' datasource(iris_dataset) <- "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"

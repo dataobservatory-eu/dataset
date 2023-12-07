@@ -30,6 +30,13 @@ articles:
     contents:
       - dataset
       - motivation
+  - title: "Metadata"
+    desc: >
+     Our `dataset` R package creates new classes and an interface to easily add,
+     retrieve or modify descriptive or structural metadata to a dataset.
+    contents:
+      - datacite
+      - dublincore
   - title: "Planned functionality"
     desc: >
      This package is in an early development phase. The current dataset S3 class is inherited
@@ -39,6 +46,7 @@ articles:
          [data.table](https://cran.r-project.org/web/packages/data.table/index.html) package remains a top development priority.
     contents:
       - survey
+      - RDF
 
 reference:
   - title: "Dataset"

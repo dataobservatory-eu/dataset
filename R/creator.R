@@ -7,8 +7,8 @@
 #' The name of the entity that holds, archives, publishes prints, distributes,
 #' releases, issues, or produces the datast. This property will be used to
 #' formulate the citation, so consider the prominence of the role.
-#' @param ds A dataset object created by \code{\link{dataset}}.
-#' @param value The \code{Creator} as a \code{utils::\link[utils]{person}} object.
+#' @param x A dataset object created by \code{\link{dataset}}.
+#' @param value The \code{Creator} as a \code{\link[utils:person]{utils::person}} object.
 #' @param overwrite If the attributes should be overwritten. In case it is set to \code{FALSE},
 #' it gives a message with the current \code{Creator} property instead of overwriting it.
 #' Defaults to \code{TRUE} when the attribute is set to \code{value} regardless of previous
@@ -16,38 +16,32 @@
 #' @return The Creator attribute as a character of length one is added to \code{x}.
 #' @importFrom utils person
 #' @examples
-#' ds <- dataset(iris,
-#'               title = "The iris Dataset",
-#'               author = c(
-#'                 person(family ="Anderson",
-#'                        given ="Edgar",
-#'                        role = "aut")
-#'               ),
-#'               identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-#'               year = "1935",
-#'               version = "1.0",
-#'               description = "The famous dataset that is distributed with R.")
+#' creator(iris_dataset)
 #' @family Reference metadata functions
 #' @export
-creator<- function(ds) {
+creator<- function(x) {
+  assert_that(is.dataset(x),
+              msg = "creator(x): x must be a dataset object created with dataset() or as_dataset().")
 
-  ds_bibentry <- dataset_bibentry(ds)
+  ds_bibentry <- dataset_bibentry(x)
   ds_bibentry$author
 }
 
 #' @rdname creator
 #' @export
-`creator<-` <- function(ds, overwrite = TRUE, value) {
+`creator<-` <- function(x, overwrite = TRUE, value) {
+  assert_that(is.dataset(x),
+              msg = "creator(x) <- value: x must be a dataset object created with dataset() or as_dataset().")
 
   if (is.null(value)) {
-    return(ds)
+    returnx(x)
   }
 
   if (!inherits(value, "person")) {
     stop("creator <- value: value must be a utils::person object.")
   }
 
-  ds_creator <- dataset_bibentry(ds)$author
+  ds_creator <- dataset_bibentry(x)$author
 
 
   if ( overwrite ) {
@@ -56,10 +50,10 @@ creator<- function(ds) {
     ds_creator <- c(ds_creator, value)
   }
 
-  databibentry <- attr(ds, "DataBibentry")
+  databibentry <- attr(x, "DataBibentry")
   databibentry$author <- ds_creator
-  attr(ds, "DataBibentry") <- databibentry
-  ds
+  attr(x, "DataBibentry") <- databibentry
+  invisible(x)
 }
 
 

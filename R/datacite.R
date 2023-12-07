@@ -127,12 +127,22 @@ datacite <- function(Title,
 }
 
 #' @rdname datacite
+#' @param x A dataset object created with \code{dataset::\link{dataset}}.
 #' @export
-as_datacite <- function(x, type = "bibentry", ...) {
+as_datacite <- function(x, type = "bibentry", ... ) {
 
-  citation_author <- ":unas"
+  citation_author <- person(NULL, NULL)
+
+  is_person <- function(p) ifelse (inherits(p, "person"), TRUE, FALSE)
+
   arguments <- list(...)
-  if (!is.null(arguments$author)) citation_author <- arguments$author
+  if (!is.null(arguments$author)) {
+    if ( is_person(arguments$author))  {
+      citation_author <- arguments$author
+      } else {
+      stop("as_datacite(x, ..., author = ): author must be created with utils::person().")
+        }
+  }
 
   if (! type %in% c("bibentry", "list", "dataset")) {
     warning_message <- "as_datacite(ds, type=...) type cannot be "
@@ -250,6 +260,7 @@ new_datacite <- function (Title,
   datacite_object <- bibentry(bibtype = "Misc",
                               title = Title,
                               author = Creator,
+                              identifier = Identifier,
                               publisher = Publisher,
                               year = PublicationYear,
                               date = DateList,

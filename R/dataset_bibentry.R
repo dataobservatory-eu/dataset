@@ -7,7 +7,7 @@
 #' using the gives wide interoperability with other packages and allows
 #' printing or saving the bibliographic record in HTML, BibLatex and other
 #' formats. For further information see \code{utils::\link[utils]{bibentry}}.
-#' @param ds A dataset object created by \code{\link{dataset}}.
+#' @param x A dataset object created with \code{dataset::\link{dataset}}.
 #' @return The \code{\link[utils]{bibentry}} object of the dataset.
 #' @importFrom utils bibentry
 #' @examples
@@ -29,8 +29,8 @@
 #' dataset_bibentry(ds)
 #' @export
 
-dataset_bibentry <- function(ds, style = "text") {
+dataset_bibentry <- function(x, style = "text") {
 
-  DataBibentry <- attr(ds, "DataBibentry")
+  DataBibentry <- attr(x, "DataBibentry")
   DataBibentry
 }

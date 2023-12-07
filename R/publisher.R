@@ -23,7 +23,7 @@
 publisher<- function(x) {
 
   assert_that(is.dataset(x),
-              msg = "publisher(x) must be a dataset object created with dataset() or as_dataset().")
+              msg = "publisher(x): x must be a dataset object created with dataset() or as_dataset().")
 
   DataBibentry <- dataset_bibentry(x)
   as.character(DataBibentry$publisher)
@@ -34,7 +34,7 @@ publisher<- function(x) {
 `publisher<-` <- function(x,  overwrite = TRUE, value) {
 
   assert_that(is.dataset(x),
-              msg = "publisher(x) must be a dataset object created with dataset() or as_dataset().")
+              msg = "publisher(x): x must be a dataset object created with dataset() or as_dataset().")
 
   DataBibentry <- invisible(dataset_bibentry(x))
 

@@ -6,7 +6,7 @@
 #' Overviewing these attributes becomes cumbersome with base
 #' R \code{attributes()}.
 #'
-#' @param x A dataset object.
+#' @param x A dataset object created with \code{dataset::\link{dataset}}.
 #' @return No object is returned, but they key attributes are printed on the screen.
 #' @examples
 #' describe(iris_dataset)

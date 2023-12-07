@@ -10,7 +10,7 @@ dataset_title(x)
 dataset_title(x, overwrite = FALSE) <- value
 }
 \arguments{
-\item{x}{A dataset object.}
+\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
 
 \item{value}{The name(s) or title(s) by which a resource is known. See:
 \href{https://purl.org/dc/elements/1.1/title}{dct:title}.}

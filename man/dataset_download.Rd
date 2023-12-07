@@ -24,7 +24,7 @@ dataset_download_csv(url, title, author, destfile = NULL, ...)
     saved.  Tilde-expansion is performed.}
 
 \item{type}{A file type.  Currently only \code{csv} is implemented that
-invokes \code{utils::download.file}.}
+\code{\link[utils:download.file]{utils::download.file}}.}
 
 \item{...}{Further arguments passed on to generic methods
 like \code{summary(x, ...)}.}

@@ -10,11 +10,19 @@ describe(x)
 \method{describe}{dataset}(x)
 }
 \arguments{
-\item{x}{A dataset object.}
+\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
 }
 \value{
 No object is returned, but they key attributes are printed on the screen.
 }
 \description{
-Describe a dataset object
+A convenience function to review the most important attributes of a dataset
+object. The dataset class adds a wide range of metadata as attributes to
+data.frame, tibble, data.table or similar R object that contains tabular data.
+Overviewing these attributes becomes cumbersome with base
+R \code{attributes()}.
+}
+\examples{
+describe(iris_dataset)
+
 }

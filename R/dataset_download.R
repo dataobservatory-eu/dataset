@@ -4,7 +4,7 @@
 #' @importFrom utils download.file read.csv
 #' @inheritParams dataset
 #' @param type A file type.  Currently only \code{csv} is implemented that
-#' invokes \code{utils::download.file}.
+#'  \code{\link[utils:download.file]{utils::download.file}}.
 #' @return A \code{\link{dataset}} with the downloaded dataset.
 #' @examples
 #' \donttest{

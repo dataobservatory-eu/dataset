@@ -28,18 +28,20 @@ Zenodo data repository.
 Add the optional Language property as an attribute to an R object.
 }
 \details{
-Language is an optional property in
-\href{https://support.datacite.org/docs/schema-optional-properties-v43#13-size}{DataCite 4.3} and
-it is part of the "core" of the
+Language is an optional property in DataCite 4.4; see:
+\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#9-language}{datacite:Langugage}\cr
+It is a part of the "core" of the
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin Core metadata terms}.
 The language parameter is validated against the \code{[ISOcodes]{ISO_639_2}} table.\cr
 The attribute \code{language} is added to the object. It will be exported into DataCite
 applications in a capitalized \code{Lanugage} format.
 }
 \examples{
-iris_dataset <- iris
-language(iris_dataset) <- "English"
-language(iris_dataset)
+myiris <- iris_dataset
+language(myiris) <- "English"
+language(myiris)
+language(myiris) <- "fr"
+language(myiris)
 }
 \seealso{
 Other Reference metadata functions: 

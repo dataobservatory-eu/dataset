@@ -10,7 +10,7 @@ datasource(x)
 datasource(x, overwrite = TRUE) <- value
 }
 \arguments{
-\item{x}{An object that is tested if it has a class "dublincore".}
+\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
 
 \item{value}{The \code{Source} as a character string of lengths one.}
 }

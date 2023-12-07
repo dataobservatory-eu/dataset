@@ -1,0 +1,52 @@
+---
+title: "Working with Dublin Core Metadata"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Working with Dublin Core Metadata}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setupknitr, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dataset)
+```
+
+The `Dublin Core`, also known as the `Dublin Core Metadata Element Set` (DCMES), is a set of fifteen main metadata items for describing digital or physical resources, such as datasets or their printed versions. Dublin Core has been formally standardized internationally as ISO 15836, as IETF RFC 5013 by the Internet Engineering Task Force (IETF), as well as in the U.S. as ANSI/NISO Z39.85.
+
+The `dublincore()` function creates a `bibentry` object with extended Dublin Core elements.
+
+```{r createdublincore}
+
+dc <- dublincore(
+  title = "Iris Dataset",
+  creator = person("Edgar", "Anderson", role = "aut"),
+  publisher = "American Iris Society",
+  datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+  date = 1935,
+  language = "en",
+  description = "This famous (Fisher's or Anderson's) iris data set gives the
+  measurements in centimeters of the variables sepal length and width and petal length
+  and width, respectively, for 50 flowers from each of 3 species of iris.
+  The species are Iris setosa, versicolor, and virginica."
+)
+```
+
+A `bibentry` object is easily printed or exported into various formats, for example, `Bibtex`.
+
+```{r printdublincore, results='markup'}
+print(dc, "Bibtex")
+```
+The `dataset` package has an internal version of the famous dataset, _iris_. With `as_datacite()` you can retrieve the DataCite metadata of an existing dataset object into `bibentry`, `list`, or `dataset` format.
+
+```{r as_dublincore-example, results='markup'}
+as_dublincore(iris_dataset, "list")
+```
+
+Adding a `datacite` object created with `datacite()` to an existing dataset is not yet implemented.

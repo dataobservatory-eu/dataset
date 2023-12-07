@@ -7,15 +7,14 @@
 \usage{
 description(x)
 
-description(x, overwrite = TRUE) <- value
+description(x, overwrite = FALSE) <- value
 }
 \arguments{
-\item{x}{An R object, such as a data.frame, a tibble, or a data.table.}
+\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
 
 \item{overwrite}{If the \code{Description} attribute should be overwritten. In case it is set to \code{FALSE},
 it gives a message with the current \code{Description} property instead of overwriting it.
-Defaults to \code{TRUE} when the attribute is set to \code{value} regardless of previous
-setting.}
+Defaults to \code{FALSE}, when it gives a warning at an accidental overwrite attempt.}
 
 \item{value}{The \code{Description} as a character set.}
 }
@@ -31,7 +30,6 @@ fit in any of the other categories. May be used for technical information. A fre
 Similar to \href{https://purl.org/dc/elements/1.1/description}{dct:description}.
 }
 \examples{
-iris_dataset <- iris
 description(iris_dataset) <- "The famous iris dataset used in R language examples."
 description(iris_dataset)
 }

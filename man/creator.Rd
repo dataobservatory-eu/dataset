@@ -5,19 +5,19 @@
 \alias{creator<-}
 \title{Get/set the Creator of the object.}
 \usage{
-creator(ds)
+creator(x)
 
-creator(ds, overwrite = TRUE) <- value
+creator(x, overwrite = TRUE) <- value
 }
 \arguments{
-\item{ds}{A dataset object created by \code{\link{dataset}}.}
+\item{x}{A dataset object created by \code{\link{dataset}}.}
 
 \item{overwrite}{If the attributes should be overwritten. In case it is set to \code{FALSE},
 it gives a message with the current \code{Creator} property instead of overwriting it.
 Defaults to \code{TRUE} when the attribute is set to \code{value} regardless of previous
 setting.}
 
-\item{value}{The \code{Creator} as a \code{utils::\link[utils]{person}} object.}
+\item{value}{The \code{Creator} as a \code{\link[utils:person]{utils::person}} object.}
 }
 \value{
 The Creator attribute as a character of length one is added to \code{x}.
@@ -35,17 +35,7 @@ releases, issues, or produces the datast. This property will be used to
 formulate the citation, so consider the prominence of the role.
 }
 \examples{
-ds <- dataset(iris,
-              title = "The iris Dataset",
-              author = c(
-                person(family ="Anderson",
-                       given ="Edgar",
-                       role = "aut")
-              ),
-              identifier = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-              year = "1935",
-              version = "1.0",
-              description = "The famous dataset that is distributed with R.")
+creator(iris_dataset)
 }
 \seealso{
 Other Reference metadata functions: 

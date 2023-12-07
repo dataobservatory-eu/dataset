@@ -106,11 +106,10 @@ new_Subject <- function(term,
 }
 
 #' @rdname subject
-#' @param ds A dataset which has or needs a subject field in the metadata
-#' attributes.
+#' @param x A dataset object created with \code{dataset::\link{dataset}}.
 #' @return The Subject field of the dataset's attributes.
-subject <- function(ds) {
-  attr(ds, "Subject")
+subject <- function(x) {
+  attr(x, "Subject")
 }
 
 value <- list(term  = "Dataset",

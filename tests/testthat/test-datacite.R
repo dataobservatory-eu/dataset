@@ -15,7 +15,6 @@ test_that("datacite() works", {
   expect_equal(iris_datacite$rights, ':tba')
 })
 
-
 test_that("as_datacite() works", {
   expect_true(is.datacite(as_datacite(iris_dataset)))
   expect_true(is.list(as_datacite(iris_dataset, type="list")))

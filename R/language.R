@@ -1,8 +1,8 @@
 #' @title Get/Set the primary language of the dataset
 #' @description Add the optional Language property as an attribute to an R object.
-#' @details Language is an optional property in
-#' \href{https://support.datacite.org/docs/schema-optional-properties-v43#13-size}{DataCite 4.3} and
-#' it is part of the "core" of the
+#' @details Language is an optional property in DataCite 4.4; see:
+#' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#9-language}{datacite:Langugage}\cr
+#' It is a part of the "core" of the
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin Core metadata terms}.
 #' The language parameter is validated against the \code{[ISOcodes]{ISO_639_2}} table.\cr
 #' The attribute \code{language} is added to the object. It will be exported into DataCite
@@ -17,21 +17,33 @@
 #' \code{ISO 639-1}, the Datacite recommendation, or \code{ISO 639-3} used by the
 #' Zenodo data repository.
 #' @examples
-#' iris_dataset <- iris
-#' language(iris_dataset) <- "English"
-#' language(iris_dataset)
+#' myiris <- iris_dataset
+#' language(myiris) <- "English"
+#' language(myiris)
+#' language(myiris) <- "fr"
+#' language(myiris)
 #' @family Reference metadata functions
 #' @export
 language <- function (x) {
-  attr(x, "Language")
+  assert_that(is.dataset(x),
+              msg = "language(x): x must be a dataset object created with dataset() or as_dataset().")
+
+  DataBibentry <- dataset_bibentry(x)
+  as.character(DataBibentry$language)
+
 }
 
 #' @rdname language
 #' @export
 `language<-` <- function(x, iso_639_code = "639-3", value ) {
 
+  assert_that(is.dataset(x),
+              msg = "language(x)<- value: x must be a dataset object created with dataset() or as_dataset().")
+
+  DataBibentry <- dataset_bibentry(x)
   if (is.null(value)) {
-    attr(x, "Language") <- NULL
+    DataBibentry$language <- ":unas"
+    attr(x, "DataBibentry") <- DataBibentry
     return(x)
   }
 
@@ -53,9 +65,12 @@ language <- function (x) {
   }
 
   if (iso_639_code == "639-1") {
-    attr(x, "Language") <- lang_entry$Alpha_2
+    DataBibentry$language <- lang_entry$Alpha_2
+    attr(x, "DataBibentry") <- DataBibentry
+    return(x)
   } else {
-    attr(x, "Language") <- lang_entry$Alpha_3_T
+    DataBibentry$language <- lang_entry$Alpha_3_T
+    attr(x, "DataBibentry") <- DataBibentry
   }
-  x
+  invisible(x)
 }

@@ -35,8 +35,7 @@ or for all versions. Similar to \code{dct:title} in \code{\link{dublincore}}.}
 priority order. To supply multiple creators, repeat this property.}
 
 \item{Title}{The name(s) or title(s) by which a resource is known. May be the title of a dataset
-or the name of a piece of software. Similar to \href{https://purl.org/dc/elements/1.1/title}{dct:title}.\cr
-See \code{\link{dataset_title}} for adding further titles.}
+or the name of a piece of software. Similar to \href{https://purl.org/dc/elements/1.1/title}{dct:title}.\cr}
 
 \item{relatedIdentifierType}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12a-relatedidentifiertype}{relatedIdentifierType}.}
 

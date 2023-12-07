@@ -2,29 +2,41 @@
 % Please edit documentation in R/size.R
 \name{size}
 \alias{size}
-\title{Add Size metadata to an object}
+\alias{size<-}
+\title{Get/Estimate/Add the Size metadata to an object}
 \usage{
 size(x)
+
+size(x, overwrite = TRUE) <- value
 }
 \arguments{
-\item{x}{An R object, such as a data.frame, a tibble, or a character vector.}
+\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
+
+\item{overwrite}{If a warning should be given when trying to overwrite an
+existing \code{Size} property, defaults to \code{TRUE}.\cr
+The estimated object size in memory is added in SI
+kB and IEC KiB (legacy Kb) units,
+rounded to two decimals.}
+
+\item{value}{A string (size of the dataset in a certain serialisation),
+or \code{"estimate"} produces and estimate with \code{[utils]{object.size}}.}
 }
 \value{
-The estimated object size in memory is added as an attribute to \code{x} in SI
-kB and IEC KiB (legacy Kb) units,
-rounded to two decimals. Returns the \code{x} object.
+Returns the \code{size} metadata field of the \code{DataBibentry} of
+the dataset.
 }
 \description{
 Add the optional DataCite \code{Size} property as an attribute to an R object.
 }
 \details{
-\code{Size} is an optional property in
-\href{https://support.datacite.org/docs/schema-optional-properties-v43#13-size}{DataCite 4.3}.
-The object size is estimated with \code{[utils]{object.size}}.
+\code{Size} is an optional property in DataCite 4.4. See:
+\href{https://support.datacite.org/docs/schema-optional-properties-v44#13-size}{datacite:Size}.
+The object size is estimated with \code{\link[utils:object.size]{utils::object.size}} and it may differ
+from the actual serialisation to another file format.
 }
 \examples{
-iris_dataset <- size(iris)
-attr(iris_dataset, "Size")
+size(iris_dataset) <- "estimate"
+size(iris_dataset)
 }
 \seealso{
 Other Reference metadata functions: 

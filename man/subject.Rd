@@ -7,9 +7,9 @@
 \alias{is.subject.subject}
 \title{Create a subject}
 \usage{
-subject(ds)
+subject(x)
 
-subject(ds)
+subject(x)
 
 subject(ds) <- value
 
@@ -18,9 +18,6 @@ is.subject(x)
 \method{is.subject}{subject}(x)
 }
 \arguments{
-\item{ds}{A dataset which has or needs a subject field in the metadata
-attributes.}
-
 \item{x}{An object that is tested if it has a class "subject".}
 
 \item{term}{A subject term, for example, \code{"Data sets"}.}

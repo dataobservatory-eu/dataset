@@ -6,14 +6,13 @@
 #' \code{\link{datacite}} Rights. Information about rights held in and over the resource.
 #' Typically, rights information includes a statement about various property rights associated with the resource,
 #' including intellectual property rights.
-#' @param x An R object, such as a data.frame, a tibble, or a data.table.
+#' @param x A dataset object created with \code{dataset::\link{dataset}}.
 #' @param value The \code{Rights} as a character set.
 #' @param overwrite If the \code{Rights} attribute should be overwritten. In case it is set to \code{FALSE},
 #' it gives a message with the current \code{Rights} property instead of overwriting it.
 #' Defaults to \code{FALSE}.
 #' @return The \code{Rights} attribute as a character of length 1 is added to \code{x}.
 #' @examples
-#' rights(iris_dataset)
 #' rights(iris_dataset) <- "CC-BY-SA"
 #' rights(iris_dataset)
 #' @family Reference metadata functions

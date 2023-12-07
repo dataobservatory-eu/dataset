@@ -8,7 +8,7 @@
 #' \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html}{registered URI schemes maintained by IANA}.
 #' More details: \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}.
 #' Similar to \code{Identifier} in \code{\link{datacite}}.
-#' \href{https://support.datacite.org/docs/schema-optional-properties-v43#13-size}{DataCite 4.3}.
+#' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#1-identifier}{DataCite 4.4}.\cr
 #' It is not part of the "core" Dublin Core terms, but we always add it to the metadata attributes
 #' of a dataset (in case you use a strict Dublin Core property sheet you can omit it.)
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin Core metadata terms}.
@@ -20,7 +20,6 @@
 #' setting.
 #' @return The \code{Identifier} attribute as a character of length 1 is added to \code{x}.
 #' @examples
-#' iris_dataset <- iris
 #' identifier(iris_dataset) <- "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
 #' identifier(iris_dataset)
 #' @family Reference metadata functions
@@ -28,25 +27,33 @@
 
 #' @export
 identifier <- function(x) {
+  assert_that(is.dataset(x),
+              msg = "identifier(x): x must be a dataset object created with dataset() or as_dataset().")
 
-  attr(x, "Identifier")
-
+  ds_bibentry <- dataset_bibentry(x)
+  ds_bibentry$identifier
 }
 
 #' @rdname identifier
 #' @export
 `identifier<-`  <- function(x,  overwrite = TRUE, value) {
+  assert_that(is.dataset(x),
+              msg = "identifier(x) <- value: x must be a dataset object created with dataset() or as_dataset().")
 
-  if (is.null(attr(x, "Identifier"))) {
-    if (is.null(value)) {
-      attr(x, "Identifier") <- NA_character_
-    } else {
-      attr(x, "Identifier") <- value
-    }
-  } else if ( overwrite ) {
-    attr(x, "Identifier") <- value
-  } else {
-    message ("The dataset has already an Identifier: ",  attr(x, "Identifier") )
+  ds_bibentry <- dataset_bibentry(x)
+  old_identifier <- ds_bibentry$identifier
+
+  if (is.null(value)) {
+    value <- ":unas"
   }
-  x
+
+  if ( overwrite | old_identifier %in% c(":unas", ":tba")) {
+    ds_bibentry$identifier <- as.character(value)
+    attr(x, "DataBibentry") <- ds_bibentry
+  } else {
+    warning ("The dataset has already an identifier: ",
+             old_identifier, ".\nYou can overwrite this message with identifier(x, overwrite = TRUE) <- value" )
+  }
+  invisible(x)
 }
+

@@ -26,8 +26,8 @@ The \code{Version} attribute as a character of length 1 is added to \code{x}.
 Get/set the optional \code{Version} property as an attribute to an R object.
 }
 \details{
-\code{Version} is an optional property in
-\href{https://support.datacite.org/docs/schema-optional-properties-v43#13-size}{DataCite 4.3}.
+\code{Version} is an optional property in DataCite 4.4. See:
+\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#15-version}{datacite:Size}.
 It is not part of the "core" Dublin Core terms, but ...
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin Core metadata terms}.
 }

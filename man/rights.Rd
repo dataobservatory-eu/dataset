@@ -10,7 +10,7 @@ rights(x)
 rights(x, overwrite = FALSE) <- value
 }
 \arguments{
-\item{x}{An R object, such as a data.frame, a tibble, or a data.table.}
+\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
 
 \item{overwrite}{If the \code{Rights} attribute should be overwritten. In case it is set to \code{FALSE},
 it gives a message with the current \code{Rights} property instead of overwriting it.
@@ -33,7 +33,6 @@ Typically, rights information includes a statement about various property rights
 including intellectual property rights.
 }
 \examples{
-rights(iris_dataset)
 rights(iris_dataset) <- "CC-BY-SA"
 rights(iris_dataset)
 }

@@ -10,7 +10,7 @@ geolocation(x)
 geolocation(x, overwrite = TRUE) <- value
 }
 \arguments{
-\item{x}{An R object, such as a data.frame, a tibble, or a data.table.}
+\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
 
 \item{overwrite}{If the attributes should be overwritten. In case it is set to \code{FALSE},
 it gives a message with the current \code{Geolocation} property instead of overwriting it.
@@ -27,9 +27,10 @@ Get/set the optional \code{Geolocation} property as an attribute to an
 R object.
 }
 \details{
-The \code{Geolocation} is recommended for discovery in DataCite.
+The \code{Geolocation} is recommended for discovery in DataCite 4.4.
 Spatial region or named place where the data was gathered
-or about which the data is focused.
+or about which the data is focused. See:
+\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#18-geolocation}{datacite:Geolocation}.
 }
 \examples{
 iris_dataset <- iris

@@ -34,13 +34,12 @@ Select and identifier scheme from
 \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html}{registered URI schemes maintained by IANA}.
 More details: \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}.
 Similar to \code{Identifier} in \code{\link{datacite}}.
-\href{https://support.datacite.org/docs/schema-optional-properties-v43#13-size}{DataCite 4.3}.
+\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#1-identifier}{DataCite 4.4}.\cr
 It is not part of the "core" Dublin Core terms, but we always add it to the metadata attributes
 of a dataset (in case you use a strict Dublin Core property sheet you can omit it.)
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin Core metadata terms}.
 }
 \examples{
-iris_dataset <- iris
 identifier(iris_dataset) <- "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
 identifier(iris_dataset)
 }

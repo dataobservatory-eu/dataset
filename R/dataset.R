@@ -46,7 +46,6 @@
 #'          resourceType = "Dataset"
 #'          )
 #' @export
-
 dataset  <- function(x,
                      author,
                      title,

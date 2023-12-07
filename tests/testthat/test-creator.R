@@ -16,13 +16,15 @@ test_that("creator() works", {
 
 
 creator(test_ds, overwrite = TRUE) <- person("Joe", "Doe")
+
 test_that("creator(.., overwrite = TRUE) works", {
   expect_equal(creator(test_ds), person("Joe", "Doe"))
 })
 
 creator(test_ds, overwrite = FALSE) <- person("Jane", "Doe")
 test_that("creator(..., overwrite = FALSE) works", {
-  expect_equal(creator(test_ds), c(person("Joe", "Doe"), (person("Jane", "Doe")))
+  expect_equal(creator(test_ds), c(person("Joe", "Doe"),
+                                   (person("Jane", "Doe")))
 )
 })
 

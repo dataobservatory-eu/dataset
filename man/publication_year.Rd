@@ -10,7 +10,7 @@ publication_year(x)
 publication_year(x, overwrite = TRUE) <- value
 }
 \arguments{
-\item{x}{An R object, such as a data.frame, a tibble, or a data.table.}
+\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
 
 \item{overwrite}{If the attributes should be overwritten. In case it is set to \code{FALSE},
 it gives a message with the current \code{PublicationYear} property instead of overwriting it.
@@ -20,7 +20,8 @@ setting.}
 \item{value}{The publication_year as a character set.}
 }
 \value{
-The \code{publication_year} attribute as a character of length 1 is added to \code{x}.
+Returns the \code{year} metadata field of the \code{DataBibentry} of
+the dataset
 }
 \description{
 Get/set the optional \code{publication_year} property as an attribute to an R object.
@@ -28,11 +29,13 @@ Get/set the optional \code{publication_year} property as an attribute to an R ob
 \details{
 The \code{PublicationYear} is the year when the data was or will be made
 publicly available in \code{YYYY} format.
+See
+\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#publicationyearadditional-guidance}{Publication Year: DataCite Additional Guidance}.
 }
 \examples{
 iris_dataset <- iris
-publication_year(iris_dataset) <- 1935
 publication_year(iris_dataset)
+publication_year(iris_dataset) <- 1936
 }
 \seealso{
 Other Reference metadata functions: 

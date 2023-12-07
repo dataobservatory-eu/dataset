@@ -1,0 +1,46 @@
+---
+title: "Working with DataCite Metadata"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Working with DataCite Metadata}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup-vignette, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+DataCite is a leading global non-profit organisation that provides persistent identifiers (DOIs) for research data and other research outputs. Organisations within the research community join DataCite as members to be able to assign DOIs to all their research outputs. This way, their outputs become discoverable, and associated metadata is made. In European Union-funded research, many researchers and projects use Zenodo as a  permanent repository for their data; Zenodo is a member of DataCite and uses DataCite definitions to describe the datasets.
+
+DataCite can be seen as an alternative to the more general and more widely used Dublin Core. Some metadata properties can be mapped to Dublin Core directly; others have similar but not equal fields. DataCite defines special properties, for example, `FundingReference`, which is not easily described in Dublin Core.
+
+The `datacite()` function creates a `bibentry` object with DataCite metadata
+
+```{r setup}
+library(dataset)
+iris_datacite <- datacite(
+   Title = "Iris Dataset",
+   Creator = person(family="Anderson", given ="Edgar", role = "aut"),
+   Publisher = "American Iris Society",
+   PublicationYear = 1935,
+   Geolocation = "US",
+   Language = "en")
+```
+
+A `bibentry` object is easily printed or exported into various formats, for example, `Bibtex`.
+
+```{r Bibtex, results='markup'}
+print(iris_datacite, "Bibtex")
+```
+
+The `dataset` package has an internal version of the famous dataset, _iris_. With `as_datacite()` you can retrieve the DataCite metadata of an existing dataset object into `bibentry`, `list`, or `dataset` format.
+
+```{r as_datacite-example, results='markup'}
+as_datacite(iris_dataset, "list")
+```
+
+Adding a `datacite` object created with `datacite()` to an existing dataset is not yet implemented.

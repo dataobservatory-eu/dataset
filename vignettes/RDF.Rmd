@@ -1,0 +1,57 @@
+---
+title: "From dataset To RDF"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{From dataset To RDF}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setupRDFvignette, include = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  message  = FALSE,
+  comment = "#>",
+  out.width = '90%'
+)
+library(here)
+library(readxl)
+library(kableExtra)
+```
+
+```{r setup}
+library(dataset)
+```
+
+> This documentation is not updated yet to the development version of the [datset] package.
+
+Our datasets are defined in a way that their dimensions can be easily and unambiguously reduced to triples for RDF applications; they can be easily serialized to, or synchronized with semantic web applications with the [rdflib](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html) package^[Carl Boettiger: [A tidyverse lover’s intro to RDF](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html)].
+
+Read more about how we adopted to datacube model of SDMX and the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) for datasets as R objects in the [The dataset S3 Class](https://dataset.dataobservatory.eu/articles/RDF.html) vignette article.
+
+Because our datasets conform the tidy data concept, they can be reduced into long-form triples.
+
+
+
+&nbsp;          | &nbsp;  | &nbsp;      | &nbsp;
+----------------|---------|-------------|-------------
+**RDF**         | subject | predicate   | object
+**JSON**        | object  | property    | value
+**spreadsheet** | row id  | column name | cell
+**data.frame**  | key     | variable    | measurement
+**data.frame**  | key     | attribute   | value
+
+
+Table source: [rdflib](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html)
+
+## Dimension reductions of the dataset
+
+Our datasets are tidy.
+
+```{r importexamplexlsx}
+example_df <- readxl::read_excel(
+  system.file("extdata", "rdf_example.xlsx", package = "dataset"),
+  sheet = "dataset-wide")
+```
+

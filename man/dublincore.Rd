@@ -2,9 +2,10 @@
 % Please edit documentation in R/dublincore.R
 \name{dublincore}
 \alias{dublincore}
+\alias{as_dublincore}
 \alias{is.dublincore}
 \alias{is.dublincore.dublincore}
-\title{Add DublinCore metadata to a bibentry object}
+\title{Add or get DublinCore metadata}
 \source{
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/}{	DCMI Metadata Terms}.
 }
@@ -27,6 +28,8 @@ dublincore(
   coverage = NULL
 )
 
+as_dublincore(x, type = "bibentry")
+
 is.dublincore(x)
 
 \method{is.dublincore}{dublincore}(x)
@@ -46,6 +49,16 @@ Select and identifier scheme from
 \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html}{registered URI schemes maintained by IANA}.
 More details: \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}.
 Similar to \code{Identifier} in \code{\link{datacite}}. See \code{\link{identifier}}.}
+
+\item{publisher}{Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#publisher}{dct:publisher}
+and Publisher in DataCite.
+The name of the entity that holds, archives, publishes prints, distributes, releases,
+issues, or produces the resource. This property will be used to formulate the citation,
+so consider the prominence of the role. For software, use \code{Publisher} for the
+code repository. If there is an entity other than a code repository, that
+"holds, archives, publishes, prints, distributes, releases, issues, or produces" the
+code, use the property Contributor/contributorType/hostingInstitution for the code
+repository. See \code{\link{publisher}}.}
 
 \item{subject}{Defaults to \code{NULL}. See \code{\link{subject}} to add subject descriptions
 to your dataset.}
@@ -82,16 +95,6 @@ an abstract, a table of contents, a graphical representation, or a free-text acc
 
 \item{x}{An object that is tested if it has a class "dublincore".}
 
-\item{oublisher}{Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#publisher}{dct:publisher}
-and Publisher in DataCite.
-The name of the entity that holds, archives, publishes prints, distributes, releases,
-issues, or produces the resource. This property will be used to formulate the citation,
-so consider the prominence of the role. For software, use \code{Publisher} for the
-code repository. If there is an entity other than a code repository, that
-"holds, archives, publishes, prints, distributes, releases, issues, or produces" the
-code, use the property Contributor/contributorType/hostingInstitution for the code
-repository. See \code{\link{publisher}}.}
-
 \item{source}{A related resource from which the described resource is derived.
 See \href{https://purl.org/dc/elements/1.1/source}{dct:source} and
 \code{\link{dataset_source}}.}
@@ -115,16 +118,12 @@ to datasets, i.e. structured R data.frame or list objects, for an accurate and c
 of a resource for citation and retrieval purposes.
 }
 \details{
-DataCite is a leading global non-profit organisation that provides persistent identifiers
-(DOIs) for research data and other research outputs. Organizations within the research
-community join DataCite as members to be able to assign DOIs to all their research
-outputs. This way, their outputs become discoverable and associated metadata is made
-available to the community.
-DataCite then develops additional services to improve the DOI management experience,
-making it easier for our members to connect and share their DOIs with the broader
-research ecosystem and to assess the use of their DOIs within that ecosystem.
-DataCite is an active participant in the research community and promotes data sharing
-and citation through community-building efforts and outreach activities.
+The Dublin Core, also known as the Dublin Core Metadata Element Set
+(DCMES), is a set of fifteen main metadata items for describing digital
+or physical resources, such as datasets or their printed versions.
+Dublin Core has been formally standardized internationally as ISO 15836,
+as IETF RFC 5013 by the Internet Engineering Task Force (IETF),
+as well as in the U.S. as ANSI/NISO Z39.85.
 
 The \code{ResourceType} property will be by definition "Dataset".
 The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
