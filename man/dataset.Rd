@@ -87,6 +87,8 @@ an R object.}
 \item{version}{The version of the dataset. If left emtpy (NULL), defaults to
 \code{'0.1.0'}}
 
+\item{subject}{The subject of the data frame, as a subject type.}
+
 \item{language}{The primary language of the dataset, for example \code{'eng'}.
 Defaults to \code{NULL} that sets it to the unassigned value \code{':unas'}.}
 
@@ -104,8 +106,6 @@ Free text, defaults to \code{":unas"} for unassigned values. See \code{\link{rig
 like \code{summary(x, ...)}.}
 
 \item{object}{an object for which a summary is desired.}
-
-\item{Subject}{The subject of the data frame, as a subject type.}
 }
 \value{
 A dataset object, which is a data.frame or inherited object with rich

@@ -28,7 +28,7 @@ dublincore(
   coverage = NULL
 )
 
-as_dublincore(x, type = "bibentry")
+as_dublincore(x, type = "bibentry", ...)
 
 is.dublincore(x)
 

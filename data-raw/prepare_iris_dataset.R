@@ -3,13 +3,13 @@ iris_dataset <- dataset(
   title = "Iris Dataset",
   author = person("Edgar", "Anderson", role = "aut"),
   publisher = "American Iris Society",
-  source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-  date = 1935,
+  datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+  year = 1935,
   language = "en",
-  description = "This famous (Fisher's or Anderson's) iris data set."
+  description = "The famous (Fisher's or Anderson's) iris data set."
 )
 
-print(iris_dataset)
+describe(iris_dataset)
 usethis::use_data(iris_dataset, overwrite = TRUE)
 
 #snakecase::to_title_case("Edgar Anderson's Iris Data (For Testing the dataset R package)")
