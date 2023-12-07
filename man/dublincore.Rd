@@ -115,7 +115,7 @@ object if \code{type="dataset"}.}
 
 \item{source}{A related resource from which the described resource is derived.
 See \href{https://purl.org/dc/elements/1.1/source}{dct:source} and
-\code{\link{dataset_source}}.}
+\code{\link{datasource}}.}
 
 \item{Format}{The file format, physical medium, or dimensions of the resource.
 \href{    https://purl.org/dc/elements/1.1/format}{dct:format}

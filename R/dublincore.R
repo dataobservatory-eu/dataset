@@ -44,7 +44,7 @@
 #' discovery in \code{\link{datacite}}, but it requires a different formatting.
 #' @param source A related resource from which the described resource is derived.
 #' See \href{https://purl.org/dc/elements/1.1/source}{dct:source} and
-#' \code{\link{dataset_source}}.
+#' \code{\link{datasource}}.
 #' @param language The primary language of the resource. Allowed values are taken from
 #' IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}. Corresponds to Language in Datacite.
 #' @param Format The file format, physical medium, or dimensions of the resource.

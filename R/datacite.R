@@ -42,7 +42,7 @@
 #' The DataCite resourceType definition refers back to
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#https://purl.org/dc/elements/1.1/type}{dcm:type}.
 #' The \code{Type$resourceTypeGeneral} is set to  \code{Dataset}, while the user can set a more
-#' specific \code{Type$resourceType} value. See \code{\link{resource_type}}.
+#' specific \code{Type$resourceType} value.
 #' @param Language The primary language of the resource. Allowed values are taken from
 #' IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}.
 #' @param AlternateIdentifier An identifier or identifiers other than the primary

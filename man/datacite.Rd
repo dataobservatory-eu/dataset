@@ -68,7 +68,7 @@ and create structured Subject objects with \code{\link{subject_create}}.}
 The DataCite resourceType definition refers back to
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#https://purl.org/dc/elements/1.1/type}{dcm:type}.
 The \code{Type$resourceTypeGeneral} is set to  \code{Dataset}, while the user can set a more
-specific \code{Type$resourceType} value. See \code{\link{resource_type}}.}
+specific \code{Type$resourceType} value.}
 
 \item{Contributor}{Recommended for discovery. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.}
 
