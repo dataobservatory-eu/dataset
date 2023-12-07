@@ -1,6 +1,16 @@
 #' @title Describe a dataset object
+#' @description
+#' A convenience function to review the most important attributes of a dataset
+#' object. The dataset class adds a wide range of metadata as attributes to
+#' data.frame, tibble, data.table or similar R object that contains tabular data.
+#' Overviewing these attributes becomes cumbersome with base
+#' R \code{attributes()}.
+#'
 #' @param x A dataset object.
 #' @return No object is returned, but they key attributes are printed on the screen.
+#' @examples
+#' describe(iris_dataset)
+#'
 #' @export
 describe <- function(x) {
   UseMethod("describe", x)

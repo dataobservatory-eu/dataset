@@ -2,9 +2,10 @@
 % Please edit documentation in R/datacite.R
 \name{datacite}
 \alias{datacite}
+\alias{as_datacite}
 \alias{is.datacite}
 \alias{is.datacite.datacite}
-\title{Add DataCite metadata to a bibentry object}
+\title{Add or get DataCite metadata}
 \source{
 \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite 4.3 Mandatory Properties} and
 \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
@@ -31,14 +32,15 @@ datacite(
   FundingReference = NULL
 )
 
+as_datacite(x, type = "bibentry", ...)
+
 is.datacite(x)
 
 \method{is.datacite}{datacite}(x)
 }
 \arguments{
 \item{Title}{The name(s) or title(s) by which a resource is known. May be the title of a dataset
-or the name of a piece of software. Similar to \href{https://purl.org/dc/elements/1.1/title}{dct:title}.\cr
-See \code{\link{dataset_title}} for adding further titles.}
+or the name of a piece of software. Similar to \href{https://purl.org/dc/elements/1.1/title}{dct:title}.\cr}
 
 \item{Creator}{The main researchers involved in producing the data, or the authors of the publication, in
 priority order. To supply multiple creators, repeat this property.}
@@ -73,7 +75,7 @@ specific \code{Type$resourceType} value. See \code{\link{resource_type}}.}
 \item{Language}{The primary language of the resource. Allowed values are taken from
 IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}.}
 
-\item{AlternateIdentifier}{An identifier or identifiers other than the primary Identifier applied to the resource being registered. This may be any alphanumeric string which is unique within its domain of issue. May be used for local identifiers. AlternateIdentifier should be used for another identifier of the same instance (same location, same file).}
+\item{AlternateIdentifier}{An identifier or identifiers other than the primary Identifier applied to the resource being registered. This may be any alphanumeric string unique within its domain of issue. It may be used for local identifiers. AlternateIdentifier should be used for another identifier of the same instance (same location, same file).}
 
 \item{RelatedIdentifier}{Recommended for discovery. Similar to \href{https://purl.org/dc/elements/1.1/relation}{dct:relation}.}
 
@@ -85,7 +87,7 @@ IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}.}
 Free text. See \code{\link{rights}}.}
 
 \item{Description}{Recommended for discovery. All additional information that does not
-fit in any of the other categories. May be used for technical information. A free text.
+fit in any of the other categories. It may be used for technical information—a free text.
 Similar to \href{https://purl.org/dc/elements/1.1/description}{dct:description}.}
 
 \item{Geolocation}{Recommended for discovery. Spatial region or named place where the data was gathered
@@ -96,10 +98,8 @@ being registered.}
 
 \item{x}{An object that is tested if it has a class "datacite".}
 
-\item{titleType}{For a single \code{Title} defaults to \code{NULL}. Otherwise you can add
-a Subtitle, an Alternative Title and an Other Title. See \code{\link{dataset_title}}.}
-
-\item{Date}{Recommended for discovery in DataCite. Similar to \href{https://purl.org/dc/elements/1.1/date}{dct:date} in
+\item{Date}{Recommended for discovery in DataCite. Similar to
+\href{https://purl.org/dc/elements/1.1/date}{dct:date} in
 \code{\link{dublincore}}.}
 
 \item{overwrite}{If pre-existing metadata properties should be overwritten,
@@ -107,23 +107,18 @@ defaults to \code{TRUE}.}
 }
 \value{
 A \code{utils::\link[utils]{bibentry}} object DataCite attributes.
+\code{as_datacite} returns the existing metadata of a dataset object.
 }
 \description{
-Add metadata conforming the \href{https://schema.datacite.org/}{DataCite Metadata Schema}
-to a \code{utils::\link[utils]{bibentry}} object, for an accurate and consistent identification
-of a resource for citation and retrieval purposes.
+Add or retrieve metadata conforming
+the \href{https://schema.datacite.org/}{DataCite Metadata Schema}.
 }
 \details{
 DataCite is a leading global non-profit organisation that provides persistent identifiers
-(DOIs) for research data and other research outputs. Organizations within the research
+(DOIs) for research data and other research outputs. Organisations within the research
 community join DataCite as members to be able to assign DOIs to all their research
-outputs. This way, their outputs become discoverable and associated metadata is made
-available to the community.\cr
-DataCite then develops additional services to improve the DOI management experience,
-making it easier for our members to connect and share their DOIs with the broader
-research ecosystem and to assess the use of their DOIs within that ecosystem.
-DataCite is an active participant in the research community and promotes data sharing
-and citation through community-building efforts and outreach activities.
+outputs. This way, their outputs become discoverable, and associated metadata is made.
+available to the community.
 
 The \code{ResourceType} property will be by definition "Dataset".
 The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
@@ -137,6 +132,7 @@ datacite(
    Geolocation = "US",
    Language = "en")
 
+as_datacite(iris_dataset, type="dataset")
 }
 \seealso{
 Other metadata functions: 

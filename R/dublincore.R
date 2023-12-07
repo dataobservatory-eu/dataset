@@ -1,20 +1,14 @@
-#' @title Add DublinCore metadata to a bibentry object
-#'
+#' @title Add or get DublinCore metadata
 #' @description Add metadata conforming the
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/}{DCMI Metadata Terms}.
 #' to datasets, i.e. structured R data.frame or list objects, for an accurate and consistent identification
 #' of a resource for citation and retrieval purposes.
-#'
-#' @details DataCite is a leading global non-profit organisation that provides persistent identifiers
-#' (DOIs) for research data and other research outputs. Organizations within the research
-#' community join DataCite as members to be able to assign DOIs to all their research
-#' outputs. This way, their outputs become discoverable and associated metadata is made
-#' available to the community.
-#' DataCite then develops additional services to improve the DOI management experience,
-#' making it easier for our members to connect and share their DOIs with the broader
-#' research ecosystem and to assess the use of their DOIs within that ecosystem.
-#' DataCite is an active participant in the research community and promotes data sharing
-#' and citation through community-building efforts and outreach activities.
+#' @details The Dublin Core, also known as the Dublin Core Metadata Element Set
+#' (DCMES), is a set of fifteen main metadata items for describing digital
+#' or physical resources, such as datasets or their printed versions.
+#' Dublin Core has been formally standardized internationally as ISO 15836,
+#' as IETF RFC 5013 by the Internet Engineering Task Force (IETF),
+#' as well as in the U.S. as ANSI/NISO Z39.85.
 #' @param x An R object of type data.frame, or inherited data.table, tibble; alternatively a well
 #' structured R list.
 #' @details The \code{ResourceType} property will be by definition "Dataset".
@@ -31,7 +25,7 @@
 #' \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html}{registered URI schemes maintained by IANA}.
 #' More details: \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}.
 #' Similar to \code{Identifier} in \code{\link{datacite}}. See \code{\link{identifier}}.
-#' @param oublisher Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#publisher}{dct:publisher}
+#' @param publisher Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#publisher}{dct:publisher}
 #' and Publisher in DataCite.
 #' The name of the entity that holds, archives, publishes prints, distributes, releases,
 #' issues, or produces the resource. This property will be used to formulate the citation,
@@ -142,7 +136,104 @@ dublincore <- function(
                  coverage = coverage)
 }
 
+#' @rdname dublincore
+#' @export
+as_dublincore <- function(x, type = "bibentry") {
 
+  if (! type %in% c("bibentry", "list", "dataset")) {
+    warning_message <- "as_datacite(ds, type=...) type cannot be "
+    warning(warning_message, type, ". Reverting to 'bibentry'.")
+    type <- 'bibentry'
+  }
+
+  ds_bibentry <- dataset_bibentry(x)
+  title   <- ds_bibentry$title
+  creator <- ds_bibentry$author
+
+
+  if (!is.null(ds_bibentry$date)) {
+    if(!is.null(ds_bibentry$year)) {
+      date <- ":tba"
+    } else {
+      date <- as.character(ds_bibentry$year)
+    }
+  } else {
+    date <- as.character(ds_bibentry$date)
+  }
+
+  relation <- ifelse (is.null(ds_bibentry$relation), ":unas", as.character(ds_bibentry$relation))
+  identifier <- ifelse (is.null(ds_bibentry$identifier), ":tba", as.character(ds_bibentry$identifier))
+  version <- ifelse (is.null(ds_bibentry$version), ":unas", as.character(ds_bibentry$version))
+  description <- ifelse (is.null(ds_bibentry$description), ":unas", as.character(ds_bibentry$description))
+  language <- ifelse (is.null(ds_bibentry$language), ":unas", as.character(ds_bibentry$language))
+  format <- ifelse (is.null(ds_bibentry$format), ":tba", as.character(ds_bibentry$format))
+  rights <- ifelse (is.null(ds_bibentry$rights), ":tba", as.character(ds_bibentry$rights))
+  coverage  <- ifelse (is.null(ds_bibentry$coverage), ":unas", as.character(ds_bibentry$coverage))
+  datasource <- ifelse (is.null(ds_bibentry$datasource), ":unas", as.character(ds_bibentry$datasource))
+  contributor <- ifelse (is.null(ds_bibentry$contributor), "", as.character(ds_bibentry$contributor))
+  subject <- ifelse (is.null(ds_bibentry$subject), "", as.character(ds_bibentry$subject))
+  publisher <- ifelse (is.null(ds_bibentry$publisher), "", as.character(ds_bibentry$publisher))
+
+  if (type == "bibentry") {
+    new_dublincore(title,
+                   creator,
+                   identifier = identifier,
+                   publisher = publisher,
+                   subject = subject,
+                   type = "DCMITYPE:Dataset",
+                   contributor = contributor,
+                   date = date,
+                   language = language,
+                   relation = relation,
+                   format = format,
+                   rights = rights,
+                   datasource = datasource,
+                   description = description,
+                   coverage = coverage)
+  } else if (type== "list") {
+    if (contributor == "") contributor <- NULL
+    if (subject == "") subject <- NULL
+
+    list(title=title,
+         creator=creator,
+         identifier = identifier,
+         publisher = publisher,
+         subject = subject,
+         type = "DCMITYPE:Dataset",
+         contributor = contributor,
+         date = date,
+         language = language,
+         relation = relation,
+         format = format,
+         rights = rights,
+         datasource = datasource,
+         description = description,
+         coverage = coverage)
+  } else if ( type  == "dataset") {
+    dataset (
+      data.frame(title = title,
+                 creator = as.character(creator),
+                 identifier = identifier,
+                 publisher = publisher,
+                 subject = subject,
+                 type = "DCMITYPE:Dataset",
+                 contributor = contributor,
+                 date = date,
+                 language = language,
+                 relation = relation,
+                 format = format,
+                 rights = rights,
+                 datasource = datasource,
+                 description = description,
+                 coverage = coverage),
+      title = paste0("The Dublin Core Metadata of `", ds_bibentry$title, "'"),
+      author = creator,
+      year = substr(as.character(Sys.Date()),1,4)
+    )
+  }
+}
+
+#' @keywords internal
 new_dublincore <- function (title,
                             creator,
                             identifier = NULL,
@@ -159,20 +250,21 @@ new_dublincore <- function (title,
                             description = NULL,
                             coverage = NULL) {
 
-  dublincore_object <- as_bibentry(title = title,
-                                   author = creator,
-                                   identifier = identifier,
-                                   publisher = publisher,
-                                   contributor = contributor,
-                                   date = date,
-                                   language = language,
-                                   relation = relation,
-                                   format = format,
-                                   rights = rights,
-                                   description = description,
-                                   type = type,
-                                   datasource = datasource,
-                                   coverage = coverage)
+  dublincore_object <- bibentry(bibtype = "Misc",
+                                title = title,
+                                author = creator,
+                                identifier = identifier,
+                                publisher = publisher,
+                                contributor = contributor,
+                                year = as.character(substr(date, 1,4)),
+                                language = language,
+                                relation = relation,
+                                format = format,
+                                rights = rights,
+                                description = description,
+                                type = type,
+                                datasource = datasource,
+                                coverage = coverage)
 
   class(dublincore_object) <- c("dublincore", class(dublincore_object))
   dublincore_object

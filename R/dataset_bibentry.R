@@ -1,9 +1,12 @@
 #' @title Get the bibliographic entries of a dataset
 #' @description A dataset constructed with \code{\link{dataset}} records most of the
-#' dataset-level metadata in an bibentry object, which allows the printing or saving
-#' the bibliographic record in HTML, BibLatex and other formats.
-#' For further information on
-#' the \code{bibentry} class see \code{utils::\link[utils]{bibentry}}.
+#' dataset-level metadata in a \code{bibentry} object.
+#' A dataset constructed with \code{\link{dataset}} records most of the
+#' dataset-level metadata in a bibentry object. This class is defined in the
+#' _utils_ package, and it is installed by default with R;
+#' using the gives wide interoperability with other packages and allows
+#' printing or saving the bibliographic record in HTML, BibLatex and other
+#' formats. For further information see \code{utils::\link[utils]{bibentry}}.
 #' @param ds A dataset object created by \code{\link{dataset}}.
 #' @return The \code{\link[utils]{bibentry}} object of the dataset.
 #' @importFrom utils bibentry
