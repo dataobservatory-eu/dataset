@@ -1,7 +1,7 @@
 #' @title Get/Estimate/Add the Size metadata to an object
 #' @description Add the optional DataCite \code{Size} property as an attribute to an R object.
 #' @details \code{Size} is an optional property in DataCite 4.4. See:
-#' \href{https://support.datacite.org/docs/schema-optional-properties-v44#13-size}{datacite:Size}.
+#' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#13-size}{datacite:Size}.
 #' The object size is estimated with \code{\link[utils:object.size]{utils::object.size}} and it may differ
 #' from the actual serialisation to another file format.
 #' @param x A dataset object created with \code{dataset::\link{dataset}}.

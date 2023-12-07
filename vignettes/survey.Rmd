@@ -116,7 +116,7 @@ summary(listen_spotify)
 dc_tiny_survey <- dublincore(
   title = "Tiny Survey", 
   creator = person("Daniel", "Antal"), 
-  identifier = 'https://doi.org/example', 
+  identifier = 'example-1', 
   publisher = "Example Publishing", 
   subject = "Surveys", 
   language = "en")
@@ -133,6 +133,7 @@ Is the `summary` method implemented for `declared`? Both `dataset` and `survey` 
 ```{r summarizedataset}
 summary(survey_dataset)
 ```
+
 The `survey` (should) contain the entire processing history from creation, and optionally the `DataCite` schema for publication created with `datacite_add()`.  A similar `dublincore_add` function uses the Dublin Core metadata definitions.
 
 Eventually, a connection to the packages [zen4R](https://github.com/eblondel/zen4R) will make sure that the correctly described dataset can get a Zenodo record, receive a DOI, the DOI recorded in the object, and upload to Zenodo.
