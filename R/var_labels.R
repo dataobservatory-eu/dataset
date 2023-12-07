@@ -27,7 +27,7 @@ var_labels.dataset <- function(x) {
 #'                  )
 #' var_labels(relabelled)
 #' @exportS3Method
-`set_var_labels.dataset` <- function(x, value) {
+set_var_labels.dataset <- function(x, value) {
   dsd <- attr(x, "DataStructure")
 
   original_labels <-  vapply (names(dsd), function(x) unlist(dsd[[x]]$label), character(1))

@@ -30,9 +30,6 @@
 #' Use \code{\link{subject}} to properly add a key phrase from a controlled vocabulary
 #' and create structured Subject objects with \code{\link{subject_create}}.
 #' @param Contributor Recommended for discovery. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.
-#' @param Date Recommended for discovery in DataCite. Similar to
-#' \href{https://purl.org/dc/elements/1.1/date}{dct:date} in
-#' \code{\link{dublincore}}.
 #' @param Publisher The name of the entity that holds, archives, publishes prints,
 #' distributes, releases, issues, or produces the resource. This property will be used to
 #' formulate the citation, so consider the prominence of the role.
@@ -65,8 +62,6 @@
 #' or about which the data is focused. See \code{\link{geolocation}}.
 #' @param FundingReference Information about financial support (funding) for the resource
 #' being registered.
-#' @param overwrite If pre-existing metadata properties should be overwritten,
-#' defaults to \code{TRUE}.
 #' @return A \code{utils::\link[utils]{bibentry}} object DataCite attributes.
 #' \code{as_datacite} returns the existing metadata of a dataset object.
 #' @source \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite 4.3 Mandatory Properties} and
@@ -203,6 +198,7 @@ as_datacite <- function(x, type = "bibentry", ... ) {
                  Geolocation = Geolocation,
                  FundingReference = FundingReference)
   } else if (type== "list") {
+
     list(Title = Title,
          Creator = Creator,
          Identifier = Identifier,

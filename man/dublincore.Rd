@@ -112,16 +112,6 @@ is relevant. See
 \item{...}{Optional parameters to add to a \code{dublincore} object.
 \code{author=person("Jane", "Doe")} adds an author to the citation
 object if \code{type="dataset"}.}
-
-\item{source}{A related resource from which the described resource is derived.
-See \href{https://purl.org/dc/elements/1.1/source}{dct:source} and
-\code{\link{datasource}}.}
-
-\item{Format}{The file format, physical medium, or dimensions of the resource.
-\href{    https://purl.org/dc/elements/1.1/format}{dct:format}
-Examples of dimensions include size and duration. Recommended best practice is to use a controlled
-vocabulary such as the list of \href{https://www.iana.org/assignments/media-types/media-types.xhtml}{Internet Media Types, formerly known as MIME}. It is similar to \code{Format} in
-\code{\link{datacite}}.}
 }
 \value{
 The Dublin Core Metadata elements of the dataset in a \code{utils::\link[utils]{bibentry}} object.

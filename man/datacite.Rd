@@ -112,13 +112,6 @@ a \code{type="dataset"}, or a \code{type="bibentry"} (default).}
 \item{...}{Optional parameters to add to a \code{datacite} object.
 \code{author=person("Jane", "Doe")} adds an author to the citation
 object if \code{type="dataset"}.}
-
-\item{Date}{Recommended for discovery in DataCite. Similar to
-\href{https://purl.org/dc/elements/1.1/date}{dct:date} in
-\code{\link{dublincore}}.}
-
-\item{overwrite}{If pre-existing metadata properties should be overwritten,
-defaults to \code{TRUE}.}
 }
 \value{
 A \code{utils::\link[utils]{bibentry}} object DataCite attributes.
