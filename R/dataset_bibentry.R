@@ -29,7 +29,7 @@
 #' dataset_bibentry(ds)
 #' @export
 
-dataset_bibentry <- function(x, style = "text") {
+dataset_bibentry <- function(x) {
 
   DataBibentry <- attr(x, "DataBibentry")
   DataBibentry

@@ -45,7 +45,7 @@
 #' @param source A related resource from which the described resource is derived.
 #' See \href{https://purl.org/dc/elements/1.1/source}{dct:source} and
 #' \code{\link{dataset_source}}.
-#' @param Language The primary language of the resource. Allowed values are taken from
+#' @param language The primary language of the resource. Allowed values are taken from
 #' IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}. Corresponds to Language in Datacite.
 #' @param Format The file format, physical medium, or dimensions of the resource.
 #' \href{	https://purl.org/dc/elements/1.1/format}{dct:format}
@@ -74,6 +74,16 @@
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI: Source},
 #' which corresponds to a \code{relatedItem} in the DataCite vocabulary. We use
 #' \code{datasource} instead of \code{source} to avoid naming conflicts with the
+#' @param format The file format, physical medium, or dimensions of the dataset. See
+#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI: Format}.
+#' @param coverage The spatial or temporal topic of the resource, spatial
+#' applicability of the dataset, or jurisdiction under which the dataset
+#' is relevant. See
+#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/coverage/}{DCMI: Coverage}.
+#' @param contributor An entity responsible for making contributions to the dataset. See
+#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/contributor/}{DCMI: Contributor}.
+#' @param language A language of the dataset. See
+#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/language/}{DCMI: Langauge}.
 #' @importFrom utils person bibentry
 #' @source \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/}{	DCMI Metadata Terms}.
 #' @family metadata functions
@@ -137,6 +147,9 @@ dublincore <- function(
 }
 
 #' @rdname dublincore
+#' @param ... Optional parameters to add to a \code{dublincore} object.
+#' \code{author=person("Jane", "Doe")} adds an author to the citation
+#' object if \code{type="dataset"}.
 #' @export
 as_dublincore <- function(x, type = "bibentry", ...) {
 

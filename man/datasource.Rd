@@ -12,10 +12,15 @@ datasource(x, overwrite = TRUE) <- value
 \arguments{
 \item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
 
+\item{overwrite}{If the attributes should be overwritten. In case it is set
+to \code{FALSE},it gives a warning with the current \code{datasource}
+property instead of overwriting it. Defaults to \code{FALSE}.}
+
 \item{value}{The \code{Source} as a character string of lengths one.}
 }
 \value{
-The \code{Source} attribute as a character of length 1 is added to \code{x}.
+The \code{Source} attribute as a character of length 1 is added to
+\code{x}.
 }
 \description{
 Get/set the optional \code{Source} property as an attribute to an

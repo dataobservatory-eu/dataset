@@ -16,6 +16,8 @@ var_labels.dataset <- function(x) {
 }
 
 #' @rdname var_labels
+#' @param value A character vector for labelling the variables with
+#' \code{set_var_labels}.
 #' @examples
 #' relabelled <- set_var_labels(
 #'                iris_dataset,

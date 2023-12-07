@@ -98,6 +98,10 @@ being registered.}
 
 \item{x}{An object that is tested if it has a class "datacite".}
 
+\item{...}{Optional parameters to add to a \code{datacite} object.
+\code{author=person("Jane", "Doe")} adds an author to the citation
+object if \code{type="dataset"}.}
+
 \item{Date}{Recommended for discovery in DataCite. Similar to
 \href{https://purl.org/dc/elements/1.1/date}{dct:date} in
 \code{\link{dublincore}}.}

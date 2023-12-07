@@ -30,7 +30,8 @@ fit in any of the other categories. May be used for technical information. A fre
 Similar to \href{https://purl.org/dc/elements/1.1/description}{dct:description}.
 }
 \examples{
-description(iris_dataset, overwrite = TRUE) <- "The famous iris dataset used in R language examples."
+description(iris_dataset, overwrite = TRUE) <- "The famous iris dataset used
+in R language examples."
 description(iris_dataset)
 }
 \seealso{

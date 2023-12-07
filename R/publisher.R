@@ -9,9 +9,9 @@
 #' code, use the property Contributor/contributorType/ hostingInstitution for the code
 #' repository.
 #' @param x An R object, such as a data.frame, a tibble, or a data.table.
-#' @param overwrite If the attributes should be overwritten. In case it is set to \code{FALSE},
-#' it gives a message with the current \code{Publisher} property instead of overwriting it.
-#' Defaults to \code{FALSE}.
+#' @param overwrite If the attributes should be overwritten. In case it is set
+#' to \code{FALSE},it gives a warning with the current \code{publisher}
+#' property instead of overwriting it. Defaults to \code{FALSE}.
 #' @param value The \code{Publisher} as a character set.
 #' @return The Publisher attribute as a character of length 1 is added to \code{x}.
 #' @examples

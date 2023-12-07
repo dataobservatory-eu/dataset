@@ -4,7 +4,7 @@
 \alias{dataset_bibentry}
 \title{Get the bibliographic entries of a dataset}
 \usage{
-dataset_bibentry(x, style = "text")
+dataset_bibentry(x)
 }
 \arguments{
 \item{x}{A dataset object created with \code{dataset::\link{dataset}}.}

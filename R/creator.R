@@ -34,7 +34,7 @@ creator<- function(x) {
               msg = "creator(x) <- value: x must be a dataset object created with dataset() or as_dataset().")
 
   if (is.null(value)) {
-    returnx(x)
+    return(x)
   }
 
   if (!inherits(value, "person")) {

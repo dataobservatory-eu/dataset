@@ -7,7 +7,8 @@
 #' \code{relationType="isDerivedFrom"}.
 #' @param x A dataset object created with \code{dataset::\link{dataset}}.
 #' @param value The \code{Source} as a character string of lengths one.
-#' @return The \code{Source} attribute as a character of length 1 is added to \code{x}.
+#' @return The \code{Source} attribute as a character of length 1 is added to
+#' \code{x}.
 #' @examples
 #' datasource(iris_dataset) <- "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
 #' datasource(iris_dataset)
@@ -24,6 +25,9 @@ datasource <- function(x) {
 }
 
 #' @rdname datasource
+#' @param overwrite If the attributes should be overwritten. In case it is set
+#' to \code{FALSE},it gives a warning with the current \code{datasource}
+#' property instead of overwriting it. Defaults to \code{FALSE}.
 #' @export
 `datasource<-` <- function(x,  overwrite = TRUE, value) {
 

@@ -12,6 +12,10 @@ dataset_title(x, overwrite = FALSE) <- value
 \arguments{
 \item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
 
+\item{overwrite}{If the attributes should be overwritten. In case it is set
+to \code{FALSE},it gives a warning with the current \code{title}
+property instead of overwriting it. Defaults to \code{FALSE}.}
+
 \item{value}{The name(s) or title(s) by which a resource is known. See:
 \href{https://purl.org/dc/elements/1.1/title}{dct:title}.}
 }

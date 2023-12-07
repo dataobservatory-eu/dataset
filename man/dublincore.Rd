@@ -69,14 +69,23 @@ For a dataset, the correct term is \code{Dataset}.
 To describe the file format, physical medium, or dimensions of the resource, use the
 Format element.}
 
+\item{contributor}{An entity responsible for making contributions to the dataset. See
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/contributor/}{DCMI: Contributor}.}
+
 \item{date}{Corresponds to a point or period of time associated with an event in the
 lifecycle of the resource. \href{https://purl.org/dc/elements/1.1/date}{dct:date}.
 \code{Date} is also recommended for
 discovery in \code{\link{datacite}}, but it requires a different formatting.}
 
+\item{language}{A language of the dataset. See
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/language/}{DCMI: Langauge}.}
+
 \item{relation}{A related resource. Recommended best practice is to identify the related
 resource by means of a string conforming to a formal identification system. See: \href{https://purl.org/dc/elements/1.1/relation}{dct:relation}.
 Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended for discovery.}
+
+\item{format}{The file format, physical medium, or dimensions of the dataset. See
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI: Format}.}
 
 \item{rights}{Corresponds to \href{https://purl.org/dc/elements/1.1/rights}{dct:rights} and
 \code{\link{datacite}} Rights. Information about rights held in and over the resource.
@@ -93,14 +102,20 @@ an abstract, a table of contents, a graphical representation, or a free-text acc
 \href{https://purl.org/dc/elements/1.1/description}{dct:description}. In
 \code{\link{datacite}} it is recommended for discovery. See \code{\link{description}}.}
 
+\item{coverage}{The spatial or temporal topic of the resource, spatial
+applicability of the dataset, or jurisdiction under which the dataset
+is relevant. See
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/coverage/}{DCMI: Coverage}.}
+
 \item{x}{An object that is tested if it has a class "dublincore".}
+
+\item{...}{Optional parameters to add to a \code{dublincore} object.
+\code{author=person("Jane", "Doe")} adds an author to the citation
+object if \code{type="dataset"}.}
 
 \item{source}{A related resource from which the described resource is derived.
 See \href{https://purl.org/dc/elements/1.1/source}{dct:source} and
 \code{\link{dataset_source}}.}
-
-\item{Language}{The primary language of the resource. Allowed values are taken from
-IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}. Corresponds to Language in Datacite.}
 
 \item{Format}{The file format, physical medium, or dimensions of the resource.
 \href{    https://purl.org/dc/elements/1.1/format}{dct:format}

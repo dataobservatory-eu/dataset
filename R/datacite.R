@@ -128,6 +128,9 @@ datacite <- function(Title,
 
 #' @rdname datacite
 #' @param x A dataset object created with \code{dataset::\link{dataset}}.
+#' @param ... Optional parameters to add to a \code{datacite} object.
+#' \code{author=person("Jane", "Doe")} adds an author to the citation
+#' object if \code{type="dataset"}.
 #' @export
 as_datacite <- function(x, type = "bibentry", ... ) {
 

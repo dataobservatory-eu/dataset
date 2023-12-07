@@ -14,6 +14,9 @@ var_labels(x)
 }
 \arguments{
 \item{x}{A dataset.}
+
+\item{value}{A character vector for labelling the variables with
+\code{set_var_labels}.}
 }
 \description{
 Get / Set a variable labels in a dataset

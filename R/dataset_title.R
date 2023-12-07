@@ -22,6 +22,9 @@ dataset_title <- function(x) {
 }
 
 #' @rdname dataset_title
+#' @param overwrite If the attributes should be overwritten. In case it is set
+#' to \code{FALSE},it gives a warning with the current \code{title}
+#' property instead of overwriting it. Defaults to \code{FALSE}.
 #' @importFrom stats setNames
 #' @export
 `dataset_title<-` <- function(x,  overwrite = FALSE, value) {
