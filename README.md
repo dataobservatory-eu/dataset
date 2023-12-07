@@ -21,6 +21,7 @@ coverage](https://codecov.io/gh/dataobservatory-eu/dataset/branch/master/graph/b
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/dataobservatory-eu/dataset?branch=master&svg=true)](https://ci.appveyor.com/project/dataobservatory-eu/dataset)
 
+[![R-CMD-check](https://github.com/dataobservatory-eu/dataset/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The primary aim of dataset is create well-referenced, well-described,
@@ -33,7 +34,7 @@ harmonized with the Resource Description Framework (RDF), the standard
 model for data interchange on the web[^1].
 
 The development version of the `dataset` package is very significantly
-differnet from the CRAN release. The documentation has not been
+different from the CRAN release. The documentation has not been
 rewritten yet! You can follow the discussion of this package on
 [rOpenSci](https://github.com/ropensci/software-review/issues/553).
 
@@ -89,59 +90,15 @@ A brief description of the extended metadata attributes:
 describe(iris_ds)
 #> Iris Dataset 
 #> Dataset with 150 observations (rows) and 5 variables (columns).
-#> Description: :unas
+#> Description: This famous (Fisher's or Anderson's) iris data set.
 #> Creator: Edgar Anderson [aut]
 #> Publisher: American Iris Society
-#> Rights: :unas
 ```
 
 ``` r
-# Remove lengthy attributes to see what is going on under the hoods:
-iris_ds2 <- iris_ds
-attr(iris_ds2, "DataStructure") <- NULL; attr(iris_ds2, "row.names") <- NULL
-str(iris_ds2)
-#> Classes 'dataset' and 'data.frame':  0 obs. of  5 variables:
-#>  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
-#>  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
-#>  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
-#>  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
-#>  $ Species     : Factor w/ 3 levels "setosa","versicolor",..: 1 1 1 1 1 1 1 1 1 1 ...
-#>  - attr(*, "DataBibentry")=Class 'bibentry'  hidden list of 1
-#>   ..$ :List of 11
-#>   .. ..$ title       : chr "Iris Dataset"
-#>   .. ..$ author      :Class 'person'  hidden list of 1
-#>   .. .. ..$ :List of 5
-#>   .. .. .. ..$ given  : chr "Edgar"
-#>   .. .. .. ..$ family : chr "Anderson"
-#>   .. .. .. ..$ role   : chr "aut"
-#>   .. .. .. ..$ email  : NULL
-#>   .. .. .. ..$ comment: NULL
-#>   .. ..$ publisher   : chr "American Iris Society"
-#>   .. ..$ year        : chr "2023"
-#>   .. ..$ resourcetype: chr "Dataset"
-#>   .. ..$ identifier  : chr ":tba"
-#>   .. ..$ version     : chr "0.1.0"
-#>   .. ..$ description : chr ":unas"
-#>   .. ..$ language    : chr "en"
-#>   .. ..$ format      : chr "application/r-rds"
-#>   .. ..$ rights      : chr ":unas"
-#>   .. ..- attr(*, "bibtype")= chr "Misc"
-#>  - attr(*, "Subject")=List of 6
-#>   ..$ term              : chr ""
-#>   ..$ subjectScheme     : chr ""
-#>   ..$ schemeURI         : chr ""
-#>   ..$ valueURI          : chr ""
-#>   ..$ classificationCode: NULL
-#>   ..$ prefix            : chr ""
-#>   ..- attr(*, "class")= chr [1:2] "subject" "list"
-```
-
-``` r
-paste0("Publisher:", publisher(iris_ds2))
+paste0("Publisher:", publisher(iris_ds))
 #> [1] "Publisher:American Iris Society"
-paste0("Rights:", rights(iris_ds2))
-#> [1] "Rights::unas"
-paste0("Rights:", rights(iris_ds2))
+paste0("Rights:", rights(iris_ds))
 #> [1] "Rights::unas"
 ```
 
@@ -161,7 +118,7 @@ print(mybibentry, "Bibtex")
 #>   resourcetype = {Dataset},
 #>   identifier = {:tba},
 #>   version = {0.1.0},
-#>   description = {:unas},
+#>   description = {This famous (Fisher's or Anderson's) iris data set.},
 #>   language = {en},
 #>   format = {application/r-rds},
 #>   rights = {:unas},
@@ -169,10 +126,10 @@ print(mybibentry, "Bibtex")
 ```
 
 ``` r
-rights(iris_ds2) <- "CC0"
-rights(iris_ds2)
+rights(iris_ds) <- "CC0"
+rights(iris_ds)
 #> [1] "CC0"
-rights(iris_ds2, overwrite = FALSE) <- "GNU-2"
+rights(iris_ds, overwrite = FALSE) <- "GNU-2"
 #> The dataset has already a rights field: CC0
 ```
 
@@ -180,7 +137,7 @@ Some important metadata is protected from accidental overwriting (except
 for the default `:unas` unassigned and `:tba` to-be-announced values.)
 
 ``` r
-rights(iris_ds2, overwrite = TRUE)  <- "GNU-2"
+rights(iris_ds, overwrite = TRUE)  <- "GNU-2"
 ```
 
 ## Code of Conduct

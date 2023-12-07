@@ -56,7 +56,7 @@ As the dataset at this point is just created, if it is not published yet, the `i
 
 The dataset behaves as expected, with all data.frame methods applicable.  If the dataset was originally a tibble or data.table object, it retained all methods of these s3 classes because the dataset class only implements further methods in the attributes of the original object.
 
-```{r}
+```{r summary}
 summary(iris_ds)
 ```
 
@@ -65,17 +65,10 @@ A brief description of the extended metadata attributes:
 ```{r describe}
 describe(iris_ds)
 ```
-```{r attributes}
-# Remove lengthy attributes to see what is going on under the hoods:
-iris_ds2 <- iris_ds
-attr(iris_ds2, "DataStructure") <- NULL; attr(iris_ds2, "row.names") <- NULL
-str(iris_ds2)
-```
 
 ```{r individualattributes}
-paste0("Publisher:", publisher(iris_ds2))
-paste0("Rights:", rights(iris_ds2))
-paste0("Rights:", rights(iris_ds2))
+paste0("Publisher:", publisher(iris_ds))
+paste0("Rights:", rights(iris_ds))
 ```
 
 The descriptive metadata are added to a `utils::bibentry` object which has many printing options (see `?bibentry`).
@@ -88,18 +81,16 @@ print(mybibentry, "Bibtex")
 
 
 ```{r prevent-overwrite}
-rights(iris_ds2) <- "CC0"
-rights(iris_ds2)
-rights(iris_ds2, overwrite = FALSE) <- "GNU-2"
+rights(iris_ds) <- "CC0"
+rights(iris_ds)
+rights(iris_ds, overwrite = FALSE) <- "GNU-2"
 ```
 
 Some important metadata is protected from accidental overwriting (except for the default `:unas` unassigned and `:tba` to-be-announced values.)
 
 ```{r overwrite}
-rights(iris_ds2, overwrite = TRUE)  <- "GNU-2"
+rights(iris_ds, overwrite = TRUE)  <- "GNU-2"
 ```
-
-
 ## Code of Conduct
 Please note that the `dataset` package is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
 
