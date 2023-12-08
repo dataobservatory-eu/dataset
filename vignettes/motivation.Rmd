@@ -14,7 +14,7 @@ subtitle: Version 0.1.6 https:://doi.org/10.5281/zenodo.6969653
 output: pdf_document
 -->
 
-```{r, include = FALSE}
+```{r setupknitr, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -208,7 +208,7 @@ See: [Linked SDMX Data](https://csarven.ca/linked-sdmx-data)
 ## References 
 
 Baker, Monya. 2016. “1,500 Scientists Lift the Lid on reproducibility.”
-*Nature* 533 (7604): 452–54. <https://doi.org/10.1038/533452a>.
+*Nature* 533 (7604): 452–54. <https://www.nature.com/articles/533452a.epdf>.
 
 Capadisli, Sarven, Sören Auer, and Axel-Cyrille Ngonga Ngomo. 2015.
 “Linked SDMX Data: Path to High Fidelity Statistical Linked Data.”
