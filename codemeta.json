@@ -7,13 +7,13 @@
   "codeRepository": "https://github.com/dataobservatory-eu/dataset",
   "issueTracker": "https://github.com/dataobservatory-eu/dataset/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.2.1",
+  "version": "0.2.7",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
+  "runtimePlatform": "R version 4.3.2 (2023-10-31 ucrt)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -264,7 +264,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "637.549KB",
+  "fileSize": "603.395KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -280,7 +280,7 @@
       ],
       "name": "dataset: Create Data Frames that are Easier to Exchange and Reuse",
       "url": "https://github.com/dataobservatory-eu/dataset",
-      "description": "R package version 0.2.1"
+      "description": "R package version 0.2.7"
     },
     {
       "@type": "CreativeWork",
@@ -301,7 +301,7 @@
   ],
   "releaseNotes": "https://github.com/dataobservatory-eu/dataset/blob/master/NEWS.md",
   "readme": "https://github.com/dataobservatory-eu/dataset/blob/master/README.md",
-  "contIntegration": ["https://app.codecov.io/gh/dataobservatory-eu/dataset?branch=master", "https://github.com/dataobservatory-eu/dataset/actions?query=workflow%3Apkgcheck", "https://ci.appveyor.com/project/dataobservatory-eu/dataset"],
+  "contIntegration": ["https://app.codecov.io/gh/dataobservatory-eu/dataset?branch=master", "https://github.com/dataobservatory-eu/dataset/actions?query=workflow%3Apkgcheck", "https://ci.appveyor.com/project/dataobservatory-eu/dataset", "https://github.com/dataobservatory-eu/dataset/actions/workflows/R-CMD-check.yaml"],
   "developmentStatus": "https://lifecycle.r-lib.org/articles/stages.html#experimental",
   "review": {
     "@type": "Review",
