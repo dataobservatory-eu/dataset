@@ -2,6 +2,7 @@
 
 Local:
 * Windows10 x86_64-w64-mingw32 (64-bit), R version 4.2.1, locally.
+* Windows10 x86_64-w64-mingw32 (64-bit), R version 4.3.2, locally.
 * Ubuntu 22.04.1 LTS x86_64-pc-linux-gnu (64-bit), R version 4.2.1, locally
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 

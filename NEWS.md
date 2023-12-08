@@ -1,4 +1,6 @@
-# New devel branch
+# dataset 0.2.7 
+
+* Release candidate for CRAN
 
 The devel branch contains new code that is not is validated, but as a whole the package is not working consistently.
 
