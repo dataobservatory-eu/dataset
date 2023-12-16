@@ -1,6 +1,10 @@
+# dataset 0.2.8
+
+- New vignette on _Richer Semantics for the Dataset's Variables_.
+
 # dataset 0.2.7 
 
-* Release candidate for CRAN
+* Released on CRAN
 
 The devel branch contains new code that is not is validated, but as a whole the package is not working consistently.
 
