@@ -1,7 +1,11 @@
 # dataset 0.2.8
 
 New vignettes on
+<<<<<<< HEAD
 - [x] [Richer Semantics for the Dataset's Variables](https://dataset.dataobservatory.eu/articles/columns.html)
+=======
+- [x] [Richer Semantics for the Dataset's Variables](https://dataset.dataobservatory.eu/articles/columns.html).
+>>>>>>> cfb07920877907f816987215901ec0a1a6470114
 - [x] [Richer Semantics for the Dataset's Observations](https://dataset.dataobservatory.eu/articles/rows.html)
 - [x] [Richer Description of the Datasets's Structure for Meaningful Reuse Opportunities](https://dataset.dataobservatory.eu/articles/DSD.html)
 
