@@ -11,7 +11,7 @@
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10304055.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.2.6-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.2.8-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Codecov test
 coverage](https://codecov.io/gh/dataobservatory-eu/dataset/branch/master/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset?branch=master)
@@ -21,18 +21,25 @@ status](https://ci.appveyor.com/api/projects/status/github/dataobservatory-eu/da
 [![R-CMD-check](https://github.com/dataobservatory-eu/dataset/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The primary aim of dataset is create well-referenced, well-described,
-interoperable datasets from data.frames, tibbles or data.tables that
-translate well into the W3C DataSet definition within the [Data Cube
-Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible
-manner. The data cube model in itself is is originated in the
-*Statistical Data and Metadata eXchange*, and it is almost fully
-harmonized with the Resource Description Framework (RDF), the standard
-model for data interchange on the web[^1].
+The dataset package extension to the R statistical environment aims to
+ensure that the most important R object that contains a dataset, i.e. a
+[data.frame](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame)
+or an inherited
+[tibble](https://tibble.tidyverse.org/reference/tibble.html),
+[tsibble](https://tsibble.tidyverts.org/) or
+[data.table](https://rdatatable.gitlab.io/data.table/) contains
+important metadata for the reuse and validation of the dataset contents.
+We aim to offer a novel solution to support individuals or small groups
+of data scientists working in various business, academic or policy
+research functions who cannot count on the support of librarians,
+knowledge engineers, and extensive documentation processes.
 
-The development version of the `dataset` package is very significantly
-different from the CRAN release. The documentation has not been
-rewritten yet! You can follow the discussion of this package on
+<!---
+&#10;The primary aim of dataset is create well-referenced, well-described, interoperable datasets from data.frames, tibbles or data.tables that translate well into the W3C DataSet definition within the [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible manner. The data cube model in itself is is originated in the _Statistical Data and Metadata eXchange_, and it is almost fully harmonized with the Resource Description Framework (RDF), the standard model for data interchange on the web^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>].
+&#10;--->
+
+The current version of the `dataset` package is in an early,
+experimental stage. You can follow the discussion of this package on
 [rOpenSci](https://github.com/ropensci/software-review/issues/553).
 
 ``` r
@@ -149,8 +156,3 @@ Guide](https://contributing.ropensci.org/) - *A guide to help people
 find ways to contribute to rOpenSci* is also applicable, because
 `dataset` is under software review for potential inclusion in
 [rOpenSci](https://github.com/ropensci/software-review/issues/553).
-
-[^1]: RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014
-    <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data
-    modeling
-    <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>

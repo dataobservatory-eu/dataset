@@ -30,6 +30,15 @@ articles:
     contents:
       - dataset
       - motivation
+  - title: More Valuable Datasets
+    desc: >
+     Increase the (re-)use value of a dataset by increasing semantic information
+     about the variables (columns), observations (rows), and the structure of the
+     dataset.
+    contents:
+    - columns
+    - rows
+    - DSD
   - title: "Metadata"
     desc: >
      Our `dataset` R package creates new classes and an interface to easily add,
@@ -47,7 +56,6 @@ articles:
     contents:
       - survey
       - RDF
-
 reference:
   - title: "Dataset"
     desc: >
