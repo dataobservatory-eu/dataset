@@ -1,0 +1,55 @@
+---
+title: "Richer Semantics for the Dataset's Observations"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Richer Semantics for the Dataset's Observations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setupknitr, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In a tidy dataset, observations are organised into rows, and they have an identifier. The base R data.frame comes with `row.names()`. The modernised `tibble` allows the easy addition of the row identifier (as a primary key to the dataset's tabular form). The `data.table` makes indexing more efficient. The `ts` time-series object or its more modern `tsibble` form adds clear identifiers for the time dimensions of the data.
+
+The usability of a dataset is increased if we can easily and unambiguously add new observations with `rbind(...)` or a similar function. Without logical or semantic confusion, this is only possible if the binding of new observations uses the same identifiers. Eventually, the dataset will be the most usable if the identifiers are global, persistent and unique, enabling data linking via the web.
+
+Recalling the first observationn from the Example 9 of the _RDF Data Cube Vocabulary definition_, the `eg:` abbrevation is a shorthand of a Uniform Resource Identifier (URI) or  Internationalized Resource Identifier (IRI) in the `https://example.com/` domain. Normally, this observation identifier should resolve to a globally unique identifier which is available on the World Wide Web as a human and machine-readable identifier (with optional description.)
+
+```{r rdf-example-9-continued, eval=FALSE}
+# Example 9 of the RDF Data Cube Vocabulary definition
+
+eg:o1 a qb:Observation;
+    qb:dataSet  eg:dataset-le1 ;
+    eg:refArea                 ex-geo:newport_00pr ;                  
+    eg:refPeriod               <http://reference.data.gov.uk/id/gregorian-interval/2004-01-01T00:00:00/P3Y> ;
+    sdmx-dimension:sex         sdmx-code:sex-M ;
+    sdmx-attribute:unitMeasure <http://dbpedia.org/resource/Year> ;
+    eg:lifeExpectancy          76.7 ;
+    .
+```
+
+To go back to the `iris` dataset: the observation (row) identifier is certainly not globally unique because the row identifiers `1`, `2`, ... `150` are present by default in any R data frame with 150 rows. What would make them unique if the `eg:` shorthand would resolve to a unique identifier. The simplest way to create such a unique identifier is to derive the root of the observation (row) identifier from a globally unique identifier of the dataset.
+
+
+```{r iris-observation-ids}
+data("iris")
+eg_iris <-iris
+row.names(eg_iris) <- paste0("eg:o", row.names(iris))
+head(eg_iris)[1:6,]
+```
+
+We placed a copy of the (semantically enhanced) version of the famous iris dataset with the digital object identifier (DOI) `10.5281/zenodo.10396807` to the Zenodo data repository that promises many decades of availability for this copy. The DOI identifier is designed so that the `https://doi.org/10.5281/zenodo.10396807` URI, as a URL, i.e., universal resource locator, dereferences to the actual location of the dataset as a resource.
+
+```{r iris-observation-ids2}
+row.names(eg_iris) <- paste0("https://doi.org/10.5281/zenodo.10396807:o", row.names(iris))
+head(eg_iris)[1:6,]
+```
+
+Replacing the `eg:` shorthand or prefix to `https://doi.org/zenodo.10396807` uniquely identifies each observation (row) in our semantically enriched version of the `iris` dataset.
+
+The _dataset_ package aims to add this functionality to R data frames to be serialised into a format to the semantic web or web of data. While the addition can be made with 0.2.8, we will develop more helper functions after user feedbacks.

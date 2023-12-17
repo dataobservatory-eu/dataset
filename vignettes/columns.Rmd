@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setupknitr, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -50,11 +50,7 @@ iris_dataset_labelled <- DataStructure_update(iris_dataset, dsd_iris)
 DataStructure(iris_dataset_labelled)[["Sepal.Length"]]$label
 ```
 
-### Conceptualisation of variables
-
 Variable labels vary in quality, and they are natural language and context-dependent. They are not machine-actionable and require substantial time investment for interpretation or validation for reuse. 
-
-Professional dataset producers, for example, statistical agencies, therefore encourage using controlled vocabularies, such as taxonomies or formal ontologies, to describe the meaning of the variables. Our main goal with regards to increase the usability, reviewability or knowledge-expanding mutation capability of variables by adding standardised, machine-actionable information to the datasets.
 
 ### Increased interoperability
 
@@ -63,4 +59,33 @@ Interoperability is enhanced if we know what is the valid range of the variable.
 ```{r retrieverange}
 DataStructure(iris_dataset_labelled)[["Sepal.Length"]]$range
 ```
+
+
+### Conceptualisation of variables
+Variable labels vary in quality, and they are natural language and context-dependent. They are not machine-actionable and require substantial time investment for interpretation or validation for reuse. 
+
+Professional dataset producers, for example, statistical agencies, therefore encourage using controlled vocabularies, such as taxonomies or formal ontologies, to describe the meaning of the variables. Our main goal with regards to increase the usability, reviewability or knowledge-expanding mutation capability of variables by adding standardised, machine-actionable information to the datasets.
+
+The following example is taken from the _RDF Data Cube Vocabulary_ definition [@rdf_data_cube_2014]. Using perhaps the most human-friendly textual serialisation of the _Resource Description Framework_, i.e., Turtle [@rdf_turtle_1_1],the example below shows machine-actionable or standardised dataset-, variable-, and observation level semantic information. This serialisation should be possible to obtain from a reprocessing of the data frame itself and its metadata attributes; in other words, our `dataset()` S3 class objects must be able to carry the following semantic information.
+
+```{r rdf-example-9, eval=FALSE}
+# Example 9 of the RDF Data Cube Vocabulary definition
+
+eg:dataset-le1 a qb:DataSet;
+    rdfs:label "Life expectancy"@en;
+    rdfs:comment "Life expectancy within Welsh Unitary authorities - extracted from Stats Wales"@en;
+    qb:structure eg:dsd-le ;
+    .  
+
+eg:o1 a qb:Observation;
+    qb:dataSet  eg:dataset-le1 ;
+    eg:refArea                 ex-geo:newport_00pr ;                  
+    eg:refPeriod               <http://reference.data.gov.uk/id/gregorian-interval/2004-01-01T00:00:00/P3Y> ;
+    sdmx-dimension:sex         sdmx-code:sex-M ;
+    sdmx-attribute:unitMeasure <http://dbpedia.org/resource/Year> ;
+    eg:lifeExpectancy          76.7 ;
+    .
+```
+
+
 
