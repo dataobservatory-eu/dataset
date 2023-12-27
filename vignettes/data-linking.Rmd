@@ -1,0 +1,45 @@
+---
+title: "Datasets on the World Wide Web: Data Linking"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Datasets on the World Wide Web: Data Linking}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In R, we often work with several datasets at the same time; we are joining datasets to add new observations or new variables, and create new mutations of variables. This requires a harmonisation of identifiers (or primary keys) in rows and the names of variables (and their units of measures) in columns. 
+
+Data linking means that we open up the dataset to third-party datasets, often in a way that they are unknown to us when we create the links. In such cases, we need to take the harmonisation very seriously. Linking paves the way for future joins, and we must ensure that we correctly join third party datasets.
+
+```{r setup}
+library(dataset)
+```
+
+For linking data over the World Wide Web, it is essential to have unambiguous, unique names for the things that your dataset refers to.  The cross-comparison of statistical data around the globe is possible, because the Statistical Data and Metadata eXchange (SDMX) information model, among many things, have standardised the observed values, their aggregation dimensions and measurement or description 
+attributes. If we break up a statistical dataset by the dimension of time, geography and sex (gender), then we can use the very same time period, geography and sex definitions and names to make sure that we can join data about women in the Netherlands for the time period 2022 correctly across datasets; or add data about men and women in Belgium in a way that allows for a semantically correct comparison with Dutch women.
+
+To allow for a linking of datasets, we need unique resource identifiers (URIs) for the definition of time, geography and sex dimensions of the statistical dataset, and uniform variables names. For example, the `http://purl.org/linked-data/sdmx/2009/dimension#sex` URI provides a unique identifier for any variable that breaks up a statistical dataset by sex; conveniently, the URI also resolves to a human-readable URL (or web page) where we can read how to code observed population into male, female and other groups so that the comparison will be meaningful. To uniquely identify a cell in a dataset, we must have a globally unique identifier for each of its rows (observations) and columns (variables, inclusing dimensions and attributes of observed values.) 
+
+## Namespace and URI
+In linking data, the namespace helps records have a unique resource identifier (URI). The namespace is the shared part of the URI and is often abbreviated. The abbreviation of the namespace is the prefix.
+
+In the Statistical Data and Metadata eXchange (SDMX) information model, multi-dimensional statistical datasets ("datacubes") share standard definitions. The URI of the SDMX dimension definitions is <http://purl.org/linked-data/sdmx/2009/dimension#>, which is often abbreviated as `sdmx-dimension`.
+
+ The definition of the "age" dimension in SDMX-standard statistics, or the  _AGE_ variable, is _The length of time that a person has lived or a thing has existed._ This is often abbreviated as `sdmx-dimension:age`, where `sdmx-dimension:`  abbreviates the namespace <http://purl.org/linked-data/sdmx/2009/dimension#>, and the age part after the namespace contains the machine- and human-readable definition of the age variable.
+
+The machine- and human-readable definitions mean that  URL `http://purl.org/linked-data/sdmx/2009/dimension#age` World Wide Web location points a human reader to a HTML definition of the SDMX definitions, whereas linked open data applications receive from this location an XML or TTL version of the definition.
+
+To avoid looking up often these URIs and their usual abbreviations for defining the rows (observations) and columns (variables), as well as the data structure definition of the dataset, the dataset package contains and internal dataset called `dataset_namespace`. Of course, the user may overrule these abbreviations or add different ones. 
+
+```{r dataset-namespace}
+data("dataset_namespace")
+head(dataset_namespace)
+```
+
