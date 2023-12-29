@@ -82,21 +82,15 @@ head.dataset <- function(x, n=6L, ...) {
   }
 }
 
-
-
 #' @rdname subsetting
 #' @param name A [name] or a string.
 #' @export
 `$.dataset` <- function(x, name) {
-  col_n <- which(names(x) %in% name)
-  if (length(col_n)==0) {
-    stop(paste0("Unknown or uninitialised column: '", name, "'."))
-  } else {
-   unname(unlist(x[, col_n]))
-  }
+  NextMethod()
 }
 
 `[[.dataset` <- function(x, i, j, ..., exact = TRUE) {
+
 
   if (!exact) {
     warning("dataset[[..., exact=FALSE]] ignored.")
@@ -125,7 +119,6 @@ head.dataset <- function(x, n=6L, ...) {
 
   if(missing(x)) message("x is missing")
 
-
   undataset <- x_arg
   classes <- class(undataset)
   class(undataset) <- classes[-which(classes == "dataset")]
@@ -136,19 +129,21 @@ head.dataset <- function(x, n=6L, ...) {
   }
 
   if (n_real_args == 2) {
-    undataset[[i,j]]
+    return(undataset[[i,j]])
   }
 
   if (n_real_args == 1) {
     if (missing(i)) {
       stop("Subscript can't be missing for datasets in `[[`.")
     } else {
-      undataset[[i]]
+      return(undataset[[i]])
     }
   }
   if (n_real_args == 0) {
     stop("Argument i is missing without default." )
   }
+
+
 }
 
 # --------------------- internal functions -------------------------------

@@ -18,7 +18,7 @@ as_dataset(
   identifier = NULL,
   description = NULL,
   version = NULL,
-  subject = NULL,
+  datasubject = NULL,
   language = NULL,
   datasource = NULL,
   rights = NULL
@@ -33,7 +33,7 @@ as_dataset(
   identifier = NULL,
   description = NULL,
   version = NULL,
-  subject = NULL,
+  datasubject = NULL,
   language = NULL,
   datasource = NULL,
   rights = NULL
@@ -47,7 +47,7 @@ dataset(
   publisher = NULL,
   year = NULL,
   version = NULL,
-  subject = NULL,
+  datasubject = NULL,
   description = NULL,
   language = NULL,
   datasource = NULL,
@@ -57,13 +57,13 @@ dataset(
 
 is.dataset(x)
 
-\method{print}{dataset}(x, ...)
+\method{print}{dataset}(x, n, ...)
 
 \method{summary}{dataset}(object, ...)
 }
 \arguments{
 \item{x}{An R object that contains the data of the dataset (a data.frame or
-inherited from data.frame, for example, tibble, tsibble, data.table).}
+inherited from \link{data.frame}, for example, tibble, tsibble, data.table).}
 
 \item{author}{A single person or a vector of persons as authors, declared with
 \code{\link[utils:person]{person}}.}
@@ -87,7 +87,7 @@ an R object.}
 \item{version}{The version of the dataset. If left empty (NULL), defaults to
 \code{'0.1.0'}}
 
-\item{subject}{The subject of the data frame, as a subject type.}
+\item{datasubject}{The subject of the data frame, as a \link{subject} type.}
 
 \item{language}{The primary language of the dataset, for example \code{'eng'}.
 Defaults to \code{NULL} that sets it to the unassigned value \code{':unas'}.}
@@ -104,6 +104,8 @@ Free text, defaults to \code{":unas"} for unassigned values. See \code{\link{rig
 
 \item{...}{Further arguments passed on to generic methods
 like \code{summary(x, ...)}.}
+
+\item{n}{Number of rows to print.}
 
 \item{object}{an object for which a summary is desired.}
 }
@@ -129,4 +131,7 @@ ds <- dataset(iris,
          url = "https://en.wikipedia.org/wiki/Iris_flower_data_set",
          resourceType = "Dataset"
          )
+}
+\seealso{
+\code{\link[=xsd_convert]{xsd_convert()}}
 }

@@ -6,8 +6,6 @@ iris_datacite <- datacite(
    Geolocation = "US",
    Language = "en")
 
-
-
 test_that("datacite() works", {
   expect_true(is.datacite(iris_datacite))
   expect_equal(iris_datacite$language, 'en')

@@ -15,13 +15,13 @@ test_that("Subsetting with [ works:", {
 test_that("Subsetting with $ works:", {
   expect_equal(class(iris_dataset$Species), "factor")
   expect_equal(length(iris_dataset$Species), nrow(iris_dataset))
+  expect_equal(iris_dataset$Sepal.Length[1], 5.1)
 })
 
 test_that("Subsetting with head() works:", {
   expect_equal(nrow(head(iris_dataset)),6)
   expect_true(is.dataset(head(iris_dataset)))
 })
-
 
 test_that("Subsetting with [[ works:", {
   expect_equal(iris_dataset[[1,2]], iris[[1,2]])

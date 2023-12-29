@@ -160,7 +160,7 @@ as_dublincore <- function(x, type = "bibentry", ...) {
     if ( is_person(arguments$author))  {
       citation_author <- arguments$author
     } else {
-      stop("as_datacite(x, ..., author = ): author must be created with utils::person().")
+      stop("as_dublincore(x, ..., author = ): author must be created with utils::person().")
     }
   }
 
@@ -174,6 +174,9 @@ as_dublincore <- function(x, type = "bibentry", ...) {
   dataset_title   <- ds_bibentry$title
   dataset_creator <- ds_bibentry$author
 
+  if (! is_person(dataset_creator)) {
+    stop('attr(x, "DataBibentry")$author is not a person object.')
+  }
 
   if (!is.null(ds_bibentry$year)) {
     if(!is.null(ds_bibentry$year)) {

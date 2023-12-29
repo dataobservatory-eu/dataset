@@ -1,7 +1,7 @@
 #' @title Create a dataset
 #'
 #' @param x An R object that contains the data of the dataset (a data.frame or
-#' inherited from data.frame, for example, tibble, tsibble, data.table).
+#' inherited from [data.frame], for example, tibble, tsibble, data.table).
 #' @param author A single person or a vector of persons as authors, declared with
 #' \code{\link[utils:person]{person}}.
 #' @param title The title of the dataset.
@@ -15,7 +15,7 @@
 #' the current year.
 #' @param version The version of the dataset. If left empty (NULL), defaults to
 #' \code{'0.1.0'}
-#' @param subject The subject of the data frame, as a subject type.
+#' @param datasubject The subject of the data frame, as a [subject] type.
 #' @param description The optional \code{Description} property as an attribute to
 #' an R object.
 #' @param language The primary language of the dataset, for example \code{'eng'}.
@@ -30,6 +30,7 @@
 #' Free text, defaults to \code{":unas"} for unassigned values. See \code{\link{rights}}.
 #' @return A dataset object, which is a data.frame or inherited object with rich
 #' metadata.
+#' @seealso [xsd_convert()]
 #' @examples
 #' ds <- dataset(iris,
 #'         title = "The iris Dataset",
@@ -53,7 +54,7 @@ dataset  <- function(x,
                      publisher = NULL,
                      year = NULL,
                      version = NULL,
-                     subject = NULL,
+                     datasubject = NULL,
                      description = NULL,
                      language = NULL,
                      datasource = NULL,
@@ -62,6 +63,10 @@ dataset  <- function(x,
 
   arguments <- list(...)
 
+  if (is.null(datasubject)) {
+    datasubject <- subject_create(NULL)
+  }
+
   as_dataset(x,
              author=author,
              title=title,
@@ -69,33 +74,40 @@ dataset  <- function(x,
              identifier=identifier,
              year=year,
              version=version,
-             subject=subject,
+             datasubject=datasubject,
              description=description,
              language=language,
              datasource=datasource,
              rights=rights)
 }
 
+
 #' @keywords internal
 new_dataset <- function (x,
                          DataBibentry,
-                         subject) {
+                         datasubject) {
 
   validate_dataset(x = x,
                    DataBibentry = DataBibentry,
-                   subject = subject)
+                   datasubject = datasubject)
+
+  if (ncol(x) >0) {
+    DataStructureNest <- lapply (1:ncol(x),
+                                 function(col)
+                                   initialise_dsd(df = x, col) )
+    DSD <- DataStructureNest[[1]]
+    if (ncol(x)>1) {
+      for ( i in 2:ncol(x)) DSD <- c(DSD,  DataStructureNest[[i]])
+    }
 
 
-  DataStructureNest <- lapply (1:ncol(x), function(col) initialise_dsd(df = x, col) )
-
-  DataStructure <- DataStructureNest[[1]]
-  if (ncol(x)>1) {
-    for ( i in 2:ncol(x)) DataStructure <- c(DataStructure,  DataStructureNest[[i]])
+  } else {
+    DSD <- list()
   }
 
   attr(x, "DataBibentry") <- DataBibentry
-  attr(x, "Subject") <- subject
-  attr(x, "DataStructure") <- DataStructure
+  attr(x, "Subject") <- datasubject
+  attr(x, "DataStructure") <- DSD
   class(x) <- c("dataset", class(x))
   x
 }
@@ -103,7 +115,7 @@ new_dataset <- function (x,
 #' @keywords internal
 validate_dataset <- function(x,
                              DataBibentry,
-                             subject) {
+                             datasubject) {
 
   if (! inherits(x, "data.frame"))   {
     wrong_class <- class(x)
@@ -115,7 +127,7 @@ validate_dataset <- function(x,
     stop("dataset(Bibentry=...) must be inherited from a bibentry, not ", wrong_class)
   }
 
-  if (! inherits(subject, "subject") )   {
+  if (! inherits(datasubject, "subject") )   {
     wrong_class <- class(subject)
     stop("dataset(subject=...) must be inherited from a subject [created by dataset::subject()], not ", wrong_class)
   }
@@ -128,10 +140,34 @@ is.dataset <- function(x) inherits(x, "dataset")
 
 
 #' @rdname dataset
+#' @param n Number of rows to print.
 #' @export
-print.dataset <- function(x, ...) {
+print.dataset <- function(x, n, ...) {
+
+  args <- list(...)
+  if (length(args)==0)  {
+    args <- list(digits = NULL,
+                 quote = FALSE,
+                 right = TRUE,
+                 row.names = TRUE,
+                 max = NULL)
+  }
+
   print(attr(x, "DataBibentry"))
-  NextMethod()
+  x_df <- as.data.frame(x)
+  if(!missing(n)) {
+    if ("row.names" %in% names(args)) {
+      if (args$row.names == FALSE) {
+        args$max <- min(dim(x)[1]*(dim(x)[2]), n*(dim(x)[2]))
+      } else {
+        args$max <- min(dim(x)[1]*(dim(x)[2]+1), n*(dim(x)[2]+1))
+      }
+    } else {
+      args$max <- min(dim(x)[1]*(dim(x)[2]+1), n*(dim(x)[2]+1))
+    }
+  }
+
+  print(x_df, digits=args$digits, row.names=args$row.names, max = args$max )
   cat(paste0("Further metadata: describe(", deparse(substitute(x)), ")\n"))
 }
 
@@ -146,3 +182,22 @@ summary.dataset <- function(object, ...) {
   cat(paste0("Further metadata: describe(", deparse(substitute(object)), ")\n"))
   NextMethod()
  }
+
+
+
+#' @keywords internal
+`cbind.dataset` <- function(..., deparse.level = 1) {
+  DataStructure <- attr(x, "DataStructure")
+  DataBibentry <- dataset_bibentry(x)
+  x_Subject <- subject(x)
+  NextMethod()
+  attr(x, "DataStructure") <- DataStructure
+  attr(x, "DataBibentry") <- DataBibentry
+  subject(x) <- x_Subject
+  x
+}
+
+
+
+
+
