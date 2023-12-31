@@ -13,5 +13,6 @@ r_hub:
 *  Windows Server 2022 x64 (build 20348); R Under development (unstable)
 *  Fedora Linux, R-devel, clang, gfortran
 *  Ubuntu Linux 20.04.1 LTS, R-release, GCC
+*  r-release-macosx-arm64|4.3.0|macosx|macOS 13.3.1 (22E261)|Mac mini|Apple M1||en_US.UTF-8|macOS 11.3|clang-1403.0.22.14.1|GNU Fortran (GCC) 12.2.0
 
 On some machines I see a fake spelling error that is a part of a badge on the top of README. ON another virtual machine I found detritus from MikTek (presumably from building vignettes) but I cannot replicate it on others, it may be a setting issue with r_hub.

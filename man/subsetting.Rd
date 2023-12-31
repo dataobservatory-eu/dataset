@@ -3,20 +3,26 @@
 \name{subsetting}
 \alias{subsetting}
 \alias{[.dataset}
-\alias{head.dataset}
 \alias{$.dataset}
+\alias{[[.dataset}
 \title{Subsetting datasets}
 \usage{
 \method{[}{dataset}(x, i, j, drop = FALSE, ...)
 
-\method{head}{dataset}(x, n = 6L, ...)
-
 \method{$}{dataset}(x, name)
+
+\method{[[}{dataset}(x, i, j, ..., exact = TRUE)
 }
 \arguments{
-\item{n}{Maximum number of rows.}
+\item{x}{A dataset object created with \link{dataset}.}
+
+\item{i, j}{Row and column indices. If \code{j} is omitted, \code{i} is used as column index.}
+
+\item{...}{Ignored.}
 
 \item{name}{A \link{name} or a string.}
+
+\item{exact}{Ignored, with a warning.}
 }
 \description{
 Accessing columns, rows, or cells via \code{$}, \code{[[}, or \code{[} is mostly similar to
@@ -39,4 +45,10 @@ iris_dataset[, "Species"]
 
 # Subsetting a single cell in tabular data:
 iris_dataset[[1,2]]
+
+#Subsetting a variable into a vector.
+iris_dataset$Species
+}
+\seealso{
+\link{head.dataset}
 }

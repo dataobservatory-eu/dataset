@@ -18,6 +18,12 @@
 #'
 #' # Subsetting a single cell in tabular data:
 #' iris_dataset[[1,2]]
+
+
+#' @rdname subsetting
+#' @param i,j Row and column indices. If `j` is omitted, `i` is used as column index.
+#' @param ... Ignored.
+#' @seealso [head.dataset]
 #' @export
 `[.dataset` <- function(x, i, j, drop = FALSE, ...) {
 
@@ -67,28 +73,24 @@
 }
 
 
-#' @rdname subsetting
-#' @param n Maximum number of rows.
-#' @export
-head.dataset <- function(x, n=6L, ...) {
-
-  if(is.null(x)) return(x)
-
-  if (nrow(x)>0) {
-    n <- min(nrow(x), n)
-    x[1:n, ]
-  } else {
-    x
-  }
-}
 
 #' @rdname subsetting
 #' @param name A [name] or a string.
+#' @param x A dataset object created with [dataset].
+#' @examples
+#'
+#' #Subsetting a variable into a vector.
+#' iris_dataset$Species
 #' @export
 `$.dataset` <- function(x, name) {
   NextMethod()
 }
 
+#' @rdname subsetting
+#' @param i,j Row and column indices. If `j` is omitted, `i` is used as column index.
+#' @param ... Ignored.
+#' @param exact Ignored, with a warning.
+#' @export
 `[[.dataset` <- function(x, i, j, ..., exact = TRUE) {
 
 
@@ -142,8 +144,6 @@ head.dataset <- function(x, n=6L, ...) {
   if (n_real_args == 0) {
     stop("Argument i is missing without default." )
   }
-
-
 }
 
 # --------------------- internal functions -------------------------------

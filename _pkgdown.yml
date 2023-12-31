@@ -68,6 +68,7 @@ reference:
     contents:
       - dataset
       - subsetting
+      - head.dataset
       - dataset_bibentry
       - describe
       - DataStructure

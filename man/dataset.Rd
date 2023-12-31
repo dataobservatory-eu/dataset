@@ -63,7 +63,8 @@ is.dataset(x)
 }
 \arguments{
 \item{x}{An R object that contains the data of the dataset (a data.frame or
-inherited from \link{data.frame}, for example, tibble, tsibble, data.table).}
+inherited from \code{\link[base:data.frame]{data.frame}}, for example,
+\href{tibble()}{tibble}, tsibble, \href{data.table::data.table()}{data.table}.}
 
 \item{author}{A single person or a vector of persons as authors, declared with
 \code{\link[utils:person]{person}}.}

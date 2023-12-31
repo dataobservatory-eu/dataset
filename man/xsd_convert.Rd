@@ -17,7 +17,8 @@ xsd_convert(x, idcol, ...)
 }
 \arguments{
 \item{x}{An R object that contains the data of the dataset (a data.frame or
-inherited from \link{data.frame}, for example, tibble, tsibble, data.table).}
+inherited from \code{\link[base:data.frame]{data.frame}}, for example,
+\href{tibble()}{tibble}, tsibble, \href{data.table::data.table()}{data.table}.}
 
 \item{...}{Further optional parameters for generic method.}
 }
