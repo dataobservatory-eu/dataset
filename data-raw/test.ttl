@@ -1,0 +1,151 @@
+@prefix  owl:        <http://www.w3.org/2002/07/owl#> .
+@prefix  qb:         <http://purl.org/linked-data/cube#> .
+@prefix  rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix  rdfs:       <http://www.w3.org/2000/01/rdf-schema#> .
+
+# -- Observations -----------------------------------------
+
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .
+eg:o11 a qb:Observation ;
+   eg:refArea   Newport ;
+   eg:refPeriod   2004-2006 ;
+   eg:lifeExpectancy   "76.7"^^<xs:decimal> ;
+   sdmx-dimension:sex   sdmx-code:M ;
+   .

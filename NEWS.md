@@ -1,8 +1,15 @@
+# dataset 0.2.9
+
+- ttl_dataset_write: write datasets to turtle format; with helper functions get_prefix(),  get_resource_identifier(), xsd_convert(), and dataset_to_triples().
+
 # dataset 0.2.8
 
 New vignettes on
+
 - [x] [Richer Semantics for the Dataset's Variables](https://dataset.dataobservatory.eu/articles/columns.html)
+
 - [x] [Richer Semantics for the Dataset's Observations](https://dataset.dataobservatory.eu/articles/rows.html)
+
 - [x] [Richer Description of the Datasets's Structure for Meaningful Reuse Opportunities](https://dataset.dataobservatory.eu/articles/DSD.html)
 
 # dataset 0.2.7 

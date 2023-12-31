@@ -46,6 +46,11 @@ articles:
     contents:
       - datacite
       - dublincore
+  - title: "Data Linking"
+    desc: >
+       Linking datasets.
+    contents:
+       - data-linking
   - title: "Planned functionality"
     desc: >
      This package is in an early development phase. The current dataset S3 class is inherited
@@ -62,6 +67,7 @@ reference:
       Work with DataSet objects that resemble the [W3C](https://www.w3.org/TR/vocab-data-cube/) and SDMX datacube model.
     contents:
       - dataset
+      - subsetting
       - dataset_bibentry
       - describe
       - DataStructure
@@ -70,6 +76,12 @@ reference:
       Edgar Anderson's Iris Dataset with dataset metadata recorded as attributes.
     contents:
        - iris_dataset
+       - statwales
+  - title: "Default namespace"
+    desc: >
+      Some popular namespace prefix abbreviations for the linking of datasets.
+    contents:
+       - dataset_namespace
   - title: "FAIR metadata"
     desc: >
       Add and read [FAIR metadata](https://www.go-fair.org/fair-principles/)
@@ -82,7 +94,8 @@ reference:
       - creator
       - publisher
       - geolocation
-      - datasource
+      - datasource_get
+      - datasource_set
       - publication_year
       - subject
       - size
@@ -92,6 +105,14 @@ reference:
       - version
       - related_item
       - var_labels
+  - title: "Data Linking"
+    desc: >
+       Linking
+    contents:
+      - xsd_convert
+      - get_prefix
+      - dataset_to_triples
+      - ttl_dataset_write
   - title: "Reproducible research workflows"
     desc: >
       Improve reproducability with recording data lifecycle, processing history as

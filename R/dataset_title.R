@@ -14,8 +14,9 @@
 #' @export
 
 dataset_title <- function(x) {
-  assert_that(is.dataset(x),
-              msg = "dataset_title(x) must be a dataset object created with dataset() or as_dataset().")
+  if(!is.dataset(x)) {
+    stop("dataset_title(x) must be a dataset object created with dataset() or as_dataset().")
+  }
 
   DataBibentry <- dataset_bibentry(x)
   DataBibentry$title
@@ -29,8 +30,9 @@ dataset_title <- function(x) {
 #' @export
 `dataset_title<-` <- function(x,  overwrite = FALSE, value) {
 
-  assert_that(is.dataset(x),
-              msg = "title(x) <- x must be a dataset object created with dataset() or as_dataset().")
+  if(!is.dataset(x)) {
+   stop("title(x) <- x must be a dataset object created with dataset() or as_dataset().")
+  }
 
   DataBibentry <- invisible(dataset_bibentry(x))
 

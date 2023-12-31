@@ -10,7 +10,7 @@
 [![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/dataset)](https://cran.r-project.org/package=dataset)
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10304055.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10396853.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
 [![devel-version](https://img.shields.io/badge/devel%20version-0.2.8-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Codecov test
@@ -22,7 +22,7 @@ status](https://ci.appveyor.com/api/projects/status/github/dataobservatory-eu/da
 <!-- badges: end -->
 
 The dataset package extension to the R statistical environment aims to
-ensure that the most important R object that contains a dataset, i.e. a
+ensure that the most important R object that contains a dataset, i.e. a
 [data.frame](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame)
 or an inherited
 [tibble](https://tibble.tidyverse.org/reference/tibble.html),
