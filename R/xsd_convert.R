@@ -2,6 +2,9 @@
 #' @description Convert the numeric, boolean and Date/time columns of a dataset
 #' \code{xs:decimal}, \code{xsLboolean}, \code{xs:date} and \code{xs:dateTime}.
 #' @inheritParams dataset
+#' @param idcol The name or position of the column that contains the row
+#' (observation) identifiers. If \code{NULL}, it will make a new \code{idcol}
+#' from [row.names].
 #' @seealso [dataset()]
 #' @param ... Further optional parameters for generic method.
 #' @export

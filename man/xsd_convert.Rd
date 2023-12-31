@@ -20,6 +20,10 @@ xsd_convert(x, idcol, ...)
 inherited from \code{\link[base:data.frame]{data.frame}}, for example,
 \href{tibble()}{tibble}, tsibble, \href{data.table::data.table()}{data.table}.}
 
+\item{idcol}{The name or position of the column that contains the row
+(observation) identifiers. If \code{NULL}, it will make a new \code{idcol}
+from \link{row.names}.}
+
 \item{...}{Further optional parameters for generic method.}
 }
 \description{
