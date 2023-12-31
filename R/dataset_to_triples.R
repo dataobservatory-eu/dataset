@@ -29,7 +29,7 @@ dataset_to_triples <- function(df, idcol=NULL) {
     seq_along_cols <- seq_along(df)[-idcol_find(df, idcol)]
   }
 
-  triple_list <- lapply ( seq_along_cols, function(x) {
+  triple_list <- lapply (seq_along_cols, function(x) {
     data.frame(s = df[[idcol]],
                p = names(df)[x],
                o = df[[x]]

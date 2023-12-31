@@ -23,7 +23,7 @@
 #' @rdname subsetting
 #' @param i,j Row and column indices. If `j` is omitted, `i` is used as column index.
 #' @param ... Ignored.
-#' @param drop ogical. If \code{TRUE} the result is coerced to the lowest possible
+#' @param drop logical. If \code{TRUE} the result is coerced to the lowest possible
 #' dimension. The default is to drop if only one column is left, but not to
 #' drop if only one row is left.
 #' @seealso [head.dataset]

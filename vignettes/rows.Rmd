@@ -18,7 +18,7 @@ In a tidy dataset, observations are organised into rows, and they have an identi
 
 The usability of a dataset is increased if we can easily and unambiguously add new observations with `rbind(...)` or a similar function. Without logical or semantic confusion, this is only possible if the binding of new observations uses the same identifiers. Eventually, the dataset will be the most usable if the identifiers are global, persistent and unique, enabling data linking via the web.
 
-Recalling the first observationn from the Example 9 of the _RDF Data Cube Vocabulary definition_, the `eg:` abbrevation is a shorthand of a Uniform Resource Identifier (URI) or  Internationalized Resource Identifier (IRI) in the `https://example.com/` domain. Normally, this observation identifier should resolve to a globally unique identifier which is available on the World Wide Web as a human and machine-readable identifier (with optional description.)
+Recalling the first observation from the Example 9 of the _RDF Data Cube Vocabulary definition_, the `eg:` abbreviation is a shorthand of a Uniform Resource Identifier (URI) or  Internationalized Resource Identifier (IRI) in the `https://example.com/` domain. Normally, this observation identifier should resolve to a globally unique identifier which is available on the World Wide Web as a human and machine-readable identifier (with optional description.)
 
 ```{r rdf-example-9-continued, eval=FALSE}
 # Example 9 of the RDF Data Cube Vocabulary definition
@@ -52,4 +52,4 @@ head(eg_iris)[1:6,]
 
 Replacing the `eg:` shorthand or prefix to `https://doi.org/zenodo.10396807` uniquely identifies each observation (row) in our semantically enriched version of the `iris` dataset.
 
-The _dataset_ package aims to add this functionality to R data frames to be serialised into a format to the semantic web or web of data. While the addition can be made with 0.2.8, we will develop more helper functions after user feedbacks.
+The _dataset_ package aims to add this functionality to R data frames to be serialised into a format to the semantic web or web of data. While the addition can be made with 0.2.9, we will develop more helper functions after user feedback.

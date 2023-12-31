@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 In a tidy dataset, variables are in columns. An R data frame (in its form as data.frame, tibble, tsibble, data.table) allows using column names that do not contain characters reserved with a special meaning in the R language itself. Choosing good variable names is an art for the data scientist: it improves code readability, review, and later reuse. However, the use of often used (and standardised) variable names like `GEO`, `SEX`, `UNIT` is not enough for a third-party review or reuse; the same analyst will likely have problems recalling the _meaning_ of these variables without further documentation.
 
-Let's take a look at the famous `iris` dataset. What does _Sepal.Length_ or _Species_ means? What happens if we make a mutating transformation of _Sepal.Width_? What is the unit of measure if we take the average of _Petal.Widht_?
+Let's take a look at the famous `iris` dataset. What does _Sepal.Length_ or _Species_ means? What happens if we make a mutating transformation of _Sepal.Width_? What is the unit of measure if we take the average of _Petal.Width_?
 
 ```{r iris}
 head(iris)
