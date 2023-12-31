@@ -3,7 +3,7 @@
 \name{head.dataset}
 \alias{head.dataset}
 \alias{tail.dataset}
-\title{Return the First or Last Parts of an Object}
+\title{Return the first or last parts of a dataset object}
 \usage{
 \method{head}{dataset}(x, n = 6L, ...)
 
@@ -28,7 +28,7 @@ create them using the indices included in that dimension.
 Ignored if \code{dim(x)} is \code{NULL} or its length 1.}
 }
 \value{
-A subsetted dataset.
+A subsetted dataset, the first or last parts of a dataset object.
 }
 \description{
 Returns the first or last parts of a dataset.
@@ -38,7 +38,6 @@ Both head() and tail() are generic functions.
 
 # Subsetting the top n rows (observations)
 head(iris_dataset, n=3)
-
 
 # Subsetting the last n rows (observations)
 tail(iris_dataset, 3)

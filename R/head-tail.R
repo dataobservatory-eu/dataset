@@ -1,17 +1,16 @@
-#' @title Return the First or Last Parts of an Object
+#' @title Return the first or last parts of a dataset object
 #' @description
 #' Returns the first or last parts of a dataset.
 #' Both head() and tail() are generic functions.
 #' @param x A dataset object created with [dataset].
 #' @param n Maximum number of rows.
 #' @param ... Ignored.
-#' @return A subsetted dataset.
+#' @return A subsetted dataset, the first or last parts of a dataset object.
 #' @seealso [subsetting]
 #' @examples
 #'
 #' # Subsetting the top n rows (observations)
 #' head(iris_dataset, n=3)
-#'
 #' @export
 head.dataset <- function(x, n=6L, ...) {
 

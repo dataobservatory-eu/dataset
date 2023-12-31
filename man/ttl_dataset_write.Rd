@@ -14,11 +14,11 @@ ttl_dataset_write(
 \arguments{
 \item{tdf}{A dataset in exactly three columns.}
 
+\item{file_path}{The path to the file that should be written or appended.}
+
 \item{overwrite}{If the file exists, overwrite it? Defaults to \code{TRUE}.}
 
-\item{ttle_namespace}{The namespace definitions of the dataset}
-
-\item{file}{The path to the file that should be written or appended.}
+\item{ttle_namespace}{The namespace definitions of the dataset.}
 }
 \value{
 A text file with the prefix and the observation serialisations.

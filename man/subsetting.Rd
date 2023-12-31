@@ -18,6 +18,10 @@
 
 \item{i, j}{Row and column indices. If \code{j} is omitted, \code{i} is used as column index.}
 
+\item{drop}{ogical. If \code{TRUE} the result is coerced to the lowest possible
+dimension. The default is to drop if only one column is left, but not to
+drop if only one row is left.}
+
 \item{...}{Ignored.}
 
 \item{name}{A \link{name} or a string.}
