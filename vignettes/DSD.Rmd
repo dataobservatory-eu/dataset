@@ -2,12 +2,12 @@
 title: "Richer Description of the Dataset's Structure for Meaningful Reuse Opportunities"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Richer Description of the Datasets's Structure for Meaningful Reuse Opportunities}
+  %\VignetteIndexEntry{Richer Description of the Dataset's Structure for Meaningful Reuse Opportunities}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setupvignette, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"

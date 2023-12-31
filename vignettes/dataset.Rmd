@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 library(dataset)
 ```
 
-In the R language, datasets are usually contained in a [data.frame()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame) object, or in one of their modernized versions.  For example, [tibble::tibble()(https://tibble.tidyverse.org/reference/tibble.html) or [data.table::data.table()](https://rdatatable.gitlab.io/data.table/articles/datatable-intro.html) are inherited from the base data.frame().
+In the R language, datasets are usually contained in a [data.frame()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame) object, or in one of their modernized versions.  For example, [tibble::tibble()](https://tibble.tidyverse.org/reference/tibble.html) or [data.table::data.table()](https://rdatatable.gitlab.io/data.table/articles/datatable-intro.html) are inherited from the base data.frame().
 
 > This documentation is not updated yet to the development version of the [dataset] package.
 
@@ -31,122 +31,119 @@ attr(foo, "Title") <- "My Foo Object"
 attributes(foo)
 ```
 
-For reproducible research, publication, or linking resources on the web, the standardization of metadata is critically important. The aim `dataset()` class is a modernized data.frame that has standardized attributes.
+Metadata standardisation is critically essential for reproducible research, publication, or linking resources on the web. The aim `dataset()` class is the creation of semantically enriched data frames with as much interoperability as possible across various sub-classes of the base R `data.frame()`. 
 
-```{r iris}
-describe(iris_dataset)
-publisher(iris_dataset)
+```{r mtcars}
+head (dataset(mtcars, 
+        title="The Motor Trend [mtcar] Dataset", 
+        author=person("Motor Trend Magazine"), 
+        year=1974, 
+        publisher="Motor Trend Magazine" ))
+
 ```
 
-```{r, include=FALSE, message=FALSE}
-library(here)
-library(knitr)
-```
+```{r mtcars-ttl, warning=FALSE}
+temp_ttl_file  <- file.path(tempdir(), "temp_ttl.ttl")
+mtcars_dataset <- dataset(mtcars, 
+        title="The Motor Trend [mtcar] Dataset", 
+        author=person("Motor Trend Magazine"), 
+        year=1974, 
+        publisher="Motor Trend Magazine")
 
-According to the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) DataSet is a collection of statistical data that corresponds to a defined structure. The data in a data set can be roughly described as belonging to one of the following kinds:
+mtcars_namespace <- dataset_namespace[
+  dataset_namespace$prefix %in% c("owl:", "rdf:", "rdfs:", "qb:", "eg:"), ]
 
-- `Observations`: these are the measured values, and the cells of a data frame object in R.
-- `Organizational structure`: To locate an observation within the hypercube, one has at least to know the value of each dimension at which the observation is located, so these values must be specified for each observation. Datasets can have additional organizational structure in the form of slices as described in section 7.2.
-- `Structural metadata`: Metadata to interpret the data. What is the unit of measurement? Is it a normal value or a series break? Is the value measured or estimated? These metadata are provided as attributes and can be attached to individual observations, or to higher levels.
-- `Reference metadata`: Metadata that describes the dataset as a whole, such as categorization of the dataset, its publisher, or an endpoint where it can be accessed.
-
-| Information  | dataset |
-|     :--:     |  ----|
-| dimensions   |  first column section of the dataset   |
-| measurements |  second column section of the dataset  |
-| attributes   |  third column section of the dataset   |
-| reference    |  attributes of the R object            |
-
-
-```{r eurostat-example, message=FALSE}
-rd_e_gerdtot <- eurostat::get_eurostat('rd_e_gerdtot')
-head(rd_e_gerdtot)
-```
-
-
-## Dimensions
-
-`Dimensions` are usually needed in data analysis because they are used to subsetting (slicing) the dataset. They contain information about the reference time period and geographical area.
-
-In a dataset that has homogeneous dimensions (all data relate to the year 2022 and the area of the United States), you could move the dimensions into the attributes of the R object, or simply omit them. However, dimensions are critically important for filtering out the observations (measurements) that you want to work with or to correctly join (integrate) datasets. If you want to create a composite indicator from two datasets that are related to the United States and the year 2022, you do not want to match measurements about 2021 or Canada accidentally.
-
-
-```{r, eval=FALSE}
-dimensions(rd_e_gerdtot) <- c("geo", "time", "sectperf")
+mtcars_dataset   <- id_to_column(mtcars_dataset, prefix = "eg:", ids = NULL)
+mtcars_dataset   <- dataset_to_triples(mtcars_dataset, idcol = "rowid")
+mtcars_dataset$p <- paste0("eg:mtcars#", mtcars_dataset$p)
+mtcars_dataset$o <- xsd_convert(mtcars_dataset$o)
+dataset_ttl_write(mtcars_dataset, 
+                  ttl_namespace = mtcars_namespace, 
+                  file_path = temp_ttl_file)
+readLines(temp_ttl_file, 25)
 ```
 
 
-## Measurements
+## Tibble
+ 
+ 
+```{r tibbble}
+require(tibble)
+ds_tibble <- dataset(as_tibble(mtcars), 
+                     title = "The Motor Trend [mtcar] Dataset", 
+                     author = person("Motor Trend Magazine"), 
+                     year = 1974, 
+                     publisher  =  "Motor Trend Magazine" )
 
-The measurements are the actual observed values. In a long-form tidy dataset you usually have only one: 'value' 
+rowid_to_column(ds_tibble)
+```
+```{r tsibble, message=FALSE, warning=FALSE}
+require("nycflights13")
+require("tsibble")
+require("dplyr")
+require("tidyr")
 
-```{r, eval=FALSE}
-measures(rd_e_gerdtot) <- "value"
+weather <- nycflights13::weather %>% 
+  select(origin, time_hour, temp, humid, precip)
+weather_tsbl <- as_tsibble(weather, key = origin, index = time_hour)
 ```
 
-## Attributes
+```{r tsbl}
+ds_weather <- dataset(weather_tsbl, 
+                      title = "Weather dataset", 
+                      author = person("Jane", "Doe"), 
+                      creator = person("Jane", "Doe"))
 
-Attributes are similar to dimensions, but they can be fully static and constant in a dataset.  You may have measurements for the same reference area and time available in both kilograms and tons in the same dataset, in which case you will likely use filter the correct unit of measure when you do analytical work or join (integrate) the data.
-
-If your measurement unit is always millimetres (like in the iris dataset), it is tempting to treat this as a dataset-wide constant (and therefore move it to the attributes of the data frame R object), but we do not recommend this approach. Imagine that you want to join this dataset with some other data that is measured in centimetres or inches, or a dataset that has values in both millimetres and centimetres.  To correctly match your data you will be filtering on attributes, too.
-
-Attributes that may vary across observations (rows) should remain in the dataset in the datacube model. To avoid confusion with the base R `attributes()` function, we named the function that sets the attributes within a dataset to `attributes_measures()`.
-
-```{r attributes, eval=FALSE}
-attributes_measures(rd_e_gerdtot) <- "unit"
-datacite(rd_e_gerdtot)
+dataset_bibentry(ds_weather)
 ```
 
-
-## Reference and FAIR metadata
-
-Our `dataset` R package aims to increase the *Findability, Accessibility, Interoperability,* and *Reuse* of digital assets, particularly datacubes and datasets used in statistics and data analysis. The [FAIR](https://www.go-fair.org/fair-principles/) principles  "…emphasize machine-actionability (i.e., the capacity of computational systems to find, access, interoperate, and reuse data with none or minimal human intervention) because humans increasingly rely on computational support to deal with data as a result of the increase in volume, complexity, and creation speed of data."
-
-This is the role of the `reference metadata` in the [RDF Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) and the SDMX data cube model. We generally keep the reference metadata as `attributes()` of the R object, because they do not relate to the rows (observations) of the data, but the entire set of data. However, omitting all reference metadata from the columns is not a good practice if you want your data to be used in a knowledge graph (or the semantic web, or the Web 3.0.) 
-
-```{r datacite, include=TRUE, eval=TRUE}
-toc <- eurostat::get_eurostat_toc()
-rd_e_gerdtot_reference <- toc[which(toc$code == "rd_e_gerdtot"),]
-
-rd_e_gerdtot_bibentry <- datacite(
-  Title = 'GERD by sector of performance', 
-  Creator = person("Daniel", "Antal"), 
-  Identifier = 'eurostat_rd_e_gerdtot', 
-  Publisher = 'Eurostat', 
-  PublicationYear = substr(rd_e_gerdtot_reference$`last update of data`, 7,11), 
-  Subject = subject_create("Reserach", 
-                           subjectScheme = "LC Subject Headings", 
-                           schemeURI = "http://id.loc.gov/authorities/subjects", 
-                           valueURI = "http://id.loc.gov/authorities/subjects/sh85113021"), 
-  Language = "English")
+```{r workwithtsibble}
+full_weather <- ds_weather %>%
+  fill_gaps(precip = 0) %>% 
+  group_by_key() %>% 
+  tidyr::fill(temp, humid, .direction = "down")
 ```
 
-```{r print-datacite, results='asis'}
-datacite(rd_e_gerdtot_bibentry, "Bibtex")
+```{r full-weather}
+full_weather %>%
+  group_by_key() %>%
+  index_by(year_month = ~ yearmonth(.)) %>% # monthly aggregates
+  summarise(
+    avg_temp = mean(temp, na.rm = TRUE),
+    ttl_precip = sum(precip, na.rm = TRUE)
+  )
+```
+```{r weather-dataset}
+ds_full_weather <- dataset (full_weather %>%
+  group_by_key() %>%
+  index_by(year_month = ~ yearmonth(.)) %>% # monthly aggregates
+  summarise(
+    avg_temp = mean(temp, na.rm = TRUE),
+    ttl_precip = sum(precip, na.rm = TRUE)
+  ), 
+  title = "Weather tsibble",
+  author = person("Jane", "Doe"), 
+  creator = person("Jane", "Doe"), 
+  language = "eng", 
+  description = "A replication of the tsibble README example."
+  )
 ```
 
-
-Following the datacube model, our datasets are data frames with clearly defined dimensions (`time`, `geo`, `sex`), measurements (`value`), and attributes (`unit`, `freq`, `status`). In this example, all dimensions and values are following the SDMX attribute definition, i.e. they have a standardized, natural language independent codelist.  (To use these codelists, use the [statcodelist](https://statcodelists.dataobservatory.eu/) data package.)
-
-```{r structure, echo=FALSE, message=FALSE}
-include_graphics(here("vignettes", "dataset_structure.png"))
+```{r print-datacite-citation-format}
+print(as_datacite(ds_full_weather), "citation")
 ```
+```{r weather-ttl, warning=FALSE}
+temp_weather_file  <- file.path(tempdir(), "temp_weather.ttl")
+weather_namespace <- dataset_namespace[
+  dataset_namespace$prefix %in% c("owl:", "rdf:", "rdfs:", "qb:", "eg:"), ]
 
-## Row identifiers and dimensions reduction
-
-R objects inherited from the base `data.frame()` have row (observation) identifiers as `row.names()` attributes. This works well if you work with a single data frame, but this approach is not sufficient to identify observations if you work with several data frame, and you want to organize them into a database, or join them into new tables, or you want to make them available on a knowledge graph.
-
-When joining data tables or working in a relational database, you need unique identifiers for each unique observation unit in your system. If you want to broaden the usability of your data to the entire semantic web, and use it as linked data, you need a truly unique identifier (URI) for each observation.
-
-We recommend the use of an explicit row identifier. The popular modern R data frames, `tibble::tibble()` and `data.table::data.table()` use row identifiers.
-
-One of the advantages of using an explicit row identifier is that it can form the root for minting a URI for the entire dataset by collapsing all dimensions and attributes into a concatenated string starting with the row identifier. This will make your dataset ready to be used in triplets, a strict, tidy, three-column long-form dataset used in linked open data applications. As mentioned earlier, in homogeneous (or homogeneously subsetted) datasets, you could move the dimensions and the attributes out from the data frame cells into the descriptive attributes. However, if you want to work with linked data, you must have all structural information present in the data cells, because this makes it possible that different data publisher's data can be linked together without having a utopistic, global database map. 
-
-In the following example, we concatenate the `rowid`, and the `time`, `geo` and `sex` dimensions into a single URI.  We can do this because in a well-organized dataset the combination of dimensions is unique (otherwise, we would be just simply duplicating an observation.) However, adding the attributes to the URI would be superfluous because their combination is not unique in the observations.
-
-```{r dimreduction, echo=FALSE, message=FALSE}
-include_graphics(here("vignettes", "RDF_chart_1.png"))
+ds_weather    <- id_to_column(ds_full_weather, prefix = "eg:", ids = NULL)
+#ds_weather    <- xsd_convert(ds_weather, idcol = "rowid")
+ds_weather    <- dataset_to_triples(ds_weather, idcol = "rowid")
+ds_weather$p <- paste0("eg:weather#", ds_weather$p)
+ds_weather$o <- xsd_convert(ds_weather$o)
+dataset_ttl_write(ds_weather, 
+                  ttl_namespace = weather_namespace, 
+                  file_path = temp_weather_file)
+readLines(temp_weather_file, 25)
 ```
-
-The [From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html) vignette article shows you how to organize your data into strict, tidy, three-column triples that can be serialized into RDF data. 
-
