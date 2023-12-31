@@ -5,6 +5,11 @@
 \alias{xsd_convert.data.frame}
 \alias{xsd_convert.dataset}
 \alias{xsd_convert.tibble}
+\alias{xsd_convert.character}
+\alias{xsd_convert.numeric}
+\alias{xsd_convert.integer}
+\alias{xsd_convert.boolean}
+\alias{xsd_convert.factor}
 \title{Convert to XML Schema Definition (XSD) types}
 \usage{
 xsd_convert(x, idcol, ...)
@@ -14,10 +19,20 @@ xsd_convert(x, idcol, ...)
 \method{xsd_convert}{dataset}(x, idcol = NULL, ...)
 
 \method{xsd_convert}{tibble}(x, idcol = NULL, ...)
+
+\method{xsd_convert}{character}(x, idcol = NULL, ...)
+
+\method{xsd_convert}{numeric}(x, idcol = NULL, ...)
+
+\method{xsd_convert}{integer}(x, idcol = NULL, ...)
+
+\method{xsd_convert}{boolean}(x, idcol = NULL, ...)
+
+\method{xsd_convert}{factor}(x, idcol = NULL, codelist = NULL)
 }
 \arguments{
 \item{x}{An R object that contains the data of the dataset (a data.frame or
-inherited from \code{\link[base:data.frame]{data.frame}}, for example,
+inherited from \code{\link[base:data.frame]{data.frame}}), for example,
 \code{\link[tibble:tibble]{tibble::tibble()}}, \code{\link[tsibble:tsibble]{tsibble::tsibble()}}, \code{\link[data.table:data.table]{data.table::data.table()}}.}
 
 \item{idcol}{The name or position of the column that contains the row

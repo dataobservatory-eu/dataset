@@ -24,7 +24,7 @@ xsd_convert.data.frame <- function(x, idcol=NULL, ...) {
 
     type <- switch(class(t)[[1]],
                    "numeric"   = "xs:decimal",
-                   "factor"    = "codelist",
+                   "factor"    = "xs:string",
                    "logical"   = "xs:boolean",
                    "integer"   = "xs:integer",
                    "Date"      = "xs:date",
@@ -90,28 +90,42 @@ xsd_convert.tibble <- function(x, idcol=NULL,...) {
   NextMethod()
 }
 
+#' @rdname xsd_convert
+#' @export
+#' @exportS3Method
 xsd_convert.character <- function(x, idcol=NULL, ...) {
   var_type <-  "xs:string"
   paste0('\"', x,  '\"', "^^<", var_type, ">")
 }
 
+#' @rdname xsd_convert
+#' @export
+#' @exportS3Method
 xsd_convert.numeric <- function(x, idcol=NULL, ...) {
   var_type <-  "xs:decimal"
   paste0('\"', as.character(x),  '\"', "^^<", var_type, ">")
 }
 
+#' @rdname xsd_convert
+#' @export
+#' @exportS3Method
 xsd_convert.integer <- function(x, idcol=NULL, ...) {
   var_type <-  "xs:integer"
   paste0('\"', as.character(x),  '\"', "^^<", var_type, ">")
 }
 
+#' @rdname xsd_convert
+#' @export
+#' @exportS3Method
 xsd_convert.boolean <- function(x, idcol=NULL, ...) {
   var_type <-  "xs:boolean"
   paste0('\"', as.character(x),  '\"', "^^<", var_type, ">")
 }
 
+#' @rdname xsd_convert
+#' @export
+#' @exportS3Method
 xsd_convert.factor<- function(x, idcol=NULL, codelist=NULL ) {
-
   if (is.null(codelist)) {
     var_type <-  "xs:string"
     paste0('\"', x,  '\"', "^^<", var_type, ">")

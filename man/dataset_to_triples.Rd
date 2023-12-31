@@ -4,10 +4,12 @@
 \alias{dataset_to_triples}
 \title{Dataset to triples (three columns)}
 \usage{
-dataset_to_triples(df, idcol = NULL)
+dataset_to_triples(x, idcol = NULL)
 }
 \arguments{
-\item{df}{A \link{data.frame} or similar object, or a \link{dataset}.}
+\item{x}{An R object that contains the data of the dataset (a data.frame or
+inherited from \code{\link[base:data.frame]{data.frame}}), for example, \code{\link[=dataset]{dataset()}}
+\code{\link[tibble:tibble]{tibble::tibble()}}, \code{\link[tsibble:tsibble]{tsibble::tsibble()}}, \code{\link[data.table:data.table]{data.table::data.table()}}.}
 
 \item{idcol}{The identifier column. If \code{idcol} is \code{NULL} it attempts to
 use the \code{row.names(df)} as an \code{idcol}.}

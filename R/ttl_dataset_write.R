@@ -16,12 +16,12 @@
 #'
 #' examplefile <- file.path(tempdir(), "ttl_dataset_write.ttl")
 #'
-#' ttl_dataset_write(tdf=testtdf, file_path = examplefile)
+#' dataset_ttl_write(tdf=testtdf, file_path = examplefile)
 #'
 #' readLines(examplefile)
 #' @export
 
-ttl_dataset_write <- function(tdf,
+dataset_ttl_write <- function(tdf,
                               ttl_namespace = NULL,
                               file_path = NULL,
                               overwrite = TRUE) {
@@ -30,7 +30,7 @@ ttl_dataset_write <- function(tdf,
   default_namespace <- getdata("dataset_namespace")
   default_namespace <- default_namespace[
     which(default_namespace$prefix %in% c("rdf:", "rdfs:", "owl:",
-                                          "qb:", "dcat:")),]
+                                          "qb:", "dcat:", "xsd:")),]
 
   ## validate dataset
   validate_tdf(tdf)
