@@ -22,7 +22,7 @@ dataset_to_triples <- function(df, idcol=NULL) {
   if (is.null(idcol)) {
     df$new_id_col <- row.names(df)
     idcol <- which(names(df)=="new_id_col" )
-    idcol_pos <- dataset:::idcol_find(df, idcol)
+    idcol_pos <- idcol_find(df, idcol)
     seq_along_cols <- seq_along(df)[-idcol_pos]
   } else {
     ## See utils-idcol_find.R for the internal function
