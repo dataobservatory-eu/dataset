@@ -26,10 +26,15 @@ ttl_dataset_write <- function(tdf,
                               file_path = NULL,
                               overwrite = TRUE) {
 
-  validate_tdf(tdf)
-  names(tdf) <- c("s", "p", "o")
-
+  ## load dataset_namespace
+  default_namespace <- getdata(dataset_namespace)
   default_namespace <- dataset_namespace[which(dataset_namespace$prefix %in% c("rdf:", "rdfs:", "owl:", "qb:", "dcat:")),]
+
+  ## validate dataset
+  validate_tdf(tdf)
+
+  ## use subject predicate, object names
+  names(tdf) <- c("s", "p", "o")
 
   if (is.null(file_path)) file_path <- file.path(tempdir(), "tmp.ttl")
 
