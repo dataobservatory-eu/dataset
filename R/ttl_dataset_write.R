@@ -3,8 +3,8 @@
 #' Write a dataset into a Turtle serialisation.
 #'
 #' @param tdf A dataset in exactly three columns.
-#' @param ttle_namespace The namespace definitions of the dataset
-#' @param file The path to the file that should be written or appended.
+#' @param ttl_namespace The namespace definitions of the dataset.
+#' @param file_path The path to the file that should be written or appended.
 #' @param overwrite If the file exists, overwrite it? Defaults to \code{TRUE}.
 #' @return A text file with the prefix and the observation serialisations.
 #' @examples
