@@ -9,8 +9,8 @@ dataset_to_triples(df, idcol = NULL)
 \arguments{
 \item{df}{A \link{data.frame} or similar object, or a \link{dataset}.}
 
-\item{idcol}{The identifier column. If idcol is \code{NULL} it attempts to
-use the row.names(df) as an idcol.}
+\item{idcol}{The identifier column. If \code{idcol} is \code{NULL} it attempts to
+use the \code{row.names(df)} as an \code{idcol}.}
 }
 \value{
 The long form version of the original dataset, retaining the attributes

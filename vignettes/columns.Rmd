@@ -25,7 +25,7 @@ Let's take a look at the famous `iris` dataset. What does _Sepal.Length_ or _Spe
 head(iris)
 ```
 
-One good practice for increasing reviewability and reproducibility is to include this information in a notebook or similar document. While this is undoubtedly a good practice, often the reuse or review is hampered by the fact that the data and the documentation are separated, and for example, the dataset is available without the documentation, or worse still, the dataset is modified after the documentation was closed, but this is not visible for the reuser.
+One good practice for increasing reviewability and reproducibility is to include this information in a notebook or similar document. While this is undoubtedly a good practice, often the reuse or review is hampered by the fact that the data and the documentation are separated, and for example, the dataset is available without the documentation, or worse still, the dataset is modified after the documentation was closed, but this is not visible for the third party (re-)user.
 
 ## Labelling variables
 

@@ -3,8 +3,8 @@
 #' columns \code{s} for subject, \code{p} for predicate and \code{o} for
 #' object.
 #' @param df A [data.frame] or similar object, or a [dataset].
-#' @param idcol The identifier column. If idcol is \code{NULL} it attempts to
-#' use the row.names(df) as an idcol.
+#' @param idcol The identifier column. If \code{idcol} is \code{NULL} it attempts to
+#' use the \code{row.names(df)} as an \code{idcol}.
 #' @return The long form version of the original dataset, retaining the attributes
 #' and class.
 #' @export

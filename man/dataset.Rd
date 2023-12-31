@@ -64,7 +64,7 @@ is.dataset(x)
 \arguments{
 \item{x}{An R object that contains the data of the dataset (a data.frame or
 inherited from \code{\link[base:data.frame]{data.frame}}, for example,
-\code{\link[tibble:tibble]{tibble::tibble()}}, \code{\link[tsibble:tsibble]{tsibble::tsibble()}}, \code{\link[DT:datatable]{DT::datatable()}}.}
+\code{\link[tibble:tibble]{tibble::tibble()}}, \code{\link[tsibble:tsibble]{tsibble::tsibble()}}, \code{\link[data.table:data.table]{data.table::data.table()}}.}
 
 \item{author}{A single person or a vector of persons as authors, declared with
 \code{\link[utils:person]{person}}.}

@@ -19,11 +19,11 @@ knitr::opts_chunk$set(
 library(dataset)
 ```
 
-In the R language, datasets are usually contained in a data.frame() object, or in one of their modernized versions.  For example, tibble::tibble() or data.table::data.table() are inherited from the base data.frame().
+In the R language, datasets are usually contained in a [data.frame()](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame) object, or in one of their modernized versions.  For example, [tibble::tibble()(https://tibble.tidyverse.org/reference/tibble.html) or [data.table::data.table()](https://rdatatable.gitlab.io/data.table/articles/datatable-intro.html) are inherited from the base data.frame().
 
 > This documentation is not updated yet to the development version of the [dataset] package.
 
-The base data.frame() constructor, like most base R types, is very flexible.  It allows the use of any kind of metadata attached to the object.
+The base `data.frame()` constructor, like most base R types, is very flexible.  It allows the use of any kind of metadata attached to the object.
 
 ```{r data-frame-example}
 foo <- data.frame( x = c(1,2), y = c(3,4))
@@ -88,7 +88,7 @@ measures(rd_e_gerdtot) <- "value"
 
 Attributes are similar to dimensions, but they can be fully static and constant in a dataset.  You may have measurements for the same reference area and time available in both kilograms and tons in the same dataset, in which case you will likely use filter the correct unit of measure when you do analytical work or join (integrate) the data.
 
-If your measurement unit is always millimeters (like in the iris dataset), it is tempting to treat this as a dataset-wide constant (and therefore move it to the attributes of the data frame R object), but we do not recommend this approach. Imagine that you want to join this dataset with some other data that is measured in centimeters or inches, or a dataset that has values in both millimeters and centimeters.  To correctly match your data you will be filtering on attributes, too.
+If your measurement unit is always millimetres (like in the iris dataset), it is tempting to treat this as a dataset-wide constant (and therefore move it to the attributes of the data frame R object), but we do not recommend this approach. Imagine that you want to join this dataset with some other data that is measured in centimetres or inches, or a dataset that has values in both millimetres and centimetres.  To correctly match your data you will be filtering on attributes, too.
 
 Attributes that may vary across observations (rows) should remain in the dataset in the datacube model. To avoid confusion with the base R `attributes()` function, we named the function that sets the attributes within a dataset to `attributes_measures()`.
 

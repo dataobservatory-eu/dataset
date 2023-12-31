@@ -5,7 +5,7 @@
 \alias{xsd_convert.data.frame}
 \alias{xsd_convert.dataset}
 \alias{xsd_convert.tibble}
-\title{Convert to XSD types}
+\title{Convert to XML Schema Definition (XSD) types}
 \usage{
 xsd_convert(x, idcol, ...)
 
@@ -18,11 +18,11 @@ xsd_convert(x, idcol, ...)
 \arguments{
 \item{x}{An R object that contains the data of the dataset (a data.frame or
 inherited from \code{\link[base:data.frame]{data.frame}}, for example,
-\code{\link[tibble:tibble]{tibble::tibble()}}, \code{\link[tsibble:tsibble]{tsibble::tsibble()}}, \code{\link[DT:datatable]{DT::datatable()}}.}
+\code{\link[tibble:tibble]{tibble::tibble()}}, \code{\link[tsibble:tsibble]{tsibble::tsibble()}}, \code{\link[data.table:data.table]{data.table::data.table()}}.}
 
 \item{idcol}{The name or position of the column that contains the row
 (observation) identifiers. If \code{NULL}, it will make a new \code{idcol}
-from \link{row.names}.}
+from \code{\link[=row.names]{row.names()}}.}
 
 \item{...}{Further optional parameters for generic method.}
 }

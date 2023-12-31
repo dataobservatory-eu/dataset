@@ -1,5 +1,5 @@
 ---
-title: "Richer Description of the Datasets's Structure for Meaningful Reuse Opportunities"
+title: "Richer Description of the Dataset's Structure for Meaningful Reuse Opportunities"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Richer Description of the Datasets's Structure for Meaningful Reuse Opportunities}

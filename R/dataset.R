@@ -2,7 +2,7 @@
 #'
 #' @param x An R object that contains the data of the dataset (a data.frame or
 #' inherited from [`data.frame`][base::data.frame()], for example,
-#' [tibble::tibble()], [tsibble::tsibble()], [DT::datatable()].
+#' [tibble::tibble()], [tsibble::tsibble()], [data.table::data.table()].
 #' @param author A single person or a vector of persons as authors, declared with
 #' \code{\link[utils:person]{person}}.
 #' @param title The title of the dataset.
