@@ -28,7 +28,9 @@ ttl_dataset_write <- function(tdf,
 
   ## load dataset_namespace
   default_namespace <- getdata("dataset_namespace")
-  default_namespace <- dataset_namespace[which(dataset_namespace$prefix %in% c("rdf:", "rdfs:", "owl:", "qb:", "dcat:")),]
+  default_namespace <- default_namespace[
+    which(default_namespace$prefix %in% c("rdf:", "rdfs:", "owl:",
+                                          "qb:", "dcat:")),]
 
   ## validate dataset
   validate_tdf(tdf)

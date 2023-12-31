@@ -38,3 +38,7 @@ test_that("as_dublincore() works", {
   expect_equal(as_dublincore(iris_dataset, type="dataset")$coverage, ':unas')
 })
 
+
+test_that("as_dublincore() gives warning", {
+  expect_warning(as_dublincore(iris_dataset, type = "character"))
+})

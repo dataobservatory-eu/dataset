@@ -165,7 +165,7 @@ as_dublincore <- function(x, type = "bibentry", ...) {
   }
 
   if (! type %in% c("bibentry", "list", "dataset")) {
-    warning_message <- "as_datacite(ds, type=...) type cannot be "
+    warning_message <- "as_dublincore(ds, type=...) type cannot be "
     warning(warning_message, type, ". Reverting to 'bibentry'.")
     type <- 'bibentry'
   }

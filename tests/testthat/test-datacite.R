@@ -25,3 +25,8 @@ test_that("as_datacite() works", {
 )
   expect_equal(as_datacite(iris_dataset, type="dataset")$FundingReference, ':unas')
 })
+
+
+test_that("as_datacite() gives warning", {
+  expect_warning(as_datacite(iris_dataset, type = "character"))
+})
