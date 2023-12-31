@@ -18,7 +18,7 @@ xsd_convert(x, idcol, ...)
 \arguments{
 \item{x}{An R object that contains the data of the dataset (a data.frame or
 inherited from \code{\link[base:data.frame]{data.frame}}, for example,
-\href{tibble()}{tibble}, tsibble, \href{data.table::data.table()}{data.table}.}
+\code{\link[tibble:tibble]{tibble::tibble()}}, \code{\link[tsibble:tsibble]{tsibble::tsibble()}}, \code{\link[DT:datatable]{DT::datatable()}}.}
 
 \item{idcol}{The name or position of the column that contains the row
 (observation) identifiers. If \code{NULL}, it will make a new \code{idcol}
