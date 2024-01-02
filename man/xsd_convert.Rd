@@ -10,6 +10,8 @@
 \alias{xsd_convert.integer}
 \alias{xsd_convert.boolean}
 \alias{xsd_convert.factor}
+\alias{xsd_convert.POSIXct}
+\alias{xsd_convert.Date}
 \title{Convert to XML Schema Definition (XSD) types}
 \usage{
 xsd_convert(x, idcol, ...)
@@ -28,7 +30,11 @@ xsd_convert(x, idcol, ...)
 
 \method{xsd_convert}{boolean}(x, idcol = NULL, ...)
 
-\method{xsd_convert}{factor}(x, idcol = NULL, codelist = NULL)
+\method{xsd_convert}{factor}(x, idcol = NULL, ...)
+
+\method{xsd_convert}{POSIXct}(x, idcol = NULL, ...)
+
+\method{xsd_convert}{Date}(x, idcol = NULL, ...)
 }
 \arguments{
 \item{x}{An R object that contains the data of the dataset (a data.frame or

@@ -32,6 +32,8 @@ as_dataset.data.frame <- function(x,
                                   datasource = NULL,
                                   rights = NULL) {
 
+  start_time <- Sys.time()
+
   DataBibentry  <- as_bibentry(bibtype="Misc",
                                title = title,
                                author = author,
@@ -47,8 +49,14 @@ as_dataset.data.frame <- function(x,
 
   if (is.null(datasubject)) datasubject <- new_Subject("")
 
+  end_time <- Sys.time()
+  provenance <- provenance_add(start_time=start_time,
+                               end_time=end_time,
+                               informed_by = datasource)
+
   new_dataset(x,
               DataBibentry = DataBibentry,
-              datasubject = datasubject)
+              datasubject  = datasubject,
+              provenance   = provenance)
 
 }

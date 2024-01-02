@@ -22,7 +22,7 @@ status](https://ci.appveyor.com/api/projects/status/github/dataobservatory-eu/da
 <!-- badges: end -->
 
 The dataset package extension to the R statistical environment aims to
-ensure that the most important R object that contains a dataset, i.e. a
+ensure that the most important R object that contains a dataset, i.e. a
 [data.frame](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame)
 or an inherited
 [tibble](https://tibble.tidyverse.org/reference/tibble.html),
@@ -33,6 +33,24 @@ We aim to offer a novel solution to support individuals or small groups
 of data scientists working in various business, academic or policy
 research functions who cannot count on the support of librarians,
 knowledge engineers, and extensive documentation processes.
+
+The dataset package extends the concept of tidy data and adds further,
+standardized semantic information to the user’s dataset to increase the
+(re-)use value of the data object.
+
+- [x] More descriptive information about the dataset as a creation, its
+  authors, contributors, reuse rights and other metadata to make it
+  easier to find and use.
+- [x] More standardized and linked metadata, such as standard variable
+  definitions and code lists, enable the data owner to gather far more
+  information from third parties or for third parties to understand and
+  use the data correctly.
+- [x] More information about the data provenance makes the quality
+  assessment easier and reduces the need for time-consuming and
+  unnecessary re-processing steps.
+- [x] More structural information about the data makes it more
+  accessible to reuse and join with new information, making it less
+  error-prone for logical errors.
 
 <!---
 &#10;The primary aim of dataset is create well-referenced, well-described, interoperable datasets from data.frames, tibbles or data.tables that translate well into the W3C DataSet definition within the [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible manner. The data cube model in itself is is originated in the _Statistical Data and Metadata eXchange_, and it is almost fully harmonized with the Resource Description Framework (RDF), the standard model for data interchange on the web^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>].
@@ -70,7 +88,7 @@ implements further methods in the attributes of the original object.
 
 ``` r
 summary(iris_ds)
-#> Anderson E (2023). "Iris Dataset."
+#> Anderson E (2024). "Iris Dataset."
 #> Further metadata: describe(iris_ds)
 #>   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
 #>  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
@@ -112,13 +130,13 @@ has many printing options (see `?bibentry`).
 ``` r
 mybibentry <- dataset_bibentry(iris_ds)
 print(mybibentry, "text")
-#> Anderson E (2023). "Iris Dataset."
+#> Anderson E (2024). "Iris Dataset."
 print(mybibentry, "Bibtex")
 #> @Misc{,
 #>   title = {Iris Dataset},
 #>   author = {Edgar Anderson},
 #>   publisher = {American Iris Society},
-#>   year = {2023},
+#>   year = {2024},
 #>   resourcetype = {Dataset},
 #>   identifier = {:tba},
 #>   version = {0.1.0},

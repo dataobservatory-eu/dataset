@@ -23,6 +23,8 @@ In the R language, datasets are usually contained in a [data.frame()](https://ww
 
 > This documentation is not updated yet to the development version of the [dataset] package.
 
+\code{vignette("DSD", package = "dataset")}
+
 The base `data.frame()` constructor, like most base R types, is very flexible.  It allows the use of any kind of metadata attached to the object.
 
 ```{r data-frame-example}
@@ -30,7 +32,6 @@ foo <- data.frame( x = c(1,2), y = c(3,4))
 attr(foo, "Title") <- "My Foo Object"
 attributes(foo)
 ```
-
 Metadata standardisation is critically essential for reproducible research, publication, or linking resources on the web. The aim `dataset()` class is the creation of semantically enriched data frames with as much interoperability as possible across various sub-classes of the base R `data.frame()`. 
 
 ```{r mtcars}
@@ -78,12 +79,13 @@ ds_tibble <- dataset(as_tibble(mtcars),
 rowid_to_column(ds_tibble)
 ```
 ```{r tsibble, message=FALSE, warning=FALSE}
-require("nycflights13")
-require("tsibble")
-require("dplyr")
-require("tidyr")
+library("nycflights13")
+library("tsibble")
+library("dplyr")
+library("tidyr")
 
-weather <- nycflights13::weather %>% 
+data("weather")
+weather <- weather %>% 
   select(origin, time_hour, temp, humid, precip)
 weather_tsbl <- as_tsibble(weather, key = origin, index = time_hour)
 ```

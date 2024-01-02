@@ -6,10 +6,13 @@ y <- dataset (data.frame ( a = 1:3,
               issued = as.Date("2022-07-14")
               )
 
+
 test_that("dataset() works", {
   expect_true(is.dataset(y))
   expect_equal(names(y), c("a", "b"))
   expect_equal(var_labels(y), c( a="", b=""))
+  expect_true(grepl("doi:", provenance(y)$wasAssocitatedWith))
+  expect_true(is.finite.POSIXlt(provenance(y)$started_at))
 })
 
 example_ds <- dataset(x = data.frame(a=1, b=2),

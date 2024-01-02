@@ -72,6 +72,7 @@ reference:
       - head.dataset
       - dataset_bibentry
       - describe
+      - provenance
       - DataStructure
   - title: "Replication Dataset"
     desc: >

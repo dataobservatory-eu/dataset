@@ -1,5 +1,9 @@
 #' @title Create a dataset
 #'
+#' @details
+#' For further information, see the \code{vignette("dataset", package = "dataset")}
+#' vignette.
+#'
 #' @param x An R object that contains the data of the dataset (a data.frame or
 #' inherited from [`data.frame`][base::data.frame()]), for example,
 #' [tibble::tibble()], [tsibble::tsibble()], [data.table::data.table()].
@@ -86,8 +90,10 @@ dataset  <- function(x,
 #' @keywords internal
 new_dataset <- function (x,
                          DataBibentry,
-                         datasubject) {
+                         datasubject,
+                         provenance) {
 
+  start_time <- Sys.time()
   validate_dataset(x = x,
                    DataBibentry = DataBibentry,
                    datasubject = datasubject)
@@ -106,9 +112,11 @@ new_dataset <- function (x,
     DSD <- list()
   }
 
+
   attr(x, "DataBibentry") <- DataBibentry
   attr(x, "Subject") <- datasubject
   attr(x, "DataStructure") <- DSD
+  attr(x, "Provenance") <- provenance
   class(x) <- c("dataset", class(x))
   x
 }

@@ -117,6 +117,10 @@ metadata.
 \description{
 Create a dataset
 }
+\details{
+For further information, see the \code{vignette("dataset", package = "dataset")}
+vignette.
+}
 \examples{
 ds <- dataset(iris,
         title = "The iris Dataset",

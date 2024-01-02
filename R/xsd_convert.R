@@ -125,7 +125,7 @@ xsd_convert.boolean <- function(x, idcol=NULL, ...) {
 #' @rdname xsd_convert
 #' @export
 #' @exportS3Method
-xsd_convert.factor<- function(x, idcol=NULL, codelist=NULL ) {
+xsd_convert.factor<- function(x, idcol=NULL, ... ) {
   if (is.null(codelist)) {
     var_type <-  "xs:string"
     paste0('\"', x,  '\"', "^^<", var_type, ">")
@@ -133,3 +133,22 @@ xsd_convert.factor<- function(x, idcol=NULL, codelist=NULL ) {
     paste0(codelist, ":", as.character(x))
   }
 }
+
+#' @rdname xsd_convert
+#' @export
+#' @exportS3Method
+xsd_convert.POSIXct <- function(x, idcol=NULL, ...) {
+  time_gmt <- as.POSIXct(x, tz = "GMT")
+  time_string <- paste0(as.character(as.Date(time_gmt)), "T",
+         strftime(time_gmt, format="%H:%M:%S"), "Z")
+
+  paste0('\"', time_string,  '\"', "^^<xs:dateTime>")
+}
+
+#' @rdname xsd_convert
+#' @export
+#' @exportS3Method
+xsd_convert.Date <- function(x, idcol=NULL, ...) {
+  paste0('\"', paste0(as.character(as.Date(x))),  '\"', "^^<xs:date>")
+}
+
