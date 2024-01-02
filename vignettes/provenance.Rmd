@@ -56,5 +56,5 @@ dataset_to_triples(provenance_df, idcol="rowid")
 
 ## PROV
 
-The _dataset_ package follows the PROV Data Model [[PROV-DM](https://www.w3.org/TR/prov-o/#bib-PROV-DM)] and expresses the provenance metadata using the PROV Ontology ([PROV-O](https://www.w3.org/TR/prov-o/)) expresses using the OWL2 Web Ontology Language (OWL2) [[OWL2-OVERVIEW](https://www.w3.org/TR/prov-o/#bib-OWL2-OVERVIEW)]. It provides a set of classes, properties, and restrictions that can be used to represent and interchange provenance information generated in different systems. The [PROV Document Overview](http://www.w3.org/TR/2012/WD-prov-overview-20121211/) describes the overall state of PROV, and should be read before other PROV documents.
+The _dataset_ package follows the PROV Data Model [[PROV-DM](https://www.w3.org/TR/prov-o/#bib-PROV-DM)] and expresses the provenance metadata using the PROV Ontology ([PROV-O](https://www.w3.org/TR/prov-o/)) expresses using the OWL2 Web Ontology Language (OWL2) [[OWL2-OVERVIEW](https://www.w3.org/TR/prov-o/#bib-OWL2-OVERVIEW)]. It provides a set of classes, properties, and restrictions that can be used to represent and interchange provenance information generated in different systems. The [PROV Document Overview](https://www.w3.org/TR/prov-overview/) describes the overall state of PROV, and should be read before other PROV documents.
 

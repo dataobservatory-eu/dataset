@@ -1,0 +1,51 @@
+---
+title: "Metadata Added to Data Frames"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Metadata Added to Data Frames}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The dataset package extension to the R statistical environment aims to ensure that the most important R object that contains a dataset, i.e. a [data.frame](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame) or an inherited [tibble](https://tibble.tidyverse.org/reference/tibble.html), [tsibble](https://tsibble.tidyverts.org/) or [data.table](https://rdatatable.gitlab.io/data.table/) contains important metadata for the reuse and validation of the dataset contents. We aim to offer a novel solution to support individuals or small groups of data scientists working in various business, academic or policy research functions who cannot count on the support of librarians, knowledge engineers, and extensive documentation processes.
+
+The dataset package extends the concept of tidy data and adds further, standardized semantic information to the user's dataset to increase the (re-)use value of the data object.
+
+- [x] More descriptive information about the dataset as a creation, its authors, contributors, reuse rights and other metadata to make it easier to find and use. (See [Descriptive metadata](#descriptive).)
+- [x] More standardized and linked metadata, such as standard variable definitions and code lists, enable the data owner to gather far more information from third parties or for third parties to understand and use the data correctly. 
+- [x] More information about the data provenance makes the quality assessment easier and reduces the need for time-consuming and unnecessary re-processing steps. (See [Provenance metadata](#provenance).)
+- [x] More structural information about the data makes it more accessible to reuse and join with new information, making it less error-prone for logical errors. (See [Structural metadata](#structural).)
+
+```{r setup}
+library(dataset)
+```
+
+
+## Descriptive metadata {#descriptive}
+
+```{r}
+print(as_dublincore(iris_dataset), 'Bibtex')
+```
+```{r}
+print(as_datacite(iris_dataset), 'Bibtex')
+```
+## Provenance metadata {#provenance}
+
+
+```{r provenance}
+provenance(iris_dataset)
+```
+## Structural metadata {#structural}
+
+```{r structural-metadata}
+## Only the first variable is printed:
+DataStructure(iris_dataset)[[1]]
+```
+

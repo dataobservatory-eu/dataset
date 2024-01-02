@@ -30,9 +30,9 @@ To allow for a linking of datasets, we need unique resource identifiers (URIs) f
 ## Namespace and URI
 In linking data, the namespace helps records have a unique resource identifier (URI). The namespace is the shared part of the URI and is often abbreviated. The abbreviation of the namespace is the prefix.
 
-In the Statistical Data and Metadata eXchange (SDMX) information model, multi-dimensional statistical datasets ("datacubes") share standard definitions. The URI of the SDMX dimension definitions is <http://purl.org/linked-data/sdmx/2009/dimension#>, which is often abbreviated as `sdmx-dimension`.
+In the Statistical Data and Metadata eXchange (SDMX) information model, multi-dimensional statistical datasets ("datacubes") share standard definitions. The URI of the SDMX dimension definitions is [<http://purl.org/linked-data/sdmx/2009/dimension#>], which is often abbreviated as `sdmx-dimension`.
 
- The definition of the "age" dimension in SDMX-standard statistics, or the  _AGE_ variable, is _The length of time that a person has lived or a thing has existed._ This is often abbreviated as `sdmx-dimension:age`, where `sdmx-dimension:`  abbreviates the namespace <http://purl.org/linked-data/sdmx/2009/dimension#>, and the age part after the namespace contains the machine- and human-readable definition of the age variable.
+ The definition of the "age" dimension in SDMX-standard statistics, or the  _AGE_ variable, is _The length of time that a person has lived or a thing has existed._ This is often abbreviated as `sdmx-dimension:age`, where `sdmx-dimension:`  abbreviates the namespace [http://purl.org/linked-data/sdmx/2009/dimension#](https://raw.githubusercontent.com/UKGovLD/publishing-statistical-data/master/specs/src/main/vocab/sdmx-dimension.ttl), and the age part after the namespace contains the machine- and human-readable definition of the age variable.
 
 The machine- and human-readable definitions mean that  URL `http://purl.org/linked-data/sdmx/2009/dimension#age` World Wide Web location points a human reader to a HTML definition of the SDMX definitions, whereas linked open data applications receive from this location an XML or TTL version of the definition.
 
