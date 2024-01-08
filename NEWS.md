@@ -1,6 +1,12 @@
+# dataset 0.3.0
+
+- Release candidate on CRAN.
+
+
 # dataset 0.2.9
 
-- ttl_dataset_write: write datasets to turtle format; with helper functions get_prefix(),  get_resource_identifier(), xsd_convert(), and dataset_to_triples().
+- `dataset_ttl_write()`: write datasets to turtle format; 
+- with helper functions `get_prefix()`,  `get_resource_identifier()`, `xsd_convert()`, and `dataset_to_triples()`.
 
 # dataset 0.2.8
 
@@ -65,13 +71,12 @@ A minor correction to avoid vignettes downloading data from the Eurostat data wa
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6950435.svg)](https://doi.org/10.5281/zenodo.6950435) Development version available on Zenodo.
 
 * `dataset_export()` is implemented with filetype = 'csv'.
-* Replacement functions are added to simple properties `identifier()`, `publisher()`, `publication_year()`, `language()`, `description()`,  `dataset_source()` [to avoid confusion with the base R source() function], `geolocation()`, `rights()`, `version()`.
-* Functions to work with structured referential metadata: `dataset_title()`, `dataset_title_create()`, `subject()`, `subject_create()`.
-* The Type property is handled by `resource_type()`.
+* Replacement functions are added to simple properties `identifier()`, `publisher()`, `publication_year()`, `language()`, `description()`,  `datasource_get()` and `datasource_set()` [to avoid confusion with the base R source() function], `geolocation()`, `rights()`, `version()`.
+* Functions to work with structured referential metadata: `dataset_title()`, `subject()`, `subject_create()`.
 
 # dataset 0.1.3.
 
-* Vignette articles started to develop and consult the development plan of the project. See  [From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html), [Export and Publish A dataset Object](https://dataset.dataobservatory.eu/articles/publish.html), [Datasets with FAIR metadata](https://dataset.dataobservatory.eu/articles/metadata.html), all [comments](https://github.com/dataobservatory-eu/dataset/issues/) are welcome.
+* Vignette articles started to develop and consult the development plan of the project. See  [From dataset To RDF](https://dataset.dataobservatory.eu/articles/RDF.html), _Export and Publish A dataset Object_, _Datasets with FAIR metadata_, all [comments](https://github.com/dataobservatory-eu/dataset/issues/) are welcome.
 * New functions: `download_dataset()`, `datacite()`, and the `dataset()` constructor.
 
 # dataset 0.1.2.
