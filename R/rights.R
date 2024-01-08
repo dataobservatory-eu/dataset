@@ -2,7 +2,7 @@
 #' @description Get/set the optional \code{Rights} property as an attribute to an
 #' R object.
 #' @details \code{Rights} corresponds to
-#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights}{dct:rights} and
+#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights} and
 #' \code{\link{datacite}} Rights. Information about rights held in and over the resource.
 #' Typically, rights information includes a statement about various property rights associated with the resource,
 #' including intellectual property rights.

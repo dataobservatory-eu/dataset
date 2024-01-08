@@ -38,7 +38,8 @@ is.dublincore(x)
 \item{title}{\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title}, a name given to the resource.
 \code{\link{datacite}} allows the use of alternate titles, too. See \code{\link{dataset_title}}.}
 
-\item{creator}{An entity primarily responsible for making the resource. \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/}{dct:creator}
+\item{creator}{An entity primarily responsible for making the resource.
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/}{dct:creator}
 Corresponds to \code{Creator} in \code{\link{datacite}}. See \code{\link{creator}}.}
 
 \item{identifier}{An unambiguous reference to the resource within a given context.
@@ -73,7 +74,7 @@ Format element.}
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/contributor/}{DCMI: Contributor}.}
 
 \item{date}{Corresponds to a point or period of time associated with an event in the
-lifecycle of the resource. \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/date}{dct:date}.
+lifecycle of the resource. \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/date/}{dct:date}.
 \code{Date} is also recommended for
 discovery in \code{\link{datacite}}, but it requires a different formatting.}
 
@@ -82,7 +83,7 @@ discovery in \code{\link{datacite}}, but it requires a different formatting.}
 
 \item{relation}{A related resource. Recommended best practice is to identify the related
 resource by means of a string conforming to a formal identification system.
-See: \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/relation}{dct:relation}.
+See: \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/relation/}{dct:relation}.
 Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended for discovery.}
 
 \item{format}{The file format, physical medium, or dimensions of the dataset. See
@@ -100,7 +101,7 @@ which corresponds to a \code{relatedItem} in the DataCite vocabulary. We use
 
 \item{description}{An account of the resource. It may include but is not limited to:
 an abstract, a table of contents, a graphical representation, or a free-text account of the resource.
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description}{dct:description}. In
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}. In
 \code{\link{datacite}} it is recommended for discovery. See \code{\link{description}}.}
 
 \item{coverage}{The spatial or temporal topic of the resource, spatial

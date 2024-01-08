@@ -96,7 +96,7 @@ readLines(vignette_temp_file, n = 5)
 ```
 - [owl](https://www.w3.org/OWL/): the Web Ontology Language (OWL); which is the metadata language definition in which the rest of the definitions (vocabularies) are described.
 - [rdf](https://www.w3.org/rdf/): Resource Description Framework (RDF). RDF provides the data model explaining how to build a graph. 
-- [rdfs](https://www.w3.org/wiki/RDFS/): RDFS is a vocabulary, in RDF, that explains how nodes of a graph relate. 
+- [rdfs](https://www.w3.org/TR/rdf-schema/): RDFS is a vocabulary, expressed in the RDF, that explains how nodes of a graph relate. 
 - [qb](https://www.w3.org/TR/vocab-data-cube/): The RDF Data Cube Vocabulary is the semantic definition of statistical datasets and their multi-dimensional versions, the datacubes, using `owl`, `rdf` and `rdfs`.
 - [xsd](https://www.w3.org/TR/xmlschema11-1/): The W3C XML Schema Definition Language (XSD), which offers facilities for describing the structure and constraining the contents of XML documents. It ensures that R types, such as `character`, `integer`,  or `Date` are correctly represented in web documents.
 
