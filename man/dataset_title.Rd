@@ -10,14 +10,14 @@ dataset_title(x)
 dataset_title(x, overwrite = FALSE) <- value
 }
 \arguments{
-\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
+\item{x}{A dataset object created with \code{\link[=dataset]{dataset()}} or \code{\link[=as_dataset]{as_dataset()}}.}
 
 \item{overwrite}{If the attributes should be overwritten. In case it is set
 to \code{FALSE},it gives a warning with the current \code{title}
 property instead of overwriting it. Defaults to \code{FALSE}.}
 
 \item{value}{The name(s) or title(s) by which a resource is known. See:
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title}{dct:title}.}
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title}.}
 }
 \value{
 A string with the dataset's title; \code{set_dataset_title} returns

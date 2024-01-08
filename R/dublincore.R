@@ -50,7 +50,7 @@
 #' Examples of dimensions include size and duration. Recommended best practice is to use a controlled
 #' vocabulary such as the list of \href{https://www.iana.org/assignments/media-types/media-types.xhtml}{Internet Media Types, formerly known as MIME}. It is similar to \code{Format} in
 #' \code{\link{datacite}}.
-#' @param rights Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights}{dct:rights} and
+#' @param rights Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights} and
 #' \code{\link{datacite}} Rights. Information about rights held in and over the resource.
 #' Typically, rights information includes a statement about various property rights associated with the resource,
 #' including intellectual property rights. See \code{\link{rights}}.

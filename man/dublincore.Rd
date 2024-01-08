@@ -89,7 +89,7 @@ Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended fo
 \item{format}{The file format, physical medium, or dimensions of the dataset. See
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI: Format}.}
 
-\item{rights}{Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights}{dct:rights} and
+\item{rights}{Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights} and
 \code{\link{datacite}} Rights. Information about rights held in and over the resource.
 Typically, rights information includes a statement about various property rights associated with the resource,
 including intellectual property rights. See \code{\link{rights}}.}
