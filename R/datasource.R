@@ -2,7 +2,7 @@
 #' @description Get/set the optional \code{Source} property as an attribute to an
 #' R object. Do not confuse with the base R \code{source()} function.
 #' @details The \code{Source} is a related resource from which the described resource is
-#' derived. See \href{https://purl.org/dc/elements/1.1/source}{dct:source}. In Datacite,
+#' derived. See \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source}{dct:source}. In Datacite,
 #' the source is described by a \code{relatedIdentifierType} with the property
 #' \code{relationType="isDerivedFrom"}.
 #' @param x A dataset object created with \code{dataset::\link{dataset}}.

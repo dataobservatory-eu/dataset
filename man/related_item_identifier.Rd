@@ -17,7 +17,7 @@ related_item_identifier(
 \item{Identifier}{The Identifier is a unique string that identifies a resource. For software, determine
 whether the identifier is for a specific version of a piece of software, (per the
 \href{https://force11.org/info/software-citation-principles-published-2016/}{Force11 Software Citation Principles},
-or for all versions. Similar to \code{dct:title} in \code{\link{dublincore}}.}
+or for all versions. Similar to \code{dct:title} in \code{\link[=dublincore]{dublincore()}}.}
 
 \item{relatedIdentifierType}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12a-relatedidentifiertype}{relatedIdentifierType}.}
 

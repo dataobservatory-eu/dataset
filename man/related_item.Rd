@@ -29,13 +29,15 @@ related_item(
 \item{Identifier}{The Identifier is a unique string that identifies a resource. For software, determine
 whether the identifier is for a specific version of a piece of software, (per the
 \href{https://force11.org/info/software-citation-principles-published-2016/}{Force11 Software Citation Principles},
-or for all versions. Similar to \code{dct:title} in \code{\link{dublincore}}.}
+or for all versions. Similar to \code{dct:title} in \code{\link[=dublincore]{dublincore()}}.}
 
 \item{Creator}{The main researchers involved in producing the data, or the authors of the publication, in
 priority order. To supply multiple creators, repeat this property.}
 
-\item{Title}{The name(s) or title(s) by which a resource is known. May be the title of a dataset
-or the name of a piece of software. Similar to \href{https://purl.org/dc/elements/1.1/title}{dct:title}.\cr}
+\item{Title}{The name(s) or title(s) by which a resource is known. May be the
+title of a dataset or the name of a piece of software.
+Similar to
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title}.\cr}
 
 \item{relatedIdentifierType}{See \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#12a-relatedidentifiertype}{relatedIdentifierType}.}
 
@@ -48,7 +50,7 @@ or the name of a piece of software. Similar to \href{https://purl.org/dc/element
 \item{resourceTypeGeneral}{The general type of a resource or file.}
 
 \item{PublicationYear}{The year when the data was or will be made publicly available in
-\code{YYYY} format.See \code{\link{publication_year}}.}
+\code{YYYY} format.See \code{\link[=publication_year]{publication_year()}}.}
 
 \item{Volume}{The volume of the related item (optional).}
 
@@ -66,7 +68,7 @@ or the name of a piece of software. Similar to \href{https://purl.org/dc/element
 distributes, releases, issues, or produces the resource. This property will be used to
 formulate the citation, so consider the prominence of the role.
 For software, use Publisher for the code repository. Mandatory in DataCite, and similar to
-\code{dct:publisher}. See \code{\link{publisher}}.}
+\code{dct:publisher}. See \code{\link[=publisher]{publisher()}}.}
 
 \item{Edition}{The edition of the related item (optional).}
 

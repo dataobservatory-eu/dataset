@@ -4,7 +4,7 @@
 #' yet implemented.
 #' @param x A dataset object created with \code{dataset::\link{dataset}}.
 #' @param value The name(s) or title(s) by which a resource is known. See:
-#' \href{https://purl.org/dc/elements/1.1/title}{dct:title}.
+#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title}{dct:title}.
 #' @return A string with the dataset's title; \code{set_dataset_title} returns
 #' a dataset object with the changed (main) title.
 #' @examples
