@@ -234,11 +234,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "nycflights",
-      "name": "nycflights"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "nycflights13",
       "name": "nycflights13",
       "provider": {
@@ -317,7 +312,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "734.189KB",
+  "fileSize": "735.857KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
