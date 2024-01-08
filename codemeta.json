@@ -7,7 +7,7 @@
   "codeRepository": "https://github.com/dataobservatory-eu/dataset",
   "issueTracker": "https://github.com/dataobservatory-eu/dataset/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.2.8",
+  "version": "0.3.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -231,6 +231,47 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=tibble"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "nycflights",
+      "name": "nycflights"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "nycflights13",
+      "name": "nycflights13",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=nycflights13"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "tsibble",
+      "name": "tsibble",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tsibble"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "data.table",
+      "name": "data.table",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=data.table"
     }
   ],
   "softwareRequirements": {
@@ -276,11 +317,11 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "614.911KB",
+  "fileSize": "734.189KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
-      "datePublished": "2023",
+      "datePublished": "2024",
       "author": [
         {
           "@type": "Person",
@@ -292,7 +333,7 @@
       ],
       "name": "dataset: Create Data Frames that are Easier to Exchange and Reuse",
       "url": "https://github.com/dataobservatory-eu/dataset",
-      "description": "R package version 0.2.8"
+      "description": "R package version 0.3.0"
     },
     {
       "@type": "CreativeWork",

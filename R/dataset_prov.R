@@ -8,9 +8,6 @@
 #' @param end_time Ending time fo the dataset creation process.
 #' @return A triple-format data.frame with the provenance information.
 #' @importFrom utils citation
-#' @examples
-#' dataset_prov(author=person("Jane", "Doe"))
-#'
 #' @keywords internal
 
 dataset_prov <- function(x= NULL,

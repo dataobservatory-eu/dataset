@@ -69,7 +69,7 @@ readLines(temp_ttl_file, 25)
  
  
 ```{r tibbble}
-require(tibble)
+library(tibble)
 ds_tibble <- dataset(as_tibble(mtcars), 
                      title = "The Motor Trend [mtcar] Dataset", 
                      author = person("Motor Trend Magazine"), 

@@ -28,8 +28,4 @@ A triple-format data.frame with the provenance information.
 \description{
 Create a Turtle format description of the dataset's provenance.
 }
-\examples{
-dataset_prov(author=person("Jane", "Doe"))
-
-}
 \keyword{internal}

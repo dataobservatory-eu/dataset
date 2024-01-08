@@ -126,6 +126,14 @@ xsd_convert.boolean <- function(x, idcol=NULL, ...) {
 #' @export
 #' @exportS3Method
 xsd_convert.factor<- function(x, idcol=NULL, ... ) {
+
+  codelist <- NULL
+  args <- list(...)
+
+  if (codelist %in% names(args)) {
+    codelist <- args$codelist
+  }
+
   if (is.null(codelist)) {
     var_type <-  "xs:string"
     paste0('\"', x,  '\"', "^^<", var_type, ">")
