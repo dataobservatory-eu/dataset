@@ -4,7 +4,9 @@ citation(auto = meta)
 bibentry(bibtype = "Misc",
          title = "The dataset R Package: Create Data Frames that are Easier to Exchange and Reuse",
          author = c(person(given ="Daniel", family = "Antal", role = "aut")),
-         year = "2023",
+         year = "2024",
+         month = "01",
+         day = "09",
          publisher = "The Comprehensive R Archive Network",
          url = "https://dataset.dataobservatory.eu/index.html",
-         doi = "10.5281/zenodo.10396853")
+         doi = "10.5281/zenodo.10473154")

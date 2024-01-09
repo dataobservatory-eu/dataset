@@ -312,7 +312,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "735.857KB",
+  "fileSize": "735.903KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -332,7 +332,7 @@
     },
     {
       "@type": "CreativeWork",
-      "datePublished": "2023",
+      "datePublished": "2024",
       "author": [
         {
           "@type": "Person",
@@ -341,10 +341,10 @@
         }
       ],
       "name": "The dataset R Package: Create Data Frames that are Easier to Exchange and Reuse",
-      "identifier": "10.5281/zenodo.10396853",
+      "identifier": "10.5281/zenodo.10473154",
       "url": "https://dataset.dataobservatory.eu/index.html",
-      "@id": "https://doi.org/10.5281/zenodo.10396853",
-      "sameAs": "https://doi.org/10.5281/zenodo.10396853"
+      "@id": "https://doi.org/10.5281/zenodo.10473154",
+      "sameAs": "https://doi.org/10.5281/zenodo.10473154"
     }
   ]
 }
