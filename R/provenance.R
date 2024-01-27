@@ -1,4 +1,7 @@
 #' @title Get or update provenance information
+#' @description Add or update information about the history (provenance) of the dataset.
+#' @details
+#' For additional details see \code{vignette("provenance", package = "dataset")}.
 #' @inheritParams dataset
 #' @param value A list that may contain the following elements: \code{wasInformedBy},
 #' \code{wasAssociatedWith}.
@@ -31,12 +34,14 @@ provenance <- function(x) {
 
 
   if ("wasAssocitatedWith" %in% names(value)) {
+    ## Add association attributes
     associated_with <- c(old_provenance$wasAssocitatedWith, value$wasAssocitatedWith)
     associated_with <- unique(associated_with)
     new_provenance$wasAssocitatedWith <- associated_with
   }
 
   if ("wasInformedBy" %in% names(value)) {
+    ## Add wasInformedBy attributes
     if("wasInformedBy" %in% names(old_provenance)) {
       was_informed_by <- c(old_provenance$wasInformedBy, value$wasInformedBy)
     } else {

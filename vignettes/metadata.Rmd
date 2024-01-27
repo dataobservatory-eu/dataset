@@ -30,14 +30,15 @@ library(dataset)
 
 ## Descriptive metadata {#descriptive}
 
-```{r}
+```{r dublincore}
 print(as_dublincore(iris_dataset), 'Bibtex')
 ```
-```{r}
+```{r datacite}
 print(as_datacite(iris_dataset), 'Bibtex')
 ```
 ## Provenance metadata {#provenance}
 
+See more `vignette("provenance", package = "dataset")`
 
 ```{r provenance}
 provenance(iris_dataset)

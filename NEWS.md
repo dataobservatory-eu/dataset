@@ -1,7 +1,7 @@
 # dataset 0.3.0
 
-- Release candidate on CRAN.
-
+- Released on CRAN.
+- 0.3.1. Is a minor bug fix with units test on old R releases. It does not affect the functionality of the package.
 
 # dataset 0.2.9
 

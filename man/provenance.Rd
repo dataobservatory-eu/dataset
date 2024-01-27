@@ -18,7 +18,10 @@ inherited from \code{\link[base:data.frame]{data.frame}}), for example,
 \code{wasAssociatedWith}.}
 }
 \description{
-Get or update provenance information
+Add or update information about the history (provenance) of the dataset.
+}
+\details{
+For additional details see \code{vignette("provenance", package = "dataset")}.
 }
 \examples{
 # Get the provenance of a dataset:

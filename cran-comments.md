@@ -15,5 +15,7 @@ r_hub:
 *  r-release-macosx-arm64|4.3.0|macosx|macOS 13.3.1 (22E261)|Mac mini|Apple M1||en_US.UTF-8|macOS 11.3|clang-1403.0.22.14.1|GNU Fortran (GCC) 12.2.0
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
-No extra comments
+
+Comment: On CRAN the Mac and Windows old release has thrown an error in on of the testthat files. In my opinion, the error was not caused by the function, but the test itself. I changed the test. 
+
 
