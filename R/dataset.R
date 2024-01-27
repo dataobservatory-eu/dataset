@@ -152,33 +152,39 @@ is.dataset <- function(x) inherits(x, "dataset")
 #' @param n Number of rows to print.
 #' @export
 print.dataset <- function(x, n, ...) {
-
-  args <- list(...)
-  if (length(args)==0)  {
-    args <- list(digits = NULL,
-                 quote = FALSE,
-                 right = TRUE,
-                 row.names = TRUE,
-                 max = NULL)
-  }
-
   print(attr(x, "DataBibentry"))
-  x_df <- as.data.frame(x)
-  if(!missing(n)) {
-    if ("row.names" %in% names(args)) {
-      if (args$row.names == FALSE) {
-        args$max <- min(dim(x)[1]*(dim(x)[2]), n*(dim(x)[2]))
-      } else {
-        args$max <- min(dim(x)[1]*(dim(x)[2]+1), n*(dim(x)[2]+1))
-      }
-    } else {
-      args$max <- min(dim(x)[1]*(dim(x)[2]+1), n*(dim(x)[2]+1))
-    }
-  }
-
-  print(x_df, digits=args$digits, row.names=args$row.names, max = args$max )
+  NextMethod()
   cat(paste0("Further metadata: describe(", deparse(substitute(x)), ")\n"))
 }
+
+#print.dataset <- function(x, n, ...) {
+#
+#  args <- list(...)
+#  if (length(args)==0)  {
+#    args <- list(digits = NULL,
+#                 quote = FALSE,
+#                 right = TRUE,
+#                 row.names = TRUE,
+#                 max = NULL)
+#  }
+#
+#  print(attr(x, "DataBibentry"))
+#  x_df <- as.data.frame(x)
+#  if(!missing(n)) {
+#    if ("row.names" %in% names(args)) {
+#      if (args$row.names == FALSE) {
+#        args$max <- min(dim(x)[1]*(dim(x)[2]), n*(dim(x)[2]))
+#      } else {
+#        args$max <- min(dim(x)[1]*(dim(x)[2]+1), n*(dim(x)[2]+1))
+#      }
+#    } else {
+#      args$max <- min(dim(x)[1]*(dim(x)[2]+1), n*(dim(x)[2]+1))
+#    }
+#  }
+#
+#  print(x_df, digits=args$digits, row.names=args$row.names, max = args$max )
+#  cat(paste0("Further metadata: describe(", deparse(substitute(x)), ")\n"))
+#}
 
 #' @rdname dataset
 #' @param object an object for which a summary is desired.
@@ -199,14 +205,11 @@ summary.dataset <- function(object, ...) {
   DataStructure <- attr(x, "DataStructure")
   DataBibentry <- dataset_bibentry(x)
   x_Subject <- subject(x)
-  NextMethod()
+  data.frame(..., check.names=FALSE)
   attr(x, "DataStructure") <- DataStructure
   attr(x, "DataBibentry") <- DataBibentry
   subject(x) <- x_Subject
   x
 }
-
-
-
 
 
