@@ -22,18 +22,22 @@ library(dataset)
 New concept for the dataset package
 
 The first CRAN release and RopenSci review brought very useful experience and feedback. The dataset package had been defined with a very broad requirement. While the very general requirement setting has advantages, a clear disadvantage is that without a specific use case, it is difficult to raise enough user and co-developer interest.
-In line with some of the legitimate criticism of version 0.—0., I envision a dataset package that has more specific inheritance packages that work with datasets in a more specific use case.
-It is probably too wide of a claim to create a package that will bring the base R data.frame object in line with any disciplinary requirements of datasets.  The original concept closely followed the SDMX (statistical) dataset definition to the extent that one reviewer recommended the datacube name for the package. In light of some further use experiences, this is a valid criticism because datasets used in digital humanities, for example, have slightly different specification needs.
-R is primarily a statistical environment and language; therefore, broad conformity with the SDMX statistical metadata standards is desirable. However, the dataset package should remain generic enough to support non-statistical datasets.  Along these lines, the current aim is to triangulate three packages:
--    A datacube package, which follows more closely the SDMX definition of a dataset and the more general, multi-dimensional datacube definition
--    A wb-dataset package, which follows more closely the Wikibase Data Model that is increasingly used for digital collections management and other scenarios for statistically not aggregated datasets.
--    A dataset package that is sufficiently generic that both the datacube and the `wbdataset` package rely on it as a joint dependency.
-Therefore, the plan is to relax some SMDX definitions of datasets that are not very useful in non-statistical applications. Such functionality can be removed from a later-developed datacube package.
+
+In line with some of the legitimate criticism of version 0.1.0—0.3.1, I envision a dataset package that has more specific inheritance packages that work with datasets in a more specific use case.
+
+It is probably too wide of a claim to create a package that will bring the base R data.frame object in line with any disciplinary requirements of datasets. The original concept closely followed the SDMX (statistical) dataset definition to the extent that one reviewer recommended the `datacube` name for the package. In light of some further use experiences, this is a valid criticism because datasets used in digital humanities, for example, have slightly different specification needs.
+
+R is primarily a statistical environment and language; therefore, broad conformity with the SDMX statistical metadata standards is desirable. However, the dataset package should remain generic enough to support non-statistical datasets. Along these lines, the current aim is to triangulate three packages:
+-    A `datacube` package, which follows more closely the SDMX definition of a dataset and the more general, multi-dimensional datacube definition
+-    A `wbdataset` package, which follows more closely the Wikibase Data Model that is increasingly used for digital collections management and other scenarios for statistically not aggregated datasets.
+-    A `dataset` package that is sufficiently generic that both the `datacube` and the `wbdataset` package rely on it as a joint dependency.
+Therefore, the plan is to relax some SMDX definitions of datasets that are not very useful in non-statistical applications. Such functionality can be removed from a later-developed `datacube` package.
+
 At the same time, I would like to co-develop the dataset package with the `wbdataset` package because the Wikibase Data Model is a very well-defined semantic data model that could potentially create a large enough user base and use case for the entire project.
 
-Another important lesson was that the first version of the dataset package wanted to be so generally usable that it aimed for compability for base R data.frames, the tidyverse tibble modernisations of such data frames, and the data.table objects, which have their own user base and dependencies in many statistical applications.  While such broad appeal and ambition should not excluded for the future, it would be a too significant undertaking to ensure that all functionality works with data.frames, tibble and data.tables. Whenever this is possible, this should remain so, but new developments should only follow the modern tidyverse tibbles.
+Another important lesson was that the first version of the dataset package wanted to be so generally usable that it aimed for compatibility for base R data.frames, the tidyverse tibble modernisations of such data frames, and the data.table objects, which have their own user base and dependencies in many statistical applications. While such broad appeal and ambition should not excluded for the future, it would be a too significant undertaking to ensure that all functionality works with data.frames, tibble and data.tables. Whenever this is possible, this should remain so, but new developments should only follow the modern tidyverse tibbles.
 
-New requirement settings
+## New requirement settings
 
 The new dataset package would be streamlined to provide a tidier version of the tidy data definition. "Tidy datasets provide a standardised way to link the structure of a dataset (its physical layout) with its semantics (its meaning)." The aim of the dataset package is to improve the semantic infrastructure of tidy datasets beyond the current capabilities of the tidyverse packages, relaxing the exclusive use of the semantic definitions of the SDMX statistical metadata standards.
 
@@ -69,12 +73,27 @@ To demonstrate the long-term ambition, we want to develop the following function
 ### The wbdataset package concept
 The Wikibase Data Model is a relatively simple and flexible data model. It works with concepts and properties as relationships among concepts. A tidy dataset that applies the Wikibase Data Model can be described (using the definitions of Wikidata, the world's largest public database created with Wikibase) the following:
 
-The key column defines the data subject or statistical unit with a QID identifier. This identifier is denoted with a capital Q followed by an integer number. The QID is unique in one instance of a Wikibase database. The full identifier contains the URL of this database and the QID. For example, xxx, .  xxxxxx.
-With a `wbdataset` object, it is important that the key column is a QID. Following the notations of tidyverse, instead of the tibble::rowid_to_colum, we create a `wbdataset`::qid_to_column function that creates an identifier for each row. 
+The key column defines the data subject or statistical unit with a QID identifier. This identifier is denoted with a capital Q followed by an integer number. The QID is unique in one instance of a Wikibase database. The full identifier contains the URL of this database and the QID. 
+
+```{r installwbdataset, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("dataobservatory-eu/wbdataset")
+```
+
+```{r examplewbdataset}
+library(wbdataset)
+get_item(qid=c("Q228", "Q347"), 
+         language=c("en", "nl"), 
+         creator=person("Jane Doe"), 
+         title="Small Countries")
+```
+
+
+With a `wbdataset` object, it is important that the key column is a QID. Following the notations of tidyverse, instead of the tibble::rowid_to_colum, we create a`wbdataset::qid_to_column function that creates an identifier for each row. 
 
 The variables or columns bring the observational unit (data subject or statistical subject) into a pre-defined relationship with the cell value. These pre-defined relationships are identified in the Wikibase Data Model with a property or PID identifier. The PID is denoted with a capital P followed by an integer number. The PID is unique in one Wikibase-created database.
 
-Recalling the tidy data definition, the cell values may be numbers or "strings for qualitative information".  We extend the possibilities to further options following the RDF standards:
+Recalling the tidy data definition, the cell values may be numbers or "strings for qualitative information". We extend the possibilities to further options following the RDF standards:
 -    Numbers that do not require further semantic definition and interpretation
 -    Strings that do not offer further semantic definition (though they may need it!)
 -    Time concepts that follow the ISO time definitions
@@ -93,12 +112,3 @@ The current `dataset` class and functionality should relax the modelling of the 
 The specifications of the `wbdataset` package should all be placed into the dataset package whenever it is not specific to the Wikibase Data Model. They should be co-developed with `wbdataset` to provide a well-defined interface towards a global data system (Wikidata and its "private clones" of Wikibase instances.) The `wbdataset` package should allow a simple, natural way to import data from Wikidata or a Wikibase instance, and it should also provide a simple interface to send data back to such a semantic database with ease.
 
 The distinction between wb-dataset and dataset is justified because a stripped-down dataset package can still work well in many SDMX or other contexts, albeit without the full functionality of supporting statistical slicing or API support to a specific SDMX-compatible web service. An R package that allows the creation of semantically rich SDMX-compatible datasets with only manual downloading or uploading functionality would still be a great improvement in implementing open science interoperability and reusability for such datasets.
-
-
-
-
-
-
-
-
-
