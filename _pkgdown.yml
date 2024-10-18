@@ -1,4 +1,4 @@
-url: ~
+url: https://dataset.dataobservatory.eu
 template:
   bootstrap: 5
   bslib:
@@ -63,6 +63,7 @@ articles:
          but easier to work with. Easy interoperability with the
          [data.table](https://cran.r-project.org/web/packages/data.table/index.html) package remains a top development priority.
     contents:
+      - new-requirements
       - survey
 reference:
   - title: "Dataset"
