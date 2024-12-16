@@ -33,8 +33,6 @@ test_that("dublincore() works", {
   expect_equal(dct_iris$description, "The famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.")
 })
 
-x = iris_dataset
-
 test_that("as_dublincore() works", {
   expect_true(is.dublincore(as_dublincore(iris_dataset)))
   expect_true(is.list(as_dublincore(x=iris_dataset, type="list")))
