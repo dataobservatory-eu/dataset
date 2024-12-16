@@ -12,6 +12,7 @@
 #' }
 #' # To remove a unit of measure
 #' var_unit(iris$Sepal.Length) <- NULL
+#' @return The unit attribute of a vector constructed with \code{\link{defined}}.
 #' @export
 var_unit <- function(x, ...) {
   #rlang::check_dots_used()

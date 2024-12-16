@@ -18,7 +18,8 @@ interoperable metadata.
 }
 \details{
 N-Triples is an easy to parse line-based subset of Turtle to serialize
-RDF.
+RDF. See
+\href{https://www.w3.org/TR/rdf12-n-triples/}{RDF 1.2 N-Triples. A line-based syntax for an RDF graph}.
 }
 \examples{
 triple_1 <- n_triple("http://example.org/show/218",

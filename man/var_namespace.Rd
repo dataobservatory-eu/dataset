@@ -31,6 +31,9 @@ namespace_attribute(x) <- value
 
 \item{value}{a character string or \code{NULL} to remove the namespace of measure.}
 }
+\value{
+The namespace attribute of a vector constructed with \code{\link{defined}}.
+}
 \description{
 Get / Set a namespace of measure
 }

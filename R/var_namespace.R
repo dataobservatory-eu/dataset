@@ -9,6 +9,7 @@
 #' var_namespace(qid)
 #' # To remove a namespace
 #' var_namespace(qid) <- NULL
+#' @return The namespace attribute of a vector constructed with \code{\link{defined}}.
 #' @export
 var_namespace <- function(x, ...) {
   #rlang::check_dots_used()

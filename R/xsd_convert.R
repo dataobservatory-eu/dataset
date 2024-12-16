@@ -6,6 +6,7 @@
 #' (observation) identifiers. If \code{NULL}, it will make a new \code{idcol}
 #' from [row.names()].
 #' @param ... Further optional parameters for generic method.
+#' @return A serialisation of an R vector or data frame (dataset) in XML.
 #' @export
 xsd_convert <- function(x, idcol, ...) {
   UseMethod("xsd_convert", x)
@@ -127,6 +128,9 @@ xsd_convert.character <- function(x, idcol=NULL, ...) {
 
 #' @rdname xsd_convert
 #' @export
+#' @examples
+#' # Convert integers or doubles, numbers:
+#' xsd_convert(1:3)
 #' @exportS3Method
 xsd_convert.numeric <- function(x, idcol=NULL, ...) {
   var_type <-  "xs:decimal"
@@ -156,7 +160,10 @@ xsd_convert.integer <- function(x, idcol=NULL, ...) {
 #' @rdname xsd_convert
 #' @export
 #' @exportS3Method
-xsd_convert.boolean <- function(x, idcol=NULL, ...) {
+#' @examples
+#' # xsd_convert(TRUE)
+#'
+xsd_convert.logical <- function(x, idcol=NULL, ...) {
   var_type <-  "xs:boolean"
   paste0('\"', as.character(x),  '\"', "^^<", var_type, ">")
 }

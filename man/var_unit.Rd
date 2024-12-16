@@ -31,6 +31,9 @@ unit_attribute(x) <- value
 
 \item{value}{A character string or \code{NULL} to remove the unit of measure.}
 }
+\value{
+The unit attribute of a vector constructed with \code{\link{defined}}.
+}
 \description{
 Get / Set a unit of measure
 }

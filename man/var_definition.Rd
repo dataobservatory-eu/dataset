@@ -28,6 +28,10 @@ definition_attribute(x) <- value
 
 \item{value}{a character string or \code{NULL} to remove the definition of measure.}
 }
+\value{
+The (linked) definition of the meaning of the data contained by a
+vector constructed with \code{\link{defined}}.
+}
 \description{
 Get / set a definition for a vector or a dataset
 }

@@ -15,6 +15,8 @@
 #' var_definition(small_country_dataset$country_name)
 #' # To remove a definition of measure
 #' var_definition(small_country_dataset$country_name) <- NULL
+#' @return The (linked) definition of the meaning of the data contained by a
+#' vector constructed with \code{\link{defined}}.
 #' @export
 var_definition <- function(x, ...) {
   #rlang::check_dots_used()

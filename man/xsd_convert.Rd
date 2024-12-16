@@ -9,7 +9,7 @@
 \alias{xsd_convert.numeric}
 \alias{xsd_convert.haven_labelled_defined}
 \alias{xsd_convert.integer}
-\alias{xsd_convert.boolean}
+\alias{xsd_convert.logical}
 \alias{xsd_convert.factor}
 \alias{xsd_convert.POSIXct}
 \alias{xsd_convert.Date}
@@ -31,7 +31,7 @@ xsd_convert(x, idcol, ...)
 
 \method{xsd_convert}{integer}(x, idcol = NULL, ...)
 
-\method{xsd_convert}{boolean}(x, idcol = NULL, ...)
+\method{xsd_convert}{logical}(x, idcol = NULL, ...)
 
 \method{xsd_convert}{factor}(x, idcol = NULL, ...)
 
@@ -48,6 +48,9 @@ from \code{\link[=row.names]{row.names()}}.}
 
 \item{...}{Further optional parameters for generic method.}
 }
+\value{
+A serialisation of an R vector or data frame (dataset) in XML.
+}
 \description{
 Convert the numeric, boolean and Date/time columns of a dataset
 \code{xs:decimal}, \code{xsLboolean}, \code{xs:date} and \code{xs:dateTime}.
@@ -59,4 +62,8 @@ xsd_convert(head(iris))
 
 # Convert dataset to XML Schema Definition
 xsd_convert(head(iris_dataset))
+# Convert integers or doubles, numbers:
+xsd_convert(1:3)
+# xsd_convert(TRUE)
+
 }

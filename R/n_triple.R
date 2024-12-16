@@ -2,7 +2,8 @@
 #' @description Create triple statements to annotate your dataset with standard,
 #' interoperable metadata.
 #' @details N-Triples is an easy to parse line-based subset of Turtle to serialize
-#' RDF.
+#' RDF. See
+#' \href{https://www.w3.org/TR/rdf12-n-triples/}{RDF 1.2 N-Triples. A line-based syntax for an RDF graph}.
 #' @param triples Concatenated N-Triples created with \code{\link{n_triple}}.
 #' @return A character vector containing unique N-Triple strings.
 #' @examples
