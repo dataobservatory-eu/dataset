@@ -5,12 +5,18 @@
 
 <!-- badges: start -->
 
+[![Codecov test
+coverage](https://codecov.io/gh/antaldaniel/dataset/graph/badge.svg)](https://app.codecov.io/gh/antaldaniel/dataset)
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Project Status:
 WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dataset)](https://cran.r-project.org/package=WikidataR)
-[![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/wikidataR)](https://cran.r-project.org/package=WikidataR)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.3.2-blue.svg)](https://github.com/TS404/WikidataRdataset)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dataset)](https://cran.r-project.org/package=dataset)
+[![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/dataset)](https://cran.r-project.org/package=dataset)
+[![Status at rOpenSci Software Peer
+Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14499632.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.3.3.0007-blue.svg)](https://github.com/antaldaniel/dataset)
+[![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 <!-- badges: end -->
 
 The aim of the *dataset* package is to make tidy datasets easier to
@@ -53,6 +59,13 @@ Further development plans for peer-review are added in till 5 November
 2024 here: [New
 Requirement](https://dataset.dataobservatory.eu/articles/new-requirements.html)
 setting.
+
+You can install the development version of dataset with
+`remotes::install_github()`:
+
+``` r
+remotes::install_github("dataobservatory-eu/dataset", build = FALSE)
+```
 
 The current version of the `dataset` package is in an early,
 experimental stage. You can follow the discussion of this package on

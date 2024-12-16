@@ -17,13 +17,7 @@ Authors@R:
 Maintainer: Daniel Antal <daniel.antal@dataobservatory.eu>
 Description: The aim of the 'dataset' package is to make tidy datasets easier to release, 
     exchange and reuse. It organizes and formats data frame 'R' objects into well-referenced, 
-    well-described, interoperable datasets into release and reuse ready form. A subjective 
-    interpretation of the  W3C  DataSet recommendation and the datacube model  <https://www.w3.org/TR/vocab-data-cube/>, 
-    which is also used in the global Statistical Data and Metadata eXchange standards, 
-    the application of the connected Dublin Core <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/> 
-    and DataCite <https://support.datacite.org/docs/datacite-metadata-schema-44/> standards 
-    preferred by European open science repositories to improve the findability, accessibility,
-    interoperability and reusability of the datasets.
+    well-described, interoperable datasets into release and reuse ready form.
 License: GPL (>= 3)
 Encoding: UTF-8
 URL: https://dataset.dataobservatory.eu/
