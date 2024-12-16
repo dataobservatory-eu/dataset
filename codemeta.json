@@ -5,7 +5,7 @@
   "description": "The aim of the 'dataset' package is to make tidy datasets easier to release, exchange and reuse. It organizes and formats data frame 'R' objects into well-referenced, well-described, interoperable datasets into release and reuse ready form.",
   "name": "dataset: Create Data Frames that are Easier to Exchange and Reuse",
   "codeRepository": "https://dataset.dataobservatory.eu/",
-  "issueTracker": "https://github.com/antaldaniel/dataset/issues",
+  "issueTracker": "https://github.com/dataset/dataset/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
   "version": "0.3.3008",
   "programmingLanguage": {
@@ -211,7 +211,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "349.834KB",
+  "fileSize": "349.83KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
