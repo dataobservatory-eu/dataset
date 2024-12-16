@@ -1,7 +1,8 @@
 Package: dataset
 Title: Create Data Frames that are Easier to Exchange and Reuse
-Date: 2024-10-18
-Version: 0.3.20
+Version: 0.3.3008
+Date: 2024-12-16
+Language: en-US
 Authors@R: 
     c(person(given = "Daniel", family = "Antal", 
            email = "daniel.antal@dataobservatory.eu", 
@@ -13,6 +14,7 @@ Authors@R:
              comment = c(ORCID = "0000-0002-9839-4268")
              )
       )
+Maintainer: Daniel Antal <daniel.antal@dataobservatory.eu>
 Description: The aim of the 'dataset' package is to make tidy datasets easier to release, 
     exchange and reuse. It organizes and formats data frame 'R' objects into well-referenced, 
     well-described, interoperable datasets into release and reuse ready form. A subjective 
@@ -23,39 +25,30 @@ Description: The aim of the 'dataset' package is to make tidy datasets easier to
     preferred by European open science repositories to improve the findability, accessibility,
     interoperability and reusability of the datasets.
 License: GPL (>= 3)
-URL: https://github.com/dataobservatory-eu/dataset
-BugReports: https://github.com/dataobservatory-eu/dataset/issues
 Encoding: UTF-8
+URL: https://dataset.dataobservatory.eu/
+BugReports: https://github.com/antaldaniel/dataset/issues
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
-Depends: 
-    R (>= 2.10)
 LazyData: true
 Imports: 
     assertthat,
+    cli,
+    haven,
     ISOcodes,
-    stats,
-    utils
+    labelled,
+    methods,
+    pillar,
+    rlang,
+    tibble,
+    utils,
+    vctrs (>= 0.5.2)
+RoxygenNote: 7.3.2
 Suggests: 
-    dataspice,
-    covr,
-    declared,
-    dplyr,
-    eurostat,
-    here,
-    kableExtra,
     knitr,
-    rdflib,
-    readxl,
     rmarkdown,
     spelling,
-    statcodelists,
-    testthat (>= 3.0.0),
-    tidyr,
-    tibble,
-    nycflights13,
-    tsibble,
-    data.table
-VignetteBuilder: knitr
+    testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Language: en-GB
+Depends: 
+    R (>= 3.5)
+VignetteBuilder: knitr

@@ -3,14 +3,14 @@
 \name{dataset_title}
 \alias{dataset_title}
 \alias{dataset_title<-}
-\title{Get/set title of a dataset}
+\title{Get/set the title of a dataset}
 \usage{
 dataset_title(x)
 
 dataset_title(x, overwrite = FALSE) <- value
 }
 \arguments{
-\item{x}{A dataset object created with \code{\link[=dataset]{dataset()}} or \code{\link[=as_dataset]{as_dataset()}}.}
+\item{x}{A dataset object created with \code{\link[=dataset_df]{dataset_df()}} or \code{\link[=as_dataset_df]{as_dataset_df()}}.}
 
 \item{overwrite}{If the attributes should be overwritten. In case it is set
 to \code{FALSE},it gives a warning with the current \code{title}
@@ -35,3 +35,8 @@ dataset_title(iris_dataset)
 dataset_title(iris_dataset, overwrite = TRUE) <-"The Famous Iris Dataset"
 dataset_title(iris_dataset)
 }
+\seealso{
+Other Bibliographic reference functions: 
+\code{\link{creator}()}
+}
+\concept{Bibliographic reference functions}

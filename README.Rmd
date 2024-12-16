@@ -19,28 +19,17 @@ rlang::check_installed("here")
 <!-- badges: start -->
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Project Status: WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dataset)](https://cran.r-project.org/package=dataset)
-[![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/dataset)](https://cran.r-project.org/package=dataset)
-[![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10574908.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.3.2-blue.svg)](https://github.com/dataobservatory-eu/dataset)
-[![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
-[![Codecov test coverage](https://codecov.io/gh/dataobservatory-eu/dataset/branch/master/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset?branch=master)
-[![pkgcheck](https://github.com/dataobservatory-eu/dataset/workflows/pkgcheck/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions?query=workflow%3Apkgcheck)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/dataobservatory-eu/dataset?branch=master&svg=true)](https://ci.appveyor.com/project/dataobservatory-eu/dataset)
-[![R-CMD-check](https://github.com/dataobservatory-eu/dataset/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions/workflows/R-CMD-check.yaml)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dataset)](https://cran.r-project.org/package=WikidataR)
+[![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/wikidataR)](https://cran.r-project.org/package=WikidataR)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.3.2-blue.svg)](https://github.com/TS404/WikidataRdataset)
 <!-- badges: end -->
 
 
-The dataset package extension to the R statistical environment aims to ensure that the most important R object that contains a dataset, i.e. a [data.frame](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame) or an inherited [tibble](https://tibble.tidyverse.org/reference/tibble.html), [tsibble](https://tsibble.tidyverts.org/) or [data.table](https://rdatatable.gitlab.io/data.table/) contains important metadata for the reuse and validation of the dataset contents. We aim to offer a novel solution to support individuals or small groups of data scientists working in various business, academic or policy research functions who cannot count on the support of librarians, knowledge engineers, and extensive documentation processes.
+The aim of the _dataset_ package is to make tidy datasets easier to release, exchange and reuse. It organizes and formats data frame R objects into well-referenced, well-described, interoperable datasets into release and reuse ready form.
 
-
-The dataset package extends the concept of tidy data and adds further, standardized semantic information to the user's dataset to increase the (re-)use value of the data object.
-
-- [x] More descriptive information about the dataset as a creation, its authors, contributors, reuse rights and other metadata to make it easier to find and use.
-- [x] More standardized and linked metadata, such as standard variable definitions and code lists, enable the data owner to gather far more information from third parties or for third parties to understand and use the data correctly. 
-- [x] More information about the data provenance makes the quality assessment easier and reduces the need for time-consuming and unnecessary re-processing steps.
-- [x] More structural information about the data makes it more accessible to reuse and join with new information, making it less error-prone for logical errors.
+1. Offer a way to better utilise the `utils:bibentry` bibliographic entry objects by extending them with the fields of the Dublin Core and DataCite tenders, and making them detachable from the data. This extension aims to work with a [data.frame](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame) or an inherited [tibble](https://tibble.tidyverse.org/reference/tibble.html), [tsibble](https://tsibble.tidyverts.org/) or [data.table](https://rdatatable.gitlab.io/data.table/). See for more information the [Bibentry for FAIR datasets](https://dataset.dataobservatory.eu/articles/bibentry.html) vignette.
+2. Extending the `haven_labelled` class of the `tidyverse` for consistently labelled categorical variables with linked (standard) definitions and units of measures in our [defined](https://dataset.dataobservatory.eu/articles/defined.html) class.
+3. Offering a new data frame format, `dataset_df` that extends tibbles with semantically rich metadata, ready to be shared on open data exchange platforms and in data repositories. This s3 class is aimed at developers and we are working on several packages that provide interoperability with SDMX statistical data exchange platforms, Wikidata, or the EU Open Data portal. Read more in the [Create Datasets that are Easy to Share Exchange and Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html) vignette.
 
 <!---
 
@@ -55,15 +44,17 @@ The current version of the `dataset` package is in an early, experimental stage.
 
 ```{r initialise}
 library(dataset)
-iris_ds <- dataset(
+iris_ds <- dataset_df(
   x = iris,
-  title = "Iris Dataset",
-  author = person("Edgar", "Anderson", role = "aut"),
-  publisher = "American Iris Society",
-  source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-  date = 1935,
-  language = "en",
-  description = "This famous (Fisher's or Anderson's) iris data set."
+  reference = list(
+    title = "Iris Dataset",
+    author = person("Edgar", "Anderson", role = "aut"),
+    publisher = "American Iris Society",
+    source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+    date = 1935,
+    language = "en",
+    description = "This famous (Fisher's or Anderson's) iris data set."
+  )
 )
 ```
 
@@ -80,7 +71,7 @@ summary(iris_ds)
 A brief description of the extended metadata attributes:
 
 ```{r describe}
-describe(iris_ds)
+print(get_bibentry(iris_ds), "Bibtex")
 ```
 
 ```{r individualattributes}
@@ -88,26 +79,9 @@ paste0("Publisher:", publisher(iris_ds))
 paste0("Rights:", rights(iris_ds))
 ```
 
-The descriptive metadata are added to a `utils::bibentry` object which has many printing options (see `?bibentry`).
-
-```{r bibentry}
-mybibentry <- dataset_bibentry(iris_ds)
-print(mybibentry, "text")
-print(mybibentry, "Bibtex")
-```
+The descriptive metadata are added to a `utils::bibentry` object which has many printing options (see `?bibentry`). (The `utils` package is installed by default with every R system, so working with utils is not an extra dependency.)
 
 
-```{r prevent-overwrite}
-rights(iris_ds) <- "CC0"
-rights(iris_ds)
-rights(iris_ds, overwrite = FALSE) <- "GNU-2"
-```
-
-Some important metadata is protected from accidental overwriting (except for the default `:unas` unassigned and `:tba` to-be-announced values.)
-
-```{r overwrite}
-rights(iris_ds, overwrite = TRUE)  <- "GNU-2"
-```
 ## Code of Conduct
 Please note that the `dataset` package is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
 

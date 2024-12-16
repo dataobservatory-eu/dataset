@@ -4,7 +4,8 @@
 #' fit in any of the other categories. May be used for technical information. A free text.
 #' Similar to
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}.
-#' @param x A dataset object created with \code{dataset::\link{dataset}}.
+#' @param x A dataset object created with \code{dataset::\link{dataset_df}} or
+#' \code{dataset::\link{as_dataset_df}}.
 #' @param value The \code{Description} as a character set.
 #' @param overwrite If the \code{Description} attribute should be overwritten. In case it is set to \code{FALSE},
 #' it gives a message with the current \code{Description} property instead of overwriting it.
@@ -19,10 +20,10 @@
 
 #' @export
 description <- function(x) {
-  assert_that(is.dataset(x),
-              msg = "description(x): x must be a dataset object created with dataset() or as_dataset().")
+  assert_that(is.dataset_df(x),
+              msg = "description(x): x must be a dataset object created with dataset_df() or as_dataset_df().")
 
-  ds_bibentry <- dataset_bibentry(x)
+  ds_bibentry <- get_bibentry(x)
   as.character(ds_bibentry$description)
 
 }
@@ -31,10 +32,10 @@ description <- function(x) {
 #' @export
 `description<-`  <- function(x,  overwrite = FALSE, value) {
 
-  assert_that(is.dataset(x),
-              msg = "description(x) <- value: x must be a dataset object created with dataset() or as_dataset().")
+  assert_that(is.dataset_df(x),
+              msg = "description(x) <- value: x must be a dataset object created with dataset_df() or as_dataset_df().")
 
-  ds_bibentry <- dataset_bibentry(x)
+  ds_bibentry <- get_bibentry(x)
   existing_description <- as.character(ds_bibentry$description)
 
   if (is.null(value) ) {
@@ -43,7 +44,7 @@ description <- function(x) {
 
   if ( overwrite | existing_description %in% c("", ":unas", ":tba")) {
     ds_bibentry$description <- as.character(value)
-    attr(x, "DataBibentry") <- ds_bibentry
+    attr(x, "dataset_bibentry") <- ds_bibentry
   } else {
     warning ("The dataset has already a description: ",   existing_description , "." )
   }

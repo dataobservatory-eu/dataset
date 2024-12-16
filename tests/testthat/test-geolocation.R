@@ -1,16 +1,15 @@
-iris_dataset <- iris
-geolocation(iris_dataset) <- "US"
+
 
 test_that("geolocation() works", {
-  expect_equal(geolocation(iris_dataset), "US")
+  iris_dataset_2 <- iris_dataset
+  geolocation(iris_dataset_2) <- "US"
+  expect_equal(geolocation(iris_dataset_2), "US")
+  expect_message(geolocation(iris_dataset_2, overwrite=FALSE) <- "GB")
 })
-
-test_that("geolocation(..., overwrite=FALSE) gives a message", {
-  expect_message(geolocation(iris_dataset, overwrite=FALSE) <- "GB")
-})
-
-geolocation(iris_dataset) <- NULL
 
 test_that("geolocation(x) <- NULL works", {
-  expect_equal(geolocation(iris_dataset), NULL)
+  iris_dataset_2 <- iris_dataset
+  geolocation(iris_dataset_2) <- "US"
+  geolocation(iris_dataset_2) <- NULL
+  expect_equal(geolocation(iris_dataset_2), NULL)
 })

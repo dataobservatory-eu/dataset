@@ -10,25 +10,22 @@ provenance(x)
 provenance(x) <- value
 }
 \arguments{
-\item{x}{An R object that contains the data of the dataset (a data.frame or
-inherited from \code{\link[base:data.frame]{data.frame}}), for example,
-\code{\link[tibble:tibble]{tibble::tibble()}}, \code{\link[tsibble:tsibble]{tsibble::tsibble()}}, \code{\link[data.table:data.table]{data.table::data.table()}}.}
+\item{x}{A dataset created with \code{\link{dataset_df}}.}
 
-\item{value}{A list that may contain the following elements: \code{wasInformedBy},
-\code{wasAssociatedWith}.}
+\item{value}{Use \code{\link{n_triples}} to add further statement values.}
+}
+\value{
+The provenance statements of the dataset.
 }
 \description{
 Add or update information about the history (provenance) of the dataset.
 }
-\details{
-For additional details see \code{vignette("provenance", package = "dataset")}.
-}
 \examples{
-# Get the provenance of a dataset:
 provenance(iris_dataset)
 
-# Update the provenance:
-provenance(iris_dataset) <- list(
-          wasInformedBy="https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
-          )
+## add a statement:
+ provenance(iris_dataset) <- n_triple(
+  "https://doi.org/10.5281/zenodo.10396807",
+  "http://www.w3.org/ns/prov#wasInformedBy",
+  "http://example.com/source#1")
 }

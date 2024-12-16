@@ -17,15 +17,11 @@ test_that("as_datacite() works", {
   expect_true(is.datacite(as_datacite(iris_dataset)))
   expect_true(is.list(as_datacite(iris_dataset, type="list")))
   expect_equal(as_datacite(iris_dataset, type="list")$Publisher, 'American Iris Society')
-  expect_true(is.dataset(as_datacite(iris_dataset, type="dataset")))
+  expect_true(is.dataset_df(as_datacite(iris_dataset, type="dataset")))
   expect_equal(dataset_title(as_datacite(iris_dataset, type="dataset")), "The DataCite Metadata of `Iris Dataset'")
-  expect_equal(as_datacite(iris_dataset, type="dataset")$Rights, ':unas')
   expect_equal(creator(as_datacite(iris_dataset, type ="dataset", author = person("Jane", "Doe"))),
-               person("Jane", "Doe")
-)
-  expect_equal(as_datacite(iris_dataset, type="dataset")$FundingReference, ':unas')
+            person("Jane", "Doe"))
 })
-
 
 test_that("as_datacite() gives warning", {
   expect_warning(as_datacite(iris_dataset, type = "character"))

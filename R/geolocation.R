@@ -5,7 +5,8 @@
 #' Spatial region or named place where the data was gathered
 #' or about which the data is focused. See:
 #' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#18-geolocation}{datacite:Geolocation}.
-#' @param x A dataset object created with \code{dataset::\link{dataset}}.
+#' @param x A semantically rich data frame object created by  \code{dataset::\link{dataset_df}} or
+#'  \code{dataset::\link{as_dataset_df}}.
 #' @param value The  \code{Geolocation} as a character string.
 #' @param overwrite If the attributes should be overwritten. In case it is set to \code{FALSE},
 #' it gives a message with the current \code{Geolocation} property instead of overwriting it.

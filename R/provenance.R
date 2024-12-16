@@ -1,55 +1,58 @@
 #' @title Get or update provenance information
 #' @description Add or update information about the history (provenance) of the dataset.
-#' @details
-#' For additional details see \code{vignette("provenance", package = "dataset")}.
-#' @inheritParams dataset
-#' @param value A list that may contain the following elements: \code{wasInformedBy},
-#' \code{wasAssociatedWith}.
+#' @param x A dataset created with \code{\link{dataset_df}}.
+#' @param value Use \code{\link{n_triples}} to add further statement values.
 #' @examples
-#' # Get the provenance of a dataset:
 #' provenance(iris_dataset)
 #'
-#' # Update the provenance:
-#' provenance(iris_dataset) <- list(
-#'           wasInformedBy="https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
-#'           )
+#' ## add a statement:
+#'  provenance(iris_dataset) <- n_triple(
+#'   "https://doi.org/10.5281/zenodo.10396807",
+#'   "http://www.w3.org/ns/prov#wasInformedBy",
+#'   "http://example.com/source#1")
+#' @return The provenance statements of the dataset.
 #' @export
 provenance <- function(x) {
-  if(!is.dataset(x)) {
-    stop("provenance(x): x must be a dataset object with standardised provenance metadata.")
+  if(!is.dataset_df(x)) {
+    stop("provenance(x): x must be a dataset_df object with standardised provenance metadata.")
   }
-  attr(x, "Provenance")
+  attr(x, "prov")
 }
 
 #' @rdname provenance
 #' @export
 `provenance<-` <- function(x,  value) {
 
-  if (!is.dataset(x)) {
-    stop("provenance(x): x must be a dataset object created with dataset() or as_dataset().")
+  if (!is.dataset_df(x)) {
+    stop("provenance(x)<- : x must be a dataset object created with dataset() or as_dataset().")
   }
 
   old_provenance <- provenance(x)
   new_provenance <- old_provenance
 
-
-  if ("wasAssocitatedWith" %in% names(value)) {
-    ## Add association attributes
-    associated_with <- c(old_provenance$wasAssocitatedWith, value$wasAssocitatedWith)
-    associated_with <- unique(associated_with)
-    new_provenance$wasAssocitatedWith <- associated_with
-  }
-
-  if ("wasInformedBy" %in% names(value)) {
-    ## Add wasInformedBy attributes
-    if("wasInformedBy" %in% names(old_provenance)) {
-      was_informed_by <- c(old_provenance$wasInformedBy, value$wasInformedBy)
-    } else {
-      was_informed_by <- value$wasInformedBy
-    }
-    new_provenance$wasInformedBy <- was_informed_by
-  }
-
-  attr(x, "Provenance") <- new_provenance
-  x
+  attr(x, "prov") <- c(new_provenance, value)
+  invisible(x)
 }
+
+#' @keywords internal
+default_provenance <- function(dataset_id = "http://example.com/dataset#",
+                               creator_id =NULL,
+                               started_at_time = started_at_time,
+                               ended_at_time = ended_at_time) {
+  cite_dataset <- citation("dataset")
+  if(is.null(creator_id)) creator_statement <- NULL else {
+    creator_statement <- n_triple(creator_id, "a", "http://www.w3.org/ns/prov#Agent")
+  }
+  prov <- n_triples(
+    c(n_triple(dataset_id, "a", "http://purl.org/linked-data/cube#DataSet"),
+      creator_statement,
+      n_triple("http://example.com/creation", "a", "http://www.w3.org/ns/prov#Activity"),
+      n_triple("http://example.com/creation", "http://www.w3.org/ns/prov#startedAtTime", xsd_convert(started_at_time) ),
+      n_triple("http://example.com/creation", "http://www.w3.org/ns/prov#endedAtTime", xsd_convert(ended_at_time) ),
+      n_triple(paste0("https://doi.org/", cite_dataset[[2]]$doi), "a", "http://www.w3.org/ns/prov#SoftwareAgent")
+    )
+  )
+  prov
+}
+
+

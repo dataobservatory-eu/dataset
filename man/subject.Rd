@@ -23,7 +23,8 @@ subject(x, overwrite = FALSE) <- value
 is.subject(x)
 }
 \arguments{
-\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
+\item{x}{A dataset object created with \code{dataset::\link{dataset_df}} or
+\code{dataset::\link{as_dataset_df}}.}
 
 \item{term}{A subject term, for example, \code{"Data sets"}.}
 

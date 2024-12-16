@@ -1,15 +1,36 @@
 #' @title Convert to XML Schema Definition (XSD) types
 #' @description Convert the numeric, boolean and Date/time columns of a dataset
 #' \code{xs:decimal}, \code{xsLboolean}, \code{xs:date} and \code{xs:dateTime}.
-#' @inheritParams dataset
+#' @param x An object to be coerced to an XLM Schema defined string format.
 #' @param idcol The name or position of the column that contains the row
 #' (observation) identifiers. If \code{NULL}, it will make a new \code{idcol}
 #' from [row.names()].
-#' @seealso [dataset()]
 #' @param ... Further optional parameters for generic method.
 #' @export
 xsd_convert <- function(x, idcol, ...) {
   UseMethod("xsd_convert", x)
+}
+
+#' @keywords internal
+get_type <- function(t) {
+
+  if (any(class(t) %in% c("numeric", "double"))) {
+    type <- "xs:decimal"
+  } else if (any(class(t)=="integer")) {
+    type <- "xs:integer"
+  } else if  (any(class(t) %in% c("character", "factor"))) {
+    type <- "xs:string"
+  } else if (any(class(t)=="logical")) {
+    type <- "xs:boolean"
+  } else if (any(class(t)=="numeric")) {
+    type <- "xs:decimal"
+  } else if (any(class(t)=="Date")) {
+    type <- "xs:date"
+  } else  if (any(class(t)=="POSIXct")) {
+    type <- "xs:dateTime"
+  }
+
+  type
 }
 
 #' @rdname xsd_convert
@@ -22,15 +43,21 @@ xsd_convert <- function(x, idcol, ...) {
 xsd_convert.data.frame <- function(x, idcol=NULL, ...) {
   get_type <- function(t) {
 
-    type <- switch(class(t)[[1]],
-                   "numeric"   = "xs:decimal",
-                   "factor"    = "xs:string",
-                   "logical"   = "xs:boolean",
-                   "integer"   = "xs:integer",
-                   "Date"      = "xs:date",
-                   "POSIXct"   = "xs:dateTime",
-                   "character" = "xs:string"
-    )
+    if (any(class(t) %in% c("numeric", "double"))) {
+      type <- "xs:decimal"
+    } else if (any(class(t)=="integer")) {
+      type <- "xs:integer"
+    } else if  (any(class(t) %in% c("character", "factor"))) {
+      type <- "xs:string"
+    } else if (any(class(t)=="logical")) {
+      type <- "xs:boolean"
+    } else if (any(class(t)=="numeric")) {
+      type <- "xs:decimal"
+    } else if (any(class(t)=="Date")) {
+      type <- "xs:date"
+    } else  if (any(class(t)=="POSIXct")) {
+      type <- "xs:dateTime"
+    }
 
     type
   }
@@ -44,7 +71,7 @@ xsd_convert.data.frame <- function(x, idcol=NULL, ...) {
 
   convert_column <- function(c) {
 
-    var_type <- get_type(x[[c]])
+    var_type <- get_type(t=x[[c]])
     if ( ! var_type %in% c("codelist", "literal") ) {
       paste0('\"', as.character(x[[c]]),  '\"', "^^<", var_type, ">")
     } else {
@@ -104,6 +131,18 @@ xsd_convert.character <- function(x, idcol=NULL, ...) {
 xsd_convert.numeric <- function(x, idcol=NULL, ...) {
   var_type <-  "xs:decimal"
   paste0('\"', as.character(x),  '\"', "^^<", var_type, ">")
+}
+
+#' @rdname xsd_convert
+#' @export
+#' @exportS3Method
+xsd_convert.haven_labelled_defined <- function(x, idcol=NULL, ...) {
+
+  type <- get_type(x)
+  if (type == "xs:decimal") return(xsd_convert(as_numeric(x)))
+  if (type == "xs:integer") return(xsd_convert(as_numeric(x)))
+  if (type == "xs:string")  return(xsd_convert(as_character(x)))
+  if (type == "xs:boolean") return(xsd_convert(as.logical(as_numeric(x))))
 }
 
 #' @rdname xsd_convert

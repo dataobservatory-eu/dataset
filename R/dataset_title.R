@@ -1,12 +1,13 @@
-#' @title Get/set title of a dataset
+#' @title Get/set the title of a dataset
 #' @description Get or reset the dataset's main title.
 #' @details In the DataCite definition, several titles can be used; it is not
 #' yet implemented.
-#' @param x A dataset object created with [dataset()] or [as_dataset()].
+#' @param x A dataset object created with [dataset_df()] or [as_dataset_df()].
 #' @param value The name(s) or title(s) by which a resource is known. See:
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title}.
 #' @return A string with the dataset's title; \code{set_dataset_title} returns
 #' a dataset object with the changed (main) title.
+#' @family Bibliographic reference functions
 #' @examples
 #' dataset_title(iris_dataset)
 #' dataset_title(iris_dataset, overwrite = TRUE) <-"The Famous Iris Dataset"
@@ -14,12 +15,12 @@
 #' @export
 
 dataset_title <- function(x) {
-  if(!is.dataset(x)) {
-    stop("dataset_title(x) must be a dataset object created with dataset() or as_dataset().")
+  if(!is.dataset_df(x)) {
+    stop("dataset_title(x) must be a dataset object created with dataset() or as_dataset_df().")
   }
 
-  DataBibentry <- dataset_bibentry(x)
-  DataBibentry$title
+  ds_bibentry <- get_bibentry(x)
+  ds_bibentry$title
 }
 
 #' @rdname dataset_title
@@ -30,15 +31,15 @@ dataset_title <- function(x) {
 #' @export
 `dataset_title<-` <- function(x,  overwrite = FALSE, value) {
 
-  if(!is.dataset(x)) {
-   stop("title(x) <- x must be a dataset object created with dataset() or as_dataset().")
+  if(!is.dataset_df(x)) {
+    stop("title(x) <- x must be a dataset object created with dataset() or as_dataset_df().")
   }
 
-  DataBibentry <- invisible(dataset_bibentry(x))
+  ds_bibentry <- invisible(get_bibentry(x))
 
   if (is.null(value)) {
-    DataBibentry$title <- ":tba"
-    attr(x, "DataBibentry") <- DataBibentry
+    ds_bibentry$title <- ":tba"
+    attr(x, "dataset_bibentry") <- ds_bibentry
     return(x)
   }
 
@@ -47,7 +48,7 @@ dataset_title <- function(x) {
       stop("title(x) <- value: if you have multiple titles, use dataset_title_create()")
     } else {
       #value <- dataset_title_create(Title = value,
-       #                             titleType = "Title")
+      #                             titleType = "Title")
     }
   }
 
@@ -60,33 +61,13 @@ dataset_title <- function(x) {
   #}
 
 
-  if (! DataBibentry$title %in% c(":unas", ":tba", "") & ! overwrite ) {
-      warning("The dataset already has a title: ", DataBibentry$title)
+  if (! ds_bibentry$title %in% c(":unas", ":tba", "") & ! overwrite ) {
+    warning("The dataset already has a title: ", ds_bibentry$title)
   } else {
-    DataBibentry$title <- value
+    ds_bibentry$title <- value
   }
 
-  attr(x, "DataBibentry") <- DataBibentry
-  x
-}
+  attr(x, "dataset_bibentry") <- ds_bibentry
 
-#' @importFrom stats setNames
-#' @keywords internal
-dataset_title_create <- function (Title,
-                                  titleType = "Title") {
-
-  old_function <- function() {
-
-    if ( any(! titleType %in% c("Title", "AlternativeTitle", "Subtitle", "TranslatedTitle", "Other"))) {
-      stop("title_create(Title, titleType): all titleType(s) must be one of 'Title', 'AlternativeTitle', 'Subtitle', 'TranslatedTitle', 'Other'")
-    }
-
-    if(!all.equal(length(Title), length(titleType))) {
-      stop("title_create(Title, titleType): you must input the same number of Titles and titleType values.")
-    }
-
-    as.list(stats::setNames(Title, titleType))
-
-  }
-
+  invisible(x)
 }

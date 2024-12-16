@@ -45,15 +45,11 @@ identifier(iris_dataset)
 }
 \seealso{
 Other Reference metadata functions: 
-\code{\link{creator}()},
-\code{\link{datasource_get}()},
 \code{\link{description}()},
 \code{\link{geolocation}()},
 \code{\link{language}},
 \code{\link{publication_year}()},
 \code{\link{publisher}()},
-\code{\link{rights}()},
-\code{\link{size}()},
-\code{\link{version}()}
+\code{\link{rights}()}
 }
 \concept{Reference metadata functions}

@@ -150,7 +150,6 @@ as_datacite(iris_dataset, type="dataset")
 }
 \seealso{
 Other metadata functions: 
-\code{\link{dublincore}()},
-\code{\link{related_item}()}
+\code{\link{dublincore}()}
 }
 \concept{metadata functions}

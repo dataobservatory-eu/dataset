@@ -1,0 +1,121 @@
+---
+title: "Bibentry for FAIR datasets"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Bibentry for FAIR datasets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dataset)
+iris_dataset_2 <- iris_dataset
+```
+
+## Titles
+
+```{r, get-title}
+dataset_title(iris_dataset)
+```
+
+```{r, change-title}
+dataset_title(iris_dataset_2, overwrite=TRUE) <- "The Famous Iris Dataset"
+get_bibentry(iris_dataset_2)
+```
+## Creators
+
+The \code{Creator} corresponds to [dct:creator](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/)
+in Dublin Core and Creator in DataCite, the two most important metadata definitions for publishing datasets in repositories. They refer to the The name of the entity that holds, archives, publishes prints, distributes, releases, issues, or produces the dataset. This property will be used to
+formulate the citation.
+
+```{r creator}
+creator(iris_dataset)
+```
+```{r creator-modify}
+iris_dataset_2 <- iris_dataset
+# Add a new creator, with overwriting existing authorship information:
+creator(iris_dataset_2, overwrite=TRUE) <- person("Jane", "Doe", role = "aut")
+
+# Add a new creator, without overwriting existing authorship information:
+creator(iris_dataset_2, overwrite=FALSE) <- person("John", "Doe", role = "ctb")
+
+# The two new creation contributors:
+creator(iris_dataset_2)
+```
+
+
+## Further descriptive metadata about the whole dataset
+
+### Publication year
+
+The publication year is usually one of the most important descriptive metadata in repositories and libraries:
+
+```{r irispublicationyear}
+publication_year(iris_dataset_2)
+```
+The default value is `:unas` for unassigned values:
+
+```{r publicationyeardefault}
+# Revert to default (unassigned):
+publication_year(iris_dataset_2) <- NULL
+
+# Get the default value:
+publication_year(iris_dataset_2) 
+```
+### Language
+
+```{r, language}
+# Get the language:
+language(iris_dataset)
+
+# Reset the language:
+language(iris_dataset_2) <- "French"
+language(iris_dataset_2)
+```
+### Rights statement
+
+
+```{r rights}
+# Add rights statement to the dataset
+rights(iris_dataset_2, overwrite = TRUE)  <- "GNU-2"
+```
+
+Some metadata functions prevent accidental overwriting, except for the default `:unas` unassigned and `:tba` to-be-announced values.
+
+```{r prevent-overwrite}
+rights(iris_dataset_2) <- "CC0"
+rights(iris_dataset_2)
+```
+
+Overwriting the rights statement needs an explicit approval:
+
+```{r overwrite}
+rights(iris_dataset_2, overwrite = TRUE)  <- "GNU-2"
+```
+
+### Identifiers
+
+```{r identifier}
+# Add rights statement to the dataset
+identifier(iris_dataset_2)
+```
+## All bibliographic information
+
+Get the metadata according to the DataCite definition:
+
+And according to DCTERMS (Dublin Core):
+
+```{r datacite}
+print(as_datacite(iris_dataset), "Bibtex")
+```
+```{r dc}
+print(as_dublincore(iris_dataset), "Bibtex")
+```
+

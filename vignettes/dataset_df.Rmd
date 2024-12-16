@@ -1,0 +1,95 @@
+---
+title: "Create Datasets that are Easy to Share Exchange and Extend"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Create Datasets that are Easy to Share Exchange and Extend}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dataset)
+```
+
+
+```{r str}
+str(iris_dataset)
+```
+
+## Wikidata 
+
+The [wbdataset package](https://wbdataset.dataobservatory.eu/) is an extension of the dataset, which in turn is an R package that helps to exchange, publish and combine datasets more easily by improving their semantics. The _wbdataset_ extends the usability of dataset by connecting the Wikibase API with the R statistical environment. It is in an early, exploratory stage, and it is not yet on CRAN.
+
+```{r install-wbdataset, eval=FALSE}
+devtools::install_github("dataobservatory-eu/wbdataset")
+```
+
+
+```
+# Select the following country profiles from Wikidata:
+wikidata_countries <- c(
+  "http://www.wikidata.org/entity/Q756617", "http://www.wikidata.org/entity/Q347",
+  "http://www.wikidata.org/entity/Q3908",   "http://www.wikidata.org/entity/Q1246")
+  
+# Retrieve their labels into a dataset called 'European countries':
+wikidata_countries_df <- get_item(qid=wikidata_countries,
+                                  language="en",
+                                  title = "European countries",
+                                  creator = person("Daniel", "Antal"))
+                                  
+# Add properties from Wikidata as attributes and variables of this dataset:                             
+ds <- wikidata_countries_df %>%
+  left_join_column( 
+    label = "ISO 3166-1 alpha-2 code", 
+    property = "P297" ) %>%
+  left_join_column( 
+    property = "P1566", 
+    label = "Geonames ID",
+    namespace = "https://www.geonames.org/") 
+    
+```
+
+## Further data platforms
+
+We are planning an extension of the _dataset_ package to conform the datacube definition used by statistical data repositories and exchanges, which will require a management of the multi-dimensional datasets and the data structure definition of the Statistical Data and Metadata eXchange. This feature was part of the early release of dataset, but as reviewers pointed out, they were out of focus from the core functionality.
+
+## Serialise to RDF 
+
+Our package is aiming to work seamlessly with the rOpenSci [rdflib](https://github.com/ropensci/rdflib) package. For this purpose, we are working on a simple [turtle](https://www.w3.org/TR/turtle/) package that writes the [bibentry](https://dataset.dataobservatory.eu/articles/bibentry.html) about the dataset, and the dataset contents into an RDF-annotated text file, which can be then used or stored with _rdflib_. 
+
+The tuRtle package is being co-developed with _dataset_, and will serialise the data and metadata of the `dataset_df` objects.
+
+```{r tuRtle-installation, eval=FALSE}
+remotes::install_github("dataobservatory-eu/tuRtle", build = FALSE)
+```
+
+
+```{r createdf}
+library(tuRtle)
+tdf <- data.frame (s = c("eg:01","eg:02",  "eg:01", "eg:02", "eg:01" ),
+                   p = c("a", "a", "eg-var:", "eg-var:", "rdfs:label"),
+                   o = c("qb:Observation",
+                         "qb:Observation",
+                         "\"1\"^^<xs:decimal>",
+                         "\"2\"^^<xs:decimal>", 
+                         '"Example observation"')
+                   )
+
+knitr::kable(tdf)
+```
+
+```{r, eval=FALSE}
+example_file<- file.path(tempdir(), "example_ttl.ttl")
+ttl_write(tdf=tdf, ttl_namespace = NULL, file_path = example_file)
+
+readLines(example_file)
+```
+
+

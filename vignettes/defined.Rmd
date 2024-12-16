@@ -1,0 +1,94 @@
+---
+title: "defined"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{defined}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dataset)
+```
+
+`defined()` is a vector subclass of labelled. Labelled improves the semantic capacity of a base R factor with improved value levels and labels by adding a long-form, human-readable label to the variable itself.
+
+```{r}
+gdp_1 = defined(
+    c(3897, 7365), 
+    label = "Gross Domestic Product", 
+    unit = "million dollars", 
+    definition = "http://data.europa.eu/83i/aa/GDP")
+```
+
+The `defined()` class extends the attributes of a labelled vector with a unit (of measure), a definition and a namespace. 
+
+```{r}
+attributes(gdp_1)
+cat("Get the label only: ")
+var_label(gdp_1)
+cat("Get the unit only: ")
+var_unit(gdp_1)
+cat("Get the definition only: ")
+var_definition(gdp_1)
+```
+What happens if we try to concatenate a semantically under-specified new vector to the GDP vector?
+
+```{r}
+gdp_2 <- defined(2034, label = "Gross Domestic Product")
+```
+
+You will get an intended error message that some attributes are not compatible. You certainly want to avoid that you are concatenating figures in euros and dollars, for example.
+
+```{r, eval=FALSE}
+c(gdp_1, gdp_2)
+Error in `vec_c()`:
+! Can't combine `..1` <haven_labelled_defined> and `..2` <haven_labelled_defined>.
+✖ Some attributes are incompatible.
+```
+
+Let's define better the GDP of San Marino:
+
+```{r gpd2}
+var_unit(gdp_2) <- "million dollars"
+```
+
+
+```{r vardef2}
+var_definition(gdp_2) <- "http://data.europa.eu/83i/aa/GDP"
+```
+
+```{r c}
+summary(c(gdp_1, gdp_2))
+```
+```{r country}
+country = defined(c("AD", "LI", "SM"), 
+                  label = "Country name", 
+                  definition = "http://data.europa.eu/bna/c_6c2bb82d", 
+                  namespace = "https://www.geonames.org/countries/$1/")
+```
+
+The point of using a namespace is that it can point to a both human- and machine readable definition of the ID column, or any attribute column in the datasets. (Attributes in a statistical datasets are characteristics of the observations or the measured variables.)
+
+For example, the namespace definition above points to <https://www.geonames.org/countries/AD/> in the case of Andorra, <https://www.geonames.org/countries/LI/> for Lichtenstein, and <https://www.geonames.org/countries/SM/> for San Marino. And <http://publications.europa.eu/resource/authority/bna/c_6c2bb82d> resolves to a machine-readable definition of geographical names.
+
+## Coerce to base R types
+
+Coerce back the labelled country vector to a character vector:
+
+```{r coerce-char}
+as_character(country)
+as_character(c(gdp_1, gdp_2))
+```
+And to numeric:
+
+```{r coerce-num}
+as_numeric(c(gdp_1, gdp_2))
+```

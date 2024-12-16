@@ -10,7 +10,8 @@ language(x)
 language(x, iso_639_code = "639-3") <- value
 }
 \arguments{
-\item{x}{An R object, such as a data.frame, a tibble, or a character vector.}
+\item{x}{A semantically rich data frame object created by \code{\link{dataset_df}} or
+\code{\link{as_dataset_df}}.}
 
 \item{iso_639_code}{Defaults to \code{ISO 639-3}, alternative is \code{ISO 639-1}.}
 
@@ -45,15 +46,11 @@ language(myiris)
 }
 \seealso{
 Other Reference metadata functions: 
-\code{\link{creator}()},
-\code{\link{datasource_get}()},
 \code{\link{description}()},
 \code{\link{geolocation}()},
 \code{\link{identifier}()},
 \code{\link{publication_year}()},
 \code{\link{publisher}()},
-\code{\link{rights}()},
-\code{\link{size}()},
-\code{\link{version}()}
+\code{\link{rights}()}
 }
 \concept{Reference metadata functions}

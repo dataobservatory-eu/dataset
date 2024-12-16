@@ -27,20 +27,20 @@
 
 #' @export
 identifier <- function(x) {
-  assert_that(is.dataset(x),
-              msg = "identifier(x): x must be a dataset object created with dataset() or as_dataset().")
+  assert_that(is.dataset_df(x),
+              msg = "identifier(x): x must be a dataset object created with dataset_df() or as_dataset_df().")
 
-  ds_bibentry <- dataset_bibentry(x)
+  ds_bibentry <- get_bibentry(x)
   ds_bibentry$identifier
 }
 
 #' @rdname identifier
 #' @export
 `identifier<-`  <- function(x,  overwrite = TRUE, value) {
-  assert_that(is.dataset(x),
-              msg = "identifier(x) <- value: x must be a dataset object created with dataset() or as_dataset().")
+  assert_that(is.dataset_df(x),
+              msg = "identifier(x) <- value: x must be a dataset object created with dataset_df() or as_dataset_df().")
 
-  ds_bibentry <- dataset_bibentry(x)
+  ds_bibentry <- get_bibentry(x)
   old_identifier <- ds_bibentry$identifier
 
   if (is.null(value)) {
@@ -49,7 +49,7 @@ identifier <- function(x) {
 
   if ( overwrite | old_identifier %in% c(":unas", ":tba")) {
     ds_bibentry$identifier <- as.character(value)
-    attr(x, "DataBibentry") <- ds_bibentry
+    attr(x, "dataset_bibentry") <- ds_bibentry
   } else {
     warning ("The dataset has already an identifier: ",
              old_identifier, ".\nYou can overwrite this message with identifier(x, overwrite = TRUE) <- value" )

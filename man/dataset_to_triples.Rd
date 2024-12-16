@@ -8,7 +8,7 @@ dataset_to_triples(x, idcol = NULL)
 }
 \arguments{
 \item{x}{An R object that contains the data of the dataset (a data.frame or
-inherited from \code{\link[base:data.frame]{data.frame}}), for example, \code{\link[=dataset]{dataset()}}
+inherited from \code{\link[base:data.frame]{data.frame}}), for example, \code{\link[=dataset_df]{dataset_df()}}
 \code{\link[tibble:tibble]{tibble::tibble()}}, \code{\link[tsibble:tsibble]{tsibble::tsibble()}}, \code{\link[data.table:data.table]{data.table::data.table()}}.}
 
 \item{idcol}{The identifier column. If \code{idcol} is \code{NULL} it attempts to

@@ -1,0 +1,26 @@
+
+
+#test_that("provenance() works", {
+#  expect_true(inherits(provenance(iris_dataset)$started_at, "POSIXct"))
+#  expect_true(inherits(provenance(iris_dataset)$ended_at, "POSIXct"))
+#  expect_true(grepl("doi:", provenance(iris_dataset)$wasAssocitatedWith))
+#  expect_equal(provenance(iris_dataset)$wasInformedBy, datasource_get(iris_dataset))
+#})
+
+test_that("dataset_prov() works", {
+  expect_error(dataset_prov(mtcars))
+  a <- dataset_prov(mtcars, author=person("Jane", "Doe"))
+  expect_equal(a[11,3], '"Jane Doe"^^<xs:string>')
+  expect_true(any(grepl("xs:dateTime",a$o)))
+})
+
+start_time <- Sys.time()
+end_time <- Sys.time()
+test_that("provenance_add() works", {
+  added_provenance <- provenance_add( start_time=start_time, end_time=end_time, informed_by = "test")
+  expect_equal(added_provenance$wasAssocitatedWith, "doi:10.5281/zenodo.10574908")
+  expect_equal(class(added_provenance$started_at), c("POSIXct", "POSIXt"))
+  expect_equal(class(added_provenance$ended_at), c("POSIXct", "POSIXt"))
+  expect_equal(class(added_provenance$wasInformedBy), "character")
+})
+

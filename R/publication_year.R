@@ -4,7 +4,8 @@
 #' publicly available in \code{YYYY} format.
 #' See
 #' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#publicationyearadditional-guidance}{Publication Year: DataCite Additional Guidance}.
-#' @param x A dataset object created with \code{dataset::\link{dataset}}.
+#' @param x A semantically rich data frame object created by  \code{dataset::\link{dataset_df}} or
+#'  \code{dataset::\link{as_dataset_df}}.
 #' @param value The publication_year as a character set.
 #' @param overwrite If the attributes should be overwritten. In case it is set to \code{FALSE},
 #' it gives a message with the current \code{PublicationYear} property instead of overwriting it.
@@ -20,20 +21,20 @@
 
 #' @export
 publication_year <- function(x) {
-  assert_that(is.dataset(x),
+  assert_that(is.dataset_df(x),
               msg = "publication_year(x): x must be a dataset object created with dataset() or as_dataset().")
 
-  ds_bibentry <- dataset_bibentry(x)
+  ds_bibentry <- get_bibentry(x)
   as.character(ds_bibentry$year)
 }
 
 #' @rdname publication_year
 #' @export
 `publication_year<-`  <- function(x,  overwrite = TRUE, value) {
-  assert_that(is.dataset(x),
+  assert_that(is.dataset_df(x),
               msg = "publication_year(x) <- value: x must be a dataset object created with dataset() or as_dataset().")
 
-  ds_bibentry <- dataset_bibentry(x)
+  ds_bibentry <- get_bibentry(x)
   publication_year <- ds_bibentry$year
 
   if (is.null(value)) {
@@ -42,7 +43,7 @@ publication_year <- function(x) {
 
   if ( overwrite ) {
     ds_bibentry$year <- as.character(value)
-    attr(x, "DataBibentry") <- ds_bibentry
+    attr(x, "dataset_bibentry") <- ds_bibentry
    } else {
     warning ("The dataset has already an publication_year: ",  ds_bibentry$year, "." )
   }

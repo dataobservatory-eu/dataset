@@ -162,7 +162,7 @@ as_datacite <- function(x, type = "bibentry", ... ) {
     type <- 'bibentry'
   }
 
-  ds_bibentry <- dataset_bibentry(x)
+  ds_bibentry <- get_bibentry(x)
   Title   <- ds_bibentry$title
   Creator <- ds_bibentry$author
   Publisher <- ifelse (is.null(ds_bibentry$publisher), ":unas", as.character(ds_bibentry$publisher))
@@ -224,7 +224,7 @@ as_datacite <- function(x, type = "bibentry", ... ) {
          Geolocation = Geolocation,
          FundingReference = FundingReference)
   } else if ( type  == "dataset") {
-    dataset (
+    dataset_df (
       data.frame(Title = Title,
                  Creator = as.character(Creator),
                  Identifier = Identifier,
@@ -243,9 +243,9 @@ as_datacite <- function(x, type = "bibentry", ... ) {
                  Description = Description,
                  Geolocation = Geolocation,
                  FundingReference = FundingReference),
-      title = paste0("The DataCite Metadata of `", ds_bibentry$title, "'"),
-      author = citation_author,
-      year = substr(as.character(Sys.Date()),1,4)
+      reference = list(title = paste0("The DataCite Metadata of `", ds_bibentry$title, "'"),
+                       author = citation_author,
+                       year = substr(as.character(Sys.Date()),1,4))
     )
   }
 }

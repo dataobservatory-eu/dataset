@@ -1,16 +1,8 @@
-test_that("xsd_convert.data.frame() works", {
-  expect_equal(xsd_convert(x=head(iris))[1,1], '\"5.1\"^^<xs:decimal>')
-})
 
-
-test_that("xsd_convert.dataset() works", {
-  expect_equal(as.character(xsd_convert(iris_dataset)[1,1]),  '\"5.1\"^^<xs:decimal>')
-})
-
-test_that("xsd_convert.list() throws error", {
-  expect_error(
-    xsd_convert(x=list(a=c(1:4)))
-    )
+test_that("xsd_convert(x, idcols) works", {
+  expect_equal(xsd_convert(defined (x = 2:4, label = "test")), c('\"2\"^^<xs:integer>', '\"3\"^^<xs:integer>', '\"4\"^^<xs:integer>'))
+  expect_equal(xsd_convert(head(iris)[1,1]), '\"5.1\"^^<xs:decimal>')
+  expect_equal(unlist(xsd_convert(x=head(iris_dataset), idcol=1)[1,2]), c(Sepal.Length = '\"5.1\"^^<xs:decimal>' ))
 })
 
 

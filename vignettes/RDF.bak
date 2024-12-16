@@ -1,0 +1,180 @@
+---
+title: "RDF"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{RDF}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setupRDFvignette, include = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  message  = FALSE,
+  comment = "#>",
+  out.width = '90%'
+)
+if (file.exists(file.path(tempdir(), "example_ttl.ttl"))) {
+  file.remove(file.path(tempdir(), "example_ttl.ttl"))
+}
+
+library(here)
+```
+
+Long-form triples are tidy datasets with an explicit row (observation) identifier among the columns.
+
+
+
+&nbsp;          | &nbsp;  | &nbsp;      | &nbsp;
+----------------|---------|-------------|-------------
+**JSON**        | object  | property    | value
+**spreadsheet** | row id  | column name | cell
+**data.frame**  | key     | variable    | measurement
+**data.frame**  | key     | attribute   | value
+**RDF**         | subject | predicate   | object
+
+Table source: [rdflib](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html)
+
+```{r setup}
+library(dataset)
+```
+
+Let's take a small subset of the `iris_dataset()`, which is the semantically enriched version of the base R `iris` dataset. Limiting the the dataset to the top 3 rows, we have exactly 2 x 5 = 10 data cells.
+
+```{r head-iris}
+head(iris_dataset, 2)
+```
+
+Let us arrange this to subject-predicate-object triples (excluding the row identifiers.)
+
+```{r dataset-to-triples}
+iris_triples <- dataset_to_triples(xsd_convert(head(iris_dataset[,-1], 2)))
+iris_triples
+```
+```{r define-vars}
+iris_triples$s <- paste0("eg:",     iris_triples$s)
+iris_triples$p <- paste0("eg-var:", iris_triples$p)
+iris_triples$p <- gsub("eg-var:Species", "iris:Species", iris_triples$p)
+iris_triples
+```
+```{r namespace}
+ttl_namespace <- data.frame(
+  prefix = c("iris:", "eg", "eg-var:", "xs:"), 
+   uri = c("<https://www.wikidata.org/wiki/Q156901>", 
+           "<https://example.com/>", 
+           "<https://example.com/>", 
+           "<http://www.w3.org/2001/XMLSchema#>")
+ )
+```
+
+```{r row-names}
+vignette_temp_file <- file.path(tempdir(), "example_ttl.ttl")
+tuRtle::ttl_write(tdf=iris_triples, ttl_namespace = ttl_namespace, vignette_temp_file)
+
+```
+```{r vignettetempfile}
+vignette_temp_file <- file.path(tempdir(), "example_ttl.ttl")
+```
+
+We see a standard metadata file expressed in the [Turtle](https://www.w3.org/TR/rdf12-turtle/) language. The definitions are
+separated with a `# -- Observations ------` comment from the actual statements
+about the dataset.
+
+
+
+
+```{r read-ttl}
+# Only first 23 lines are read and printed:
+readLines(vignette_temp_file, n = 23)
+```
+If we would try to parse this file with a ttl-reader, we would get an error message, because not all statements are well-defined. 
+
+## The prefix
+
+The Turtle prefix statements define the abbreviations of the following namespaces:
+
+
+```{r prefix-5}
+readLines(vignette_temp_file, n = 5)
+```
+
+- [owl](https://www.w3.org/OWL/): the Web Ontology Language (OWL); which is the metadata language definition in which the rest of the definitions (vocabularies) are described.
+- [rdf](https://www.w3.org/rdf/): Resource Description Framework (RDF). RDF provides the data model explaining how to build a graph. 
+- [rdfs](https://www.w3.org/TR/rdf-schema/): RDFS is a vocabulary, expressed in the RDF, that explains how nodes of a graph relate. 
+- [qb](https://www.w3.org/TR/vocab-data-cube/): The RDF Data Cube Vocabulary is the semantic definition of statistical datasets and their multi-dimensional versions, the datacubes, using `owl`, `rdf` and `rdfs`.
+- [xsd](https://www.w3.org/TR/xmlschema11-1/): The W3C XML Schema Definition Language (XSD), which offers facilities for describing the structure and constraining the contents of XML documents. It ensures that R types, such as `character`, `integer`,  or `Date` are correctly represented in web documents.
+
+The prefix makes the `ttl` Turle-file future-proof: before explaining the semantics of the data, it contains all the definitions that are needed to understand the explanation. It is a dictionary; every elements of the vocabulary that are needed to explain the iris dataset should be here.  This means that we must define the `iris` prefix, too.
+
+These definitions can be found in the `data("dataset_namespace")` dataset.  we only need to add the definitions ourselves that is unique about our own dataset, in this case, the definitions of the variables of the iris dataset, i.e., the `iris` namespace:
+
+```{r further-prefix}
+data("dataset_namespace")
+unique(tuRtle::get_prefix(row.names(head(iris_dataset,2))))
+```
+
+The `dataset_namespace` data file contains some often used vocabularies and their prefixes. Let us select  `owl:`, `rdf:`, `rdfs:`, `qb:` and add `iris:` as `<<www.example.com/iris#>>` (the _example.com_ domain is reserved by the World Wide Web consortium for documentation and tutorial examples.)
+
+```{r define-all-prefixes}
+used_prefixes <- which(dataset_namespace$prefix %in% c(
+  "owl:", "rdf:", "rdfs:", "qb:", "xsd:")
+  )
+
+vignette_namespace <- rbind(
+  dataset_namespace[used_prefixes, ], 
+       data.frame (prefix = "iris:", 
+                   uri = '<www.example.com/iris#>')
+) 
+
+vignette_namespace
+```
+
+Let us overwrite the earlier ttl file, but this time defining the variables and observations with the `iris:` prefix:
+
+```{r write-to-ttle2}
+dataset_ttl_write(
+  iris_triples, 
+  ttl_namespace = vignette_namespace,
+  file_path = vignette_temp_file, 
+  overwrite = TRUE)
+```
+
+```{r prefix2}
+readLines(vignette_temp_file, n = 23)
+```
+## Working with rdflib
+
+[RDFLib](https://rdflib.readthedocs.io/en/stable/) is a pure Python package for working with RDF with RDF serialisation parsers, store implementations, graph interface and a SPARQL query and update implementation. It has an excellent R binding, the [rdflib](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html) package^[Carl Boettiger: [A tidyverse lover’s intro to RDF](https://cran.r-project.org/package=rdflib/vignettes/rdf_intro.html)].
+
+In this section we show how to work further with our future-proof datasets. We parse the `ttl` file created with the dataset package into a triplestore:
+
+```{r parse-ttl}
+require(rdflib)
+example_rdf <- rdf_parse(vignette_temp_file, format = "turtle")
+example_rdf
+```
+And define a simple SPARQL query on the data:
+
+
+```{r sparql_example}
+sparql <-
+'PREFIX iris: <www.example.com/iris#> 
+ SELECT ?observation ?value
+ WHERE { ?observation iris:Sepal.Length ?value . }'
+
+rdf_query(example_rdf, sparql)
+```
+
+Convert, for example, to `JSON-LD` format...:
+
+```{r convert-to-jsonld}
+temp_jsonld_file <- file.path(tempdir(), "example_jsonld.json")
+rdf_serialize(rdf=example_rdf, doc = temp_jsonld_file, format = "jsonld")
+```
+
+... and read in the first 12 lines:
+
+```{r read-first-12-lines}
+readLines(temp_jsonld_file, 12)
+```

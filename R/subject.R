@@ -1,5 +1,6 @@
 #' @title Create/add/retrieve a subject
-#' @param x A dataset object created with \code{dataset::\link{dataset}}.
+#' @param x A dataset object created with \code{dataset::\link{dataset_df}} or
+#' \code{dataset::\link{as_dataset_df}}.
 #' @examples
 #' subject(iris_dataset,
 #'         overwrite = TRUE) <- subject_create(
@@ -14,13 +15,13 @@
 
 #' @return The Subject field of the dataset's attributes.
 subject <- function(x) {
-  assert_that(is.dataset(x),
+  assert_that(is.dataset_df(x),
               msg = "subject(x): x must be a dataset object created with dataset() or as_dataset().")
 
   if("Subject" %in% names(attributes(x)))  {
     attr(x, "Subject")
-  } else if(!is.null(dataset_bibentry(x)$subject)) {
-    as.character(dataset_bibentry(x)$subject)
+  } else if(!is.null(get_bibentry(x)$subject)) {
+    as.character(get_bibentry(x)$subject)
   } else {
     message("No subject is recorded.")
   }
@@ -42,11 +43,11 @@ subject <- function(x) {
 #' @return A named list with the subject term, the subject scheme, URIs and prefix.
 #' @export
 subject_create <- function(term,
-                    schemeURI = NULL,
-                    valueURI = NULL,
-                    prefix = NULL,
-                    subjectScheme = NULL,
-                    classificationCode = NULL ) {
+                           schemeURI = NULL,
+                           valueURI = NULL,
+                           prefix = NULL,
+                           subjectScheme = NULL,
+                           classificationCode = NULL ) {
 
   if (is.null(term)) term <- ":tba"
 

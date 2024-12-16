@@ -1,30 +1,33 @@
-test_ds <- dataset(data.frame( a = 1:3,
-                          b = 4:6),
-              title = "Test Dataset",
-              author = c(
-                person(family ="Doe",
-                       given ="Jane",
-                       role = "aut")
-              ),
-              year = "2023",
-              version = "0.1")
-
 test_that("creator() works", {
-  expect_error(creator(test_ds) <- "hello")
-  expect_equal(creator(test_ds), person("Jane", "Doe", role = "aut"))
+  expect_equal(creator(iris_dataset), person(given="Edgar", family="Anderson", role = "aut"))
 })
 
 
-creator(test_ds, overwrite = TRUE) <- person("Joe", "Doe")
-
-test_that("creator(.., overwrite = TRUE) works", {
-  expect_equal(creator(test_ds), person("Joe", "Doe"))
+test_that("creator() <- value works with overwrite", {
+  iris_dataset_2 <- iris_dataset
+  creator(iris_dataset_2) <- person(given="Jane", family="Doe")
+  expect_equal(creator(iris_dataset_2), person(given="Jane", family="Doe"))
 })
 
-creator(test_ds, overwrite = FALSE) <- person("Jane", "Doe")
-test_that("creator(..., overwrite = FALSE) works", {
-  expect_equal(creator(test_ds), c(person("Joe", "Doe"),
-                                   (person("Jane", "Doe")))
-)
+
+
+test_that("creator() <- value works without overwrite", {
+  iris_dataset_3 <- iris_dataset
+  creator(x=iris_dataset_3, overwrite=FALSE) <- person("Jane", "Doe")
+  expect_equal(creator(iris_dataset_3),
+               c(person(given="Edgar", family="Anderson", role = "aut"), person("Jane", "Doe")))
 })
+
+
+test_that("creator() <- throws error", {
+  iris_dataset_4 <- iris_dataset
+  expect_error(creator(x=iris_dataset_4, overwrite=TRUE) <- 12)
+})
+
+test_that("creator() <- NULL", {
+  iris_dataset_5 <- iris_dataset
+  creator(iris_dataset_5) <- NULL
+  expect_equal(creator(iris_dataset_5), creator(iris_dataset))
+})
+
 

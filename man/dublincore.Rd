@@ -151,7 +151,6 @@ dublincore(
 }
 \seealso{
 Other metadata functions: 
-\code{\link{datacite}()},
-\code{\link{related_item}()}
+\code{\link{datacite}()}
 }
 \concept{metadata functions}

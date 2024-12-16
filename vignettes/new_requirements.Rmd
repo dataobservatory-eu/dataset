@@ -1,0 +1,224 @@
+---
+title: "New Requirements"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{New Requirements}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r vignettesetup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dataset)
+```
+
+The first CRAN release and RopenSci review brought very useful experience and feedback. The dataset package had been defined with a very broad requirement. While the very general requirement setting has advantages, a clear disadvantage is that without a specific use case, it is difficult to raise enough user and co-developer interest.
+
+In line with some of the legitimate criticism of version 0.1.0—0.3.1, I envision a dataset package that has more specific inheritance packages that work with datasets in a more specific use case.
+
+It is probably too wide of a claim to create a package that will bring the base R data.frame object in line with any disciplinary requirements of datasets. The original concept closely followed the SDMX (statistical) dataset definition to the extent that one reviewer recommended the `datacube` name for the package. In light of some further use experiences, this is a valid criticism because datasets used in digital humanities, for example, have slightly different specification needs.
+
+R is primarily a statistical environment and language; therefore, broad conformity with the SDMX statistical metadata standards is desirable. However, the dataset package should remain generic enough to support non-statistical datasets. Along these lines, the current aim is to triangulate three packages:
+
+-    A `datacube` package, which follows more closely the SDMX definition of a dataset and the more general, multi-dimensional datacube definition
+-    A `wbdataset` package, which follows more closely the Wikibase Data Model that is increasingly used for digital collections management and other scenarios for statistically not aggregated datasets.
+-    A `dataset` package that is sufficiently generic that both the `datacube` and the `wbdataset` package rely on it as a joint dependency.
+Therefore, the plan is to relax some SMDX definitions of datasets that are not very useful in non-statistical applications. Such functionality can be removed from a later-developed `datacube` package.
+
+At the same time, I would like to co-develop the dataset package with the `wbdataset` package because the Wikibase Data Model is a very well-defined semantic data model that could potentially create a large enough user base and use case for the entire project.
+
+Another important lesson was that the first version of the dataset package wanted to be so generally usable that it aimed for compatibility for base R data.frames, the tidyverse tibble modernisations of such data frames, and the data.table objects, which have their own user base and dependencies in many statistical applications. While such broad appeal and ambition should not excluded for the future, it would be a too significant undertaking to ensure that all functionality works with data.frames, tibble and data.tables. Whenever this is possible, this should remain so, but new developments should only follow the modern tidyverse tibbles.
+
+## New requirement settings
+
+The new dataset package would be streamlined to provide a tidier version of the [tidy data definition](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html). "Tidy datasets provide a standardised way to link the structure of a dataset (its physical layout) with its semantics (its meaning)." The aim of the dataset package is to improve the semantic infrastructure of tidy datasets beyond the current capabilities of the tidyverse packages, relaxing the exclusive use of the semantic definitions of the SDMX statistical metadata standards.
+
+The dataset package and its dependencies (or, more specifically, new extensions) will only work with tidy datasets. In the context of tidy data, "A dataset is a collection of values, usually either numbers (if quantitative) or strings (if qualitative). Values are organised in two ways. Every value belongs to a variable and an observation."
+
+Our aim is to improve the semantic description of the observations and the variables to the extent that they can be serialised to any standard format that follows the RDF W3C metadata annotation standard. Such an improvement stipulates the following requirements:
+
+-    Every column must have a machine-readable name and at least one natural language label. It must contain as metadata the semantic, machine-readable definition of the variable as a URI.
+-    Every observation must contain the machine-readable definition of the observational unit.
+-    Whenever possible, such an observation should also be supported with a formal persistent identifier such as a URI, but this is not a strict requirement.
+
+For example, when working with this small dataset:
+
+```{r smallcountrydataset}
+options(sciphen=4)
+small_country_dataset <- dataset_df(
+  country_name = defined(
+    c("AD", "LI"),
+    definition = "http://data.europa.eu/bna/c_6c2bb82d", 
+    namespace = "https://www.geonames.org/countries/$1/"), 
+  gdp = defined(
+    c(3897, 7365), 
+    label = "Gross Domestic Product", 
+    unit = "million dollars", 
+    definition = "http://data.europa.eu/83i/aa/GDP"), 
+  population = defined(
+    c(77543, 40015), 
+    label = "Population",
+    definition = "http://data.europa.eu/bna/c_f2b50efd"), 
+  reference = list(
+    author = person(given="Jane", family="Doe"), 
+    title = "Small Country Dataset", 
+    publisher = "Reprex"
+  )
+)
+```
+
+If you want to work with the data in the data.frame, you must know if the GDP is expressed in euros, dollars, thousands, millions or billions, in order to get to a meaningful GDP/capita figure.
+
+```{r summaryhavenunit}
+summary(small_country_dataset$gdp)
+```
+Because the GDP is expressed in millions of dollars, we have to adjust the nominator to dollars to get the GDP per capita express in *dollars*.
+
+```{r percapita}
+small_country_dataset$gdp_capita <- defined(
+  small_country_dataset$gdp*1e6 / small_country_dataset$population, 
+  unit = "dollar", 
+  label = "GDP Per Capita")
+```
+The `var_unit(small_country_dataset$gdp_capita)` command returns `r var_unit(small_country_dataset$gdp_capita)` and `var_label(small_country_dataset$gdp_capita)` returns `r var_label(small_country_dataset$gdp_capita)`.
+
+
+In this case, 
+
+-    we must provide a machine-readable definition of GDP, population, and GDP/capita, to improve the semantics of the columns (variables)
+-    we must provide a machine-readable definition of the observational units of Lichtenstein and Andorra (with the optional requirement of doing so with a PID.)
+
+The metadata definitions of SDMX or open science are helpful, because they differentiate between metadata statements about the entire dataset as a structured information source, and metadata related to specific row/column intersections, where only the row, the column, and potentially the intersection cell value needs a formal definition.
+
+For example, we may want to add as metadata to the entire dataset the time frame, the usage rights, the creator.
+
+We must remain aware that in the absence of an all-encompassing, general ontology of all concepts that may go into a dataset, all datasets will be used in some kind of disciplinary context. A dataset about GDP or population will be read in a socio-economic context; a dataset containing data from sound recordings of musical works will use definitions from a musicological context. While music from Andorra may share some semantic definitions of our tiny socio-economic dataset that observes Andorra's GDP and population, it is unlikely that the observation and variable definition will lack a broad context.
+
+```{r smallmusiciandataset1}
+small_country_musicians <- data.frame(
+  qid = c("Q275912", "Q116196078"),
+  artist_name = defined(
+    c("Marta Roure", "wavvyboi"), 
+    definition = "https://www.wikidata.org/wiki/Property:P2093"), 
+  location = defined(
+    c("Andorra", "Lichtenstein"), 
+    definition = "https://www.wikidata.org/wiki/Property:P276"), 
+  date_of_birth = defined(
+    c(as.Date("1981-01-16"), as.Date("1998-04-28")), 
+      definition = "https://www.wikidata.org/wiki/Property:P569")
+)
+
+small_country_musicians$age <- defined(
+  2024-as.integer(substr(as.character(small_country_musicians$date_of_birth), 1,4)), 
+  label = "Age in 2024")
+
+```
+
+Specifically, our first dataset's general semantic context is about countries as observational units and statistical variables related to them, while the second contains individual musical recordings and observed musicological values of such recordings, a general property of the dataset that can be applied to the entire dataset. Similarly, important provenance information, authorship, use rights, and so on, apply to the dataset, not to its specific cells. 
+
+```{r summarymusicians}
+summary(small_country_musicians)
+```
+
+
+The current version of dataset made efforts to record such information with applying two globally used metadata standards, the Dublin Core terms used by most librarians and perhaps the majority of scientific data repositories, and the DataCite standard preferred by some European repositories (which is more specific to data publication than generally all kinds of publication like the Dublin Core library standards.)  The dataset package and the dataset class add such metadata with the help of interface functions to the base R attributes part of the data.frame (or tibble, data.table) object. This is a useful feature that may go through code or interface refinement, but works well and should not significantly change.
+
+The current version of dataset is too specific because it tries to map the SDMX definitions of the data structure, which goes far beyond the needs of a well-described tidy dataset. The datacube statistical vocabulary and standard provides further structural information about how we can subset or slice meaningfully a statistical dataset. While such structural information is indispensable for certain statistical datasets, it may be completely useless when it contains statistically not aggregated data ("microdata"), or collections data as a primary statistical data source.
+
+To demonstrate the long-term ambition, we want to develop the following functionality:
+
+-    The `wbdataset` package for a correct format for collecting data from Wikibase, a semantic database widely used to share micro-data. This package can later be generalised to work with further data models that have a similar aim.
+-    The future `datacube` package should support the semantic needs of datasets that contain statistically processed information from a dataset that was collected via the `wbdataset` function. The semantic needs are different, because the observational units will change after statistical aggregation.
+-   The dataset package should provide a general framework for handling dataset-level microdata and the basic semantic needs of identifying rows and columns.
+
+### The wbdataset package concept
+
+The [Wikibase Data Model](https://www.mediawiki.org/wiki/Wikibase/DataModel) is a relatively simple and flexible data model. It works with concepts and properties as relationships among concepts. A tidy dataset that applies the _Wikibase Data Model_ can be described (using the definitions of Wikidata, the world's largest public database created with Wikibase) the following:
+
+The key column defines the data subject or statistical unit with a QID identifier. This identifier is denoted with a capital Q followed by an integer number. The QID is unique in one instance of a Wikibase database. The full identifier contains the URL of this database and the QID. For example, <https://www.wikidata.org/wiki/Q228> unambiguously defines the small country of Andorra in many natural languages, and with the connection of various actionable, persistent identifiers. (Check out on the linked page for example: _sovereign microstate between France and Spain, in Western Europe_, or <https://www.geonames.org/3041565/> or <https://isni.org/isni/000000012150090X>)
+
+```{r installwbdataset, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("dataobservatory-eu/wbdataset")
+```
+
+```{r examplewbdataset, eval=FALSE}
+library(wbdataset)
+get_item(qid=c("Q228", "Q347"), 
+         language=c("en", "nl"), 
+         creator=person("Jane Doe"), 
+         title="Small Countries")
+```
+
+
+With a `wbdataset` object, it is important that the key column is a QID. Following the notations of tidyverse, instead of the tibble::rowid_to_colum, we create a`wbdataset::qid_to_column function that creates an identifier for each row. 
+
+The variables or columns bring the observational unit (data subject or statistical subject) into a pre-defined relationship with the cell value. These pre-defined relationships are identified in the Wikibase Data Model with a property or PID identifier. The PID is denoted with a capital P followed by an integer number. The PID is unique in one Wikibase-created database. For example, <https://www.wikidata.org/wiki/Property:P569> or simply [P569](https://www.wikidata.org/wiki/Property:P569) refers to the date of birth, and [P276](https://www.wikidata.org/wiki/Property:P276) denotes a location (of the data subject), and [P3629](https://www.wikidata.org/wiki/Property:P3629) the age of subject at event.
+
+
+```{r smallcountrydataset2}
+small_country_musicians <- data.frame(
+  qid = c("Q275912", "Q116196078"),
+  label = c("Marta Roure", "wavvyboi"), 
+  P276 = c("Andorra", "Lichtenstein"), 
+  P569 = c(as.Date("1981-01-16"), as.Date("1998-04-28"))
+)
+
+## And the age
+small_country_musicians$P3629 <- 2024-as.integer(substr(small_country_musicians$P569, 1,4))
+
+small_country_musicians
+```
+
+Recalling the tidy data definition, the cell values may be numbers or "strings for qualitative information". We extend the possibilities to further options following the RDF standards:
+
+-    Numbers that do not require further semantic definition and interpretation
+-    Strings that do not offer further semantic definition (though they may need it!)
+-    Time concepts that follow the ISO time definitions
+-    URIs of any concepts that contain their definition (extending the possibility of using strings that refer to well-defined things.)
+
+Therefore, the column types should have an unambiguous mapping to RDF:
+
+-    Numeric, integer and real types are not interpreted but must be serialised to xs:integer or xs:decimal.
+-    Logical should not be interpreted but serialised as xs::boolean.
+-    Various date and time classes must be serialised to xs:date or xs:time.
+-    Well-defined concepts should contain a URI, or a curie (a shortened version of the URI) should be serialised as xs:anyURI.
+
+```{r smallcountrydataset3}
+small_country_musicians <- data.frame(
+  qid = c("Q275912", "Q116196078"),
+  label = c("Marta Roure", "wavvyboi"), 
+  P276 = c("Q228", "Q347"), 
+  P569 = c(as.Date("1981-01-16"), as.Date("1998-04-28"))
+)
+
+## And the age
+small_country_musicians$P3629 <- 2024-as.integer(substr(small_country_musicians$P569, 1,4))
+
+small_country_musicians$P569 <- dataset::xsd_convert(small_country_musicians$P569)
+small_country_musicians$P3629 <- dataset::xsd_convert(small_country_musicians$P3629)
+
+small_country_musicians
+```
+We can also add the prefix to any concepts that are well-defined:
+
+```{r definecountry}
+small_country_musicians$P276 <- paste0("https://www.wikidata.org/wiki/", small_country_musicians$P276)
+small_country_musicians[, 2:4]
+```
+
+### The future datacube package
+
+The current `dataset` class and functionality should relax the modelling of the DataStructureDefinition of SDMX because it makes only sense for statistically aggregated data. Currently, the dataset package does not support the concept of a slice, and it is a bit awkward to support multi-dimensional datacubes. Such functionality should be moved to a low-priority new package.
+
+### What should remain in the dataset package?
+The specifications of the `wbdataset` package should all be placed into the dataset package whenever it is not specific to the Wikibase Data Model. They should be co-developed with `wbdataset` to provide a well-defined interface towards a global data system (Wikidata and its "private clones" of Wikibase instances.) The `wbdataset` package should allow a simple, natural way to import data from Wikidata or a Wikibase instance, and it should also provide a simple interface to send data back to such a semantic database with ease.
+
+The distinction between wb-dataset and dataset is justified because a stripped-down dataset package can still work well in many SDMX or other contexts, albeit without the full functionality of supporting statistical slicing or API support to a specific SDMX-compatible web service. An R package that allows the creation of semantically rich SDMX-compatible datasets with only manual downloading or uploading functionality would still be a great improvement in implementing open science interoperability and reusability for such datasets.
+

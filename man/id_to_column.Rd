@@ -7,9 +7,7 @@
 id_to_column(x, prefix = "eg:", ids = NULL)
 }
 \arguments{
-\item{x}{An R object that contains the data of the dataset (a data.frame or
-inherited from \code{\link[base:data.frame]{data.frame}}), for example,
-\code{\link[tibble:tibble]{tibble::tibble()}}, \code{\link[tsibble:tsibble]{tsibble::tsibble()}}, \code{\link[data.table:data.table]{data.table::data.table()}}.}
+\item{x}{A dataset created with \code{\link{dataset_df}}.}
 
 \item{prefix}{Defaults to \code{eg:} (example.com).}
 
@@ -23,10 +21,9 @@ Add a prefixed identifier to the first column of the dataset.
 }
 \examples{
 
-# Example with a dataaset object:
+# Example with a dataset_df object:
 id_to_column(iris_dataset)
 
-# Example with a data.frame object:
-
+# Example with a data.frame object:#'
 id_to_column(iris, prefix="eg:iris-o")
 }

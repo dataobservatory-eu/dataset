@@ -10,7 +10,8 @@ geolocation(x)
 geolocation(x, overwrite = TRUE) <- value
 }
 \arguments{
-\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
+\item{x}{A semantically rich data frame object created by  \code{dataset::\link{dataset_df}} or
+\code{dataset::\link{as_dataset_df}}.}
 
 \item{overwrite}{If the attributes should be overwritten. In case it is set to \code{FALSE},
 it gives a message with the current \code{Geolocation} property instead of overwriting it.
@@ -42,15 +43,11 @@ geolocation(iris_dataset, overwrite = FALSE) <- "GB"
 }
 \seealso{
 Other Reference metadata functions: 
-\code{\link{creator}()},
-\code{\link{datasource_get}()},
 \code{\link{description}()},
 \code{\link{identifier}()},
 \code{\link{language}},
 \code{\link{publication_year}()},
 \code{\link{publisher}()},
-\code{\link{rights}()},
-\code{\link{size}()},
-\code{\link{version}()}
+\code{\link{rights}()}
 }
 \concept{Reference metadata functions}

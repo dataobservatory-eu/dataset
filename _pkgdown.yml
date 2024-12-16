@@ -11,7 +11,6 @@ home:
   - text: http://dataset.dataobservatory.eu
     href: http://dataset.dataobservatory.eu
 
-
 authors:
   Daniel Antal:
     href: https://reprex.nl/authors/daniel_antal/
@@ -28,101 +27,66 @@ articles:
          and Reuse of digital assets, particularly datacubes and datasets used in statistics and data
          analysis.
     contents:
-      - dataset
-      - motivation
-  - title: More Valuable Datasets
+      - new_requirements
+  - title: "Semantic Enrichment of Datasets"
     desc: >
-     Increase the (re-)use value of a dataset by increasing semantic information
-     about the variables (columns), observations (rows), and the structure of the
-     dataset.
+     Enriching metadata about the dataset as a whole, potential extensions.
     contents:
-    - columns
-    - rows
-    - DSD
-  - title: "Metadata"
+       - dataset_df
+       - bibentry
+  - title: "Semantic Enrichment of Variables"
     desc: >
-     Our `dataset` R package creates new classes and an interface to easily add,
-     retrieve or modify descriptive, provenance or structural metadata to a
-     dataset.
+     Enriching metadata about individual variables.
     contents:
-      - metadata
-      - datacite
-      - dublincore
-      - provenance
-  - title: "Data Linking"
-    desc: >
-       Linking datasets.
-    contents:
-       - data-linking
-       - RDF
-  - title: "Planned functionality"
-    desc: >
-     This package is in an early development phase. The current dataset S3 class is inherited
-         from the base R data.frame. Later versions may change to the modern
-         [tibble](https://tibble.tidyverse.org/), which carries a larger dependency footprint
-         but easier to work with. Easy interoperability with the
-         [data.table](https://cran.r-project.org/web/packages/data.table/index.html) package remains a top development priority.
-    contents:
-      - new-requirements
-      - survey
+       - defined
+
 reference:
   - title: "Dataset"
     desc: >
       Work with DataSet objects that resemble the [W3C](https://www.w3.org/TR/vocab-data-cube/) and SDMX datacube model.
     contents:
-      - dataset
-      - subsetting
-      - id_to_column
-      - head.dataset
-      - dataset_bibentry
-      - describe
+      - dataset_df
+      - get_bibentry
       - provenance
-      - DataStructure
+  - title: "Defined"
+    desc: >
+      A new labelled subclass that retains the unit of measure, definition and namespace of the variable.
+    contents:
+      - defined
+      - var_label
+      - var_unit
+      - var_definition
+      - var_namespace
+      - as_numeric
+      - as_character
+  - title: "Bibliography functions"
+    desc: >
+      Functions to add and retain bibliographical data about the whole dataset, not its
+      individual columns only.
+    contents:
+      - datacite
+      - dublincore
+      - creator
+      - dataset_title
+      - language
+      - subject
+      - publication_year
+      - publisher
+      - rights
+      - identifier
+      - description
+      - geolocation
   - title: "Replication Dataset"
     desc: >
       Edgar Anderson's Iris Dataset with dataset metadata recorded as attributes.
     contents:
        - iris_dataset
-       - statwales
-  - title: "Default namespace"
+  - title: "Semantic utilities"
     desc: >
-      Some popular namespace prefix abbreviations for the linking of datasets.
+      Work with DataSet objects that resemble the [W3C](https://www.w3.org/TR/vocab-data-cube/) and SDMX datacube model.
     contents:
-       - dataset_namespace
-  - title: "FAIR metadata"
-    desc: >
-      Add and read [FAIR metadata](https://www.go-fair.org/fair-principles/)
-      to improve the Findability, Accessibility, Interoperability, and Reuse of digital datasets.
-    contents:
-      - dublincore
-      - datacite
-      - dataset_title
-      - identifier
-      - creator
-      - publisher
-      - geolocation
-      - datasource_get
-      - datasource_set
-      - publication_year
-      - subject
-      - size
-      - language
-      - description
-      - rights
-      - version
-      - related_item
-      - var_labels
-  - title: "Data Linking"
-    desc: >
-       Linking
-    contents:
+      - n_triples
+      - n_triple
       - xsd_convert
-      - get_prefix
       - dataset_to_triples
-      - dataset_ttl_write
-  - title: "Reproducible research workflows"
-    desc: >
-      Improve reproducability with recording data lifecycle, processing history as
-      standardized metadata.
-    contents:
-      - dataset_download
+      - id_to_column

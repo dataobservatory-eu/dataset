@@ -10,11 +10,12 @@ rights(x)
 rights(x, overwrite = FALSE) <- value
 }
 \arguments{
-\item{x}{A dataset object created with \code{dataset::\link{dataset}}.}
+\item{x}{A semantically rich data frame object created by  \code{dataset::\link{dataset_df}} or
+\code{dataset::\link{as_dataset_df}}.}
 
-\item{overwrite}{If the \code{Rights} attribute should be overwritten. In case it is set to \code{FALSE},
-it gives a message with the current \code{Rights} property instead of overwriting it.
-Defaults to \code{FALSE}.}
+\item{overwrite}{If the \code{Rights} attribute should be overwritten. In case it
+is set to \code{FALSE}, it gives a message with the current \code{Rights}
+property instead of overwriting it. Defaults to \code{FALSE}.}
 
 \item{value}{The \code{Rights} as a character set.}
 }
@@ -29,8 +30,8 @@ R object.
 \code{Rights} corresponds to
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights} and
 \code{\link{datacite}} Rights. Information about rights held in and over the resource.
-Typically, rights information includes a statement about various property rights associated with the resource,
-including intellectual property rights.
+Typically, rights information includes a statement about various property
+rights associated with the resource, including intellectual property rights.
 }
 \examples{
 rights(iris_dataset) <- "CC-BY-SA"
@@ -38,15 +39,11 @@ rights(iris_dataset)
 }
 \seealso{
 Other Reference metadata functions: 
-\code{\link{creator}()},
-\code{\link{datasource_get}()},
 \code{\link{description}()},
 \code{\link{geolocation}()},
 \code{\link{identifier}()},
 \code{\link{language}},
 \code{\link{publication_year}()},
-\code{\link{publisher}()},
-\code{\link{size}()},
-\code{\link{version}()}
+\code{\link{publisher}()}
 }
 \concept{Reference metadata functions}

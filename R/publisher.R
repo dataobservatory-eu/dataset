@@ -8,7 +8,8 @@
 #' "holds, archives, publishes, prints, distributes, releases, issues, or produces" the
 #' code, use the property Contributor/contributorType/ hostingInstitution for the code
 #' repository.
-#' @param x A dataset object created with \code{dataset::\link{dataset}}.
+#' @param x A dataset object created with \code{dataset::\link{dataset_df}} or
+#' \code{dataset::\link{as_dataset_df}}.
 #' @param overwrite If the attributes should be overwritten. In case it is set
 #' to \code{FALSE},it gives a warning with the current \code{publisher}
 #' property instead of overwriting it. Defaults to \code{FALSE}.
@@ -22,10 +23,10 @@
 #' @export
 publisher<- function(x) {
 
-  assert_that(is.dataset(x),
+  assert_that(is.dataset_df(x),
               msg = "publisher(x): x must be a dataset object created with dataset() or as_dataset().")
 
-  DataBibentry <- dataset_bibentry(x)
+  DataBibentry <- get_bibentry(x)
   as.character(DataBibentry$publisher)
 }
 
@@ -33,15 +34,15 @@ publisher<- function(x) {
 #' @export
 `publisher<-` <- function(x,  overwrite = TRUE, value) {
 
-  if (!is.dataset(x)) {
+  if (!is.dataset_df(x)) {
     stop("publisher(x): x must be a dataset object created with dataset() or as_dataset().")
   }
 
-  DataBibentry <- invisible(dataset_bibentry(x))
+  DataBibentry <- invisible(get_bibentry(x))
 
   if ( is.null(value)) {
     DataBibentry$publisher <- ":tba"
-    attr(x, "DataBibentry") <- DataBibentry
+    attr(x, "dataset_bibentry") <- DataBibentry
     return(x)
   }
 
@@ -61,6 +62,6 @@ publisher<- function(x) {
     message ("The dataset has already an Publisher: ",    DataBibentry$publisher )
   }
 
-  attr(x, "DataBibentry") <- DataBibentry
+  attr(x, "dataset_bibentry") <- DataBibentry
   invisible(x)
 }
