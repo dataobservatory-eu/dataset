@@ -71,7 +71,7 @@ remotes::install_github("dataobservatory-eu/tuRtle", build = FALSE)
 ```
 
 
-```{r createdf}
+```{r createdf, eval=FALSE}
 library(tuRtle)
 tdf <- data.frame (s = c("eg:01","eg:02",  "eg:01", "eg:02", "eg:01" ),
                    p = c("a", "a", "eg-var:", "eg-var:", "rdfs:label"),
@@ -85,7 +85,15 @@ tdf <- data.frame (s = c("eg:01","eg:02",  "eg:01", "eg:02", "eg:01" ),
 knitr::kable(tdf)
 ```
 
-```{r, eval=FALSE}
+|s     |p          |o                     |
+|:-----|:----------|:---------------------|
+|eg:01 |a          |qb:Observation        |
+|eg:02 |a          |qb:Observation        |
+|eg:01 |eg-var:    |"1"^^<xs:decimal>     |
+|eg:02 |eg-var:    |"2"^^<xs:decimal>     |
+|eg:01 |rdfs:label |"Example observation" |
+
+```{r writettl, eval=FALSE}
 example_file<- file.path(tempdir(), "example_ttl.ttl")
 ttl_write(tdf=tdf, ttl_namespace = NULL, file_path = example_file)
 
