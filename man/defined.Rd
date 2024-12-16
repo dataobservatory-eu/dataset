@@ -52,3 +52,11 @@ definition.
 \description{
 Create a semantically well-defined, labelled vector
 }
+\examples{
+defined(
+  c(3897, 7365),
+  label = "Gross Domestic Product",
+  unit = "million dollars",
+  definition = "http://data.europa.eu/83i/aa/GDP"
+ )
+}

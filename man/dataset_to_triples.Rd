@@ -23,3 +23,6 @@ The dataset is converted into a three-column long format with
 columns \code{s} for subject, \code{p} for predicate and \code{o} for
 object.
 }
+\examples{
+dataset_to_triples(iris_dataset)
+}

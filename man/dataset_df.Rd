@@ -56,3 +56,16 @@ Create a new dataset_df object
 \details{
 To check if an object is a dataset_df use \code{is.dataset_df(x)}.
 }
+\examples{
+dataset_df(
+   country_name = defined(
+     c("AD", "LI"),
+     definition = "http://data.europa.eu/bna/c_6c2bb82d",
+     namespace = "https://www.geonames.org/countries/$1/"),
+   gdp = defined(
+     c(3897, 7365),
+     label = "Gross Domestic Product",
+     unit = "million dollars",
+     definition = "http://data.europa.eu/83i/aa/GDP")
+)
+}

@@ -9,6 +9,8 @@
 #' use the \code{row.names(df)} as an \code{idcol}.
 #' @return The long form version of the original dataset, retaining the attributes
 #' and class.
+#' @examples
+#' dataset_to_triples(iris_dataset)
 #' @export
 
 dataset_to_triples <- function(x, idcol=NULL) {

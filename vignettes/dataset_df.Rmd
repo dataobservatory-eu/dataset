@@ -18,9 +18,53 @@ knitr::opts_chunk$set(
 library(dataset)
 ```
 
+The aim of the `dataset_df` is to create semantically richer datasets.
 
-```{r str}
-str(iris_dataset)
+```{r}
+small_country_dataset <- dataset_df(
+  country_name = defined(
+    c("AD", "LI"),
+    label = "Country name",
+    definition = "http://data.europa.eu/bna/c_6c2bb82d", 
+    namespace = "https://www.geonames.org/countries/$1/"), 
+  gdp = defined(
+    c(3897, 7365), 
+    label = "Gross Domestic Product", 
+    unit = "million dollars", 
+    definition = "http://data.europa.eu/83i/aa/GDP"),
+  reference = list(
+    title = "Small Country Dataset", 
+    author = person("Jane", "Doe"), 
+    publisher = "Example Inc."
+  )
+  )
+```
+
+The `defined` class columns retain the important semantic information about the label, exact definition link, and the unit of measure:
+
+```{r varlabel}
+var_label(small_country_dataset$gdp)
+```
+```{r varunit}
+var_unit(small_country_dataset$gdp)
+```
+
+```{r vardefinition}
+var_definition(small_country_dataset$gdp)
+```
+
+And the `dataset_df` object has a the important semantic information about the dataset as a whole, with pre-filled default values for not yes assigned or announced information. The metadata of the entire dataset conforms to the two most universally used definitions, Dublin Core (DCTERMS) and DataCite (DataCite).
+
+Each standard Dublinc Core/DataCite metadata field has a simple interface function, for example, you can add the language of the dataset with the following assignment command:
+
+```{r language}
+language(small_country_dataset) <- "en"
+```
+
+And to review the descriptive data of the entire dataset as a whole:
+
+```{r bibentry}
+print(get_bibentry(small_country_dataset), "bibtex" )
 ```
 
 ## Wikidata 

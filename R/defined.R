@@ -17,6 +17,13 @@
 #' @importFrom haven labelled
 #' @importFrom labelled to_labelled
 #' @import vctrs methods
+#' @examples
+#' defined(
+#'   c(3897, 7365),
+#'   label = "Gross Domestic Product",
+#'   unit = "million dollars",
+#'   definition = "http://data.europa.eu/83i/aa/GDP"
+#'  )
 #' @export
 
 defined <- function(x,

@@ -12,9 +12,21 @@
 #' @return A dataset_df object with rich metadata.
 #' @import vctrs
 #' @import pillar
+#' @examples
+#' dataset_df(
+#'    country_name = defined(
+#'      c("AD", "LI"),
+#'      definition = "http://data.europa.eu/bna/c_6c2bb82d",
+#'      namespace = "https://www.geonames.org/countries/$1/"),
+#'    gdp = defined(
+#'      c(3897, 7365),
+#'      label = "Gross Domestic Product",
+#'      unit = "million dollars",
+#'      definition = "http://data.europa.eu/83i/aa/GDP")
+#' )
 #' @export
 # User constructor
-dataset_df <- function(reference=NULL, var_labels=NULL, units=NULL, definitions =NULL, ...) {
+dataset_df <- function(reference=NULL, var_labels=NULL, units=NULL, definitions=NULL, ...) {
 
   dots <- list(...)
 
