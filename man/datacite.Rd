@@ -146,7 +146,7 @@ datacite(
    Geolocation = "US",
    Language = "en")
 
-as_datacite(iris_dataset, type="dataset")
+as_datacite(iris_dataset)
 }
 \seealso{
 Other metadata functions: 

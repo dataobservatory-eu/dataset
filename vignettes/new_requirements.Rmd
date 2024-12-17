@@ -37,7 +37,7 @@ Another important lesson was that the first version of the dataset package wante
 
 ## New requirement settings
 
-The new dataset package would be streamlined to provide a tidier version of the [tidy data definition](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html). "Tidy datasets provide a standardised way to link the structure of a dataset (its physical layout) with its semantics (its meaning)." The aim of the dataset package is to improve the semantic infrastructure of tidy datasets beyond the current capabilities of the tidyverse packages, relaxing the exclusive use of the semantic definitions of the SDMX statistical metadata standards.
+The new dataset package would be streamlined to provide a tidier version of the [tidy data definition](https://cran.r-project.org/package=tidyr/vignettes/tidy-data.html). "Tidy datasets provide a standardised way to link the structure of a dataset (its physical layout) with its semantics (its meaning)." The aim of the dataset package is to improve the semantic infrastructure of tidy datasets beyond the current capabilities of the tidyverse packages, relaxing the exclusive use of the semantic definitions of the SDMX statistical metadata standards.
 
 The dataset package and its dependencies (or, more specifically, new extensions) will only work with tidy datasets. In the context of tidy data, "A dataset is a collection of values, usually either numbers (if quantitative) or strings (if qualitative). Values are organised in two ways. Every value belongs to a variable and an observation."
 
@@ -141,7 +141,7 @@ To demonstrate the long-term ambition, we want to develop the following function
 
 The [Wikibase Data Model](https://www.mediawiki.org/wiki/Wikibase/DataModel) is a relatively simple and flexible data model. It works with concepts and properties as relationships among concepts. A tidy dataset that applies the _Wikibase Data Model_ can be described (using the definitions of Wikidata, the world's largest public database created with Wikibase) the following:
 
-The key column defines the data subject or statistical unit with a QID identifier. This identifier is denoted with a capital Q followed by an integer number. The QID is unique in one instance of a Wikibase database. The full identifier contains the URL of this database and the QID. For example, <https://www.wikidata.org/wiki/Q228> unambiguously defines the small country of Andorra in many natural languages, and with the connection of various actionable, persistent identifiers. (Check out on the linked page for example: _sovereign microstate between France and Spain, in Western Europe_, or <https://www.geonames.org/3041565/> or <https://isni.org/isni/000000012150090X>)
+The key column defines the data subject or statistical unit with a QID identifier. This identifier is denoted with a capital Q followed by an integer number. The QID is unique in one instance of a Wikibase database. The full identifier contains the URL of this database and the QID. For example, <https://www.wikidata.org/wiki/Q228> unambiguously defines the small country of Andorra in many natural languages, and with the connection of various actionable, persistent identifiers. (Check out on the linked page for example: _sovereign microstate between France and Spain, in Western Europe_, or <https://www.geonames.org/3041565/> or `https://isni.org/isni/000000012150090X/`.
 
 ```{r installwbdataset, eval=FALSE}
 # install.packages("devtools")

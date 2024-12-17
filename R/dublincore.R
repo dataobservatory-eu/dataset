@@ -102,6 +102,7 @@
 #'   The species are Iris setosa, versicolor, and virginica."
 #' )
 
+
 dublincore <- function(
     title,
     creator,
