@@ -7,6 +7,7 @@ r_hub:
 * macos (latest release)
 * macos-arm64
 * windows-latest (release)
+* windows x86_64-w64-mingw32 with R version 4.3.3 (2024-02-29 ucrt)
 * ubuntu-latest (release) - ubuntu-latest pipelines will use ubuntu-24.04 soon. 
 * ubuntu-latest (oldrel)  - ubuntu-latest pipelines will use ubuntu-24.04 soon.
 * ubuntu-latest (devel)

@@ -21,7 +21,7 @@ Description: The aim of the 'dataset' package is to make tidy datasets easier to
 License: GPL (>= 3)
 Encoding: UTF-8
 URL: https://dataset.dataobservatory.eu/
-BugReports: https://github.com/dataobservatory/dataset/issues
+BugReports: https://github.com/dataobservatory-eu/dataset/issues/
 Roxygen: list(markdown = TRUE)
 LazyData: true
 Imports: 
