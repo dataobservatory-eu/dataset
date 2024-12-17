@@ -4,10 +4,10 @@
   "identifier": "dataset",
   "description": "The aim of the 'dataset' package is to make tidy datasets easier to release, exchange and reuse. It organizes and formats data frame 'R' objects into well-referenced, well-described, interoperable datasets into release and reuse ready form.",
   "name": "dataset: Create Data Frames that are Easier to Exchange and Reuse",
-  "codeRepository": "https://dataset.dataobservatory.eu/",
-  "issueTracker": "https://github.com/dataset/dataset/issues",
+  "codeRepository": "https://github.com/dataobservatory-eu/dataset",
+  "issueTracker": "https://github.com/dataobservatory-eu/dataset/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.3.3008",
+  "version": "0.3.3009",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -211,7 +211,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "349.83KB",
+  "fileSize": "353.542KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -227,7 +227,7 @@
       ],
       "name": "dataset: Create Data Frames that are Easier to Exchange and Reuse",
       "url": "https://dataset.dataobservatory.eu/",
-      "description": "R package version 0.3.3008"
+      "description": "R package version 0.3.3009"
     },
     {
       "@type": "CreativeWork",
@@ -245,5 +245,16 @@
       "@id": "https://doi.org/10.5281/zenodo.10574908",
       "sameAs": "https://doi.org/10.5281/zenodo.10574908"
     }
-  ]
+  ],
+  "relatedLink": "https://dataset.dataobservatory.eu/",
+  "releaseNotes": "https://github.com/dataobservatory-eu/dataset/blob/master/NEWS.md",
+  "readme": "https://github.com/dataobservatory-eu/dataset/blob/master/README.md",
+  "contIntegration": "https://app.codecov.io/gh/dataobservatory-eu/dataset",
+  "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html#experimental", "https://www.repostatus.org/#wip"],
+  "review": {
+    "@type": "Review",
+    "url": "https://github.com/ropensci/software-review/issues/553",
+    "provider": "https://ropensci.org"
+  },
+  "keywords": ["dataset", "metadata-management", "r", "rstats"]
 }
