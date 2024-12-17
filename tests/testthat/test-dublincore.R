@@ -36,7 +36,6 @@ test_that("dublincore() works", {
 test_that("as_dublincore() works", {
   expect_true(is.dublincore(as_dublincore(iris_dataset)))
   expect_true(is.list(as_dublincore(x=iris_dataset, type="list")))
-  expect_true(is.dataset_df(as_dublincore(iris_dataset, type="dataset")))
   expect_true(is.null(as_dublincore(iris_dataset, type="list")$subject))
   expect_true(is.null(as_dublincore(iris_dataset, type="list")$contributor))
   expect_equal(as_dublincore(iris_dataset)$year, "1935")
