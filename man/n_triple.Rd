@@ -16,6 +16,9 @@ n_triple(s, p, o)
 
 \item{o}{The object of a triplet.}
 }
+\value{
+A character vector containing one N-Triple string.
+}
 \description{
 Create a single N-Triple triple.
 }
