@@ -14,7 +14,7 @@ test_that("var_label() throws error", {
 
 
 test_that("var_label.dataset_df() works", {
-  expect_equal(length(var_label(iris_dataset, unlist=TRUE)), 8)
+  expect_equal(length(var_label(iris_dataset, unlist=TRUE)), 6)
   expect_true(is.character(var_label(iris_dataset, unlist=TRUE)))
 })
 

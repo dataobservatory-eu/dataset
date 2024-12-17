@@ -5,10 +5,12 @@ Local:
 
 r_hub:
 * macos (latest release)
+* macos-arm64
 * windows-latest (release)
 * ubuntu-latest (release) - ubuntu-latest pipelines will use ubuntu-24.04 soon. 
 * ubuntu-latest (oldrel) - ubuntu-latest pipelines will use ubuntu-24.04 soon.
 * ubuntu-latest (devel)
+* atlas
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 

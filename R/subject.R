@@ -140,9 +140,7 @@ new_Subject <- function(term,
    dataset_subject <- value
   }
 
-
   attr(x, "Subject") <- dataset_subject
-
   invisible(x)
 }
 

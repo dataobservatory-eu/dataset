@@ -2,6 +2,7 @@
 #' @description Add or update information about the history (provenance) of the dataset.
 #' @param x A dataset created with \code{\link{dataset_df}}.
 #' @param value Use \code{\link{n_triples}} to add further statement values.
+#' @importFrom utils citation
 #' @examples
 #' provenance(iris_dataset)
 #'
@@ -24,7 +25,7 @@ provenance <- function(x) {
 `provenance<-` <- function(x,  value) {
 
   if (!is.dataset_df(x)) {
-    stop("provenance(x)<- : x must be a dataset object created with dataset() or as_dataset().")
+    stop("provenance(x)<- : x must be a dataset object created with dataset_df() or as_dataset_df().")
   }
 
   old_provenance <- provenance(x)
@@ -39,7 +40,7 @@ default_provenance <- function(dataset_id = "http://example.com/dataset#",
                                creator_id =NULL,
                                started_at_time = started_at_time,
                                ended_at_time = ended_at_time) {
-  cite_dataset <- citation("dataset")
+  cite_dataset <- utils::citation("dataset")
   if(is.null(creator_id)) creator_statement <- NULL else {
     creator_statement <- n_triple(creator_id, "a", "http://www.w3.org/ns/prov#Agent")
   }

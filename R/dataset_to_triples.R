@@ -20,7 +20,7 @@ dataset_to_triples <- function(x, idcol=NULL) {
   if (is_dataset) {
     new_title = paste0(dataset_title(x), " [triple form]")
     DataBibentry <- get_bibentry(x)
-    new_Subject <- subject(x)
+    new_Subject <-  subject(x)
   }
 
   if (is.null(idcol)) {
