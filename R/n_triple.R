@@ -30,6 +30,7 @@ n_triples <- function(triples) {
 #' @param s The subject of a triplet.
 #' @param p The predicate of a triplet.
 #' @param o The object of a triplet.
+#' @return A character vector containing one N-Triple string.
 #' @examples
 #' s <- "http://example.org/show/218"
 #' p <- "http://www.w3.org/2000/01/rdf-schema#label"
