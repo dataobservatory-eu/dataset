@@ -141,7 +141,7 @@ new_Subject <- function(term,
   if(is.null(value)) {
     value <- new_Subject(term = ":tba")
     } else if (is.character(value)) {
-    value <- new_Subject(term = term)
+    value <- new_Subject(term = value)
   } else if (!is.subject(value)) {
     stop("subject(x, value)<- : value must be a created with 'subject_create()` or it must be a character string.")
   }
