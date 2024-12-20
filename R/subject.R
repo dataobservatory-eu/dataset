@@ -72,7 +72,7 @@ subject_create <- function(term,
   #}
 
   if (length(term)>1) {
-    dataset_subject <-  lapply (1:length(term), function(x) new_Subject(term[x],
+    dataset_subject <-  lapply (1:seq_along(term), function(x) new_Subject(term[x],
                                                                 subjectScheme = subjectScheme[x],
                                                                 schemeURI = schemeURI[x],
                                                                 classificationCode = classificationCode[x],

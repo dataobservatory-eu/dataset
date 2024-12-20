@@ -80,7 +80,7 @@ defined <- function(x,
 #' @rdname defined
 #' @export
 is.defined <- function(x) {
-  any( inherits(x, "haven_labelled_defined"), inherits(x, "datetime_defined"))
+  any(inherits(x, "haven_labelled_defined"), inherits(x, "datetime_defined"))
   }
 
 #' From haven

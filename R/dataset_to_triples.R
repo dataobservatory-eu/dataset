@@ -17,7 +17,7 @@ dataset_to_triples <- function(x, idcol=NULL) {
   is_dataset <- inherits(x, "dataset_df")
 
   if (is_dataset) {
-    new_title    <  paste0(dataset_title(x), " [triple form]")
+    new_title    <-  paste0(dataset_title(x), " [triple form]")
     DataBibentry <- get_bibentry(x)
     new_Subject  <-  subject(x)
   }
