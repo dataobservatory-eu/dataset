@@ -89,7 +89,7 @@ prov_author <- function(author_person) {
 
   } else if (is.character(attr(author_person, "person"))) {
     print_name <- paste0(attr(author_person, "person"), ": ")
-  } else { print_name = ""}
+  } else { print_name <- ""}
 
   if(!is.null(orcid)) {
     triple_1 <- n_triple(orcid, "a", "http://www.w3.org/ns/prov#Agent")

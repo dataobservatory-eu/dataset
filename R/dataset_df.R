@@ -69,8 +69,8 @@ dataset_df <- function(...,
   }
 
   if (is.null(dataset_bibentry)) {
-    Title="Untitled Dataset"
-    Creator=person("Author", "Unknown")
+    Title   <- "Untitled Dataset"
+    Creator <- person("Author", "Unknown")
     dataset_bibentry <- datacite(Title=Title, Creator=Creator, Subject=dataset_subject)
   } else if(is.null(dataset_bibentry$subject)) {
       #dataset_bibentry$subject <- dataset_subject$term
@@ -103,8 +103,8 @@ as_dataset_df <- function(df,
   year <- substr(as.character(sys_time),1,4)
 
   if (is.null(dots$dataset_bibentry)) {
-    Title="Untitled Dataset"
-    Creator=person("Author", "Unknown")
+    Title <- "Untitled Dataset"
+    Creator <- person("Author", "Unknown")
 
     if(is.null(dataset_bibentry$year)) dataset_bibentry$year <- year
   }
@@ -176,7 +176,7 @@ print.dataset_df <- function(x, ...) {
     if (!is.null(author_person$given))  print_name <- paste0(print_name, author_person$given, ": ")
   } else if (is.character(attr(x, "person"))) {
     print_name <- paste0(attr(x, "person"), ": ")
-  } else { print_name = ""}
+  } else { print_name <- ""}
 
   #if(!is.null(title)) {
   #  print_title <- title

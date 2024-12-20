@@ -82,8 +82,8 @@ wikidata_countries <- c(
   "http://www.wikidata.org/entity/Q3908",   "http://www.wikidata.org/entity/Q1246")
   
 # Retrieve their labels into a dataset called 'European countries':
-wikidata_countries_df <- get_item(qid=wikidata_countries,
-                                  language="en",
+wikidata_countries_df <- get_item(qid = wikidata_countries,
+                                  language ="en",
                                   title = "European countries",
                                   creator = person("Daniel", "Antal"))
                                   
@@ -138,7 +138,7 @@ knitr::kable(tdf)
 
 ```{r writettl, eval=FALSE}
 example_file<- file.path(tempdir(), "example_ttl.ttl")
-ttl_write(tdf=tdf, ttl_namespace = NULL, file_path = example_file)
+ttl_write(tdf=tdf, ttl_namespace=NULL, file_path=example_file)
 
 readLines(example_file)
 ```
