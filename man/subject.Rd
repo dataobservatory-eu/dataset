@@ -18,12 +18,12 @@ subject_create(
   classificationCode = NULL
 )
 
-subject(x, overwrite = FALSE) <- value
+subject(x) <- value
 
 is.subject(x)
 }
 \arguments{
-\item{x}{A dataset object created with \code{dataset::\link{dataset_df}} or
+\item{x}{A dataset object created with \code{\link{dataset_df}} or
 \code{dataset::\link{as_dataset_df}}.}
 
 \item{term}{A subject term, for example, \code{"Data sets"}.}
@@ -44,27 +44,44 @@ authority if one is used. It is a namespace.}
 \item{classificationCode}{The classificationCode subproperty may be used for
 subject schemes, like ANZSRC, which do not have valueURIs for each subject term.}
 
-\item{overwrite}{If the attributes should be overwritten. In case it is set to \code{FALSE},
-it gives a message with the current \code{Subject} property instead of overwriting it.
-Defaults to \code{FALSE}.}
-
-\item{value}{A subject field created by \code{\link{subject}}.}
+\item{value}{A subject field created by \code{\link{subject}}. The subject field
+is overwritten with this value.}
 }
 \value{
-The Subject field of the dataset's attributes.
+\code{subject(x)} returns the subject attribute of the
+\code{\link{dataset_df}} object \code{x}, \code{subject(x)<-value} sets
+the same attribute to \code{value} and invisibly returns the \code{x} object with
+the changed attributes.
 
-A named list with the subject term, the subject scheme, URIs and prefix.
+A \code{subject_create} returns a named list with the subject term,
+the subject scheme, URIs and prefix.
+
+\code{is.subject} returns a logical value, \code{TRUE} if the subject as a list
+is well-formatted by \code{\link{subject_create}} with its necessary key-value pairs.
 }
 \description{
 Create/add/retrieve a subject
 }
+\details{
+The subject class and its function record the subject property of the dataset.
+The DataCite definition allows the use of multiple subproperties, however, these
+cannot be added to the standard \code{\link[utils:bibentry]{utils::bibentry}}
+object. Therefore, if the user sets the value of the subject field to a
+character string, it is added to the bibentry of the dataset, and also to
+a separate \code{subject} attribute. If the user wants to use the more detailed
+subproperties (see examples with \code{subject_create}), then the subject$term
+value is added to the bibentry as a text, and the more complex subject object
+is added as a separate attribute to the dataset_df object.#'
+}
 \examples{
-subject(iris_dataset,
-        overwrite = TRUE) <- subject_create(
-                                  term  = "Irises (plants)",
-                                  schemeURI = "http://id.loc.gov/authorities/subjects",
-                                  valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
-                                  subjectScheme = "LCCH",
-                                  prefix = "lcch:")
+# To set the subject of a dataset_df object:
+subject(iris_dataset) <- subject_create(
+         term  = "Irises (plants)",
+         schemeURI = "http://id.loc.gov/authorities/subjects",
+         valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
+         subjectScheme = "LCCH",
+         prefix = "lcch:")
+
+# To retrieve the subject with its subproperties:
 subject(iris_dataset)
 }

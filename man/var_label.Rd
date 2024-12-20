@@ -45,7 +45,37 @@ otherwise, the label of the group of columns will be returned.}
 For data frames, with \code{var_labels()}, it could also be a named list or a
 character vector of same length as the number of columns in \code{x}.}
 }
-\description{
-See \code{\link[labelled:var_label]{labelled::var_label}} for details.
+\value{
+\code{var_label()} returns returns the \code{label} attribute as a character
+string.
+The \code{var_label<-}
+assignment method allows to add, remove, or overwrite this attribute on a vector
+\code{x}. The assignment function returns the \code{x} vector invisibly.
 }
-\keyword{internal}
+\description{
+Add a human readable, easier to understand label as a metadata attribute to a
+variable or vector than the programmatic vector object name, or column name
+in the data frame.
+}
+\details{
+See \code{\link[labelled:var_label]{labelled::var_label}} for details about
+variable labels.
+\cr
+See \code{vignette("defined", package = "dataset")} to use comprehensively
+with variable labels, namespaces, units of measures, and machine-independent
+permanent variable identifiers.
+}
+\examples{
+iris_dataset_2 <- iris_dataset
+
+# Retrieve the label attribute:
+var_label(iris_dataset_2$Sepal.Length)
+
+}
+\seealso{
+Other defined metadata methods and functions: 
+\code{\link{defined}()},
+\code{\link{var_namespace}()},
+\code{\link{var_unit}()}
+}
+\concept{defined metadata methods and functions}

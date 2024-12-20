@@ -47,16 +47,46 @@ linked definition or \code{NULL}.}
 \value{
 The constructor \code{defined} returns a vector with defined
 value labels, a variable label, an optional unit of measurement and linked
-definition.
+definition.\cr
+\code{is.defined} returns a logical value, stateing if the object is of
+class \code{defined}.
 }
 \description{
-Create a semantically well-defined, labelled vector
+The \code{defined} constructor creates the objects of this class, which
+are semantically extended vectors inherited from
+\code{\link[haven:labelled]{haven::labelled}}.
+}
+\details{
+\code{as.character} coerces a defined vector into a character vector.\cr
+\code{summary} summarises the \code{defined} vector.\cr
+For more details, please check the \code{vignette("defined", package = "dataset")}
+vignette.
 }
 \examples{
-defined(
-  c(3897, 7365),
+
+gdp_vector <- defined(
+  c(3897, 7365, 6753),
   label = "Gross Domestic Product",
   unit = "million dollars",
   definition = "http://data.europa.eu/83i/aa/GDP"
  )
+
+ # To check the s3 class of the vector:
+ is.defined(gdp_vector)
+
+ # To print the defined vector:
+ print(gdp_vector)
+
+ # To summarise the defined vector:
+ summary(gdp_vector)
+
+ # Subsetting work as expected:
+ gdp_vector[1:2]
 }
+\seealso{
+Other defined metadata methods and functions: 
+\code{\link{var_label}()},
+\code{\link{var_namespace}()},
+\code{\link{var_unit}()}
+}
+\concept{defined metadata methods and functions}

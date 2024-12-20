@@ -11,16 +11,15 @@ test_that("datacite() works", {
   expect_equal(iris_datacite$language, 'en')
   expect_equal(iris_datacite$geolocation, 'US')
   expect_equal(iris_datacite$rights, ':tba')
+  expect_equal(iris_datacite$subject, "data sets")
 })
 
 test_that("as_datacite() works", {
-  expect_true(is.datacite(as_datacite(iris_dataset)))
-  expect_true(is.list(as_datacite(iris_dataset, type="list")))
-  expect_equal(as_datacite(iris_dataset, type="list")$Publisher, 'American Iris Society')
-  expect_equal(creator(as_datacite(iris_dataset, type ="dataset", author = person("Jane", "Doe"))),
-            person("Jane", "Doe"))
+  expect_true(is.list(as_datacite(iris_dataset, "list")))
+  expect_true(is.dataset_df(as_datacite(iris_dataset, "dataset_df")))
+  expect_warning(as_datacite(x=iris_dataset, type="data.frame"))
+  expect_equal(as_datacite(iris_dataset, "list")$FundingReference, ":unas")
+  expect_equal(as_datacite(iris_dataset, "list")$Description, "The famous (Fisher's or Anderson's) iris data set.")
 })
 
-test_that("as_datacite() gives warning", {
-  expect_warning(as_datacite(iris_dataset, type = "character"))
-})
+

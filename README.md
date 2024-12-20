@@ -7,6 +7,8 @@
 
 [![Codecov test
 coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset)
+![example
+workflow](https://github.com/dataobservatory-eu/dataset/actions/workflows/rhub.yaml/badge.svg)
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Project Status:
 WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
@@ -75,11 +77,11 @@ experimental stage. You can follow the discussion of this package on
 library(dataset)
 iris_ds <- dataset_df(
   x = iris,
-  reference = list(
+  dataset_bibentry = dublincore(
     title = "Iris Dataset",
-    author = person("Edgar", "Anderson", role = "aut"),
+    creator = person("Edgar", "Anderson", role = "aut"),
     publisher = "American Iris Society",
-    source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+    datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
     date = 1935,
     language = "en",
     description = "This famous (Fisher's or Anderson's) iris data set."
@@ -101,7 +103,7 @@ implements further methods in the attributes of the original object.
 
 ``` r
 summary(iris_ds)
-#> Anderson E (2024). "Iris Dataset."
+#> Anderson E (1935). "Iris Dataset."
 #>    x.Sepal.Length        x.Sepal.Width       x.Petal.Length        x.Petal.Width          x.Species     
 #>  Min.   :4.300000     Min.   :2.000000     Min.   :1.000        Min.   :0.1000000    setosa    :50      
 #>  1st Qu.:5.100000     1st Qu.:2.800000     1st Qu.:1.600        1st Qu.:0.3000000    versicolor:50      
@@ -118,15 +120,17 @@ print(get_bibentry(iris_ds), "Bibtex")
 #> @Misc{,
 #>   title = {Iris Dataset},
 #>   author = {Edgar Anderson},
+#>   identifier = {:tba},
 #>   publisher = {American Iris Society},
-#>   year = {2024},
-#>   resourcetype = {Dataset},
-#>   version = {0.1.0},
-#>   description = {This famous (Fisher's or Anderson's) iris data set.},
+#>   year = {1935},
 #>   language = {en},
-#>   format = {application/r-rds},
-#>   rights = {:unas},
-#>   date = {1935},
+#>   relation = {:unas},
+#>   format = {:unas},
+#>   rights = {:tba},
+#>   description = {This famous (Fisher's or Anderson's) iris data set.},
+#>   type = {DCMITYPE:Dataset},
+#>   datasource = {https://doi.org/10.1111/j.1469-1809.1936.tb02137.x},
+#>   coverage = {:unas},
 #> }
 ```
 
@@ -134,7 +138,7 @@ print(get_bibentry(iris_ds), "Bibtex")
 paste0("Publisher:", publisher(iris_ds))
 #> [1] "Publisher:American Iris Society"
 paste0("Rights:", rights(iris_ds))
-#> [1] "Rights::unas"
+#> [1] "Rights::tba"
 ```
 
 The descriptive metadata are added to a `utils::bibentry` object which

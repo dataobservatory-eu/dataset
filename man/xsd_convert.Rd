@@ -64,6 +64,6 @@ xsd_convert(head(iris))
 xsd_convert(head(iris_dataset))
 # Convert integers or doubles, numbers:
 xsd_convert(1:3)
-# xsd_convert(TRUE)
-
+# Convert logical values:
+xsd_convert(TRUE)
 }

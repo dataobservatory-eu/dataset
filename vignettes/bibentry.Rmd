@@ -19,6 +19,12 @@ library(dataset)
 iris_dataset_2 <- iris_dataset
 ```
 
+An important aim of the **dataset** package is to create native R objects where bibliographic metadata cannot be detached, thus ensuring Findability, Accessibility, Interoperability and Reusability in the long run. We provide an interface and methods to add metadata required by open data repositories according to the more general Dublin Core library metadata standard, or the more specific DataCite metadata standard.
+
+```{r bibentryprint}
+print(get_bibentry(iris_dataset_2), "Bibtex")
+```
+
 ## Titles
 
 ```{r, get-title}
@@ -100,6 +106,56 @@ Overwriting the rights statement needs an explicit approval:
 rights(iris_dataset_2, overwrite = TRUE)  <- "GNU-2"
 ```
 
+DataCite currently allows the use of subproperties. For example, the _Creative Commons Attribution 4.0 International_ would be described as: 
+
+```{r rightsubproperties}
+list ( schemeURI="https://spdx.org/licenses/",
+       rightsIdentifierScheme="SPDX",
+       rightsIdentifier="CC-BY-4.0",
+       rightsURI="https://creativecommons.org/licenses/by/4.0/")
+```
+The use of subproperties will be later implemented.
+
+### Description
+
+The description is currently implemented as a character string.  However, 
+DataCite 4.6 states that if Description is used, `descriptionType` is mandatory.
+This will be implemented later.
+
+```
+<descriptions>
+    <description xml:lang="en" descriptionType="Abstract">Example abstract</description>
+</descriptions>
+```
+```{r printdescription}
+description(iris_dataset)
+```
+
+
+### Subject
+
+```{r}
+subject(iris_dataset)
+```
+
+
+```
+<subjects>
+  <subject xml:lang="en" subjectScheme="Library of Congress Subject Headings (LCSH)" schemeURI="https://id.loc.gov/authorities/subjects.html" valueURI="https://id.loc.gov/authorities/subjects/sh2009009655.html">Climate change mitigation</subject>
+  <subject xml:lang="en" subjectScheme="ANZSRC Fields of Research" schemeURI="https://www.abs.gov.au/statistics/classifications/australian-and-new-zealand-standard-research-classification-anzsrc" classificationCode="370201">Climate change processes</subject>
+</subject>
+```
+
+```{r}
+subject_create(
+  term = "data sets", 
+  subjectScheme = "Library of Congress Subject Headings (LCSH)", 
+  schemeURI = "https://id.loc.gov/authorities/subjects.html",
+  valueURI = "http://id.loc.gov/authorities/subjects/sh2018002256"
+)
+```
+
+
 ### Identifiers
 
 ```{r identifier}
@@ -110,11 +166,13 @@ identifier(iris_dataset_2)
 
 Get the metadata according to the DataCite definition:
 
-And according to DCTERMS (Dublin Core):
-
 ```{r datacite}
 print(as_datacite(iris_dataset), "Bibtex")
 ```
+
+And according to DCTERMS (Dublin Core):
+
+
 ```{r dc}
 print(as_dublincore(iris_dataset), "Bibtex")
 ```

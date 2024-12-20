@@ -18,6 +18,7 @@ rlang::check_installed("here")
 
 <!-- badges: start -->
 [![Codecov test coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset)
+![example workflow](https://github.com/dataobservatory-eu/dataset/actions/workflows/rhub.yaml/badge.svg)
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Project Status: WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dataset)](https://cran.r-project.org/package=dataset)
@@ -56,11 +57,11 @@ The current version of the `dataset` package is in an early, experimental stage.
 library(dataset)
 iris_ds <- dataset_df(
   x = iris,
-  reference = list(
+  dataset_bibentry = dublincore(
     title = "Iris Dataset",
-    author = person("Edgar", "Anderson", role = "aut"),
+    creator = person("Edgar", "Anderson", role = "aut"),
     publisher = "American Iris Society",
-    source = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+    datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
     date = 1935,
     language = "en",
     description = "This famous (Fisher's or Anderson's) iris data set."

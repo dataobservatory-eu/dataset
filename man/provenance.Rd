@@ -15,7 +15,9 @@ provenance(x) <- value
 \item{value}{Use \code{\link{n_triples}} to add further statement values.}
 }
 \value{
-The provenance statements of the dataset.
+\code{provenance(x)} returns the provenance attributes created by
+\code{\link{n_triples}} as a text; \code{provenance(x)<-value} adds the new
+provenance attributes and returns \code{x} invisibly.
 }
 \description{
 Add or update information about the history (provenance) of the dataset.
@@ -24,6 +26,7 @@ Add or update information about the history (provenance) of the dataset.
 provenance(iris_dataset)
 
 ## add a statement:
+
  provenance(iris_dataset) <- n_triple(
   "https://doi.org/10.5281/zenodo.10396807",
   "http://www.w3.org/ns/prov#wasInformedBy",

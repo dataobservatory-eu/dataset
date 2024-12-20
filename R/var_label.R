@@ -1,13 +1,32 @@
 #' @title Get / Set a variable label
 #' @description
-#' See \code{\link[labelled:var_label]{labelled::var_label}} for details.
-#'
+#' Add a human readable, easier to understand label as a metadata attribute to a
+#' variable or vector than the programmatic vector object name, or column name
+#' in the data frame.
+#' @details
+#' See \code{\link[labelled:var_label]{labelled::var_label}} for details about
+#' variable labels.
+#' \cr
+#' See \code{vignette("defined", package = "dataset")} to use comprehensively
+#' with variable labels, namespaces, units of measures, and machine-independent
+#' permanent variable identifiers.
 #' @name var_label
-#' @rdname var_label
-#' @keywords internal
+#' @return \code{var_label()} returns returns the \code{label} attribute as a character
+#' string.
+#' The \code{var_label<-}
+#' assignment method allows to add, remove, or overwrite this attribute on a vector
+#' \code{x}. The assignment function returns the \code{x} vector invisibly.
+#' @examples
+#' iris_dataset_2 <- iris_dataset
+#'
+#' # Retrieve the label attribute:
+#' var_label(iris_dataset_2$Sepal.Length)
+#'
 #' @export
 #' @importFrom labelled var_label
+#' @importFrom labelled `var_label<-`
 #' @param x a vector or a data.frame
+#' @family defined metadata methods and functions
 #' @param value a character string or `NULL` to remove the label
 #'  For data frames, with `var_labels()`, it could also be a named list or a
 #'  character vector of same length as the number of columns in `x`.

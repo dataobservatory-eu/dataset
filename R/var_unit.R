@@ -3,16 +3,39 @@
 #' @param value A character string or `NULL` to remove the unit of measure.
 #' @param ... Further potential parameters reserved for inherited classes.
 #' @details
-#'   `get_variable_units()` is identical to `var_unit()`.
+#' The aim of the \code{unit} attribute is to add to the R vector object its
+#' unit of measure (for example, physical units like gram and kilogram or
+#' currency units like dollars or euros), so that they are not concatenated or
+#' joined in a syntactically correct but semantically incorrect way (i.e.,
+#' accidentally concatenating values quoted in dollars and euros from different
+#' subvectors.) This is particularly useful when working with linked open data,
+#' i.e., when joins or concatenations are performed on data arriving from a remote
+#' source.\cr \cr
+#' `get_variable_units()` is identical to `var_unit()`.
+#' \cr
+#' \cr
+#' See \code{vignette("defined", package = "dataset")} to use comprehensively
+#' with variable labels, namespaces, units of measures, and machine-independent
+#' permanent variable identifiers.
+#' @family defined metadata methods and functions
 #' @examples
+#' # The defined vector class and dataset_df support units of measure attributes:
+#' var_unit(iris_dataset$Sepal.Length)
+#'
+#' # Normally columns of a data.frame do not have a unit attribute:
 #' var_unit(iris$Sepal.Length)
+#'
+#' # You can add them with the assignment function:
 #' var_unit(iris$Sepal.Length) <- "centimeter"
-#' \dontrun{
-#' View(iris)
-#' }
-#' # To remove a unit of measure
+#'
+#' # To remove a unit of measure assign the NULL value:
 #' var_unit(iris$Sepal.Length) <- NULL
-#' @return The unit attribute of a vector constructed with \code{\link{defined}}.
+#' @return The unit attribute of a vector constructed with \code{\link{defined}},
+#' or any vector that is enriched with a unit attribute. \cr
+#' \cr
+#' The \code{var_unit<-}
+#' assignment method allows to add, remove, or overwrite this attribute on a vector
+#' \code{x}. The assignment function returns the \code{x} vector invisibly.
 #' @export
 var_unit <- function(x, ...) {
   #rlang::check_dots_used()

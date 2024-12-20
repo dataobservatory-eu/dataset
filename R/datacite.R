@@ -1,5 +1,5 @@
-#' @title Add or get DataCite metadata
-#' @description Add or retrieve metadata conforming
+#' @title Create a bibentry object with DataCite metadata fields
+#' @description Add metadata conforming
 #' the \href{https://schema.datacite.org/}{DataCite Metadata Schema}.
 #' @details DataCite is a leading global non-profit organisation that provides
 #' persistent identifiers (DOIs) for research data and other research outputs.
@@ -49,30 +49,44 @@
 #' @param AlternateIdentifier An identifier or identifiers other than the primary
 #' Identifier applied to the resource being registered. This may be any
 #' alphanumeric string unique within its domain of issue. It may be used for
-#' local identifiers. \code{AlternateIdentifier} should be used for another
+#' local identifiers.
+#' \code{AlternateIdentifier} should be used for another
 #' identifier of the same instance (same location, same file).
-#' @param RelatedIdentifier Recommended for discovery. Similar to
+#' Defaults to \code{":unas"} for unassigned values.
+#' @param RelatedIdentifier Recommended for discovery.
+#' Defaults to \code{":unas"} for unassigned values.
+#' Similar to
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/relation/}{dct:relation}.
-#' @param Format Technical format of the resource.
+#' @param Format Technical format of the resource. Use file extension or MIME
+#' type where possible, e.g., PDF, XML, MPG or application/pdf, text/xml, video/mpeg.
 #' Similar to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/format/}{dct:format}.
-#' @param Version Free text. Suggested practice: track major_version.minor_version. See \code{\link{version}}.
-#' @param Rights Any rights information for this resource. The property may be repeated to record complex rights characteristics.
+#' @param Version Free text. Suggested practice: track major_version.minor_version.
+#' Defaults to \code{"0.1.0"}.
+#' See \code{\link{version}}.
+#' @param Rights Any rights information for this resource. The property may be
+#' repeated to record complex rights characteristics, but this is not yet supported.
 #' Free text. See \code{\link{rights}}.
+#' Defaults to \code{":tba"}.
 #' @param DateList DataCite 4.4 allows to set multiple dates to a resource, they should
 #' be added as a list. See:
 #' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#8-date}{datacite:Date}.
 #' @param Description Recommended for discovery. All additional information that does not
 #' fit in any of the other categories. It may be used for technical information—a free text.
+#' Defaults to \code{":tba"}.
 #' Similar to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}.
 #' @param Geolocation Recommended for discovery. Spatial region or named place where the data was gathered
 #' or about which the data is focused. See [geolocation()].
 #' @param FundingReference Information about financial support (funding) for the resource
 #' being registered.
-#' @return A \code{utils::\link[utils]{bibentry}} object DataCite attributes.
-#' \code{as_datacite} returns the existing metadata of a dataset object.
+#' Defaults to \code{":unas"} for unassigned values. Complex types with subproperties
+#' are not yet implemented.
+#' @return \code{datacite()} creates a \code{utils::\link[utils]{bibentry}} object
+#' extended with standard Dublin Core bibliographical metadata, \code{as_datacite()}
+#' retrieves the contents of this bibentry object of a dataset_df from its
+#' attributes, and returns the contents as list, dataset_df, or bibentry object.
 #' @source \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite 4.3 Mandatory Properties} and
 #' \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
-#' @family metadata functions
+#' @family bibentry functions
 #' @importFrom utils person bibentry
 #' @examples
 #' datacite(
@@ -91,24 +105,29 @@ datacite <- function(Title,
                      Identifier = NULL,
                      Publisher = NULL,
                      PublicationYear = NULL,
-                     Subject = NULL,
+                     Subject = subject_create(
+                       term = "data sets",
+                       subjectScheme = "Library of Congress Subject Headings (LCSH)",
+                       schemeURI = "https://id.loc.gov/authorities/subjects.html",
+                       valueURI = "http://id.loc.gov/authorities/subjects/sh2018002256"
+                     ),
                      Type = "Dataset",
                      Contributor = NULL,
-                     DateList = NULL,
+                     DateList = ":tba",
                      Language = NULL,
-                     AlternateIdentifier = NULL,
-                     RelatedIdentifier = NULL,
-                     Format = NULL,
-                     Version = NULL,
-                     Rights = NULL,
-                     Description = NULL,
-                     Geolocation = NULL,
-                     FundingReference = NULL) {
+                     AlternateIdentifier = ":unas",
+                     RelatedIdentifier = ":unas",
+                     Format = ":tba",
+                     Version = "0.1.0",
+                     Rights = ":tba",
+                     Description = ":tba",
+                     Geolocation = ":unas",
+                     FundingReference = ":unas" ) {
 
   DateList <- ifelse (is.null(DateList), ":tba", as.character(DateList))
   Format <- ifelse (is.null(Format), ":tba", as.character(Format))
   AlternateIdentifier <- ifelse (is.null(AlternateIdentifier), ":unas", AlternateIdentifier)
-  RelatedIdentifier <- ifelse (is.null(RelatedIdentifier), ":unas", RelatedIdentifier)
+  RelatedIdentifier   <- ifelse (is.null(RelatedIdentifier), ":unas", RelatedIdentifier)
   Rights <- ifelse (is.null(Rights), ":tba", as.character(Rights))
   Geolocation <- ifelse (is.null(Geolocation), ":unas", as.character(Geolocation))
   FundingReference <- ifelse (is.null(FundingReference), ":unas", as.character(FundingReference))
@@ -133,13 +152,59 @@ datacite <- function(Title,
                FundingReference = FundingReference)
 }
 
+
+#' @keywords internal
+new_datacite <- function (Title,
+                          Creator,
+                          Identifier,
+                          Publisher,
+                          PublicationYear,
+                          Subject,
+                          Type = "Dataset",
+                          Contributor,
+                          DateList,
+                          Language,
+                          AlternateIdentifier,
+                          RelatedIdentifier,
+                          Format,
+                          Version,
+                          Rights,
+                          Description,
+                          Geolocation,
+                          FundingReference) {
+
+  datacite_object <- bibentry(bibtype = "Misc",
+                              title = Title,
+                              author = Creator,
+                              identifier = Identifier,
+                              publisher = Publisher,
+                              year = PublicationYear,
+                              date = DateList,
+                              language = Language,
+                              subject = Subject$term,
+                              alternateidentifier = AlternateIdentifier,
+                              relatedidentifier = RelatedIdentifier,
+                              format = Format,
+                              version = Version,
+                              rights = Rights,
+                              description = Description,
+                              geolocation = Geolocation,
+                              fundingreference = FundingReference)
+
+  class(datacite_object) <- c("datacite", class(datacite_object))
+  datacite_object
+}
+
 #' @rdname datacite
 #' @param x A dataset object created with \code{dataset::\link{dataset}}.
 #' @param type A DataCite 4.4  metadata can be returned as a \code{type="list"},
-#' a \code{type="dataset"}, or a \code{type="bibentry"} (default).
+#' a \code{type="dataset_df"}, or a \code{type="bibentry"} (default).
 #' @param ... Optional parameters to add to a \code{datacite} object.
 #' \code{author=person("Jane", "Doe")} adds an author to the citation
 #' object if \code{type="dataset"}.
+#' as_datacite(iris_dataset, type="list")
+#' @return \code{as_datacite(x, type)} returns the DataCite bibliographical metadata
+#' of x either as a list, a bibentry object, or a dataset_df object.
 #' @export
 as_datacite <- function(x, type = "bibentry", ... ) {
 
@@ -151,12 +216,12 @@ as_datacite <- function(x, type = "bibentry", ... ) {
   if (!is.null(arguments$author)) {
     if ( is_person(arguments$author))  {
       citation_author <- arguments$author
-      } else {
+    } else {
       stop("as_datacite(x, ..., author = ): author must be created with utils::person().")
-        }
+    }
   }
 
-  if (! type %in% c("bibentry", "list", "dataset")) {
+  if (! type %in% c("bibentry", "list", "dataset_df")) {
     warning_message <- "as_datacite(ds, type=...) type cannot be "
     warning(warning_message, type, ". Reverting to 'bibentry'.")
     type <- 'bibentry'
@@ -179,10 +244,7 @@ as_datacite <- function(x, type = "bibentry", ... ) {
   Geolocation <- ifelse (is.null(ds_bibentry$geolocation), ":unas", as.character(ds_bibentry$geolocation))
   FundingReference <- ifelse (is.null(ds_bibentry$fundingreference), ":unas", as.character(ds_bibentry$fundingreference))
   Contributor <- ifelse (is.null(ds_bibentry$contributor), "", as.character(ds_bibentry$contributor))
-  Subject <- ifelse (is.null(ds_bibentry$subject), "", as.character(ds_bibentry$subject))
-
-  if (Contributor == "") Contributor <- NULL
-  if (Subject == "") Subject <- NULL
+  Subject <- ifelse (is.null(subject(x)), new_Subject(":tba"), subject(x))
 
   if (type == "bibentry") {
     new_datacite(Title = Title,
@@ -190,7 +252,7 @@ as_datacite <- function(x, type = "bibentry", ... ) {
                  Identifier = Identifier,
                  Publisher = Publisher,
                  PublicationYear = PublicationYear,
-                 Subject = Subject,
+                 Subject = Subject ,
                  Type = "Dataset",
                  Contributor = Contributor,
                  DateList = DateList,
@@ -223,14 +285,14 @@ as_datacite <- function(x, type = "bibentry", ... ) {
          Description = Description,
          Geolocation = Geolocation,
          FundingReference = FundingReference)
-  } else if ( type  == "dataset") {
+  } else if ( type  == "dataset_df") {
     dataset_df (
       data.frame(Title = Title,
                  Creator = as.character(Creator),
                  Identifier = Identifier,
                  Publisher = Publisher,
                  PublicationYear = PublicationYear,
-                 Subject = ifelse (is.null(Subject), "", as.character(Subject)),
+                 Subject = ifelse(is.null(Subject), "", as.character(Subject)),
                  Type = "Dataset",
                  Contributor = ifelse (is.null(Contributor), ":unas", as.character(Contributor)),
                  DateList = DateList,
@@ -242,58 +304,15 @@ as_datacite <- function(x, type = "bibentry", ... ) {
                  Rights = Rights,
                  Description = Description,
                  Geolocation = Geolocation,
-                 FundingReference = FundingReference),
-      reference = list(title = paste0("The DataCite Metadata of `", ds_bibentry$title, "'"),
-                       author = citation_author,
-                       year = substr(as.character(Sys.Date()),1,4))
+                 FundingReference = FundingReference)
     )
   }
 }
 
-#' @keywords internal
-new_datacite <- function (Title,
-                          Creator,
-                          Identifier,
-                          Publisher,
-                          PublicationYear,
-                          Subject,
-                          Type = "Dataset",
-                          Contributor,
-                          DateList,
-                          Language,
-                          AlternateIdentifier,
-                          RelatedIdentifier,
-                          Format,
-                          Version,
-                          Rights,
-                          Description,
-                          Geolocation,
-                          FundingReference) {
-
-  datacite_object <- bibentry(bibtype = "Misc",
-                              title = Title,
-                              author = Creator,
-                              identifier = Identifier,
-                              publisher = Publisher,
-                              year = PublicationYear,
-                              date = DateList,
-                              language = Language,
-                              alternateidentifier = AlternateIdentifier,
-                              relatedidentifier = RelatedIdentifier,
-                              format = Format,
-                              version = Version,
-                              rights = Rights,
-                              description = Description,
-                              geolocation = Geolocation,
-                              fundingreference = FundingReference)
-
-  class(datacite_object) <- c("datacite", class(datacite_object))
-  datacite_object
-}
-
-
 
 #' @rdname datacite
+#' @return \code{is.datacite(x)} returns a logical values (if the object \code{x}
+#' is of class \code{datacite}).
 is.datacite <- function(x) {
   UseMethod("is.datacite", x)
 }
@@ -302,3 +321,4 @@ is.datacite <- function(x) {
 #' @param x An object that is tested if it has a class "datacite".
 #' @exportS3Method
 is.datacite.datacite <- function(x) inherits(x, "datacite")
+

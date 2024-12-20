@@ -106,6 +106,7 @@ xsd_convert.data.frame <- function(x, idcol=NULL, ...) {
 #' # Convert dataset to XML Schema Definition
 #' xsd_convert(head(iris_dataset))
 #' @export
+
 #' @exportS3Method
 xsd_convert.dataset <- function(x, idcol=NULL, ...) {
   NextMethod()
@@ -158,11 +159,11 @@ xsd_convert.integer <- function(x, idcol=NULL, ...) {
 }
 
 #' @rdname xsd_convert
-#' @export
 #' @exportS3Method
 #' @examples
-#' # xsd_convert(TRUE)
-#'
+#' # Convert logical values:
+#' xsd_convert(TRUE)
+#' @export
 xsd_convert.logical <- function(x, idcol=NULL, ...) {
   var_type <-  "xs:boolean"
   paste0('\"', as.character(x),  '\"', "^^<", var_type, ">")

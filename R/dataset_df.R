@@ -1,19 +1,34 @@
 #' @title Create a new dataset_df object
+#' @description
+#' The \code{dataset_df} constructor creates the objects of this class, which
+#' are semantically rich, modern data frames inherited from
+#'  \code{\link[tibble:tibble]{tibble::tibble}}.
 #' @details
-#' To check if an object is a dataset_df use \code{is.dataset_df(x)}.
-#' @param reference A list of bibliographic references and descriptive metadata
-#' about the dataset as a whole.
+#' To check if an object has the class dataset_df use \code{is.dataset_df}.\cr
+#' \cr
+#' \code{print} is the method to print out the semantically rich data frames
+#' created with the constructor of \code{dataset_df}.\cr
+#' \cr
+#' \code{summary} is the method to summarise these semantically rich data frames.\cr
+#' \cr
+#' For more details, please check the \code{vignette("dataset_df", package = "dataset")}
+#' vignette.
+#' @param dataset_bibentry A list of bibliographic references and descriptive metadata
+#' about the dataset as a whole created with \code{\link{datacite}} or
+#' \code{\link{dublincore}}.
 #' @param var_labels The long, human readable labels of each variable.
 #' @param units The units of measurement for the measured variables.
 #' @param definitions The linked definitions of the variables, attributes, or constants.
-#' @param x A dataset for S3 methods.
-#' @param df A data.frame to be converted to dataset_df.
+#' @param dataset_subject The subject of the dataset, see \code{\link{subject}}.
 #' @param ... The vectors (variables) that should be included in the dataset.
-#' @return A dataset_df object with rich metadata.
+#' @param x A \code{dataset_df} object for S3 methods.
+#' @param df A \code{data.frame} to be converted to \code{dataset_df}.
+#' @return \code{dataset_df} is the constructor of this type, it returns an object
+#' inherited from a data frame with semantically rich metadata.
 #' @import vctrs
 #' @import pillar
 #' @examples
-#' dataset_df(
+#' my_dataset <- dataset_df(
 #'    country_name = defined(
 #'      c("AD", "LI"),
 #'      definition = "http://data.europa.eu/bna/c_6c2bb82d",
@@ -24,48 +39,77 @@
 #'      unit = "million dollars",
 #'      definition = "http://data.europa.eu/83i/aa/GDP")
 #' )
+#'
+#' print(my_dataset)
+#'
+#' is.dataset_df(my_dataset)
 #' @export
+
 # User constructor
-dataset_df <- function(reference=NULL, var_labels=NULL, units=NULL, definitions=NULL, ...) {
+dataset_df <- function(...,
+                       dataset_bibentry=NULL,
+                       var_labels=NULL,
+                       units=NULL,
+                       definitions=NULL,
+                       dataset_subject=NULL ) {
 
   dots <- list(...)
 
   sys_time <- Sys.time()
   year <- substr(as.character(sys_time),1,4)
 
-  if(is.null(reference)) {
-    reference <- list(title="Untitled Dataset",
-                      author="Unknown Author")
+  if (is.null(dataset_subject)) {
+    dataset_subject <- subject_create(term="data sets",
+                              subjectScheme="Library of Congress Subject Headings (LCSH)",
+                              schemeURI="https://id.loc.gov/authorities/subjects.html",
+                              valueURI="http://id.loc.gov/authorities/subjects/sh2018002256",
+                              classificationCode = NULL,
+                              prefix = ""
+    )
   }
 
-  dataset_bibentry <- create_bibentry(reference)
+  if (is.null(dataset_bibentry)) {
+    Title="Untitled Dataset"
+    Creator=person("Author", "Unknown")
+    dataset_bibentry <- datacite(Title=Title, Creator=Creator, Subject=dataset_subject)
+  } else if(is.null(dataset_bibentry$subject)) {
+      #dataset_bibentry$subject <- dataset_subject$term
+   }
 
-  new_my_tibble(tibble::tibble(...),
+  tmp <- new_my_tibble(
+                x = tibble::tibble(...),
                 dataset_bibentry=dataset_bibentry,
                 var_labels = var_labels,
                 units = units,
                 definitions = definitions)
+
+  attr(tmp, "subject") <- dataset_subject
+  tmp
 }
 
 
 #' @rdname dataset_df
 #' @export
-as_dataset_df <- function(df, var_labels=NULL, units=NULL, definitions =NULL, reference=NULL, ...) {
+as_dataset_df <- function(df,
+                          var_labels=NULL,
+                          units=NULL,
+                          definitions =NULL,
+                          dataset_bibentry=NULL,
+                          dataset_subject=NULL,  ...) {
 
   dots <- list(...)
 
   sys_time <- Sys.time()
   year <- substr(as.character(sys_time),1,4)
 
-  if(is.null(reference)) {
-    reference <- list(title="Untitled Dataset",
-                      author="Unknown Author")
+  if (is.null(dots$dataset_bibentry)) {
+    Title="Untitled Dataset"
+    Creator=person("Author", "Unknown")
+
+    if(is.null(dataset_bibentry$year)) dataset_bibentry$year <- year
   }
 
-  if(is.null(reference$year)) reference$year <- year
-
-  reference
-  dataset_bibentry <- create_bibentry(reference)
+  dataset_bibentry <- datacite(Title=Title, Creator=Creator)
 
   new_my_tibble(df,
                 dataset_bibentry=dataset_bibentry,
@@ -83,11 +127,11 @@ new_my_tibble <- function(x,
                           units = NULL,
                           definitions = NULL) {
   started_at_time <- Sys.time()
-  stopifnot(is.data.frame(x))
+  assertthat::assert_that(is.data.frame(x),
+                          msg="Error: new_my_tibble(x): x is not a data frame")
 
   tmp <- tibble::new_tibble(
     x,
-    dataset_bibentry = dataset_bibentry,
     class = "dataset_df",
     nrow = nrow(x)
   )
@@ -98,7 +142,9 @@ new_my_tibble <- function(x,
 
   prov <- default_provenance(started_at_time = started_at_time, ended_at_time = ended_at_time)
 
+  attr(tmp, "dataset_bibentry") <- dataset_bibentry
   attr(tmp, "prov") <- prov
+
 
   tmp
 }
@@ -106,6 +152,8 @@ new_my_tibble <- function(x,
 
 
 #' @rdname dataset_df
+#' @return \code{is.dataset_df} returns a logical value
+#' (if the object is of class \code{dataset_df}.)
 #' @export
 is.dataset_df <- function(x) {
   ifelse("dataset_df" %in% class(x), TRUE, FALSE)

@@ -7,6 +7,14 @@ test_that("var_label() works", {
   #expect_equal(label_attribute(iris_dataset$Species), "Taxon name within the Iris genus")
 })
 
+test_that("var_label()<-  works", {
+  iris_dataset_2 <- iris_dataset
+  var_label(iris_dataset_2$Sepal.Length) <- "Length of the sepal in centimeters"
+  expect_equal(var_label(iris_dataset_2$Sepal.Length), "Length of the sepal in centimeters")
+})
+
+
+
 test_that("var_label() throws error", {
   test_df <- dataset_df(a = 1:2, b=3:4)
   expect_error(var_label(test_df) <- c("A", "B", "C"))

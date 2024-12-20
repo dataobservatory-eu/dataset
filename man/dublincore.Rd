@@ -116,7 +116,13 @@ is relevant. See
 object if \code{type="dataset"}.}
 }
 \value{
-The Dublin Core Metadata elements of the dataset in a \code{utils::\link[utils]{bibentry}} object.
+\code{dublincore()} creates a \code{utils::\link[utils]{bibentry}} object
+extended with standard Dublin Core bibliographical metadata, \code{as_dublincore()}
+retrieves the contents of this bibentry object of a dataset_df from its
+attributes, and returns the contents as list, dataset_df, or bibentry object.
+
+A logical value, if the bibliographic entries are listed according to the
+Dublin Core specification.
 }
 \description{
 Add metadata conforming the
@@ -136,21 +142,24 @@ The \code{ResourceType} property will be by definition "Dataset".
 The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
 }
 \examples{
-dublincore(
-  title = "Iris Dataset",
-  creator = person("Edgar", "Anderson", role = "aut"),
-  publisher = "American Iris Society",
-  datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-  date = 1935,
-  language = "en",
-  description = "This famous (Fisher's or Anderson's) iris data set gives the
-  measurements in centimeters of the variables sepal length and width and petal length
-  and width, respectively, for 50 flowers from each of 3 species of iris.
-  The species are Iris setosa, versicolor, and virginica."
-)
+my_bibentry <- dublincore(
+   title = "Iris Dataset",
+   creator = person("Edgar", "Anderson", role = "aut"),
+   publisher = "American Iris Society",
+   datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+   date = 1935,
+   language = "en",
+   description = "This famous (Fisher's or Anderson's) iris data set gives the
+   measurements in centimeters of the variables sepal length and width and petal length
+   and width, respectively, for 50 flowers from each of 3 species of iris.
+   The species are Iris setosa, versicolor, and virginica."
+  )
+
+as_dublincore(iris_dataset, type="list")
 }
 \seealso{
-Other metadata functions: 
-\code{\link{datacite}()}
+Other bibentry functions: 
+\code{\link{datacite}()},
+\code{\link{get_bibentry}()}
 }
-\concept{metadata functions}
+\concept{bibentry functions}

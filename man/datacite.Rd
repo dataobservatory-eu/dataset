@@ -5,7 +5,7 @@
 \alias{as_datacite}
 \alias{is.datacite}
 \alias{is.datacite.datacite}
-\title{Add or get DataCite metadata}
+\title{Create a bibentry object with DataCite metadata fields}
 \source{
 \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite 4.3 Mandatory Properties} and
 \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
@@ -17,19 +17,22 @@ datacite(
   Identifier = NULL,
   Publisher = NULL,
   PublicationYear = NULL,
-  Subject = NULL,
+  Subject = subject_create(term = "data sets", subjectScheme =
+    "Library of Congress Subject Headings (LCSH)", schemeURI =
+    "https://id.loc.gov/authorities/subjects.html", valueURI =
+    "http://id.loc.gov/authorities/subjects/sh2018002256"),
   Type = "Dataset",
   Contributor = NULL,
-  DateList = NULL,
+  DateList = ":tba",
   Language = NULL,
-  AlternateIdentifier = NULL,
-  RelatedIdentifier = NULL,
-  Format = NULL,
-  Version = NULL,
-  Rights = NULL,
-  Description = NULL,
-  Geolocation = NULL,
-  FundingReference = NULL
+  AlternateIdentifier = ":unas",
+  RelatedIdentifier = ":unas",
+  Format = ":tba",
+  Version = "0.1.0",
+  Rights = ":tba",
+  Description = ":tba",
+  Geolocation = ":unas",
+  FundingReference = ":unas"
 )
 
 as_datacite(x, type = "bibentry", ...)
@@ -85,45 +88,66 @@ IETF BCP 47, ISO 639-1 language code. See \code{\link[=language]{language()}}.}
 \item{AlternateIdentifier}{An identifier or identifiers other than the primary
 Identifier applied to the resource being registered. This may be any
 alphanumeric string unique within its domain of issue. It may be used for
-local identifiers. \code{AlternateIdentifier} should be used for another
-identifier of the same instance (same location, same file).}
+local identifiers.
+\code{AlternateIdentifier} should be used for another
+identifier of the same instance (same location, same file).
+Defaults to \code{":unas"} for unassigned values.}
 
-\item{RelatedIdentifier}{Recommended for discovery. Similar to
+\item{RelatedIdentifier}{Recommended for discovery.
+Defaults to \code{":unas"} for unassigned values.
+Similar to
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/relation/}{dct:relation}.}
 
-\item{Format}{Technical format of the resource.
+\item{Format}{Technical format of the resource. Use file extension or MIME
+type where possible, e.g., PDF, XML, MPG or application/pdf, text/xml, video/mpeg.
 Similar to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/format/}{dct:format}.}
 
-\item{Version}{Free text. Suggested practice: track major_version.minor_version. See \code{\link{version}}.}
+\item{Version}{Free text. Suggested practice: track major_version.minor_version.
+Defaults to \code{"0.1.0"}.
+See \code{\link{version}}.}
 
-\item{Rights}{Any rights information for this resource. The property may be repeated to record complex rights characteristics.
-Free text. See \code{\link{rights}}.}
+\item{Rights}{Any rights information for this resource. The property may be
+repeated to record complex rights characteristics, but this is not yet supported.
+Free text. See \code{\link{rights}}.
+Defaults to \code{":tba"}.}
 
 \item{Description}{Recommended for discovery. All additional information that does not
 fit in any of the other categories. It may be used for technical information—a free text.
+Defaults to \code{":tba"}.
 Similar to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}.}
 
 \item{Geolocation}{Recommended for discovery. Spatial region or named place where the data was gathered
 or about which the data is focused. See \code{\link[=geolocation]{geolocation()}}.}
 
 \item{FundingReference}{Information about financial support (funding) for the resource
-being registered.}
+being registered.
+Defaults to \code{":unas"} for unassigned values. Complex types with subproperties
+are not yet implemented.}
 
 \item{x}{An object that is tested if it has a class "datacite".}
 
 \item{type}{A DataCite 4.4  metadata can be returned as a \code{type="list"},
-a \code{type="dataset"}, or a \code{type="bibentry"} (default).}
+a \code{type="dataset_df"}, or a \code{type="bibentry"} (default).}
 
 \item{...}{Optional parameters to add to a \code{datacite} object.
 \code{author=person("Jane", "Doe")} adds an author to the citation
-object if \code{type="dataset"}.}
+object if \code{type="dataset"}.
+as_datacite(iris_dataset, type="list")}
 }
 \value{
-A \code{utils::\link[utils]{bibentry}} object DataCite attributes.
-\code{as_datacite} returns the existing metadata of a dataset object.
+\code{datacite()} creates a \code{utils::\link[utils]{bibentry}} object
+extended with standard Dublin Core bibliographical metadata, \code{as_datacite()}
+retrieves the contents of this bibentry object of a dataset_df from its
+attributes, and returns the contents as list, dataset_df, or bibentry object.
+
+\code{as_datacite(x, type)} returns the DataCite bibliographical metadata
+of x either as a list, a bibentry object, or a dataset_df object.
+
+\code{is.datacite(x)} returns a logical values (if the object \code{x}
+is of class \code{datacite}).
 }
 \description{
-Add or retrieve metadata conforming
+Add metadata conforming
 the \href{https://schema.datacite.org/}{DataCite Metadata Schema}.
 }
 \details{
@@ -149,7 +173,8 @@ datacite(
 as_datacite(iris_dataset)
 }
 \seealso{
-Other metadata functions: 
-\code{\link{dublincore}()}
+Other bibentry functions: 
+\code{\link{dublincore}()},
+\code{\link{get_bibentry}()}
 }
-\concept{metadata functions}
+\concept{bibentry functions}

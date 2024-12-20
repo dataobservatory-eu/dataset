@@ -65,10 +65,10 @@ small_country_dataset <- dataset_df(
     c(77543, 40015), 
     label = "Population",
     definition = "http://data.europa.eu/bna/c_f2b50efd"), 
-  reference = list(
-    author = person(given="Jane", family="Doe"), 
-    title = "Small Country Dataset", 
-    publisher = "Reprex"
+  dataset_bibentry = dublincore(
+        creator = person(given="Jane", family="Doe"), 
+        title = "Small Country Dataset", 
+        publisher = "Reprex"
   )
 )
 ```

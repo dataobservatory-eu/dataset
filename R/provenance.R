@@ -2,16 +2,19 @@
 #' @description Add or update information about the history (provenance) of the dataset.
 #' @param x A dataset created with \code{\link{dataset_df}}.
 #' @param value Use \code{\link{n_triples}} to add further statement values.
+#' @return \code{provenance(x)} returns the provenance attributes created by
+#' \code{\link{n_triples}} as a text; \code{provenance(x)<-value} adds the new
+#' provenance attributes and returns \code{x} invisibly.
 #' @importFrom utils citation
 #' @examples
 #' provenance(iris_dataset)
 #'
 #' ## add a statement:
+#'
 #'  provenance(iris_dataset) <- n_triple(
 #'   "https://doi.org/10.5281/zenodo.10396807",
 #'   "http://www.w3.org/ns/prov#wasInformedBy",
 #'   "http://example.com/source#1")
-#' @return The provenance statements of the dataset.
 #' @export
 provenance <- function(x) {
   if(!is.dataset_df(x)) {

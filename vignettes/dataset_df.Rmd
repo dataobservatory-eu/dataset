@@ -20,7 +20,7 @@ library(dataset)
 
 The aim of the `dataset_df` is to create semantically richer datasets.
 
-```{r}
+```{r createdataasetdf}
 small_country_dataset <- dataset_df(
   country_name = defined(
     c("AD", "LI"),
@@ -32,11 +32,10 @@ small_country_dataset <- dataset_df(
     label = "Gross Domestic Product", 
     unit = "million dollars", 
     definition = "http://data.europa.eu/83i/aa/GDP"),
-  reference = list(
+  dataset_bibentry = dublincore(
     title = "Small Country Dataset", 
-    author = person("Jane", "Doe"), 
-    publisher = "Example Inc."
-  )
+    creator = person("Jane", "Doe"), 
+    publisher = "Example Inc.")
   )
 ```
 

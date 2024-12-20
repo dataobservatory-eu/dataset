@@ -36,16 +36,16 @@ test_that("dublincore() works", {
 test_that("as_dublincore() works", {
   expect_true(is.dublincore(as_dublincore(iris_dataset)))
   expect_true(is.list(as_dublincore(x=iris_dataset, type="list")))
-  expect_true(is.null(as_dublincore(iris_dataset, type="list")$subject))
   expect_true(is.null(as_dublincore(iris_dataset, type="list")$contributor))
   expect_equal(as_dublincore(iris_dataset)$year, "1935")
-  #expect_equal(as_dublincore(iris_dataset, type="dataset")$description, "The famous (Fisher's or Anderson's) iris data set.")
-  #expect_equal(dataset_title(as_dublincore(iris_dataset, type="dataset")), "The Dublin Core Metadata of `Iris Dataset'")
-  #expect_equal(as_dublincore(iris_dataset, type="dataset")$rights, ':unas')
-  #expect_equal(as_dublincore(iris_dataset, type="dataset")$coverage, ':unas')
+  expect_equal(as_dublincore(iris_dataset)$description, "The famous (Fisher's or Anderson's) iris data set.")
+  expect_equal(as_dublincore(iris_dataset)$rights, ':tba')
+  expect_equal(as_dublincore(iris_dataset)$coverage, ':unas')
 })
 
 
 test_that("as_dublincore() gives warning", {
   expect_warning(as_dublincore(iris_dataset, type = "character"))
 })
+
+

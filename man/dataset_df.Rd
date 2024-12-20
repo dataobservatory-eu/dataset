@@ -9,11 +9,12 @@
 \title{Create a new dataset_df object}
 \usage{
 dataset_df(
-  reference = NULL,
+  ...,
+  dataset_bibentry = NULL,
   var_labels = NULL,
   units = NULL,
   definitions = NULL,
-  ...
+  dataset_subject = NULL
 )
 
 as_dataset_df(
@@ -21,7 +22,8 @@ as_dataset_df(
   var_labels = NULL,
   units = NULL,
   definitions = NULL,
-  reference = NULL,
+  dataset_bibentry = NULL,
+  dataset_subject = NULL,
   ...
 )
 
@@ -32,8 +34,11 @@ is.dataset_df(x)
 is_dataset_df(x)
 }
 \arguments{
-\item{reference}{A list of bibliographic references and descriptive metadata
-about the dataset as a whole.}
+\item{...}{The vectors (variables) that should be included in the dataset.}
+
+\item{dataset_bibentry}{A list of bibliographic references and descriptive metadata
+about the dataset as a whole created with \code{\link{datacite}} or
+\code{\link{dublincore}}.}
 
 \item{var_labels}{The long, human readable labels of each variable.}
 
@@ -41,23 +46,37 @@ about the dataset as a whole.}
 
 \item{definitions}{The linked definitions of the variables, attributes, or constants.}
 
-\item{...}{The vectors (variables) that should be included in the dataset.}
+\item{dataset_subject}{The subject of the dataset, see \code{\link{subject}}.}
 
-\item{df}{A data.frame to be converted to dataset_df.}
+\item{df}{A \code{data.frame} to be converted to \code{dataset_df}.}
 
-\item{x}{A dataset for S3 methods.}
+\item{x}{A \code{dataset_df} object for S3 methods.}
 }
 \value{
-A dataset_df object with rich metadata.
+\code{dataset_df} is the constructor of this type, it returns an object
+inherited from a data frame with semantically rich metadata.
+
+\code{is.dataset_df} returns a logical value
+(if the object is of class \code{dataset_df}.)
 }
 \description{
-Create a new dataset_df object
+The \code{dataset_df} constructor creates the objects of this class, which
+are semantically rich, modern data frames inherited from
+\code{\link[tibble:tibble]{tibble::tibble}}.
 }
 \details{
-To check if an object is a dataset_df use \code{is.dataset_df(x)}.
+To check if an object has the class dataset_df use \code{is.dataset_df}.\cr
+\cr
+\code{print} is the method to print out the semantically rich data frames
+created with the constructor of \code{dataset_df}.\cr
+\cr
+\code{summary} is the method to summarise these semantically rich data frames.\cr
+\cr
+For more details, please check the \code{vignette("dataset_df", package = "dataset")}
+vignette.
 }
 \examples{
-dataset_df(
+my_dataset <- dataset_df(
    country_name = defined(
      c("AD", "LI"),
      definition = "http://data.europa.eu/bna/c_6c2bb82d",
@@ -68,4 +87,8 @@ dataset_df(
      unit = "million dollars",
      definition = "http://data.europa.eu/83i/aa/GDP")
 )
+
+print(my_dataset)
+
+is.dataset_df(my_dataset)
 }

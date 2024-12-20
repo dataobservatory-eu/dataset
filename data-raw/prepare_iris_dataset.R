@@ -26,19 +26,25 @@ iris_dataset <- dataset_df(
                     label = "Taxon name within the Iris genus",
                     definition = "https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomygenus?id=6074",
                     namespace = "Iris" ),
-  reference =  list(
+  dataset_bibentry =  dublincore(
     title = "Iris Dataset",
-    author = person(given="Edgar", family="Anderson", role = "aut"),
-    doi = "https://doi.org/10.5281/zenodo.10396807",
+    creator = person(given="Edgar", family="Anderson", role = "aut"),
+    identifier = "https://doi.org/10.5281/zenodo.10396807",
     publisher = "American Iris Society",
     datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-    year = 1935,
+    date = 1935,
     language = "en",
     description = "The famous (Fisher's or Anderson's) iris data set."
-  )
+  ),
+  subject = subject_create(term  = "Irises (plants)",
+                           schemeURI = "http://id.loc.gov/authorities/subjects",
+                           valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
+                           subjectScheme = "LCCH",
+                           prefix = "lcch:")
 )
 
-print(as_dublincore(iris_dataset), "Bibtex")
+subject(iris_dataset)
+print(get_bibentry(iris_dataset), "Bibtex")
 attributes(iris_dataset$Species)
 get_bibentry(iris_dataset)
 
