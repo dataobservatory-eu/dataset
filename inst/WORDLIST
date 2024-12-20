@@ -17,10 +17,12 @@ Datasets's
 DublinCore
 Dublinc
 Eurostat
+Findability
 Gaspe
 Geolocation
 IANA
 IETF
+IRI
 LOM
 Labelled
 Marino
@@ -29,6 +31,7 @@ Organisations
 PID
 QID
 RDF
+Reusability
 RopenSci
 SDMX
 SMDX
@@ -86,6 +89,7 @@ rdflib
 rdfs
 resourceType
 reusability
+rhub
 rowid
 serialisation
 serialise
@@ -93,9 +97,13 @@ serialised
 setosa
 socio
 standardised
+stateing
 subproperties
 subproperty
+subvectors
+summarise
 summarised
+summarises
 tibble
 tibbles
 tidyverse

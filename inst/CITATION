@@ -5,8 +5,8 @@ bibentry(bibtype = "Misc",
          title = "The dataset R Package: Create Data Frames that are Easier to Exchange and Reuse",
          author = c(person(given ="Daniel", family = "Antal", role = "aut")),
          year = "2024",
-         month = "01",
-         day = "09",
-         publisher = "The Comprehensive R Archive Network",
+         month = "12",
+         day = "20",
+         publisher = "Reprex BV",
          url = "https://dataset.dataobservatory.eu/index.html",
-         doi = "10.5281/zenodo.10574908")
+         doi = "10.5281/zenodo.14537352")
