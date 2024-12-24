@@ -39,10 +39,13 @@
 #' \code{\link{datacite}} it is a recommended property for discovery. In DataCite, a more complex
 #' referencing is used. See \code{\link{subject}} and create structured Subject objects with
 #' \code{\link{subject_create}}.
-#' @param date Corresponds to a point or period of time associated with an event in the
+#' @param dataset_date Corresponds to a point or period of time associated with an event in the
 #' lifecycle of the resource. \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/date/}{dct:date}.
 #' \code{Date} is also recommended for
 #' discovery in \code{\link{datacite}}, but it requires a different formatting.
+#' To aviod confusion with date-related functions, instead of the DCMITERMS
+#' date or the DataCite Date term, the parameter name is
+#' \code{dataset_date}.
 #' @param language The primary language of the resource. Allowed values are taken from
 #' IETF BCP 47, ISO 639-1 language code. See \code{\link{language}}. Corresponds to Language in Datacite.
 #' @param format The file format, physical medium, or dimensions of the resource.
@@ -89,20 +92,22 @@
 #' @return \code{dublincore()} creates a \code{utils::\link[utils]{bibentry}} object
 #' extended with standard Dublin Core bibliographical metadata, \code{as_dublincore()}
 #' retrieves the contents of this bibentry object of a dataset_df from its
-#' attributes, and returns the contents as list, dataset_df, or bibentry object.
+#' attributes, and returns the contents as list, dataset_df, or bibentry object, or an
+#' ntriples string.
 #' @examples
-#' my_bibentry <- dublincore(
+#' my_bibentry <-  dct_iris <- dublincore(
 #'    title = "Iris Dataset",
 #'    creator = person("Edgar", "Anderson", role = "aut"),
-#'    publisher = "American Iris Society",
+#'    publisher = person("American Iris Society", role="pbl"),
+#'    contributor = person("Daniel", "Antal", role="dtm"),
 #'    datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-#'    date = 1935,
+#'    dataset_date = 1935,
 #'    language = "en",
-#'    description = "This famous (Fisher's or Anderson's) iris data set gives the
-#'    measurements in centimeters of the variables sepal length and width and petal length
-#'    and width, respectively, for 50 flowers from each of 3 species of iris.
-#'    The species are Iris setosa, versicolor, and virginica."
-#'   )
+#'    description = "The famous (Fisher's or Anderson's) iris data set gives the
+#'    measurements in centimeters of the variables sepal length and width and
+#'    petal length and width, respectively, for 50 flowers from each of 3
+#'    species of iris. The species are Iris setosa, versicolor, and virginica."
+#'    )
 #'
 #' as_dublincore(iris_dataset, type="list")
 #' @export
@@ -110,12 +115,12 @@
 dublincore <- function(
     title,
     creator,
-    identifier = NULL,
+    contributor = NULL,
     publisher = NULL,
+    identifier = NULL,
     subject = NULL,
     type = "DCMITYPE:Dataset",
-    contributor = NULL,
-    date = NULL,
+    dataset_date = NULL,
     language = NULL,
     relation = NULL,
     format = "application/r-rds",
@@ -124,7 +129,7 @@ dublincore <- function(
     description = NULL,
     coverage = NULL) {
 
-  date       <- ifelse (is.null(date), ":tba", as.character(date))
+  publication_date <- ifelse (is.null(dataset_date), ":tba", as.character(dataset_date))
   identifier <- ifelse (is.null(identifier), ":tba", as.character(identifier))
   format     <- ifelse (is.null(format), ":tba", as.character(format))
   relation   <- ifelse (is.null(relation), ":unas", relation)
@@ -132,15 +137,26 @@ dublincore <- function(
   rights <- ifelse (is.null(rights), ":tba", as.character(rights))
   coverage <- ifelse (is.null(coverage), ":unas", as.character(coverage))
   datasource <- ifelse (is.null(datasource), ":unas", as.character(datasource))
+  publishers <- ifelse(is.null(publisher), ":unas", publisher)
+  contributors <- ifelse(is.null(contributor), ":unas", contributor)
+  creators <- if(is.null(creator)) creators <- ":tba" else creators <- creator
+
+  ## Fix publishers
+  ## Due to bug in RefManager
+  publisher <- fix_publisher(publishers=publishers)
+
+  ## Fix contributors
+  ## Due to bug in RefManager
+  contributor <- fix_contributor(contributors=contributors)
 
   new_dublincore(title = title,
-                 creator = creator,
+                 creator = creators,
                  identifier = identifier,
                  publisher = publisher,
                  subject = subject,
                  type = type,
                  contributor = contributor,
-                 date = date,
+                 publication_date = publication_date,
                  language = language,
                  relation = relation,
                  format = format,
@@ -150,147 +166,92 @@ dublincore <- function(
                  coverage = coverage)
 }
 
-#' @rdname dublincore
-#' @param ... Optional parameters to add to a \code{dublincore} object.
-#' \code{author=person("Jane", "Doe")} adds an author to the citation
-#' object if \code{type="dataset"}.
-#' @export
-as_dublincore <- function(x, type = "bibentry", ...) {
+#' @keywords internal
+dublincore_to_triples <- function(dclist, dataset_id) {
 
-  citation_author <- person(NULL, NULL)
-
-  is_person <- function(p) ifelse (inherits(p, "person"), TRUE, FALSE)
-
-  arguments <- list(...)
-
-  if (!is.null(arguments$author)) {
-    if ( is_person(arguments$author))  {
-      citation_author <- arguments$author
-    } else {
-      stop("as_dublincore(x, ..., author = ): author must be created with utils::person().")
-    }
+  if (is.null(dclist) | is.null(dclist$title) | nchar(dclist$title)==0) {
+    stop("Error: dublincore_to_triples(dclist, dataset_id): no title found in dclist")
   }
 
-  if (! type %in% c("bibentry", "list", "dataset")) {
-    warning_message <- "as_dublincore(ds, type=...) type cannot be "
-    warning(warning_message, type, ". Reverting to 'bibentry'.")
-    type <- 'bibentry'
+  dctriples <- n_triple(dataset_id,
+                        "http://purl.org/dc/terms/title",
+                        dclist$title)
+
+  if ( !is.null(dclist$description) ) {
+    dctriples <- c(dctriples, n_triple(dataset_id,
+                                       "http://purl.org/dc/terms/description",
+                                       dclist$description))
   }
 
-  ds_bibentry     <- get_bibentry(x)
-  dataset_title   <- ds_bibentry$title
-  dataset_creator <- ds_bibentry$author
-
-  if (! is_person(dataset_creator)) {
-    stop('attr(x, "dataset_bibentry")$author is not a person object.')
+  if ( !is.null(dclist$creator)) {
+    tcreator <- n_triple(dataset_id,
+                         "http://purl.org/dc/terms/creator",
+                         dclist$creator)
+    dctriples <- c(dctriples, tcreator)
   }
 
-  if (!is.null(ds_bibentry$year)) {
-    if(is.null(ds_bibentry$dataset_date)) {
-      dataset_date <- as.character(ds_bibentry$year)
-    } else {
-      dataset_date <- as.character(ds_bibentry$date)
-    }
-  } else {
-    dataset_date <- ":tba"
+  if ( !is.null(dclist$publisher) ) {
+    dctriples <- c(dctriples, n_triple(dataset_id,
+                                       "http://purl.org/dc/terms/publisher",
+                                       dclist$publisher))
   }
 
-  dataset_relation <- ifelse (is.null(ds_bibentry$relation), ":unas", as.character(ds_bibentry$relation))
-  dataset_identifier <- ifelse (is.null(ds_bibentry$identifier), ":tba", as.character(ds_bibentry$identifier))
-  dataset_version <- ifelse (is.null(ds_bibentry$version), ":unas", as.character(ds_bibentry$version))
-  dataset_description <- ifelse (is.null(ds_bibentry$description), ":unas", as.character(ds_bibentry$description))
-  dataset_language <- ifelse (is.null(ds_bibentry$language), ":unas", as.character(ds_bibentry$language))
-  dataset_format <- ifelse (is.null(ds_bibentry$format), ":tba", as.character(ds_bibentry$format))
-  dataset_rights <- ifelse (is.null(ds_bibentry$rights), ":tba", as.character(ds_bibentry$rights))
-  dataset_coverage  <- ifelse (is.null(ds_bibentry$coverage), ":unas", as.character(ds_bibentry$coverage))
-  datasource <- ifelse (is.null(ds_bibentry$datasource), ":unas", as.character(ds_bibentry$datasource))
-  dataset_contributor <- ifelse (is.null(ds_bibentry$contributor), "", as.character(ds_bibentry$contributor))
-  dataset_subject   <- ifelse (is.null(ds_bibentry$subject), "", as.character(ds_bibentry$subject))
-  dataset_publisher <- ifelse (is.null(ds_bibentry$publisher), "", as.character(ds_bibentry$publisher))
-
-  if (type == "bibentry") {
-    new_dublincore(title       = dataset_title,
-                   creator     = dataset_creator,
-                   identifier  = dataset_identifier,
-                   publisher   = dataset_publisher,
-                   subject     = dataset_subject,
-                   type = "DCMITYPE:Dataset",
-                   contributor = dataset_contributor,
-                   date        = dataset_date,
-                   language    = dataset_language,
-                   relation    = dataset_relation,
-                   format      = dataset_format,
-                   rights      = dataset_rights,
-                   datasource  = datasource,
-                   description = dataset_description,
-                   coverage    = dataset_coverage)
-  } else if (type== "list") {
-    if (dataset_contributor == "") dataset_contributor <- NULL
-    if (dataset_subject == "") dataset_subject <- NULL
-
-    list(title=dataset_title,
-         creator=dataset_creator,
-         identifier = dataset_identifier,
-         publisher = dataset_publisher,
-         subject = dataset_subject,
-         type = "DCMITYPE:Dataset",
-         contributor = dataset_contributor,
-         date = date,
-         language = dataset_language,
-         relation = dataset_relation,
-         format = dataset_format,
-         rights = dataset_rights,
-         datasource = datasource,
-         description = dataset_description,
-         coverage = dataset_coverage)
-  } else if ( type  == "dataset") {
-
-    properties <- c(length(dataset_title),
-                    length(as.character(dataset_creator)),
-                    length(dataset_identifier),
-                    length(dataset_publisher),
-                    length(dataset_subject),
-                    length("DCMITYPE:Dataset"),
-                    length(dataset_contributor),
-                    length(dataset_date),
-                    length(dataset_language),
-                    length(dataset_relation),
-                    length(dataset_format),
-                    length(dataset_rights),
-                    length(datasource),
-                    length(dataset_description),
-                    length(dataset_coverage)
-                    )
-    assertthat::assert_that(
-      all(properties)==1, msg= "In as_dublincore() not all properties have a length 1 to export into datataset (data.frame)."
-    )
-
-    dataset_df(
-      data.frame(title = dataset_title,
-                 creator = as.character(dataset_creator),
-                 identifier = dataset_identifier,
-                 publisher = dataset_publisher,
-                 subject = dataset_subject,
-                 type = "DCMITYPE:Dataset",
-                 contributor = dataset_contributor,
-                 date = dataset_date,
-                 language = dataset_language,
-                 relation = dataset_relation,
-                 format = dataset_format,
-                 rights = dataset_rights,
-                 datasource = datasource,
-                 description = dataset_description,
-                 coverage = dataset_coverage),
-      reference = list(
-        title = paste0("The Dublin Core Metadata of `", ds_bibentry$title, "'"),
-        author = citation_author,
-        year = substr(as.character(Sys.Date()),1,4)
-
-      ))
+  if ( !is.null(dclist$identifier) ) {
+    dctriples <- c(dctriples, n_triple(dataset_id,
+                                       "http://purl.org/dc/terms/identifier",
+                                       dclist$identifier))
   }
+
+  if ( !is.null(dclist$subject) ) {
+    dctriples <- c(dctriples, n_triple(dataset_id,
+                                       "http://purl.org/dc/terms/subject",
+                                       dclist$subject))
+  }
+
+  if ( !is.null(dclist$type) ) {
+
+    dctriples <- c(dctriples, n_triple(dataset_id,
+                                       "http://purl.org/dc/terms/type",
+                                       gsub("DCMITYPE:", "http://purl.org/dc/terms/DCMIType", dclist$type)))
+  }
+
+  if ( !is.null(dclist$contributor) ) {
+    dctriples <- c(dctriples, n_triple(dataset_id,
+                                       "http://purl.org/dc/terms/contributor",
+                                       dclist$contributor))
+  }
+
+  #if ( !is.null(dclist$date) ) {
+  #  dctriples <- c(dctriples, n_triple(dataset_id,
+  #                                     "http://purl.org/dc/terms/date",
+  #                                     dclist$date))
+  #}
+
+  if ( !is.null(dclist$language) ) {
+    dctriples <- c(dctriples, n_triple(dataset_id,
+                                       "http://purl.org/dc/terms/language",
+                                       dclist$language))
+  }
+
+  if ( !is.null(dclist$datasource) ) {
+    dctriples <- c(dctriples, n_triple(dataset_id,
+                                       "http://purl.org/dc/terms/source",
+                                       dclist$datasource))
+  }
+
+
+
+  if ( !is.null(dclist$coverage) ) {
+    dctriples <- c(dctriples, n_triple(dataset_id,
+                                       "http://purl.org/dc/terms/coverage",
+                                       dclist$coverage))
+  }
+  n_triples(dctriples)
 }
 
+
 #' @keywords internal
+#' @importFrom RefManageR BibEntry
 new_dublincore <- function (title,
                             creator,
                             identifier = NULL,
@@ -298,7 +259,7 @@ new_dublincore <- function (title,
                             subject = NULL,
                             type = "DCMITYPE:Dataset",
                             contributor = NULL,
-                            date = NULL,
+                            publication_date = NULL,
                             language = NULL,
                             relation = NULL,
                             format = NULL,
@@ -307,21 +268,55 @@ new_dublincore <- function (title,
                             description = NULL,
                             coverage = NULL) {
 
-  dublincore_object <- bibentry(bibtype = "Misc",
-                                title = title,
-                                author = creator,
-                                identifier = identifier,
-                                publisher = publisher,
-                                contributor = contributor,
-                                year = as.character(substr(date, 1,4)),
-                                language = language,
-                                relation = relation,
-                                format = format,
-                                rights = rights,
-                                description = description,
-                                type = type,
-                                datasource = datasource,
-                                coverage = coverage)
+  ## Fix publishers
+  ## Due to bug in RefManager
+  publisher <- fix_publisher(publisher)
+
+  ## Fix contributors
+  ## Due to bug in RefManager
+  contributor <- fix_contributor(contributors=contributor)
+
+  if ( inherits(creator, "list")) {
+    warning("list", creator)
+    for (i in 1:length(creator)) {
+      if ( i ==1 ) {
+        message(i)
+        creator <- person(given = creator[[i]]$given, middle = creator[[i]]$middle, family=creator[[i]]$family,
+                          email=creator[[i]]$email, role=creator[[i]]$role, comment=creator[[i]]$comment,
+                          first=creator[[i]]$first, last=creator[[i]]$last)
+      } else {
+        mesage(i)
+        tmp <- person(given = creator[[i]]$given, middle = creator[[i]]$middle, family=creator[[i]]$family,
+                          email=creator[[i]]$email, role=creator[[i]]$role, comment=creator[[i]]$comment,
+                          first=creator[[i]]$first, last=creator[[i]]$last)
+        creator <- c(creator, tmp)
+      }
+    }
+
+    warning("\n", class(creator))
+  }
+
+  assertthat::assert_that(all(inherits(creator, "person")))
+
+  dublincore_object <- RefManageR::BibEntry(
+    bibtype = "Misc",
+    title = title,
+    author = creator,
+    identifier = identifier,
+    publisher = publisher,
+    contributor = contributor,
+    date = publication_date,
+    language = language,
+    relation = relation,
+    format = format,
+    rights = rights,
+    description = description,
+    type = type,
+    datasource = datasource,
+    coverage = coverage)
+
+  assertthat::assert_that(!is.null(dublincore_object$author))
+  assertthat::assert_that(inherits(dublincore_object$author, "person"))
 
   class(dublincore_object) <- c("dublincore", class(dublincore_object))
   dublincore_object
@@ -338,3 +333,87 @@ is.dublincore <- function(x) {
 #' Dublin Core specification.
 #' @exportS3Method
 is.dublincore.dublincore <- function(x) inherits(x, "dublincore")
+
+
+#' @keywords internal
+fix_publisher <- function(publishers) {
+
+  if (is.null(publishers)) return(":unas")
+
+  if ( all(inherits(publishers, "person")) ) {
+    if( length(publishers)>1 ) {
+      return_value <- paste0("{",
+                          paste( vapply(publishers, function(x) x$given, character(1)),
+                                 collapse="} and {"),
+                          "}" )
+    } else {
+      return_value <- publishers$given
+    }
+  } else if ( all(inherits(publishers, "list")) ) {
+
+    if( length(publishers)>1 ) {
+      return_value <- paste0("{",
+                             paste( lapply(publishers, function(x) x$given),
+                                    collapse="} and {"),
+                             "}" )
+    } else {
+      return_value <- publishers[[1]]$given
+    }
+  } else if (length(publishers)>1) {
+    # several character strings
+    return_value <- paste0("{",
+                        paste( vapply(publishers, function(x) x$given, character(1)),
+                               collapse="} and {"),
+                        "}" )
+  }  else {
+    return_value <- publishers
+  }
+
+  assertthat::assert_that(is.character(return_value),
+                          msg="Error: fix_publishers(publishers): not character but")
+  assertthat::assert_that(length(return_value)==1, msg="Error: fix_publishers(publishers): not 1" )
+
+  return_value
+}
+
+
+#' @keywords internal
+fix_contributor <- function(contributors=NULL) {
+
+  if (is.null(contributors)) return(":unas")
+
+  if ( all(inherits(contributors, "person")) ) {
+    if( length(contributors)>1 ) {
+      return_value <- paste0("{",
+                             paste( vapply(contributors, function(x) {as.character(x)}, character(1)),
+                                    collapse="} and {"),
+                             "}" )
+    } else {
+      return_value <- as.character(contributors)
+    }
+  } else if ( all(inherits(contributors, "list")) ) {
+    if( length(contributors)>1 ) {
+      return_value <- paste0("{",
+                             paste( lapply(contributors, function(x) x$given),
+                                    collapse="} and {"),
+                             "}" )
+    } else {
+      return_value <- paste(unlist(contributors[[1]]), collapse=" ")
+    }
+  } else if (length(contributors)>1) {
+    # several character strings
+    return_value <- paste0("{",
+                           paste( vapply(contributors, function(x) x$given, character(1)),
+                                  collapse="} and {"),
+                           "}" )
+  }  else {
+    return_value <- contributors
+  }
+
+  assertthat::assert_that(is.character(return_value),
+                          msg="Error: fix_contributor(contributors): not character but")
+  assertthat::assert_that(length(return_value)==1, msg="Error: fix_contributor(contributors): not 1" )
+
+  return_value <- gsub("* dtm", " [dtm]", return_value )
+  return_value
+}

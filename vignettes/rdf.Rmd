@@ -1,0 +1,47 @@
+---
+title: "From R to RDF"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{From R to RDF}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dataset)
+library(rdflib)
+```
+
+
+```{r prov}
+provenance(iris_dataset)
+```
+
+```{r bibliography}
+as_dublincore(iris_dataset, type="ntriples")
+```
+
+```{r rdf}
+# initialise an rdf triplestore:
+dataset_describe <- rdf()
+
+# open a temporary file:
+temp_prov <- tempfile()
+
+# describe the dataset in temporary file:
+describe(iris_dataset, temp_prov)
+
+# parse temporary file into the RDF triplestore;
+rdf_parse(rdf = dataset_describe, doc=temp_prov, format="ntriples")
+
+# show RDF triples:
+dataset_describe 
+```
+

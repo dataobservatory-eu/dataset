@@ -1,11 +1,9 @@
 
 
-
-
 test_that("var_namespace() works", {
-  qid <- defined(c("Q275912", "Q116196078"), namespace = "https://www.wikidata.org/wiki/")
+  qid <- defined(c("Q275912", "Q116196078"), namespace = c(wd="https://www.wikidata.org/wiki/"))
   expect_true(is.defined(qid))
-  expect_equal(var_namespace(qid),"https://www.wikidata.org/wiki/")
+  expect_equal(var_namespace(qid), c(wd="https://www.wikidata.org/wiki/"))
 })
 
 

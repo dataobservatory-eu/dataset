@@ -193,9 +193,10 @@ xsd_convert.factor<- function(x, idcol=NULL, ... ) {
 #' @export
 #' @exportS3Method
 xsd_convert.POSIXct <- function(x, idcol=NULL, ...) {
-  time_gmt <- as.POSIXct(x, tz = "GMT")
-  time_string <- paste0(as.character(as.Date(time_gmt)), "T",
-         strftime(time_gmt, format="%H:%M:%S"), "Z")
+
+  time_utc <- as.POSIXct(x, tz = "UTC")
+  time_string <- paste0(as.character(as.Date(time_utc)), "T",
+         strftime(time_utc, format="%H:%M:%S"), "Z")
 
   paste0('\"', time_string,  '\"', "^^<xs:dateTime>")
 }

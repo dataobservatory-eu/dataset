@@ -66,15 +66,7 @@ The publication year is usually one of the most important descriptive metadata i
 ```{r irispublicationyear}
 publication_year(iris_dataset_2)
 ```
-The default value is `:unas` for unassigned values:
 
-```{r publicationyeardefault}
-# Revert to default (unassigned):
-publication_year(iris_dataset_2) <- NULL
-
-# Get the default value:
-publication_year(iris_dataset_2) 
-```
 ### Language
 
 ```{r, language}
@@ -134,7 +126,7 @@ description(iris_dataset)
 
 ### Subject
 
-```{r}
+```{r subject}
 subject(iris_dataset)
 ```
 
@@ -146,7 +138,7 @@ subject(iris_dataset)
 </subject>
 ```
 
-```{r}
+```{r subjectcreate}
 subject_create(
   term = "data sets", 
   subjectScheme = "Library of Congress Subject Headings (LCSH)", 
@@ -174,6 +166,8 @@ And according to DCTERMS (Dublin Core):
 
 
 ```{r dc}
+library(RefManageR)
 print(as_dublincore(iris_dataset), "Bibtex")
+RefManageR::toBiblatex(as_dublincore(iris_dataset))
 ```
 

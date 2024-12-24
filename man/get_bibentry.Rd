@@ -60,7 +60,7 @@ as_dublincore(iris_dataset, "list")
 }
 \seealso{
 Other bibentry functions: 
-\code{\link{datacite}()},
-\code{\link{dublincore}()}
+\code{\link{as_dublincore}()},
+\code{\link{datacite}()}
 }
 \concept{bibentry functions}

@@ -45,7 +45,6 @@
 #' # Print the bibentry object according to the Dublin Core notation:
 #' as_dublincore(iris_dataset, "list")
 #' @export
-
 get_bibentry <- function(dataset) {
    assertthat::assert_that("dataset_bibentry" %in% names(attributes(dataset)),
                             msg="Error: get_bibentry(dataset): dataset has no dataset_bibentry attribute")
@@ -62,12 +61,22 @@ get_bibentry <- function(dataset) {
 
   if(is.null(value)) {
     value <- dublincore(title   = "Untitled Dataset",
-                        creator = "Unknown Author",
-                        date=year)
+                        creator = person("Unknown Author"),
+                        dataset_date=year)
   }
 
   if(is.null(value$year)) value$year <- year
 
   attr(dataset, "dataset_bibentry") <- value
   invisible(dataset)
+}
+
+#' @keywords internal
+set_default_bibentry <- function() {
+  sys_time <- Sys.time()
+  year <- substr(as.character(sys_time),1,4)
+  Title <- "Untitled Dataset"
+  Creator <- person("Unknown", "Author")
+  dataset_bibentry <- datacite(Title=Title, Creator=Creator, PublicationYear = year)
+  dataset_bibentry
 }

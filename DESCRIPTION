@@ -1,7 +1,7 @@
 Package: dataset
 Title: Create Data Frames that are Easier to Exchange and Reuse
-Version: 0.3.4
-Date: 2024-12-23
+Version: 0.3.4001
+Date: 2024-12-24
 DOI: 10.32614/CRAN.package.dataset
 Language: en-US
 Authors@R: 
@@ -33,6 +33,7 @@ Imports:
     labelled,
     methods,
     pillar,
+    RefManageR,
     rlang,
     tibble,
     utils,
@@ -40,6 +41,7 @@ Imports:
 RoxygenNote: 7.3.2
 Suggests: 
     knitr,
+    rdflib,
     rmarkdown,
     spelling,
     testthat (>= 3.0.0)

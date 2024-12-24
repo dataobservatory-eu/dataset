@@ -50,16 +50,39 @@ n_triple <- function(s,p,o) {
 create_iri <- function(x) {
 
   if ( any(c("list", "data.frame", "tbl", "data.table") %in% class(x)) ) {
-    stop ("Error: create_iri(x) must be any of an URI, string, integer, double, Date, or dateTime.")
+    stop ("Error: create_iri(x) must be any of an URI, string, integer, double, Date, dateTime, or person.")
   }
 
-  double_string <- '^^<http://www.w3.org/2001/XMLSchema#double>'
-  integer_string <- '^^<http://www.w3.org/2001/XMLSchema#integer>'
+  double_string    <- '^^<http://www.w3.org/2001/XMLSchema#double>'
+  integer_string   <- '^^<http://www.w3.org/2001/XMLSchema#integer>'
   character_string <- '^^<http://www.w3.org/2001/XMLSchema#string>'
-  date_string <- '^^<http://www.w3.org/2001/XMLSchema#date>'
+  date_string      <- '^^<http://www.w3.org/2001/XMLSchema#date>'
+  datetime_string  <- '^^<http://www.w3.org/2001/XMLSchema#dateTime>'
+
+  if(inherits(x, "person")) {
+
+    if ( "isni" %in% tolower(names(x$comment)) ) {
+      x <- paste0("https://isni.org/isni/", x$comment[which(tolower(names(x$comment))=="isni")])
+    } else if ( "orcid" %in% tolower(names(x$comment)) ) {
+      x <- paste0("https://orcid.org/", x$comment[which(tolower(names(x$comment))=="orcid")])
+    } else  if ( "viaf" %in% tolower(names(x$comment))) {
+      x <- paste0("https://viaf.org/viaf/", x$comment[which(tolower(names(x$comment))=="viaf")])
+    } else if ( "wikidata" %in% tolower(names(x$comment)) ) {
+      qid <- x$comment[which(tolower(names(x$comment))=="wikidata")]
+      qid <- gsub("https://www.wikidata.org/wiki/", "", qid)
+      x <- paste0("https://www.wikidata.org/wiki/", qid)
+    } else {
+      tmp <- x
+      tmp$comment <- ""
+      tmp$email <- ""
+      x <- as.character(tmp)
+    }
+  }
 
   if(is.integer(x)) {
     sprintf('"%s"%s', as.character(x), integer_string)
+  } else if (inherits(x, "POSIXct")) {
+    xsd_convert(x)
   } else if( is.character(x) & substr(x, 1, 5) %in% c("http:", "https")) {
     sprintf('<%s>', as.character(x))
   } else if ( grepl("^_\\:", x)) {
@@ -73,10 +96,10 @@ create_iri <- function(x) {
   } else if (x=="a") {
     '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'
   } else if (is.character(x)) {
+    x <- gsub("DCMITYPE\\:", "http://purl.org/dc/dcmitype/", x)
     sprintf('"%s"%s', as.character(x), character_string)
   }
 }
-
 
 #' @keywords internal
 prov_author <- function(author_person) {
@@ -85,26 +108,42 @@ prov_author <- function(author_person) {
     print_name <- "_:"
     if (!is.null(author_person$family)) print_name <- paste0(print_name, tolower(author_person$family))
     if (!is.null(author_person$given))  print_name <- paste0(print_name, tolower(author_person$given))
-    orcid <- get_orcid(author_person)
+    person_iri <- get_person_iri(author_person)
 
   } else if (is.character(attr(author_person, "person"))) {
     print_name <- paste0(attr(author_person, "person"), ": ")
   } else { print_name <- ""}
 
-  if(!is.null(orcid)) {
-    triple_1 <- n_triple(orcid, "a", "http://www.w3.org/ns/prov#Agent")
+  if(!is.null(person_iri)) {
+    n_triple(person_iri, "a", "http://www.w3.org/ns/prov#Agent")
+  } else {
+    n_triple(print_name, "a", "http://www.w3.org/ns/prov#Agent")
   }
-
-  n_triple(print_name, "a", "http://www.w3.org/ns/prov#Agent")
 }
 
 
 #' @keywords internal
-get_orcid <- function(p) {
+get_person_iri <- function(p) {
+
+  assertthat::assert_that(inherits(p, "person"),
+                          msg="Error: get_person_iri(p): p is not a utils::person object.")
+
   if (!is.null(p$comment)) {
     if ( any(c("ORCID", "ORCiD", "orcid") %in% names(p$comment))) {
       comment_n <- which(names(p$comment) %in% c("ORCID", "ORCiD", "orcid"))[1]
-      p$comment[comment_n]
+      orcid <- p$comment[comment_n]
+      if(!grepl("https://orcid.org/", orcid)) orcid <- paste0("https://orcid.org/", orcid)
+      orcid
+    } else if ( any("isni" %in% tolower(names(p$comment)) )) {
+      comment_n <- which(tolower(names(p$comment)) == "isni")[1]
+      isni <- p$comment[comment_n]
+      if(!grepl("https://isni.org/isni/", isni)) isni <- paste0("https://isni.org/isni/", isni)
+      isni
+    } else if ( any("viaf" %in% tolower(names(p$comment))) ) {
+      comment_n <- which(tolower(names(p$comment)) == "viaf")[1]
+      viaf <- p$comment[comment_n]
+      if(!grepl("http://viaf.org/viaf/", viaf)) viaf <- paste0("http://viaf.org/viaf/", viaf)
+      viaf
     }
   } else NULL
 }

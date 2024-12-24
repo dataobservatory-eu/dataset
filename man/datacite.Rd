@@ -174,7 +174,7 @@ as_datacite(iris_dataset)
 }
 \seealso{
 Other bibentry functions: 
-\code{\link{dublincore}()},
+\code{\link{as_dublincore}()},
 \code{\link{get_bibentry}()}
 }
 \concept{bibentry functions}

@@ -27,21 +27,36 @@ id_to_column <- function(x, prefix = "eg:", ids = NULL) {
 
   if (is.null(prefix)) { prefix <- "" }
 
-  rhs <- x
-  x$rowid <- paste0(prefix, ids)
-  lhs <- x[, "rowid", drop=FALSE]
-
-  if (is_dataset) {
-
-    DataBibentry <- get_bibentry(rhs)
-    tmp <- as_dataset_df(cbind(lhs, rhs),
-                      reference = list(author=DataBibentry$author,
-                                     title = DataBibentry$title)
-                      )
-    attr(tmp, "dataset_bibentry") <-  DataBibentry
+  if ( "rowid" %in% names(x)) {
+    x$rowid <- paste0(prefix, ids)
+    return(x)
   } else {
-    tmp <- cbind(lhs, rhs)
+    rhs <- x
+    x$rowid <- paste0(prefix, ids)
+    lhs <- x[, "rowid", drop=FALSE]
+
+    if (is_dataset) {
+
+      DataBibentry <- get_bibentry(rhs)
+      dataset_subject <- subject(rhs)
+      dataset_prov <- provenance(x)
+      tmp <- as_dataset_df(cbind(lhs, rhs),
+                           reference = list(author=DataBibentry$author,
+                                            title = DataBibentry$title)
+      )
+      attr(tmp, "dataset_bibentry") <-  DataBibentry
+      attr(tmp, "prov") <- dataset_prov
+      subject(tmp) <- dataset_subject
+    } else {
+      tmp <- cbind(lhs, rhs)
+    }
   }
+
+
+
+
+
+
   tmp
 }
 

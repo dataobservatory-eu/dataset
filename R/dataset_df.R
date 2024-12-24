@@ -13,6 +13,11 @@
 #' \cr
 #' For more details, please check the \code{vignette("dataset_df", package = "dataset")}
 #' vignette.
+#' @param identifier Defaults to \code{c(eg="http://example.com/dataset#")}, which should be
+#' changed to the permanent identifier of the dataset. For example, if your dataset will be
+#' released with the Digital Object Identifier (DOI) `https;//doi.org/1234`, you should use
+#' a short prefixed identifier like \code{c(obs="https://doi.org/1234#")}, which will resolve
+#' to the rows being identified as https://doi.org/1234#1...https://doi.org/1234#n.
 #' @param dataset_bibentry A list of bibliographic references and descriptive metadata
 #' about the dataset as a whole created with \code{\link{datacite}} or
 #' \code{\link{dublincore}}.
@@ -47,13 +52,20 @@
 
 # User constructor
 dataset_df <- function(...,
-                       dataset_bibentry=NULL,
+                       identifier = c(eg="http://example.com/dataset#"),
                        var_labels=NULL,
                        units=NULL,
                        definitions=NULL,
+                       dataset_bibentry=NULL,
                        dataset_subject=NULL ) {
 
   dots <- list(...)
+
+  if ( ! "rowid" %in% names(dots)) {
+    add_rowid <- TRUE
+  } else {
+    add_row_id <- FALSE
+  }
 
   sys_time <- Sys.time()
   year <- substr(as.character(sys_time),1,4)
@@ -78,6 +90,7 @@ dataset_df <- function(...,
 
   tmp <- new_my_tibble(
                 x = tibble::tibble(...),
+                identifier = identifier,
                 dataset_bibentry=dataset_bibentry,
                 var_labels = var_labels,
                 units = units,
@@ -88,9 +101,11 @@ dataset_df <- function(...,
 }
 
 
+
 #' @rdname dataset_df
 #' @export
 as_dataset_df <- function(df,
+                          identifier = c(eg ="http://example.com/dataset#"),
                           var_labels=NULL,
                           units=NULL,
                           definitions =NULL,
@@ -99,19 +114,12 @@ as_dataset_df <- function(df,
 
   dots <- list(...)
 
-  sys_time <- Sys.time()
-  year <- substr(as.character(sys_time),1,4)
-
   if (is.null(dots$dataset_bibentry)) {
-    Title <- "Untitled Dataset"
-    Creator <- person("Author", "Unknown")
-
-    if(is.null(dataset_bibentry$year)) dataset_bibentry$year <- year
+    dataset_bibentry <- set_default_bibentry()
   }
 
-  dataset_bibentry <- datacite(Title=Title, Creator=Creator)
-
   new_my_tibble(df,
+                identifier=identifier,
                 dataset_bibentry=dataset_bibentry,
                 var_labels = var_labels,
                 units = units,
@@ -122,13 +130,16 @@ as_dataset_df <- function(df,
 #' @importFrom tibble new_tibble
 #' @keywords internal
 new_my_tibble <- function(x,
+                          add_rowid = TRUE,
+                          identifier,
                           dataset_bibentry = NULL,
                           var_labels = NULL,
                           units = NULL,
                           definitions = NULL) {
-  started_at_time <- Sys.time()
   assertthat::assert_that(is.data.frame(x),
                           msg="Error: new_my_tibble(x): x is not a data frame")
+
+  generated_at_time <- Sys.time()
 
   tmp <- tibble::new_tibble(
     x,
@@ -136,11 +147,22 @@ new_my_tibble <- function(x,
     nrow = nrow(x)
   )
 
-  ended_at_time <- Sys.time()
+  add_rowid <- ifelse("rowid" %in% names(tmp), FALSE, TRUE)
+
+  if (add_rowid) {
+    tmp <- tibble::rowid_to_column(tmp)
+    prefix <- paste0(names(identifier)[1], ":")
+    tmp$rowid <- defined(paste0(prefix, tmp$rowid), namespace = identifier)
+  }
 
   set_var_labels(tmp, var_labels = var_labels)
+  if (is.null(dataset_bibentry)) {
+    dataset_bibentry <- set_default_bibentry()
+  }
 
-  prov <- default_provenance(started_at_time = started_at_time, ended_at_time = ended_at_time)
+
+  prov <- default_provenance(generated_at_time = generated_at_time,
+                             author=dataset_bibentry$author)
 
   attr(tmp, "dataset_bibentry") <- dataset_bibentry
   attr(tmp, "prov") <- prov

@@ -146,8 +146,7 @@ new_Subject <- function(term,
     stop("subject(x, value)<- : value must be a created with 'subject_create()` or it must be a character string.")
   }
 
-  ds_bibentry$subject <- value
-  ds_bibentry$subject
+  ds_bibentry$subject <- ifelse(is.character(value), value, value$term)
   attr(x, "dataset_bibentry") <- ds_bibentry
   attr(x, "subject") <- value
   invisible(x)

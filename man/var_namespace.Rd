@@ -52,7 +52,9 @@ with variable labels, namespaces, units of measures, and machine-independent
 permanent variable identifiers.
 }
 \examples{
-qid = defined(c("Q275912", "Q116196078"), namespace = "https://www.wikidata.org/wiki/")
+qid = defined(c("Q275912", "Q116196078"),
+              namespace = c(wd="https://www.wikidata.org/wiki/")
+              )
 var_namespace(qid)
 
 # To remove a namespace

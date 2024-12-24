@@ -1,5 +1,6 @@
 test_that("creator() works", {
-  expect_equal(creator(iris_dataset), person(given="Edgar", family="Anderson", role = "aut"))
+  expect_equal(creator(iris_dataset), person(given="Edgar", family="Anderson", role = "cre",
+                                             comment = c(VIAF="http://viaf.org/viaf/6440526")))
 })
 
 
@@ -15,7 +16,7 @@ test_that("creator() <- value works without overwrite", {
   iris_dataset_3 <- iris_dataset
   creator(x=iris_dataset_3, overwrite=FALSE) <- person("Jane", "Doe")
   expect_equal(creator(iris_dataset_3),
-               c(person(given="Edgar", family="Anderson", role = "aut"), person("Jane", "Doe")))
+               c(person(given="Edgar", family="Anderson", role = "cre", comment = c(VIAF="http://viaf.org/viaf/6440526")), person("Jane", "Doe")))
 })
 
 

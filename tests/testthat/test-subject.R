@@ -40,7 +40,6 @@ test_that("subject() <- works", {
   expect_equal(subject(iris_dataset_2)$valueURI, "")
 })
 
-subject(iris_dataset)
 
 
 

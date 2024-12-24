@@ -10,15 +10,17 @@
 \usage{
 dataset_df(
   ...,
-  dataset_bibentry = NULL,
+  identifier = c(eg = "http://example.com/dataset#"),
   var_labels = NULL,
   units = NULL,
   definitions = NULL,
+  dataset_bibentry = NULL,
   dataset_subject = NULL
 )
 
 as_dataset_df(
   df,
+  identifier = c(eg = "http://example.com/dataset#"),
   var_labels = NULL,
   units = NULL,
   definitions = NULL,
@@ -36,15 +38,21 @@ is_dataset_df(x)
 \arguments{
 \item{...}{The vectors (variables) that should be included in the dataset.}
 
-\item{dataset_bibentry}{A list of bibliographic references and descriptive metadata
-about the dataset as a whole created with \code{\link{datacite}} or
-\code{\link{dublincore}}.}
+\item{identifier}{Defaults to \code{c(eg="http://example.com/dataset#")}, which should be
+changed to the permanent identifier of the dataset. For example, if your dataset will be
+released with the Digital Object Identifier (DOI) \verb{https;//doi.org/1234}, you should use
+a short prefixed identifier like \code{c(obs="https://doi.org/1234#")}, which will resolve
+to the rows being identified as https://doi.org/1234#1...https://doi.org/1234#n.}
 
 \item{var_labels}{The long, human readable labels of each variable.}
 
 \item{units}{The units of measurement for the measured variables.}
 
 \item{definitions}{The linked definitions of the variables, attributes, or constants.}
+
+\item{dataset_bibentry}{A list of bibliographic references and descriptive metadata
+about the dataset as a whole created with \code{\link{datacite}} or
+\code{\link{dublincore}}.}
 
 \item{dataset_subject}{The subject of the dataset, see \code{\link{subject}}.}
 

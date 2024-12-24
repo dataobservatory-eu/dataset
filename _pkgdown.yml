@@ -34,6 +34,7 @@ articles:
     contents:
        - dataset_df
        - bibentry
+       - rdf
   - title: "Semantic Enrichment of Variables"
     desc: >
      Enriching metadata about individual variables.
@@ -59,6 +60,12 @@ reference:
       - var_namespace
       - as_numeric
       - as_character
+  - title: "Describe"
+    desc: >
+      Describe the metadata in the Resource Description Framework
+    contents:
+      - describe
+      - xsd_convert
   - title: "Bibliography functions"
     desc: >
       Functions to add and retain bibliographical data about the whole dataset, not its
@@ -87,6 +94,5 @@ reference:
     contents:
       - n_triples
       - n_triple
-      - xsd_convert
       - dataset_to_triples
       - id_to_column

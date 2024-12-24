@@ -35,9 +35,6 @@ test_that("labelled_defined() throws error", {
                        namespace = 1))
 })
 
-a <- defined(x = Sys.Date(),
-        label = "Today's date")
-
 test_that("new_datetime_defined() throws errors", {
   expect_error(defined(x = Sys.Date(),
                        label = c("Today's date", "Extra label"),
