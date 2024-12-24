@@ -4,7 +4,7 @@
   "identifier": "dataset",
   "description": "The aim of the 'dataset' package is to make tidy datasets easier to release, exchange and reuse. It organizes and formats data frame 'R' objects into well-referenced, well-described, interoperable datasets into release and reuse ready form.",
   "name": "dataset: Create Data Frames that are Easier to Exchange and Reuse",
-  "codeRepository": "https://dataset.dataobservatory.eu/",
+  "codeRepository": "https://github.com/dataobservatory-eu/dataset",
   "issueTracker": "https://github.com/dataobservatory-eu/dataset/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
   "version": "0.3.4",
@@ -14,6 +14,12 @@
     "url": "https://r-project.org"
   },
   "runtimePlatform": "R version 4.4.0 (2024-04-24 ucrt)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -211,7 +217,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "371.865KB",
+  "fileSize": "377.816KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -240,10 +246,22 @@
         }
       ],
       "name": "The dataset R Package: Create Data Frames that are Easier to Exchange and Reuse",
-      "identifier": "10.5281/zenodo.14537352",
+      "identifier": "10.32614/CRAN.package.dataset",
       "url": "https://dataset.dataobservatory.eu/index.html",
-      "@id": "https://doi.org/10.5281/zenodo.14537352",
-      "sameAs": "https://doi.org/10.5281/zenodo.14537352"
+      "description": "R package version 0.3.4",
+      "@id": "https://doi.org/10.32614/CRAN.package.dataset",
+      "sameAs": "https://doi.org/10.32614/CRAN.package.dataset"
     }
-  ]
+  ],
+  "relatedLink": ["https://dataset.dataobservatory.eu/", "https://CRAN.R-project.org/package=dataset"],
+  "releaseNotes": "https://github.com/dataobservatory-eu/dataset/blob/master/NEWS.md",
+  "readme": "https://github.com/dataobservatory-eu/dataset/blob/master/README.md",
+  "contIntegration": ["https://app.codecov.io/gh/dataobservatory-eu/dataset", "https://github.com/dataobservatory-eu/dataset/actions/workflows/rhub.yaml"],
+  "developmentStatus": ["https://lifecycle.r-lib.org/articles/stages.html#experimental", "https://www.repostatus.org/#wip"],
+  "review": {
+    "@type": "Review",
+    "url": "https://github.com/ropensci/software-review/issues/553",
+    "provider": "https://ropensci.org"
+  },
+  "keywords": ["dataset", "metadata-management", "r", "rstats"]
 }

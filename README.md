@@ -15,7 +15,7 @@ WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.o
 [![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/dataset)](https://cran.r-project.org/package=dataset)
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14537352.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)\]
+[![DOI](https://zenodo.org/badge/DOI/10.32614/CRAN.package.dataset.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
 [![devel-version](https://img.shields.io/badge/devel%20version-0.3.4-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 <!-- badges: end -->
@@ -56,15 +56,12 @@ into release and reuse ready form.
 &#10;The primary aim of dataset is create well-referenced, well-described, interoperable datasets from data.frames, tibbles or data.tables that translate well into the W3C DataSet definition within the [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible manner. The data cube model in itself is is originated in the _Statistical Data and Metadata eXchange_, and it is almost fully harmonized with the Resource Description Framework (RDF), the standard model for data interchange on the web^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>].
 &#10;--->
 
-Further development plans for peer-review are added in till 5 November
-2024 here: [New
-Requirement](https://dataset.dataobservatory.eu/articles/new-requirements.html)
-setting.
-
-You can install the development version of dataset with
-`remotes::install_github()`:
+You can install the latest CRAN release with
+`install.packages("dataset")`, and the latest development version of
+dataset with `remotes::install_github()`:
 
 ``` r
+install.packages("dataset")
 remotes::install_github("dataobservatory-eu/dataset", build = FALSE)
 ```
 
