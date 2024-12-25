@@ -43,7 +43,7 @@
 #' lifecycle of the resource. \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/date/}{dct:date}.
 #' \code{Date} is also recommended for
 #' discovery in \code{\link{datacite}}, but it requires a different formatting.
-#' To aviod confusion with date-related functions, instead of the DCMITERMS
+#' To avoid confusion with date-related functions, instead of the DCMITERMS
 #' date or the DataCite Date term, the parameter name is
 #' \code{dataset_date}.
 #' @param language The primary language of the resource. Allowed values are taken from
