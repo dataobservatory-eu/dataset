@@ -11,7 +11,6 @@ test_that("creator() <- value works with overwrite", {
 })
 
 
-
 test_that("creator() <- value works without overwrite", {
   iris_dataset_3 <- iris_dataset
   creator(x=iris_dataset_3, overwrite=FALSE) <- person("Jane", "Doe")

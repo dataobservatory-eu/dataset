@@ -34,7 +34,8 @@ test_that("create_iri()", {
                           role = c("aut", "cre"),
                           comment = c(ORCID = "0000-0001-7513-6760"))
   expect_error(create_iri(list(a=1:2)))
-  expect_equal(create_iri(as.POSIXct(10000, origin = "2024-01-01", tz="UTC")), "\"2024-01-01T03:46:40Z\"^^<xs:dateTime>")
+  expect_output(print(create_iri(as.POSIXct(10000, origin = "2024-01-01", tz="UTC"))), "2024-01-01T03:46:40Z")
+  expect_output(print(create_iri(as.POSIXct(10000, origin = "2024-01-01", tz="UTC"))), "\\^\\^<xs:dateTime>")
   expect_equal(create_iri(author_person), "<https://orcid.org/0000-0001-7513-6760>")
   jane_doe <- person(given="Jane", family="Doe", role = "aut", email = "example@example.com")
   expect_equal(create_iri(x=jane_doe), "\"Jane Doe [aut]\"^^<http://www.w3.org/2001/XMLSchema#string>")
