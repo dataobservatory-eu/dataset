@@ -16,7 +16,7 @@ WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.o
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 [![DOI](https://zenodo.org/badge/DOI/10.32614/CRAN.package.dataset.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.3.4-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.3.4001-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 <!-- badges: end -->
 
@@ -80,7 +80,7 @@ iris_ds <- dataset_df(
     creator = person("Edgar", "Anderson", role = "aut"),
     publisher = "American Iris Society",
     datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-    date = 1935,
+    dataset_date = 1935,
     language = "en",
     description = "This famous (Fisher's or Anderson's) iris data set."
   )
@@ -102,7 +102,14 @@ Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
 
 ``` r
 summary(iris_ds)
-#> Anderson E (1935). "Iris Dataset."
+#> [1] E. Anderson. _Iris Dataset_. En. DCMITYPE:Dataset. 1935.
+#>     rowid          
+#>  Length:150        
+#>  Class :character  
+#>  Mode  :character  
+#>                    
+#>                    
+#>                    
 #>    x.Sepal.Length        x.Sepal.Width       x.Petal.Length        x.Petal.Width          x.Species     
 #>  Min.   :4.300000     Min.   :2.000000     Min.   :1.000        Min.   :0.1000000    setosa    :50      
 #>  1st Qu.:5.100000     1st Qu.:2.800000     1st Qu.:1.600        1st Qu.:0.3000000    versicolor:50      
@@ -116,21 +123,7 @@ The dataset_df A brief description of the extended metadata attributes:
 
 ``` r
 print(get_bibentry(iris_ds), "Bibtex")
-#> @Misc{,
-#>   title = {Iris Dataset},
-#>   author = {Edgar Anderson},
-#>   identifier = {:tba},
-#>   publisher = {American Iris Society},
-#>   year = {1935},
-#>   language = {en},
-#>   relation = {:unas},
-#>   format = {:unas},
-#>   rights = {:tba},
-#>   description = {This famous (Fisher's or Anderson's) iris data set.},
-#>   type = {DCMITYPE:Dataset},
-#>   datasource = {https://doi.org/10.1111/j.1469-1809.1936.tb02137.x},
-#>   coverage = {:unas},
-#> }
+#> [1] E. Anderson. _Iris Dataset_. En. DCMITYPE:Dataset. 1935.
 ```
 
 ``` r
@@ -154,7 +147,7 @@ by default, a variable is only described by a programmatically usable
 name label; for example, in the famous `iris` dataset, the length of the
 sepal for each observation (row) is in the `iris$Sepal.Length` column.
 If we would like to add rows to this dataset, it is essential to know if
-the numbers in the `iris$Sepal.Length` are measured in millimetres
+the numbers in the `iris$Sepal.Length` are measured in millimetres,
 centimetres or inches.
 
 When working with datasets that receive their components from different
@@ -198,7 +191,7 @@ data("iris_dataset")
 
 # Print the dataset_df object:
 print(iris_dataset)
-#> Anderson E (1935). "Iris Dataset."
+#> [1] E. Anderson. _Iris Dataset_. En. DCMITYPE:Dataset. 1935.
 #>    rowid      Sepal.Length Petal.Length Sepal.Width Petal.Width Species   
 #>    <hvn_lbl_> <hvn_lbl_>   <hvn_lbl_>   <hvn_lbl_>  <hvn_lbl_>  <hvn_lbl_>
 #>  1 #1         5.1          1.4          3.5         0.2         1 [setosa]
@@ -248,9 +241,13 @@ for describing these processes in a flat file.
 
 ``` r
 provenance(iris_dataset)
-#> [1] "<https://doi.org/10.5281/zenodo.10396807> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/linked-data/cube#DataSet> ."
-#> [2] "<https://orcid.org/0000-0001-7513-6760> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."           
-#> [3] "<https://doi.org/10.5281/zenodo.6703764.> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#SoftwareAgent> ."
+#> [1] "<http://example.com/dataset_prov.nt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Bundle> ."                  
+#> [2] "<http://example.com/dataset#> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> ."                         
+#> [3] "<http://example.com/dataset#> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/linked-data/cube#DataSet> ."                 
+#> [4] "<http://viaf.org/viaf/6440526> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."                         
+#> [5] "<https://doi.org/10.32614/CRAN.package.dataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#SoftwareAgent> ."
+#> [6] "<http://example.com/creation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> ."                       
+#> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2024-12-24T23:43:45Z\"^^<xs:dateTime> ."
 ```
 
 ## Code of Conduct
