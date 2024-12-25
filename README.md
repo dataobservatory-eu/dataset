@@ -5,8 +5,6 @@
 
 <!-- badges: start -->
 
-[![Codecov test
-coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset)
 [![rhub](https://github.com/dataobservatory-eu/dataset/actions/workflows/rhub.yaml/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions/workflows/rhub.yaml)
 [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Project Status:
@@ -18,6 +16,8 @@ Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci
 [![DOI](https://zenodo.org/badge/DOI/10.32614/CRAN.package.dataset.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
 [![devel-version](https://img.shields.io/badge/devel%20version-0.3.4001-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
+[![Coveralls test
+coverage](https://coveralls.io/repos/github/dataobservatory-eu/dataset/badge.svg)](https://coveralls.io/r/dataobservatory-eu/dataset?branch=master)
 <!-- badges: end -->
 
 The aim of the *dataset* package is to make tidy datasets easier to
