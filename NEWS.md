@@ -1,6 +1,16 @@
+# Development versions
+
+- The [From R to RDF](https://dataset.dataobservatory.eu/articles/rdf.html) 
+vignette shows how to leverage the capabilities of the _dataset_ package with 
+[rdflib](https://docs.ropensci.org/rdflib/index.html), an R-user-friendly wrapper
+on ROpenSci to work with the _redland_ Python library for performing common tasks 
+on rdf data, such as parsing and converting between formats including rdfxml, 
+turtle, nquads, ntriples, and trig, creating rdf graphs, and performing SPARQL 
+queries.
+
 # dataset 0.3.4
 
-- New release candidate on CRAN.
+- New release on CRAN.
 
 # dataset 0.3.2
 

@@ -32,9 +32,10 @@ rlang::check_installed("here")
 
 The aim of the _dataset_ package is to make tidy datasets easier to release, exchange and reuse. It organizes and formats data frame R objects into well-referenced, well-described, interoperable datasets into release and reuse ready form.
 
-1. Offer a way to better utilise the `utils:bibentry` bibliographic entry objects by extending them with the fields of the Dublin Core and DataCite tenders, and making them detachable from the data. This extension aims to work with a [data.frame](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame) or an inherited [tibble](https://tibble.tidyverse.org/reference/tibble.html), [tsibble](https://tsibble.tidyverts.org/) or [data.table](https://rdatatable.gitlab.io/data.table/). See for more information the [Bibentry for FAIR datasets](https://dataset.dataobservatory.eu/articles/bibentry.html) vignette.
-2. Extending the `haven_labelled` class of the `tidyverse` for consistently labelled categorical variables with linked (standard) definitions and units of measures in our [defined](https://dataset.dataobservatory.eu/articles/defined.html) class.
-3. Offering a new data frame format, `dataset_df` that extends tibbles with semantically rich metadata, ready to be shared on open data exchange platforms and in data repositories. This s3 class is aimed at developers and we are working on several packages that provide interoperability with SDMX statistical data exchange platforms, Wikidata, or the EU Open Data portal. Read more in the [Create Datasets that are Easy to Share Exchange and Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html) vignette.
+1. **Increase FAIR use of your datasets**: Offer a way to better utilise the `utils:bibentry` bibliographic entry objects and working with the ROpenSci package [RefManageR](https://docs.ropensci.org/RefManageR/) extending their fields of the Dublin Core and DataCite standards, and making them detachable from the data, i.e., including the bibliographic entries into the attributes of a data frame-like object. See for more information the [Bibentry for FAIR datasets](https://dataset.dataobservatory.eu/articles/bibentry.html) vignette.
+2.**Interoperability outside R**: Extending the `haven_labelled` class of the `tidyverse` for consistently labelled categorical variables with linked (standard) definitions and units of measures in our [defined](https://dataset.dataobservatory.eu/articles/defined.html) class; this enables to share exact definitions, units of measures across computers and systems, and increasing the interoperability of the data set from an R data.frame to any standardised statistical or library system.
+3. **Tidy data tidier, richer**: Offering a new data frame format, `dataset_df` that extends tibbles with semantically rich metadata, ready to be shared on open data exchange platforms and in data repositories. This s3 class is aimed at developers and we are working on several packages that provide interoperability with SDMX statistical data exchange platforms, Wikidata, or the EU Open Data portal. Read more in the [Create Datasets that are Easy to Share Exchange and Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html) vignette.
+4. **R+RDF=global interoperability**: The [From R to RDF](https://dataset.dataobservatory.eu/articles/rdf.html) vignette shows how to leverage the capabilities of the _dataset_ package with [rdflib](https://docs.ropensci.org/rdflib/index.html), an R-user-friendly wrapper on ROpenSci to work with the _redland_ Python library for performing common tasks on rdf data, such as parsing and converting between formats including rdfxml, turtle, nquads, ntriples, and trig, creating rdf graphs, and performing SPARQL queries.
 
 <!---
 
@@ -132,6 +133,8 @@ The constructor of the `dataset_df` objects also records the most important proc
 ```{r provenance}
 provenance(iris_dataset)
 ```
+The [From R to RDF](https://dataset.dataobservatory.eu/articles/rdf.html) vignette shows how to leverage the capabilities of the _dataset_ package with [rdflib](https://docs.ropensci.org/rdflib/index.html) to share the history and other metadata of your dataset globally, or import data updates from standardised statistical data exchanges.
+
 ## Code of Conduct
 Please note that the `dataset` package is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
 

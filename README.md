@@ -25,32 +25,43 @@ release, exchange and reuse. It organizes and formats data frame R
 objects into well-referenced, well-described, interoperable datasets
 into release and reuse ready form.
 
-1.  Offer a way to better utilise the `utils:bibentry` bibliographic
-    entry objects by extending them with the fields of the Dublin Core
-    and DataCite tenders, and making them detachable from the data. This
-    extension aims to work with a
-    [data.frame](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame)
-    or an inherited
-    [tibble](https://tibble.tidyverse.org/reference/tibble.html),
-    [tsibble](https://tsibble.tidyverts.org/) or
-    [data.table](https://rdatatable.gitlab.io/data.table/). See for more
+1.  **Increase FAIR use of your datasets**: Offer a way to better
+    utilise the `utils:bibentry` bibliographic entry objects and working
+    with the ROpenSci package
+    [RefManageR](https://docs.ropensci.org/RefManageR/) extending their
+    fields of the Dublin Core and DataCite standards, and making them
+    detachable from the data, i.e., including the bibliographic entries
+    into the attributes of a data frame-like object. See for more
     information the [Bibentry for FAIR
     datasets](https://dataset.dataobservatory.eu/articles/bibentry.html)
-    vignette.
-2.  Extending the `haven_labelled` class of the `tidyverse` for
-    consistently labelled categorical variables with linked (standard)
-    definitions and units of measures in our
+    vignette. 2.**Interoperability outside R**: Extending the
+    `haven_labelled` class of the `tidyverse` for consistently labelled
+    categorical variables with linked (standard) definitions and units
+    of measures in our
     [defined](https://dataset.dataobservatory.eu/articles/defined.html)
-    class.
-3.  Offering a new data frame format, `dataset_df` that extends tibbles
-    with semantically rich metadata, ready to be shared on open data
-    exchange platforms and in data repositories. This s3 class is aimed
-    at developers and we are working on several packages that provide
-    interoperability with SDMX statistical data exchange platforms,
-    Wikidata, or the EU Open Data portal. Read more in the [Create
-    Datasets that are Easy to Share Exchange and
+    class; this enables to share exact definitions, units of measures
+    across computers and systems, and increasing the interoperability of
+    the data set from an R data.frame to any standardised statistical or
+    library system.
+2.  **Tidy data tidier, richer**: Offering a new data frame format,
+    `dataset_df` that extends tibbles with semantically rich metadata,
+    ready to be shared on open data exchange platforms and in data
+    repositories. This s3 class is aimed at developers and we are
+    working on several packages that provide interoperability with SDMX
+    statistical data exchange platforms, Wikidata, or the EU Open Data
+    portal. Read more in the [Create Datasets that are Easy to Share
+    Exchange and
     Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
     vignette.
+3.  **R+RDF=global interoperability**: The [From R to
+    RDF](https://dataset.dataobservatory.eu/articles/rdf.html) vignette
+    shows how to leverage the capabilities of the *dataset* package with
+    [rdflib](https://docs.ropensci.org/rdflib/index.html), an
+    R-user-friendly wrapper on ROpenSci to work with the *redland*
+    Python library for performing common tasks on rdf data, such as
+    parsing and converting between formats including rdfxml, turtle,
+    nquads, ntriples, and trig, creating rdf graphs, and performing
+    SPARQL queries.
 
 <!---
 &#10;The primary aim of dataset is create well-referenced, well-described, interoperable datasets from data.frames, tibbles or data.tables that translate well into the W3C DataSet definition within the [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible manner. The data cube model in itself is is originated in the _Statistical Data and Metadata eXchange_, and it is almost fully harmonized with the Resource Description Framework (RDF), the standard model for data interchange on the web^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>].
@@ -249,6 +260,13 @@ provenance(iris_dataset)
 #> [6] "<http://example.com/creation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> ."                       
 #> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2024-12-24T23:43:45Z\"^^<xs:dateTime> ."
 ```
+
+The [From R to
+RDF](https://dataset.dataobservatory.eu/articles/rdf.html) vignette
+shows how to leverage the capabilities of the *dataset* package with
+[rdflib](https://docs.ropensci.org/rdflib/index.html) to share the
+history and other metadata of your dataset globally, or import data
+updates from standardised statistical data exchanges.
 
 ## Code of Conduct
 
