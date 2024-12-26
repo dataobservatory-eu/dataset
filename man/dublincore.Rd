@@ -54,8 +54,11 @@ object if \code{type="dataset"}.}
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/}{dct:creator}
 Corresponds to \code{Creator} in \code{\link{datacite}}. See \code{\link{creator}}.}
 
-\item{contributor}{An entity responsible for making contributions to the dataset. See
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/contributor/}{DCMI: Contributor}.}
+\item{contributor}{An entity responsible for making contributions to the dataset.
+See
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/contributor/}{DCMI: Contributor}, and
+for possible contribution type, please review
+\href{https://www.loc.gov/marc/relators/relaterm.html}{MARC Code List for Relators}.}
 
 \item{publisher}{Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#publisher}{dct:publisher}
 and Publisher in DataCite.
@@ -83,7 +86,7 @@ to your dataset.}
 lifecycle of the resource. \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/date/}{dct:date}.
 \code{Date} is also recommended for
 discovery in \code{\link{datacite}}, but it requires a different formatting.
-To aviod confusion with date-related functions, instead of the DCMITERMS
+To avoid confusion with date-related functions, instead of the DCMITERMS
 date or the DataCite Date term, the parameter name is
 \code{dataset_date}.}
 

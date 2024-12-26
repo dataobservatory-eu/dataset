@@ -82,8 +82,11 @@
 #' applicability of the dataset, or jurisdiction under which the dataset
 #' is relevant. See
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/coverage/}{DCMI: Coverage}.
-#' @param contributor An entity responsible for making contributions to the dataset. See
-#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/contributor/}{DCMI: Contributor}.
+#' @param contributor An entity responsible for making contributions to the dataset.
+#' See
+#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/contributor/}{DCMI: Contributor}, and
+#' for possible contribution type, please review
+#' \href{https://www.loc.gov/marc/relators/relaterm.html}{MARC Code List for Relators}.
 #' @param language A language of the dataset. See
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/language/}{DCMI: Language}.
 #' @importFrom utils person bibentry
@@ -298,7 +301,7 @@ new_dublincore <- function (title,
 
   assertthat::assert_that(all(inherits(creator, "person")))
 
-  dublincore_object <- RefManageR::BibEntry(
+  dublincore_object <- utils::bibentry(
     bibtype = "Misc",
     title = title,
     author = creator,
