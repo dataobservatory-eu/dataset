@@ -35,6 +35,82 @@ At the same time, I would like to co-develop the dataset package with the `wbdat
 
 Another important lesson was that the first version of the dataset package wanted to be so generally usable that it aimed for compatibility for base R data.frames, the tidyverse tibble modernisations of such data frames, and the data.table objects, which have their own user base and dependencies in many statistical applications. While such broad appeal and ambition should not excluded for the future, it would be a too significant undertaking to ensure that all functionality works with data.frames, tibble and data.tables. Whenever this is possible, this should remain so, but new developments should only follow the modern tidyverse tibbles.
 
+## Tidy can be tidier
+
+Most R-user data scientists are familiar with the term tidy data. It is data ready for tabular analysis and easy to understand. It places measurements (variables) in columns, dividing each observation into a row. Column names convey the meaning of the variable.
+
+You should wrangle your data in a tidy format because that is the prerequisite of most statistical analysis or visualisation with various algorithms, and it gives a logical place to each data point.
+
+Making your data tidy is like hoovering your room. It will make your environment neat, but if you leave for months, it will be full of dustballs, insects and spiders, and you will not remember where you left your slippers. To allow us to return to work after months or years or to pass on our work to others, we need to provide more meaning (semantics) about a tidy dataset. 
+
+Consider the following simple data.frame:
+
+```{r example-ambiguity}
+data.frame(
+   geo=c("LI", "SM"), 
+   CPI = c("0.8", "0.9"), 
+   GNI= c("8976", "9672"))
+```
+This dataset is tidy. But it certainly could be improved!
+
+- `geo`: you may figure out that geo means something to do with geography (maybe countries, "LI" standing for Lichtenstein and "SM" for San Marino), but even that, who knows? If you add Greece, should use use "EL" like Eurostat or "GR" like the World Bank?
+
+- `CPI` can stand for "consumer price index" or "corruption perceptions index". Or anything else! 
+
+- `GNI` can stand for "Gross National Income" and "Global Nutrition Index", often mentioned in the same context. If there are numbers, do they mean a physical quantity or a currency? Is the currency dollars or euros?
+
+Adding such definitions to the dataset makes them far more accessible, reusable, and even findable. Many people may be looking for GNI in US dollars; using a currency cue for searching may bring in a new user.
+
+Most researchers are familiar with the semantic needs to make a dataset findable; they may know how libraries or scientific repositories store authorship data or titles. Our package handles these types of metadata, too, but goes into the semantics of what's inside the dataset. What does each column mean? What is the identity of the observations in the rows (if they are not anonymous)? Adding such information in a machine-readable way allows far greater findability because people can search for data expressed in euros or dollars only or any datasets that use CPI in the sense of the Corruption Perception Index instead of finding thousands of search hits for CPI as consumer price inflation.
+
+Further enriching the semantics of an already tidy dataset can increase findability and reusability. Even the same user may struggle months or years later with a saved tidy dataset that is missing the definitions or variables of observations, or the unit of measure.
+
+## Exchange and extend
+
+Our dataset package focuses on an R user who would like to work on maintaining, extending or improving the same dataset for many months or years, potentially with several data managers and data sources under joint stewardship. 
+
+- Extending the rows means adding new observations which follow clear semantics on observation identification. In the previous example, if the observation units are countries, we need to make it clear how a user can add another country in a new row; and what happens if the same country is added with different measurements in different points of time. If you use two-letter country codes like "SM" and "LI", then adding Brazil should use "BR" and not "BRA".  Eurostat abbreviates Greece as "EL", but IMF uses the ISO-standard "GR", so the taxonomy of abbreviations should be available. 
+- Extending the columns means adding new attributes or measured values for each observational unit in a way that they increase the usability of the dataset (and do not confuse it.) If you have a GDP and a population column, you can calculate a GDP/Capita, but only if you divide the GDP and the population from the same time period, and GDP measured in the same currency unit. Often it is important to know the exact formula of a new, mutated variable; for example, "GDP_mean" can mean a geometric or arithmetic or harmonic mean, too!
+
+The magic abbreviation FAIR data stands for findable, accessible, interoperable and reusable;  F, A, and R mainly boil down to adding the correct metadata to the data. The European Interoperability Framework as a standard describes four layers of interoperability, so it is a far more elusive concept. In this standard, interoperability has a legal, organisational, semantic, and technical layers.
+
+Technical interoperability can be increased by releasing the dataset in a system-independent format such as JSON. Legal interoperability can be increased by adding a standard re-use rights statement and authorship information about the dataset itself to the release. But considering the R user's workflows (organisational aspect) and communicating it in a meaningful way (semantic aspect) ensures that a new user can effectively improve the dataset (similarly to adding to the code base of an R package), or use the dataset in an entirely different job. Making sure that the "GNI" is about nutrition and not national income, the "CPI" is about inflation and not corruption is essential to place your dataset into a public health or a macroeconomic analysis workflow.
+
+
+## Placing the `dataset` package into the R ecosystem
+Many R packages try to help FAIR qualities with different mindsets and tools. The dataset package differs from them and can work with many of them synergistically, magnifying the value added by other metadata packages.
+
+-  [x] The `frictionless` R package family (), the rOpenSci `dataspice` and the rOpenSci ` rdflib allow you to serialise your data into a semantically rich format for different purposes.  
+-  [x] The `dataspice` creates HTML files that are easy to find on the internet with search engines; it relies heavily on the lightweight semantic ontology of Schema.org, which ensures that websites understand certain metadata the same way. 
+-  [x] The `rdlib` package allows annotating with the World Wide Web RDF standard markup any three-column tidy dataset and saving it to every file format the W3C consortium defined for releasing interoperable data. It provides the widest interoperability in terms of importing and exporting data, but you can make the most out of it if you are familiar with ontologies and advanced metadata modelling; it is also restrictive in terms of using long-form data.
+
+The `frictionless` family is a bit of an alternative to `dataspace` and `rdflib`: it supports one serialisation format, JSON, it heavily relies on Schema.org, and it provides interoperability within the frictionless ecosystem. The [frictionless R package](https://github.com/frictionlessdata/frictionless-r). It works well in the ecosystems of the Open Knowledge Foundations data ecosystem.
+
+These packages help release or publish data and make it more findable and reusable for new users. Our `dataset` package can be seen as boosting the performance or usability of these packages, but it has a different interoperability platform in sight, the exchange of datasets themselves either among R users or with platforms that publish datasets themselves and not text about the contents of the dataset.
+
+While the aforementioned packages mainly help with exporting datasets from R to a different format, and a different system, and perhaps outside of the statistical community in HTML, JSON, or XML. The dataset package focuses on the R user's data.frames, tibbles, potentially saved as rds or Rda files, and to collect and add as much well-designed metadata for interoperability and reuse as possible; of course, such metadata can be passed on to `dataspice`, `rdflib` or `frictionless` when leaving the R ecosytem.
+
+The `dataset` package does not want to make these packages explicit dependencies, so it offers NQuad serialisation besides CSV to export data outside of the R system; these Nquads can be translated to other standard formats with `rdflib`. We also recommend the use of `rdflib` for heavy-duty serialisation; but we offer a lightweight solution to avoid a hard dependency. The `rdflib` package is superior in exporting data from the R ecoystem to another statistical or other scientific use with the W3C standard RDF markup. For communicating among R users, it is an unnecessary translator that requires quiet advanced understanding of the RDF metadata language. It is unnecessary within the R ecosystem if we can convey the same information within an `.rds` or `.Rda` file.
+
+Similarly, if you want to communicate the contents of your dataset to non-R users or using visualisations and text, the `dataspice` package is a very good way to that. However, it is inferior for passing on an R object to another user, because it requires translation at exporting and re-translation at importing back to R; furthermore, a lot can be lost in translation as it hardcodes the Schema.org vocabulary that is not designed for statistical use, but for web publishing.
+
+## A focus on statistical users and statistical datasets
+
+The `dataset` package focuses on the R ecosystem and R data.frames, and the R user who downloads data from different data sources like Eurostat, IMF, and World Bank and needs to join such data meaningful, add further derived own work, and save the result in .rda or .rds files. 
+
+The `dataspice` and `frictionless` ecosystem focuses on data users; they are organised around Schema.org, which helps web content, such as a description of a dataset findable on a usual browser search. 
+
+The `dataset` package focuses on data producers and is optimised for web queries on the web of data layer of the internet that connects databases. Therefore our default settings and the function interface focuses on the language of SDMX, the statistical data and metadata exchange standard, and DCTERMS, which is the main language of libraries and repositories. (We also support DataCite that is often preferred in European data repositories instead of the more generic DCTERMS.) These standards are not so good to find a description and a visualisation of a dataset with an web text search (Schema.org was designed for that purpose), but they are far superior for communicating the contents of a dataset to an other data producer, or somebody who may have a matching component to the contents of your dataset. Our package is not intended to those who want to effectively communicate about the interpretation of a dataset to fellow biologists or economist, but to users who want to communicate the contents of the dataset to fellow data collectors or producers.
+
+We are planning a family of dataset packages that help you with data exchanges (receiving, joining, republishing) in different data interoperability scenarios. h  dataset package mainly changes the attributes system of R objects. e  R users actively use the attributes; we created a reference function with sensible defaults for most statistical and open science standards. 
+
+- The planned `datacube` package will extend the `dataset` package to the full SDMX Datacube specification and allow you to exchange information or publish statistical data that are fully interoperable with Eurostat or IMF datasets on statistical data repositories, for example, on the EU Open Data Portal. On such exchanges we mean that the users download both the GDP dataset and the population dataset and send back their own GDP/population calculations in a new or updated dataset.
+
+- The `wbdataset` package enables the exchange and publication of data on Wikidata or Wikibase instances, which offer the widest-used open data exchange platform for non-statistical data. It adds the main elements of the Wikibase Data Model that allow you to exchange information or publish on many open graphs (platforms that will enable connecting interoperable data sources.)  A likely exchange scenario is that you download the biographical data of famous singers from a country and add back to some biographies that were not there, but you have collected them from non-interoperable sources.
+
+- A similar extension to the `frictionless` ecosystem is possible, too; should there be a user demand to improve the R-side data production workflow of data primarily intended into this ecosystem.
+
+
 ## New requirement settings
 
 The new dataset package would be streamlined to provide a tidier version of the [tidy data definition](https://cran.r-project.org/package=tidyr/vignettes/tidy-data.html). "Tidy datasets provide a standardised way to link the structure of a dataset (its physical layout) with its semantics (its meaning)." The aim of the dataset package is to improve the semantic infrastructure of tidy datasets beyond the current capabilities of the tidyverse packages, relaxing the exclusive use of the semantic definitions of the SDMX statistical metadata standards.
