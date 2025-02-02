@@ -14,20 +14,19 @@ xsd_convert <- function(x, idcol, ...) {
 
 #' @keywords internal
 get_type <- function(t) {
-
   if (any(class(t) %in% c("numeric", "double"))) {
     type <- "xs:decimal"
-  } else if (any(class(t)=="integer")) {
+  } else if (any(class(t) == "integer")) {
     type <- "xs:integer"
-  } else if  (any(class(t) %in% c("character", "factor"))) {
+  } else if (any(class(t) %in% c("character", "factor"))) {
     type <- "xs:string"
-  } else if (any(class(t)=="logical")) {
+  } else if (any(class(t) == "logical")) {
     type <- "xs:boolean"
-  } else if (any(class(t)=="numeric")) {
+  } else if (any(class(t) == "numeric")) {
     type <- "xs:decimal"
-  } else if (any(class(t)=="Date")) {
+  } else if (any(class(t) == "Date")) {
     type <- "xs:date"
-  } else  if (any(class(t)=="POSIXct")) {
+  } else if (any(class(t) == "POSIXct")) {
     type <- "xs:dateTime"
   }
 
@@ -41,22 +40,21 @@ get_type <- function(t) {
 #' xsd_convert(head(iris))
 #' @exportS3Method
 #' @export
-xsd_convert.data.frame <- function(x, idcol=NULL, ...) {
+xsd_convert.data.frame <- function(x, idcol = NULL, ...) {
   get_type <- function(t) {
-
     if (any(class(t) %in% c("numeric", "double"))) {
       type <- "xs:decimal"
-    } else if (any(class(t)=="integer")) {
+    } else if (any(class(t) == "integer")) {
       type <- "xs:integer"
-    } else if  (any(class(t) %in% c("character", "factor"))) {
+    } else if (any(class(t) %in% c("character", "factor"))) {
       type <- "xs:string"
-    } else if (any(class(t)=="logical")) {
+    } else if (any(class(t) == "logical")) {
       type <- "xs:boolean"
-    } else if (any(class(t)=="numeric")) {
+    } else if (any(class(t) == "numeric")) {
       type <- "xs:decimal"
-    } else if (any(class(t)=="Date")) {
+    } else if (any(class(t) == "Date")) {
       type <- "xs:date"
-    } else  if (any(class(t)=="POSIXct")) {
+    } else if (any(class(t) == "POSIXct")) {
       type <- "xs:dateTime"
     }
 
@@ -65,36 +63,35 @@ xsd_convert.data.frame <- function(x, idcol=NULL, ...) {
 
   convert_cols <- seq_along(x)
 
-  if(!is.null(idcol)) {
+  if (!is.null(idcol)) {
     ## See utils-idcol_find.R for the internal function
-    convert_cols <- convert_cols[-idcol_find(x=x, idcol=idcol)]
+    convert_cols <- convert_cols[-idcol_find(x = x, idcol = idcol)]
   }
 
   convert_column <- function(c) {
-
-    var_type <- get_type(t=x[[c]])
-    if ( ! var_type %in% c("codelist", "literal") ) {
-      paste0('\"', as.character(x[[c]]),  '\"', "^^<", var_type, ">")
+    var_type <- get_type(t = x[[c]])
+    if (!var_type %in% c("codelist", "literal")) {
+      paste0('\"', as.character(x[[c]]), '\"', "^^<", var_type, ">")
     } else {
       as.character(x[[c]])
     }
   }
 
-  xsd_list <- lapply ( convert_cols, function(c) convert_column(c))
-  xsd_dataframe <-  as.data.frame(xsd_list)
+  xsd_list <- lapply(convert_cols, function(c) convert_column(c))
+  xsd_dataframe <- as.data.frame(xsd_list)
 
-  idcol <- which(! seq_along(x) %in% convert_cols)
-  if (length(idcol)==1) {
-    xsd_dataframe <- cbind( x[, idcol], xsd_dataframe)
+  idcol <- which(!seq_along(x) %in% convert_cols)
+  if (length(idcol) == 1) {
+    xsd_dataframe <- cbind(x[, idcol], xsd_dataframe)
     names(xsd_dataframe) <- names(x)
   } else {
     names(xsd_dataframe) <- names(x)
   }
 
   tmp_df <- x
-  for ( j in seq_along(tmp_df)) {
-    tmp_df[,j] <- as.character(tmp_df[, j])
-    tmp_df[,j] <- xsd_dataframe[,j]
+  for (j in seq_along(tmp_df)) {
+    tmp_df[, j] <- as.character(tmp_df[, j])
+    tmp_df[, j] <- xsd_dataframe[, j]
   }
 
   tmp_df
@@ -108,23 +105,23 @@ xsd_convert.data.frame <- function(x, idcol=NULL, ...) {
 #' @export
 
 #' @exportS3Method
-xsd_convert.dataset <- function(x, idcol=NULL, ...) {
+xsd_convert.dataset <- function(x, idcol = NULL, ...) {
   NextMethod()
 }
 
 #' @rdname xsd_convert
 #' @export
 #' @exportS3Method
-xsd_convert.tibble <- function(x, idcol=NULL,...) {
+xsd_convert.tibble <- function(x, idcol = NULL, ...) {
   NextMethod()
 }
 
 #' @rdname xsd_convert
 #' @export
 #' @exportS3Method
-xsd_convert.character <- function(x, idcol=NULL, ...) {
-  var_type <-  "xs:string"
-  paste0('\"', x,  '\"', "^^<", var_type, ">")
+xsd_convert.character <- function(x, idcol = NULL, ...) {
+  var_type <- "xs:string"
+  paste0('\"', x, '\"', "^^<", var_type, ">")
 }
 
 #' @rdname xsd_convert
@@ -133,29 +130,36 @@ xsd_convert.character <- function(x, idcol=NULL, ...) {
 #' # Convert integers or doubles, numbers:
 #' xsd_convert(1:3)
 #' @exportS3Method
-xsd_convert.numeric <- function(x, idcol=NULL, ...) {
-  var_type <-  "xs:decimal"
-  paste0('\"', as.character(x),  '\"', "^^<", var_type, ">")
+xsd_convert.numeric <- function(x, idcol = NULL, ...) {
+  var_type <- "xs:decimal"
+  paste0('\"', as.character(x), '\"', "^^<", var_type, ">")
 }
 
 #' @rdname xsd_convert
 #' @export
 #' @exportS3Method
-xsd_convert.haven_labelled_defined <- function(x, idcol=NULL, ...) {
-
+xsd_convert.haven_labelled_defined <- function(x, idcol = NULL, ...) {
   type <- get_type(x)
-  if (type == "xs:decimal") return(xsd_convert(as_numeric(x)))
-  if (type == "xs:integer") return(xsd_convert(as_numeric(x)))
-  if (type == "xs:string")  return(xsd_convert(as_character(x)))
-  if (type == "xs:boolean") return(xsd_convert(as.logical(as_numeric(x))))
+  if (type == "xs:decimal") {
+    return(xsd_convert(as_numeric(x)))
+  }
+  if (type == "xs:integer") {
+    return(xsd_convert(as_numeric(x)))
+  }
+  if (type == "xs:string") {
+    return(xsd_convert(as_character(x)))
+  }
+  if (type == "xs:boolean") {
+    return(xsd_convert(as.logical(as_numeric(x))))
+  }
 }
 
 #' @rdname xsd_convert
 #' @export
 #' @exportS3Method
-xsd_convert.integer <- function(x, idcol=NULL, ...) {
-  var_type <-  "xs:integer"
-  paste0('\"', as.character(x),  '\"', "^^<", var_type, ">")
+xsd_convert.integer <- function(x, idcol = NULL, ...) {
+  var_type <- "xs:integer"
+  paste0('\"', as.character(x), '\"', "^^<", var_type, ">")
 }
 
 #' @rdname xsd_convert
@@ -164,16 +168,15 @@ xsd_convert.integer <- function(x, idcol=NULL, ...) {
 #' # Convert logical values:
 #' xsd_convert(TRUE)
 #' @export
-xsd_convert.logical <- function(x, idcol=NULL, ...) {
-  var_type <-  "xs:boolean"
-  paste0('\"', as.character(x),  '\"', "^^<", var_type, ">")
+xsd_convert.logical <- function(x, idcol = NULL, ...) {
+  var_type <- "xs:boolean"
+  paste0('\"', as.character(x), '\"', "^^<", var_type, ">")
 }
 
 #' @rdname xsd_convert
 #' @export
 #' @exportS3Method
-xsd_convert.factor<- function(x, idcol=NULL, ... ) {
-
+xsd_convert.factor <- function(x, idcol = NULL, ...) {
   codelist <- NULL
   args <- list(...)
 
@@ -182,8 +185,8 @@ xsd_convert.factor<- function(x, idcol=NULL, ... ) {
   }
 
   if (is.null(codelist)) {
-    var_type <-  "xs:string"
-    paste0('\"', x,  '\"', "^^<", var_type, ">")
+    var_type <- "xs:string"
+    paste0('\"', x, '\"', "^^<", var_type, ">")
   } else {
     paste0(codelist, ":", as.character(x))
   }
@@ -192,19 +195,19 @@ xsd_convert.factor<- function(x, idcol=NULL, ... ) {
 #' @rdname xsd_convert
 #' @export
 #' @exportS3Method
-xsd_convert.POSIXct <- function(x, idcol=NULL, ...) {
-
+xsd_convert.POSIXct <- function(x, idcol = NULL, ...) {
   time_utc <- as.POSIXct(x, tz = "UTC")
-  time_string <- paste0(as.character(as.Date(time_utc)), "T",
-         strftime(time_utc, format="%H:%M:%S"), "Z")
+  time_string <- paste0(
+    as.character(as.Date(time_utc)), "T",
+    strftime(time_utc, format = "%H:%M:%S"), "Z"
+  )
 
-  paste0('\"', time_string,  '\"', "^^<xs:dateTime>")
+  paste0('\"', time_string, '\"', "^^<xs:dateTime>")
 }
 
 #' @rdname xsd_convert
 #' @export
 #' @exportS3Method
-xsd_convert.Date <- function(x, idcol=NULL, ...) {
-  paste0('\"', paste0(as.character(as.Date(x))),  '\"', "^^<xs:date>")
+xsd_convert.Date <- function(x, idcol = NULL, ...) {
+  paste0('\"', paste0(as.character(as.Date(x))), '\"', "^^<xs:date>")
 }
-

@@ -99,11 +99,12 @@ It is important to see that we do not only increase the semantics of the dataset
 When working with datasets that receive their components from different linked open data sources, it is particularly important to have a more precise semantic definition and description of each variable.
 
 ```{r defined}
-gdp_1 = defined(
-    c(3897, 7365), 
-    label = "Gross Domestic Product", 
-    unit = "million dollars", 
-    definition = "http://data.europa.eu/83i/aa/GDP")
+gdp_1 <- defined(
+  c(3897, 7365),
+  label = "Gross Domestic Product",
+  unit = "million dollars",
+  definition = "http://data.europa.eu/83i/aa/GDP"
+)
 
 # Summarise this semantically better defined vector:
 summary(gdp_1)

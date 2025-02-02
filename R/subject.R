@@ -14,11 +14,12 @@
 #' @examples
 #' # To set the subject of a dataset_df object:
 #' subject(iris_dataset) <- subject_create(
-#'          term  = "Irises (plants)",
-#'          schemeURI = "http://id.loc.gov/authorities/subjects",
-#'          valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
-#'          subjectScheme = "LCCH",
-#'          prefix = "lcch:")
+#'   term = "Irises (plants)",
+#'   schemeURI = "http://id.loc.gov/authorities/subjects",
+#'   valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
+#'   subjectScheme = "LCCH",
+#'   prefix = "lcch:"
+#' )
 #'
 #' # To retrieve the subject with its subproperties:
 #' subject(iris_dataset)
@@ -31,11 +32,12 @@
 #' @rdname subject
 subject <- function(x) {
   assertthat::assert_that(is.dataset_df(x),
-              msg = "subject(x): x must be a dataset_df object created with dataset_df() or as_dataset_df().")
+    msg = "subject(x): x must be a dataset_df object created with dataset_df() or as_dataset_df()."
+  )
 
-  if("subject" %in% names(attributes(x)))  {
+  if ("subject" %in% names(attributes(x))) {
     attr(x, "subject")
-  } else if(!is.null(get_bibentry(x)$subject)) {
+  } else if (!is.null(get_bibentry(x)$subject)) {
     get_bibentry(x)$subject
   } else {
     message("No subject is recorded.")
@@ -63,30 +65,33 @@ subject_create <- function(term,
                            valueURI = NULL,
                            prefix = NULL,
                            subjectScheme = NULL,
-                           classificationCode = NULL ) {
-
+                           classificationCode = NULL) {
   if (is.null(term)) term <- ":tba"
 
-  #if (! all.equal(length(heading), length(subjectScheme))) {
+  # if (! all.equal(length(heading), length(subjectScheme))) {
   #  stop("You must provide exactly one subjectSchemes, URIs and Codes for each heading.")
-  #}
+  # }
 
-  if (length(term)>1) {
-    dataset_subject <-  lapply (1:seq_along(term), function(x) new_Subject(term[x],
-                                                                subjectScheme = subjectScheme[x],
-                                                                schemeURI = schemeURI[x],
-                                                                classificationCode = classificationCode[x],
-                                                                prefix = prefix[x])
-    )
+  if (length(term) > 1) {
+    dataset_subject <- lapply(1:seq_along(term), function(x) {
+      new_Subject(term[x],
+        subjectScheme = subjectScheme[x],
+        schemeURI = schemeURI[x],
+        classificationCode = classificationCode[x],
+        prefix = prefix[x]
+      )
+    })
     # this is not nice
     class(dataset_subject) <- c("subject", class(subject))
   } else {
-    dataset_subject <- new_Subject(term=term,
-                                   subjectScheme=subjectScheme,
-                                   schemeURI=schemeURI,
-                                   valueURI=valueURI,
-                                   classificationCode = classificationCode,
-                                   prefix = prefix)
+    dataset_subject <- new_Subject(
+      term = term,
+      subjectScheme = subjectScheme,
+      schemeURI = schemeURI,
+      valueURI = valueURI,
+      classificationCode = classificationCode,
+      prefix = prefix
+    )
   }
 
   dataset_subject
@@ -99,27 +104,29 @@ new_Subject <- function(term,
                         valueURI = NULL,
                         prefix = NULL,
                         subjectScheme = NULL,
-                        classificationCode = NULL)
- {
-
+                        classificationCode = NULL) {
   if (is.null(subjectScheme)) subjectScheme <- ""
   if (is.null(schemeURI)) schemeURI <- ""
   if (is.null(valueURI)) valueURI <- ""
   if (is.null(prefix)) prefix <- ""
 
   if (!is.null(classificationCode)) {
-    dataset_subject <- list ( term = term,
-                              subjectScheme = subjectScheme,
-                              schemeURI = schemeURI,
-                              classificationCode = classificationCode,
-                              prefix = prefix)
+    dataset_subject <- list(
+      term = term,
+      subjectScheme = subjectScheme,
+      schemeURI = schemeURI,
+      classificationCode = classificationCode,
+      prefix = prefix
+    )
   } else {
-    dataset_subject  <- list ( term = term,
-                               subjectScheme = subjectScheme,
-                               schemeURI = schemeURI,
-                               valueURI = valueURI,
-                               classificationCode = classificationCode,
-                               prefix=prefix)
+    dataset_subject <- list(
+      term = term,
+      subjectScheme = subjectScheme,
+      schemeURI = schemeURI,
+      valueURI = valueURI,
+      classificationCode = classificationCode,
+      prefix = prefix
+    )
   }
 
   class(dataset_subject) <- c("subject", class(dataset_subject))
@@ -132,15 +139,15 @@ new_Subject <- function(term,
 #' is overwritten with this value.
 #' @export
 `subject<-` <- function(x, value) {
-
   assert_that(is.dataset_df(x),
-              msg = "subject<-(x, value): x must be a dataset object created with dataset_df() or as_dataset_df().")
+    msg = "subject<-(x, value): x must be a dataset object created with dataset_df() or as_dataset_df()."
+  )
 
   ds_bibentry <- get_bibentry(x)
 
-  if(is.null(value)) {
+  if (is.null(value)) {
     value <- new_Subject(term = ":tba")
-    } else if (is.character(value)) {
+  } else if (is.character(value)) {
     value <- new_Subject(term = value)
   } else if (!is.subject(value)) {
     stop("subject(x, value)<- : value must be a created with 'subject_create()` or it must be a character string.")
@@ -158,4 +165,3 @@ new_Subject <- function(term,
 is.subject <- function(x) {
   ifelse(inherits(x, "subject"), TRUE, FALSE)
 }
-

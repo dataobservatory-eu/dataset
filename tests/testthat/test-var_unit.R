@@ -1,5 +1,3 @@
-
-
 test_that("var_unit()", {
   expect_equal(var_unit(iris$Sepal.Length), NULL)
 })

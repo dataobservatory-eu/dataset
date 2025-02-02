@@ -28,18 +28,17 @@ geolocation <- function(x) {
 
 #' @rdname geolocation
 #' @export
-`geolocation<-` <- function(x,  overwrite = TRUE, value) {
-
+`geolocation<-` <- function(x, overwrite = TRUE, value) {
   if (is.null(attr(x, "Geolocation"))) {
     if (is.null(value)) {
       attr(x, "Geolocation") <- NA_character_
     } else {
       attr(x, "Geolocation") <- value
     }
-  } else if ( overwrite ) {
+  } else if (overwrite) {
     attr(x, "Geolocation") <- value
   } else {
-    message ("The dataset has already an Geolocation: ",  geolocation(x) )
+    message("The dataset has already an Geolocation: ", geolocation(x))
   }
   x
 }

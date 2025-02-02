@@ -11,13 +11,14 @@
 #'
 #' ## add a statement:
 #'
-#'  provenance(iris_dataset) <- n_triple(
+#' provenance(iris_dataset) <- n_triple(
 #'   "https://doi.org/10.5281/zenodo.10396807",
 #'   "http://www.w3.org/ns/prov#wasInformedBy",
-#'   "http://example.com/source#1")
+#'   "http://example.com/source#1"
+#' )
 #' @export
 provenance <- function(x) {
-  if(!is.dataset_df(x)) {
+  if (!is.dataset_df(x)) {
     stop("provenance(x): x must be a dataset_df object with standardised provenance metadata.")
   }
   attr(x, "prov")
@@ -25,8 +26,7 @@ provenance <- function(x) {
 
 #' @rdname provenance
 #' @export
-`provenance<-` <- function(x,  value) {
-
+`provenance<-` <- function(x, value) {
   if (!is.dataset_df(x)) {
     stop("provenance(x)<- : x must be a dataset object created with dataset_df() or as_dataset_df().")
   }
@@ -46,19 +46,20 @@ default_provenance <- function(dataset_id = "http://example.com/dataset#",
   cite_dataset <- utils::citation("dataset")
 
   agent_triples <- prov_author(author)
-  if((!is.null(dtm))) c(agent_tripels, prov_author(dtm))
+  if ((!is.null(dtm))) c(agent_tripels, prov_author(dtm))
 
   if (is.null(generated_at_time)) generated_at_time <- Sys.time()
   bundle_id <- gsub("#", "_prov.nt", dataset_id)
   prov <- n_triples(
-    c(n_triple(bundle_id, "a", "http://www.w3.org/ns/prov#Bundle"),
+    c(
+      n_triple(bundle_id, "a", "http://www.w3.org/ns/prov#Bundle"),
       n_triple(dataset_id, "a", "http://www.w3.org/ns/prov#Entity"),
       n_triple(dataset_id, "a", "http://purl.org/linked-data/cube#DataSet"),
       n_triple(dataset_id, "a", "http://purl.org/linked-data/cube#DataSet"),
       agent_triples,
       n_triple("https://doi.org/10.32614/CRAN.package.dataset", "a", "http://www.w3.org/ns/prov#SoftwareAgent"),
       n_triple("http://example.com/creation", "a", "http://www.w3.org/ns/prov#Activity"),
-      n_triple("http://example.com/creation", "http://www.w3.org/ns/prov#generatedAtTime", generated_at_time ),
+      n_triple("http://example.com/creation", "http://www.w3.org/ns/prov#generatedAtTime", generated_at_time),
       n_triple(paste0("https://doi.org/", cite_dataset[[2]]$doi), "a", "http://www.w3.org/ns/prov#SoftwareAgent")
     )
   )

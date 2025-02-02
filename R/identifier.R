@@ -33,7 +33,8 @@
 #' @export
 identifier <- function(x) {
   assert_that(inherits(x, "bibentry") | inherits(x, "dataset_df"),
-              msg = "identifier(x): x must be a dataset_df or a bibentry object.")
+    msg = "identifier(x): x must be a dataset_df or a bibentry object."
+  )
 
   if (is.dataset_df(x)) {
     ds_bibentry <- get_bibentry(x)
@@ -46,15 +47,16 @@ identifier <- function(x) {
 
 #' @rdname identifier
 #' @export
-`identifier<-`  <- function(x,  overwrite = TRUE, value) {
-
+`identifier<-` <- function(x, overwrite = TRUE, value) {
   if (is.numeric(value)) value <- as.character(value)
 
   assert_that(inherits(x, "bibentry") | inherits(x, "dataset_df"),
-              msg = "identifier(x) <- value: x must be a dataset_df or a bibentry object.")
+    msg = "identifier(x) <- value: x must be a dataset_df or a bibentry object."
+  )
 
   assert_that(is.null(value) | inherits(value, "character"),
-              msg="identifier(x) <- value: value must be a named or not named character string of length 1.")
+    msg = "identifier(x) <- value: value must be a named or not named character string of length 1."
+  )
 
   if (is.dataset_df(x)) {
     ds_bibentry <- get_bibentry(x)
@@ -69,34 +71,36 @@ identifier <- function(x) {
   }
 
   is_doi <- function(i) {
-    if(!is.null(names(i))) {
-      if (tolower(names(i)) == "doi")
+    if (!is.null(names(i))) {
+      if (tolower(names(i)) == "doi") {
         return(TRUE)
+      }
     } else {
       ifelse(grepl("https://doi.org", i), TRUE, FALSE)
     }
   }
 
 
-  if ( overwrite | old_identifier %in% c(":unas", ":tba")) {
+  if (overwrite | old_identifier %in% c(":unas", ":tba")) {
     ds_bibentry$identifier <- value
     if (is_doi(value)) {
       doi <- gsub("https://doi.org/", "", value)
       doi <- gsub("/$", "", doi)
       ds_bibentry$doi <- doi
-      }
+    }
   } else {
-    warning ("The dataset has already an identifier: ",
-             old_identifier, ".\nYou can overwrite this message with identifier(x, overwrite = TRUE) <- value" )
+    warning(
+      "The dataset has already an identifier: ",
+      old_identifier, ".\nYou can overwrite this message with identifier(x, overwrite = TRUE) <- value"
+    )
   }
 
 
-  if(inherits(x, "bibentry")) {
-   ds_bibentry
-    } else {
-      if (is_doi(value)) attr(x, "doi") <- gsub("https://doi.org/", "", value)
-      attr(x, "dataset_bibentry") <- ds_bibentry
-      invisible(x)
-    }
+  if (inherits(x, "bibentry")) {
+    ds_bibentry
+  } else {
+    if (is_doi(value)) attr(x, "doi") <- gsub("https://doi.org/", "", value)
+    attr(x, "dataset_bibentry") <- ds_bibentry
+    invisible(x)
+  }
 }
-

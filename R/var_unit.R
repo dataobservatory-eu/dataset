@@ -38,7 +38,7 @@
 #' \code{x}. The assignment function returns the \code{x} vector invisibly.
 #' @export
 var_unit <- function(x, ...) {
-  #rlang::check_dots_used()
+  # rlang::check_dots_used()
   UseMethod("var_unit")
 }
 

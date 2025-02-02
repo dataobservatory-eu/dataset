@@ -34,15 +34,17 @@
 #' @import pillar
 #' @examples
 #' my_dataset <- dataset_df(
-#'    country_name = defined(
-#'      c("AD", "LI"),
-#'      definition = "http://data.europa.eu/bna/c_6c2bb82d",
-#'      namespace = "https://www.geonames.org/countries/$1/"),
-#'    gdp = defined(
-#'      c(3897, 7365),
-#'      label = "Gross Domestic Product",
-#'      unit = "million dollars",
-#'      definition = "http://data.europa.eu/83i/aa/GDP")
+#'   country_name = defined(
+#'     c("AD", "LI"),
+#'     definition = "http://data.europa.eu/bna/c_6c2bb82d",
+#'     namespace = "https://www.geonames.org/countries/$1/"
+#'   ),
+#'   gdp = defined(
+#'     c(3897, 7365),
+#'     label = "Gross Domestic Product",
+#'     unit = "million dollars",
+#'     definition = "http://data.europa.eu/83i/aa/GDP"
+#'   )
 #' )
 #'
 #' print(my_dataset)
@@ -52,66 +54,64 @@
 
 # User constructor
 dataset_df <- function(...,
-                       identifier = c(eg="http://example.com/dataset#"),
-                       var_labels=NULL,
-                       units=NULL,
-                       definitions=NULL,
-                       dataset_bibentry=NULL,
-                       dataset_subject=NULL ) {
-
+                       identifier = c(eg = "http://example.com/dataset#"),
+                       var_labels = NULL,
+                       units = NULL,
+                       definitions = NULL,
+                       dataset_bibentry = NULL,
+                       dataset_subject = NULL) {
   dots <- list(...)
 
-  if ( ! "rowid" %in% names(dots)) {
+  if (!"rowid" %in% names(dots)) {
     add_rowid <- TRUE
   } else {
     add_row_id <- FALSE
   }
 
   sys_time <- Sys.time()
-  year <- substr(as.character(sys_time),1,4)
+  year <- substr(as.character(sys_time), 1, 4)
 
   if (is.null(dataset_subject)) {
-    dataset_subject <- subject_create(term="data sets",
-                              subjectScheme="Library of Congress Subject Headings (LCSH)",
-                              schemeURI="https://id.loc.gov/authorities/subjects.html",
-                              valueURI="http://id.loc.gov/authorities/subjects/sh2018002256",
-                              classificationCode = NULL,
-                              prefix = ""
+    dataset_subject <- subject_create(
+      term = "data sets",
+      subjectScheme = "Library of Congress Subject Headings (LCSH)",
+      schemeURI = "https://id.loc.gov/authorities/subjects.html",
+      valueURI = "http://id.loc.gov/authorities/subjects/sh2018002256",
+      classificationCode = NULL,
+      prefix = ""
     )
   }
 
   if (is.null(dataset_bibentry)) {
-    Title   <- "Untitled Dataset"
+    Title <- "Untitled Dataset"
     Creator <- person("Author", "Unknown")
-    dataset_bibentry <- datacite(Title=Title, Creator=Creator, Subject=dataset_subject)
-  } else if(is.null(dataset_bibentry$subject)) {
-      #dataset_bibentry$subject <- dataset_subject$term
-   }
+    dataset_bibentry <- datacite(Title = Title, Creator = Creator, Subject = dataset_subject)
+  } else if (is.null(dataset_bibentry$subject)) {
+    # dataset_bibentry$subject <- dataset_subject$term
+  }
 
   tmp <- new_my_tibble(
-                x = tibble::tibble(...),
-                identifier = identifier,
-                dataset_bibentry=dataset_bibentry,
-                var_labels = var_labels,
-                units = units,
-                definitions = definitions)
+    x = tibble::tibble(...),
+    identifier = identifier,
+    dataset_bibentry = dataset_bibentry,
+    var_labels = var_labels,
+    units = units,
+    definitions = definitions
+  )
 
   attr(tmp, "subject") <- dataset_subject
   tmp
 }
 
-
-
 #' @rdname dataset_df
 #' @export
 as_dataset_df <- function(df,
-                          identifier = c(eg ="http://example.com/dataset#"),
-                          var_labels=NULL,
-                          units=NULL,
-                          definitions =NULL,
-                          dataset_bibentry=NULL,
-                          dataset_subject=NULL,  ...) {
-
+                          identifier = c(eg = "http://example.com/dataset#"),
+                          var_labels = NULL,
+                          units = NULL,
+                          definitions = NULL,
+                          dataset_bibentry = NULL,
+                          dataset_subject = NULL, ...) {
   dots <- list(...)
 
   if (is.null(dots$dataset_bibentry)) {
@@ -119,11 +119,12 @@ as_dataset_df <- function(df,
   }
 
   new_my_tibble(df,
-                identifier=identifier,
-                dataset_bibentry=dataset_bibentry,
-                var_labels = var_labels,
-                units = units,
-                definitions = definitions)
+    identifier = identifier,
+    dataset_bibentry = dataset_bibentry,
+    var_labels = var_labels,
+    units = units,
+    definitions = definitions
+  )
 }
 
 # Developer constructor
@@ -137,7 +138,8 @@ new_my_tibble <- function(x,
                           units = NULL,
                           definitions = NULL) {
   assertthat::assert_that(is.data.frame(x),
-                          msg="Error: new_my_tibble(x): x is not a data frame")
+    msg = "Error: new_my_tibble(x): x is not a data frame"
+  )
 
   generated_at_time <- Sys.time()
 
@@ -161,12 +163,13 @@ new_my_tibble <- function(x,
   }
 
 
-  prov <- default_provenance(generated_at_time = generated_at_time,
-                             author=dataset_bibentry$author)
+  prov <- default_provenance(
+    generated_at_time = generated_at_time,
+    author = dataset_bibentry$author
+  )
 
   attr(tmp, "dataset_bibentry") <- dataset_bibentry
   attr(tmp, "prov") <- prov
-
 
   tmp
 }
@@ -185,29 +188,30 @@ is.dataset_df <- function(x) {
 #' @importFrom cli cat_line
 #' @export
 print.dataset_df <- function(x, ...) {
-
   dataset_bibentry <- get_bibentry(x)
 
   author_person <- dataset_bibentry$author
-  year          <- dataset_bibentry$year
-  title         <- dataset_bibentry$title
+  year <- dataset_bibentry$year
+  title <- dataset_bibentry$title
 
   if (inherits(author_person, "persont")) {
     print_name <- ""
     if (!is.null(author_person$family)) print_name <- paste0(author_person$family, ", ")
-    if (!is.null(author_person$given))  print_name <- paste0(print_name, author_person$given, ": ")
+    if (!is.null(author_person$given)) print_name <- paste0(print_name, author_person$given, ": ")
   } else if (is.character(attr(x, "person"))) {
     print_name <- paste0(attr(x, "person"), ": ")
-  } else { print_name <- ""}
+  } else {
+    print_name <- ""
+  }
 
-  #if(!is.null(title)) {
+  # if(!is.null(title)) {
   #  print_title <- title
-  #} else { print_title: "A dataset"}
+  # } else { print_title: "A dataset"}
 
-  #cat(print_name)
-  #cat(print_title)
+  # cat(print_name)
+  # cat(print_title)
   if (!is.null(year)) {
-    #cat(paste0(" (", substr(as.character(year), 1,4), ")"))
+    # cat(paste0(" (", substr(as.character(year), 1,4), ")"))
   }
   print(get_bibentry(x), "text")
   vr_labels <- vapply(attr(x, "var_labels"), function(x) x, character(1))
@@ -216,10 +220,10 @@ print.dataset_df <- function(x, ...) {
 
 #' @importFrom vctrs df_list
 #' @export
-#dataset_df <- function(...) {
+# dataset_df <- function(...) {
 #  data <- df_list(...)
 #  new_dataset(data)
-#}
+# }
 
 #' @export
 tbl_sum.dataset_df <- function(x, ...) {
@@ -242,16 +246,16 @@ is_dataset_df <- function(x) {
 #' @importFrom rlang caller_env env_is_user_facing
 names.dataset_df <- function(x) {
   should_inform <- rlang::env_is_user_facing(rlang::caller_env())
-  #if (should_inform) {
+  # if (should_inform) {
   #  cli::cli_inform(c(
   #    `!` = "The {.fn names} method of {.cls dataset_df} is for internal use only.",
   #    i = "Did you mean {.fn colnames}?"
   ##  ))
-  #}
+  # }
   NextMethod("names")
 }
 
 
-#`[[.dataset_df` <- function(x, i, j, ..., exact = TRUE) {
+# `[[.dataset_df` <- function(x, i, j, ..., exact = TRUE) {
 #  NextMethod()
 #  }

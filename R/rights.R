@@ -20,42 +20,42 @@
 #' @export
 rights <- function(x) {
   assertthat::assert_that(is.dataset_df(x),
-                          msg = "rights(x): x must be a dataset object created with dataset_df() or as_dataset_df().")
+    msg = "rights(x): x must be a dataset object created with dataset_df() or as_dataset_df()."
+  )
 
   DataBibentry <- get_bibentry(x)
   as.character(DataBibentry$rights)
-
 }
 
 #' @rdname rights
 #' @export
-`rights<-` <- function(x,  overwrite = FALSE, value) {
-
+`rights<-` <- function(x, overwrite = FALSE, value) {
   assertthat::assert_that(is.dataset_df(x),
-                          msg = "rights(x): x must be a dataset object created with dataset_f() or as_dataset_df().")
+    msg = "rights(x): x must be a dataset object created with dataset_f() or as_dataset_df()."
+  )
 
   DataBibentry <- invisible(get_bibentry(x))
 
-  if ( is.null(value) ) {
+  if (is.null(value)) {
     DataBibentry$rights <- ":unas"
     attr(x, "dataset_bibentry") <- DataBibentry
     return(invisible(x))
   }
 
-  if (length(value)>1) {
+  if (length(value) > 1) {
     stop("rights(x) <- value: value must be of length 1.")
   }
 
-  is_unas <- DataBibentry$rights  ==  ":unas"
+  is_unas <- DataBibentry$rights == ":unas"
 
   if (is.null(DataBibentry$rights)) {
     DataBibentry$rights <- value
   } else if (is_unas) {
     DataBibentry$rights <- value
-  }else if (overwrite) {
+  } else if (overwrite) {
     DataBibentry$rights <- value
   } else {
-    message ("The dataset has already a rights field: ",    DataBibentry$rights )
+    message("The dataset has already a rights field: ", DataBibentry$rights)
   }
 
   attr(x, "attribtes_bibentry") <- DataBibentry

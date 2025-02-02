@@ -1,27 +1,31 @@
 test_that("creator() works", {
-  expect_equal(creator(iris_dataset), person(given="Edgar", family="Anderson", role = "cre",
-                                             comment = c(VIAF="http://viaf.org/viaf/6440526")))
+  expect_equal(creator(iris_dataset), person(
+    given = "Edgar", family = "Anderson", role = "cre",
+    comment = c(VIAF = "http://viaf.org/viaf/6440526")
+  ))
 })
 
 
 test_that("creator() <- value works with overwrite", {
   iris_dataset_2 <- iris_dataset
-  creator(iris_dataset_2) <- person(given="Jane", family="Doe")
-  expect_equal(creator(iris_dataset_2), person(given="Jane", family="Doe"))
+  creator(iris_dataset_2) <- person(given = "Jane", family = "Doe")
+  expect_equal(creator(iris_dataset_2), person(given = "Jane", family = "Doe"))
 })
 
 
 test_that("creator() <- value works without overwrite", {
   iris_dataset_3 <- iris_dataset
-  creator(x=iris_dataset_3, overwrite=FALSE) <- person("Jane", "Doe")
-  expect_equal(creator(iris_dataset_3),
-               c(person(given="Edgar", family="Anderson", role = "cre", comment = c(VIAF="http://viaf.org/viaf/6440526")), person("Jane", "Doe")))
+  creator(x = iris_dataset_3, overwrite = FALSE) <- person("Jane", "Doe")
+  expect_equal(
+    creator(iris_dataset_3),
+    c(person(given = "Edgar", family = "Anderson", role = "cre", comment = c(VIAF = "http://viaf.org/viaf/6440526")), person("Jane", "Doe"))
+  )
 })
 
 
 test_that("creator() <- throws error", {
   iris_dataset_4 <- iris_dataset
-  expect_error(creator(x=iris_dataset_4, overwrite=TRUE) <- 12)
+  expect_error(creator(x = iris_dataset_4, overwrite = TRUE) <- 12)
 })
 
 test_that("creator() <- NULL", {
@@ -29,5 +33,3 @@ test_that("creator() <- NULL", {
   creator(iris_dataset_5) <- NULL
   expect_equal(creator(iris_dataset_5), creator(iris_dataset))
 })
-
-

@@ -22,7 +22,8 @@
 #' @export
 publication_year <- function(x) {
   assert_that(is.dataset_df(x),
-              msg = "publication_year(x): x must be a dataset object created with dataset() or as_dataset().")
+    msg = "publication_year(x): x must be a dataset object created with dataset() or as_dataset()."
+  )
 
   ds_bibentry <- get_bibentry(x)
   as.character(ds_bibentry$date)
@@ -30,22 +31,23 @@ publication_year <- function(x) {
 
 #' @rdname publication_year
 #' @export
-`publication_year<-`  <- function(x,  overwrite = TRUE, value) {
+`publication_year<-` <- function(x, overwrite = TRUE, value) {
   assert_that(is.dataset_df(x),
-              msg = "publication_year(x) <- value: x must be a dataset object created with dataset_df() or as_dataset_df().")
+    msg = "publication_year(x) <- value: x must be a dataset object created with dataset_df() or as_dataset_df()."
+  )
 
   ds_bibentry <- get_bibentry(x)
   publication_year <- ds_bibentry$date
 
   if (is.null(value)) {
-      value <- ":unas"
-    }
+    value <- ":unas"
+  }
 
-  if ( overwrite ) {
+  if (overwrite) {
     ds_bibentry$date <- as.character(value)
     attr(x, "dataset_bibentry") <- ds_bibentry
-   } else {
-    warning ("The dataset has already an publication_year: ",  ds_bibentry$date, "." )
+  } else {
+    warning("The dataset has already an publication_year: ", ds_bibentry$date, ".")
   }
   invisible(x)
 }

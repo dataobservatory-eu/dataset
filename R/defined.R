@@ -24,10 +24,10 @@
 #' @return The constructor \code{defined} returns a vector with defined
 #' value labels, a variable label, an optional unit of measurement and linked
 #' definition.\cr
-#' \code{is.defined} returns a logical value, stateing if the object is of
+#' \code{is.defined} returns a logical value, stating if the object is of
 #' class \code{defined}.
 #' @importFrom haven labelled
-#' @importFrom labelled to_labelled
+#' @importFrom labelled to_labelled is.labelled
 #' @import vctrs methods
 #' @examples
 #'
@@ -36,19 +36,19 @@
 #'   label = "Gross Domestic Product",
 #'   unit = "million dollars",
 #'   definition = "http://data.europa.eu/83i/aa/GDP"
-#'  )
+#' )
 #'
-#'  # To check the s3 class of the vector:
-#'  is.defined(gdp_vector)
+#' # To check the s3 class of the vector:
+#' is.defined(gdp_vector)
 #'
-#'  # To print the defined vector:
-#'  print(gdp_vector)
+#' # To print the defined vector:
+#' print(gdp_vector)
 #'
-#'  # To summarise the defined vector:
-#'  summary(gdp_vector)
+#' # To summarise the defined vector:
+#' summary(gdp_vector)
 #'
-#'  # Subsetting work as expected:
-#'  gdp_vector[1:2]
+#' # Subsetting work as expected:
+#' gdp_vector[1:2]
 #' @export
 
 defined <- function(x,
@@ -57,13 +57,18 @@ defined <- function(x,
                     unit = NULL,
                     definition = NULL,
                     namespace = NULL) {
-
   if (is.numeric(x)) {
     x <- vec_data(x)
     labels <- vec_cast_named(labels, x, x_arg = "labels", to_arg = "x")
     new_labelled_defined(x, labels = labels, label = label, unit = unit, definition = definition, namespace = namespace)
   } else if (is.character(x)) {
     new_labelled_defined(x, labels = labels, label = label, unit = unit, definition = definition, namespace = namespace)
+  } else if (is.labelled(x)) {
+    var_unit(x) <- unit
+    var_definition(x) <- definition
+    var_namespace(x) <- namespace
+    attr(x, "class") <- c("haven_labelled_defined", class(x))
+    x
   } else if (inherits(x, "Date")) {
     new_datetime_defined(x, label = label, unit = unit, definition = definition, namespace = namespace)
   } else if (is.factor(x)) {
@@ -77,16 +82,20 @@ defined <- function(x,
   }
 }
 
+s3 <- labelled(
+  c("M", "M", "F", "X", "N/A"),
+  c(Male = "M", Female = "F", Refused = "X", "Not applicable" = "N/A")
+)
+
 #' @rdname defined
 #' @export
 is.defined <- function(x) {
   any(inherits(x, "haven_labelled_defined"), inherits(x, "datetime_defined"))
-  }
+}
 
 #' From haven
 #' @keywords internal
-vec_cast_named <- function (x, to, ...)
-{
+vec_cast_named <- function(x, to, ...) {
   stats::setNames(vec_cast(x, to, ...), names(x))
 }
 
@@ -98,7 +107,6 @@ new_labelled_defined <- function(x = double(),
                                  unit = NULL,
                                  definition = NULL,
                                  namespace = NULL) {
-
   if (!is.null(unit) && (!is.character(unit) || length(unit) != 1)) {
     stop("defined(..., unit): 'unit' must be a character vector of length one.")
   }
@@ -115,11 +123,11 @@ new_labelled_defined <- function(x = double(),
     stop("defined(..., namespace): 'namespace' must be a character vector of length one or NULL.")
   }
 
-  tmp <- labelled(x, labels=labels, label=label)
+  tmp <- labelled(x, labels = labels, label = label)
 
   attr(tmp, "unit") <- unit
   attr(tmp, "definition") <- definition
-  attr(tmp, "namespace")  <- namespace
+  attr(tmp, "namespace") <- namespace
   attr(tmp, "class") <- c("haven_labelled_defined", class(tmp))
 
   tmp
@@ -152,7 +160,7 @@ new_datetime_defined <- function(x,
 
   attr(tmp, "unit") <- unit
   attr(tmp, "definition") <- definition
-  attr(tmp, "namespace")  <- namespace
+  attr(tmp, "namespace") <- namespace
   attr(tmp, "class") <- c("datetime_defined", class(tmp))
 
   tmp
@@ -168,12 +176,12 @@ as.character.haven_labelled_defined <- function(x, ...) {
 #' @param object An R object to be summarised.
 #' @export
 summary.haven_labelled_defined <- function(object, ...) {
+  title <- ifelse(nchar(var_label(object)) > 1, var_label(object), "")
 
-  title <- ifelse(nchar(var_label(object))>1, var_label(object), "")
-
-  title <- ifelse(nchar(var_unit(object)) & nchar(title)>1,
-                  paste0(title, " (", var_unit(object), ")\n"),
-                  paste0(title, "\n"))
+  title <- ifelse(nchar(var_unit(object)) & nchar(title) > 1,
+    paste0(title, " (", var_unit(object), ")\n"),
+    paste0(title, "\n")
+  )
   cat(title)
   NextMethod()
 }
@@ -201,13 +209,12 @@ as_character <- function(x) {
 #' @rdname as_numeric
 #' @export
 as_numeric.haven_labelled_defined <- function(x) {
-
   class_x <- class(x)
 
   if (any(class_x %in% c("numeric", "double"))) {
     class(x) <- "numeric"
     as.numeric(x)
-  } else if ( any ( class_x %in% "integer") ) {
+  } else if (any(class_x %in% "integer")) {
     class(x) <- "integer"
     as.integer(x)
   } else {
@@ -219,7 +226,5 @@ as_numeric.haven_labelled_defined <- function(x) {
 #' @importFrom haven as_factor
 #' @export
 as_character.haven_labelled_defined <- function(x) {
-
   as.character(haven::as_factor(x))
 }
-

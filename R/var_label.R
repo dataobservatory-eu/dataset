@@ -50,7 +50,7 @@ var_label.defined <- function(x, ...) {
 #' @param ... Further potential parameters reserved for inherited classes.
 #' @export
 var_label.dataset_df <- function(x,
-                                 unlist=FALSE,
+                                 unlist = FALSE,
                                  null_action =
                                    c("keep", "fill", "skip", "na", "empty"),
                                  recurse = FALSE,
@@ -61,13 +61,12 @@ var_label.dataset_df <- function(x,
 
 #' @keywords internal
 set_var_labels <- function(dataset, var_labels) {
-
   var_label_list <- list()
   var_label_list <- lapply(colnames(dataset), function(i) i)
   names(var_label_list) <- colnames(dataset)
 
   for (rn in which(names(var_label_list) %in% names(var_labels))) {
-    var_label_list[[rn]] <- var_labels[[which(names(var_label_list)[rn]==names(var_labels))]]
+    var_label_list[[rn]] <- var_labels[[which(names(var_label_list)[rn] == names(var_labels))]]
   }
 
   attr(dataset, "var_labels") <- var_label_list

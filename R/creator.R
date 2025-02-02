@@ -23,11 +23,12 @@
 #' # To change author:
 #' creator(iris_dataset) <- person("Jane", "Doe")
 #' # To add author:
-#' creator(iris_dataset, overwrite=FALSE) <- person("John", "Doe")
+#' creator(iris_dataset, overwrite = FALSE) <- person("John", "Doe")
 #' @export
 creator <- function(x) {
   assert_that(is.dataset_df(x),
-              msg = "creator(x): x must be a dataset object created with dataset() or as_dataset_df().")
+    msg = "creator(x): x must be a dataset object created with dataset() or as_dataset_df()."
+  )
 
   ds_bibentry <- get_bibentry(x)
   ds_bibentry$author
@@ -37,7 +38,8 @@ creator <- function(x) {
 #' @export
 `creator<-` <- function(x, overwrite = TRUE, value) {
   assert_that(is.dataset_df(x),
-              msg = "creator(x) <- value: x must be a dataset object created with dataset_df() or as_dataset_df().")
+    msg = "creator(x) <- value: x must be a dataset object created with dataset_df() or as_dataset_df()."
+  )
 
   if (is.null(value)) {
     return(x)
@@ -50,7 +52,7 @@ creator <- function(x) {
   ds_creator <- get_bibentry(x)$author
 
 
-  if ( overwrite ) {
+  if (overwrite) {
     ds_creator <- value
   } else {
     ds_creator <- c(ds_creator, value)

@@ -50,25 +50,28 @@ Our aim is to improve the semantic description of the observations and the varia
 For example, when working with this small dataset:
 
 ```{r smallcountrydataset}
-options(sciphen=4)
+options(sciphen = 4)
 small_country_dataset <- dataset_df(
   country_name = defined(
     c("AD", "LI"),
-    definition = "http://data.europa.eu/bna/c_6c2bb82d", 
-    namespace = "https://www.geonames.org/countries/$1/"), 
+    definition = "http://data.europa.eu/bna/c_6c2bb82d",
+    namespace = "https://www.geonames.org/countries/$1/"
+  ),
   gdp = defined(
-    c(3897, 7365), 
-    label = "Gross Domestic Product", 
-    unit = "million dollars", 
-    definition = "http://data.europa.eu/83i/aa/GDP"), 
+    c(3897, 7365),
+    label = "Gross Domestic Product",
+    unit = "million dollars",
+    definition = "http://data.europa.eu/83i/aa/GDP"
+  ),
   population = defined(
-    c(77543, 40015), 
+    c(77543, 40015),
     label = "Population",
-    definition = "http://data.europa.eu/bna/c_f2b50efd"), 
+    definition = "http://data.europa.eu/bna/c_f2b50efd"
+  ),
   dataset_bibentry = dublincore(
-        creator = person(given="Jane", family="Doe"), 
-        title = "Small Country Dataset", 
-        publisher = "Reprex"
+    creator = person(given = "Jane", family = "Doe"),
+    title = "Small Country Dataset",
+    publisher = "Reprex"
   )
 )
 ```
@@ -82,9 +85,10 @@ Because the GDP is expressed in millions of dollars, we have to adjust the nomin
 
 ```{r percapita}
 small_country_dataset$gdp_capita <- defined(
-  small_country_dataset$gdp*1e6 / small_country_dataset$population, 
-  unit = "dollar", 
-  label = "GDP Per Capita")
+  small_country_dataset$gdp * 1e6 / small_country_dataset$population,
+  unit = "dollar",
+  label = "GDP Per Capita"
+)
 ```
 The `var_unit(small_country_dataset$gdp_capita)` command returns `r var_unit(small_country_dataset$gdp_capita)` and `var_label(small_country_dataset$gdp_capita)` returns `r var_label(small_country_dataset$gdp_capita)`.
 
@@ -104,20 +108,23 @@ We must remain aware that in the absence of an all-encompassing, general ontolog
 small_country_musicians <- data.frame(
   qid = c("Q275912", "Q116196078"),
   artist_name = defined(
-    c("Marta Roure", "wavvyboi"), 
-    definition = "https://www.wikidata.org/wiki/Property:P2093"), 
+    c("Marta Roure", "wavvyboi"),
+    definition = "https://www.wikidata.org/wiki/Property:P2093"
+  ),
   location = defined(
-    c("Andorra", "Lichtenstein"), 
-    definition = "https://www.wikidata.org/wiki/Property:P276"), 
+    c("Andorra", "Lichtenstein"),
+    definition = "https://www.wikidata.org/wiki/Property:P276"
+  ),
   date_of_birth = defined(
-    c(as.Date("1981-01-16"), as.Date("1998-04-28")), 
-      definition = "https://www.wikidata.org/wiki/Property:P569")
+    c(as.Date("1981-01-16"), as.Date("1998-04-28")),
+    definition = "https://www.wikidata.org/wiki/Property:P569"
+  )
 )
 
 small_country_musicians$age <- defined(
-  2024-as.integer(substr(as.character(small_country_musicians$date_of_birth), 1,4)), 
-  label = "Age in 2024")
-
+  2024 - as.integer(substr(as.character(small_country_musicians$date_of_birth), 1, 4)),
+  label = "Age in 2024"
+)
 ```
 
 Specifically, our first dataset's general semantic context is about countries as observational units and statistical variables related to them, while the second contains individual musical recordings and observed musicological values of such recordings, a general property of the dataset that can be applied to the entire dataset. Similarly, important provenance information, authorship, use rights, and so on, apply to the dataset, not to its specific cells. 
@@ -150,10 +157,12 @@ devtools::install_github("dataobservatory-eu/wbdataset")
 
 ```{r examplewbdataset, eval=FALSE}
 library(wbdataset)
-get_item(qid=c("Q228", "Q347"), 
-         language=c("en", "nl"), 
-         creator=person("Jane Doe"), 
-         title="Small Countries")
+get_item(
+  qid = c("Q228", "Q347"),
+  language = c("en", "nl"),
+  creator = person("Jane Doe"),
+  title = "Small Countries"
+)
 ```
 
 
@@ -165,13 +174,13 @@ The variables or columns bring the observational unit (data subject or statistic
 ```{r smallcountrydataset2}
 small_country_musicians <- data.frame(
   qid = c("Q275912", "Q116196078"),
-  label = c("Marta Roure", "wavvyboi"), 
-  P276 = c("Andorra", "Lichtenstein"), 
+  label = c("Marta Roure", "wavvyboi"),
+  P276 = c("Andorra", "Lichtenstein"),
   P569 = c(as.Date("1981-01-16"), as.Date("1998-04-28"))
 )
 
 ## And the age
-small_country_musicians$P3629 <- 2024-as.integer(substr(small_country_musicians$P569, 1,4))
+small_country_musicians$P3629 <- 2024 - as.integer(substr(small_country_musicians$P569, 1, 4))
 
 small_country_musicians
 ```
@@ -193,13 +202,13 @@ Therefore, the column types should have an unambiguous mapping to RDF:
 ```{r smallcountrydataset3}
 small_country_musicians <- data.frame(
   qid = c("Q275912", "Q116196078"),
-  label = c("Marta Roure", "wavvyboi"), 
-  P276 = c("Q228", "Q347"), 
+  label = c("Marta Roure", "wavvyboi"),
+  P276 = c("Q228", "Q347"),
   P569 = c(as.Date("1981-01-16"), as.Date("1998-04-28"))
 )
 
 ## And the age
-small_country_musicians$P3629 <- 2024-as.integer(substr(small_country_musicians$P569, 1,4))
+small_country_musicians$P3629 <- 2024 - as.integer(substr(small_country_musicians$P569, 1, 4))
 
 small_country_musicians$P569 <- dataset::xsd_convert(small_country_musicians$P569)
 small_country_musicians$P3629 <- dataset::xsd_convert(small_country_musicians$P3629)

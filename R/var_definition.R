@@ -6,10 +6,11 @@
 #'   `get_variable_definitions()` is identical to `var_definition()`.
 #' @examples
 #' small_country_dataset <- dataset_df(
-#'   country_name = defined(c("Andorra", "Lichtenstein"), label  = "Country"),
+#'   country_name = defined(c("Andorra", "Lichtenstein"), label = "Country"),
 #'   gdp = defined(c(3897, 7365),
-#'                       label = "Gross Domestic Product",
-#'                       unit = "million dollars")
+#'     label = "Gross Domestic Product",
+#'     unit = "million dollars"
+#'   )
 #' )
 #' var_definition(small_country_dataset$country_name) <- "http://data.europa.eu/bna/c_6c2bb82d"
 #' var_definition(small_country_dataset$country_name)
@@ -19,7 +20,7 @@
 #' vector constructed with \code{\link{defined}}.
 #' @export
 var_definition <- function(x, ...) {
-  #rlang::check_dots_used()
+  # rlang::check_dots_used()
   UseMethod("var_definition")
 }
 
@@ -40,7 +41,7 @@ var_definition.default <- function(x, ...) {
   x
 }
 
-#get_variable_definitions <- var_definition
+# get_variable_definitions <- var_definition
 
 
 #' @rdname var_definition
@@ -78,7 +79,7 @@ set_definition_attribute <- function(x, value) {
 
 
 
-#set_var_definitions <- function(dataset, definitions) {
+# set_var_definitions <- function(dataset, definitions) {
 
 #  var_definition_list <- list()
 #  var_definition_list <- lapply(colnames(dataset), function(i) i)
@@ -91,4 +92,4 @@ set_definition_attribute <- function(x, value) {
 #  attr(dataset, "var_definitions") <- var_definition_list
 
 #  dataset
-#}
+# }

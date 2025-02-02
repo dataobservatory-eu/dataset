@@ -32,9 +32,10 @@
 #'
 #' # Create a well-formatted bibentry object:
 #' alternative_bibentry <- datacite(
-#'      Creator=person("Jane Doe"),
-#'      Title ="The Famous Iris Dataset",
-#'      Publisher = "MyOrg")
+#'   Creator = person("Jane Doe"),
+#'   Title = "The Famous Iris Dataset",
+#'   Publisher = "MyOrg"
+#' )
 #'
 #' # Assign the new bibentry object:
 #' set_bibentry(iris_dataset) <- alternative_bibentry
@@ -46,26 +47,28 @@
 #' as_dublincore(iris_dataset, "list")
 #' @export
 get_bibentry <- function(dataset) {
-   assertthat::assert_that("dataset_bibentry" %in% names(attributes(dataset)),
-                            msg="Error: get_bibentry(dataset): dataset has no dataset_bibentry attribute")
+  assertthat::assert_that("dataset_bibentry" %in% names(attributes(dataset)),
+    msg = "Error: get_bibentry(dataset): dataset has no dataset_bibentry attribute"
+  )
 
-    attr(dataset, "dataset_bibentry")
+  attr(dataset, "dataset_bibentry")
 }
 
 #' @rdname get_bibentry
 #' @export
-`set_bibentry<-`  <- function(dataset, value) {
-
+`set_bibentry<-` <- function(dataset, value) {
   sys_time <- Sys.time()
-  year <- substr(as.character(sys_time),1,4)
+  year <- substr(as.character(sys_time), 1, 4)
 
-  if(is.null(value)) {
-    value <- dublincore(title   = "Untitled Dataset",
-                        creator = person("Unknown Author"),
-                        dataset_date=year)
+  if (is.null(value)) {
+    value <- dublincore(
+      title = "Untitled Dataset",
+      creator = person("Unknown Author"),
+      dataset_date = year
+    )
   }
 
-  if(is.null(value$year)) value$year <- year
+  if (is.null(value$year)) value$year <- year
 
   attr(dataset, "dataset_bibentry") <- value
   invisible(dataset)
@@ -74,9 +77,9 @@ get_bibentry <- function(dataset) {
 #' @keywords internal
 set_default_bibentry <- function() {
   sys_time <- Sys.time()
-  year <- substr(as.character(sys_time),1,4)
+  year <- substr(as.character(sys_time), 1, 4)
   Title <- "Untitled Dataset"
   Creator <- person("Unknown", "Author")
-  dataset_bibentry <- datacite(Title=Title, Creator=Creator, PublicationYear = year)
+  dataset_bibentry <- datacite(Title = Title, Creator = Creator, PublicationYear = year)
   dataset_bibentry
 }

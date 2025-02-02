@@ -21,32 +21,32 @@
 #' @export
 description <- function(x) {
   assert_that(is.dataset_df(x),
-              msg = "description(x): x must be a dataset object created with dataset_df() or as_dataset_df().")
+    msg = "description(x): x must be a dataset object created with dataset_df() or as_dataset_df()."
+  )
 
   ds_bibentry <- get_bibentry(x)
   as.character(ds_bibentry$description)
-
 }
 
 #' @rdname description
 #' @export
-`description<-`  <- function(x,  overwrite = FALSE, value) {
-
+`description<-` <- function(x, overwrite = FALSE, value) {
   assert_that(is.dataset_df(x),
-              msg = "description(x) <- value: x must be a dataset object created with dataset_df() or as_dataset_df().")
+    msg = "description(x) <- value: x must be a dataset object created with dataset_df() or as_dataset_df()."
+  )
 
   ds_bibentry <- get_bibentry(x)
   existing_description <- as.character(ds_bibentry$description)
 
-  if (is.null(value) ) {
+  if (is.null(value)) {
     value <- ":unas"
   }
 
-  if ( overwrite | existing_description %in% c("", ":unas", ":tba")) {
+  if (overwrite | existing_description %in% c("", ":unas", ":tba")) {
     ds_bibentry$description <- as.character(value)
     attr(x, "dataset_bibentry") <- ds_bibentry
   } else {
-    warning ("The dataset has already a description: ",   existing_description , "." )
+    warning("The dataset has already a description: ", existing_description, ".")
   }
   invisible(x)
 }

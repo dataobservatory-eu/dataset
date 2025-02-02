@@ -25,21 +25,21 @@
 #' language(myiris)
 #' @family Reference metadata functions
 #' @export
-language <- function (x) {
+language <- function(x) {
   assert_that(is.dataset_df(x),
-              msg = "language(x): x must be a dataset object created with dataset() or as_dataset_df().")
+    msg = "language(x): x must be a dataset object created with dataset() or as_dataset_df()."
+  )
 
   ds_bibentry <- get_bibentry(x)
   as.character(ds_bibentry$language)
-
 }
 
 #' @rdname language
 #' @export
-`language<-` <- function(x, iso_639_code = "639-3", value ) {
-
+`language<-` <- function(x, iso_639_code = "639-3", value) {
   assert_that(is.dataset_df(x),
-              msg = "language(x)<- value: x must be a dataset object created with dataset() or as_dataset_df().")
+    msg = "language(x)<- value: x must be a dataset object created with dataset() or as_dataset_df()."
+  )
 
   ds_bibentry <- get_bibentry(x)
   if (is.null(value)) {
@@ -50,18 +50,18 @@ language <- function (x) {
 
   ISO_639 <- ISOcodes::ISO_639_2
 
-  if (nchar(value)==2) {
+  if (nchar(value) == 2) {
     value <- tolower(value)
-    lang_entry <- ISO_639[which(value == ISO_639$Alpha_2),]
-  } else if ( nchar(value)== 3) {
+    lang_entry <- ISO_639[which(value == ISO_639$Alpha_2), ]
+  } else if (nchar(value) == 3) {
     value <- tolower(value)
-    lang_entry <- ISO_639[which(value == ISO_639$Alpha_3),]
+    lang_entry <- ISO_639[which(value == ISO_639$Alpha_3), ]
   } else {
     value <- tolower(value)
-    lang_entry <-ISO_639[which(value == tolower(ISO_639$Name)),]
+    lang_entry <- ISO_639[which(value == tolower(ISO_639$Name)), ]
   }
 
-  if (nrow(lang_entry)==0) {
+  if (nrow(lang_entry) == 0) {
     stop(paste0("Language=", value, " is not a valid ISO 639 language code."))
   }
 

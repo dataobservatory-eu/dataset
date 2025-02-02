@@ -25,18 +25,21 @@ small_country_dataset <- dataset_df(
   country_name = defined(
     c("AD", "LI"),
     label = "Country name",
-    definition = "http://data.europa.eu/bna/c_6c2bb82d", 
-    namespace = "https://www.geonames.org/countries/$1/"), 
+    definition = "http://data.europa.eu/bna/c_6c2bb82d",
+    namespace = "https://www.geonames.org/countries/$1/"
+  ),
   gdp = defined(
-    c(3897, 7365), 
-    label = "Gross Domestic Product", 
-    unit = "million dollars", 
-    definition = "http://data.europa.eu/83i/aa/GDP"),
+    c(3897, 7365),
+    label = "Gross Domestic Product",
+    unit = "million dollars",
+    definition = "http://data.europa.eu/83i/aa/GDP"
+  ),
   dataset_bibentry = dublincore(
-    title = "Small Country Dataset", 
-    creator = person("Jane", "Doe"), 
-    publisher = "Example Inc.")
+    title = "Small Country Dataset",
+    creator = person("Jane", "Doe"),
+    publisher = "Example Inc."
   )
+)
 ```
 
 The `defined` class columns retain the important semantic information about the label, exact definition link, and the unit of measure:
@@ -63,7 +66,7 @@ language(small_country_dataset) <- "en"
 And to review the descriptive data of the entire dataset as a whole:
 
 ```{r bibentry}
-print(get_bibentry(small_country_dataset), "bibtex" )
+print(get_bibentry(small_country_dataset), "bibtex")
 ```
 
 ## Wikidata 
@@ -116,14 +119,17 @@ remotes::install_github("dataobservatory-eu/tuRtle", build = FALSE)
 
 ```{r createdf, eval=FALSE}
 library(tuRtle)
-tdf <- data.frame (s = c("eg:01","eg:02",  "eg:01", "eg:02", "eg:01" ),
-                   p = c("a", "a", "eg-var:", "eg-var:", "rdfs:label"),
-                   o = c("qb:Observation",
-                         "qb:Observation",
-                         "\"1\"^^<xs:decimal>",
-                         "\"2\"^^<xs:decimal>", 
-                         '"Example observation"')
-                   )
+tdf <- data.frame(
+  s = c("eg:01", "eg:02", "eg:01", "eg:02", "eg:01"),
+  p = c("a", "a", "eg-var:", "eg-var:", "rdfs:label"),
+  o = c(
+    "qb:Observation",
+    "qb:Observation",
+    "\"1\"^^<xs:decimal>",
+    "\"2\"^^<xs:decimal>",
+    '"Example observation"'
+  )
+)
 
 knitr::kable(tdf)
 ```
@@ -137,8 +143,8 @@ knitr::kable(tdf)
 |eg:01 |rdfs:label |"Example observation" |
 
 ```{r writettl, eval=FALSE}
-example_file<- file.path(tempdir(), "example_ttl.ttl")
-ttl_write(tdf=tdf, ttl_namespace=NULL, file_path=example_file)
+example_file <- file.path(tempdir(), "example_ttl.ttl")
+ttl_write(tdf = tdf, ttl_namespace = NULL, file_path = example_file)
 
 readLines(example_file)
 ```

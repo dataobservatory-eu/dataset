@@ -11,40 +11,42 @@
 #' id_to_column(iris_dataset)
 #'
 #' # Example with a data.frame object:#'
-#' id_to_column(iris, prefix="eg:iris-o")
+#' id_to_column(iris, prefix = "eg:iris-o")
 #' @export
 id_to_column <- function(x, prefix = "eg:", ids = NULL) {
-
   is_dataset <- is.dataset_df(x)
 
   lastcol <- ncol(x)
 
   if (is.null(ids)) {
     ids <- gsub("[^[:alnum:]]", "-", row.names(x))
-  } else if (nrow(x)!=length(ids)) {
+  } else if (nrow(x) != length(ids)) {
     stop("id_to_column(x, ..., ids) : ids must be of same lengths as nrow(x).")
   }
 
-  if (is.null(prefix)) { prefix <- "" }
+  if (is.null(prefix)) {
+    prefix <- ""
+  }
 
-  if ( "rowid" %in% names(x)) {
+  if ("rowid" %in% names(x)) {
     x$rowid <- paste0(prefix, ids)
     return(x)
   } else {
     rhs <- x
     x$rowid <- paste0(prefix, ids)
-    lhs <- x[, "rowid", drop=FALSE]
+    lhs <- x[, "rowid", drop = FALSE]
 
     if (is_dataset) {
-
       DataBibentry <- get_bibentry(rhs)
       dataset_subject <- subject(rhs)
       dataset_prov <- provenance(x)
       tmp <- as_dataset_df(cbind(lhs, rhs),
-                           reference = list(author=DataBibentry$author,
-                                            title = DataBibentry$title)
+        reference = list(
+          author = DataBibentry$author,
+          title = DataBibentry$title
+        )
       )
-      attr(tmp, "dataset_bibentry") <-  DataBibentry
+      attr(tmp, "dataset_bibentry") <- DataBibentry
       attr(tmp, "prov") <- dataset_prov
       subject(tmp) <- dataset_subject
     } else {
@@ -59,6 +61,3 @@ id_to_column <- function(x, prefix = "eg:", ids = NULL) {
 
   tmp
 }
-
-
-

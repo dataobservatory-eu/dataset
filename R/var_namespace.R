@@ -18,9 +18,9 @@
 #' with variable labels, namespaces, units of measures, and machine-independent
 #' permanent variable identifiers.
 #' @examples
-#' qid = defined(c("Q275912", "Q116196078"),
-#'               namespace = c(wd="https://www.wikidata.org/wiki/")
-#'               )
+#' qid <- defined(c("Q275912", "Q116196078"),
+#'   namespace = c(wd = "https://www.wikidata.org/wiki/")
+#' )
 #' var_namespace(qid)
 #'
 #' # To remove a namespace
@@ -29,7 +29,7 @@
 #' @return The namespace attribute of a vector constructed with \code{\link{defined}}.
 #' @export
 var_namespace <- function(x, ...) {
-  #rlang::check_dots_used()
+  # rlang::check_dots_used()
   UseMethod("var_namespace")
 }
 

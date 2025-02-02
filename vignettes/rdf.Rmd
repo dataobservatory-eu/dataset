@@ -25,7 +25,7 @@ The **RDF** (Resource Description Framework) annotation significantly enhances t
 RDF provides a common framework to describe resources and their relationships using triples (subject-predicate-object). This standardisation ensures that data from different systems can be understood in a unified way, regardless of the original source or format.  Notice that this format is a stricter version of the tidy dataset concept, where not only on every observation is in a row, but there are always strictly three columns.
 
 ```{r iris}
-head(iris)[1:2,]
+head(iris)[1:2, ]
 ```
 Instead of placing the relevant measurement of an observed flower into the intersection of columns and rows, in the triple format we put them next to each other: 
 
@@ -34,7 +34,7 @@ Instead of placing the relevant measurement of an observed flower into the inter
 
 
 ```{r triples}
-dataset_to_triples(iris[1:2,])[1:10,]
+dataset_to_triples(iris[1:2, ])[1:10, ]
 ```
 We describe the `dataset_df` datasets in such triplets, where each triplet is a semantic statement: it connects a single observation unit with a single measurement.
 
@@ -49,15 +49,17 @@ gdp_vector <- defined(
   label = "Gross Domestic Product",
   unit = "https://rdf.vegdata.no/V440/v440-doc/v440-brudata-owl-doc/unit_MillionUSD.html",
   definition = "http://data.europa.eu/83i/aa/GDP"
- )
+)
 ```
 
 There are several ways to add permanent identifiers to observational units, variable definitions, and specific observed values. The simplest (but certainly not the easiest to read for a human eye) standard format for writing them into a plain text file that you can share online is the [RDF 1.1 N-Triples](https://www.w3.org/TR/n-triples/) format.The NTriple format creates URIs (similarly formatted as URLs) for the definitions that can be looked up in an online resource. This can be combined with literal strings that may also include information if they should be read back to a system as strings, doubles, integers, dates or date-time variables.
 
 ```{r ntriples}
-n_triple(s="https://doi.org/10.5281/zenodo.10396807",  # permanent, global ID of the dataset
-         p="http://purl.org/dc/terms/description",     # library definition of 'description' 
-         o="The famous (Fisher's or Anderson's) iris data set.")  # literal string
+n_triple(
+  s = "https://doi.org/10.5281/zenodo.10396807", # permanent, global ID of the dataset
+  p = "http://purl.org/dc/terms/description", # library definition of 'description'
+  o = "The famous (Fisher's or Anderson's) iris data set."
+) # literal string
 ```
 ## Richer metaadata
 RDF supports linking datasets through shared URIs, enabling the creation of interconnected knowledge graphs. Linked Data principles help relate datasets in meaningful ways, making it easier to discover, navigate, and integrate information. RDF annotations allow datasets to include detailed metadata about their structure, provenance, usage rights, and content. This metadata provides critical context, enabling automated tools to interpret and process the data effectively.
@@ -69,7 +71,7 @@ RDF supports the use of ontologies and controlled vocabularies (e.g., DataCite, 
 The `as_dublincore` function allows the export of your dataset's data in the Dublin Core format, and `as_datacite` in the DataCite format. Some of the metadata are generated behind the scenenes, for example, timestamps or size measurements.
 
 ```{r bibliography}
-as_dublincore(iris_dataset, type="ntriples")
+as_dublincore(iris_dataset, type = "ntriples")
 ```
 
 Interoperability and reusability can further increase if the next user can trust your dataset, and has to perform less checks on it; or the next user can reproduce what you did. Data provenance is the metadata that provides a comprehensive record of the origins, history, and transformations of data throughout its lifecycle. Our `provenance` functions records some of this data automatically, and allow you to add more information, for example, about your data sources, the R packages used, the persons involved in the creation and review process, or the statistical transformations carried out.
@@ -94,10 +96,10 @@ temp_prov <- tempfile()
 describe(iris_dataset, temp_prov)
 
 # parse temporary file into the RDF triplestore;
-rdf_parse(rdf = dataset_describe, doc=temp_prov, format="ntriples")
+rdf_parse(rdf = dataset_describe, doc = temp_prov, format = "ntriples")
 
 # show RDF triples:
-dataset_describe 
+dataset_describe
 ```
 
 By using RDF, datasets can be exchanged as interoperable graphs (e.g., in formats like RDF/XML, Turtle, or JSON-LD).
@@ -111,6 +113,6 @@ dataset_describe
 Eventually you can make the entire dataset interoperable, with making every observation, every statement independent of R, your computer, your OS, and to a large extent the natural language that you use. _This will be further developed until we can express in a semantically correct way an entire dataset automatically_ 
 
 ```{r}
-n_triples(dataset_to_triples(iris[1:4,]))
+n_triples(dataset_to_triples(iris[1:4, ]))
 ```
 

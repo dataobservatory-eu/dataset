@@ -8,6 +8,3 @@ test_that("idcol_find() works", {
   expect_equal(idcol_find(mtcars2, "rowid"), 12)
   expect_error(idcol_find(mtcars2, "bowid"))
 })
-
-
-
