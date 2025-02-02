@@ -8,8 +8,8 @@ template:
 
 home:
   links:
-  - text: http://dataset.dataobservatory.eu
-    href: http://dataset.dataobservatory.eu
+  - text: https://dataset.dataobservatory.eu
+    href: https://dataset.dataobservatory.eu
 
 authors:
   Daniel Antal:
