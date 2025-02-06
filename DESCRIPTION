@@ -1,7 +1,7 @@
 Package: dataset
 Title: Create Data Frames that are Easier to Exchange and Reuse
-Version: 0.3.4002
-Date: 2024-12-26
+Version: 0.3.4003
+Date: 2025-02-06
 DOI: 10.32614/CRAN.package.dataset
 Language: en-GB
 Authors@R: 
@@ -13,7 +13,10 @@ Authors@R:
       person(given = "Marcelo", family =  "Perlin", 
              role = c("rev"), 
              comment = c(ORCID = "0000-0002-9839-4268")
-             )
+             ), 
+     person(given = "Anna Márta", family =  "Mester", 
+            role = c("rev"), 
+            comment = c(ORCID = "0009-0008-2274-8163"))
       )
 Maintainer: Daniel Antal <daniel.antal@dataobservatory.eu>
 Description: The aim of the 'dataset' package is to make tidy datasets easier to release, 

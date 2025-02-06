@@ -89,7 +89,6 @@ before issuing a pull request.  This can be done by running `check()`
 from the `devtools` package, which will also check for consistent
 documentation, etc.
 
-
 This package uses the [AppVeyor](https://ci.appveyor.com/project/dataobservatory-eu/dataset)
 continuous testing mechanism for R to ensure that the test suite is run
 on each push to Github.  An icon at the top of the README.md indicates
