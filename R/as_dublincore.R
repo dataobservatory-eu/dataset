@@ -7,7 +7,7 @@
 as_dublincore <- function(x, type = "bibentry", ...) {
   citation_author <- person(NULL, NULL)
 
-  is_person <- function(p) ifelse(inherits(p, "person"), TRUE, FALSE)
+  is_person <- function(p) inherits(p, "person")
 
   arguments <- list(...)
 
