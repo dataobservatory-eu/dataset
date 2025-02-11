@@ -16,8 +16,8 @@ Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci
 [![DOI](https://zenodo.org/badge/DOI/10.32614/CRAN.package.dataset.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
 [![devel-version](https://img.shields.io/badge/devel%20version-0.3.4002-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
-[![Coveralls test
-coverage](https://coveralls.io/repos/github/dataobservatory-eu/dataset/badge.svg)](https://coveralls.io/r/dataobservatory-eu/dataset?branch=master)
+[![Codecov test
+coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset)
 <!-- badges: end -->
 
 The aim of the *dataset* package is to make tidy datasets easier to
@@ -27,23 +27,23 @@ into release and reuse ready form.
 
 1.  **Increase FAIR use of your datasets**: Offer a way to better
     utilise the `utils:bibentry` bibliographic entry objects and working
-    with the ROpenSci package
+    with the rOpenSci package
     [RefManageR](https://docs.ropensci.org/RefManageR/) extending their
     fields of the Dublin Core and DataCite standards, and making them
     detachable from the data, i.e., including the bibliographic entries
     into the attributes of a data frame-like object. See for more
     information the [Bibentry for FAIR
     datasets](https://dataset.dataobservatory.eu/articles/bibentry.html)
-    vignette. 2.**Interoperability outside R**: Extending the
-    `haven_labelled` class of the `tidyverse` for consistently labelled
-    categorical variables with linked (standard) definitions and units
-    of measures in our
+    vignette.
+2.  **Interoperability outside R**: Extending the `haven_labelled` class
+    of the `tidyverse` for consistently labelled categorical variables
+    with linked (standard) definitions and units of measures in our
     [defined](https://dataset.dataobservatory.eu/articles/defined.html)
     class; this enables to share exact definitions, units of measures
     across computers and systems, and increasing the interoperability of
     the data set from an R data.frame to any standardised statistical or
     library system.
-2.  **Tidy data tidier, richer**: Offering a new data frame format,
+3.  **Tidy data tidier, richer**: Offering a new data frame format,
     `dataset_df` that extends tibbles with semantically rich metadata,
     ready to be shared on open data exchange platforms and in data
     repositories. This s3 class is aimed at developers and we are
@@ -53,11 +53,11 @@ into release and reuse ready form.
     Exchange and
     Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
     vignette.
-3.  **R+RDF=global interoperability**: The [From R to
+4.  **R+RDF=global interoperability**: The [From R to
     RDF](https://dataset.dataobservatory.eu/articles/rdf.html) vignette
     shows how to leverage the capabilities of the *dataset* package with
     [rdflib](https://docs.ropensci.org/rdflib/index.html), an
-    R-user-friendly wrapper on ROpenSci to work with the *redland*
+    R-user-friendly wrapper on rOpenSci to work with the *redland*
     Python library for performing common tasks on rdf data, such as
     parsing and converting between formats including rdfxml, turtle,
     nquads, ntriples, and trig, creating rdf graphs, and performing
@@ -113,7 +113,7 @@ Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
 
 ``` r
 summary(iris_ds)
-#> [1] E. Anderson. _Iris Dataset_. En. DCMITYPE:Dataset. 1935.
+#> Anderson E (????). "Iris Dataset."
 #>     rowid          
 #>  Length:150        
 #>  Class :character  
@@ -134,7 +134,22 @@ The dataset_df A brief description of the extended metadata attributes:
 
 ``` r
 print(get_bibentry(iris_ds), "Bibtex")
-#> [1] E. Anderson. _Iris Dataset_. En. DCMITYPE:Dataset. 1935.
+#> @Misc{,
+#>   title = {Iris Dataset},
+#>   author = {Edgar Anderson},
+#>   identifier = {:tba},
+#>   publisher = {American Iris Society},
+#>   contributor = {:unas},
+#>   date = {1935},
+#>   language = {en},
+#>   relation = {:unas},
+#>   format = {:unas},
+#>   rights = {:tba},
+#>   description = {This famous (Fisher's or Anderson's) iris data set.},
+#>   type = {DCMITYPE:Dataset},
+#>   datasource = {https://doi.org/10.1111/j.1469-1809.1936.tb02137.x},
+#>   coverage = {:unas},
+#> }
 ```
 
 ``` r
@@ -166,11 +181,12 @@ linked open data sources, it is particularly important to have a more
 precise semantic definition and description of each variable.
 
 ``` r
-gdp_1 = defined(
-    c(3897, 7365), 
-    label = "Gross Domestic Product", 
-    unit = "million dollars", 
-    definition = "http://data.europa.eu/83i/aa/GDP")
+gdp_1 <- defined(
+  c(3897, 7365),
+  label = "Gross Domestic Product",
+  unit = "million dollars",
+  definition = "http://data.europa.eu/83i/aa/GDP"
+)
 
 # Summarise this semantically better defined vector:
 summary(gdp_1)
@@ -258,7 +274,7 @@ provenance(iris_dataset)
 #> [4] "<http://viaf.org/viaf/6440526> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."                         
 #> [5] "<https://doi.org/10.32614/CRAN.package.dataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#SoftwareAgent> ."
 #> [6] "<http://example.com/creation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> ."                       
-#> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2024-12-24T23:43:45Z\"^^<xs:dateTime> ."
+#> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2024-12-25T12:26:25Z\"^^<xs:dateTime> ."
 ```
 
 The [From R to
