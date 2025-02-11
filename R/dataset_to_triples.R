@@ -3,11 +3,12 @@
 #' columns \code{s} for subject, \code{p} for predicate and \code{o} for
 #' object.
 #' @param x An R object that contains the data of the dataset (a data.frame or
-#' inherited from [`data.frame`][base::data.frame()]), for example, [dataset_df()].
-#' @param idcol The identifier column. If \code{idcol} is \code{NULL} it attempts to
-#' use the \code{row.names(df)} as an \code{idcol}.
-#' @return The long form version of the original dataset, retaining the attributes
-#' and class.
+#' inherited from [`data.frame`][base::data.frame()]), for example,
+#' [dataset_df()].
+#' @param idcol The identifier column. If \code{idcol} is \code{NULL} it
+#' attempts to use the \code{row.names(df)} as an \code{idcol}.
+#' @return The long form version of the original dataset, retaining the
+#' attributes and class.
 #' @examples
 #' dataset_to_triples(iris_dataset)
 #' @export

@@ -10,18 +10,21 @@ creator(x)
 creator(x, overwrite = TRUE) <- value
 }
 \arguments{
-\item{x}{A semantically rich data frame object created by  \code{dataset::\link{dataset_df}} or
-\code{dataset::\link{as_dataset_df}}.}
+\item{x}{A semantically rich data frame object created by
+\code{dataset::\link{dataset_df}} or \code{dataset::\link{as_dataset_df}}.}
 
-\item{overwrite}{If the attributes should be overwritten. In case it is set to \code{FALSE},
-it gives a message with the current \code{Creator} property instead of overwriting it.
+\item{overwrite}{If the attributes should be overwritten. In case it is set
+to \code{FALSE},it gives a message with the current \code{Creator} property
+instead of overwriting it.
 Defaults to \code{TRUE} when the attribute is set to \code{value} regardless of previous
 setting.}
 
-\item{value}{The \code{Creator} as a \code{\link[utils:person]{utils::person}} object.}
+\item{value}{The \code{Creator} as a
+\code{\link[utils:person]{utils::person}} object.}
 }
 \value{
-The Creator attribute as a character of length one is added to \code{x}.
+The Creator attribute as a character of length one is
+added to \code{x}.
 }
 \description{
 Add the optional \code{Creator} property as an attribute to a
@@ -29,7 +32,8 @@ dataset object.
 }
 \details{
 The \code{Creator}
-corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/}{dct:creator}
+corresponds to
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/}{dct:creator}
 in Dublin Core and Creator in DataCite.
 The name of the entity that holds, archives, publishes prints, distributes,
 releases, issues, or produces the dataset. This property will be used to
@@ -40,7 +44,7 @@ creator(iris_dataset)
 # To change author:
 creator(iris_dataset) <- person("Jane", "Doe")
 # To add author:
-creator(iris_dataset, overwrite=FALSE) <- person("John", "Doe")
+creator(iris_dataset, overwrite = FALSE) <- person("John", "Doe")
 }
 \seealso{
 Other Bibliographic reference functions: 

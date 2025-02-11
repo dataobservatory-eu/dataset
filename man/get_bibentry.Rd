@@ -45,9 +45,10 @@ iris_bibentry <- get_bibentry(iris_dataset)
 
 # Create a well-formatted bibentry object:
 alternative_bibentry <- datacite(
-     Creator=person("Jane Doe"),
-     Title ="The Famous Iris Dataset",
-     Publisher = "MyOrg")
+  Creator = person("Jane Doe"),
+  Title = "The Famous Iris Dataset",
+  Publisher = "MyOrg"
+)
 
 # Assign the new bibentry object:
 set_bibentry(iris_dataset) <- alternative_bibentry

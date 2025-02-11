@@ -76,11 +76,12 @@ is added as a separate attribute to the dataset_df object.#'
 \examples{
 # To set the subject of a dataset_df object:
 subject(iris_dataset) <- subject_create(
-         term  = "Irises (plants)",
-         schemeURI = "http://id.loc.gov/authorities/subjects",
-         valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
-         subjectScheme = "LCCH",
-         prefix = "lcch:")
+  term = "Irises (plants)",
+  schemeURI = "http://id.loc.gov/authorities/subjects",
+  valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
+  subjectScheme = "LCCH",
+  prefix = "lcch:"
+)
 
 # To retrieve the subject with its subproperties:
 subject(iris_dataset)

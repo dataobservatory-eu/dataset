@@ -27,8 +27,9 @@ provenance(iris_dataset)
 
 ## add a statement:
 
- provenance(iris_dataset) <- n_triple(
+provenance(iris_dataset) <- n_triple(
   "https://doi.org/10.5281/zenodo.10396807",
   "http://www.w3.org/ns/prov#wasInformedBy",
-  "http://example.com/source#1")
+  "http://example.com/source#1"
+)
 }

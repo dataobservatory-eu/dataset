@@ -85,15 +85,17 @@ vignette.
 }
 \examples{
 my_dataset <- dataset_df(
-   country_name = defined(
-     c("AD", "LI"),
-     definition = "http://data.europa.eu/bna/c_6c2bb82d",
-     namespace = "https://www.geonames.org/countries/$1/"),
-   gdp = defined(
-     c(3897, 7365),
-     label = "Gross Domestic Product",
-     unit = "million dollars",
-     definition = "http://data.europa.eu/83i/aa/GDP")
+  country_name = defined(
+    c("AD", "LI"),
+    definition = "http://data.europa.eu/bna/c_6c2bb82d",
+    namespace = "https://www.geonames.org/countries/$1/"
+  ),
+  gdp = defined(
+    c(3897, 7365),
+    label = "Gross Domestic Product",
+    unit = "million dollars",
+    definition = "http://data.europa.eu/83i/aa/GDP"
+  )
 )
 
 print(my_dataset)

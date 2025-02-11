@@ -19,22 +19,23 @@
 #' \code{\link[utils:bibentry]{utils::bibentry}} object, including possibly an
 #' instance of its \code{\link{dublincore}} or \code{\link{datacite}} subclass.
 #' @param value The  \code{Identifier} as a character string.
-#' @param overwrite If the attributes should be overwritten. In case it is set to \code{FALSE},
-#' it gives a message with the current \code{Identifier} property instead of overwriting it.
-#' Defaults to \code{TRUE} when the attribute is set to \code{value} regardless of previous
-#' setting.
-#' @return The \code{Identifier} attribute as a character of length 1 is added to \code{x}.
+#' @param overwrite If the attributes should be overwritten. In case it is set
+#' to \code{FALSE}, it gives a message with the current \code{Identifier}
+#' property instead of overwriting it.
+#' Defaults to \code{TRUE} when the attribute is set to \code{value}
+#' regardless of previous setting.
+#' @return The \code{Identifier} attribute as a character of length 1 is added
+#' to \code{x}.
 #' @examples
 #' identifier(iris_dataset) <- "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
 #' identifier(iris_dataset)
 #' @family Reference metadata functions
 #' @export
 
-#' @export
 identifier <- function(x) {
-  assert_that(inherits(x, "bibentry") | inherits(x, "dataset_df"),
-    msg = "identifier(x): x must be a dataset_df or a bibentry object."
-  )
+  if (  !(inherits(x, "bibentry") || inherits(x, "dataset_df")) ) {
+    stop("identifier(x): x must be a dataset_df or a bibentry object.")
+  }
 
   if (is.dataset_df(x)) {
     ds_bibentry <- get_bibentry(x)
@@ -50,13 +51,13 @@ identifier <- function(x) {
 `identifier<-` <- function(x, overwrite = TRUE, value) {
   if (is.numeric(value)) value <- as.character(value)
 
-  assert_that(inherits(x, "bibentry") | inherits(x, "dataset_df"),
-    msg = "identifier(x) <- value: x must be a dataset_df or a bibentry object."
-  )
+  if (  !(inherits(x, "bibentry") || inherits(x, "dataset_df")) ) {
+    stop("identifier(x): x must be a dataset_df or a bibentry object.")
+  }
 
-  assert_that(is.null(value) | inherits(value, "character"),
-    msg = "identifier(x) <- value: value must be a named or not named character string of length 1."
-  )
+  if (  !(is.null(value) || inherits(value, "character") ) ) {
+    stop("identifier(x) <- value: value must be a named or not named character string of length 1.")
+  }
 
   if (is.dataset_df(x)) {
     ds_bibentry <- get_bibentry(x)

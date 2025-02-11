@@ -32,7 +32,7 @@ yet implemented.
 }
 \examples{
 dataset_title(iris_dataset)
-dataset_title(iris_dataset, overwrite = TRUE) <-"The Famous Iris Dataset"
+dataset_title(iris_dataset, overwrite = TRUE) <- "The Famous Iris Dataset"
 dataset_title(iris_dataset)
 }
 \seealso{

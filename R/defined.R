@@ -1,31 +1,29 @@
 #' @title Create a semantically well-defined, labelled vector
-#' @description
-#' The \code{defined} constructor creates the objects of this class, which
-#' are semantically extended vectors inherited from
-#'  \code{\link[haven:labelled]{haven::labelled}}.
-#' @details
-#' \code{as.character} coerces a defined vector into a character vector.\cr
-#' \code{summary} summarises the \code{defined} vector.\cr
-#' For more details, please check the \code{vignette("defined", package = "dataset")}
+#' @description The \code{defined} constructor creates the objects of this
+#' class, which are semantically extended vectors inherited from
+#' \code{\link[haven:labelled]{haven::labelled}}.
+#' @details \code{as.character} coerces a defined vector into a character
+#' vector.\cr \code{summary} summarises the \code{defined} vector.\cr For more
+#' details, please check the \code{vignette("defined", package = "dataset")}
 #' vignette.
 #' @param x A vector to label. Must be either numeric (integer or double) or
 #'   character.
-#' @param labels A named vector or `NULL`. The vector should be the same type
-#'   as `x`. Unlike factors, labels don't need to be exhaustive: only a fraction
-#'   of the values might be labelled.
+#' @param labels A named vector or `NULL`. The vector should be the same type as
+#'   `x`. Unlike factors, labels don't need to be exhaustive: only a fraction of
+#'   the values might be labelled.
 #' @param label A short, human-readable description of the vector or `NULL`.
-#' @param unit A character string of length one containing the
-#' unit of measure or `NULL`.
-#' @param definition A character string of length one containing a
-#' linked definition or `NULL`.
-#' @param namespace A namespace for individual observations or categories or `NULL`.
+#' @param unit A character string of length one containing the unit of measure
+#'   or `NULL`.
+#' @param definition A character string of length one containing a linked
+#'   definition or `NULL`.
+#' @param namespace A namespace for individual observations or categories or
+#'   `NULL`.
 #' @param ... Further parameters for inheritance, not in use.
 #' @family defined metadata methods and functions
-#' @return The constructor \code{defined} returns a vector with defined
-#' value labels, a variable label, an optional unit of measurement and linked
-#' definition.\cr
-#' \code{is.defined} returns a logical value, stating if the object is of
-#' class \code{defined}.
+#' @return The constructor \code{defined} returns a vector with defined value
+#'   labels, a variable label, an optional unit of measurement and linked
+#'   definition.\cr \code{is.defined} returns a logical value, stating if the
+#'   object is of class \code{defined}.
 #' @importFrom haven labelled
 #' @importFrom labelled to_labelled is.labelled
 #' @import vctrs methods

@@ -26,40 +26,40 @@ is.defined(x)
 \item{x}{A vector to label. Must be either numeric (integer or double) or
 character.}
 
-\item{labels}{A named vector or \code{NULL}. The vector should be the same type
-as \code{x}. Unlike factors, labels don't need to be exhaustive: only a fraction
-of the values might be labelled.}
+\item{labels}{A named vector or \code{NULL}. The vector should be the same type as
+\code{x}. Unlike factors, labels don't need to be exhaustive: only a fraction of
+the values might be labelled.}
 
 \item{label}{A short, human-readable description of the vector or \code{NULL}.}
 
-\item{unit}{A character string of length one containing the
-unit of measure or \code{NULL}.}
+\item{unit}{A character string of length one containing the unit of measure
+or \code{NULL}.}
 
-\item{definition}{A character string of length one containing a
-linked definition or \code{NULL}.}
+\item{definition}{A character string of length one containing a linked
+definition or \code{NULL}.}
 
-\item{namespace}{A namespace for individual observations or categories or \code{NULL}.}
+\item{namespace}{A namespace for individual observations or categories or
+\code{NULL}.}
 
 \item{...}{Further parameters for inheritance, not in use.}
 
 \item{object}{An R object to be summarised.}
 }
 \value{
-The constructor \code{defined} returns a vector with defined
-value labels, a variable label, an optional unit of measurement and linked
-definition.\cr
-\code{is.defined} returns a logical value, stateing if the object is of
-class \code{defined}.
+The constructor \code{defined} returns a vector with defined value
+labels, a variable label, an optional unit of measurement and linked
+definition.\cr \code{is.defined} returns a logical value, stating if the
+object is of class \code{defined}.
 }
 \description{
-The \code{defined} constructor creates the objects of this class, which
-are semantically extended vectors inherited from
+The \code{defined} constructor creates the objects of this
+class, which are semantically extended vectors inherited from
 \code{\link[haven:labelled]{haven::labelled}}.
 }
 \details{
-\code{as.character} coerces a defined vector into a character vector.\cr
-\code{summary} summarises the \code{defined} vector.\cr
-For more details, please check the \code{vignette("defined", package = "dataset")}
+\code{as.character} coerces a defined vector into a character
+vector.\cr \code{summary} summarises the \code{defined} vector.\cr For more
+details, please check the \code{vignette("defined", package = "dataset")}
 vignette.
 }
 \examples{
@@ -69,19 +69,19 @@ gdp_vector <- defined(
   label = "Gross Domestic Product",
   unit = "million dollars",
   definition = "http://data.europa.eu/83i/aa/GDP"
- )
+)
 
- # To check the s3 class of the vector:
- is.defined(gdp_vector)
+# To check the s3 class of the vector:
+is.defined(gdp_vector)
 
- # To print the defined vector:
- print(gdp_vector)
+# To print the defined vector:
+print(gdp_vector)
 
- # To summarise the defined vector:
- summary(gdp_vector)
+# To summarise the defined vector:
+summary(gdp_vector)
 
- # Subsetting work as expected:
- gdp_vector[1:2]
+# Subsetting work as expected:
+gdp_vector[1:2]
 }
 \seealso{
 Other defined metadata methods and functions: 

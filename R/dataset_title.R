@@ -42,7 +42,7 @@ dataset_title <- function(x) {
     return(x)
   }
 
-  if (any(c("character", "factor") %in% class(value))) {
+  if (inherits(value, "factor") || inherits (value, "character")) {
     if (length(value) > 1) {
       stop("title(x) <- value: if you have multiple titles, use dataset_title_create()")
     } else {

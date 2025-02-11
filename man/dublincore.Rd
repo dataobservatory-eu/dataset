@@ -7,7 +7,8 @@
 \alias{is.dublincore.dublincore}
 \title{Add or get Dublin Core metadata}
 \source{
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/}{	DCMI Metadata Terms}.
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/}{	DCMI
+Metadata Terms}.
 }
 \usage{
 as_dublincore(x, type = "bibentry", ...)
@@ -37,133 +38,155 @@ is.dublincore(x)
 \arguments{
 \item{x}{An object that is tested if it has a class "dublincore".}
 
-\item{type}{The nature or genre of the resource. Recommended best practice is to use a controlled vocabulary such as the DCMI Type Vocabulary
+\item{type}{The nature or genre of the resource. Recommended best practice is
+to use a controlled vocabulary such as the DCMI Type Vocabulary
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-type-vocabulary/}{DCMITYPE}.
-For a dataset, the correct term is \code{Dataset}.
-To describe the file format, physical medium, or dimensions of the resource, use the
-Format element.}
+For a dataset, the correct term is \code{Dataset}. To describe the file
+format, physical medium, or dimensions of the resource, use the Format
+element.}
 
 \item{...}{Optional parameters to add to a \code{dublincore} object.
 \code{author=person("Jane", "Doe")} adds an author to the citation
 object if \code{type="dataset"}.}
 
-\item{title}{\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title}, a name given to the resource.
-\code{\link{datacite}} allows the use of alternate titles, too. See \code{\link{dataset_title}}.}
+\item{title}{\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title},
+a name given to the resource. \code{\link{datacite}} allows the use of
+alternate titles, too. See \code{\link{dataset_title}}.}
 
 \item{creator}{An entity primarily responsible for making the resource.
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/}{dct:creator}
-Corresponds to \code{Creator} in \code{\link{datacite}}. See \code{\link{creator}}.}
+Corresponds to \code{Creator} in \code{\link{datacite}}. See
+\code{\link{creator}}.}
 
-\item{contributor}{An entity responsible for making contributions to the dataset.
-See
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/contributor/}{DCMI: Contributor}, and
-for possible contribution type, please review
-\href{https://www.loc.gov/marc/relators/relaterm.html}{MARC Code List for Relators}.}
+\item{contributor}{An entity responsible for making contributions to the
+dataset. See
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/contributor/}{DCMI:
+Contributor}, and for possible contribution type, please review
+\href{https://www.loc.gov/marc/relators/relaterm.html}{MARC Code List for
+Relators}.}
 
-\item{publisher}{Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#publisher}{dct:publisher}
-and Publisher in DataCite.
-The name of the entity that holds, archives, publishes prints, distributes, releases,
-issues, or produces the resource. This property will be used to formulate the citation,
-so consider the prominence of the role. For software, use \code{Publisher} for the
-code repository. If there is an entity other than a code repository, that
-"holds, archives, publishes, prints, distributes, releases, issues, or produces" the
-code, use the property Contributor/contributorType/hostingInstitution for the code
-repository. See \code{\link{publisher}}.}
+\item{publisher}{Corresponds to
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#publisher}{dct:publisher}
+and Publisher in DataCite. The name of the entity that holds, archives,
+publishes prints, distributes, releases, issues, or produces the resource.
+This property will be used to formulate the citation, so consider the
+prominence of the role. For software, use \code{Publisher} for the code
+repository. If there is an entity other than a code repository, that
+"holds, archives, publishes, prints, distributes, releases, issues, or
+produces" the code, use the property
+Contributor/contributorType/hostingInstitution for the code repository. See
+\code{\link{publisher}}.}
 
-\item{identifier}{An unambiguous reference to the resource within a given context.
-Recommended practice is to identify the resource by means of a string conforming to an
-identification system. Examples include International Standard Book Number (ISBN),
-Digital Object Identifier (DOI), and Uniform Resource Name (URN).
-Select and identifier scheme from
-\href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html}{registered URI schemes maintained by IANA}.
-More details: \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}.
-Similar to \code{Identifier} in \code{\link{datacite}}. See \code{\link{identifier}}.}
+\item{identifier}{An unambiguous reference to the resource within a given
+context. Recommended practice is to identify the resource by means of a
+string conforming to an identification system. Examples include
+International Standard Book Number (ISBN), Digital Object Identifier (DOI),
+and Uniform Resource Name (URN). Select and identifier scheme from
+\href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html}{registered
+URI schemes maintained by IANA}. More details:
+\href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines
+for using resource identifiers in Dublin Core metadata and IEEE LOM}.
+Similar to \code{Identifier} in \code{\link{datacite}}. See
+\code{\link{identifier}}.}
 
-\item{subject}{Defaults to \code{NULL}. See \code{\link{subject}} to add subject descriptions
-to your dataset.}
+\item{subject}{Defaults to \code{NULL}. See \code{\link{subject}} to add
+subject descriptions to your dataset.}
 
-\item{dataset_date}{Corresponds to a point or period of time associated with an event in the
-lifecycle of the resource. \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/date/}{dct:date}.
-\code{Date} is also recommended for
-discovery in \code{\link{datacite}}, but it requires a different formatting.
-To avoid confusion with date-related functions, instead of the DCMITERMS
-date or the DataCite Date term, the parameter name is
-\code{dataset_date}.}
+\item{dataset_date}{Corresponds to a point or period of time associated with
+an event in the lifecycle of the resource.
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/date/}{dct:date}.
+\code{Date} is also recommended for discovery in \code{\link{datacite}},
+but it requires a different formatting. To avoid confusion with
+date-related functions, instead of the DCMITERMS date or the DataCite Date
+term, the parameter name is \code{dataset_date}.}
 
 \item{language}{A language of the dataset. See
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/language/}{DCMI: Language}.}
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/language/}{DCMI:
+Language}.}
 
-\item{relation}{A related resource. Recommended best practice is to identify the related
-resource by means of a string conforming to a formal identification system.
-See: \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/relation/}{dct:relation}.
-Similar to \code{RelatedItem} in \code{\link{datacite}}, which is recommended for discovery.}
+\item{relation}{A related resource. Recommended best practice is to identify
+the related resource by means of a string conforming to a formal
+identification system. See:
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/relation/}{dct:relation}.
+Similar to \code{RelatedItem} in \code{\link{datacite}}, which is
+recommended for discovery.}
 
-\item{format}{The file format, physical medium, or dimensions of the dataset. See
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI: Format}.}
+\item{format}{The file format, physical medium, or dimensions of the dataset.
+See
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI:
+Format}.}
 
-\item{rights}{Corresponds to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights} and
-\code{\link{datacite}} Rights. Information about rights held in and over the resource.
-Typically, rights information includes a statement about various property rights associated with the resource,
-including intellectual property rights. See \code{\link{rights}}.}
+\item{rights}{Corresponds to
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights}
+and \code{\link{datacite}} Rights. Information about rights held in and
+over the resource. Typically, rights information includes a statement about
+various property rights associated with the resource, including
+intellectual property rights. See \code{\link{rights}}.}
 
 \item{datasource}{The source of the dataset,
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI: Source},
-which corresponds to a \code{relatedItem} in the DataCite vocabulary. We use
-\code{datasource} instead of \code{source} to avoid naming conflicts with the}
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI:
+Source}, which corresponds to a \code{relatedItem} in the DataCite
+vocabulary. We use \code{datasource} instead of \code{source} to avoid
+naming conflicts with the}
 
-\item{description}{An account of the resource. It may include but is not limited to:
-an abstract, a table of contents, a graphical representation, or a free-text account of the resource.
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}. In
-\code{\link{datacite}} it is recommended for discovery. See \code{\link{description}}.}
+\item{description}{An account of the resource. It may include but is not
+limited to: an abstract, a table of contents, a graphical representation,
+or a free-text account of the resource.
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}.
+In \code{\link{datacite}} it is recommended for discovery. See
+\code{\link{description}}.}
 
 \item{coverage}{The spatial or temporal topic of the resource, spatial
-applicability of the dataset, or jurisdiction under which the dataset
-is relevant. See
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/coverage/}{DCMI: Coverage}.}
+applicability of the dataset, or jurisdiction under which the dataset is
+relevant. See
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/coverage/}{DCMI:
+Coverage}.}
 }
 \value{
-\code{dublincore()} creates a \code{utils::\link[utils]{bibentry}} object
-extended with standard Dublin Core bibliographical metadata, \code{as_dublincore()}
-retrieves the contents of this bibentry object of a dataset_df from its
-attributes, and returns the contents as list, dataset_df, or bibentry object, or an
-ntriples string.
+\code{dublincore()} creates a \code{utils::\link[utils]{bibentry}}
+object extended with standard Dublin Core bibliographical metadata,
+\code{as_dublincore()} retrieves the contents of this bibentry object of a
+dataset_df from its attributes, and returns the contents as list,
+dataset_df, or bibentry object, or an ntriples string.
 
 A logical value, if the bibliographic entries are listed according to the
 Dublin Core specification.
 }
 \description{
 Add metadata conforming the
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/}{DCMI Metadata Terms}.
-to datasets, i.e. structured R data.frame or list objects, for an accurate and consistent identification
-of a resource for citation and retrieval purposes.
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/}{DCMI
+Metadata Terms}. to datasets, i.e. structured R data.frame or list objects,
+for an accurate and consistent identification of a resource for citation
+and retrieval purposes.
 }
 \details{
 The Dublin Core, also known as the Dublin Core Metadata Element Set
-(DCMES), is a set of fifteen main metadata items for describing digital
-or physical resources, such as datasets or their printed versions.
-Dublin Core has been formally standardized internationally as ISO 15836,
-as IETF RFC 5013 by the Internet Engineering Task Force (IETF),
-as well as in the U.S. as ANSI/NISO Z39.85.
+(DCMES), is a set of fifteen main metadata items for describing digital or
+physical resources, such as datasets or their printed versions. Dublin Core
+has been formally standardized internationally as ISO 15836, as IETF RFC
+5013 by the Internet Engineering Task Force (IETF), as well as in the U.S.
+as ANSI/NISO Z39.85.
 
 The \code{ResourceType} property will be by definition "Dataset".
-The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to the dataset.
+The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will
+automatically added to the dataset.
 }
 \examples{
-my_bibentry <-  dct_iris <- dublincore(
-   title = "Iris Dataset",
-   creator = person("Edgar", "Anderson", role = "aut"),
-   publisher = person("American Iris Society", role="pbl"),
-   contributor = person("Daniel", "Antal", role="dtm"),
-   datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-   dataset_date = 1935,
-   language = "en",
-   description = "The famous (Fisher's or Anderson's) iris data set gives the
+my_bibentry <- dct_iris <- dublincore(
+  title = "Iris Dataset",
+  creator = person("Edgar", "Anderson", role = "aut"),
+  publisher = person("American Iris Society", role = "pbl"),
+  contributor = person("Daniel", "Antal", role = "dtm"),
+  datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+  dataset_date = 1935,
+  language = "en",
+  description = "The famous (Fisher's or Anderson's) iris data set gives the
    measurements in centimeters of the variables sepal length and width and
    petal length and width, respectively, for 50 flowers from each of 3
    species of iris. The species are Iris setosa, versicolor, and virginica."
-   )
+)
 
-as_dublincore(iris_dataset, type="list")
+as_dublincore(iris_dataset, type = "list")
 }
 \seealso{
 Other bibentry functions: 

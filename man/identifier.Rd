@@ -14,15 +14,17 @@ identifier(x, overwrite = TRUE) <- value
 \code{\link[utils:bibentry]{utils::bibentry}} object, including possibly an
 instance of its \code{\link{dublincore}} or \code{\link{datacite}} subclass.}
 
-\item{overwrite}{If the attributes should be overwritten. In case it is set to \code{FALSE},
-it gives a message with the current \code{Identifier} property instead of overwriting it.
-Defaults to \code{TRUE} when the attribute is set to \code{value} regardless of previous
-setting.}
+\item{overwrite}{If the attributes should be overwritten. In case it is set
+to \code{FALSE}, it gives a message with the current \code{Identifier}
+property instead of overwriting it.
+Defaults to \code{TRUE} when the attribute is set to \code{value}
+regardless of previous setting.}
 
 \item{value}{The  \code{Identifier} as a character string.}
 }
 \value{
-The \code{Identifier} attribute as a character of length 1 is added to \code{x}.
+The \code{Identifier} attribute as a character of length 1 is added
+to \code{x}.
 }
 \description{
 Add the optional Identifier property as an attribute to an R

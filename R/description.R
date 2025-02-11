@@ -42,7 +42,7 @@ description <- function(x) {
     value <- ":unas"
   }
 
-  if (overwrite | existing_description %in% c("", ":unas", ":tba")) {
+  if (overwrite || existing_description %in% c("", ":unas", ":tba")) {
     ds_bibentry$description <- as.character(value)
     attr(x, "dataset_bibentry") <- ds_bibentry
   } else {

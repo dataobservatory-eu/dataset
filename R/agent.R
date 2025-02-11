@@ -36,7 +36,7 @@
   }
 
   is_creator <- vapply(value, get_creator, logical(1))
-  is_author <- vapply(value, get_creator, logical(1))
+  is_author <- vapply(value, get_author, logical(1))
   is_publisher <- vapply(value, get_publisher, logical(1))
 
 
@@ -46,9 +46,13 @@
 
   creators <- ifelse(length(new_creators) > 0, new_creators, creators)
   publishers <- ifelse(length(new_publishers) > 0, new_publishers, publishers)
-  contributors <- ifelse(length(new_creators) > 0, new_contributors, contributors)
+  contributors <- ifelse(length(new_creators) > 0,
+                         new_contributors,
+                         contributors)
 
-  dataset_bibentry$author <- ifelse(length(new_creators) > 0, new_creators, dataset_bibentry[[1]]$author)
+  dataset_bibentry$author <- ifelse(length(new_creators) > 0,
+                                    new_creators,
+                                    dataset_bibentry[[1]]$author)
   dataset_bibentry$contributor <- contributors
   dataset_bibentry$publisher <- publishers
 
@@ -91,23 +95,27 @@ agent <- function(x) {
     if (!is.null(x$role)) ifelse("aut" %in% x$role, TRUE, FALSE) else FALSE
   }
 
+  get_contributor <- function(x) {
+    if (!is.null(x$role)) ifelse("ctb" %in% x$role, TRUE, FALSE) else FALSE
+  }
+
   get_publisher <- function(x) {
     if (!is.null(x$role)) ifelse("pbl" %in% x$role, TRUE, FALSE) else FALSE
   }
 
   is_creator <- vapply(creators, get_creator, logical(1))
-  is_author <- vapply(creators, get_creator, logical(1))
+  is_author <- vapply(creators, get_author, logical(1))
   is_publisher <- vapply(creators, get_publisher, logical(1))
+  is_contributor <- vapply(creators, get_contributor, logical(1))
 
   new_creators <- c(creators[is_creator], creators[is_author[!is_creator]])
   new_contributors <- c(contributors[!contributors %in% c(creators, publishers)])
   new_publishers <- publishers[is_publisher]
+  new_contributors <- contributors[is_contributor]
 
   creators <- if (length(new_creators) > 0) creators <- new_creators
   contributors <- if (length(new_contributors) > 0) contributors <- new_contributors
   publishers <- if (length(new_publishers) > 0) publishers <- new_publishers
-
-
 
   list(
     creators = creators,

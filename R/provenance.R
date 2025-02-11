@@ -46,7 +46,7 @@ default_provenance <- function(dataset_id = "http://example.com/dataset#",
   cite_dataset <- utils::citation("dataset")
 
   agent_triples <- prov_author(author)
-  if ((!is.null(dtm))) c(agent_tripels, prov_author(dtm))
+  if ((!is.null(dtm))) c(agent_triples, prov_author(dtm))
 
   if (is.null(generated_at_time)) generated_at_time <- Sys.time()
   bundle_id <- gsub("#", "_prov.nt", dataset_id)

@@ -204,12 +204,6 @@ print.dataset_df <- function(x, ...) {
     print_name <- ""
   }
 
-  # if(!is.null(title)) {
-  #  print_title <- title
-  # } else { print_title: "A dataset"}
-
-  # cat(print_name)
-  # cat(print_title)
   if (!is.null(year)) {
     # cat(paste0(" (", substr(as.character(year), 1,4), ")"))
   }

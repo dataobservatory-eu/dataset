@@ -25,5 +25,5 @@ Add a prefixed identifier to the first column of the dataset.
 id_to_column(iris_dataset)
 
 # Example with a data.frame object:#'
-id_to_column(iris, prefix="eg:iris-o")
+id_to_column(iris, prefix = "eg:iris-o")
 }

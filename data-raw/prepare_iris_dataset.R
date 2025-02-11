@@ -57,18 +57,6 @@ dataset_bibentry <- get_bibentry(iris_dataset)
 toBiblatex(dataset_bibentry)
 dataset_bibentry$date
 
-
-# DSD <- DataStructure(iris_dataset)
-# DSD$Sepal.Length$label <- "The sepal length of iris specimen in centimeters."
-# DSD$Petal.Length$label <- "The petal length of iris specimen in centimeters."
-## DSD$Sepal.Width$label <- "The sepal width of iris specimen in centimeters."
-# DSD$Petal.Width$label <- "The petal width of iris specimen in centimeters."
-# DSD$Species$label <- "The iris species of the observed plant."
-# DataStructure_update(x = iris_dataset, value=DSD)
-
-# describe(iris_dataset)
-# attr(iris_dataset, "DataStructure") <- DSD
-
 provenance(iris_dataset)
 
 usethis::use_data(iris_dataset, overwrite = TRUE)

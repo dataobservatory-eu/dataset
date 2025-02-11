@@ -20,6 +20,6 @@ Describe a dataset
 }
 \examples{
 temp_prov <- tempfile()
-describe(iris_dataset, con=temp_prov)
+describe(iris_dataset, con = temp_prov)
 readLines(temp_prov)
 }

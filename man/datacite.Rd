@@ -163,12 +163,13 @@ the dataset.
 }
 \examples{
 datacite(
-   Title = "Iris Dataset",
-   Creator = person(family = "Anderson", given = "Edgar", role = "aut"),
-   Publisher = "American Iris Society",
-   PublicationYear = 1935,
-   Geolocation = "US",
-   Language = "en")
+  Title = "Iris Dataset",
+  Creator = person(family = "Anderson", given = "Edgar", role = "aut"),
+  Publisher = "American Iris Society",
+  PublicationYear = 1935,
+  Geolocation = "US",
+  Language = "en"
+)
 
 as_datacite(iris_dataset)
 }

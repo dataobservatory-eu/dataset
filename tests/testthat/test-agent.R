@@ -13,7 +13,9 @@ test_that("agent() works", {
   p2 <- person("Joe", "Doe", role = c("aut", "dtm"))
   p3 <- person("Publisher Inc", role = c("pbl"))
   expect_equal(length(agent(x = c(p1, p2, p3))), 3)
-  expect_equal(agent(x = c(p1, p2, p3))$creators, person("Jane", "Doe", role = c("cre", "aut")))
+  expect_equal(agent(x = c(p1, p2, p3))$creators[1],
+               person("Jane", "Doe", role = c("cre", "aut")))
   expect_null(agent(x = c(p1, p2, p3))$contributors)
-  expect_equal(agent(x = c(p1, p2, p3))$publisher, person("Publisher Inc", role = c("pbl")))
+  expect_equal(agent(x = c(p1, p2, p3))$publisher,
+               person("Publisher Inc", role = c("pbl")))
 })

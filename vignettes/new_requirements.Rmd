@@ -157,6 +157,7 @@ If you want to work with the data in the data.frame, you must know if the GDP is
 ```{r summaryhavenunit}
 summary(small_country_dataset$gdp)
 ```
+
 Because the GDP is expressed in millions of dollars, we have to adjust the nominator to dollars to get the GDP per capita express in *dollars*.
 
 ```{r percapita}
@@ -166,6 +167,7 @@ small_country_dataset$gdp_capita <- defined(
   label = "GDP Per Capita"
 )
 ```
+
 The `var_unit(small_country_dataset$gdp_capita)` command returns `r var_unit(small_country_dataset$gdp_capita)` and `var_label(small_country_dataset$gdp_capita)` returns `r var_label(small_country_dataset$gdp_capita)`.
 
 
@@ -256,7 +258,8 @@ small_country_musicians <- data.frame(
 )
 
 ## And the age
-small_country_musicians$P3629 <- 2024 - as.integer(substr(small_country_musicians$P569, 1, 4))
+small_country_musicians$P3629 <- 2024 - as.integer(
+  substr(small_country_musicians$P569, 1, 4))
 
 small_country_musicians
 ```
@@ -284,13 +287,15 @@ small_country_musicians <- data.frame(
 )
 
 ## And the age
-small_country_musicians$P3629 <- 2024 - as.integer(substr(small_country_musicians$P569, 1, 4))
+small_country_musicians$P3629 <- 2024 - as.integer(
+  substr(small_country_musicians$P569, 1, 4))
 
 small_country_musicians$P569 <- dataset::xsd_convert(small_country_musicians$P569)
 small_country_musicians$P3629 <- dataset::xsd_convert(small_country_musicians$P3629)
 
 small_country_musicians
 ```
+
 We can also add the prefix to any concepts that are well-defined:
 
 ```{r definecountry}
