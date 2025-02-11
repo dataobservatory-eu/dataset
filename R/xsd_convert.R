@@ -1,13 +1,15 @@
 #' @title Convert to XML Schema Definition (XSD) types
 #' @description Convert the numeric, boolean and Date/time columns of a dataset
-#' \code{xs:decimal}, \code{xsLboolean}, \code{xs:date} and \code{xs:dateTime}.
+#'   \code{xs:decimal}, \code{xsLboolean}, \code{xs:date} and
+#'   \code{xs:dateTime}.
 #' @param x An object to be coerced to an XLM Schema defined string format.
 #' @param idcol The name or position of the column that contains the row
-#' (observation) identifiers. If \code{NULL}, it will make a new \code{idcol}
-#' from [row.names()].
+#'   (observation) identifiers. If \code{NULL}, it will make a new \code{idcol}
+#'   from [row.names()].
 #' @param ... Further optional parameters for generic method.
 #' @return A serialisation of an R vector or data frame (dataset) in XML.
 #' @export
+
 xsd_convert <- function(x, idcol, ...) {
   UseMethod("xsd_convert", x)
 }

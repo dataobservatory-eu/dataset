@@ -1,9 +1,9 @@
 #' @title Get / set a definition for a vector or a dataset
 #' @param x a vector
-#' @param value a character string or `NULL` to remove the definition of measure.
+#' @param value a character string or `NULL` to remove the definition of
+#'   measure.
 #' @param ... Further parameters for inheritance, not in use.
-#' @details
-#'   `get_variable_definitions()` is identical to `var_definition()`.
+#' @details `get_variable_definitions()` is identical to `var_definition()`.
 #' @examples
 #' small_country_dataset <- dataset_df(
 #'   country_name = defined(c("Andorra", "Lichtenstein"), label = "Country"),
@@ -17,8 +17,9 @@
 #' # To remove a definition of measure
 #' var_definition(small_country_dataset$country_name) <- NULL
 #' @return The (linked) definition of the meaning of the data contained by a
-#' vector constructed with \code{\link{defined}}.
+#'   vector constructed with \code{\link{defined}}.
 #' @export
+
 var_definition <- function(x, ...) {
   # rlang::check_dots_used()
   UseMethod("var_definition")

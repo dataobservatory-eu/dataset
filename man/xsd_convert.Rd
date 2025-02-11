@@ -53,7 +53,8 @@ A serialisation of an R vector or data frame (dataset) in XML.
 }
 \description{
 Convert the numeric, boolean and Date/time columns of a dataset
-\code{xs:decimal}, \code{xsLboolean}, \code{xs:date} and \code{xs:dateTime}.
+\code{xs:decimal}, \code{xsLboolean}, \code{xs:date} and
+\code{xs:dateTime}.
 }
 \examples{
 

@@ -26,7 +26,8 @@ definition_attribute(x) <- value
 
 \item{...}{Further parameters for inheritance, not in use.}
 
-\item{value}{a character string or \code{NULL} to remove the definition of measure.}
+\item{value}{a character string or \code{NULL} to remove the definition of
+measure.}
 }
 \value{
 The (linked) definition of the meaning of the data contained by a
