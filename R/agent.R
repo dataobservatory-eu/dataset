@@ -5,18 +5,25 @@
   if ("dataset_bibentry" %in% names(attributes(x))) {
     dataset_bibentry <- get_bibentry(x)
     return_type <- "dataset"
-  } else if (inherits(x, "dublincore")) {
-    dataset_bibentry <- x
-    return_type <- "dublincore"
-  } else if (inherits(x, "datacite")) {
-    dataset_bibentry <- x
-    return_type <- "datacite"
-  } else {
-    stop("Error: agent(x)<- x must be a dataset_df, a dublincore or a datacite object.")
   }
 
+  if (inherits(x, "dublincore")) {
+    dataset_bibentry <- x
+    return_type <- "dublincore"
+  }
+
+  if (inherits(x, "datacite")) {
+    dataset_bibentry <- x
+    return_type <- "datacite"
+  }
+
+  assertthat::assert_that(
+    !is.null(x),
+    msg = "Error: agent(x)<- x must be a dataset_df, a dublincore or a datacite object.")
+
+
   assertthat::assert_that(all(inherits(value, "person")),
-    msg = "Error: agent(x) <- value: value must be a vector of utils::persons."
+    msg = "Error: agent(x) <- value: value must be a vector of utils::persons() class."
   )
 
   creators <- ifelse(is.null(dataset_bibentry$author), ":tba", dataset_bibentry$author)
@@ -66,26 +73,42 @@
 
 #' @keywords internal
 agent <- function(x) {
+  return_type <- NULL
+
   if (inherits(x, "dataset_df")) {
     dataset_bibentry <- get_bibentry(x)
-  } else if (inherits(x, "datacite")) {
+    return_type <- "dataset"
+  }
+
+  if (inherits(x, "datacite")) {
     dataset_bibentry <- x
     creators <- ifelse(is.null(dataset_bibentry$author), ":tba", dataset_bibentry$author)
     publishers <- ifelse(is.null(dataset_bibentry$publisher), ":unas", dataset_bibentry$publisher)
     contributors <- ifelse(is.null(dataset_bibentry$contributor), ":unas", dataset_bibentry$contributor)
-  } else if (inherits(x, "dublincore")) {
+    return_type <- "datacite"
+  }
+
+  if (inherits(x, "dublincore")) {
     dataset_bibentry <- x
     creators <- ifelse(is.null(dataset_bibentry$author), ":tba", dataset_bibentry$author)
     publishers <- ifelse(is.null(dataset_bibentry$publisher), ":unas", dataset_bibentry$publisher)
     contributors <- ifelse(is.null(dataset_bibentry$contributor), ":unas", dataset_bibentry$contributor)
-  } else if (all(inherits(x, "person"))) {
+
+    return_type <- "dublincore"
+
+  }
+
+  if (all(inherits(x, "person"))) {
     contributors <- x
     publishers <- x
     creators <- x
     return_type <- "persons_vector"
-  } else {
-    stop("Error: agent(x)<- x must be a dataset_df, a vector of persons, a dublincore or datacite object.")
   }
+
+  assertthat::assert_that(
+    any(return_type %in% c("dataset", "datacite", "dublincore", "persons_vector")),
+    msg = "Error: agent(x)<- x must be a dataset_df, a vector of persons, a dublincore or datacite object."
+  )
 
   get_creator <- function(x) {
     if (!is.null(x$role)) ifelse("cre" %in% x$role, TRUE, FALSE) else FALSE
