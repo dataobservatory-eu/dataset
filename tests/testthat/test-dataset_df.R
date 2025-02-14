@@ -1,5 +1,6 @@
 test_that("dataset_df() works", {
-  expect_equal(is.dataset_df(dataset_df(mtcars)), TRUE)
+  expect_s3_class(dataset_df(mtcars), "dataset_df")
+  expect_true(is.dataset_df(dataset_df(mtcars)))
   expect_false(is.dataset_df(mtcars))
   expect_equal(get_bibentry(dataset_df(mtcars))$author, person("Author", "Unknown"))
   expect_equal(
@@ -58,7 +59,7 @@ test_that("print.dataset_df() works", {
 })
 
 test_that("as_dataset_df() works", {
-  expect_equal(is.dataset_df(as_dataset_df(iris)), TRUE)
+  expect_s3_class(as_dataset_df(iris), "dataset_df")
   expect_false(is.dataset_df(mtcars))
 })
 

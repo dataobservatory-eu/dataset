@@ -7,6 +7,7 @@ test_that("subject_create() <- works", {
   )
   expect_equal(default_subject$term, "data sets")
   expect_true(is.subject(default_subject))
+  expect_s3_class(default_subject, "subject")
   expect_equal(subject_create(term = NULL)$term, ":tba")
 })
 

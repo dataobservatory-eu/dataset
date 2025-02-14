@@ -1,7 +1,8 @@
 test_that("rights() works", {
   myiris <- iris_dataset
   expect_equal(rights(iris_dataset), ":tba")
-  expect_error(rights(myiris) <- c(":unas", "hello"))
+  expect_error(rights(myiris) <- c(":unas", "hello"),
+               regexp = "must have length=1")
 })
 
 test_that("rights() works", {
@@ -14,6 +15,3 @@ test_that("rights() works", {
   expect_equal(rights(myiris), ":unas")
 })
 
-# expect_equal(rights(iris_dataset2),  "CC-BY-SA")
-#   rights(iris_dataset2, overwrite=TRUE) <- "CC-BY-SA"
-#  expect_message(rights(myiris, FALSE) <- "CC1")

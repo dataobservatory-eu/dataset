@@ -5,7 +5,6 @@ test_that("agent()<- assignment works", {
   test_df <- dataset_df(data.frame(a = 1, b = 2))
   expect_equal(get_bibentry(test_df)$author, person("Author", "Unknown"))
   expect_error(agent(a = 1) <- person("Jane Doe"))
-  agent(x = test_df) <- c(p1, p2, p3)
 })
 
 test_that("agent() works", {

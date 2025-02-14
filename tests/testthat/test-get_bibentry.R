@@ -5,7 +5,7 @@ alternative_bibentry <- datacite(
 )
 
 test_that("get_bibentry() works", {
-  expect_error(get_bibentry(iris))
+  expect_error(get_bibentry(iris), regexp = "dataset has no dataset_bibentry")
   iris_bibentry <- get_bibentry(iris_dataset)
   expect_equal(iris_bibentry$title, "Iris Dataset")
   expect_equal(iris_bibentry$date, "1935")

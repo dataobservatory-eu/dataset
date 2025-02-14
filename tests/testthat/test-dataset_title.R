@@ -1,6 +1,6 @@
 test_that("dataset_title() works", {
   expect_equal(dataset_title(iris_dataset), "Iris Dataset")
-  expect_error(dataset_title(mtcars))
+  expect_error(dataset_title(mtcars), regexp = "must be a dataset object created with dataset")
   expect_error(dataset_title(mtcars) <- "Error")
 })
 

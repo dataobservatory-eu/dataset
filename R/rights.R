@@ -34,6 +34,10 @@ rights <- function(x) {
     msg = "rights(x): x must be a dataset object created with dataset_f() or as_dataset_df()."
   )
 
+  assertthat::assert_that(is.null(value) | length(value)==1,
+                          msg = "rights(x): x must have length=1 (or set to NUL)."
+  )
+
   DataBibentry <- invisible(get_bibentry(x))
 
   if (is.null(value)) {

@@ -15,7 +15,7 @@ test_that("datacite() works", {
 })
 
 test_that("as_datacite() works", {
-  expect_true(is.list(as_datacite(iris_dataset, "list")))
+  expect_type(as_datacite(iris_dataset, "list"), "list")
   expect_true(is.dataset_df(as_datacite(iris_dataset, "dataset_df")))
   expect_warning(as_datacite(x = iris_dataset, type = "data.frame"))
   expect_equal(as_datacite(iris_dataset, "list")$FundingReference, ":unas")
