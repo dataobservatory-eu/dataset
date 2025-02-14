@@ -9,10 +9,11 @@
 #'   physical resources, such as datasets or their printed versions. Dublin Core
 #'   has been formally standardized internationally as ISO 15836, as IETF RFC
 #'   5013 by the Internet Engineering Task Force (IETF), as well as in the U.S.
-#'   as ANSI/NISO Z39.85.\cr \cr To provide compatibility with
-#'   \code{\link\[utils]{bibentry}}  we try to add \code{dataset_date}
-#'   parameter first as \code{publication_date} metadata field, and as a
-#'   \code{year} field, too. This element can be get or set with
+#'   as ANSI/NISO Z39.85.\cr
+#'   \cr
+#'   To provide compatibility with \code{\link[utils]{bibentry}}  we try to add
+#'   \code{dataset_date} parameter first as \code{publication_date} metadata
+#'   field, and as a \code{year} field, too. This element can be get or set with
 #'   \code{\link{publication_year}}.
 #' @param x An R object of type data.frame, or inherited data.table, tibble;
 #'   alternatively a well structured R list.
