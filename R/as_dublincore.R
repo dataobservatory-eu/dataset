@@ -1,9 +1,11 @@
 #' @rdname dublincore
-#' @param type For \code{as_dublincore}, any of \code{"bibentry", "dataset_df", "list", "ntriples"}.
+#' @param type For \code{as_dublincore}, any of \code{"bibentry", "dataset_df",
+#'   "list", "ntriples"}.
 #' @param ... Optional parameters to add to a \code{dublincore} object.
-#' \code{author=person("Jane", "Doe")} adds an author to the citation
-#' object if \code{type="dataset"}.
+#'   \code{author=person("Jane", "Doe")} adds an author to the citation object
+#'   if \code{type="dataset"}.
 #' @export
+
 as_dublincore <- function(x, type = "bibentry", ...) {
   citation_author <- person(NULL, NULL)
 
@@ -85,7 +87,7 @@ as_dublincore <- function(x, type = "bibentry", ...) {
       subject = dataset_subject,
       type = "DCMITYPE:Dataset",
       contributor = dataset_contributor,
-      publication_date = dataset_date,
+      dataset_date = dataset_date,
       language = dataset_language,
       relation = dataset_relation,
       format = dataset_format,

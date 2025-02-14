@@ -1,91 +1,100 @@
 #' @title Create a bibentry object with DataCite metadata fields
-#' @description Add metadata conforming
-#' the \href{https://schema.datacite.org/}{DataCite Metadata Schema}.
+#' @description Add metadata conforming the
+#'   \href{https://schema.datacite.org/}{DataCite Metadata Schema}.
 #' @details DataCite is a leading global non-profit organisation that provides
-#' persistent identifiers (DOIs) for research data and other research outputs.
-#' Organisations within the research community join DataCite as members to be
-#' able to assign DOIs to all their research outputs. This way, their outputs
-#' become discoverable, and associated metadata is made available to the community.
+#'   persistent identifiers (DOIs) for research data and other research outputs.
+#'   Organisations within the research community join DataCite as members to be
+#'   able to assign DOIs to all their research outputs. This way, their outputs
+#'   become discoverable, and associated metadata is made available to the
+#'   community.
 #' @details The \code{ResourceType} property will be by definition "Dataset".
-#' The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will automatically added to
-#' the dataset.
+#'   The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will
+#'   automatically added to the dataset.
 #' @param Title The name(s) or title(s) by which a resource is known. May be the
-#' title of a dataset or the name of a piece of software.
-#' Similar to
-#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title}.\cr
-#' @param Creator The main researchers involved in producing the data, or the authors of the publication, in
-#' priority order. To supply multiple creators, repeat this property.
-#' @param Identifier The Identifier is a unique string that identifies a resource. For software, determine
-#' whether the identifier is for a specific version of a piece of software, (per the
-#' \href{https://force11.org/info/software-citation-principles-published-2016/}{Force11 Software Citation Principles},
-#' or for all versions. Similar to \code{dct:title} in [dublincore()].
-#' @param Publisher The name of the entity that holds, archives, publishes prints, distributes,
-#' releases, issues, or produces the resource. This property will be used to formulate the
-#' citation, so consider the prominence of the role. For software, use Publisher for the
-#' code repository. If there is an entity other than a code repository, that "holds, archives,
-#' publishes, prints, distributes, releases, issues, or produces" the code, use the property
-#' Contributor/contributorType/ hostingInstitution for the code repository. Corresponds to dct:Publisher in
-#' [dublincore()].
-#' @param PublicationYear The year when the data was or will be made publicly available in
-#' \code{YYYY} format.See [publication_year()].
-#' @param Subject Recommended for discovery. Subject, keyword, classification code, or key
-#' phrase describing the resource. Similar to
-#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/subject/}{dct:subject}. \cr
-#' Use \code{\link{subject}} to properly add a key phrase from a controlled vocabulary
-#' and create structured Subject objects with \code{\link{subject_create}}.
-#' @param Contributor Recommended for discovery. The institution or person responsible for collecting, managing, distributing, or otherwise contributing to the development of the resource.
-#' @param Publisher The name of the entity that holds, archives, publishes prints,
-#' distributes, releases, issues, or produces the resource. This property will be used to
-#' formulate the citation, so consider the prominence of the role.
-#' For software, use Publisher for the code repository. Mandatory in DataCite, and similar to
-#' \code{dct:publisher}. See [publisher()].
-#' @param Type Defaults to \code{Dataset}.
-#' The DataCite resourceType definition refers back to
-#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/type/}{dcm:type}.
-#' The \code{Type$resourceTypeGeneral} is set to  \code{"Dataset"}, while the user can set a more
-#' specific \code{Type$resourceType} value.
-#' @param Language The primary language of the resource. Allowed values are taken from
-#' IETF BCP 47, ISO 639-1 language code. See [language()].
-#' @param AlternateIdentifier An identifier or identifiers other than the primary
-#' Identifier applied to the resource being registered. This may be any
-#' alphanumeric string unique within its domain of issue. It may be used for
-#' local identifiers.
-#' \code{AlternateIdentifier} should be used for another
-#' identifier of the same instance (same location, same file).
-#' Defaults to \code{":unas"} for unassigned values.
-#' @param RelatedIdentifier Recommended for discovery.
-#' Defaults to \code{":unas"} for unassigned values.
-#' Similar to
-#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/relation/}{dct:relation}.
+#'   title of a dataset or the name of a piece of software. Similar to
+#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title}.\cr
+#' @param Creator The main researchers involved in producing the data, or the
+#'   authors of the publication, in priority order. To supply multiple creators,
+#'   repeat this property.
+#' @param Identifier The Identifier is a unique string that identifies a
+#'   resource. For software, determine whether the identifier is for a specific
+#'   version of a piece of software, (per the
+#'   \href{https://force11.org/info/software-citation-principles-published-2016/}{Force11
+#'   Software Citation Principles}, or for all versions. Similar to
+#'   \code{dct:title} in [dublincore()].
+#' @param Publisher The name of the entity that holds, archives, publishes
+#'   prints, distributes, releases, issues, or produces the resource. This
+#'   property will be used to formulate the citation, so consider the prominence
+#'   of the role. For software, use Publisher for the code repository. If there
+#'   is an entity other than a code repository, that "holds, archives,
+#'   publishes, prints, distributes, releases, issues, or produces" the code,
+#'   use the property Contributor/contributorType/ hostingInstitution for the
+#'   code repository. Corresponds to dct:Publisher in [dublincore()].
+#' @param PublicationYear The year when the data was or will be made publicly
+#'   available in \code{YYYY} format.See [publication_year()].
+#' @param Subject Recommended for discovery. Subject, keyword, classification
+#'   code, or key phrase describing the resource. Similar to
+#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/subject/}{dct:subject}.
+#'   \cr Use \code{\link{subject}} to properly add a key phrase from a
+#'   controlled vocabulary and create structured Subject objects with
+#'   \code{\link{subject_create}}.
+#' @param Contributor Recommended for discovery. The institution or person
+#'   responsible for collecting, managing, distributing, or otherwise
+#'   contributing to the development of the resource.
+#' @param Publisher The name of the entity that holds, archives, publishes
+#'   prints, distributes, releases, issues, or produces the resource. This
+#'   property will be used to formulate the citation, so consider the prominence
+#'   of the role. For software, use Publisher for the code repository. Mandatory
+#'   in DataCite, and similar to \code{dct:publisher}. See [publisher()].
+#' @param Type Defaults to \code{Dataset}. The DataCite resourceType definition
+#'   refers back to
+#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/type/}{dcm:type}.
+#'   The \code{Type$resourceTypeGeneral} is set to  \code{"Dataset"}, while the
+#'   user can set a more specific \code{Type$resourceType} value.
+#' @param Language The primary language of the resource. Allowed values are
+#'   taken from IETF BCP 47, ISO 639-1 language code. See [language()].
+#' @param AlternateIdentifier An identifier or identifiers other than the
+#'   primary Identifier applied to the resource being registered. This may be
+#'   any alphanumeric string unique within its domain of issue. It may be used
+#'   for local identifiers. \code{AlternateIdentifier} should be used for
+#'   another identifier of the same instance (same location, same file).
+#'   Defaults to \code{":unas"} for unassigned values.
+#' @param RelatedIdentifier Recommended for discovery. Defaults to
+#'   \code{":unas"} for unassigned values. Similar to
+#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/relation/}{dct:relation}.
 #' @param Format Technical format of the resource. Use file extension or MIME
-#' type where possible, e.g., PDF, XML, MPG or application/pdf, text/xml, video/mpeg.
-#' Similar to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/format/}{dct:format}.
-#' @param Version Free text. Suggested practice: track major_version.minor_version.
-#' Defaults to \code{"0.1.0"}.
-#' See \code{\link{version}}.
+#'   type where possible, e.g., PDF, XML, MPG or application/pdf, text/xml,
+#'   video/mpeg. Similar to
+#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/format/}{dct:format}.
+#' @param Version Free text. Suggested practice: track
+#'   major_version.minor_version. Defaults to \code{"0.1.0"}. See
+#'   \code{\link{version}}.
 #' @param Rights Any rights information for this resource. The property may be
-#' repeated to record complex rights characteristics, but this is not yet supported.
-#' Free text. See \code{\link{rights}}.
-#' Defaults to \code{":tba"}.
-#' @param DateList DataCite 4.4 allows to set multiple dates to a resource, they should
-#' be added as a list. See:
-#' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#8-date}{datacite:Date}.
-#' @param Description Recommended for discovery. All additional information that does not
-#' fit in any of the other categories. It may be used for technical information—a free text.
-#' Defaults to \code{":tba"}.
-#' Similar to \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}.
-#' @param Geolocation Recommended for discovery. Spatial region or named place where the data was gathered
-#' or about which the data is focused. See [geolocation()].
-#' @param FundingReference Information about financial support (funding) for the resource
-#' being registered.
-#' Defaults to \code{":unas"} for unassigned values. Complex types with subproperties
-#' are not yet implemented.
-#' @return \code{datacite()} creates a \code{utils::\link[utils]{bibentry}} object
-#' extended with standard Dublin Core bibliographical metadata, \code{as_datacite()}
-#' retrieves the contents of this bibentry object of a dataset_df from its
-#' attributes, and returns the contents as list, dataset_df, or bibentry object.
-#' @source \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite 4.3 Mandatory Properties} and
-#' \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
+#'   repeated to record complex rights characteristics, but this is not yet
+#'   supported. Free text. See \code{\link{rights}}. Defaults to \code{":tba"}.
+#' @param DateList DataCite 4.4 allows to set multiple dates to a resource, they
+#'   should be added as a list. See:
+#'   \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#8-date}{datacite:Date}.
+#' @param Description Recommended for discovery. All additional information that
+#'   does not fit in any of the other categories. It may be used for technical
+#'   information—a free text. Defaults to \code{":tba"}. Similar to
+#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}.
+#' @param Geolocation Recommended for discovery. Spatial region or named place
+#'   where the data was gathered or about which the data is focused. See
+#'   [geolocation()].
+#' @param FundingReference Information about financial support (funding) for the
+#'   resource being registered. Defaults to \code{":unas"} for unassigned
+#'   values. Complex types with subproperties are not yet implemented.
+#' @return \code{datacite()} creates a \code{utils::\link[utils]{bibentry}}
+#'   object extended with standard Dublin Core bibliographical metadata,
+#'   \code{as_datacite()} retrieves the contents of this bibentry object of a
+#'   dataset_df from its attributes, and returns the contents as list,
+#'   dataset_df, or bibentry object.
+#' @source
+#'   \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite
+#'   4.3 Mandatory Properties} and
+#'   \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite
+#'   4.3 Optional Properties}
 #' @family bibentry functions
 #' @importFrom utils person bibentry
 #' @examples
@@ -201,13 +210,12 @@ new_datacite <- function(Title,
 #' @rdname datacite
 #' @param x A dataset object created with \code{dataset::\link{dataset}}.
 #' @param type A DataCite 4.4  metadata can be returned as a \code{type="list"},
-#' a \code{type="dataset_df"}, or a \code{type="bibentry"} (default).
+#'   a \code{type="dataset_df"}, or a \code{type="bibentry"} (default).
 #' @param ... Optional parameters to add to a \code{datacite} object.
-#' \code{author=person("Jane", "Doe")} adds an author to the citation
-#' object if \code{type="dataset"}.
-#' as_datacite(iris_dataset, type="list")
-#' @return \code{as_datacite(x, type)} returns the DataCite bibliographical metadata
-#' of x either as a list, a bibentry object, or a dataset_df object.
+#'   \code{author=person("Jane", "Doe")} adds an author to the citation object
+#'   if \code{type="dataset"}. as_datacite(iris_dataset, type="list")
+#' @return \code{as_datacite(x, type)} returns the DataCite bibliographical
+#'   metadata of x either as a list, a bibentry object, or a dataset_df object.
 #' @export
 as_datacite <- function(x, type = "bibentry", ...) {
   citation_author <- person(NULL, NULL)

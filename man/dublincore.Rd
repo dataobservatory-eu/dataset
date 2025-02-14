@@ -46,8 +46,8 @@ format, physical medium, or dimensions of the resource, use the Format
 element.}
 
 \item{...}{Optional parameters to add to a \code{dublincore} object.
-\code{author=person("Jane", "Doe")} adds an author to the citation
-object if \code{type="dataset"}.}
+\code{author=person("Jane", "Doe")} adds an author to the citation object
+if \code{type="dataset"}.}
 
 \item{title}{\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title},
 a name given to the resource. \code{\link{datacite}} allows the use of
@@ -165,7 +165,11 @@ The Dublin Core, also known as the Dublin Core Metadata Element Set
 physical resources, such as datasets or their printed versions. Dublin Core
 has been formally standardized internationally as ISO 15836, as IETF RFC
 5013 by the Internet Engineering Task Force (IETF), as well as in the U.S.
-as ANSI/NISO Z39.85.
+as ANSI/NISO Z39.85.\cr \cr To provide compatibility with
+\code{\link\[utils]{bibentry}}  we try to add \code{dataset_date}
+parameter first as \code{publication_date} metadata field, and as a
+\code{year} field, too. This element can be get or set with
+\code{\link{publication_year}}.
 
 The \code{ResourceType} property will be by definition "Dataset".
 The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will

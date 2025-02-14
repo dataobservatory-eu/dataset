@@ -9,7 +9,11 @@
 #'   physical resources, such as datasets or their printed versions. Dublin Core
 #'   has been formally standardized internationally as ISO 15836, as IETF RFC
 #'   5013 by the Internet Engineering Task Force (IETF), as well as in the U.S.
-#'   as ANSI/NISO Z39.85.
+#'   as ANSI/NISO Z39.85.\cr \cr To provide compatibility with
+#'   \code{\link\[utils]{bibentry}}  we try to add \code{dataset_date}
+#'   parameter first as \code{publication_date} metadata field, and as a
+#'   \code{year} field, too. This element can be get or set with
+#'   \code{\link{publication_year}}.
 #' @param x An R object of type data.frame, or inherited data.table, tibble;
 #'   alternatively a well structured R list.
 #' @details The \code{ResourceType} property will be by definition "Dataset".
@@ -63,11 +67,11 @@
 #' @param format The file format, physical medium, or dimensions of the
 #'   resource.
 #'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/format/}{dct:format}
-#' Examples of dimensions include size and duration. Recommended best practice
-#' is to use a controlled vocabulary such as the list of
+#'   Examples of dimensions include size and duration. Recommended best practice
+#'   is to use a controlled vocabulary such as the list of
 #'   \href{https://www.iana.org/assignments/media-types/media-types.xhtml}{Internet
 #'   Media Types, formerly known as MIME}. It is similar to \code{Format} in
-#' \code{\link{datacite}}.
+#'   \code{\link{datacite}}.
 #' @param rights Corresponds to
 #'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights}
 #'   and \code{\link{datacite}} Rights. Information about rights held in and
@@ -161,7 +165,8 @@ dublincore <- function(
     datasource = NULL,
     description = NULL,
     coverage = NULL) {
-  publication_date <- ifelse(is.null(dataset_date), ":tba", as.character(dataset_date))
+
+  dataset_date <- ifelse(is.null(dataset_date), ":tba", as.character(dataset_date))
   identifier <- ifelse(is.null(identifier), ":tba", as.character(identifier))
   format <- ifelse(is.null(format), ":tba", as.character(format))
   relation <- ifelse(is.null(relation), ":unas", relation)
@@ -189,7 +194,7 @@ dublincore <- function(
     subject = subject,
     type = type,
     contributor = contributor,
-    publication_date = publication_date,
+    dataset_date = dataset_date,
     language = language,
     relation = relation,
     format = format,
@@ -313,7 +318,7 @@ new_dublincore <- function(title,
                            subject = NULL,
                            type = "DCMITYPE:Dataset",
                            contributor = NULL,
-                           publication_date = NULL,
+                           dataset_date = NULL,
                            language = NULL,
                            relation = NULL,
                            format = NULL,
@@ -329,22 +334,37 @@ new_dublincore <- function(title,
   ## Due to bug in RefManager
   contributor <- fix_contributor(contributors = contributor)
 
+  # Create year from dataset_date
+  if ( !is.null(dataset_date) ) {
+    year <- substr(as.character(dataset_date), 1,4)
+  } else { year <- NA_character_ }
+
   if (inherits(creator, "list")) {
     warning("list", creator)
     for (i in 1:length(creator)) {
       if (i == 1) {
         message(i)
         creator <- person(
-          given = creator[[i]]$given, middle = creator[[i]]$middle, family = creator[[i]]$family,
-          email = creator[[i]]$email, role = creator[[i]]$role, comment = creator[[i]]$comment,
-          first = creator[[i]]$first, last = creator[[i]]$last
+          given = creator[[i]]$given,
+          middle = creator[[i]]$middle,
+          family = creator[[i]]$family,
+          email = creator[[i]]$email,
+          role = creator[[i]]$role,
+          comment = creator[[i]]$comment,
+          first = creator[[i]]$first,
+          last = creator[[i]]$last
         )
       } else {
         mesage(i)
         tmp <- person(
-          given = creator[[i]]$given, middle = creator[[i]]$middle, family = creator[[i]]$family,
-          email = creator[[i]]$email, role = creator[[i]]$role, comment = creator[[i]]$comment,
-          first = creator[[i]]$first, last = creator[[i]]$last
+          given = creator[[i]]$given,
+          middle = creator[[i]]$middle,
+          family = creator[[i]]$family,
+          email = creator[[i]]$email,
+          role = creator[[i]]$role,
+          comment = creator[[i]]$comment,
+          first = creator[[i]]$first,
+          last = creator[[i]]$last
         )
         creator <- c(creator, tmp)
       }
@@ -362,7 +382,7 @@ new_dublincore <- function(title,
     identifier = identifier,
     publisher = publisher,
     contributor = contributor,
-    date = publication_date,
+    date = dataset_date,
     language = language,
     relation = relation,
     format = format,
