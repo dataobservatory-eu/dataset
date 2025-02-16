@@ -72,8 +72,12 @@
 #' @param Rights Any rights information for this resource. The property may be
 #'   repeated to record complex rights characteristics, but this is not yet
 #'   supported. Free text. See \code{\link{rights}}. Defaults to \code{":tba"}.
+#' @param Date A character string in any of the following formats: \code{YYYY},
+#'   \code{YYYY-MM-DD} or \code{YYYY-MM-DDThh:mm:ssTZD}, or an R Date or POSIXct
+#'   object. A list of dates (parameter \code{DateList}) is not yet implemented.
 #' @param DateList DataCite 4.4 allows to set multiple dates to a resource, they
-#'   should be added as a list. See:
+#'   should be added as a list. Currently not yet implemented.
+#'    See:
 #'   \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#8-date}{datacite:Date}.
 #' @param Description Recommended for discovery. All additional information that
 #'   does not fit in any of the other categories. It may be used for technical
@@ -123,7 +127,8 @@ datacite <- function(Title,
                      ),
                      Type = "Dataset",
                      Contributor = NULL,
-                     DateList = ":tba",
+                     Date = ":tba",
+                     DateList = NULL,
                      Language = NULL,
                      AlternateIdentifier = ":unas",
                      RelatedIdentifier = ":unas",
@@ -133,6 +138,8 @@ datacite <- function(Title,
                      Description = ":tba",
                      Geolocation = ":unas",
                      FundingReference = ":unas") {
+
+  Date <- ifelse(is.null(DateList), ":tba", as.character(Date))
   DateList <- ifelse(is.null(DateList), ":tba", as.character(DateList))
   Format <- ifelse(is.null(Format), ":tba", as.character(Format))
   AlternateIdentifier <- ifelse(is.null(AlternateIdentifier), ":unas", AlternateIdentifier)
@@ -150,6 +157,7 @@ datacite <- function(Title,
     Subject = Subject,
     Type = "Dataset",
     Contributor = Contributor,
+    Date = Date,
     DateList = DateList,
     Language = Language,
     AlternateIdentifier = AlternateIdentifier,
@@ -173,6 +181,7 @@ new_datacite <- function(Title,
                          Subject,
                          Type = "Dataset",
                          Contributor,
+                         Date,
                          DateList,
                          Language,
                          AlternateIdentifier,
@@ -183,14 +192,21 @@ new_datacite <- function(Title,
                          Description,
                          Geolocation,
                          FundingReference) {
+
+  # Create year from Date
+  if ( !is.null(Date) ) {
+    year <- substr(as.character(Date), 1,4)
+  } else { year <- NA_character_ }
+
   datacite_object <- bibentry(
     bibtype = "Misc",
     title = Title,
     author = Creator,
+    year = year,
     identifier = Identifier,
     publisher = Publisher,
     year = PublicationYear,
-    date = DateList,
+    date = Date,
     language = Language,
     subject = Subject$term,
     alternateidentifier = AlternateIdentifier,
@@ -245,6 +261,7 @@ as_datacite <- function(x, type = "bibentry", ...) {
   Version <- ifelse(is.null(ds_bibentry$version), ":unas", as.character(ds_bibentry$version))
   Description <- ifelse(is.null(ds_bibentry$description), ":unas", as.character(ds_bibentry$description))
   Language <- ifelse(is.null(ds_bibentry$language), ":unas", as.character(ds_bibentry$language))
+  Date <- ifelse(is.null(ds_bibentry$Date), ":tba", as.character(ds_bibentry$Date))
   DateList <- ifelse(is.null(ds_bibentry$DateList), ":tba", as.character(ds_bibentry$DateList))
   PublicationYear <- ifelse(is.null(ds_bibentry$year), ":unas", as.character(ds_bibentry$year))
   Format <- ifelse(is.null(ds_bibentry$format), ":tba", as.character(ds_bibentry$format))
@@ -266,6 +283,7 @@ as_datacite <- function(x, type = "bibentry", ...) {
       Subject = Subject,
       Type = "Dataset",
       Contributor = Contributor,
+      Date = Date,
       DateList = DateList,
       Language = Language,
       AlternateIdentifier = AlternateIdentifier,
@@ -287,6 +305,7 @@ as_datacite <- function(x, type = "bibentry", ...) {
       Subject = Subject,
       Type = "Dataset",
       Contributor = Contributor,
+      Date = Date,
       DateList = DateList,
       Language = Language,
       AlternateIdentifier = AlternateIdentifier,
@@ -309,6 +328,7 @@ as_datacite <- function(x, type = "bibentry", ...) {
         Subject = ifelse(is.null(Subject), "", as.character(Subject)),
         Type = "Dataset",
         Contributor = ifelse(is.null(Contributor), ":unas", as.character(Contributor)),
+        Date = Date,
         DateList = DateList,
         Language = Language,
         AlternateIdentifier = AlternateIdentifier,

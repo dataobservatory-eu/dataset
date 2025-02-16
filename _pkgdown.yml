@@ -21,6 +21,11 @@ authors:
 
 
 articles:
+  - title: "Motivation"
+    desc: >
+     A long-form description of the aim of the development.
+    contents:
+       - Motivation
   - title: "Datasets"
     desc: >
      Our `dataset` R package aims to help the Findability, Accessibility, Interoperability,

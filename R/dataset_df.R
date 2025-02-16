@@ -188,11 +188,23 @@ is.dataset_df <- function(x) {
 #' @importFrom cli cat_line
 #' @export
 print.dataset_df <- function(x, ...) {
+  year <- NULL
   dataset_bibentry <- get_bibentry(x)
-
   author_person <- dataset_bibentry$author
   year <- dataset_bibentry$year
+
+  if (is.null(year)) {
+    year <- substr(dataset_bibentry$date, 1, 4)
+  }
+
   title <- dataset_bibentry$title
+
+
+  varlabels <- vapply(x, function(x) ifelse(is.null(var_label(x)),
+                                            "          ",
+                                            substr(var_label(x), 1, 10)), character(1))
+
+
 
   if (inherits(author_person, "persont")) {
     print_name <- ""
@@ -208,7 +220,7 @@ print.dataset_df <- function(x, ...) {
     # cat(paste0(" (", substr(as.character(year), 1,4), ")"))
   }
   print(get_bibentry(x), "text")
-  vr_labels <- vapply(attr(x, "var_labels"), function(x) x, character(1))
+  #cli::cat_line(paste(as.character(varlabels), collapse=" "))
   cli::cat_line(format(x)[-1])
 }
 

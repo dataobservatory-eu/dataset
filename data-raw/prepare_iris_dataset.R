@@ -54,7 +54,6 @@ iris_dataset <- dataset_df(
 
 
 dataset_bibentry <- get_bibentry(iris_dataset)
-toBiblatex(dataset_bibentry)
 dataset_bibentry$date
 
 provenance(iris_dataset)

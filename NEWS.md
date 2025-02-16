@@ -8,6 +8,14 @@ on rdf data, such as parsing and converting between formats including rdfxml,
 turtle, nquads, ntriples, and trig, creating rdf graphs, and performing SPARQL 
 queries.
 
+-  The [Motivation](https://dataset.dataobservatory.eu/articles/Motivation.html) 
+article explains how the dataset package aims to extend the tidyverse concepts, 
+the *tibble* and the *labelled* classes. It also shows how different 
+metadata-enriched data publication packages can be used together with the 
+*dataset* package.
+
+- Many small good coding and testing practices were implemented.
+
 # dataset 0.3.4
 
 - New release on CRAN.

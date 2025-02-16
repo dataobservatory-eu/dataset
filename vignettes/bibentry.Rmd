@@ -19,25 +19,27 @@ library(dataset)
 iris_dataset_2 <- iris_dataset
 ```
 
-An important aim of the **dataset** package is to create native R objects where bibliographic metadata cannot be detached, thus ensuring Findability, Accessibility, Interoperability and Reusability in the long run. We provide an interface and methods to add metadata required by open data repositories according to the more general Dublin Core library metadata standard, or the more specific DataCite metadata standard.
+An important aim of the **dataset** package is to create native R objects where bibliographic metadata cannot be detached, thus ensuring *Findability*, *Accessibility*, *Interoperability* and *Reusability* in the long run. We provide an interface and methods to add metadata required by open data repositories according to the more general [DCTERMS](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) (Dublin Core) library metadata standard, or the more specific [DataCite](https://datacite-metadata-schema.readthedocs.io/en/4.6/) metadata standard.
 
 The R statistical environment and language comes with several built-in datasets that were used by generations of users to learn the language or statistics itself. For the purposes of demonstrating the increased interoperability of our `dataset_df()` objects, the `iris` dataset is the most suitable from R's built in datasets.
 
 ```{r bibentryprint}
 print(get_bibentry(iris_dataset_2), "Bibtex")
 ```
-In 1935, American botanist Edgar Anderson measured petal and sepal structural dimensions (length and width) for 50 flowers from three Iris species: Iris setosa, Iris versicolor, and Iris virginica. The manageable but non-trivial size (5 variables and 150 total observations) and characteristics of Anderson’s Iris dataset, including linear relationships and multivariate normality, have made it amenable for introducing a wide range of statistical methods including data wrangling, visualization, linear modeling, multivariate analyses, and machine learning. The Iris dataset is built into a number of software packages including the auto-installed datasets package in R, Python’s scikit-learn machine learning library, and the SAS Sashelp library. As a result, eighty-six years after the data were initially published, the Iris dataset remains ubiquitous in statistics, computational methods, software documentation, and data science courses and materials.
+In 1935, American botanist Edgar Anderson measured petal and sepal structural dimensions (length and width) for 50 flowers from three Iris species: *Iris setosa*, *Iris versicolor*, and *Iris virginica*. 
 
-The data set consists of 50 samples from each of three species of Iris (Iris setosa, Iris virginica and Iris versicolor). Four features were measured from each sample: the length and the width of the sepals and petals, in centimeters. Based on the combination of these four features, Fisher developed a linear discriminant model to distinguish each species. Fisher's paper was published in the _Annals of Eugenics_ (today the _Annals of Human Genetics_). The journal obtained its current name in 1954 to reflect changing perceptions on eugenics. 
+The manageable but non-trivial size (5 variables and 150 total observations) and characteristics of Anderson’s Iris dataset, including linear relationships and multivariate normality, have made it amenable for introducing a wide range of statistical methods including data wrangling, visualization, linear modeling, multivariate analyses, and machine learning. 
 
-This study cemented the use of this dataset in the education of statistics; in the end of this vignette, you can read more about a careful analysis of the somewhat troubled intellectual heritage of statistician who introduced the dataset into the education of statistics.
-
+The Iris dataset is built into a number of software packages including the auto-installed datasets package in R, Python’s scikit-learn machine learning library, and the SAS Sashelp library. As a result, eighty-six years after the data were initially published, the Iris dataset remains ubiquitous in statistics, computational methods, software documentation, and data science courses and materials, even though it is criticised for poor metadata, and because a R. A. Fisher referred to it fist in statistics. (You can read more about this controversy at the end of this vignette article.)
 
 ## Titles
+
+To get the title of a dataset: 
 
 ```{r, get-title}
 dataset_title(iris_dataset)
 ```
+To change the title: 
 
 ```{r, change-title}
 dataset_title(iris_dataset_2, overwrite = TRUE) <- "The Famous Iris Dataset"
@@ -185,6 +187,10 @@ RefManageR::toBiblatex(as_dublincore(iris_dataset))
 ## The iris dataset controversy
 
 Millions of R users, and countless students of statistics who do not use R are familiar with the iris dataset, which is about flowers; however, it is entirely appropriate to criticise the use of this dataset due to the fact that for many years Ronald Fisher, who introduced `iris` into statistical education, promoted his eugenic ideas through his activity as a member of the Eugenics Society and its council.
+
+The data set consists of 50 samples from each of three species of Iris (Iris setosa, Iris virginica and Iris versicolor). Four features were measured from each sample: the length and the width of the sepals and petals, in centimeters. Based on the combination of these four features, Fisher developed a linear discriminant model to distinguish each species. Fisher's paper was published in the _Annals of Eugenics_ (today the _Annals of Human Genetics_). The journal obtained its current name in 1954 to reflect changing perceptions on eugenics. 
+
+This study cemented the use of this dataset in the education of statistics; in the end of this vignette, you can read more about a careful analysis of the somewhat troubled intellectual heritage of statistician who introduced the dataset into the education of statistics.
 
 In their R Journal article, Allison M. Horst, Alison Presmanes Hill, and Kristen B. Gorman: [Palmer Archipelago Penguins Data in the palmerpenguins R Package - An Alternative to Anderson’s Irises](https://journal.r-project.org/articles/RJ-2022-020/) criticise the dataset for lacking data documentation, metadata, and various other aspects, including, in their view that the dataset "is burdened by a history in eugenics research."
 

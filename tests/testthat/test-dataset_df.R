@@ -55,7 +55,7 @@ test_that("rbind works", {
 })
 
 test_that("print.dataset_df() works", {
-  expect_output(print(iris_dataset), "E. Anderson.", ignore.case = FALSE)
+  expect_output(print(iris_dataset), "Anderson E \\(1935\\)", ignore.case = FALSE)
 })
 
 test_that("as_dataset_df() works", {

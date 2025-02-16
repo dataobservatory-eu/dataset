@@ -41,7 +41,7 @@ We describe the `dataset_df` datasets in such triplets, where each triplet is a 
 ##  Enhanced Interoperability
 RDF uses globally unique identifiers (URIs) for resources, ensuring that different datasets can reference the same entities unambiguously. This allows seamless data integration and querying across repositories, even if the datasets come from diverse domains.
 
-Our `defined` class supports this enhanced interoperability. In the example below, an application can look up that the numeric values in your table conform the statistical definition of GDP, and they are expressed in millions of dollars; meaning that you have to multiply them by 1000 if you want to join them with different data expressed in thousands of dolllars. 
+Our `defined` class supports this enhanced interoperability. In the example below, an application can look up that the numeric values in your table conform the statistical definition of GDP, and they are expressed in millions of dollars; meaning that you have to multiply them by 1000 if you want to join them with different data expressed in thousands of dollars. 
 
 ```{r defined}
 gdp_vector <- defined(
@@ -68,7 +68,7 @@ Most scientific researchers are familiar with data *findability*, *accessibility
 
 RDF supports the use of ontologies and controlled vocabularies (e.g., DataCite, Dublin Core, Schema.org), allowing datasets to be described consistently within and across domains.
 
-The `as_dublincore` function allows the export of your dataset's data in the Dublin Core format, and `as_datacite` in the DataCite format. Some of the metadata are generated behind the scenenes, for example, timestamps or size measurements.
+The `as_dublincore` function allows the export of your dataset's data in the Dublin Core format, and `as_datacite` in the DataCite format. Some of the metadata are generated behind the scenes, for example, timestamps or size measurements.
 
 ```{r bibliography}
 as_dublincore(iris_dataset, type = "ntriples")
