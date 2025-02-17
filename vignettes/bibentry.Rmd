@@ -25,7 +25,7 @@ The bibentry class and its methods in the utils package offer a well-known and w
 
 The two standards have a relatively high level of interoperability but do not have compatible elements. To avoid confusion, we created a `dublincore()` inherited object with a function interface that uses small capitalised snake case parameters and the `datacite()` version with capitalised parameters, similar to the original spelling. These classes and functions add the mandatory metadata fields of the standards to the `bibentry` class (the way it retains compatibility with the class) and allow the addition of the `bibentry` of the dataset to the attributes of a data frame.
 
-In 1935, American botanist *Edgar Anderson* measured petal and sepal structural dimensions (length and width) for 50 flowers from three Iris species: *Iris setosa*, *Iris versicolor*, and *Iris virginica*. The manageable but non-trivial size (5 variables and 150 total observations) and characteristics of Anderson’s Iris dataset, including linear relationships and multivariate normality, and the fact that it is a balanced dataset that can be subset to three identical sized slices without missing variables made it amenable for introducing a wide range of statistical methods, including data wrangling, visualisation, linear modelling, multivariate analyses, and machine learning. The Iris dataset has been used in statistical education for about 90 years, and it is built into many software packages, including the auto-installed dataset package in R, Python’s scikit-learn machine learning library, and the SAS Sashelp library.
+In 1935, American botanist *Edgar Anderson* measured petal and sepal structural dimensions (length and width) for 50 flowers from three Iris species: *Iris setosa*, *Iris versicolor*, and *Iris virginica*. The manageable but non-trivial size (5 variables and 150 total observations) and characteristics of Anderson’s Iris dataset, including linear relationships and multivariate normality, and the fact that it is a balanced dataset that can be subset to three identical sized slices without missing variables made it amenable for introducing a wide range of statistical methods, including data wrangling, visualisation, linear modelling, multivariate analyses, and machine learning. The Iris dataset has been used in statistical education for about 90 years, and it is built into many software packages, including the auto-installed dataset package in R, Python’s scikit-learn machine learning library, and the SAS Sashelp library.
 
 There are some other criticism towards this dataset, that we will discuss in the end of this article, at this point we only focus on the fact that the way it is added to R core is lacking in metadata, making it a great candidate to for upgrading from data.frame to dataset_df.
 
@@ -53,7 +53,7 @@ The following constructor adds the following metadata to a `bibentry()` object:
 
 It is important to know that the VIAF ID and the ORCiD ID are both interoperable with the ISNI ISO-standard unique name identifier.
 
-We exploit one important feature of the bibentry() object, that it allows the addition of almost any character string elements, even if its pre-defined elements do not align fully with either DCTERMS or DataCite.
+We exploit one important feature of the `utils::bibentry()` object, that it allows the addition of almost any character string elements, even if its pre-defined elements do not align fully with either [DCTERMS](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) or [DataCite](https://datacite-metadata-schema.readthedocs.io/en/4.6/).
 
 ```{r}
  iris_bibentry <- dublincore(
@@ -83,7 +83,7 @@ print(get_bibentry(iris_dataset_2), "Bibtex")
 
 Before we go into the details of interacting with individual descriptive elements of the dataset, let us recall how we make the entire dataset better described with metadata.
 
-The `dataset_df()` extension of a `tibble()` adds metadata for each variable component, i.e., column, and to the special first row identifier column (for a better identification of the rows.) Such metadata ensure that the observations (rows) and the variables (columns) are more interoperable and reusable; the addition of a DCTERMS or DataCite metadata description about the dataset as a whole increase the findability and accessibility of the dataset.
+The `dataset_df()` extension of a `tibble()` adds metadata for each variable component, i.e., column, and to the special first row identifier column (for a better identification of the rows.) Such metadata ensure that the observations (rows) and the variables (columns) are more interoperable and reusable; the addition of a [DCTERMS](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) or [DataCite](https://datacite-metadata-schema.readthedocs.io/en/4.6/) metadata description about the dataset as a whole increase the findability and accessibility of the dataset.
 
 
 ```{r}
@@ -121,7 +121,7 @@ iris_df <- dataset_df(
 
 ```
 
-To understand what is going on under the hoods:
+To understand what is going on under the hoods, i.e., in the attributes of these objects:
 
 
 ```{r print-attributes}
@@ -182,7 +182,7 @@ publication_year(iris_dataset_2)
 
 ### Language
 
-```{r, language}
+```{r language}
 # Get the language:
 language(iris_dataset)
 

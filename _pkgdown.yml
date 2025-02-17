@@ -30,8 +30,9 @@ articles:
     desc: >
      Our `dataset` R package aims to help the Findability, Accessibility, Interoperability,
          and Reuse of digital assets, particularly datacubes and datasets used in statistics and data
-         analysis.
+         analysis. The "Motivation" article will replace the new requirements.
     contents:
+      - motivation
       - new_requirements
   - title: "Semantic Enrichment of Datasets"
     desc: >
@@ -39,12 +40,16 @@ articles:
     contents:
        - dataset_df
        - bibentry
-       - rdf
   - title: "Semantic Enrichment of Variables"
     desc: >
      Enriching metadata about individual variables.
     contents:
        - defined
+  - title: "Dataset exchanges"
+    desc: >
+     Making the richer datasets available for other users.
+    contents:
+       - rdf
 
 reference:
   - title: "Dataset"
