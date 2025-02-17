@@ -47,6 +47,7 @@ The `defined` class columns retain the important semantic information about the 
 ```{r varlabel}
 var_label(small_country_dataset$gdp)
 ```
+
 ```{r varunit}
 var_unit(small_country_dataset$gdp)
 ```
@@ -55,7 +56,7 @@ var_unit(small_country_dataset$gdp)
 var_definition(small_country_dataset$gdp)
 ```
 
-And the `dataset_df` object has a the important semantic information about the dataset as a whole, with pre-filled default values for not yes assigned or announced information. The metadata of the entire dataset conforms to the two most universally used definitions, Dublin Core (DCTERMS) and DataCite (DataCite).
+And the `dataset_df` object has the important semantic information about the dataset as a whole, with pre-filled default values for not yet assigned or announced information. The metadata of the entire dataset conforms to the two most universally used definitions, Dublin Core (DCTERMS) and DataCite (DataCite).
 
 Each standard Dublinc Core/DataCite metadata field has a simple interface function, for example, you can add the language of the dataset with the following assignment command:
 
@@ -69,16 +70,15 @@ And to review the descriptive data of the entire dataset as a whole:
 print(get_bibentry(small_country_dataset), "bibtex")
 ```
 
-## Wikidata 
+## Wikidata
 
-The [wbdataset package](https://wbdataset.dataobservatory.eu/) is an extension of the dataset, which in turn is an R package that helps to exchange, publish and combine datasets more easily by improving their semantics. The _wbdataset_ extends the usability of dataset by connecting the Wikibase API with the R statistical environment. It is in an early, exploratory stage, and it is not yet on CRAN.
+The [wbdataset package](https://wbdataset.dataobservatory.eu/) is an extension of the dataset, which in turn is an R package that helps to exchange, publish and combine datasets more easily by improving their semantics. The *wbdataset* extends the usability of dataset by connecting the Wikibase API with the R statistical environment. It is in an early, exploratory stage, and it is not yet on CRAN.
 
 ```{r install-wbdataset, eval=FALSE}
 devtools::install_github("dataobservatory-eu/wbdataset")
 ```
 
-
-```
+```         
 # Select the following country profiles from Wikidata:
 wikidata_countries <- c(
   "http://www.wikidata.org/entity/Q756617", "http://www.wikidata.org/entity/Q347",
@@ -104,18 +104,17 @@ ds <- wikidata_countries_df %>%
 
 ## Further data platforms
 
-We are planning an extension of the _dataset_ package to conform the datacube definition used by statistical data repositories and exchanges, which will require a management of the multi-dimensional datasets and the data structure definition of the Statistical Data and Metadata eXchange. This feature was part of the early release of dataset, but as reviewers pointed out, they were out of focus from the core functionality.
+We are planning an extension of the *dataset* package to conform the datacube definition used by statistical data repositories and exchanges, which will require a management of the multi-dimensional datasets and the data structure definition of the Statistical Data and Metadata eXchange. This feature was part of the early release of dataset, but as reviewers pointed out, they were out of focus from the core functionality.
 
-## Serialise to RDF 
+## Serialise to RDF
 
-Our package is aiming to work seamlessly with the rOpenSci [rdflib](https://github.com/ropensci/rdflib) package. For this purpose, we are working on a simple [turtle](https://www.w3.org/TR/turtle/) package that writes the [bibentry](https://dataset.dataobservatory.eu/articles/bibentry.html) about the dataset, and the dataset contents into an RDF-annotated text file, which can be then used or stored with _rdflib_. 
+Our package is aiming to work seamlessly with the rOpenSci [rdflib](https://github.com/ropensci/rdflib) package. For this purpose, we are working on a simple [turtle](https://www.w3.org/TR/turtle/) package that writes the [bibentry](https://dataset.dataobservatory.eu/articles/bibentry.html) about the dataset, and the dataset contents into an RDF-annotated text file, which can be then used or stored with *rdflib*.
 
-The tuRtle package is being co-developed with _dataset_, and will serialise the data and metadata of the `dataset_df` objects.
+The tuRtle package is being co-developed with *dataset*, and will serialise the data and metadata of the `dataset_df` objects.
 
 ```{r tuRtle-installation, eval=FALSE}
 remotes::install_github("dataobservatory-eu/tuRtle", build = FALSE)
 ```
-
 
 ```{r createdf, eval=FALSE}
 library(tuRtle)
@@ -134,13 +133,13 @@ tdf <- data.frame(
 knitr::kable(tdf)
 ```
 
-|s     |p          |o                     |
-|:-----|:----------|:---------------------|
-|eg:01 |a          |qb:Observation        |
-|eg:02 |a          |qb:Observation        |
-|eg:01 |eg-var:    |"1"^^<xs:decimal>     |
-|eg:02 |eg-var:    |"2"^^<xs:decimal>     |
-|eg:01 |rdfs:label |"Example observation" |
+| s     | p          | o                     |
+|:------|:-----------|:----------------------|
+| eg:01 | a          | <qb:Observation>      |
+| eg:02 | a          | <qb:Observation>      |
+| eg:01 | eg-var:    | "1"\^\^<xs:decimal>   |
+| eg:02 | eg-var:    | "2"\^\^<xs:decimal>   |
+| eg:01 | rdfs:label | "Example observation" |
 
 ```{r writettl, eval=FALSE}
 example_file <- file.path(tempdir(), "example_ttl.ttl")
@@ -148,5 +147,3 @@ ttl_write(tdf = tdf, ttl_namespace = NULL, file_path = example_file)
 
 readLines(example_file)
 ```
-
-
