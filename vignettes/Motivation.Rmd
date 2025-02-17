@@ -22,9 +22,69 @@ library(dataset)
 
 The `dataset` package aims to enhance the semantic richness of R datasets, particularly tabular data derived from the `data.frame` class. Its goal is to create "tidy" datasets from the outset, promoting reusability and interoperability. Through several iterations, it became clear that this goal is intrinsically linked to the dataset's intended purpose. Consequently, `dataset` has evolved from a single package into a family of related packages.
 
+## Problem statement
+
+```{r example-ambiguity}
+data.frame(
+   geo=c("LI", "SM"), 
+   CPI = c("0.8", "0.9"), 
+   GNI= c("8976", "9672"))
+```
+This dataset is tidy. But it certainly could be improved!
+
+- `geo`: you may figure out that geo means something to do with geography (maybe countries, "LI" standing for Lichtenstein and "SM" for San Marino), but even that, who knows? If you add Greece, should use use "EL" like Eurostat or "GR" like the World Bank?
+
+- `CPI` can stand for "consumer price index" or "corruption perceptions index". Or anything else! 
+
+- `GNI` can stand for "Gross National Income" and "Global Nutrition Index", often mentioned in the same context. If there are numbers, do they mean a physical quantity or a currency? Is the currency dollars or euros?
+
+
+```{r smallcountrydataset}
+options(sciphen = 4)
+small_country_dataset <- dataset_df(
+  country_name = defined(
+    c("AD", "LI"),
+    definition = "http://data.europa.eu/bna/c_6c2bb82d",
+    namespace = "https://www.geonames.org/countries/$1/"
+  ),
+  gdp = defined(
+    c(3897, 7365),
+    label = "Gross Domestic Product",
+    unit = "million dollars",
+    definition = "http://data.europa.eu/83i/aa/GDP"
+  ),
+  population = defined(
+    c(77543, 40015),
+    label = "Population",
+    definition = "http://data.europa.eu/bna/c_f2b50efd"
+  ),
+  dataset_bibentry = dublincore(
+    creator = person(given = "Jane", family = "Doe"),
+    title = "Small Country Dataset",
+    publisher = "Reprex"
+  )
+)
+```
+
+```{r percapita}
+small_country_dataset$gdp_capita <- defined(
+  small_country_dataset$gdp * 1e6 / small_country_dataset$population,
+  unit = "dollar",
+  label = "GDP Per Capita"
+)
+```
+
+Interoperability and future (re)usability depends on the amount and quality of the metadata that was generated, recorded, and released together with the data. The `dataset` package aims to collect such metadata and record them in the least possible intrusive way.
+
+-    [x]  `Descriptive metadata`, about the dataset as a whole, to improve findability and accessibility; in this regard, follow the DCTERMS and DataCite standards.
+-    [x]  Metadata about the `structural elements` within the dataset; better definitions of the row identifier (instead of local, encourage global IDs), and utilise global definitions for variables. Include unit of measure to disallow semantically incorrect joins.
+-    [x]  Add `provenance metadata`, so the next user can understand where each data elements came, and what happened with them.
+
+## Limites on reusability
+
 Let's take a look at the limitations of two, tidy datasets from an interoperability and reusability point of view:
 
-```{r}
+```{r gdpexmampel}
 library(tibble)
 library(dplyr)
 library(tidyr)
@@ -60,7 +120,7 @@ Our work is informed by the European Interoperability Framework (EIF) and its pr
 
 Although we envision diverse future applications for these enhanced datasets, the current development focuses on a key distinction: whether the data will be reused in a tabular (relational database) or graph format. These two reuse scenarios have distinct metadata requirements, necessitating somewhat specialized approaches.
 
-## Tidy data and graphs
+### Tidy data and graphs
 
 While the semantic and descriptive metadata needs of graph and tabular data aren't entirely dissimilar (as demonstrated by Carl Boettinger's work showing how tabular data can be represented as RDF), the workflows for handling data originating from these different sources *do* vary significantly. Even though pivoting to a tidy, long-format dataset and serializing to RDF is a common approach for tabular data exchange, the initial source (graph, tabular database, etc.) influences data organization and subsequent semantic requirements. Therefore, the `dataset` package has two specialized extensions:
 
@@ -80,7 +140,7 @@ Specifically, `dataset` utilizes `person` and extended `bibentry` objects (from 
 
 `person` objects, crucial for representing agents (creators, contributors, publishers) within the `bibentry`, enable structured metadata and support permanent identifiers like ORCiDs. While acknowledging limitations of `person` objects, their presence in the `utils` package ensures availability for all R users. (An initial attempt to use `RefManageR` objects for bibliographic information was abandoned due to conflicts with modern metadata standards.)
 
-```{r}
+```{r d-enriched}
 D_enriched <- dataset_df(
   year = c(2020, 2020, 2021, 2021, 2022, 2022),
   geocode = c("USA", "CAN", "USA", "CAN", "USA", "CAN"),
@@ -394,3 +454,31 @@ Datasets should be published with the purpose of their potential use and reuse i
 The `dataset` package aims compatibility with `rdflib` (for sending datacubes or graph data to APIs); `dataspice` for individually placing datasets to a researcher website, and `wbdataset` for sending the data into Wikibase. It would be also rather easy to create a binding towards `frictionless` if there is user need.
 
 Wikibase, while capable of RDF export and sharing structural similarities with RDF triplestores, is a distinct system bridging relational and graph database elements. Its appeal lies in allowing users to work with graph data without needing to learn RDF and SPARQL, making `rdflib` less practical for direct Wikibase interaction. At the time of `wbdataset`'s development, the `WikibaseR` package was no longer supported. Going forward, `wbdataset` and `WikibaseR` will be co-developed and maintained by the same team, ensuring seamless interaction with Wikibase.
+
+The following example contains individual musical recordings and observed musicological values of such recordings, a general property of the dataset that can be applied to the entire dataset. Similarly, important provenance information, authorship, use rights, and so on, apply to the dataset, not to its specific cells. 
+
+```{r smallmusiciandataset1}
+small_country_musicians <- data.frame(
+  qid = c("Q275912", "Q116196078"),
+  artist_name = defined(
+    c("Marta Roure", "wavvyboi"),
+    definition = "https://www.wikidata.org/wiki/Property:P2093"
+  ),
+  location = defined(
+    c("Andorra", "Lichtenstein"),
+    definition = "https://www.wikidata.org/wiki/Property:P276"
+  ),
+  date_of_birth = defined(
+    c(as.Date("1981-01-16"), as.Date("1998-04-28")),
+    definition = "https://www.wikidata.org/wiki/Property:P569"
+  )
+)
+
+small_country_musicians$age <- defined(
+  2024 - as.integer(substr(as.character(small_country_musicians$date_of_birth), 1, 4)),
+  label = "Age in 2024"
+)
+```
+
+
+

@@ -19,41 +19,147 @@ library(dataset)
 iris_dataset_2 <- iris_dataset
 ```
 
-An important aim of the **dataset** package is to create native R objects where bibliographic metadata cannot be detached, thus ensuring *Findability*, *Accessibility*, *Interoperability* and *Reusability* in the long run. We provide an interface and methods to add metadata required by open data repositories according to the more general [DCTERMS](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) (Dublin Core) library metadata standard, or the more specific [DataCite](https://datacite-metadata-schema.readthedocs.io/en/4.6/) metadata standard.
+*Findability*, *Accessibility*, *Interoperability*, and true *Reuse* in the long run are elusive targets. The dataset package aims to find common ground for new variations of tidy datasets that are truly interoperable and can be reused in a greater circle than usual datasets. These aims are covered in other vignette articles. Now, we focus on findability and specific aspects of accessibility.
 
-The R statistical environment and language comes with several built-in datasets that were used by generations of users to learn the language or statistics itself. For the purposes of demonstrating the increased interoperability of our `dataset_df()` objects, the `iris` dataset is the most suitable from R's built in datasets.
+The bibentry class and its methods in the utils package offer a well-known and widely utilised object for carrying descriptive metadata and licensing information. Unfortunately, neither the bib entry class nor its rOpenSci modernisation, the [RefManageR](https://docs.ropensci.org/RefManageR/), follow the two most widely used metadata standards for making datasets public in open science or open statistical repositories. After experimenting with both bib entry and `RefManageR`, we decided to use the far more widely used bibentry class to be extended to meet the [DCTERMS](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) (Dublin Core) and [DataCite](https://datacite-metadata-schema.readthedocs.io/en/4.6/) metadata schema standards used by most repositories. However, in the end of this vignette article we show a combination of our new S3 classes with `RefManageR`.
+
+The two standards have a relatively high level of interoperability but do not have compatible elements. To avoid confusion, we created a `dublincore()` inherited object with a function interface that uses small capitalised snake case parameters and the `datacite()` version with capitalised parameters, similar to the original spelling. These classes and functions add the mandatory metadata fields of the standards to the `bibentry` class (the way it retains compatibility with the class) and allow the addition of the `bibentry` of the dataset to the attributes of a data frame.
+
+In 1935, American botanist *Edgar Anderson* measured petal and sepal structural dimensions (length and width) for 50 flowers from three Iris species: *Iris setosa*, *Iris versicolor*, and *Iris virginica*. The manageable but non-trivial size (5 variables and 150 total observations) and characteristics of Anderson’s Iris dataset, including linear relationships and multivariate normality, and the fact that it is a balanced dataset that can be subset to three identical sized slices without missing variables made it amenable for introducing a wide range of statistical methods, including data wrangling, visualisation, linear modelling, multivariate analyses, and machine learning. The Iris dataset has been used in statistical education for about 90 years, and it is built into many software packages, including the auto-installed dataset package in R, Python’s scikit-learn machine learning library, and the SAS Sashelp library.
+
+There are some other criticism towards this dataset, that we will discuss in the end of this article, at this point we only focus on the fact that the way it is added to R core is lacking in metadata, making it a great candidate to for upgrading from data.frame to dataset_df.
+
+-   In a subsequent vignette article, we show how to add metadata about the components of the dataset in a way that it makes them more reusable and interoperable.
+
+-   But first we add descriptive metadata to a well-specified `bibentry()` object that we attach into the attributes of the dataset.
+
+## Dublin Core constructor
+
+The following constructor adds the following metadata to a `bibentry()` object:
+
+-   The original author, *Edgar Anderson* of the dataset; together with his permanent ID in the national library systems;
+
+-   A data manager of the dataset, in this case, the author of the pacakge; utilising the ORCiD permanent ID system for researchers;
+
+-   The original publisher as *American Iris Society*
+
+-   A permanent DOI identifier for the original published version as a souce;
+
+-   A new DOI for the version that is serialised as an R object with metadata;
+
+-   A publication year
+
+-   A short description.
+
+It is important to know that the VIAF ID and the ORCiD ID are both interoperable with the ISNI ISO-standard unique name identifier.
+
+We exploit one important feature of the bibentry() object, that it allows the addition of almost any character string elements, even if its pre-defined elements do not align fully with either DCTERMS or DataCite.
+
+```{r}
+ iris_bibentry <- dublincore(
+    title = "Iris Dataset",
+    creator = person(given = "Edgar", 
+                     family = "Anderson", 
+                     role = "cre", 
+                     comment = c(VIAF = "http://viaf.org/viaf/6440526")
+                     ),
+    contributor = person(given = "Antal",
+                         family = "Daniel", 
+                         role = "dtm"),  # Add data manager
+    identifier = "https://doi.org/10.5281/zenodo.10396807", # 
+    publisher = "American Iris Society",
+    datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+    dataset_date = 1935,
+    language = "en",
+    description = "The famous (Fisher's or Anderson's) iris data set."
+  )
+```
+
+If we print this object, we see that we have some default "unassigned" and "to be announced" abbreviations. These are taken from DataCite, but we find them useful in a DCTERMS-styled object, too.
 
 ```{r bibentryprint}
 print(get_bibentry(iris_dataset_2), "Bibtex")
 ```
-In 1935, American botanist Edgar Anderson measured petal and sepal structural dimensions (length and width) for 50 flowers from three Iris species: *Iris setosa*, *Iris versicolor*, and *Iris virginica*. 
 
-The manageable but non-trivial size (5 variables and 150 total observations) and characteristics of Anderson’s Iris dataset, including linear relationships and multivariate normality, have made it amenable for introducing a wide range of statistical methods including data wrangling, visualization, linear modeling, multivariate analyses, and machine learning. 
+Before we go into the details of interacting with individual descriptive elements of the dataset, let us recall how we make the entire dataset better described with metadata.
 
-The Iris dataset is built into a number of software packages including the auto-installed datasets package in R, Python’s scikit-learn machine learning library, and the SAS Sashelp library. As a result, eighty-six years after the data were initially published, the Iris dataset remains ubiquitous in statistics, computational methods, software documentation, and data science courses and materials, even though it is criticised for poor metadata, and because a R. A. Fisher referred to it fist in statistics. (You can read more about this controversy at the end of this vignette article.)
+The `dataset_df()` extension of a `tibble()` adds metadata for each variable component, i.e., column, and to the special first row identifier column (for a better identification of the rows.) Such metadata ensure that the observations (rows) and the variables (columns) are more interoperable and reusable; the addition of a DCTERMS or DataCite metadata description about the dataset as a whole increase the findability and accessibility of the dataset.
 
-## Titles
 
-To get the title of a dataset: 
+```{r}
+iris_df <- dataset_df(
+  rowid = defined(paste0("#", row.names(iris)),
+    label = "ID in the iris dataset",
+    namespace = c("#" = "10.5281/zenodo.10396807")
+  ),
+  Sepal.Length = defined(iris$Sepal.Length,
+    label = "Length of the sepal in cm",
+    unit = "centimeter",
+    definition = "https://www.wikidata.org/wiki/Property:P2043"
+  ),
+  Petal.Length = defined(iris$Petal.Length,
+    label = "Length of the petal in cm",
+    unit = "centimeter",
+    definition = "https://www.wikidata.org/wiki/Property:P2043"
+  ),
+  Sepal.Width = defined(iris$Sepal.Width,
+    label = "Width of the sepal in cm",
+    unit = "centimeter",
+    definition = "https://www.wikidata.org/wiki/Property:P2049"
+  ),
+  Petal.Width = defined(iris$Petal.Width,
+    label = "Width of the petal in cm",
+    unit = "centimeter",
+    definition = "https://www.wikidata.org/wiki/Property:P2049"
+  ),
+  Species = defined(iris$Species,
+    label = "Taxon name within the Iris genus",
+    definition = "https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomygenus?id=6074",
+    namespace = "Iris"
+  ), 
+  dataset_bibentry = iris_bibentry)
+
+```
+
+To understand what is going on under the hoods:
+
+
+```{r print-attributes}
+# Print all attributes of the data frame but row.names:
+attributes(iris_df)[which(names(attributes(iris_df))!="row.names")]
+
+# You could print all attributes, including the 150 integer 
+# number row identifiers with simply attributes(iris_df).
+```
+
+As you can see, the attributes contain the usual attributes of a data.frame object (column and row names, S3 class names) but also provenance metadata, subject metadata, and the descriptive metadata added as one `bibentry` object called `dataset_bibentry`. This particular object is received with `get_bibentry(iris_df)`.
+
+
+## Adding & Changing Individual Descriptive Metadata Fields
+
+### Titles
+
+To get the title of a dataset:
 
 ```{r, get-title}
 dataset_title(iris_dataset)
 ```
-To change the title: 
+
+To change the title:
 
 ```{r, change-title}
 dataset_title(iris_dataset_2, overwrite = TRUE) <- "The Famous Iris Dataset"
 get_bibentry(iris_dataset_2)
 ```
-## Creators
 
-The \code{Creator} corresponds to [dct:creator](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/)
-in Dublin Core and Creator in DataCite, the two most important metadata definitions for publishing datasets in repositories. They refer to the The name of the entity that holds, archives, publishes prints, distributes, releases, issues, or produces the dataset. This property will be used to
-formulate the citation.
+### Creators
+
+The \code{Creator} corresponds to [dct:creator](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/) in Dublin Core and Creator in DataCite, the two most important metadata definitions for publishing datasets in repositories. They refer to the The name of the entity that holds, archives, publishes prints, distributes, releases, issues, or produces the dataset. This property will be used to formulate the citation.
 
 ```{r creator}
 creator(iris_dataset)
 ```
+
 ```{r creator-modify}
 iris_dataset_2 <- iris_dataset
 # Add a new creator, with overwriting existing authorship information:
@@ -65,9 +171,6 @@ creator(iris_dataset_2, overwrite = FALSE) <- person("John", "Doe", role = "ctb"
 # The two new creation contributors:
 creator(iris_dataset_2)
 ```
-
-
-## Further descriptive metadata about the whole dataset
 
 ### Publication year
 
@@ -87,8 +190,10 @@ language(iris_dataset)
 language(iris_dataset_2) <- "French"
 language(iris_dataset_2)
 ```
+
 ### Rights statement
 
+The rights statement is very important to make the dataset legally accessible (if the license is permitting the reuse.)
 
 ```{r rights}
 # Add rights statement to the dataset
@@ -108,7 +213,7 @@ Overwriting the rights statement needs an explicit approval:
 rights(iris_dataset_2, overwrite = TRUE) <- "GNU-2"
 ```
 
-DataCite currently allows the use of subproperties. For example, the _Creative Commons Attribution 4.0 International_ would be described as: 
+DataCite currently allows the use of subproperties. For example, the *Creative Commons Attribution 4.0 International* would be described as:
 
 ```{r rightsubproperties}
 list(
@@ -123,28 +228,27 @@ The use of subproperties will be later implemented.
 
 ### Description
 
-The description is currently implemented as a character string.  However, 
-DataCite 4.6 states that if Description is used, `descriptionType` is mandatory.
-This will be implemented later.
+The description is currently implemented as a character string. However, DataCite 4.6 states that if Description is used, `descriptionType` is mandatory. This will be implemented later.
 
-```
+```         
 <descriptions>
     <description xml:lang="en" descriptionType="Abstract">Example abstract</description>
 </descriptions>
 ```
+
 ```{r printdescription}
 description(iris_dataset)
 ```
 
-
 ### Subject
+
+The description of the `Subject` is somewhat experimental; we would like to find a good balance between the use of simple, string Subject key terms, and semantically better defined Subjects as recommended by DataCite.
 
 ```{r subject}
 subject(iris_dataset)
 ```
 
-
-```
+```         
 <subjects>
   <subject xml:lang="en" subjectScheme="Library of Congress Subject Headings (LCSH)" schemeURI="https://id.loc.gov/authorities/subjects.html" valueURI="https://id.loc.gov/authorities/subjects/sh2009009655.html">Climate change mitigation</subject>
   <subject xml:lang="en" subjectScheme="ANZSRC Fields of Research" schemeURI="https://www.abs.gov.au/statistics/classifications/australian-and-new-zealand-standard-research-classification-anzsrc" classificationCode="370201">Climate change processes</subject>
@@ -160,40 +264,42 @@ subject_create(
 )
 ```
 
-
 ### Identifiers
 
 ```{r identifier}
-# Add rights statement to the dataset
 identifier(iris_dataset_2)
 ```
+
 ## All bibliographic information
 
-Get the metadata according to the DataCite definition:
+As a reminder, in the beginning we definded our dataset description according to DCTERMS with the `dublincore()` constructor. We can partially convert this metadata to the DataCite definition:
 
 ```{r datacite}
 print(as_datacite(iris_dataset), "Bibtex")
 ```
 
-And according to DCTERMS (Dublin Core):
+This mapping is approximate, because DataCite uses capitalised fields, however, the `bibentry` class and its print method uses lowercase fields.
 
+And now let us print out the descriptive metadata according to DCTERMS (Dublin Core):
 
 ```{r dc}
-library(RefManageR)
 print(as_dublincore(iris_dataset), "Bibtex")
+```
+
+```{r RefManageR}
+library(RefManageR)
 RefManageR::toBiblatex(as_dublincore(iris_dataset))
 ```
 
+
 ## The iris dataset controversy
 
-Millions of R users, and countless students of statistics who do not use R are familiar with the iris dataset, which is about flowers; however, it is entirely appropriate to criticise the use of this dataset due to the fact that for many years Ronald Fisher, who introduced `iris` into statistical education, promoted his eugenic ideas through his activity as a member of the Eugenics Society and its council.
+Millions of R users, and countless students of statistics who do not use R are familiar with the iris dataset, which is about flowers; however, it is entirely appropriate to criticise the use of this dataset due to the fact that for many years Ronald A. Fisher, who introduced `iris` into statistical education, promoted his eugenic ideas through his activity as a member of the Eugenics Society and its council.
 
-The data set consists of 50 samples from each of three species of Iris (Iris setosa, Iris virginica and Iris versicolor). Four features were measured from each sample: the length and the width of the sepals and petals, in centimeters. Based on the combination of these four features, Fisher developed a linear discriminant model to distinguish each species. Fisher's paper was published in the _Annals of Eugenics_ (today the _Annals of Human Genetics_). The journal obtained its current name in 1954 to reflect changing perceptions on eugenics. 
-
-This study cemented the use of this dataset in the education of statistics; in the end of this vignette, you can read more about a careful analysis of the somewhat troubled intellectual heritage of statistician who introduced the dataset into the education of statistics.
+The dataset that is included in base R and used in our tutorial was created by Edgar Anderson. What cast some doubts about the ethical use of this dataset is that it was first brought into the education of statistics by Ronald A. Fisher (among many-many elements of modern statistics.) Fisher developed a linear discriminant model to distinguish the species in the dataset based on their features, which was published in the *Annals of Eugenics* (today the *Annals of Human Genetics*). The journal obtained its current name in 1954 to reflect changing perceptions on eugenics.
 
 In their R Journal article, Allison M. Horst, Alison Presmanes Hill, and Kristen B. Gorman: [Palmer Archipelago Penguins Data in the palmerpenguins R Package - An Alternative to Anderson’s Irises](https://journal.r-project.org/articles/RJ-2022-020/) criticise the dataset for lacking data documentation, metadata, and various other aspects, including, in their view that the dataset "is burdened by a history in eugenics research."
 
-Walter Bodmer, R. A. Bailey, Brian Charlesworth, Adam Eyre-Walker, Vernon Farewell, Andrew Mead & Stephen Senn: [The outstanding scientist, R.A. Fisher: his views on eugenics and race](https://www.nature.com/articles/s41437-020-00394-6). The purpose of this article "is neither to defend nor attack Fisher’s work in eugenics and views on race, but to present a careful account of their substance and nature." The authors conclude that recent criticism of R. A. Fisher concentrates "on very limited aspects of his work and focusses attention on some of his views, both in terms of science and advocacy. This is entirely appropriate, but in re-assessing his many contributions to society, it is important to consider all aspects, and to respond in a responsible way—we should not forget any negative aspects, but equally not allow the negatives to completely overshadow the substantial benefits to modern scientific research."
+The author of this package does not endorse eugenics in any form, but also does not share the view that the `iris` dataset is burdened by a history of eugenics, because it was created by the botanist Edgar Anderson, not Ronald A. Fisher, furthermore, Fisher, who is one of the most important creators of modern statistics, did not use the dataset to promote eugenics research.
 
-The author of this package does not endorse eugenics in any form, but also does not share the view that the `iris` dataset is burdened by a history of eugenics, because it was created by the botanist Edgar Anderson and it did not support Fisher's view on eugenics. The `iris` dataset for most students of statistics represents Fisher's undeniable contribution to the science of statistics and its education. On a more substantial note, the dataset offers more  semantics than the other built-in R datasets, is indeed poor in metadata to demonstrate all the features of the `dataset_df()` class, and this vignette may be rewritten in the future with a more suitable dataset.
+Walter Bodmer, R. A. Bailey, Brian Charlesworth, Adam Eyre-Walker, Vernon Farewell, Andrew Mead & Stephen Senn: [The outstanding scientist, R.A. Fisher: his views on eugenics and race](https://www.nature.com/articles/s41437-020-00394-6) analyse in depth the understandable criticism towards Fisher's association with eugenics. The purpose of their article "is neither to defend nor attack Fisher’s work in eugenics and views on race, but to present a careful account of their substance and nature." The authors conclude that recent criticism of R. A. Fisher concentrates "on very limited aspects of his work and focusses attention on some of his views, both in terms of science and advocacy. This is entirely appropriate, but in re-assessing his many contributions to society, it is important to consider all aspects, and to respond in a responsible way—we should not forget any negative aspects, but equally not allow the negatives to completely overshadow the substantial benefits to modern scientific research."
