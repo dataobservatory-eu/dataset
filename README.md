@@ -122,6 +122,12 @@ iris_ds <- dataset_df(
 )
 ```
 
+You can read more about the history of this dataset, and some
+controversy around its association of problematic science in the
+[Bibentry for FAIR
+datasets](https://dataset.dataobservatory.eu/articles/bibentry.html)
+vignette.
+
 It is mandatory to add a `title`, `author` to a dataset, and if the
 `date` is not specified, the current date will be added.
 
