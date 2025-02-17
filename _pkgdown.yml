@@ -32,7 +32,7 @@ articles:
          and Reuse of digital assets, particularly datacubes and datasets used in statistics and data
          analysis. The "Motivation" article will replace the new requirements.
     contents:
-      - motivation
+      - Motivation
       - new_requirements
   - title: "Semantic Enrichment of Datasets"
     desc: >
