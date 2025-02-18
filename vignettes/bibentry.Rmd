@@ -39,19 +39,19 @@ The following constructor adds the following metadata to a `bibentry()` object:
 
 -   The original author, *Edgar Anderson* of the dataset; together with his permanent ID in the national library systems;
 
--   A data manager of the dataset, in this case, the author of the pacakge; utilising the ORCiD permanent ID system for researchers;
+-   A data manager of the dataset, in this case, the author of the package; utilising the ORCID permanent ID system for researchers;
 
--   The original publisher as *American Iris Society*
+-   The original publisher as *American Iris Society;*
 
--   A permanent DOI identifier for the original published version as a souce;
+-   A permanent DOI identifier for the original published version as a source;
 
 -   A new DOI for the version that is serialised as an R object with metadata;
 
--   A publication year
+-   A publication year;
 
 -   A short description.
 
-It is important to know that the VIAF ID and the ORCiD ID are both interoperable with the ISNI ISO-standard unique name identifier.
+It is important to know that the VIAF ID and the ORCID ID are both interoperable with the ISNI ISO-standard unique name identifier.
 
 We exploit one important feature of the `utils::bibentry()` object, that it allows the addition of almost any character string elements, even if its pre-defined elements do not align fully with either [DCTERMS](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) or [DataCite](https://datacite-metadata-schema.readthedocs.io/en/4.6/).
 
@@ -84,7 +84,6 @@ print(get_bibentry(iris_dataset_2), "Bibtex")
 Before we go into the details of interacting with individual descriptive elements of the dataset, let us recall how we make the entire dataset better described with metadata.
 
 The `dataset_df()` extension of a `tibble()` adds metadata for each variable component, i.e., column, and to the special first row identifier column (for a better identification of the rows.) Such metadata ensure that the observations (rows) and the variables (columns) are more interoperable and reusable; the addition of a [DCTERMS](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) or [DataCite](https://datacite-metadata-schema.readthedocs.io/en/4.6/) metadata description about the dataset as a whole increase the findability and accessibility of the dataset.
-
 
 ```{r}
 iris_df <- dataset_df(
@@ -123,7 +122,6 @@ iris_df <- dataset_df(
 
 To understand what is going on under the hoods, i.e., in the attributes of these objects:
 
-
 ```{r print-attributes}
 # Print all attributes of the data frame but row.names:
 attributes(iris_df)[which(names(attributes(iris_df))!="row.names")]
@@ -132,8 +130,7 @@ attributes(iris_df)[which(names(attributes(iris_df))!="row.names")]
 # number row identifiers with simply attributes(iris_df).
 ```
 
-As you can see, the attributes contain the usual attributes of a data.frame object (column and row names, S3 class names) but also provenance metadata, subject metadata, and the descriptive metadata added as one `bibentry` object called `dataset_bibentry`. This particular object is received with `get_bibentry(iris_df)`.
-
+As you can see, the attributes contain the usual attributes of a `data.frame` object (column and row names, S3 class names) but also provenance metadata, subject metadata, and the descriptive metadata added as one `bibentry` object called `dataset_bibentry`. This particular object is received with `get_bibentry(iris_df)`.
 
 ## Adding & Changing Individual Descriptive Metadata Fields
 
@@ -154,7 +151,7 @@ get_bibentry(iris_dataset_2)
 
 ### Creators
 
-The \code{Creator} corresponds to [dct:creator](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/) in Dublin Core and Creator in DataCite, the two most important metadata definitions for publishing datasets in repositories. They refer to the The name of the entity that holds, archives, publishes prints, distributes, releases, issues, or produces the dataset. This property will be used to formulate the citation.
+The \code{Creator} corresponds to [dct:creator](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/) in Dublin Core and Creator in DataCite, the two most important metadata definitions for publishing datasets in repositories. They refer to the name of the entity that holds, archives, publishes prints, distributes, releases, issues, or produces the dataset. This property will be used to formulate the citation.
 
 ```{r creator}
 creator(iris_dataset)
@@ -272,7 +269,7 @@ identifier(iris_dataset_2)
 
 ## All bibliographic information
 
-As a reminder, in the beginning we definded our dataset description according to DCTERMS with the `dublincore()` constructor. We can partially convert this metadata to the DataCite definition:
+As a reminder, in the beginning we defined our dataset description according to DCTERMS with the `dublincore()` constructor. We can partially convert this metadata to the DataCite definition:
 
 ```{r datacite}
 print(as_datacite(iris_dataset), "Bibtex")
@@ -291,7 +288,6 @@ library(RefManageR)
 RefManageR::toBiblatex(as_dublincore(iris_dataset))
 ```
 
-
 ## The iris dataset controversy
 
 Millions of R users, and countless students of statistics who do not use R are familiar with the iris dataset, which is about flowers; however, it is entirely appropriate to criticise the use of this dataset due to the fact that for many years Ronald A. Fisher, who introduced `iris` into statistical education, promoted his eugenic ideas through his activity as a member of the Eugenics Society and its council.
@@ -302,4 +298,4 @@ In their R Journal article, Allison M. Horst, Alison Presmanes Hill, and Kristen
 
 The author of this package does not endorse eugenics in any form, but also does not share the view that the `iris` dataset is burdened by a history of eugenics, because it was created by the botanist Edgar Anderson, not Ronald A. Fisher, furthermore, Fisher, who is one of the most important creators of modern statistics, did not use the dataset to promote eugenics research.
 
-Walter Bodmer, R. A. Bailey, Brian Charlesworth, Adam Eyre-Walker, Vernon Farewell, Andrew Mead & Stephen Senn: [The outstanding scientist, R.A. Fisher: his views on eugenics and race](https://www.nature.com/articles/s41437-020-00394-6) analyse in depth the understandable criticism towards Fisher's association with eugenics. The purpose of their article "is neither to defend nor attack Fisher’s work in eugenics and views on race, but to present a careful account of their substance and nature." The authors conclude that recent criticism of R. A. Fisher concentrates "on very limited aspects of his work and focusses attention on some of his views, both in terms of science and advocacy. This is entirely appropriate, but in re-assessing his many contributions to society, it is important to consider all aspects, and to respond in a responsible way—we should not forget any negative aspects, but equally not allow the negatives to completely overshadow the substantial benefits to modern scientific research."
+Walter Bodmer, R. A. Bailey, Brian Charlesworth, Adam Eyre-Walker, Vernon Farewell, Andrew Mead & Stephen Senn: [The outstanding scientist, R.A. Fisher: his views on eugenics and race](https://www.nature.com/articles/s41437-020-00394-6) analyse in depth the understandable criticism towards Fisher's association with eugenics. The purpose of their article "is neither to defend nor attack Fisher’s work in eugenics and views on race, but to present a careful account of their substance and nature." The authors conclude that recent criticism of R. A. Fisher concentrates "on very limited aspects of his work and focuses attention on some of his views, both in terms of science and advocacy. This is entirely appropriate, but in re-assessing his many contributions to society, it is important to consider all aspects, and to respond in a responsible way—we should not forget any negative aspects, but equally not allow the negatives to completely overshadow the substantial benefits to modern scientific research."

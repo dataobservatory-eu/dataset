@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-> "A dataset is a structured, coherent collection of related data, organised for a particular purpose." ISO 19115 and ISO/IEC 11179
+> "A dataset is an identifiable collection of data available for access or download in one or more formats." ISO/IEC 20546
 
 ```{r setup}
 library(dataset)
@@ -33,12 +33,11 @@ data.frame(
 
 This dataset is tidy. But it certainly could be improved!
 
-- `geo`: you may figure out that geo means something to do with geography (maybe countries, "LI" standing for Lichtenstein and "SM" for San Marino), but even that, who knows? If you add Greece, should use use "EL" like Eurostat or "GR" like the World Bank?
+-   `geo`: you may figure out that geo means something to do with geography (maybe countries, "LI" standing for Lichtenstein and "SM" for San Marino), but even that, who knows? If you add Greece, should use use "EL" like Eurostat or "GR" like the World Bank?
 
-- `CPI` can stand for "consumer price index" or "corruption perceptions index". Or anything else! 
+-   `CPI` can stand for "consumer price index" or "corruption perceptions index". Or anything else!
 
-- `GNI` can stand for "Gross National Income" and "Global Nutrition Index", often mentioned in the same context. If there are numbers, do they mean a physical quantity or a currency? Is the currency dollars or euros?
-
+-   `GNI` can stand for "Gross National Income" and "Global Nutrition Index", often mentioned in the same context. If there are numbers, do they mean a physical quantity or a currency? Is the currency dollars or euros?
 
 ```{r smallcountrydataset}
 options(sciphen = 4)
@@ -77,11 +76,11 @@ small_country_dataset$gdp_capita <- defined(
 
 Interoperability and future (re)usability depends on the amount and quality of the metadata that was generated, recorded, and released together with the data. The `dataset` package aims to collect such metadata and record them in the least possible intrusive way.
 
--    [x]  `Descriptive metadata`, about the dataset as a whole, to improve findability and accessibility; in this regard, follow the DCTERMS and DataCite standards.
--    [x]  Metadata about the `structural elements` within the dataset; better definitions of the row identifier (instead of local, encourage global IDs), and utilise global definitions for variables. Include unit of measure to disallow semantically incorrect joins.
--    [x]  Add `provenance metadata`, so the next user can understand where each data elements came, and what happened with them.
+-   [x] `Descriptive metadata`, about the dataset as a whole, to improve findability and accessibility; in this regard, follow the DCTERMS and DataCite standards.
+-   [x] Metadata about the `structural elements` within the dataset; better definitions of the row identifier (instead of local, encourage global IDs), and utilise global definitions for variables. Include unit of measure to disallow semantically incorrect joins.
+-   [x] Add `provenance metadata`, so the next user can understand where each data elements came, and what happened with them.
 
-## Limites on reusability
+## Limits on reusability
 
 Let's take a look at the limitations of two, tidy datasets from an interoperability and reusability point of view:
 
@@ -127,9 +126,9 @@ While the semantic and descriptive metadata needs of graph and tabular data aren
 
 -   `datacube`: This planned downstream package prioritizes interoperability with the Statistical Data and Metadata Exchange (SDMX) standard. It enforces stricter adherence to the datacube model when working with `data.frame`s or `tibble`s. The target user is an analyst working with SDMX data sources (e.g., national statistical offices, Eurostat, World Bank). The goal is to enable seamless data transformation, extension, and mutation within R, followed by interoperable export back to an SDMX resource (e.g., the EU Open Data portal).
 
--    `wbdataset`: This already developing package focuses on interoperability with Wikidata and the Wikibase Data Model, the foundation of the world's largest open knowledge graph. The intended user is an analyst who downloads data from Wikidata (or a similar Wikibase instance), performs analysis in R, and then contributes the enriched dataset back to the knowledge graph.
+-   `wbdataset`: This already developing package focuses on interoperability with Wikidata and the Wikibase Data Model, the foundation of the world's largest open knowledge graph. The intended user is an analyst who downloads data from Wikidata (or a similar Wikibase instance), performs analysis in R, and then contributes the enriched dataset back to the knowledge graph.
 
--    `rdflib`: We will show that for native graph databases, the excellent `rdflib` package works excellent together with `dataset`.
+-   `rdflib`: We will show that for native graph databases, the excellent `rdflib` package works excellent together with `dataset`.
 
 In these cases, we assume users work with tabular data structures like `data.frame`s, `tibble`s, `tsibble`s, `DT` objects, etc., leveraging the broader R ecosystem. However, the two scenarios present distinct challenges. The SDMX-focused workflow (`datacube`) requires preserving more metadata than typical R usage and adhering to a higher standard of "tidiness" beyond conventional tidy data principles. The Wikidata/Wikibase scenario (`wbdataset`) involves conversion to and from semantic triples, reflecting the graph-based nature of the data.
 
@@ -139,7 +138,7 @@ This document describes a new R package, `dataset`, designed to improve data int
 
 Specifically, `dataset` utilizes `person` and extended `bibentry` objects (from the `utils` package) within the attributes. This allows comprehensive descriptive metadata to be associated with the dataset. The package focuses on adhering to either [DCTERMS](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) (Dublin Core) or DataCite metadata standards, maintaining and even updating this metadata throughout the R workflow.
 
-`person` objects, crucial for representing agents (creators, contributors, publishers) within the `bibentry`, enable structured metadata and support permanent identifiers like ORCiDs. While acknowledging limitations of `person` objects, their presence in the `utils` package ensures availability for all R users. (An initial attempt to use `RefManageR` objects for bibliographic information was abandoned due to conflicts with modern metadata standards.)
+`person` objects, crucial for representing agents (creators, contributors, publishers) within the `bibentry`, enable structured metadata and support permanent identifiers like ORCIDs. While acknowledging limitations of `person` objects, their presence in the `utils` package ensures availability for all R users. (An initial attempt to use `RefManageR` objects for bibliographic information was abandoned due to conflicts with modern metadata standards.)
 
 ```{r d-enriched}
 D_enriched <- dataset_df(
@@ -158,6 +157,7 @@ D_enriched <- dataset_df(
 
 D_enriched
 ```
+
 The enriched dataset gives us more information about the organisation of the dataset as a whole, but still suffers from a loose definition of its structural elements, i.e., the rows and the columns. We will come back to this in the following sections.
 
 The `dataset` package provides functions with sensible defaults and structures compliant with international metadata standards. The `dublincore()` and `datacite()` functions create enhanced bibentry objects and offer many functions to change the elements of these objects (i.e., to change the publication year, the names of the contributors, etc.) These functions facilitate adding metadata about the dataset as a whole (i.e., the overall organization of the data, not individual rows or columns). It also establishes a foundation for adding metadata about the internal structure of the dataset, such as the meaning and intended use of rows and columns.
@@ -166,7 +166,7 @@ Currently, the `dataset` package's approach to row/column-level metadata differs
 
 ### Keep data and metadata together
 
-The `dataset` package shares similar goals with the ROpenSci `dataspice` package, particularly concerning tabular data. `dataspice` focuses on making datasets more discoverable online by adding Schema.org metadata, a lightweight ontology used by web search engines. A key interoperability goal for `dataset` is to capture *all* the metadata that `dataspice` utilizes *throughout* the analytical workflow and store it directly within the R `data.frame`'s attributes.
+The `dataset` package shares similar goals with the rOpenSci `dataspice` package, particularly concerning tabular data. `dataspice` focuses on making datasets more discoverable online by adding Schema.org metadata, a lightweight ontology used by web search engines. A key interoperability goal for `dataset` is to capture *all* the metadata that `dataspice` utilizes *throughout* the analytical workflow and store it directly within the R `data.frame`'s attributes.
 
 While `dataspice` encourages users to provide this metadata separately in a CSV file (a convenient and simple approach), this method has two critical weaknesses:
 
@@ -190,17 +190,17 @@ While the `haven` and `labelled` packages in the tidyverse provide enhanced colu
 
 -   **`defined()` class:** Inheriting from `labelled`, `defined()` adds a *definition* and a *namespace* to labels, enhancing their meaning and meeting the requirements for linked open data.
 
--    **Data provenance:** `dataset` records data provenance (who downloaded, manipulated, etc.) in the attributes, using a simplified version of the PROV model and PROV-O ontology. (Further development of this feature is planned for a separate package.)
+-   **Data provenance:** `dataset` records data provenance (who downloaded, manipulated, etc.) in the attributes, using a simplified version of the PROV model and PROV-O ontology. (Further development of this feature is planned for a separate package.)
 
 The `defined()` class also allows extending tidyverse row IDs with a namespace or prefix, enabling conversion to globally unique identifiers (GUIDs), critical when working with data from many sources.
 
 Beyond row and column identification, `dataset` addresses the question of *when* to define a new dataset, a challenge only partially answered in earlier versions and now delegated to the `datacube` package. This question hinges on the concept of a *datacube*, a structural enhancement of tidy data. Datacubes categorize variables into:
 
--    **Attributes:** Metadata constraints.
+-   **Attributes:** Metadata constraints.
 
--    **Dimensions:** Variables suitable for summarizing or slicing data.
+-   **Dimensions:** Variables suitable for summarizing or slicing data.
 
--    **Measures:** Values often requiring a unit of measure.
+-   **Measures:** Values often requiring a unit of measure.
 
 ```{r}
 library(tibble)
@@ -229,9 +229,9 @@ joined_data
 
 The `datacube` package emphasizes the distinction between these variable types. For example, joining datasets with shared row IDs and columns isn't meaningful without considering units of measure (e.g., euros vs. dollars). Dimensions determine when a new dataset is needed. `dataset`, through the `defined()` class, allows specifying units of measure, while `datacube` handles the broader needs of attributes, measures, and dimensions.
 
-### From tabuar to graph data
+### From tabular to graph data
 
-The ROpenSci `rdflib` package, a wrapper for the Python library of the same name, provides powerful tools for reading and writing graph data. We believe `dataset` and `rdflib` are complementary and should be used together. While there's a small overlap (inspired by an internal `rdflib` function for working with NQuads, a form of RDF), we've avoided making `rdflib` a direct dependency of `dataset`. However, for users working with RDF-annotated graphs, we strongly recommend using `dataset` in conjunction with `rdflib` for importing, exporting, and exchanging data.
+The rOpenSci `rdflib` package, a wrapper for the Python library of the same name, provides powerful tools for reading and writing graph data. We believe `dataset` and `rdflib` are complementary and should be used together. While there's a small overlap (inspired by an internal `rdflib` function for working with NQuads, a form of RDF), we've avoided making `rdflib` a direct dependency of `dataset`. However, for users working with RDF-annotated graphs, we strongly recommend using `dataset` in conjunction with `rdflib` for importing, exporting, and exchanging data.
 
 First, let us see how we would solve the ambiguity problems without dataset, relying only on _tidyverse_ and _rdflib_.
 
@@ -374,13 +374,13 @@ write_package(package, "data_package") # Saves to a directory named "data_packag
 
 ```
 
-The `rdflib` package utilises the World Wide Web RDF standard, which is also used by SDMX and many open science repositories. It allows five different, standard serialisation forms that retain the data and the metadata, including JSON-LD, which is a standard.  The `frictionless` solution relies on the JSON quasi-standard for technical interoperability, but it is less strictly defined. 
+The `rdflib` package utilises the World Wide Web RDF standard, which is also used by SDMX and many open science repositories. It allows five different, standard serialisation forms that retain the data and the metadata, including JSON-LD, which is a standard. The `frictionless` solution relies on the JSON quasi-standard for technical interoperability, but it is less strictly defined.
 
 Both packages can carry with a high level of technical interoperability the data and the metadata, however, they leave the user without help on what type of metadata to use. They provide the vehicle, but not really the fuel.
 
 The `dataset` package, and particularly it downstream extensions, the planned `datacube` and the `wbdataset` aims to help the user with metadata curated for a high-level of organisational and semantic interoperability. The `datacube` extension is aiming for compatibility with SDMX and statistical resources like national statistical offices, international organisations, and the EU Open Data Portal; with `wbdataset` we offer sensible defaults to use the Wikibase Data Model.
 
-The downside of both `rdflib` and `frictionless` is that they are agnostic to the conceptual model or data model used by the R user, and most R users do not have the skills to fill in the gaps. A good conceptual model can prevent the user from joining dollar and euro values, but `frictionless` can only attach such information as a string to its containers. The  `rdflib` allows a true connection to a formal metadata model, but at the cost of the user need to learn RDF or at least OWL besides R.
+The downside of both `rdflib` and `frictionless` is that they are agnostic to the conceptual model or data model used by the R user, and most R users do not have the skills to fill in the gaps. A good conceptual model can prevent the user from joining dollar and euro values, but `frictionless` can only attach such information as a string to its containers. The `rdflib` allows a true connection to a formal metadata model, but at the cost of the user need to learn RDF or at least OWL besides R.
 
 In the following example we demonstrate how `dataset` adds semantic richness to the earlier datasets without utilising another language or any external containers.
 
@@ -450,25 +450,24 @@ D_defined %>%
   full_join(E_defined)
 ```
 
-While the `geonames` and the `country_name` can be joined (the geonames using the same strict definition), the 
-
+While the `geonames` and the `country_name` can be joined (the geonames using the same strict definition), the
 
 ## Publishing the data
 
-Let us go back to the ISO 19115 and ISO/IEC 11179 definition used as a motto: "A dataset is a structured, coherent collection of related data, organised for a particular purpose." 
+Let us go back to the ISO/IEC 20546 definition used as a motto: "A dataset is an identifiable collection of data available for access or download in one or more formats."
 
 Datasets should be published with the purpose of their potential use and reuse in mind. The `rdflib`, `frictionless` or `dataspice` packages offer different dataset publication vehicles and formats, because they have different reuse in mind.
 
--  The [rdflib](https://CRAN.R-project.org/package=rdflib) package envisions a fully reusable graph scenario utilising the RDF standard.
--  The [datacite](https://CRAN.R-project.org/package=dataspice) package aims to publish the data with a HTML cover page that is optimised to be found by search engines with encoding the dataset's metadata with the Schema.org's lightweight ontology.
--  The [frictionless](https://CRAN.R-project.org/package=frictionless) package envisions a container that holds metadata in the JSON format and the data in CSV format. This [data package](https://specs.frictionlessdata.io/data-package/#language) is recommended within some open data repositories.
-- The [wbdataset](https://wbdataset.dataobservatory.eu/) package, which is not yet available from CRAN, is aiming to release data with the  popular Wikibase graph database format. 
+-   The [rdflib](https://CRAN.R-project.org/package=rdflib) package envisions a fully reusable graph scenario utilising the RDF standard.
+-   The [datacite](https://CRAN.R-project.org/package=dataspice) package aims to publish the data with a HTML cover page that is optimised to be found by search engines with encoding the dataset's metadata with the Schema.org's lightweight ontology.
+-   The [frictionless](https://CRAN.R-project.org/package=frictionless) package envisions a container that holds metadata in the JSON format and the data in CSV format. This [data package](https://specs.frictionlessdata.io/data-package/#language) is recommended within some open data repositories.
+-   The [wbdataset](https://wbdataset.dataobservatory.eu/) package, which is not yet available from CRAN, is aiming to release data with the popular Wikibase graph database format.
 
 The `dataset` package aims compatibility with `rdflib` (for sending datacubes or graph data to APIs); `dataspice` for individually placing datasets to a researcher website, and `wbdataset` for sending the data into Wikibase. It would be also rather easy to create a binding towards `frictionless` if there is user need.
 
 Wikibase, while capable of RDF export and sharing structural similarities with RDF triplestores, is a distinct system bridging relational and graph database elements. Its appeal lies in allowing users to work with graph data without needing to learn RDF and SPARQL, making `rdflib` less practical for direct Wikibase interaction. At the time of `wbdataset`'s development, the `WikibaseR` package was no longer supported. Going forward, `wbdataset` and `WikibaseR` will be co-developed and maintained by the same team, ensuring seamless interaction with Wikibase.
 
-The following example contains individual musical recordings and observed musicological values of such recordings, a general property of the dataset that can be applied to the entire dataset. Similarly, important provenance information, authorship, use rights, and so on, apply to the dataset, not to its specific cells. 
+The following example contains individual musical recordings and observed musicological values of such recordings, a general property of the dataset that can be applied to the entire dataset. Similarly, important provenance information, authorship, use rights, and so on, apply to the dataset, not to its specific cells.
 
 ```{r smallmusiciandataset1}
 small_country_musicians <- data.frame(
@@ -494,6 +493,3 @@ small_country_musicians$age <- defined(
   label = "Age in 2024"
 )
 ```
-
-
-
