@@ -136,7 +136,7 @@ In these cases, we assume users work with tabular data structures like `data.fra
 
 This document describes a new R package, `dataset`, designed to improve data interoperability for R's `data.frame` objects. The core concept is leveraging R's built-in `attributes()` function to store rich metadata. While `attributes()` allows attaching metadata to any R object, it's often underutilised. The `dataset` package promotes systematic use of attributes, ensuring crucial metadata isn't lost during data manipulation.
 
-Specifically, `dataset` utilizes `person` and extended `bibentry` objects (from the `utils` package) within the attributes. This allows comprehensive descriptive metadata to be associated with the dataset. The package focuses on adhering to either DCTERMS (Dublin Core) or DataCite metadata standards, maintaining and even updating this metadata throughout the R workflow.
+Specifically, `dataset` utilizes `person` and extended `bibentry` objects (from the `utils` package) within the attributes. This allows comprehensive descriptive metadata to be associated with the dataset. The package focuses on adhering to either [DCTERMS](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) (Dublin Core) or DataCite metadata standards, maintaining and even updating this metadata throughout the R workflow.
 
 `person` objects, crucial for representing agents (creators, contributors, publishers) within the `bibentry`, enable structured metadata and support permanent identifiers like ORCIDs. While acknowledging limitations of `person` objects, their presence in the `utils` package ensures availability for all R users. (An initial attempt to use `RefManageR` objects for bibliographic information was abandoned due to conflicts with modern metadata standards.)
 
@@ -210,7 +210,8 @@ library(dplyr)
 D <- tibble(
   year = c(2020, 2020, 2021, 2021, 2022, 2022),
   geocode = c("USA", "CAN", "USA", "CAN", "USA", "CAN"),
-  country_name = c("United States", "Canada", "United States", "Canada", "United States", "Canada"),
+  country_name = c("United States", "Canada", "United States", 
+                   "Canada", "United States", "Canada"),
   GDP = c(21000, 2000, 22000, 2100, 23000, 2200) # GDP in billions of USD
 )
 
@@ -232,9 +233,9 @@ The `datacube` package emphasizes the distinction between these variable types. 
 
 The rOpenSci `rdflib` package, a wrapper for the Python library of the same name, provides powerful tools for reading and writing graph data. We believe `dataset` and `rdflib` are complementary and should be used together. While there's a small overlap (inspired by an internal `rdflib` function for working with NQuads, a form of RDF), we've avoided making `rdflib` a direct dependency of `dataset`. However, for users working with RDF-annotated graphs, we strongly recommend using `dataset` in conjunction with `rdflib` for importing, exporting, and exchanging data.
 
-First, let us see how we would solve the ambiguity problems without dataset, relying only on tidyverse and rdflib.
+First, let us see how we would solve the ambiguity problems without dataset, relying only on _tidyverse_ and _rdflib_.
 
-```{r}
+```{r two-gdp-datasets}
 library(tibble)
 library(dplyr)
 library(tidyr)
@@ -243,7 +244,8 @@ library(tidyr)
 D <- tibble(
   year = c(2020, 2020, 2021, 2021, 2022, 2022),
   geocode = c("USA", "CAN", "USA", "CAN", "USA", "CAN"),
-  country_name = c("United States", "Canada", "United States", "Canada", "United States", "Canada"),
+  country_name = c("United States", "Canada", "United States", 
+                   "Canada", "United States", "Canada"),
   GDP = c(21000, 2000, 22000, 2100, 23000, 2200) # GDP in billions of USD
 )
 
@@ -251,7 +253,8 @@ D <- tibble(
 E <- tibble(
   year = c(2020, 2020, 2021, 2021, 2022, 2022),
   geocode = c("USA", "FRA", "USA", "FRA", "USA", "FRA"),
-  country_name = c("United States", "France", "United States", "France", "United States", "France"),
+  country_name = c("United States", "France", "United States", 
+                   "France", "United States", "France"),
   GDP = c(18000, 2500, 19000, 2600, 20000, 2700) # GDP in billions of EUR
 )
 
@@ -274,9 +277,10 @@ named_triples <- combined_subject %>%
 
 
 # Replace geocodes with Geonames IDs and add datatype annotations
+# Try for example <https://www.geonames.org/6251999/>
 geonames_mapping <- tibble(
   subject = c("USA", "CAN", "FRA"),
-  geonames_id = c("6252001", "6251999", "66987244") # Example Geonames IDs - REPLACE THESE
+  geonames_id = c("6252001", "6251999", "2988317") # Geonames IDs 
 )
 
 rdf_triples <- named_triples %>%
@@ -290,8 +294,10 @@ rdf_triples <- named_triples %>%
       TRUE ~ predicate
     ),
     object = case_when(
-      predicate == "sdmx:TIME_PERIOD" ~ paste0("\"", object, "\"^^<http://www.w3.org/2001/XMLSchema#gYear>"), # Year with datatype
-      predicate == "sdmx:OBS_VALUE" ~ paste0("\"", object, "\"^^<http://www.w3.org/2001/XMLSchema#double>"), # GDP with datatype
+      predicate == "sdmx:TIME_PERIOD" ~ paste0(
+        "\"", object, "\"^^<http://www.w3.org/2001/XMLSchema#gYear>"), # Year with datatype
+      predicate == "sdmx:OBS_VALUE" ~ paste0(
+        "\"", object, "\"^^<http://www.w3.org/2001/XMLSchema#double>"), # GDP with datatype
       TRUE ~ object # Other values as plain strings
     )
   ) %>%
@@ -311,8 +317,10 @@ library(frictionless)
 D <- tibble(
   year = c(2020, 2020, 2021, 2021, 2022, 2022),
   geocode = c("USA", "CAN", "USA", "CAN", "USA", "CAN"),
-  country_name = c("United States", "Canada", "United States", "Canada", "United States", "Canada"),
-  GDP = c(21000000, 2000000, 22000000, 2100000, 23000000, 2200000) # GDP in millions of USD
+  country_name = c("United States", "Canada", "United States",
+                   "Canada", "United States", "Canada"),
+  GDP = c(21000000, 2000000, 22000000, 
+          2100000, 23000000, 2200000) # GDP in millions of USD
 )
 
 # 1. Create a Table resource
@@ -381,8 +389,10 @@ In the following example we demonstrate how `dataset` adds semantic richness to 
 D <- tibble(
   year = c(2020, 2020, 2021, 2021, 2022, 2022),
   geocode = c("USA", "CAN", "USA", "CAN", "USA", "CAN"),
-  country_name = c("United States", "Canada", "United States", "Canada", "United States", "Canada"),
-  GDP = c(21000000, 2000000, 22000000, 2100000, 23000000, 2200000) # GDP in millions of USD
+  country_name = c("United States", "Canada", "United States", 
+                   "Canada", "United States", "Canada"),
+  GDP = c(21000000, 2000000, 22000000,
+          2100000, 23000000, 2200000) # GDP in millions of USD
 )
 
 # Now let us create a semantically more strict version
@@ -413,7 +423,9 @@ D_defined
 
 ```{r}
 # Create E_defined
-geonames_ids_E <- rep(c(geonames_ids[1], geonames_ids[3]), each = 3) #USA and France
+geonames_ids_E <- rep(c(geonames_ids[1], 
+                        geonames_ids[3]), 
+                      each = 3) # USA and France
 E_defined <- dataset_df(
   geonames = defined(geonames_ids_E,
                     namespace = "http://www.geonames.org/",
@@ -429,13 +441,13 @@ E_defined <- dataset_df(
     subject = "GDP"
   )
 )
-
 ```
 
 So, by now it is clear that the following join must be prohibited.
 
-```{r, eval=FALSE}
-D_defined %>% full_join(E_defined)
+```{r impossible-join, eval=FALSE}
+D_defined %>%
+  full_join(E_defined)
 ```
 
 While the `geonames` and the `country_name` can be joined (the geonames using the same strict definition), the
@@ -475,7 +487,9 @@ small_country_musicians <- data.frame(
 )
 
 small_country_musicians$age <- defined(
-  2024 - as.integer(substr(as.character(small_country_musicians$date_of_birth), 1, 4)),
+  2024 - as.integer(
+    substr(as.character(small_country_musicians$date_of_birth), 
+           1, 4)),
   label = "Age in 2024"
 )
 ```

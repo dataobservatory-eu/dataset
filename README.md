@@ -26,12 +26,15 @@ objects into well-referenced, well-described, interoperable datasets
 into release and reuse ready form.
 
 1.  **Increase FAIR use of your datasets**: Offer a way to better
-    utilise the `utils:bibentry` bibliographic entry objects and working
-    with the rOpenSci package
-    [RefManageR](https://docs.ropensci.org/RefManageR/) extending their
-    fields of the Dublin Core and DataCite standards, and making them
-    detachable from the data, i.e., including the bibliographic entries
-    into the attributes of a data frame-like object. See for more
+    utilise the `utils:bibentry` bibliographic entry objects to offer
+    more comprehensive and standardised descriptive metadata utilising
+    the
+    [DCTERMS](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/)
+    and
+    [DataCite](https://datacite-metadata-schema.readthedocs.io/en/4.6/)
+    standards. This will lead to a higher level of findability and
+    accessibility, and a better use of the rOpenSci package
+    [RefManageR](https://docs.ropensci.org/RefManageR/). See for more
     information the [Bibentry for FAIR
     datasets](https://dataset.dataobservatory.eu/articles/bibentry.html)
     vignette.
@@ -39,10 +42,11 @@ into release and reuse ready form.
     of the `tidyverse` for consistently labelled categorical variables
     with linked (standard) definitions and units of measures in our
     [defined](https://dataset.dataobservatory.eu/articles/defined.html)
-    class; this enables to share exact definitions, units of measures
-    across computers and systems, and increasing the interoperability of
-    the data set from an R data.frame to any standardised statistical or
-    library system.
+    class; this enables to share metadata not only about the dataset as
+    a whole, but about its key components (rows and columns), including
+    precise definitions, units of measures. This results in a higher
+    level of interoperability and reusability, within and outside of the
+    R ecossytem.
 3.  **Tidy data tidier, richer**: Offering a new data frame format,
     `dataset_df` that extends tibbles with semantically rich metadata,
     ready to be shared on open data exchange platforms and in data
@@ -53,15 +57,24 @@ into release and reuse ready form.
     Exchange and
     Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
     vignette.
-4.  **R+RDF=global interoperability**: The [From R to
+4.  Adding provenance metadata to make your dataset easier to reuse by
+    making its history known to future users. We have no vignette on
+    this topic, but you find at the bottom of this `README` an example.
+5.  **Releasing and exchanging datasets**: The [From R to
     RDF](https://dataset.dataobservatory.eu/articles/rdf.html) vignette
     shows how to leverage the capabilities of the *dataset* package with
     [rdflib](https://docs.ropensci.org/rdflib/index.html), an
     R-user-friendly wrapper on rOpenSci to work with the *redland*
-    Python library for performing common tasks on rdf data, such as
+    Python library for performing common tasks on RDF data, such as
     parsing and converting between formats including rdfxml, turtle,
-    nquads, ntriples, and trig, creating rdf graphs, and performing
-    SPARQL queries.
+    nquads, ntriples, creating RDF graphs, and performing SPARQL
+    queries.
+
+Putting it all together: the
+[Motivation](https://dataset.dataobservatory.eu/articles/Motivation.html)
+explains in a long case study why `tidyverse` and the *tidy data
+principle* is no longer sufficient for a high level of interoperability
+and reusability.
 
 <!---
 &#10;The primary aim of dataset is create well-referenced, well-described, interoperable datasets from data.frames, tibbles or data.tables that translate well into the W3C DataSet definition within the [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible manner. The data cube model in itself is is originated in the _Statistical Data and Metadata eXchange_, and it is almost fully harmonized with the Resource Description Framework (RDF), the standard model for data interchange on the web^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>].
@@ -78,7 +91,18 @@ remotes::install_github("dataobservatory-eu/dataset", build = FALSE)
 
 The current version of the `dataset` package is in an early,
 experimental stage. You can follow the discussion of this package on
-[rOpenSci](https://github.com/ropensci/software-review/issues/553).
+[rOpenSci \#553](https://github.com/ropensci/software-review/issues/553)
+about the original scope, that included the datacube data model, and the
+[rOpenSci \#681](https://github.com/ropensci/software-review/issues/681)
+on the new version that moves the data cube data model of SDMX into a
+future downstream package. (See, again, the
+[Motivation](https://dataset.dataobservatory.eu/articles/Motivation.html)
+article.)
+
+Interoperability and future (re)usability depends on the amount and
+quality of the metadata that was generated, recorded, and released
+together with the data. The `dataset` package aims to collect such
+metadata and record them in the least possible intrusive way.
 
 ## Semantically richer data frames
 
@@ -97,6 +121,12 @@ iris_ds <- dataset_df(
   )
 )
 ```
+
+You can read more about the history of this dataset, and some
+controversy around its association of problematic science in the
+[Bibentry for FAIR
+datasets](https://dataset.dataobservatory.eu/articles/bibentry.html)
+vignette.
 
 It is mandatory to add a `title`, `author` to a dataset, and if the
 `date` is not specified, the current date will be added.
