@@ -25,7 +25,8 @@ datacite(
     "http://id.loc.gov/authorities/subjects/sh2018002256"),
   Type = "Dataset",
   Contributor = NULL,
-  DateList = ":tba",
+  Date = ":tba",
+  DateList = NULL,
   Language = NULL,
   AlternateIdentifier = ":unas",
   RelatedIdentifier = ":unas",
@@ -85,8 +86,13 @@ user can set a more specific \code{Type$resourceType} value.}
 responsible for collecting, managing, distributing, or otherwise
 contributing to the development of the resource.}
 
+\item{Date}{A character string in any of the following formats: \code{YYYY},
+\code{YYYY-MM-DD} or \code{YYYY-MM-DDThh:mm:ssTZD}, or an R Date or POSIXct
+object. A list of dates (parameter \code{DateList}) is not yet implemented.}
+
 \item{DateList}{DataCite 4.4 allows to set multiple dates to a resource, they
-should be added as a list. See:
+should be added as a list. Currently not yet implemented.
+See:
 \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#8-date}{datacite:Date}.}
 
 \item{Language}{The primary language of the resource. Allowed values are

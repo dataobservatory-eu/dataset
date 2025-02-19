@@ -23,17 +23,14 @@ authors:
 articles:
   - title: "Motivation"
     desc: >
-     A long-form description of the aim of the development.
+     A long-form description of the aim of the development. Our `dataset` R package
+         aims to help the Findability, Accessibility, Interoperability,
+         and Reuse of digital assets, particularly datacubes and datasets used
+         in statistics and data analysis. The "Motivation" article will replace
+         the new requirements.
     contents:
        - Motivation
-  - title: "Datasets"
-    desc: >
-     Our `dataset` R package aims to help the Findability, Accessibility, Interoperability,
-         and Reuse of digital assets, particularly datacubes and datasets used in statistics and data
-         analysis. The "Motivation" article will replace the new requirements.
-    contents:
-      - Motivation
-      - new_requirements
+       - new_requirements
   - title: "Semantic Enrichment of Datasets"
     desc: >
      Enriching metadata about the dataset as a whole, potential extensions.
