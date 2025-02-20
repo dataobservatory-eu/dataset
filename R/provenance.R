@@ -45,7 +45,13 @@ default_provenance <- function(dataset_id = "http://example.com/dataset#",
                                generated_at_time = NULL) {
   cite_dataset <- utils::citation("dataset")
 
-  agent_triples <- prov_author(author)
+  agent_triples <- prov_author(author[1])  # internal n_triple.R
+  if (length(author)>1) {
+    for ( i in seq_along(author)) {
+      if (i==1) next
+      agent_triples <- c(agent_triples, prov_author(author[i])) }
+  }
+
   if ((!is.null(dtm))) c(agent_triples, prov_author(dtm))
 
   if (is.null(generated_at_time)) generated_at_time <- Sys.time()

@@ -23,6 +23,8 @@ test_that("fix_contributors() works", {
   )
 })
 
+
+
 test_that("new_dublincore() works", {
   expect_equal(
     new_dublincore(
@@ -31,6 +33,10 @@ test_that("new_dublincore() works", {
     )$author,
     person("Jane", "Doe", role = "cre")
   )
+  expect_equal(new_dublincore(
+    title = "Test",
+    creator = c(person("Jane", "Doe", role = "cre"), person("Joe", "Doe", role = "cre"))
+  )$author, c(person("Jane", "Doe", role = "cre"), person("Joe", "Doe", role = "cre")))
   expect_equal(
     new_dublincore(title = "Test", creator = person("Jane", "Doe", role = "cre"))$title,
     "Test"

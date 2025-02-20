@@ -86,8 +86,6 @@ dataset_df <- function(...,
     Title <- "Untitled Dataset"
     Creator <- person("Author", "Unknown")
     dataset_bibentry <- datacite(Title = Title, Creator = Creator, Subject = dataset_subject)
-  } else if (is.null(dataset_bibentry$subject)) {
-    # dataset_bibentry$subject <- dataset_subject$term
   }
 
   tmp <- new_my_tibble(
@@ -98,7 +96,7 @@ dataset_df <- function(...,
     units = units,
     definitions = definitions
   )
-
+  attr(tmp, "dataset_bibentry") <- dataset_bibentry
   attr(tmp, "subject") <- dataset_subject
   tmp
 }
@@ -157,18 +155,19 @@ new_my_tibble <- function(x,
     tmp$rowid <- defined(paste0(prefix, tmp$rowid), namespace = identifier)
   }
 
-  set_var_labels(tmp, var_labels = var_labels)
   if (is.null(dataset_bibentry)) {
     dataset_bibentry <- set_default_bibentry()
   }
 
+  attr(tmp, "dataset_bibentry") <- dataset_bibentry
+
+  tmp <- set_var_labels(tmp, var_labels = var_labels)
 
   prov <- default_provenance(
     generated_at_time = generated_at_time,
     author = dataset_bibentry$author
   )
 
-  attr(tmp, "dataset_bibentry") <- dataset_bibentry
   attr(tmp, "prov") <- prov
 
   tmp
