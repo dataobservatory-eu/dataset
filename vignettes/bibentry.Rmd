@@ -56,23 +56,26 @@ It is important to know that the VIAF ID and the ORCID ID are both interoperable
 We exploit one important feature of the `utils::bibentry()` object, that it allows the addition of almost any character string elements, even if its pre-defined elements do not align fully with either [DCTERMS](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) or [DataCite](https://datacite-metadata-schema.readthedocs.io/en/4.6/).
 
 ```{r}
- iris_bibentry <- dublincore(
-    title = "Iris Dataset",
-    creator = person(given = "Edgar", 
-                     family = "Anderson", 
-                     role = "cre", 
-                     comment = c(VIAF = "http://viaf.org/viaf/6440526")
-                     ),
-    contributor = person(given = "Antal",
-                         family = "Daniel", 
-                         role = "dtm"),  # Add data manager
-    identifier = "https://doi.org/10.5281/zenodo.10396807", # 
-    publisher = "American Iris Society",
-    datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-    dataset_date = 1935,
-    language = "en",
-    description = "The famous (Fisher's or Anderson's) iris data set."
-  )
+iris_bibentry <- dublincore(
+  title = "Iris Dataset",
+  creator = person(
+    given = "Edgar",
+    family = "Anderson",
+    role = "cre",
+    comment = c(VIAF = "http://viaf.org/viaf/6440526")
+  ),
+  contributor = person(
+    given = "Antal",
+    family = "Daniel",
+    role = "dtm"
+  ), # Add data manager
+  identifier = "https://doi.org/10.5281/zenodo.10396807", #
+  publisher = "American Iris Society",
+  datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+  dataset_date = 1935,
+  language = "en",
+  description = "The famous (Fisher's or Anderson's) iris data set."
+)
 ```
 
 If we print this object, we see that we have some default "unassigned" and "to be announced" abbreviations. These are taken from DataCite, but we find them useful in a DCTERMS-styled object, too.
@@ -115,18 +118,18 @@ iris_df <- dataset_df(
     label = "Taxon name within the Iris genus",
     definition = "https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomygenus?id=6074",
     namespace = "Iris"
-  ), 
-  dataset_bibentry = iris_bibentry)
-
+  ),
+  dataset_bibentry = iris_bibentry
+)
 ```
 
 To understand what is going on under the hoods, i.e., in the attributes of these objects:
 
 ```{r print-attributes}
 # Print all attributes of the data frame but row.names:
-attributes(iris_df)[which(names(attributes(iris_df))!="row.names")]
+attributes(iris_df)[which(names(attributes(iris_df)) != "row.names")]
 
-# You could print all attributes, including the 150 integer 
+# You could print all attributes, including the 150 integer
 # number row identifiers with simply attributes(iris_df).
 ```
 

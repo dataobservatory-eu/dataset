@@ -19,7 +19,8 @@
 
   assertthat::assert_that(
     !is.null(x),
-    msg = "Error: agent(x)<- x must be a dataset_df, a dublincore or a datacite object.")
+    msg = "Error: agent(x)<- x must be a dataset_df, a dublincore or a datacite object."
+  )
 
 
   assertthat::assert_that(all(inherits(value, "person")),
@@ -54,12 +55,14 @@
   creators <- ifelse(length(new_creators) > 0, new_creators, creators)
   publishers <- ifelse(length(new_publishers) > 0, new_publishers, publishers)
   contributors <- ifelse(length(new_creators) > 0,
-                         new_contributors,
-                         contributors)
+    new_contributors,
+    contributors
+  )
 
   dataset_bibentry$author <- ifelse(length(new_creators) > 0,
-                                    new_creators,
-                                    dataset_bibentry[[1]]$author)
+    new_creators,
+    dataset_bibentry[[1]]$author
+  )
   dataset_bibentry$contributor <- contributors
   dataset_bibentry$publisher <- publishers
 
@@ -95,7 +98,6 @@ agent <- function(x) {
     contributors <- ifelse(is.null(dataset_bibentry$contributor), ":unas", dataset_bibentry$contributor)
 
     return_type <- "dublincore"
-
   }
 
   if (all(inherits(x, "person"))) {

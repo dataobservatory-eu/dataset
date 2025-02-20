@@ -166,7 +166,6 @@ dublincore <- function(
     datasource = NULL,
     description = NULL,
     coverage = NULL) {
-
   dataset_date <- ifelse(is.null(dataset_date), ":tba", as.character(dataset_date))
   identifier <- ifelse(is.null(identifier), ":tba", as.character(identifier))
   format <- ifelse(is.null(format), ":tba", as.character(format))
@@ -336,9 +335,11 @@ new_dublincore <- function(title,
   contributor <- fix_contributor(contributors = contributor)
 
   # Create year from dataset_date
-  if ( !is.null(dataset_date) ) {
-    year <- substr(as.character(dataset_date), 1,4)
-  } else { year <- NA_character_ }
+  if (!is.null(dataset_date)) {
+    year <- substr(as.character(dataset_date), 1, 4)
+  } else {
+    year <- NA_character_
+  }
 
   if (inherits(creator, "list")) {
     warning("list", creator)

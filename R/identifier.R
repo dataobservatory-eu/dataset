@@ -33,7 +33,7 @@
 #' @export
 
 identifier <- function(x) {
-  if (  !(inherits(x, "bibentry") || inherits(x, "dataset_df")) ) {
+  if (!(inherits(x, "bibentry") || inherits(x, "dataset_df"))) {
     stop("identifier(x): x must be a dataset_df or a bibentry object.")
   }
 
@@ -51,11 +51,11 @@ identifier <- function(x) {
 `identifier<-` <- function(x, overwrite = TRUE, value) {
   if (is.numeric(value)) value <- as.character(value)
 
-  if (  !(inherits(x, "bibentry") || inherits(x, "dataset_df")) ) {
+  if (!(inherits(x, "bibentry") || inherits(x, "dataset_df"))) {
     stop("identifier(x): x must be a dataset_df or a bibentry object.")
   }
 
-  if (  !(is.null(value) || inherits(value, "character") ) ) {
+  if (!(is.null(value) || inherits(value, "character"))) {
     stop("identifier(x) <- value: value must be a named or not named character string of length 1.")
   }
 

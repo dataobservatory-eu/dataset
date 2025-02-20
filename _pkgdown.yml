@@ -56,6 +56,7 @@ reference:
       - dataset_df
       - get_bibentry
       - provenance
+      - bind_defined_rows
   - title: "Defined"
     desc: >
       A new labelled subclass that retains the unit of measure, definition and namespace of the variable.
@@ -67,6 +68,7 @@ reference:
       - var_namespace
       - as_numeric
       - as_character
+      - c.haven_labelled_defined
   - title: "Describe"
     desc: >
       Describe the metadata in the Resource Description Framework

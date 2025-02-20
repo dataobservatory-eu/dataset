@@ -26,9 +26,10 @@ The `dataset` package aims to enhance the semantic richness of R datasets, parti
 
 ```{r example-ambiguity}
 data.frame(
-   geo=c("LI", "SM"), 
-   CPI = c("0.8", "0.9"), 
-   GNI= c("8976", "9672"))
+  geo = c("LI", "SM"),
+  CPI = c("0.8", "0.9"),
+  GNI = c("8976", "9672")
+)
 ```
 
 This dataset is tidy. But it certainly could be improved!
@@ -145,14 +146,15 @@ D_enriched <- dataset_df(
   year = c(2020, 2020, 2021, 2021, 2022, 2022),
   geocode = c("USA", "CAN", "USA", "CAN", "USA", "CAN"),
   country_name = c("United States", "Canada", "United States", "Canada", "United States", "Canada"),
-  GDP = c(21000, 2000, 22000, 2100, 23000, 2200), 
+  GDP = c(21000, 2000, 22000, 2100, 23000, 2200),
   dataset_bibentry = dataset::dublincore(
     title = "North American GDP Dataset",
     description = "Dataset containing GDP data for North American countries.",
     creator = person("Daniel", "Antal"), # Replace with the actual creator
-    publisher = "Reprex", 
+    publisher = "Reprex",
     dataset_date = Sys.Date(),
-    subject = "GDP")
+    subject = "GDP"
+  )
 )
 
 D_enriched
@@ -210,8 +212,10 @@ library(dplyr)
 D <- tibble(
   year = c(2020, 2020, 2021, 2021, 2022, 2022),
   geocode = c("USA", "CAN", "USA", "CAN", "USA", "CAN"),
-  country_name = c("United States", "Canada", "United States", 
-                   "Canada", "United States", "Canada"),
+  country_name = c(
+    "United States", "Canada", "United States",
+    "Canada", "United States", "Canada"
+  ),
   GDP = c(21000, 2000, 22000, 2100, 23000, 2200) # GDP in billions of USD
 )
 
@@ -244,8 +248,10 @@ library(tidyr)
 D <- tibble(
   year = c(2020, 2020, 2021, 2021, 2022, 2022),
   geocode = c("USA", "CAN", "USA", "CAN", "USA", "CAN"),
-  country_name = c("United States", "Canada", "United States", 
-                   "Canada", "United States", "Canada"),
+  country_name = c(
+    "United States", "Canada", "United States",
+    "Canada", "United States", "Canada"
+  ),
   GDP = c(21000, 2000, 22000, 2100, 23000, 2200) # GDP in billions of USD
 )
 
@@ -253,8 +259,10 @@ D <- tibble(
 E <- tibble(
   year = c(2020, 2020, 2021, 2021, 2022, 2022),
   geocode = c("USA", "FRA", "USA", "FRA", "USA", "FRA"),
-  country_name = c("United States", "France", "United States", 
-                   "France", "United States", "France"),
+  country_name = c(
+    "United States", "France", "United States",
+    "France", "United States", "France"
+  ),
   GDP = c(18000, 2500, 19000, 2600, 20000, 2700) # GDP in billions of EUR
 )
 
@@ -271,16 +279,18 @@ combined_subject <- combined_char %>%
 
 # Pivot longer, excluding the subject (triples are named, but predicates are not renamed yet)
 named_triples <- combined_subject %>%
-  pivot_longer(cols = c(year, country_name, GDP), # geocode is excluded
-               names_to = "predicate",
-               values_to = "object")
+  pivot_longer(
+    cols = c(year, country_name, GDP), # geocode is excluded
+    names_to = "predicate",
+    values_to = "object"
+  )
 
 
 # Replace geocodes with Geonames IDs and add datatype annotations
 # Try for example <https://www.geonames.org/6251999/>
 geonames_mapping <- tibble(
   subject = c("USA", "CAN", "FRA"),
-  geonames_id = c("6252001", "6251999", "2988317") # Geonames IDs 
+  geonames_id = c("6252001", "6251999", "2988317") # Geonames IDs
 )
 
 rdf_triples <- named_triples %>%
@@ -295,13 +305,15 @@ rdf_triples <- named_triples %>%
     ),
     object = case_when(
       predicate == "sdmx:TIME_PERIOD" ~ paste0(
-        "\"", object, "\"^^<http://www.w3.org/2001/XMLSchema#gYear>"), # Year with datatype
+        "\"", object, "\"^^<http://www.w3.org/2001/XMLSchema#gYear>"
+      ), # Year with datatype
       predicate == "sdmx:OBS_VALUE" ~ paste0(
-        "\"", object, "\"^^<http://www.w3.org/2001/XMLSchema#double>"), # GDP with datatype
+        "\"", object, "\"^^<http://www.w3.org/2001/XMLSchema#double>"
+      ), # GDP with datatype
       TRUE ~ object # Other values as plain strings
     )
   ) %>%
-  select(subject, predicate, object) 
+  select(subject, predicate, object)
 
 print("RDF Triples (subject, predicate, object):")
 print(rdf_triples)
@@ -317,10 +329,14 @@ library(frictionless)
 D <- tibble(
   year = c(2020, 2020, 2021, 2021, 2022, 2022),
   geocode = c("USA", "CAN", "USA", "CAN", "USA", "CAN"),
-  country_name = c("United States", "Canada", "United States",
-                   "Canada", "United States", "Canada"),
-  GDP = c(21000000, 2000000, 22000000, 
-          2100000, 23000000, 2200000) # GDP in millions of USD
+  country_name = c(
+    "United States", "Canada", "United States",
+    "Canada", "United States", "Canada"
+  ),
+  GDP = c(
+    21000000, 2000000, 22000000,
+    2100000, 23000000, 2200000
+  ) # GDP in millions of USD
 )
 
 # 1. Create a Table resource
@@ -329,25 +345,33 @@ table <- Table(D)
 # 2. Add metadata (optional but highly recommended)
 table$title <- "North American GDP Dataset"
 table$description <- "Dataset containing GDP data for North American countries."
-table$creator <- "Daniel Antal"  
-table$publisher <- "Reprex" 
+table$creator <- "Daniel Antal"
+table$publisher <- "Reprex"
 table$created <- Sys.Date()
 
 table$language <- "en"
 table$schema <- schema(
   fields = list(
-    field(name = "year", 
-          type = "integer", 
-          description = "Year of the observation"),
-    field(name = "geocode", 
-          type = "string", 
-          description = "ISO 3166-1 alpha-3 country code"),
-    field(name = "country_name", 
-          type = "string", 
-          description = "Name of the country"),
-    field(name = "GDP", 
-          type = "number",
-          description = "Gross Domestic Product (millions of USD)")
+    field(
+      name = "year",
+      type = "integer",
+      description = "Year of the observation"
+    ),
+    field(
+      name = "geocode",
+      type = "string",
+      description = "ISO 3166-1 alpha-3 country code"
+    ),
+    field(
+      name = "country_name",
+      type = "string",
+      description = "Name of the country"
+    ),
+    field(
+      name = "GDP",
+      type = "number",
+      description = "Gross Domestic Product (millions of USD)"
+    )
   )
 )
 
@@ -371,7 +395,6 @@ write_package(package, "data_package") # Saves to a directory named "data_packag
 
 # And publish it online:
 # publish_package("data_package", url = "your_data_repository")  # Replace with your URL
-
 ```
 
 The `rdflib` package utilises the World Wide Web RDF standard, which is also used by SDMX and many open science repositories. It allows five different, standard serialisation forms that retain the data and the metadata, including JSON-LD, which is a standard. The `frictionless` solution relies on the JSON quasi-standard for technical interoperability, but it is less strictly defined.
@@ -389,33 +412,39 @@ In the following example we demonstrate how `dataset` adds semantic richness to 
 D <- tibble(
   year = c(2020, 2020, 2021, 2021, 2022, 2022),
   geocode = c("USA", "CAN", "USA", "CAN", "USA", "CAN"),
-  country_name = c("United States", "Canada", "United States", 
-                   "Canada", "United States", "Canada"),
-  GDP = c(21000000, 2000000, 22000000,
-          2100000, 23000000, 2200000) # GDP in millions of USD
+  country_name = c(
+    "United States", "Canada", "United States",
+    "Canada", "United States", "Canada"
+  ),
+  GDP = c(
+    21000000, 2000000, 22000000,
+    2100000, 23000000, 2200000
+  ) # GDP in millions of USD
 )
 
 # Now let us create a semantically more strict version
 geonames_ids <- c("6252001", "6251999")
 
-# Expand geonames_ids 
+# Expand geonames_ids
 geonames_ids_expanded <- rep(geonames_ids, each = 3)
 
 library(dataset)
 # Create the defined_df
 D_defined <- dataset_df(
-  geonames = defined(geonames_ids_expanded, 
-                            namespace = "http://www.geonames.org/", 
-                            label = "Geonames ID of the country"),
+  geonames = defined(geonames_ids_expanded,
+    namespace = "http://www.geonames.org/",
+    label = "Geonames ID of the country"
+  ),
   country_name = D$country_name, # Character vector
-  GDP = defined(D$GDP, unit = "M_USD", label = "GDP"), 
+  GDP = defined(D$GDP, unit = "M_USD", label = "GDP"),
   dataset_bibentry = dataset::dublincore(
     title = "North American GDP Dataset",
     description = "Dataset containing GDP data for North American countries.",
     creator = person("Daniel", "Antal"), # Replace with the actual creator
-    publisher = "Reprex", 
+    publisher = "Reprex",
     dataset_date = Sys.Date(),
-    subject = "GDP")
+    subject = "GDP"
+  )
 )
 
 D_defined
@@ -423,13 +452,18 @@ D_defined
 
 ```{r}
 # Create E_defined
-geonames_ids_E <- rep(c(geonames_ids[1], 
-                        geonames_ids[3]), 
-                      each = 3) # USA and France
+geonames_ids_E <- rep(
+  c(
+    geonames_ids[1],
+    geonames_ids[3]
+  ),
+  each = 3
+) # USA and France
 E_defined <- dataset_df(
   geonames = defined(geonames_ids_E,
-                    namespace = "http://www.geonames.org/",
-                    label = "Geonames ID of the country"),
+    namespace = "http://www.geonames.org/",
+    label = "Geonames ID of the country"
+  ),
   country_name = E$country_name,
   GDP = defined(E$GDP, unit = "M_EUR", label = "GDP"),
   dataset_bibentry = dataset::dublincore(
@@ -488,8 +522,11 @@ small_country_musicians <- data.frame(
 
 small_country_musicians$age <- defined(
   2024 - as.integer(
-    substr(as.character(small_country_musicians$date_of_birth), 
-           1, 4)),
+    substr(
+      as.character(small_country_musicians$date_of_birth),
+      1, 4
+    )
+  ),
   label = "Age in 2024"
 )
 ```

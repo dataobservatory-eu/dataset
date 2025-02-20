@@ -47,9 +47,10 @@ Consider the following simple data.frame:
 
 ```{r example-ambiguity}
 data.frame(
-   geo=c("LI", "SM"), 
-   CPI = c("0.8", "0.9"), 
-   GNI= c("8976", "9672"))
+  geo = c("LI", "SM"),
+  CPI = c("0.8", "0.9"),
+  GNI = c("8976", "9672")
+)
 ```
 This dataset is tidy. But it certainly could be improved!
 
@@ -259,7 +260,8 @@ small_country_musicians <- data.frame(
 
 ## And the age
 small_country_musicians$P3629 <- 2024 - as.integer(
-  substr(small_country_musicians$P569, 1, 4))
+  substr(small_country_musicians$P569, 1, 4)
+)
 
 small_country_musicians
 ```
@@ -288,7 +290,8 @@ small_country_musicians <- data.frame(
 
 ## And the age
 small_country_musicians$P3629 <- 2024 - as.integer(
-  substr(small_country_musicians$P569, 1, 4))
+  substr(small_country_musicians$P569, 1, 4)
+)
 
 small_country_musicians$P569 <- dataset::xsd_convert(small_country_musicians$P569)
 small_country_musicians$P3629 <- dataset::xsd_convert(small_country_musicians$P3629)

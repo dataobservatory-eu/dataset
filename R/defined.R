@@ -226,3 +226,42 @@ as_numeric.haven_labelled_defined <- function(x) {
 as_character.haven_labelled_defined <- function(x) {
   as.character(haven::as_factor(x))
 }
+
+#' @title Combine Values into a defined Vector
+#' @description
+#' The c() method with the haven_labelled_defined class requires a strict
+#' matching of the var_label, unit, definiton, and namespace attributes (if
+#' they exist and do not have a \code{NULL} value)
+#' @param ... objects to be concatenated.
+#' @return A haven_labelled_defined vector.
+#' @examples
+#' a <- defined(1:3, label = "Length", unit = "meter")
+#' b <- defined(4:6, label = "Length", unit = "meter")
+#' c(a, b)
+#' @seealso [defined()]
+#' @export
+c.haven_labelled_defined <- function(...) {
+  dots <- list(...)
+
+  var_labels <- unlist(lapply(dots, var_label))
+  units <- unlist(lapply(dots, var_unit))
+  definitions <- unlist(lapply(dots, definition_attribute))
+  namespaces <- unlist(lapply(dots, namespace_attribute))
+
+  if (length(unique(as.character(var_labels))) > 1) {
+    stop("c.haven_labelled_defined(x,y): x,y must have no var_label or the same var_label.")
+  }
+
+  if (length(unique(as.character(units))) > 1) {
+    stop("c.haven_labelled_defined(x,y): x,y must have no unit or the same unit.")
+  }
+
+  if (length(unique(as.character(definitions))) > 1) {
+    stop("c.haven_labelled_defined(x,y): x,y must have no definition or the same definition.")
+  }
+
+  if (length(unique(as.character(namespaces))) > 1) {
+    stop("c.haven_labelled_defined(x,y): x,y must have no namespace or the same namespace.")
+  }
+  NextMethod()
+}

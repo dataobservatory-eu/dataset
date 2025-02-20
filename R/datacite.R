@@ -138,7 +138,6 @@ datacite <- function(Title,
                      Description = ":tba",
                      Geolocation = ":unas",
                      FundingReference = ":unas") {
-
   Date <- ifelse(is.null(DateList), ":tba", as.character(Date))
   DateList <- ifelse(is.null(DateList), ":tba", as.character(DateList))
   Format <- ifelse(is.null(Format), ":tba", as.character(Format))
@@ -192,11 +191,12 @@ new_datacite <- function(Title,
                          Description,
                          Geolocation,
                          FundingReference) {
-
   # Create year from Date
-  if ( !is.null(Date) ) {
-    year <- substr(as.character(Date), 1,4)
-  } else { year <- NA_character_ }
+  if (!is.null(Date)) {
+    year <- substr(as.character(Date), 1, 4)
+  } else {
+    year <- NA_character_
+  }
 
   datacite_object <- bibentry(
     bibtype = "Misc",

@@ -23,5 +23,6 @@ test_that("language() works", {
 
 test_that("language()<- throws error", {
   expect_error(language(x = myiris) <- "hello",
-               regexp="Language=hello is not a valid ISO 639 language code")
+    regexp = "Language=hello is not a valid ISO 639 language code"
+  )
 })

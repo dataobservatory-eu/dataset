@@ -160,3 +160,26 @@ test_that("as_numeric.haven_labelled_defined() works ", {
   expect_equal(as_numeric(sepal_length), iris$Sepal.Length)
   expect_equal(as_character(x = sepal_length), as.character(iris$Sepal.Length))
 })
+
+test_that("c.haven_labelled_defined() works ", {
+  a <- defined(1:3, label = "testlabel", unit = "meter", definition = "testdef", namespace = "http://example.com")
+  b <- defined(4:6, label = "testlabel", unit = "meter", definition = "testdef", namespace = "http://example.com")
+  ab <- defined(1:6, label = "testlabel", unit = "meter", definition = "testdef", namespace = "http://example.com")
+  expect_equal(ab, c(a, b))
+  cm <- defined(4:6, label = "testlabel", unit = "centimeter", definition = "test", namespace = "http://example.com")
+  def <- defined(4:6, label = "testlabel", unit = "meter", definition = "def", namespace = "http://example.com")
+  nsp <- defined(4:6, label = "testlabel", unit = "meter", definition = "testdef", namespace = "http://examples.com")
+  lbl <- defined(4:6, label = "tested", unit = "meter", definition = "def", namespace = "http://example.com")
+  expect_error(c(a, cm),
+    regexp = "must have no unit or the same unit"
+  )
+  expect_error(c(a, def),
+    regexp = "must have no definition or the same definition"
+  )
+  expect_error(c(a, nsp),
+    regexp = "must have no namespace or the same namespace"
+  )
+  expect_error(c(a, lbl),
+    regexp = "must have no var_label or the same var_label"
+  )
+})

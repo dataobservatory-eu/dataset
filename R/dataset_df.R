@@ -200,9 +200,12 @@ print.dataset_df <- function(x, ...) {
   title <- dataset_bibentry$title
 
 
-  varlabels <- vapply(x, function(x) ifelse(is.null(var_label(x)),
-                                            "          ",
-                                            substr(var_label(x), 1, 10)), character(1))
+  varlabels <- vapply(x, function(x) {
+    ifelse(is.null(var_label(x)),
+      "          ",
+      substr(var_label(x), 1, 10)
+    )
+  }, character(1))
 
 
 
@@ -220,7 +223,7 @@ print.dataset_df <- function(x, ...) {
     # cat(paste0(" (", substr(as.character(year), 1,4), ")"))
   }
   print(get_bibentry(x), "text")
-  #cli::cat_line(paste(as.character(varlabels), collapse=" "))
+  # cli::cat_line(paste(as.character(varlabels), collapse=" "))
   cli::cat_line(format(x)[-1])
 }
 

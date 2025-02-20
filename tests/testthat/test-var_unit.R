@@ -6,7 +6,8 @@ test_that("var_unit()", {
   var_unit(iris$Sepal.Length) <- "centimeters"
   expect_equal(var_unit(iris$Sepal.Length), "centimeters")
   expect_error(var_unit(iris$Sepal.Length) <- c("cm", "mm"),
-               regexp = "should be a single character string or NULL")
+    regexp = "should be a single character string or NULL"
+  )
 })
 
 test_that("unit_attribute()", {

@@ -2,7 +2,8 @@ test_that("rights() works", {
   myiris <- iris_dataset
   expect_equal(rights(iris_dataset), ":tba")
   expect_error(rights(myiris) <- c(":unas", "hello"),
-               regexp = "must have length=1")
+    regexp = "must have length=1"
+  )
 })
 
 test_that("rights() works", {
@@ -14,4 +15,3 @@ test_that("rights() works", {
   rights(x = myiris) <- NULL
   expect_equal(rights(myiris), ":unas")
 })
-
