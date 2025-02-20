@@ -49,8 +49,6 @@ bind_defined_rows <- function(x, y, ...) {
     stop(error_msg)
   }
 
-
-
   for (i in seq_along(x)) {
     if (i == 1) next
     if (i == 2) {
@@ -66,65 +64,64 @@ bind_defined_rows <- function(x, y, ...) {
   attr(new_dataset, "dataset_bibentry") <- attr(x, "dataset_bibentry")
 
   if (!is.null(dots$creator)) {
+    # Otherwise the x dataset bibentry lives in the join
     creator(new_dataset) <- dots$creator
-  }
-
-  if (is.null((dots$creator))) {
-    creators <- c(creator(x), creator(y))
-
-    given_names <- c(creator(x)$given, creator(y)$given)
-    family_names <- c(creator(x)$family, creator(y)$family)
-    comments <- c(creator(x)$comment, creator(y)$comment)
-    roles <- c(creator(x)$role, creator(y)$role)
-    emails <- c(creator(x)$email, creator(y)$email)
-
-    for (i in seq_along(given_names)) {
-      for (j in seq_along(given_names)) {
-        if (i == j) next
-      }
-
-      all_the_same <- all(
-        given_names[i] == given_names[j] &&
-          family_names[i] == family_names[j] &&
-          comments[i] == comments[j]
-      )
-
-      if (is.na(all_the_same)) next
-
-      if (all_the_same) {
-        given_names <- given_names[-j]
-        family_names <- family_names[-j]
-        comments <- comments[-j]
-        roles <- roles[-j]
-        emails <- emails[-j]
-      }
-    }
-
-    for (i in seq_along(given_names)) {
-      if (i == 1) {
-        persons <- person(
-          given = given_names[i],
-          family = family_names[i],
-          comment = comments[i],
-          role = roles[i],
-          email = emails[i]
-        )
-        next
-      }
-      persons <- c(
-        persons,
-        person(
-          given = given_names[i],
-          family = family_names[i],
-          comment = comments[i],
-          role = roles[i],
-          email = emails[i]
-        )
-      )
-    }
-    creator(new_dataset) <- persons
   }
 
   if (!is.null(dots$title)) dataset_title(new_dataset, overwrite=TRUE) <- dots$title
   new_dataset
+}
+
+#' @keywords internal
+compare_creators <- function(x,y){
+  given_names <- c(creator(x)$given, creator(y)$given)
+  family_names <- c(creator(x)$family, creator(y)$family)
+  comments <- c(creator(x)$comment, creator(y)$comment)
+  roles <- c(creator(x)$role, creator(y)$role)
+  emails <- c(creator(x)$email, creator(y)$email)
+
+  for (i in seq_along(given_names)) {
+    for (j in seq_along(given_names)) {
+      if (i == j) next
+    }
+
+    all_the_same <- all(
+      given_names[i] == given_names[j] &&
+        family_names[i] == family_names[j] &&
+        comments[i] == comments[j]
+    )
+
+    if (is.na(all_the_same)) next
+
+    if (all_the_same) {
+      given_names <- given_names[-j]
+      family_names <- family_names[-j]
+      comments <- comments[-j]
+      roles <- roles[-j]
+      emails <- emails[-j]
+    }
+  }
+
+  for (i in seq_along(given_names)) {
+    if (i == 1) {
+      persons <- person(
+        given = given_names[i],
+        family = family_names[i],
+        comment = comments[i],
+        role = roles[i],
+        email = emails[i]
+      )
+      next
+    }
+    persons <- c(
+      persons,
+      person(
+        given = given_names[i],
+        family = family_names[i],
+        comment = comments[i],
+        role = roles[i],
+        email = emails[i]
+      )
+    )
+  }
 }

@@ -41,6 +41,7 @@ n_triples <- function(triples) {
 #' o <- "That Seventies Show"
 #' n_triple(s, p, o)
 #' @export
+
 n_triple <- function(s, p, o) {
   s <- create_iri(s)
   p <- create_iri(p)

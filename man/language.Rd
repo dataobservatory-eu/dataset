@@ -38,11 +38,11 @@ The attribute \code{language} is added to the object. It will be exported into D
 applications in a capitalized \code{Lanugage} format.
 }
 \examples{
-myiris <- iris_dataset
-language(myiris) <- "English"
-language(myiris)
-language(myiris) <- "fr"
-language(myiris)
+myorange <- orange_df
+language(myorange) <- "English"
+language(myorange)
+language(myorange) <- "fr"
+language(myorange)
 }
 \seealso{
 Other Reference metadata functions: 

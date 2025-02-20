@@ -18,11 +18,11 @@
 #' \code{ISO 639-1}, the Datacite recommendation, or \code{ISO 639-3} used by the
 #' Zenodo data repository.
 #' @examples
-#' myiris <- iris_dataset
-#' language(myiris) <- "English"
-#' language(myiris)
-#' language(myiris) <- "fr"
-#' language(myiris)
+#' myorange <- orange_df
+#' language(myorange) <- "English"
+#' language(myorange)
+#' language(myorange) <- "fr"
+#' language(myorange)
 #' @family Reference metadata functions
 #' @export
 language <- function(x) {
