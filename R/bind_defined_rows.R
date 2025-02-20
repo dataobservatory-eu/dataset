@@ -29,6 +29,7 @@
 #' )
 #' bind_defined_rows(x = A, y = B)
 #'
+
 bind_defined_rows <- function(x, y, ...) {
   dots <- list(...)
 
@@ -39,6 +40,16 @@ bind_defined_rows <- function(x, y, ...) {
   if (!inherits(y, "dataset_df")) {
     stop("Error: bind_defined_rows(x,y): y must be a dataset_df.")
   }
+
+  if (dim(x)[2] != dim(y)[2]) {
+    error_msg <- paste0("bind_defined_rows(x,y): x has ",
+                        dim(x)[2], ", but y has ",
+                        dim(y)[2], " columns.")
+
+    stop(error_msg)
+  }
+
+
 
   for (i in seq_along(x)) {
     if (i == 1) next
@@ -114,6 +125,6 @@ bind_defined_rows <- function(x, y, ...) {
     creator(new_dataset) <- persons
   }
 
-  if (!is.null(dots$title)) dataset_title(new_dataset) <- dots$title
+  if (!is.null(dots$title)) dataset_title(new_dataset, overwrite=TRUE) <- dots$title
   new_dataset
 }

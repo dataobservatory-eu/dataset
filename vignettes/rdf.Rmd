@@ -24,17 +24,19 @@ The **RDF** (Resource Description Framework) annotation significantly enhances t
 ## Standardised Semantic Framework
 RDF provides a common framework to describe resources and their relationships using triples (subject-predicate-object). This standardisation ensures that data from different systems can be understood in a unified way, regardless of the original source or format.  Notice that this format is a stricter version of the tidy dataset concept, where not only on every observation is in a row, but there are always strictly three columns.
 
-```{r iris}
-head(iris)[1:2, ]
+```{r orangedf}
+data(orange_df)
+orange_df[1, ]
 ```
+
 Instead of placing the relevant measurement of an observed flower into the intersection of columns and rows, in the triple format we put them next to each other: 
 
-- the first flower's sepal length is 5.1
-- the second flowers's sepal length is 4.9
+- the first tree's age is 118 days.
+- the first tree's circumference is 30 mm.
 
 
 ```{r triples}
-dataset_to_triples(iris[1:2, ])[1:10, ]
+dataset_to_triples(orange_df[1:2, ])[1:3, ]
 ```
 We describe the `dataset_df` datasets in such triplets, where each triplet is a semantic statement: it connects a single observation unit with a single measurement.
 

@@ -32,13 +32,6 @@ rlang::check_installed("here")
 The aim of the _dataset_ package is to make tidy datasets easier to release, exchange and reuse. It organizes and formats data frame R objects into well-referenced, well-described, interoperable datasets into release and reuse ready form.
 
 
-1. **Increase FAIR use of your datasets**: Offer a way to better utilise the `utils:bibentry` bibliographic entry objects to offer more comprehensive and standardised descriptive metadata utilising the  [DCTERMS](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) and [DataCite](https://datacite-metadata-schema.readthedocs.io/en/4.6/) standards. This will lead to a higher level of findability and accessibility, and a better use of the rOpenSci package [RefManageR](https://docs.ropensci.org/RefManageR/). See for more information the [Bibentry for FAIR datasets](https://dataset.dataobservatory.eu/articles/bibentry.html) vignette.
-2. **Interoperability outside R**: Extending the `haven_labelled` class of the `tidyverse` for consistently labelled categorical variables with linked (standard) definitions and units of measures in our [defined](https://dataset.dataobservatory.eu/articles/defined.html) class; this enables to share metadata not only about the dataset as a whole, but about its key components (rows and columns), including precise definitions, units of measures. This results in a higher level of interoperability and reusability, within and outside of the R ecossytem. 
-3. **Tidy data tidier, richer**: Offering a new data frame format, `dataset_df` that extends tibbles with semantically rich metadata, ready to be shared on open data exchange platforms and in data repositories. This s3 class is aimed at developers and we are working on several packages that provide interoperability with SDMX statistical data exchange platforms, Wikidata, or the EU Open Data portal. Read more in the [Create Datasets that are Easy to Share Exchange and Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html) vignette.
-4. Adding provenance metadata to make your dataset easier to reuse by making its history known to future users. We have no vignette on this topic, but you find at the bottom of this `README` an example.
-5. **Releasing and exchanging datasets**: The [From R to RDF](https://dataset.dataobservatory.eu/articles/rdf.html) vignette shows how to leverage the capabilities of the _dataset_ package with [rdflib](https://docs.ropensci.org/rdflib/index.html), an R-user-friendly wrapper on rOpenSci to work with the _redland_ Python library for performing common tasks on RDF data, such as parsing and converting between formats including rdfxml, turtle, nquads, ntriples, creating RDF graphs, and performing SPARQL queries.
-
-Putting it all together: the  [Motivation](https://dataset.dataobservatory.eu/articles/Motivation.html) explains in a long case study why `tidyverse` and the *tidy data principle* is no longer sufficient for a high level of interoperability and reusability. 
 
 
 <!---
@@ -60,50 +53,61 @@ Interoperability and future (re)usability depends on the amount and quality of t
 
 ## Semantically richer data frames
 
+Let's take a simple data.frame from the datasets package. The "Growth of Orange Trees"
+dataset contains 35 rows and 3 columns that record the growth of orange trees.
+
 ```{r initialise}
-library(dataset)
-iris_ds <- dataset_df(
-  x = iris,
-  dataset_bibentry = dublincore(
-    title = "Iris Dataset",
-    creator = person("Edgar", "Anderson", role = "aut"),
-    publisher = "American Iris Society",
-    datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-    dataset_date = 1935,
-    language = "en",
-    description = "This famous (Fisher's or Anderson's) iris data set."
-  )
-)
+library(datasets)
+head(datasets::Orange)
 ```
+Following the tidy data principle, we create an unambiguous row identifier. Then
+we go three steps further: 
 
-You can read more about the history of this dataset, and some controversy around its association of problematic science in the [Bibentry for FAIR datasets](https://dataset.dataobservatory.eu/articles/bibentry.html) vignette.
+1. We add more semantic information about the meaning of the 
+variables, for example, to avoid joining numeric variables of the same type (numeric
+or integer) but different unit of measure (mm vs cm.)
 
-It is mandatory to add a `title`, `author` to a dataset, and if the `date` is not specified, the current date will be added. 
-
-As the `dataset_df` at this point is just created, if it is not published yet, the `identifer` receives the default `:tba` value, a `version` of 0.1.0 and the `:unas` (unassigned) `publisher` field.
-
-The `dataset_df` behaves as expected from a data.frame-like object. See more information about the enhanced semantic capabilities of these data frames in the vignette article [Create Datasets that are Easy to Share Exchange and Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
+```{r richerorange}
+library(dataset)
+data("orange_df")
+orange_df
+```
+```{r unit}
+var_unit(orange_df$circumference)
+```
+The `dataset_df` behaves as expected from a data.frame-like object. 
 
 ```{r summary}
-summary(iris_ds)
-```
-The dataset_df
-A brief description of the extended metadata attributes:
-
-```{r describe}
-print(get_bibentry(iris_ds), "Bibtex")
+summary(orange_df)
 ```
 
-```{r individualattributes}
-paste0("Publisher:", publisher(iris_ds))
-paste0("Rights:", rights(iris_ds))
+2. We add more descriptive metadata to make the dataset easier to find and reuse:
+
+```{r bibentry}
+print(get_bibentry(orange_df), "BibTex")
+```
+3. We add provenance metadata to increase the trust and usability of the dataset. 
+This feature is highly experimental at this point and will be further developed 
+considering usability and new use cases.
+
+```{r provenance}
+provenance(orange_df)
 ```
 
-The descriptive metadata are added to a `utils::bibentry` object which has many printing options (see `?bibentry`). (The `utils` package is installed by default with every R system, so working with utils is not an extra dependency.)
+
+1. **Increase FAIR use of your datasets**: Offer a way to better utilise the `utils:bibentry` bibliographic entry objects to offer more comprehensive and standardised descriptive metadata utilising the  [DCTERMS](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/) and [DataCite](https://datacite-metadata-schema.readthedocs.io/en/4.6/) standards. This will lead to a higher level of findability and accessibility, and a better use of the rOpenSci package [RefManageR](https://docs.ropensci.org/RefManageR/). See for more information the [Bibentry for FAIR datasets](https://dataset.dataobservatory.eu/articles/bibentry.html) vignette.
+2. **Interoperability outside R**: Extending the `haven_labelled` class of the `tidyverse` for consistently labelled categorical variables with linked (standard) definitions and units of measures in our [defined](https://dataset.dataobservatory.eu/articles/defined.html) class; this enables to share metadata not only about the dataset as a whole, but about its key components (rows and columns), including precise definitions, units of measures. This results in a higher level of interoperability and reusability, within and outside of the R ecossytem. 
+3. **Tidy data tidier, richer**: Offering a new data frame format, `dataset_df` that extends tibbles with semantically rich metadata, ready to be shared on open data exchange platforms and in data repositories. This s3 class is aimed at developers and we are working on several packages that provide interoperability with SDMX statistical data exchange platforms, Wikidata, or the EU Open Data portal. Read more in the [Create Datasets that are Easy to Share Exchange and Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html) vignette.
+4. Adding provenance metadata to make your dataset easier to reuse by making its history known to future users. We have no vignette on this topic, but you find at the bottom of this `README` an example.
+5. **Releasing and exchanging datasets**: The [From R to RDF](https://dataset.dataobservatory.eu/articles/rdf.html) vignette shows how to leverage the capabilities of the _dataset_ package with [rdflib](https://docs.ropensci.org/rdflib/index.html), an R-user-friendly wrapper on rOpenSci to work with the _redland_ Python library for performing common tasks on RDF data, such as parsing and converting between formats including rdfxml, turtle, nquads, ntriples, creating RDF graphs, and performing SPARQL queries.
+
+Putting it all together: the  [Motivation](https://dataset.dataobservatory.eu/articles/Motivation.html) explains in a long case study why `tidyverse` and the *tidy data principle* is no longer sufficient for a high level of interoperability and reusability. 
+
+
 
 ## Semantically richer data frame columns
 
-It is important to see that we do not only increase the semantics of the dataset as a whole, but also the semantics of each variable. R users often have a problem with the reusability of their data frames because, by default, a variable is only described by a programmatically usable name label; for example, in the famous `iris` dataset, the length of the sepal for each observation (row) is in the `iris$Sepal.Length` column. If we would like to add rows to this dataset, it is essential to know if the numbers in the `iris$Sepal.Length` are measured in millimetres, centimetres or inches. 
+It is important to see that we do not only increase the semantics of the dataset as a whole, but also the semantics of each variable. R users often have a problem with the reusability of their data frames because, by default, a variable is only described by a programmatically usable name label.
 
 When working with datasets that receive their components from different linked open data sources, it is particularly important to have a more precise semantic definition and description of each variable.
 
@@ -121,28 +125,15 @@ summary(gdp_1)
 # See its attributes under the hood:
 attributes(gdp_1)
 ```
-The _dataset_ package contains a semantically enriched version of the `iris` dataset (which is installed with every R system.)
 
-```{r irisdataset}
-data("iris_dataset")
 
-# Print the dataset_df object:
-print(iris_dataset)
-
-# Summarise the Sepal.Length variable:
-summary(iris_dataset$Sepal.Length)
-
-# Check the attributes of this variable:
-attributes(iris_dataset$Sepal.Length)
-```
 ## Dataset Provenance
 
 The constructor of the `dataset_df` objects also records the most important processes that created or modified the dataset. This experimental feature has not been fully developed in the current _dataset_ version. The aim is to provide a standard way of describing the processes that help to understand what happened with your data using the W3C [PROV-O](https://www.w3.org/TR/prov-o/) provenance ontology and the [RDF 1.1 N-Triples](https://www.w3.org/TR/n-triples/) W3C standard for describing these processes in a flat file.
 
-```{r provenance}
-provenance(iris_dataset)
+```{r provenanceagain}
+provenance(orange_df)
 ```
-The [From R to RDF](https://dataset.dataobservatory.eu/articles/rdf.html) vignette shows how to leverage the capabilities of the _dataset_ package with [rdflib](https://docs.ropensci.org/rdflib/index.html) to share the history and other metadata of your dataset globally, or import data updates from standardised statistical data exchanges.
 
 ## Code of Conduct
 Please note that the `dataset` package is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

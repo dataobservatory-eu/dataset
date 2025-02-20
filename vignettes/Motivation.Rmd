@@ -109,12 +109,34 @@ E <- tibble(
 
 The two datasets conform to the tidy data principles, and with the tidyverse functions, we can join them together into a single dataset. But should we?
 
-```{r}
+```{r ambigousjoin}
 full_join(D, E)
 ```
 
 Obviously, this join is valid syntactically, but seriously misleading, because some values are expressed in dollars, other in euros. This would be clear for a user who has access to the full creation code with the comments, but this is not always a realistic approach. The user may download the data from a CSV file and do not read R at all. The serialisation of the metadata (i.e., the currency use), and the data are detached, even in R. Not to mention other possible problems. The analyst may add another numeric variable called `CPI`, which may mean consumer price index or corruption perception index. There is no guarantee that a next user can use the dataset as intended.
 
+Our strictly `defined` vectors check if the variable label, unit, namespace and definition match. If they are missing, the concatenation is possible, but when they are present, they must match.
+
+You cannot concatenate USD and EUR denominated values:
+
+```{r strintc, eval=FALSE}
+GDP_D = defined(c(21000, 2000, 22000, 2100, 23000, 2200), unit = "M_USD")
+GDP_E = defined(c(18000, 2500, 19000, 2600, 20000, 2700), unit = "M_EUR")
+c(GDP_D, GDP_E)
+```
+```{r}
+message("Error in c.haven_labelled_defined(GDP_D, GDP_E) : 
+  c.haven_labelled_defined(x,y): x,y must have no unit or the same unit")
+```
+
+
+Only with EUR-denominated values:
+
+```{r matchigunits}
+GDP_F = defined(c(21000, 2000, 22000, 2100, 23000, 2200), unit = "M_EUR")
+GDP_E = defined(c(18000, 2500, 19000, 2600, 20000, 2700), unit = "M_EUR")
+c(GDP_F, GDP_E)
+```
 While numerous R packages address metadata management in specific contexts, they often interact with datasets late in the process, primarily focusing on publication or external reuse, for example, after serialisation of CSV and publication on a website. The `dataset` family takes a different approach, embedding reusability from the moment a `data.frame` is created. This early intervention adds value and potentially amplifies the effectiveness of other metadata packages, but critically, also the reusability of R objects, too. We are building an extension of data.frames, tibbles, tsibbles and other tabular containers that retain the currency information; the full name of the CPI variable; and they prohibit a full join with semantically different variables of the same type.
 
 Our work is informed by the European Interoperability Framework (EIF) and its principles of data governance. The EIF identifies four layers of interoperability: legal, organizational, semantic, and technical. While many R metadata packages concentrate on the technical aspects and incorporate legal metadata, the `dataset` family emphasizes the organizational and semantic layers, with leaving the technical elements of the interoperability to other packages like `frictionless`, `dataspice`, and `rdflib` (with the two last packages we plan a deep integration.)
@@ -204,7 +226,7 @@ Beyond row and column identification, `dataset` addresses the question of *when*
 
 -   **Measures:** Values often requiring a unit of measure.
 
-```{r}
+```{r ambigousjoinwithdplyr}
 library(tibble)
 library(dplyr)
 
@@ -407,7 +429,7 @@ The downside of both `rdflib` and `frictionless` is that they are agnostic to th
 
 In the following example we demonstrate how `dataset` adds semantic richness to the earlier datasets without utilising another language or any external containers.
 
-```{r}
+```{r datasetdf}
 # Dataset D (GDP in millions of USD) with a tibble:
 D <- tibble(
   year = c(2020, 2020, 2021, 2021, 2022, 2022),
@@ -450,12 +472,12 @@ D_defined <- dataset_df(
 D_defined
 ```
 
-```{r}
+```{r datasetE}
 # Create E_defined
 geonames_ids_E <- rep(
   c(
     geonames_ids[1],
-    geonames_ids[3]
+    "3017382"
   ),
   each = 3
 ) # USA and France
@@ -481,8 +503,37 @@ So, by now it is clear that the following join must be prohibited.
 
 ```{r impossible-join, eval=FALSE}
 D_defined %>%
-  full_join(E_defined)
+  bind_rows(E_defined)
 ```
+
+```{r}
+message("Some attributes are incompatible")
+```
+
+```{r unitmismatch, eval=FALSE}
+D_defined %>%
+  bind_defined_rows(E_defined)
+```
+```{r}
+message("Error in c.haven_labelled_defined(x[[i]], y[[i]]) : 
+  c.haven_labelled_defined(x,y): x,y must have no unit or the same unit.")
+```
+The semantically strict version of bind_rows works only with variables that have the same meaning, not only the same variable type, like integer, and the same column name heading.
+
+```{r binddefinedrows}
+D_redefined <- D_defined %>%
+  mutate ( exchange_rate = 1.1, 
+           GDP_USD = GDP) %>%
+  mutate ( GDP = defined(GDP_USD/exchange_rate, label="GDP", unit = "M_EUR")) 
+
+D_redefined %>%
+  bind_defined_rows(E_defined %>%
+                      mutate ( exchange_rate = 1.1) %>%
+                      mutate (GDP_USD = defined(GDP/1.1, label="GDP", unit="M_USD")), 
+                    title = "Combined GDP Dataset"
+                    )
+```
+
 
 While the `geonames` and the `country_name` can be joined (the geonames using the same strict definition), the
 

@@ -16,6 +16,13 @@ metadata-enriched data publication packages can be used together with the
 
 - Many small good coding and testing practices were implemented.
 
+- In order to make the dataset package admissible to rOpenSci, references to the
+iris dataset had to be removed, because rOpenSci finds the provenance of this 
+dataset inadmissible.
+
+- Introduction of strict c() and bind_defined_rows() alternatives to the generic
+c() method and rbind() or dplyr::bind_rows().
+
 # dataset 0.3.4
 
 - New release on CRAN.
