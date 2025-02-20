@@ -14,7 +14,7 @@ WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.o
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 [![DOI](https://zenodo.org/badge/DOI/10.32614/CRAN.package.dataset.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.3.4010-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.3.4012-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Codecov test
 coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset)
@@ -249,7 +249,7 @@ data("iris_dataset")
 
 # Print the dataset_df object:
 print(iris_dataset)
-#> Anderson E (????). "Iris Dataset."
+#> Anderson E (1935). "Iris Dataset."
 #>    rowid      Sepal.Length Petal.Length Sepal.Width Petal.Width Species   
 #>    <hvn_lbl_> <hvn_lbl_>   <hvn_lbl_>   <hvn_lbl_>  <hvn_lbl_>  <hvn_lbl_>
 #>  1 #1         5.1          1.4          3.5         0.2         1 [setosa]
@@ -305,7 +305,7 @@ provenance(iris_dataset)
 #> [4] "<http://viaf.org/viaf/6440526> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."                         
 #> [5] "<https://doi.org/10.32614/CRAN.package.dataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#SoftwareAgent> ."
 #> [6] "<http://example.com/creation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> ."                       
-#> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2025-02-16T08:57:35Z\"^^<xs:dateTime> ."
+#> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2025-02-20T16:36:57Z\"^^<xs:dateTime> ."
 ```
 
 The [From R to

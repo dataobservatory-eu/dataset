@@ -20,8 +20,8 @@ library(dataset)
 
 `defined()` is a vector subclass of labelled. Labelled improves the semantic capacity of a base R factor with improved value levels and labels by adding a long-form, human-readable label to the variable itself.
 
-```{r}
-gdp_1 = defined(
+```{r definedvector}
+gdp_1 <- defined(
     c(3897, 7365), 
     label = "Gross Domestic Product", 
     unit = "million dollars", 
@@ -30,7 +30,7 @@ gdp_1 = defined(
 
 The `defined()` class extends the attributes of a labelled vector with a unit (of measure), a definition and a namespace. 
 
-```{r}
+```{r definedattributes}
 attributes(gdp_1)
 cat("Get the label only: ")
 var_label(gdp_1)

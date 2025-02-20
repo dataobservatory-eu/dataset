@@ -18,9 +18,9 @@ matching of the var_label, unit, definiton, and namespace attributes (if
 they exist and do not have a \code{NULL} value)
 }
 \examples{
-a <- defined(1:3, label="Length", unit="meter")
-b <- defined(4:6, label="Length", unit="meter")
-c(a,b)
+a <- defined(1:3, label = "Length", unit = "meter")
+b <- defined(4:6, label = "Length", unit = "meter")
+c(a, b)
 }
 \seealso{
 \code{\link[=defined]{defined()}}

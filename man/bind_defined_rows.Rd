@@ -2,7 +2,7 @@
 % Please edit documentation in R/bind_defined_rows.R
 \name{bind_defined_rows}
 \alias{bind_defined_rows}
-\title{Add rows}
+\title{Bind strictly defined rows}
 \usage{
 bind_defined_rows(x, y, ...)
 }
@@ -27,17 +27,20 @@ By default, the unique creators of dataset y, who are not present in
 dataset x, are added to the creators of the new dataset.
 }
 \examples{
-A = dataset_df(a=defined(c(11,14,16), label="length", unit = "cm"),
-              dataset_bibentry = dublincore(
-              title="Test", creator=person("Jane Doe"),
-              dataset_date = Sys.Date())
-              )
+A <- dataset_df(
+  a = defined(c(11, 14, 16), label = "length", unit = "cm"),
+  dataset_bibentry = dublincore(
+    title = "Test", creator = person("Jane Doe"),
+    dataset_date = Sys.Date()
+  )
+)
 
-B =  dataset_df(b=defined(c(12,17,19), label="length", unit = "cm"),
-                dataset_bibentry = dublincore(
-                title="Test", creator=person("Joe Doe"))
-                )
-
-bind_defined_rows(x=A,y=B)
+B <- dataset_df(
+  a = defined(c(12, 17, 19), label = "length", unit = "cm"),
+  dataset_bibentry = dublincore(
+    title = "Test", creator = person("Jane Doe")
+  )
+)
+bind_defined_rows(x = A, y = B)
 
 }

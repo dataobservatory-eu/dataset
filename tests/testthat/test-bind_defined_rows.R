@@ -15,7 +15,6 @@ test_that("bind_defined_rows() works", {
       dataset_date = Sys.Date()
     )
   )
-
   B <- dataset_df(
     a = defined(c(12, 17, 19), label = "length", unit = "cm"),
     dataset_bibentry = dublincore(

@@ -5,7 +5,8 @@ test_that("dataset_df() works", {
   expect_equal(get_bibentry(dataset_df(mtcars))$author, person("Author", "Unknown"))
   expect_equal(
     dataset_df(mtcars, identifier = c(mt = "http:/mtcars.com/dataset#"))$rowid,
-    defined(paste0("mt:", 1:nrow(mtcars)), namespace = c(mt = "http:/mtcars.com/dataset#"))
+    defined(paste0("mt:", 1:nrow(mtcars)),
+            namespace = c(mt = "http:/mtcars.com/dataset#"))
   )
   my_dataset <- dataset_df(
     country_name = defined(

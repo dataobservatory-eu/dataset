@@ -1,4 +1,4 @@
-#' @title Add rows
+#' @title Bind strictly defined rows
 #' @description
 #' Add rows of the y dataset to the x dataset.
 #' @details
@@ -22,12 +22,11 @@
 #' )
 #'
 #' B <- dataset_df(
-#'   b = defined(c(12, 17, 19), label = "length", unit = "cm"),
+#'   a = defined(c(12, 17, 19), label = "length", unit = "cm"),
 #'   dataset_bibentry = dublincore(
-#'     title = "Test", creator = person("Joe Doe")
+#'     title = "Test", creator = person("Jane Doe")
 #'   )
 #' )
-#'
 #' bind_defined_rows(x = A, y = B)
 #'
 bind_defined_rows <- function(x, y, ...) {

@@ -161,7 +161,7 @@ new_my_tibble <- function(x,
 
   attr(tmp, "dataset_bibentry") <- dataset_bibentry
 
-  tmp <- set_var_labels(tmp, var_labels = var_labels)
+  # tmp <- set_var_labels(tmp, var_labels = var_labels)
 
   prov <- default_provenance(
     generated_at_time = generated_at_time,

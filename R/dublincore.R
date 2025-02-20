@@ -343,7 +343,7 @@ new_dublincore <- function(title,
 
   if (inherits(creator, "list")) {
     warning("list", creator)
-    for (i in 1:length(creator)) {
+    for (i in seq_along(creator)) {
       if (i == 1) {
         message(i)
         creator <- person(
@@ -517,7 +517,8 @@ fix_contributor <- function(contributors = NULL) {
   assertthat::assert_that(is.character(return_value),
     msg = "Error: fix_contributor(contributors): not character but"
   )
-  assertthat::assert_that(length(return_value) == 1, msg = "Error: fix_contributor(contributors): not 1")
+  assertthat::assert_that(length(return_value) == 1,
+                          msg = "Error: fix_contributor(contributors): not 1")
 
   return_value <- gsub("* dtm", " [dtm]", return_value)
   return_value
