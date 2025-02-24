@@ -20,24 +20,26 @@ property instead of overwriting it. Defaults to \code{FALSE}.}
 \item{value}{The \code{Publisher} as a character set.}
 }
 \value{
-The Publisher attribute as a character of length 1 is added to \code{x}.
+The Publisher attribute as a character of length 1 is added to
+\code{x}.
 }
 \description{
-Add the optional \code{Publisher} property as an attribute to an R object.
+Add the optional \code{Publisher} property as an attribute to an
+R object.
 }
 \details{
-The \code{Publisher} corresponds to dct:publisher and Publisher in DataCite.
-The name of the entity that holds, archives, publishes prints, distributes, releases,
-issues, or produces the resource. This property will be used to formulate the citation,
-so consider the prominence of the role. For software, use Publisher for the
-code repository. If there is an entity other than a code repository, that
-"holds, archives, publishes, prints, distributes, releases, issues, or produces" the
-code, use the property Contributor/contributorType/ hostingInstitution for the code
-repository.
+The \code{Publisher} corresponds to dct:publisher and Publisher in
+DataCite. The name of the entity that holds, archives, publishes prints,
+distributes, releases, issues, or produces the resource. This property will
+be used to formulate the citation, so consider the prominence of the role.
+For software, use Publisher for the code repository. If there is an entity
+other than a code repository, that "holds, archives, publishes, prints,
+distributes, releases, issues, or produces" the code, use the property
+Contributor/contributorType/ hostingInstitution for the code repository.
 }
 \examples{
-publisher(iris_dataset) <- "American Iris Society"
-publisher(iris_dataset)
+publisher(orange_df) <- "Wiley"
+publisher(orange_df)
 }
 \seealso{
 Other Reference metadata functions: 

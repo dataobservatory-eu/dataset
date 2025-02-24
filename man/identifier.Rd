@@ -12,13 +12,13 @@ identifier(x, overwrite = TRUE) <- value
 \arguments{
 \item{x}{An \code{\link{dataset_df}} object or a
 \code{\link[utils:bibentry]{utils::bibentry}} object, including possibly an
-instance of its \code{\link{dublincore}} or \code{\link{datacite}} subclass.}
+instance of its \code{\link{dublincore}} or \code{\link{datacite}}
+subclass.}
 
 \item{overwrite}{If the attributes should be overwritten. In case it is set
 to \code{FALSE}, it gives a message with the current \code{Identifier}
-property instead of overwriting it.
-Defaults to \code{TRUE} when the attribute is set to \code{value}
-regardless of previous setting.}
+property instead of overwriting it. Defaults to \code{TRUE} when the
+attribute is set to \code{value} regardless of previous setting.}
 
 \item{value}{The  \code{Identifier} as a character string.}
 }
@@ -34,21 +34,24 @@ object.
 The \code{Identifier} is an unambiguous reference to the resource
 within a given context. Recommended practice is to identify the resource by
 means of a string conforming to an identification system. Examples include
-International Standard Book Number (ISBN),
-Digital Object Identifier (DOI), and Uniform Resource Name (URN).
-Select and identifier scheme from
-\href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html}{registered URI schemes maintained by IANA}.
-More details: \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines for using resource identifiers in Dublin Core metadata and IEEE LOM}.
+International Standard Book Number (ISBN), Digital Object Identifier (DOI),
+and Uniform Resource Name (URN). Select and identifier scheme from
+\href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html}{registered
+URI schemes maintained by IANA}. More details:
+\href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines
+for using resource identifiers in Dublin Core metadata and IEEE LOM}.
 Similar to \code{Identifier} in \code{\link{datacite}}.
-\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#1-identifier}{DataCite 4.4}.\cr
-It is not part of the "core" Dublin Core terms, but we always add it to the
-metadata attributes of a dataset (in case you use a strict Dublin Core
-property sheet you can omit it.)
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin Core metadata terms}.
+\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#1-identifier}{DataCite
+4.4}.\cr It is not part of the "core" Dublin Core terms, but we always add
+it to the metadata attributes of a dataset (in case you use a strict Dublin
+Core property sheet you can omit it.)
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin
+Core metadata terms}.
 }
 \examples{
-identifier(orange_df) <- "https://doi.org/99999/9999999"
 identifier(orange_df)
+orange_copy <- orange_df
+identifier(orange_copy) <- "https://doi.org/99999/9999999"
 }
 \seealso{
 Other Reference metadata functions: 

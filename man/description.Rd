@@ -35,8 +35,11 @@ May be used for technical information. A free text. Similar to
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}.
 }
 \examples{
-description(iris_dataset, overwrite = TRUE) <- "The famous iris dataset used
-in R language examples."
+description(orange_df)
+description(
+   iris_dataset,
+   overwrite = TRUE) <- "The 'orange' dataset has 35 rows and 3 columns
+                          of records of the growth of orange trees."
 description(iris_dataset)
 }
 \seealso{

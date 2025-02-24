@@ -15,8 +15,11 @@
 #' @return The \code{Description} attribute as a character of length 1 is added
 #'   to \code{x}.
 #' @examples
-#' description(iris_dataset, overwrite = TRUE) <- "The famous iris dataset used
-#' in R language examples."
+#' description(orange_df)
+#' description(
+#'    iris_dataset,
+#'    overwrite = TRUE) <- "The 'orange' dataset has 35 rows and 3 columns
+#'                           of records of the growth of orange trees."
 #' description(iris_dataset)
 #' @family Reference metadata functions
 #' @export
