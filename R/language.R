@@ -1,4 +1,4 @@
-#' @title Get/Set the primary language of the dataset
+#' @title Get/set the primary language of the dataset
 #' @description Add the optional Language property as an attribute to an R object.
 #' @details Language is an optional property in DataCite 4.4; see:
 #' \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#9-language}{datacite:Language}\cr

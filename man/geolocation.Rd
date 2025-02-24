@@ -35,11 +35,11 @@ the data is focused. See:
 \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#18-geolocation}{datacite:Geolocation}.
 }
 \examples{
-iris_dataset <- iris
-geolocation(iris_dataset) <- "US"
-geolocation(iris_dataset)
+orange_dataset <- orange_df
+geolocation(orange_df) <- "US"
+geolocation(orange_df)
 
-geolocation(iris_dataset, overwrite = FALSE) <- "GB"
+geolocation(orange_df, overwrite = FALSE) <- "GB"
 
 }
 \seealso{

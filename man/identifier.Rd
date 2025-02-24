@@ -47,8 +47,8 @@ property sheet you can omit it.)
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin Core metadata terms}.
 }
 \examples{
-identifier(iris_dataset) <- "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
-identifier(iris_dataset)
+identifier(orange_df) <- "https://doi.org/99999/9999999"
+identifier(orange_df)
 }
 \seealso{
 Other Reference metadata functions: 

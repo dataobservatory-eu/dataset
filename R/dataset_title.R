@@ -9,9 +9,9 @@
 #' a dataset object with the changed (main) title.
 #' @family Bibliographic reference functions
 #' @examples
-#' dataset_title(iris_dataset)
-#' dataset_title(iris_dataset, overwrite = TRUE) <- "The Famous Iris Dataset"
-#' dataset_title(iris_dataset)
+#' dataset_title(orange_df)
+#' dataset_title(orange_df, overwrite = TRUE) <- "The Growth of Orange Trees"
+#' dataset_title(orange_df)
 #' @export
 
 dataset_title <- function(x) {

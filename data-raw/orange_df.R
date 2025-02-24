@@ -35,12 +35,18 @@ orange_bibentry <- dublincore(
     family = "Daniel",
     role = "dtm"
   ), # Add data manager
-  identifier = "https://doi.org/10.5281/zenodo.10396807", #
   publisher = "Wiley",
   datasource = "https://isbnsearch.org/isbn/9780471170822",
   dataset_date = 1998,
+  identifier = "https://doi.org/10.5281/zenodo.14917851",
   language = "en",
   description = "The Orange data frame has 35 rows and 3 columns of records of the growth of orange trees."
 )
+
+?dublincore
+
+orange_df$rowid <- defined(orange_df$rowid, namespace="https://doi.org/10.5281/zenodo.14917851")
+write.csv(orange_df, file = "orange_df.csv", row.names = F)
+saveRDS(orange_df, file = "orange_df.rds")
 
 usethis::use_data(orange_df, overwrite = TRUE)

@@ -27,8 +27,8 @@
 #' @return The \code{Identifier} attribute as a character of length 1 is added
 #' to \code{x}.
 #' @examples
-#' identifier(iris_dataset) <- "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
-#' identifier(iris_dataset)
+#' identifier(orange_df) <- "https://doi.org/99999/9999999"
+#' identifier(orange_df)
 #' @family Reference metadata functions
 #' @export
 

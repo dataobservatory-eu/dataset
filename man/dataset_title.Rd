@@ -31,9 +31,9 @@ In the DataCite definition, several titles can be used; it is not
 yet implemented.
 }
 \examples{
-dataset_title(iris_dataset)
-dataset_title(iris_dataset, overwrite = TRUE) <- "The Famous Iris Dataset"
-dataset_title(iris_dataset)
+dataset_title(orange_df)
+dataset_title(orange_df, overwrite = TRUE) <- "The Growth of Orange Trees"
+dataset_title(orange_df)
 }
 \seealso{
 Other Bibliographic reference functions: 

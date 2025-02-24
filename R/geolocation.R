@@ -15,11 +15,11 @@
 #' @return The \code{Geolocation} attribute as a character of length 1 is added
 #'   to \code{x}.
 #' @examples
-#' iris_dataset <- iris
-#' geolocation(iris_dataset) <- "US"
-#' geolocation(iris_dataset)
+#' orange_dataset <- orange_df
+#' geolocation(orange_df) <- "US"
+#' geolocation(orange_df)
 #'
-#' geolocation(iris_dataset, overwrite = FALSE) <- "GB"
+#' geolocation(orange_df, overwrite = FALSE) <- "GB"
 #'
 #' @family Reference metadata functions
 #' @export

@@ -3,7 +3,7 @@
 \name{language}
 \alias{language}
 \alias{language<-}
-\title{Get/Set the primary language of the dataset}
+\title{Get/set the primary language of the dataset}
 \usage{
 language(x)
 

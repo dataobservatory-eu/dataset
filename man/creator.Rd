@@ -38,11 +38,11 @@ dataset. This property will be used to formulate the citation, so consider
 the prominence of the role.
 }
 \examples{
-creator(iris_dataset)
+creator(orange_df)
 # To change author:
-creator(iris_dataset) <- person("Jane", "Doe")
+creator(orange_df) <- person("Jane", "Doe")
 # To add author:
-creator(iris_dataset, overwrite = FALSE) <- person("John", "Doe")
+creator(orange_df, overwrite = FALSE) <- person("John", "Doe")
 }
 \seealso{
 Other Bibliographic reference functions: 

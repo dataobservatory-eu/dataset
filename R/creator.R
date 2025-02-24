@@ -21,11 +21,11 @@
 #' @importFrom assertthat assert_that
 #' @family Bibliographic reference functions
 #' @examples
-#' creator(iris_dataset)
+#' creator(orange_df)
 #' # To change author:
-#' creator(iris_dataset) <- person("Jane", "Doe")
+#' creator(orange_df) <- person("Jane", "Doe")
 #' # To add author:
-#' creator(iris_dataset, overwrite = FALSE) <- person("John", "Doe")
+#' creator(orange_df, overwrite = FALSE) <- person("John", "Doe")
 #' @export
 creator <- function(x) {
   assert_that(is.dataset_df(x),
