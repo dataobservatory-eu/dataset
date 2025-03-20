@@ -106,7 +106,6 @@ create_iri <- function(x) {
 #' @keywords internal
 prov_author <- function(author_person) {
   if (inherits(author_person, "person")) {
-
     print_name <- "_:"
     if (!is.null(author_person$family)) print_name <- paste0(print_name, tolower(author_person$family))
     if (!is.null(author_person$given)) print_name <- paste0(print_name, tolower(author_person$given))

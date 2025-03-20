@@ -518,7 +518,8 @@ fix_contributor <- function(contributors = NULL) {
     msg = "Error: fix_contributor(contributors): not character but"
   )
   assertthat::assert_that(length(return_value) == 1,
-                          msg = "Error: fix_contributor(contributors): not 1")
+    msg = "Error: fix_contributor(contributors): not 1"
+  )
 
   return_value <- gsub("* dtm", " [dtm]", return_value)
   return_value

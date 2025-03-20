@@ -6,7 +6,8 @@ test_that("dataset_df() works", {
   expect_equal(
     dataset_df(mtcars, identifier = c(mt = "http:/mtcars.com/dataset#"))$rowid,
     defined(paste0("mt:", 1:nrow(mtcars)),
-            namespace = c(mt = "http:/mtcars.com/dataset#"))
+      namespace = c(mt = "http:/mtcars.com/dataset#")
+    )
   )
   my_dataset <- dataset_df(
     country_name = defined(
@@ -40,7 +41,8 @@ test_that("dataset_df() works", {
         given = "H",
         family = "Smith",
         role = "cre"
-      )),
+      )
+    ),
     contributor = person(
       given = "Antal",
       family = "Daniel",
@@ -55,19 +57,23 @@ test_that("dataset_df() works", {
   )
   orange_df <- dataset_df(
     rowid = defined(paste0("orange:", row.names(Orange)),
-                    label = "ID in the Orange dataset",
-                    namespace = c("orange" = "datasets::Orange")),
+      label = "ID in the Orange dataset",
+      namespace = c("orange" = "datasets::Orange")
+    ),
     tree = defined(Orange$Tree,
-                   label = "The number of the tree"),
+      label = "The number of the tree"
+    ),
     age = defined(Orange$age,
-                  label = "The age of the tree",
-                  unit = "days since 1968/12/31"
+      label = "The age of the tree",
+      unit = "days since 1968/12/31"
     ),
     circumference = defined(Orange$circumference,
-                            label = "circumference at breast height",
-                            unit = "milimeter",
-                            definition = "https://www.wikidata.org/wiki/Property:P2043"),
-  dataset_bibentry = orange_bibentry)
+      label = "circumference at breast height",
+      unit = "milimeter",
+      definition = "https://www.wikidata.org/wiki/Property:P2043"
+    ),
+    dataset_bibentry = orange_bibentry
+  )
   expect_equal(dataset_title(orange_df), "Growth of Orange Trees")
   expect_equal(creator(orange_df), c(c(
     person(
@@ -80,7 +86,8 @@ test_that("dataset_df() works", {
       given = "H",
       family = "Smith",
       role = "cre"
-    ))))
+    )
+  )))
 })
 
 

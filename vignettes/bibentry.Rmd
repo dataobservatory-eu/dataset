@@ -19,8 +19,9 @@ library(dataset)
 library(datasets)
 
 orange_df <- dataset_df(
-  datasets::Orange, 
-  identifier = c(orange = "dataset::Orange"))
+  datasets::Orange,
+  identifier = c(orange = "dataset::Orange")
+)
 
 orange_df
 ```
@@ -78,12 +79,13 @@ orange_bibentry <- dublincore(
       family = "Draper",
       role = "cre",
       comment = c(VIAF = "http://viaf.org/viaf/84585260")
-    ), 
+    ),
     person(
-      given = "H", 
-      family = "Smith", 
+      given = "H",
+      family = "Smith",
       role = "cre"
-    )),
+    )
+  ),
   contributor = person(
     given = "Antal",
     family = "Daniel",
@@ -110,20 +112,24 @@ The `dataset_df()` extension of a `tibble()` adds metadata for each variable com
 
 ```{r defineorange}
 orange_df <- dataset_df(
-  rowid = defined(paste0("orange:", row.names(Orange)), 
-        label = "ID in the Orange dataset",
-        namespace = c("orange" = "datasets::Orange")),
-   tree = defined(Orange$Tree,
-    label = "The number of the tree"),
+  rowid = defined(paste0("orange:", row.names(Orange)),
+    label = "ID in the Orange dataset",
+    namespace = c("orange" = "datasets::Orange")
+  ),
+  tree = defined(Orange$Tree,
+    label = "The number of the tree"
+  ),
   age = defined(Orange$age,
-    label = "The age of the tree", 
+    label = "The age of the tree",
     unit = "days since 1968/12/31"
   ),
   circumference = defined(Orange$circumference,
     label = "circumference at breast height",
     unit = "milimeter",
-    definition = "https://www.wikidata.org/wiki/Property:P2043"), 
-  dataset_bibentry = orange_bibentry)
+    definition = "https://www.wikidata.org/wiki/Property:P2043"
+  ),
+  dataset_bibentry = orange_bibentry
+)
 
 
 orange_df

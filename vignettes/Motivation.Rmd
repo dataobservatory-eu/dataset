@@ -120,12 +120,12 @@ Our strictly `defined` vectors check if the variable label, unit, namespace and 
 You cannot concatenate USD and EUR denominated values:
 
 ```{r strintc, eval=FALSE}
-GDP_D = defined(c(21000, 2000, 22000, 2100, 23000, 2200), unit = "M_USD")
-GDP_E = defined(c(18000, 2500, 19000, 2600, 20000, 2700), unit = "M_EUR")
+GDP_D <- defined(c(21000, 2000, 22000, 2100, 23000, 2200), unit = "M_USD")
+GDP_E <- defined(c(18000, 2500, 19000, 2600, 20000, 2700), unit = "M_EUR")
 c(GDP_D, GDP_E)
 ```
 ```{r}
-message("Error in c.haven_labelled_defined(GDP_D, GDP_E) : 
+message("Error in c.haven_labelled_defined(GDP_D, GDP_E) :
   c.haven_labelled_defined(x,y): x,y must have no unit or the same unit")
 ```
 
@@ -133,8 +133,8 @@ message("Error in c.haven_labelled_defined(GDP_D, GDP_E) :
 Only with EUR-denominated values:
 
 ```{r matchigunits}
-GDP_F = defined(c(21000, 2000, 22000, 2100, 23000, 2200), unit = "M_EUR")
-GDP_E = defined(c(18000, 2500, 19000, 2600, 20000, 2700), unit = "M_EUR")
+GDP_F <- defined(c(21000, 2000, 22000, 2100, 23000, 2200), unit = "M_EUR")
+GDP_E <- defined(c(18000, 2500, 19000, 2600, 20000, 2700), unit = "M_EUR")
 c(GDP_F, GDP_E)
 ```
 While numerous R packages address metadata management in specific contexts, they often interact with datasets late in the process, primarily focusing on publication or external reuse, for example, after serialisation of CSV and publication on a website. The `dataset` family takes a different approach, embedding reusability from the moment a `data.frame` is created. This early intervention adds value and potentially amplifies the effectiveness of other metadata packages, but critically, also the reusability of R objects, too. We are building an extension of data.frames, tibbles, tsibbles and other tabular containers that retain the currency information; the full name of the CPI variable; and they prohibit a full join with semantically different variables of the same type.
@@ -515,23 +515,26 @@ D_defined %>%
   bind_defined_rows(E_defined)
 ```
 ```{r}
-message("Error in c.haven_labelled_defined(x[[i]], y[[i]]) : 
+message("Error in c.haven_labelled_defined(x[[i]], y[[i]]) :
   c.haven_labelled_defined(x,y): x,y must have no unit or the same unit.")
 ```
 The semantically strict version of bind_rows works only with variables that have the same meaning, not only the same variable type, like integer, and the same column name heading.
 
 ```{r binddefinedrows}
 D_redefined <- D_defined %>%
-  mutate ( exchange_rate = 1.1, 
-           GDP_USD = GDP) %>%
-  mutate ( GDP = defined(GDP_USD/exchange_rate, label="GDP", unit = "M_EUR")) 
+  mutate(
+    exchange_rate = 1.1,
+    GDP_USD = GDP
+  ) %>%
+  mutate(GDP = defined(GDP_USD / exchange_rate, label = "GDP", unit = "M_EUR"))
 
 D_redefined %>%
-  bind_defined_rows(E_defined %>%
-                      mutate ( exchange_rate = 1.1) %>%
-                      mutate (GDP_USD = defined(GDP/1.1, label="GDP", unit="M_USD")), 
-                    title = "Combined GDP Dataset"
-                    )
+  bind_defined_rows(
+    E_defined %>%
+      mutate(exchange_rate = 1.1) %>%
+      mutate(GDP_USD = defined(GDP / 1.1, label = "GDP", unit = "M_USD")),
+    title = "Combined GDP Dataset"
+  )
 ```
 
 

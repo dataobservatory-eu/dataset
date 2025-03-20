@@ -2,19 +2,23 @@
 
 orange_df <- dataset_df(
   rowid = defined(paste0("orange:", row.names(Orange)),
-                  label = "ID in the Orange dataset",
-                  namespace = c("orange" = "datasets::Orange")),
+    label = "ID in the Orange dataset",
+    namespace = c("orange" = "datasets::Orange")
+  ),
   tree = defined(Orange$Tree,
-                 label = "The number of the tree"),
+    label = "The number of the tree"
+  ),
   age = defined(Orange$age,
-                label = "The age of the tree",
-                unit = "days since 1968/12/31"
+    label = "The age of the tree",
+    unit = "days since 1968/12/31"
   ),
   circumference = defined(Orange$circumference,
-                          label = "circumference at breast height",
-                          unit = "milimeter",
-                          definition = "https://www.wikidata.org/wiki/Property:P2043"),
-  dataset_bibentry = orange_bibentry)
+    label = "circumference at breast height",
+    unit = "milimeter",
+    definition = "https://www.wikidata.org/wiki/Property:P2043"
+  ),
+  dataset_bibentry = orange_bibentry
+)
 
 orange_bibentry <- dublincore(
   title = "Growth of Orange Trees",
@@ -29,7 +33,8 @@ orange_bibentry <- dublincore(
       given = "H",
       family = "Smith",
       role = "cre"
-    )),
+    )
+  ),
   contributor = person(
     given = "Antal",
     family = "Daniel",
@@ -44,7 +49,7 @@ orange_bibentry <- dublincore(
 )
 
 
-orange_df$rowid <- defined(orange_df$rowid, namespace="https://doi.org/10.5281/zenodo.14917851")
+orange_df$rowid <- defined(orange_df$rowid, namespace = "https://doi.org/10.5281/zenodo.14917851")
 write.csv(orange_df, file = "orange_df.csv", row.names = F)
 saveRDS(orange_df, file = "orange_df.rds")
 

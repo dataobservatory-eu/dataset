@@ -4,7 +4,7 @@ test_that("idcol_find() works", {
 
 test_that("idcol_find() works", {
   mtcars2 <- mtcars
-  mtcars2$rowid <-seq_along(row.names(mtcars))
+  mtcars2$rowid <- seq_along(row.names(mtcars))
   expect_equal(idcol_find(mtcars2, "rowid"), 12)
   expect_error(idcol_find(mtcars2, "bowid"))
 })
