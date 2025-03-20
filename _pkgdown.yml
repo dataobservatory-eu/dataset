@@ -92,10 +92,11 @@ reference:
       - identifier
       - description
       - geolocation
-  - title: "Replication Dataset"
+  - title: "Replication Datasets"
     desc: >
-      Edgar Anderson's Iris Dataset with dataset metadata recorded as attributes.
+      Some R datasets enriched with more metadata.
     contents:
+       - orange_df
        - iris_dataset
   - title: "Semantic utilities"
     desc: >

@@ -17,11 +17,11 @@
 #' @examples
 #' description(orange_df)
 #' description(
-#'   iris_dataset,
+#'   orange_df,
 #'   overwrite = TRUE
 #' ) <- "The 'orange' dataset has 35 rows and 3 columns
 #'                           of records of the growth of orange trees."
-#' description(iris_dataset)
+#' description(orange_df)
 #' @family Reference metadata functions
 #' @export
 

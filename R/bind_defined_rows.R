@@ -40,7 +40,7 @@ bind_defined_rows <- function(x, y, ...) {
     stop("Error: bind_defined_rows(x,y): y must be a dataset_df.")
   }
 
-  if (any(names(A) != names(B))) {
+  if (any(names(x) != names(y))) {
     stop("Error: bind_defined_rows(x,y): x,y must have the same names.")
   }
 
