@@ -54,10 +54,9 @@ bind_defined_rows <- function(x, y, ...) {
   if (!identical(lapply(x, namespace_attribute), lapply(y, namespace_attribute))) {
     a <- unlist(lapply(x, namespace_attribute))
     b <- unlist(lapply(x, namespace_attribute))
-    umatched <- a[a != b]
+    unmatched <- a[a != b]
     stop("Error: bind_defined_rows(x,y): ", unmatched, " has different namespace.")
   }
-
 
   if (dim(x)[2] != dim(y)[2]) {
     error_msg <- paste0(
@@ -68,8 +67,6 @@ bind_defined_rows <- function(x, y, ...) {
 
     stop(error_msg)
   }
-
-
 
   for (i in seq_along(x)) {
     if (i == 1) next
@@ -91,6 +88,8 @@ bind_defined_rows <- function(x, y, ...) {
   }
 
   if (!is.null(dots$title)) dataset_title(new_dataset, overwrite = TRUE) <- dots$title
+
+  namespace_attribute(new_dataset$rowid) <- namespace_attribute(x$rowid)
   new_dataset
 }
 

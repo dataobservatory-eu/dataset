@@ -28,7 +28,7 @@ test_that("bind_defined_rows() works", {
   expect_equal(get_bibentry(A)$year, get_bibentry(D)$year)
 })
 
-test_that("bind_defined_rows() works", {
+test_that("bind_defined_rows() detects if not dataset_df is the input parameter", {
   A <- dataset_df(
     a = defined(c(11, 14, 16), label = "length", unit = "cm"),
     dataset_bibentry = dublincore(
@@ -44,7 +44,7 @@ test_that("bind_defined_rows() works", {
   )
 })
 
-test_that("bind_defined_rows() works", {
+test_that("bind_defined_rows() detects different labels", {
   A <- dataset_df(
     width = defined(c(1, 2), label = "width", unit = "cm"),
     height = defined(c(3, 4), label = "height", unit = "cm")
@@ -59,7 +59,7 @@ test_that("bind_defined_rows() works", {
 })
 
 
-test_that("bind_defined_rows() works", {
+test_that("bind_defined_rows() detects different namespace", {
   A <- dataset_df(
     width = defined(c(1, 2), label = "width", unit = "cm", namespace = "http://example.com"),
     height = defined(c(3, 4), label = "height", unit = "cm", namespace = "http://example.com")
@@ -70,5 +70,22 @@ test_that("bind_defined_rows() works", {
   )
   expect_error(bind_defined_rows(x = A, y = B),
     regexp = "has different namespace"
+  )
+})
+
+test_that("bind_defined_rows() has the same rowid namespace", {
+  A <- dataset_df(
+    width = defined(c(1, 2), label = "width", unit = "cm", namespace = "http://example.com"),
+    height = defined(c(3, 4), label = "height", unit = "cm", namespace = "http://example.com")
+  )
+  A$rowid <- defined(A$rowid, namespace="wbi")
+  B <- dataset_df(
+    width = defined(c(3, 4), label = "width", unit = "cm", namespace = "http://example.com"),
+    height = defined(c(2, 2), label = "height", unit = "cm", namespace = "http://example.com")
+  )
+  B$rowid <- defined(B$rowid, namespace="wbi")
+  expect_equal(
+    namespace_attribute(bind_defined_rows(x = A, y = B)$rowid),
+    namespace_attribute(B$rowid)
   )
 })
