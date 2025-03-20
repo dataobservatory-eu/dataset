@@ -29,7 +29,6 @@
 #' )
 #' bind_defined_rows(x = A, y = B)
 #'
-
 bind_defined_rows <- function(x, y, ...) {
   dots <- list(...)
 
@@ -41,13 +40,36 @@ bind_defined_rows <- function(x, y, ...) {
     stop("Error: bind_defined_rows(x,y): y must be a dataset_df.")
   }
 
+  if (any(names(A) != names(B))) {
+    stop("Error: bind_defined_rows(x,y): x,y must have the same names.")
+  }
+
+  if (any(as.character(var_label(x)) != as.character(var_label(y)))) {
+    unmatched <- as.character(var_label(x))[
+      which(as.character(var_label(x)) != as.character(var_label(y)))
+    ]
+    stop("Error: bind_defined_rows(x,y): ", unmatched, " has different labels.")
+  }
+
+  if (!identical(lapply(x, namespace_attribute), lapply(y, namespace_attribute))) {
+    a <- unlist(lapply(x, namespace_attribute))
+    b <- unlist(lapply(x, namespace_attribute))
+    umatched <- a[a != b]
+    stop("Error: bind_defined_rows(x,y): ", unmatched, " has different namespace.")
+  }
+
+
   if (dim(x)[2] != dim(y)[2]) {
-    error_msg <- paste0("bind_defined_rows(x,y): x has ",
-                        dim(x)[2], ", but y has ",
-                        dim(y)[2], " columns.")
+    error_msg <- paste0(
+      "bind_defined_rows(x,y): x has ",
+      dim(x)[2], ", but y has ",
+      dim(y)[2], " columns."
+    )
 
     stop(error_msg)
   }
+
+
 
   for (i in seq_along(x)) {
     if (i == 1) next
@@ -68,12 +90,12 @@ bind_defined_rows <- function(x, y, ...) {
     creator(new_dataset) <- dots$creator
   }
 
-  if (!is.null(dots$title)) dataset_title(new_dataset, overwrite=TRUE) <- dots$title
+  if (!is.null(dots$title)) dataset_title(new_dataset, overwrite = TRUE) <- dots$title
   new_dataset
 }
 
 #' @keywords internal
-compare_creators <- function(x,y){
+compare_creators <- function(x, y) {
   given_names <- c(creator(x)$given, creator(y)$given)
   family_names <- c(creator(x)$family, creator(y)$family)
   comments <- c(creator(x)$comment, creator(y)$comment)

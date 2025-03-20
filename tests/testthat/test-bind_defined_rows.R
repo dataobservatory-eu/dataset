@@ -43,3 +43,32 @@ test_that("bind_defined_rows() works", {
     regexp = "y must be a dataset_df"
   )
 })
+
+test_that("bind_defined_rows() works", {
+  A <- dataset_df(
+    width = defined(c(1, 2), label = "width", unit = "cm"),
+    height = defined(c(3, 4), label = "height", unit = "cm")
+  )
+  B <- dataset_df(
+    width = defined(c(3, 4), unit = "cm"),
+    height = defined(c(2, 2), label = "height", unit = "cm")
+  )
+  expect_error(bind_defined_rows(x = A, y = B),
+    regexp = "has different labels"
+  )
+})
+
+
+test_that("bind_defined_rows() works", {
+  A <- dataset_df(
+    width = defined(c(1, 2), label = "width", unit = "cm", namespace = "http://example.com"),
+    height = defined(c(3, 4), label = "height", unit = "cm", namespace = "http://example.com")
+  )
+  B <- dataset_df(
+    width = defined(c(3, 4), label = "width", unit = "cm", namespace = "http://example.com"),
+    height = defined(c(2, 2), label = "height", unit = "cm")
+  )
+  expect_error(bind_defined_rows(x = A, y = B),
+    regexp = "has different namespace"
+  )
+})
