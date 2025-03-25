@@ -59,10 +59,10 @@ Convert the numeric, boolean and Date/time columns of a dataset
 \examples{
 
 # Convert data.frame to XML Schema Definition
-xsd_convert(head(iris))
+xsd_convert(data.frame( a=1:3, b=c("a", "b", "c")))
 
 # Convert dataset to XML Schema Definition
-xsd_convert(head(iris_dataset))
+xsd_convert(head(dataset_df(orange_df)))
 # Convert integers or doubles, numbers:
 xsd_convert(1:3)
 # Convert logical values:

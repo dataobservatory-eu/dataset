@@ -21,3 +21,8 @@ test_that("as_datacite() works", {
   expect_equal(as_datacite(iris_dataset, "list")$FundingReference, ":unas")
   expect_equal(as_datacite(iris_dataset, "list")$Description, "The famous (Fisher's or Anderson's) iris data set.")
 })
+
+
+
+
+?datacite

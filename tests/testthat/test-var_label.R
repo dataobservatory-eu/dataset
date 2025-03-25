@@ -8,11 +8,11 @@ test_that("var_label() works", {
 
 test_that("var_label()<-  works", {
   iris_dataset_2 <- iris_dataset
+  var_label(orange_df$circumference) <- "circumference (breast height)"
   var_label(iris_dataset_2$Sepal.Length) <- "Length of the sepal in centimeters"
   expect_equal(var_label(iris_dataset_2$Sepal.Length), "Length of the sepal in centimeters")
+  expect_equal(var_label(orange_df$circumference), "circumference (breast height)")
 })
-
-
 
 test_that("var_label() throws error", {
   test_df <- dataset_df(a = 1:2, b = 3:4)

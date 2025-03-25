@@ -132,23 +132,38 @@
 #'   \code{as_dublincore()} retrieves the contents of this bibentry object of a
 #'   dataset_df from its attributes, and returns the contents as list,
 #'   dataset_df, or bibentry object, or an ntriples string.
+#' @export
 #' @examples
-#' my_bibentry <- dct_iris <- dublincore(
-#'   title = "Iris Dataset",
-#'   creator = person("Edgar", "Anderson", role = "aut"),
-#'   publisher = person("American Iris Society", role = "pbl"),
-#'   contributor = person("Daniel", "Antal", role = "dtm"),
-#'   datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-#'   dataset_date = 1935,
+#'  orange_bibentry <- dublincore(
+#'   title = "Growth of Orange Trees",
+#'   creator = c(
+#'     person(
+#'       given = "N.R.",
+#'       family = "Draper",
+#'       role = "cre",
+#'       comment = c(VIAF = "http://viaf.org/viaf/84585260")
+#'     ),
+#'     person(
+#'       given = "H",
+#'       family = "Smith",
+#'       role = "cre"
+#'     )
+#'   ),
+#'   contributor = person(
+#'     given = "Antal",
+#'     family = "Daniel",
+#'     role = "dtm"
+#'   ), #' Add data manager
+#'   publisher = "Wiley",
+#'   datasource = "https://isbnsearch.org/isbn/9780471170822",
+#'   dataset_date = 1998,
+#'   identifier = "https://doi.org/10.5281/zenodo.14917851",
 #'   language = "en",
-#'   description = "The famous (Fisher's or Anderson's) iris data set gives the
-#'    measurements in centimeters of the variables sepal length and width and
-#'    petal length and width, respectively, for 50 flowers from each of 3
-#'    species of iris. The species are Iris setosa, versicolor, and virginica."
+#'   description = "The Orange data frame has 35 rows and 3 columns of records of the growth of orange trees."
 #' )
 #'
-#' as_dublincore(iris_dataset, type = "list")
-#' @export
+#' # To review the existing dataset_bibentry of a dataset_df object:
+#' as_dublincore(orange_df, type = "list")
 
 dublincore <- function(
     title,
@@ -308,9 +323,7 @@ dublincore_to_triples <- function(dclist, dataset_id) {
   n_triples(dctriples)
 }
 
-
 #' @keywords internal
-#' @importFrom RefManageR BibEntry
 new_dublincore <- function(title,
                            creator,
                            identifier = NULL,
@@ -331,7 +344,7 @@ new_dublincore <- function(title,
   publisher <- fix_publisher(publisher)
 
   ## Fix contributors
-  ## Due to bug in RefManager
+  #' Due to bug in RefManager
   contributor <- fix_contributor(contributors = contributor)
 
   # Create year from dataset_date
@@ -447,7 +460,7 @@ fix_publisher <- function(publishers) {
       return_value <- publishers[[1]]$given
     }
   } else if (length(publishers) > 1) {
-    # several character strings
+    #' several character strings
     return_value <- paste0(
       "{",
       paste(vapply(publishers, function(x) x$given, character(1)),
@@ -502,7 +515,7 @@ fix_contributor <- function(contributors = NULL) {
       return_value <- paste(unlist(contributors[[1]]), collapse = " ")
     }
   } else if (length(contributors) > 1) {
-    # several character strings
+    #' several character strings
     return_value <- paste0(
       "{",
       paste(vapply(contributors, function(x) x$given, character(1)),

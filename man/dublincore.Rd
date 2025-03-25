@@ -177,21 +177,36 @@ The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will
 automatically added to the dataset.
 }
 \examples{
-my_bibentry <- dct_iris <- dublincore(
-  title = "Iris Dataset",
-  creator = person("Edgar", "Anderson", role = "aut"),
-  publisher = person("American Iris Society", role = "pbl"),
-  contributor = person("Daniel", "Antal", role = "dtm"),
-  datasource = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-  dataset_date = 1935,
+ orange_bibentry <- dublincore(
+  title = "Growth of Orange Trees",
+  creator = c(
+    person(
+      given = "N.R.",
+      family = "Draper",
+      role = "cre",
+      comment = c(VIAF = "http://viaf.org/viaf/84585260")
+    ),
+    person(
+      given = "H",
+      family = "Smith",
+      role = "cre"
+    )
+  ),
+  contributor = person(
+    given = "Antal",
+    family = "Daniel",
+    role = "dtm"
+  ), #' Add data manager
+  publisher = "Wiley",
+  datasource = "https://isbnsearch.org/isbn/9780471170822",
+  dataset_date = 1998,
+  identifier = "https://doi.org/10.5281/zenodo.14917851",
   language = "en",
-  description = "The famous (Fisher's or Anderson's) iris data set gives the
-   measurements in centimeters of the variables sepal length and width and
-   petal length and width, respectively, for 50 flowers from each of 3
-   species of iris. The species are Iris setosa, versicolor, and virginica."
+  description = "The Orange data frame has 35 rows and 3 columns of records of the growth of orange trees."
 )
 
-as_dublincore(iris_dataset, type = "list")
+# To review the existing dataset_bibentry of a dataset_df object:
+as_dublincore(orange_df, type = "list")
 }
 \seealso{
 Other bibentry functions: 

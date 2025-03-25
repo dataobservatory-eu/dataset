@@ -66,11 +66,11 @@ with variable labels, namespaces, units of measures, and machine-independent
 permanent variable identifiers.
 }
 \examples{
-iris_dataset_2 <- iris_dataset
-
 # Retrieve the label attribute:
-var_label(iris_dataset_2$Sepal.Length)
+var_label(orange_df$circumference)
 
+# To (re)set the label attribute:
+var_label(orange_df$circumference) <- "circumference (breast height)"
 }
 \seealso{
 Other defined metadata methods and functions: 

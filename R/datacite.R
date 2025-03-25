@@ -78,7 +78,7 @@
 #' @param DateList DataCite 4.4 allows to set multiple dates to a resource, they
 #'   should be added as a list. Currently not yet implemented.
 #'    See:
-#'   \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#8-date}{datacite:Date}.
+#'   \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#'8-date}{datacite:Date}.
 #' @param Description Recommended for discovery. All additional information that
 #'   does not fit in any of the other categories. It may be used for technical
 #'   information—a free text. Defaults to \code{":tba"}. Similar to
@@ -103,11 +103,22 @@
 #' @importFrom utils person bibentry
 #' @examples
 #' datacite(
-#'   Title = "Iris Dataset",
-#'   Creator = person(family = "Anderson", given = "Edgar", role = "aut"),
-#'   Publisher = "American Iris Society",
-#'   PublicationYear = 1935,
-#'   Geolocation = "US",
+#'   Title = "Growth of Orange Trees",
+#'   Creator = c(
+#'     person(
+#'       given = "N.R.",
+#'       family = "Draper",
+#'       role = "cre",
+#'       comment = c(VIAF = "http://viaf.org/viaf/84585260")
+#'     ),
+#'     person(
+#'       given = "H",
+#'       family = "Smith",
+#'       role = "cre"
+#'     )
+#'   ),
+#'   Publisher = "Wiley",
+#'   Date = 1998,
 #'   Language = "en"
 #' )
 #'
@@ -191,7 +202,7 @@ new_datacite <- function(Title,
                          Description,
                          Geolocation,
                          FundingReference) {
-  # Create year from Date
+  #' Create year from Date
   if (!is.null(Date)) {
     year <- substr(as.character(Date), 1, 4)
   } else {

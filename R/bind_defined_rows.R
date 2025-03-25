@@ -64,7 +64,6 @@ bind_defined_rows <- function(x, y, ...) {
       dim(x)[2], ", but y has ",
       dim(y)[2], " columns."
     )
-
     stop(error_msg)
   }
 

@@ -17,11 +17,11 @@
 #' assignment method allows to add, remove, or overwrite this attribute on a vector
 #' \code{x}. The assignment function returns the \code{x} vector invisibly.
 #' @examples
-#' iris_dataset_2 <- iris_dataset
-#'
 #' # Retrieve the label attribute:
-#' var_label(iris_dataset_2$Sepal.Length)
+#' var_label(orange_df$circumference)
 #'
+#' # To (re)set the label attribute:
+#' var_label(orange_df$circumference) <- "circumference (breast height)"
 #' @export
 #' @importFrom labelled var_label
 #' @importFrom labelled `var_label<-`

@@ -80,16 +80,25 @@ defined <- function(x,
   }
 }
 
-s3 <- labelled(
-  c("M", "M", "F", "X", "N/A"),
-  c(Male = "M", Female = "F", Refused = "X", "Not applicable" = "N/A")
-)
-
 #' @rdname defined
 #' @export
 is.defined <- function(x) {
   any(inherits(x, "haven_labelled_defined"), inherits(x, "datetime_defined"))
 }
+
+#' @keywords internal
+vec_ptype_abbr.haven_labelled_defined <- function(x, ...) {
+  "defined"
+}
+
+#' @keywords internal
+vec_ptype2.double.haven_labelled_defined <- function(x, y, ...) double()
+
+#' @keywords internal
+vec_cast.double.haven_labelled_defined <- function(x, to, ...) vec_data(x)
+
+#' @keywords internal
+vec_cast.character.haven_labelled_defined <- function(x, to, ...) vec_data(x)
 
 #' From haven
 #' @keywords internal
@@ -98,6 +107,7 @@ vec_cast_named <- function(x, to, ...) {
 }
 
 #' @importFrom tibble new_tibble
+#' @importFrom haven labelled
 #' @keywords internal
 new_labelled_defined <- function(x = double(),
                                  labels = NULL,
@@ -121,7 +131,7 @@ new_labelled_defined <- function(x = double(),
     stop("defined(..., namespace): 'namespace' must be a character vector of length one or NULL.")
   }
 
-  tmp <- labelled(x, labels = labels, label = label)
+  tmp <- haven::labelled(x, labels = labels, label = label)
 
   attr(tmp, "unit") <- unit
   attr(tmp, "definition") <- definition
@@ -244,9 +254,12 @@ c.haven_labelled_defined <- function(...) {
   dots <- list(...)
 
   var_labels <- unlist(lapply(dots, var_label))
+  val_labels <- lapply(dots, function(x) attr(x, "labels"))
   units <- unlist(lapply(dots, var_unit))
   definitions <- unlist(lapply(dots, definition_attribute))
   namespaces <- unlist(lapply(dots, namespace_attribute))
+
+  all.identical <- function(l) all(mapply(identical, head(l, 1), tail(l, -1)))
 
   if (length(unique(as.character(var_labels))) > 1) {
     stop("c.haven_labelled_defined(x,y): x,y must have no var_label or the same var_label.")
@@ -263,5 +276,17 @@ c.haven_labelled_defined <- function(...) {
   if (length(unique(as.character(namespaces))) > 1) {
     stop("c.haven_labelled_defined(x,y): x,y must have no namespace or the same namespace.")
   }
-  NextMethod()
+
+  if (!all.identical(val_labels)) {
+    stop("c.haven_labelled_defined(x,y): x,y must have no value labels or the same value labels.")
+  }
+
+  defined(unname(do.call(c, lapply(dots, function(x) vec_data(x)))),
+          label =var_labels[[1]],
+          labels = val_labels[[1]],
+          definition = definitions[[1]],
+          namespace = namespaces[[1]],
+          unit = units[[1]])
+  #NextMethod()
 }
+

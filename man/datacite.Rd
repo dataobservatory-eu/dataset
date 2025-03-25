@@ -93,7 +93,7 @@ object. A list of dates (parameter \code{DateList}) is not yet implemented.}
 \item{DateList}{DataCite 4.4 allows to set multiple dates to a resource, they
 should be added as a list. Currently not yet implemented.
 See:
-\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#8-date}{datacite:Date}.}
+\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#'8-date}{datacite:Date}.}
 
 \item{Language}{The primary language of the resource. Allowed values are
 taken from IETF BCP 47, ISO 639-1 language code. See \code{\link[=language]{language()}}.}
@@ -175,11 +175,22 @@ automatically added to the dataset.
 }
 \examples{
 datacite(
-  Title = "Iris Dataset",
-  Creator = person(family = "Anderson", given = "Edgar", role = "aut"),
-  Publisher = "American Iris Society",
-  PublicationYear = 1935,
-  Geolocation = "US",
+  Title = "Growth of Orange Trees",
+  Creator = c(
+    person(
+      given = "N.R.",
+      family = "Draper",
+      role = "cre",
+      comment = c(VIAF = "http://viaf.org/viaf/84585260")
+    ),
+    person(
+      given = "H",
+      family = "Smith",
+      role = "cre"
+    )
+  ),
+  Publisher = "Wiley",
+  Date = 1998,
   Language = "en"
 )
 

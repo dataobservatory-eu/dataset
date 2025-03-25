@@ -1,7 +1,7 @@
 Package: dataset
 Title: Create Data Frames that are Easier to Exchange and Reuse
-Version: 0.3.4015
-Date: 2025-03-20
+Version: 0.3.4017
+Date: 2025-03-25
 DOI: 10.32614/CRAN.package.dataset
 Language: en-GB
 Authors@R: 

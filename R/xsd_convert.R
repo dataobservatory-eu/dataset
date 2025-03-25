@@ -39,7 +39,7 @@ get_type <- function(t) {
 #' @examples
 #'
 #' # Convert data.frame to XML Schema Definition
-#' xsd_convert(head(iris))
+#' xsd_convert(data.frame( a=1:3, b=c("a", "b", "c")))
 #' @exportS3Method
 #' @export
 xsd_convert.data.frame <- function(x, idcol = NULL, ...) {
@@ -103,7 +103,7 @@ xsd_convert.data.frame <- function(x, idcol = NULL, ...) {
 #' @examples
 #'
 #' # Convert dataset to XML Schema Definition
-#' xsd_convert(head(iris_dataset))
+#' xsd_convert(head(dataset_df(orange_df)))
 #' @export
 
 #' @exportS3Method

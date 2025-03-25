@@ -163,3 +163,37 @@ test_that("as_dublincore() works", {
 test_that("as_dublincore() gives warning", {
   expect_warning(as_dublincore(iris_dataset, type = "character"))
 })
+
+test_that("dublincore() new example works", {
+  orange_bibentry <- dublincore(
+    title = "Growth of Orange Trees",
+    creator = c(
+      person(
+        given = "N.R.",
+        family = "Draper",
+        role = "cre",
+        comment = c(VIAF = "http://viaf.org/viaf/84585260")
+      ),
+      person(
+        given = "H",
+        family = "Smith",
+        role = "cre"
+      )
+    ),
+    contributor = person(
+      given = "Antal",
+      family = "Daniel",
+      role = "dtm"
+    ), # Add data manager
+    publisher = "Wiley",
+    datasource = "https://isbnsearch.org/isbn/9780471170822",
+    dataset_date = 1998,
+    identifier = "https://doi.org/10.5281/zenodo.14917851",
+    language = "en",
+    description = "The Orange data frame has 35 rows and 3 columns of records of the growth of orange trees."
+  )
+  expect_equal(orange_bibentry$description, "The Orange data frame has 35 rows and 3 columns of records of the growth of orange trees.")
+})
+
+as_dublincore(orange_df)
+

@@ -60,16 +60,16 @@ permanent variable identifiers.
 }
 \examples{
 # The defined vector class and dataset_df support units of measure attributes:
-var_unit(iris_dataset$Sepal.Length)
+var_unit(orange_df$circumference)
 
 # Normally columns of a data.frame do not have a unit attribute:
-var_unit(iris$Sepal.Length)
+var_unit(mtcars$wt)
 
 # You can add them with the assignment function:
-var_unit(iris$Sepal.Length) <- "centimeter"
+var_unit(mtcars$wt) <- "1000 lbs"
 
 # To remove a unit of measure assign the NULL value:
-var_unit(iris$Sepal.Length) <- NULL
+var_unit(mtcars$wt) <- NULL
 }
 \seealso{
 Other defined metadata methods and functions: 
