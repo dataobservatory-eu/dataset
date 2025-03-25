@@ -282,11 +282,11 @@ c.haven_labelled_defined <- function(...) {
   }
 
   defined(unname(do.call(c, lapply(dots, function(x) vec_data(x)))),
-          label =var_labels[[1]],
-          labels = val_labels[[1]],
-          definition = definitions[[1]],
-          namespace = namespaces[[1]],
-          unit = units[[1]])
-  #NextMethod()
+    label = var_labels[[1]],
+    labels = val_labels[[1]],
+    definition = definitions[[1]],
+    namespace = namespaces[[1]],
+    unit = units[[1]]
+  )
+  # NextMethod()
 }
-

@@ -54,7 +54,35 @@ test_that("bind_defined_rows() detects different labels", {
     height = defined(c(2, 2), label = "height", unit = "cm")
   )
   expect_error(bind_defined_rows(x = A, y = B),
-    regexp = "has different labels"
+    regexp = "different labels"
+  )
+})
+
+test_that("bind_defined_rows() detects different units", {
+  A <- dataset_df(
+    width = defined(c(1, 2), label = "width", unit = "cm"),
+    height = defined(c(3, 4), label = "height", unit = "mm")
+  )
+  B <- dataset_df(
+    width = defined(c(3, 4), label = "width", unit = "cm"),
+    height = defined(c(2, 2), label = "height", unit = "cm")
+  )
+  expect_error(bind_defined_rows(x = A, y = B),
+               regexp = "different units"
+  )
+})
+
+test_that("bind_defined_rows() detects different definitions", {
+  A <- dataset_df(
+    width = defined(c(1, 2), label = "width", definition = "cm"),
+    height = defined(c(3, 4), label = "height", definition = "mm")
+  )
+  B <- dataset_df(
+    width = defined(c(3, 4), label = "width", definition = "cm"),
+    height = defined(c(2, 2), label = "height", definition = "cm")
+  )
+  expect_error(bind_defined_rows(x = A, y = B),
+               regexp = "different definitions"
   )
 })
 
@@ -69,23 +97,32 @@ test_that("bind_defined_rows() detects different namespace", {
     height = defined(c(2, 2), label = "height", unit = "cm")
   )
   expect_error(bind_defined_rows(x = A, y = B),
-    regexp = "has different namespace"
+    regexp = "different namespaces"
   )
 })
 
 test_that("bind_defined_rows() has the same rowid namespace", {
   A <- dataset_df(
     width = defined(c(1, 2), label = "width", unit = "cm", namespace = "http://example.com"),
-    height = defined(c(3, 4), label = "height", unit = "cm", namespace = "http://example.com")
+    height = defined(c(3, 4), label = "height", unit = "cm", namespace = "http://example.com"),
+    identifier = c(wbi = "https:://example.com/")
   )
-  A$rowid <- defined(A$rowid, namespace="wbi")
   B <- dataset_df(
     width = defined(c(3, 4), label = "width", unit = "cm", namespace = "http://example.com"),
-    height = defined(c(2, 2), label = "height", unit = "cm", namespace = "http://example.com")
+    height = defined(c(2, 2), label = "height", unit = "cm", namespace = "http://example.com"),
+    identifier = c(wbi = "https:://example.com/")
   )
-  B$rowid <- defined(B$rowid, namespace="wbi")
+  D <- dataset_df(
+    width = defined(c(3, 4), label = "width", unit = "cm", namespace = "http://example.com"),
+    height = defined(c(2, 2), label = "height", unit = "cm", namespace = "http://example.com"),
+    identifier = c(wbi = "https:://example.net/")
+  )
   expect_equal(
     namespace_attribute(bind_defined_rows(x = A, y = B)$rowid),
     namespace_attribute(B$rowid)
   )
+  expect_error(bind_defined_rows(x = A, y = D),
+    regexp = "different namespaces"
+  )
 })
+

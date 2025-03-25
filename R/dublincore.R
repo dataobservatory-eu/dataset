@@ -134,7 +134,7 @@
 #'   dataset_df, or bibentry object, or an ntriples string.
 #' @export
 #' @examples
-#'  orange_bibentry <- dublincore(
+#' orange_bibentry <- dublincore(
 #'   title = "Growth of Orange Trees",
 #'   creator = c(
 #'     person(
@@ -164,7 +164,6 @@
 #'
 #' # To review the existing dataset_bibentry of a dataset_df object:
 #' as_dublincore(orange_df, type = "list")
-
 dublincore <- function(
     title,
     creator,

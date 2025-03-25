@@ -196,4 +196,3 @@ test_that("dublincore() new example works", {
 })
 
 as_dublincore(orange_df)
-

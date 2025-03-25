@@ -44,18 +44,50 @@ bind_defined_rows <- function(x, y, ...) {
     stop("Error: bind_defined_rows(x,y): x,y must have the same names.")
   }
 
-  if (any(as.character(var_label(x)) != as.character(var_label(y)))) {
+  label_equivalence <- all.equal(var_label(x), var_label(y))
+  if (!is.logical(label_equivalence)) {
     unmatched <- as.character(var_label(x))[
       which(as.character(var_label(x)) != as.character(var_label(y)))
     ]
-    stop("Error: bind_defined_rows(x,y): ", unmatched, " has different labels.")
+    stop("Error: bind_defined_rows(x,y) - different labels: ", paste(unmatched, collapse = ', '))
   }
 
-  if (!identical(lapply(x, namespace_attribute), lapply(y, namespace_attribute))) {
-    a <- unlist(lapply(x, namespace_attribute))
-    b <- unlist(lapply(x, namespace_attribute))
-    unmatched <- a[a != b]
-    stop("Error: bind_defined_rows(x,y): ", unmatched, " has different namespace.")
+  identicalValue <- function(x,y) if (identical(x,y)) TRUE else FALSE
+
+  definition_x <- lapply(x, function(i) attr(i, "definition"))
+  definition_y <- lapply(y, function(j) attr(j, "definition"))
+
+  if (!identicalValue (definition_x, definition_y)) {
+    unmatched_x <- definition_x[which(as.character(definition_x)!=as.character(definition_y))]
+    unmatched_y <- definition_y[which(as.character(definition_y)!=as.character(definition_x))]
+    stop("Error: bind_defined_rows(x,y) - different definitions: ", names(unmatched_x), "[", paste0(unmatched_x, "|", unmatched_y), "]")
+  }
+
+  varlab_x <- lapply(x, function(i) var_unit(i))
+  varlab_y <- lapply(y, function(j) var_unit(j))
+
+  if (!identicalValue (varlab_x, varlab_y)) {
+    unmatched_x <- varlab_x[which(as.character(varlab_x)!=as.character(varlab_y))]
+    unmatched_y <- varlab_y[which(as.character(varlab_y)!=as.character(varlab_x))]
+    stop("Error: bind_defined_rows(x,y) - different units: ", names(unmatched_x), "[", paste0(unmatched_x, "|", unmatched_y), "]")
+  }
+
+
+  unit_x <- lapply(x, function(i) var_unit(i))
+  unit_y <- lapply(y, function(j) var_unit(j))
+
+  if (!identicalValue (unit_x, unit_y)) {
+    unmatched_x <- unit_x[which(as.character(unit_x)!=as.character(unit_y))]
+    unmatched_y <- unit_y[which(as.character(unit_y)!=as.character(unit_x))]
+    stop("Error: bind_defined_rows(x,y) - different units: ", names(unmatched_x), "[", paste0(unmatched_x, "|", unmatched_y), "]")
+  }
+
+  list_a <- lapply(x, function(i) namespace_attribute(i))
+  list_b <- lapply(y, function(j) namespace_attribute(j))
+  if (!identicalValue (list_a, list_b) ) {
+     unmatched_a <- list_a[which(as.character(list_a)!=as.character(list_b))]
+     unmatched_b <- list_b[which(as.character(list_b)!=as.character(list_a))]
+     stop("Error: bind_defined_rows(x,y) - different namespaces: ", names(unmatched_a), "[", paste0(unmatched_a, "|", unmatched_b), "]")
   }
 
   if (dim(x)[2] != dim(y)[2]) {
@@ -70,7 +102,7 @@ bind_defined_rows <- function(x, y, ...) {
   for (i in seq_along(x)) {
     if (i == 1) next
     if (i == 2) {
-      new_dataset <- dataset_df(c(x[[i]], y[[i]]))
+      new_dataset <- dataset_df(c(x[[i]], y[[i]]), identifier = namespace_attribute(x[[1]]))
       names(new_dataset)[2] <- names(x)[2]
     } else {
       new_col <- c(x[[i]], y[[i]])
@@ -88,7 +120,6 @@ bind_defined_rows <- function(x, y, ...) {
 
   if (!is.null(dots$title)) dataset_title(new_dataset, overwrite = TRUE) <- dots$title
 
-  namespace_attribute(new_dataset$rowid) <- namespace_attribute(x$rowid)
   new_dataset
 }
 

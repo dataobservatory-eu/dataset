@@ -1,46 +1,53 @@
-
 test_that("labelled_defined() works", {
   z <- defined(c(1, 1, 1, 0, 0, 0),
-               label = "",
-               labels = c("F" = 0, "M" = 1, "_N" = 99),
-               definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
+    label = "",
+    labels = c("F" = 0, "M" = 1, "_N" = 99),
+    definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
   )
   x <- defined(c(0, 1, 0, 1, 1, 0),
-               label = "sex",
-               labels = c("F" = 0, "M" = 1, "_N" = 99),
-               definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
+    label = "sex",
+    labels = c("F" = 0, "M" = 1, "_N" = 99),
+    definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
   )
-  v <- defined(c(1,0),
-               label = "sex",
-               labels = c("F" = 0, "M" = 1, "_N" = 99),
-               definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
+  v <- defined(c(1, 0),
+    label = "sex",
+    labels = c("F" = 0, "M" = 1, "_N" = 99),
+    definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
   )
   y <- defined(c(1, 1, 1, 0, 0, 0),
-               label = "sex",
-               labels = c("F" = 0, "M" = 1, "_N" = 99),
-               definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
+    label = "sex",
+    labels = c("F" = 0, "M" = 1, "_N" = 99),
+    definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
   )
   expect_equal(c(1:3, y), c(1, 2, 3, 1, 1, 1, 0, 0, 0))
-  expect_equal(c("a", "b", y),
-               c("a", "b", as.character(c(1, 1, 1, 0, 0, 0))))
-  expect_equal(c(x, y),
-               defined(c(0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0),
-                       label = "sex",
-                       labels = c("F" = 0, "M" = 1, "_N" = 99),
-                       definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
-               ))
-  expect_equal(c(x, y, v),
-               defined(c(0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0),
-                       label = "sex",
-                       labels = c("F" = 0, "M" = 1, "_N" = 99),
-                       definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
-               ))
+  expect_equal(
+    c("a", "b", y),
+    c("a", "b", as.character(c(1, 1, 1, 0, 0, 0)))
+  )
+  expect_equal(
+    c(x, y),
+    defined(c(0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0),
+      label = "sex",
+      labels = c("F" = 0, "M" = 1, "_N" = 99),
+      definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
+    )
+  )
+  expect_equal(
+    c(x, y, v),
+    defined(c(0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0),
+      label = "sex",
+      labels = c("F" = 0, "M" = 1, "_N" = 99),
+      definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
+    )
+  )
   a <- defined(c("a", "b"), label = "c")
   d <- defined(c("d", "e"), label = "c")
-  expect_equal(c(a,d),
-               defined(c("a", "b", "d", "e"),
-                       label = "c"
-               ))
+  expect_equal(
+    c(a, d),
+    defined(c("a", "b", "d", "e"),
+      label = "c"
+    )
+  )
 })
 
 test_that("labelled_defined() works", {

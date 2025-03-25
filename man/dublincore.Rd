@@ -177,7 +177,7 @@ The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will
 automatically added to the dataset.
 }
 \examples{
- orange_bibentry <- dublincore(
+orange_bibentry <- dublincore(
   title = "Growth of Orange Trees",
   creator = c(
     person(

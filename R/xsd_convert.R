@@ -39,7 +39,7 @@ get_type <- function(t) {
 #' @examples
 #'
 #' # Convert data.frame to XML Schema Definition
-#' xsd_convert(data.frame( a=1:3, b=c("a", "b", "c")))
+#' xsd_convert(data.frame(a = 1:3, b = c("a", "b", "c")))
 #' @exportS3Method
 #' @export
 xsd_convert.data.frame <- function(x, idcol = NULL, ...) {
