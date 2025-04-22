@@ -144,7 +144,7 @@ attributes(orange_df)[which(names(attributes(orange_df)) != "row.names")]
 # number row identifiers with simply attributes(orange_df).
 ```
 
-As you can see, the attributes contain the usual attributes of a `data.frame` object (column and row names, S3 class names) but also provenance metadata, subject metadata, and the descriptive metadata added as one `bibentry` object called `dataset_bibentry`. This particular object is received with `get_bibentry(iris_df)`.
+As you can see, the attributes contain the usual attributes of a `data.frame` object (column and row names, S3 class names) but also provenance metadata, subject metadata, and the descriptive metadata added as one `bibentry` object called `dataset_bibentry`. This particular object is received with `get_bibentry(orange_df)`.
 
 ## Adding & Changing Individual Descriptive Metadata Fields
 
@@ -188,7 +188,7 @@ creator(orange_df_2)
 
 The publication year is usually one of the most important descriptive metadata in repositories and libraries:
 
-```{r irispublicationyear}
+```{r orangepublicationyear}
 publication_year(orange_df_2)
 ```
 
