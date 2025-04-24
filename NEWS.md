@@ -1,4 +1,4 @@
-## Enhancements to `defined` vectors
+# dataset 0.3.4021
 
 - Added support for generic vector methods: `length()`, `head()`, `tail()`, `as.vector()`, `as.list()`, and subsetting (`[`, `[[`).
 - Implemented comparison methods (`==`, `<`, `>`, etc.) that operate on the underlying data while maintaining semantic integrity.

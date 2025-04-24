@@ -264,6 +264,52 @@ summary.dataset_df <- function(object, ...) {
   NextMethod()
 }
 
+#' @export
+plot.dataset_df <- function(x, y = NULL, ..., main = NULL, sub = NULL) {
+  title <- dataset_title(x)
+  bib <- get_bibentry(x)
+  author <- tryCatch(as.character(bib$author), error = function(e) "")
+  year <- bib$year %||% substr(bib$date, 1, 4)
+  publisher <- bib$publisher %||% ""
+
+  main <- main %||% title
+  sub <- sub %||% paste(author, "(", year, ")", "-", publisher)
+
+  df <- as.data.frame(x)
+
+  # Identify numeric or defined columns
+  numeric_like_cols <- which(vapply(df, function(col) {
+    inherits(col, "numeric") || inherits(col, "double") || inherits(col, "integer")
+  }, logical(1)))
+
+  if (length(numeric_like_cols) < 2) {
+    stop("Not enough numeric or defined columns to create a plot.")
+  }
+
+  for (j in numeric_like_cols) {
+    df[[j]] <- as_numeric(df[[j]])
+  }
+
+  xcol <- df[[numeric_like_cols[1]]]
+  ycol <- df[[numeric_like_cols[2]]]
+
+  x_label <-  ifelse(is.null(var_label(x)[numeric_like_cols[1]][[1]]),
+                     names(x)[numeric_like_cols[1]],
+                     var_label(x)[numeric_like_cols[1]])
+
+  y_label <-  ifelse(is.null(var_label(x)[numeric_like_cols[2]][[1]]),
+                     names(x)[numeric_like_cols[2]],
+                     var_label(x)[numeric_like_cols[2]])
+
+  plot(xcol, ycol,
+       xlab = x_label,
+       ylab = y_label,
+       main = main,
+       ...)
+}
+
+
+
 #' @rdname dataset_df
 #' @export
 is_dataset_df <- function(x) {
