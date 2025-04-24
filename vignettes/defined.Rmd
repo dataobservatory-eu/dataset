@@ -106,6 +106,7 @@ With matching metadata, concatenation now succeeds:
 summary(c(gdp_1, gdp_2))
 ```
 ### Semantic Identifiers via Namespaces
+
 Namespaces allow defined values — such as country codes — to be expanded into resolvable URIs. This is especially powerful for linked data and machine-readable classification systems.
 
 ```{r country}
