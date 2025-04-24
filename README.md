@@ -30,11 +30,16 @@ into release and reuse ready form.
 &#10;--->
 
 You can install the latest CRAN release with
-`install.packages("dataset")`, and the latest development version of
-dataset with `remotes::install_github()`:
+`install.packages("dataset")`.
 
 ``` r
 install.packages("dataset")
+```
+
+The latest development version of dataset can be installed with
+`remotes::install_github()`:
+
+``` r
 remotes::install_github("dataobservatory-eu/dataset", build = FALSE)
 ```
 
@@ -83,7 +88,8 @@ library(dataset)
 data("orange_df")
 orange_df
 #> Draper N, Smith H (1998). "Growth of Orange Trees."
-#>    rowid      tree       age        circumference
+#>    rowid      tree       age        circumference 
+#>                          The age of circumference 
 #>    <hvn_lbl_> <hvn_lbl_> <hvn_lbl_> <hvn_lbl_>   
 #>  1 orange:1   2 [1]       118        30          
 #>  2 orange:2   2 [1]       484        58          

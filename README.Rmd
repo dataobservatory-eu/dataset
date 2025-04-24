@@ -40,10 +40,15 @@ The primary aim of dataset is create well-referenced, well-described, interopera
 
 --->
 
-You can install the latest CRAN release with `install.packages("dataset")`, and the latest development version of dataset with `remotes::install_github()`:
+You can install the latest CRAN release with `install.packages("dataset")`.
 
 ```{r installation, eval=FALSE}
 install.packages("dataset")
+```
+
+The latest development version of dataset can be installed with  `remotes::install_github()`:
+
+```{r devinstallation, eval=FALSE}
 remotes::install_github("dataobservatory-eu/dataset", build = FALSE)
 ```
 
