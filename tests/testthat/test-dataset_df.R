@@ -25,8 +25,6 @@ test_that("dataset_df() works", {
   expect_equal(var_label(my_dataset$gdp), "Gross Domestic Product")
 })
 
-
-
 test_that("dataset_df() works", {
   orange_bibentry <- dublincore(
     title = "Growth of Orange Trees",
@@ -122,9 +120,28 @@ test_that("rbind works", {
   expect_equal(nrow(rbind(iris_dataset1, iris_dataset2)), 300)
 })
 
-test_that("print.dataset_df() works", {
-  expect_output(print(iris_dataset), "Anderson E \\(1935\\)", ignore.case = FALSE)
+test_that("print.dataset_df prints citation, column names, and variable labels", {
+  df <- dataset_df(
+    code = defined(c("A", "B"), label = "Code Label"),
+    value = defined(c(10, 20), label = "Value Label", unit = "units")
+  )
+
+  output <- capture.output(print(df))
+
+  # Check citation
+  expect_true(any(grepl("Untitled Dataset", output)))
+
+  # Check column headers appear
+  expect_true(any(grepl("code", output)))
+  expect_true(any(grepl("value", output)))
+
+  # Check truncated/padded labels in label row (usually line 3)
+  label_row <- output[3]
+  expect_true(grepl("Code", label_row))
+  expect_true(grepl("Value", label_row))
 })
+
+
 
 test_that("as_dataset_df() works", {
   expect_s3_class(as_dataset_df(iris), "dataset_df")

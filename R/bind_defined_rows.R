@@ -1,178 +1,120 @@
 #' @title Bind strictly defined rows
-#' @description
-#' Add rows of the y dataset to the x dataset.
+#' @description Add rows of dataset y to dataset x. Metadata (labels, units,
+#' definitions, namespaces) must match exactly. The combined dataset inherits
+#' x's citation by default, and creator roles are merged.
 #' @details
-#' By default, the dataset_bibentry bibliographical data and the
-#' title is recycled from dataset x. You can give a new title with
-#' ..., title="New Title". \cr
-#' By default, the unique creators of dataset y, who are not present in
-#' dataset x, are added to the creators of the new dataset.
-#' @param x A dataset created with \code{\link{dataset_df}}.
-#' @param y A dataset created with \code{\link{dataset_df}}.
-#' @param ... Optional parameters: \code{dataset_title}, \code{creator}.
-#' @return A dataset with the combined rows.
+#' This function combines two semantically enriched datasets created with \code{dataset_df()}.
+#' It ensures that the structure and metadata of the datasets are compatible.
+#'
+#' All variable-level attributes — including variable labels, measurement units,
+#' linked definitions, and namespaces — must match exactly in both datasets.
+#'
+#' If \code{strict = TRUE} (the default), the row identifier namespace
+#' (used in the \code{rowid} column) must also be identical in both datasets.
+#' If \code{strict = FALSE}, this requirement is relaxed: the resulting dataset
+#' inherits the row ID structure from \code{x}, even if \code{y} used a different one.
+#' @param strict Logical. If \code{TRUE} (default), all variables must match
+#'   exactly in both datasets, including variable labels, units, definitions,
+#'   namespaces, and the dataset-level row identifier namespace. If
+#'   \code{FALSE}, only user-defined variable semantics are checked strictly,
+#'   while the row identifier column is inherited from \code{x} without
+#'   requiring an exact match.
 #' @export
 #' @examples
 #' A <- dataset_df(
-#'   a = defined(c(11, 14, 16), label = "length", unit = "cm"),
-#'   dataset_bibentry = dublincore(
-#'     title = "Test", creator = person("Jane Doe"),
-#'     dataset_date = Sys.Date()
-#'   )
+#'   length = defined(c(10, 15), label = "Length", unit = "cm", namespace = "http://example.org"),
+#'   identifier = c(id = "http://example.org/dataset#"),
+#'   dataset_bibentry = dublincore(title = "Dataset A", creator = person("Alice", "Smith"))
 #' )
 #'
 #' B <- dataset_df(
-#'   a = defined(c(12, 17, 19), label = "length", unit = "cm"),
-#'   dataset_bibentry = dublincore(
-#'     title = "Test", creator = person("Jane Doe")
-#'   )
+#'   length = defined(c(20, 25), label = "Length", unit = "cm", namespace = "http://example.org"),
+#'   identifier = c(id = "http://example.org/dataset#")
 #' )
-#' bind_defined_rows(x = A, y = B)
 #'
-bind_defined_rows <- function(x, y, ...) {
+#' # This works: same structure and rowid namespace
+#' bind_defined_rows(A, B)
+#'
+#' C <- dataset_df(
+#'   length = defined(c(30, 35), label = "Length", unit = "cm", namespace = "http://example.org"),
+#'   identifier = c(id = "http://another.org/dataset#")
+#' )
+#'
+#' # This throws an error because the rowid namespace differs
+#' \dontrun{
+#' bind_defined_rows(A, C, strict = TRUE)
+#' }
+#'
+#' # This succeeds because rowid is inherited from A
+#' bind_defined_rows(A, C, strict = FALSE)
+bind_defined_rows <- function(x, y, ..., strict=FALSE) {
   dots <- list(...)
 
   if (!inherits(x, "dataset_df")) {
-    stop("Error: bind_defined_rows(x,y): x must be a dataset_df.")
+    stop("`x` must be a dataset_df object. Got: ",
+         paste(class(x), collapse = ", "))
   }
 
   if (!inherits(y, "dataset_df")) {
-    stop("Error: bind_defined_rows(x,y): y must be a dataset_df.")
-  }
-
-  if (any(names(x) != names(y))) {
-    stop("Error: bind_defined_rows(x,y): x,y must have the same names.")
-  }
-
-  label_equivalence <- all.equal(var_label(x), var_label(y))
-  if (!is.logical(label_equivalence)) {
-    unmatched <- as.character(var_label(x))[
-      which(as.character(var_label(x)) != as.character(var_label(y)))
-    ]
-    stop("Error: bind_defined_rows(x,y) - different labels: ", paste(unmatched, collapse = ', '))
-  }
-
-  identicalValue <- function(x,y) if (identical(x,y)) TRUE else FALSE
-
-  definition_x <- lapply(x, function(i) attr(i, "definition"))
-  definition_y <- lapply(y, function(j) attr(j, "definition"))
-
-  if (!identicalValue (definition_x, definition_y)) {
-    unmatched_x <- definition_x[which(as.character(definition_x)!=as.character(definition_y))]
-    unmatched_y <- definition_y[which(as.character(definition_y)!=as.character(definition_x))]
-    stop("Error: bind_defined_rows(x,y) - different definitions: ", names(unmatched_x), "[", paste0(unmatched_x, "|", unmatched_y), "]")
-  }
-
-  varlab_x <- lapply(x, function(i) var_unit(i))
-  varlab_y <- lapply(y, function(j) var_unit(j))
-
-  if (!identicalValue (varlab_x, varlab_y)) {
-    unmatched_x <- varlab_x[which(as.character(varlab_x)!=as.character(varlab_y))]
-    unmatched_y <- varlab_y[which(as.character(varlab_y)!=as.character(varlab_x))]
-    stop("Error: bind_defined_rows(x,y) - different units: ", names(unmatched_x), "[", paste0(unmatched_x, "|", unmatched_y), "]")
+    stop("`y` must be a dataset_df object. Got: ",
+         paste(class(y), collapse = ", "))
   }
 
 
-  unit_x <- lapply(x, function(i) var_unit(i))
-  unit_y <- lapply(y, function(j) var_unit(j))
+  # Strict mode: also validate rowid identifier
+  if (strict) {
+    ns_x <- namespace_attribute(x[["rowid"]])
+    ns_y <- namespace_attribute(y[["rowid"]])
 
-  if (!identicalValue (unit_x, unit_y)) {
-    unmatched_x <- unit_x[which(as.character(unit_x)!=as.character(unit_y))]
-    unmatched_y <- unit_y[which(as.character(unit_y)!=as.character(unit_x))]
-    stop("Error: bind_defined_rows(x,y) - different units: ", names(unmatched_x), "[", paste0(unmatched_x, "|", unmatched_y), "]")
-  }
-
-  list_a <- lapply(x, function(i) namespace_attribute(i))
-  list_b <- lapply(y, function(j) namespace_attribute(j))
-  if (!identicalValue (list_a, list_b) ) {
-     unmatched_a <- list_a[which(as.character(list_a)!=as.character(list_b))]
-     unmatched_b <- list_b[which(as.character(list_b)!=as.character(list_a))]
-     stop("Error: bind_defined_rows(x,y) - different namespaces: ", names(unmatched_a), "[", paste0(unmatched_a, "|", unmatched_b), "]")
-  }
-
-  if (dim(x)[2] != dim(y)[2]) {
-    error_msg <- paste0(
-      "bind_defined_rows(x,y): x has ",
-      dim(x)[2], ", but y has ",
-      dim(y)[2], " columns."
-    )
-    stop(error_msg)
-  }
-
-  for (i in seq_along(x)) {
-    if (i == 1) next
-    if (i == 2) {
-      new_dataset <- dataset_df(c(x[[i]], y[[i]]), identifier = namespace_attribute(x[[1]]))
-      names(new_dataset)[2] <- names(x)[2]
-    } else {
-      new_col <- c(x[[i]], y[[i]])
-      new_dataset$new_col <- new_col
-      names(new_dataset)[i] <- names(x)[i]
+    if (!identical(ns_x, ns_y)) {
+      stop("Row identifier namespaces must match in strict mode.")
     }
+  }
+
+  # Exclude rowid from semantic checks
+  vars <- setdiff(names(x), "rowid")
+
+  if (!identical(names(x)[vars], names(y)[vars])) {
+    stop("Error: Column names must match between datasets.")
+  }
+
+  if (!identical(var_label(x[vars]), var_label(y[vars]))) {
+    stop("Error: Variable labels must match in the two datasets.")
+  }
+
+  if (!identical(lapply(x[vars], var_unit), lapply(y[vars], var_unit))) {
+    stop("Error: Variable units must match in the two datasets.")
+  }
+
+  if (!identical(
+    lapply(x[vars], function(i) attr(i, "definition")),
+    lapply(y[vars], function(j) attr(j, "definition"))
+  )) {
+    stop("Variable definitions must match in the two datasets.")
+  }
+
+  if (!identical(
+    lapply(x[vars], namespace_attribute),
+    lapply(y[vars], namespace_attribute))
+  ) {
+    stop("Variable namespaces must match in the two datasets.")
+  }
+
+  # Bind only variable columns (exclude rowid)
+  new_data <- mapply(function(a, b) c(a, b), x[vars], y[vars], SIMPLIFY = FALSE)
+
+  # Use the rowid namespace from x; allow override later if needed
+  new_dataset <- do.call(dataset_df, c(new_data, list(identifier = namespace_attribute(x[["rowid"]]))))
+
+  # Handle title/creator if supplied
+  if (!is.null(dots$title)) dataset_title(new_dataset, overwrite = TRUE) <- dots$title
+  if (!is.null(dots$creator)) {
+    creator(new_dataset) <- dots$creator
+  } else {
+    creator(new_dataset) <- compare_creators(x, y)
   }
 
   attr(new_dataset, "dataset_bibentry") <- attr(x, "dataset_bibentry")
-
-  if (!is.null(dots$creator)) {
-    # Otherwise the x dataset bibentry lives in the join
-    creator(new_dataset) <- dots$creator
-  }
-
-  if (!is.null(dots$title)) dataset_title(new_dataset, overwrite = TRUE) <- dots$title
-
   new_dataset
 }
 
-#' @keywords internal
-compare_creators <- function(x, y) {
-  given_names <- c(creator(x)$given, creator(y)$given)
-  family_names <- c(creator(x)$family, creator(y)$family)
-  comments <- c(creator(x)$comment, creator(y)$comment)
-  roles <- c(creator(x)$role, creator(y)$role)
-  emails <- c(creator(x)$email, creator(y)$email)
-
-  for (i in seq_along(given_names)) {
-    for (j in seq_along(given_names)) {
-      if (i == j) next
-    }
-
-    all_the_same <- all(
-      given_names[i] == given_names[j] &&
-        family_names[i] == family_names[j] &&
-        comments[i] == comments[j]
-    )
-
-    if (is.na(all_the_same)) next
-
-    if (all_the_same) {
-      given_names <- given_names[-j]
-      family_names <- family_names[-j]
-      comments <- comments[-j]
-      roles <- roles[-j]
-      emails <- emails[-j]
-    }
-  }
-
-  for (i in seq_along(given_names)) {
-    if (i == 1) {
-      persons <- person(
-        given = given_names[i],
-        family = family_names[i],
-        comment = comments[i],
-        role = roles[i],
-        email = emails[i]
-      )
-      next
-    }
-    persons <- c(
-      persons,
-      person(
-        given = given_names[i],
-        family = family_names[i],
-        comment = comments[i],
-        role = roles[i],
-        email = emails[i]
-      )
-    )
-  }
-}

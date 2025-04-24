@@ -52,15 +52,32 @@ definition.\cr \code{is.defined} returns a logical value, stating if the
 object is of class \code{defined}.
 }
 \description{
+Creates a semantically well-defined vector enriched with metadata.
+\code{defined()} is an S3 constructor that extends numeric or character vectors
+with a human-readable label, unit of measurement, linked definition,
+and optional namespace. These objects preserve semantics while behaving
+like standard vectors in comparisons, printing, and subsetting.
 The \code{defined} constructor creates the objects of this
 class, which are semantically extended vectors inherited from
 \code{\link[haven:labelled]{haven::labelled}}.
 }
 \details{
-\code{as.character} coerces a defined vector into a character
-vector.\cr \code{summary} summarises the \code{defined} vector.\cr For more
-details, please check the \code{vignette("defined", package = "dataset")}
-vignette.
+A \code{defined} vector is an extension of a base vector with additional
+semantic metadata:
+\itemize{
+\item A \strong{label} (\code{label}): a short human-readable description
+\item A \strong{unit} (\code{unit}): e.g., "kg", "hours", "USD"
+\item A \strong{definition} (\code{definition}): a URI or textual reference
+\item A \strong{namespace} (\code{namespace}): for URI-based observation or value identifiers
+}
+
+The class inherits from \code{haven::labelled}, supports typical vector
+operations (subsetting, comparisons, printing), and integrates with
+tibbles and tidy workflows via custom \code{format()}, \code{print()}, and
+\code{as.vector()} methods.
+
+Use \code{is.defined()} to test if an object is of class \code{defined}.
+Use \code{as_numeric()} and \code{as_character()} to coerce to base types.
 }
 \examples{
 

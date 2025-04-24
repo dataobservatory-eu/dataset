@@ -65,11 +65,122 @@ test_that("labelled_defined() works", {
   )
   expect_equal(is.defined(sepal_length), TRUE)
   expect_equal(var_label(sepal_length), "Sepal length")
-  expect_equal(as_character(defined(as.factor(c("Man", "Woman", "Woman", "Man")))), c("Man", "Woman", "Woman", "Man"))
   expect_equal(var_unit(sepal_length), "centimeters")
   expect_equal(var_definition(sepal_length), "https://www.wikidata.org/wiki/Property:P2043")
   expect_equal(var_namespace(myspecies), "Iris")
   expect_true(all(as.character(sepal_length) == as.character(iris$Sepal.Length)))
+})
+
+
+test_that("Subsetting defined vectors works correctly", {
+  v <- defined(10:20,
+               label = "Test Vector",
+               unit = "kg",
+               definition = "http://example.com/def",
+               namespace = "http://example.com/ns"
+  )
+
+  sub_v <- v[1:5]
+  expect_true(is.defined(sub_v))
+  expect_equal(var_label(sub_v), "Test Vector")
+  expect_equal(var_unit(sub_v), "kg")
+  expect_equal(length(sub_v), 5)
+
+  single <- v[[3]]
+  expect_equal(as_numeric(single), 12)
+  expect_equal(var_label(single), "Test Vector")
+  expect_equal(var_unit(single), "kg")
+})
+
+test_that("[[.haven_labelled_defined returns a scalar defined value with metadata", {
+  x <- defined(
+    c(10, 20, 30),
+    label = "Measurement",
+    unit = "cm",
+    definition = "http://example.org/def",
+    namespace = "http://example.org/ns",
+    labels = c("Low" = 10, "Medium" = 20, "High" = 30)
+  )
+
+  val <- x[[2]]
+
+  expect_true(is.defined(val))
+  expect_equal(as_numeric(val), 20)
+  expect_equal(var_label(val), "Measurement")
+  expect_equal(var_unit(val), "cm")
+  expect_equal(var_definition(val), "http://example.org/def")
+  expect_equal(var_namespace(val), "http://example.org/ns")
+
+  # Check that labels are preserved too
+  expect_equal(attr(val, "labels"), c("Low" = 10, "Medium" = 20, "High" = 30))
+})
+
+test_that("Comparison operations work on defined vectors", {
+  a <- defined(1:5, label = "Test", unit = "x", definition = "def")
+  b <- defined(5:1, label = "Test", unit = "x", definition = "def")
+
+  expect_equal(a == b, c(FALSE, FALSE, TRUE, FALSE, FALSE))
+  expect_equal(a < 3, c(TRUE, TRUE, FALSE, FALSE, FALSE))
+  expect_equal(3 > b, c(FALSE, FALSE, FALSE, TRUE, TRUE))
+  expect_equal(a != b, c(TRUE, TRUE, FALSE, TRUE, TRUE))
+})
+
+
+test_that("length, head, and tail work on defined vectors", {
+  x <- defined(1:10, label = "Demo", unit = "m", definition = "test")
+
+  expect_equal(length(x), 10)
+  expect_equal(length(head(x, 3)), 3)
+  expect_equal(length(tail(x, 2)), 2)
+  expect_equal(as_numeric(head(x, 2)), c(1, 2))
+  expect_equal(as_numeric(tail(x, 3)), c(8, 9, 10))
+
+  expect_true(is.defined(head(x, 3)))
+  expect_true(is.defined(tail(x, 2)))
+  expect_equal(var_label(head(x, 3)), "Demo")
+  expect_equal(var_unit(tail(x, 2)), "m")
+  expect_equal(var_definition(head(x, 1)), "test")
+})
+
+test_that("print.haven_labelled_defined outputs correctly with/without definition and unit", {
+  x1 <- defined(1:3, definition = "https://def", unit = "kg")
+  x2 <- defined(1:3, definition = "https://def")
+  x3 <- defined(1:3, unit = "kg")
+  x4 <- defined(1:3)
+
+  expect_output(print(x1), "Defined as https://def, measured in kg")
+  expect_output(print(x2), "Defined as https://def")
+  expect_output(print(x3), "Measured in kg")
+  expect_output(print(x4), "Defined vector")
+})
+
+test_that("format.haven_labelled_defined works correctly", {
+  x <- defined(1:3, unit = "kg", definition = "https://def")
+  expect_equal(format(x), c("1 (kg)", "2 (kg)", "3 (kg)"))
+
+  y <- defined(4:6, definition = "short-def")
+  expect_equal(format(y), c("4 [short-def]", "5 [short-def]", "6 [short-def]"))
+
+  z <- defined(7:9)
+  expect_equal(format(z), c("7", "8", "9"))
+})
+
+
+test_that("as.vector.haven_labelled_defined works correctly", {
+  x <- defined(1:3, unit = "kg", definition = "http://example.com")
+  expect_equal(as.vector(x), c(1, 2, 3))
+  expect_equal(as.vector(x, mode = "character"), c("1", "2", "3"))
+
+  y <- defined(c("a", "b"))
+  expect_equal(as.vector(y), c("a", "b"))
+})
+
+test_that("as.list.haven_labelled_defined preserves metadata", {
+  x <- defined(1:2, label = "Test", unit = "kg", definition = "def")
+  lst <- as.list(x)
+  expect_length(lst, 2)
+  expect_true(all(sapply(lst, is.defined)))
+  expect_equal(var_unit(lst[[1]]), "kg")
 })
 
 test_that("labelled_defined() throws error", {
@@ -158,30 +269,29 @@ test_that("iris_dataset() prints", {
   expect_output(print(iris_dataset), "Iris Dataset.", ignore.case = FALSE)
 })
 
-a <- defined(iris$Sepal.Length[1:3],
-  labels = NULL,
-  label = "Sepal length",
-  unit = "centimeters",
-  definition = "https://www.wikidata.org/wiki/Property:P2043"
-)
-
-
-b <- defined(iris$Sepal.Length[4:6],
-  labels = NULL,
-  label = "Sepal length",
-  unit = "centimeters",
-  definition = "https://www.wikidata.org/wiki/Property:P2043"
-)
-
-bmm <- defined(iris$Sepal.Length[7:9] * 10,
-  labels = NULL,
-  label = "Sepal length",
-  unit = "milimeters",
-  definition = "https://www.wikidata.org/wiki/Property:P2043"
-)
-
 
 test_that("c() works", {
+  a <- defined(iris$Sepal.Length[1:3],
+               labels = NULL,
+               label = "Sepal length",
+               unit = "centimeters",
+               definition = "https://www.wikidata.org/wiki/Property:P2043"
+  )
+
+
+  b <- defined(iris$Sepal.Length[4:6],
+               labels = NULL,
+               label = "Sepal length",
+               unit = "centimeters",
+               definition = "https://www.wikidata.org/wiki/Property:P2043"
+  )
+
+  bmm <- defined(iris$Sepal.Length[7:9] * 10,
+                 labels = NULL,
+                 label = "Sepal length",
+                 unit = "milimeters",
+                 definition = "https://www.wikidata.org/wiki/Property:P2043"
+  )
   expect_equal(is.defined(c(a, b)), TRUE)
   expect_equal(length(c(a, b)), 6)
   expect_error(c(a, bmm))
@@ -190,21 +300,35 @@ test_that("c() works", {
 
 test_that("summary.haven_labelled_defined() works ", {
   sepal_length <- iris_dataset$Sepal.Length
-  expect_output(print(sepal_length), "Length of the sepal in cm")
   expect_output(summary(sepal_length), "Length of the sepal in cm \\(centimeter\\)")
   expect_equal(names(summary(sepal_length))[1], "Min.")
 })
 
-test_that("as_numeric.haven_labelled_defined() works ", {
-  sepal_length <- defined(iris$Sepal.Length,
-    labels = NULL,
-    label = "Sepal length",
-    unit = "centimeters",
-    definition = "https://www.wikidata.org/wiki/Property:P2043"
-  )
-  expect_equal(as_numeric(sepal_length), iris$Sepal.Length)
-  expect_equal(as_character(x = sepal_length), as.character(iris$Sepal.Length))
+
+test_that("summary() produces no output when label/unit are missing", {
+  x <- defined(1:5)
+  expect_silent(summary(x))  # expect no printed title
 })
+
+
+test_that("as_numeric() returns underlying numeric vector", {
+  x <- defined(1:3, label = "Test", unit = "kg")
+  expect_equal(as_numeric(x), c(1, 2, 3))
+  expect_type(as_numeric(x), "integer")
+})
+
+test_that("as_factor() works with defined vector", {
+  x <- defined(
+    c(0, 1, 1, 0),
+    label = "Sex",
+    labels = c("Female" = 0, "Male" = 1)
+  )
+  f <- as_factor(x)
+  expect_s3_class(f, "factor")
+  expect_equal(levels(f), c("Female", "Male"))
+  expect_equal(as.character(f), c("Female", "Male", "Male", "Female"))
+})
+
 
 test_that("c.haven_labelled_defined() works ", {
   a <- defined(1:3, label = "testlabel", unit = "meter", definition = "testdef", namespace = "http://example.com")

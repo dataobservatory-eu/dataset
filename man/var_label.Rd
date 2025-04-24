@@ -5,7 +5,7 @@
 \alias{var_label.defined}
 \alias{var_label.dataset_df}
 \alias{label_attribute}
-\alias{var_label<-.defined}
+\alias{var_label<-.haven_labelled_defined}
 \alias{var_label<-.dataset_df}
 \title{Get / Set a variable label}
 \usage{
@@ -21,7 +21,7 @@
 
 label_attribute(x)
 
-\method{var_label}{defined}(x) <- value
+\method{var_label}{haven_labelled_defined}(x) <- value
 
 \method{var_label}{dataset_df}(x) <- value
 }
@@ -70,7 +70,7 @@ permanent variable identifiers.
 var_label(orange_df$circumference)
 
 # To (re)set the label attribute:
-var_label(orange_df$circumference) <- "circumference (breast height)"
+`var_label<-`(orange_df$circumference, "circumference (breast height)")
 }
 \seealso{
 Other defined metadata methods and functions: 

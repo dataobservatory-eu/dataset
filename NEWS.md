@@ -1,27 +1,14 @@
-# Development versions
+## Enhancements to `defined` vectors
 
-- The [From R to RDF](https://dataset.dataobservatory.eu/articles/rdf.html) 
-vignette shows how to leverage the capabilities of the _dataset_ package with 
-[rdflib](https://docs.ropensci.org/rdflib/index.html), an R-user-friendly wrapper
-on ROpenSci to work with the _redland_ Python library for performing common tasks 
-on rdf data, such as parsing and converting between formats including rdfxml, 
-turtle, nquads, ntriples, and trig, creating rdf graphs, and performing SPARQL 
-queries.
+- Added support for generic vector methods: `length()`, `head()`, `tail()`, `as.vector()`, `as.list()`, and subsetting (`[`, `[[`).
+- Implemented comparison methods (`==`, `<`, `>`, etc.) that operate on the underlying data while maintaining semantic integrity.
+- Introduced custom `print()` and `format()` methods that summarise metadata (label, unit, definition) in a concise and human-readable manner.
+- Improved the `summary()` method for `defined` vectors to display variable metadata and integrate seamlessly with base R statistics.
+- Enhanced the `c()` method to validate compatibility across all semantic attributes (`label`, `unit`, `definition`, `namespace`) before concatenation.
+- Extended vignette with richer examples and explanations of semantic validation, namespaces, and metadata access.
+- `compare_creators()` internal function to add all creators to joined datasets.
 
--  The [Motivation](https://dataset.dataobservatory.eu/articles/Motivation.html) 
-article explains how the dataset package aims to extend the tidyverse concepts, 
-the *tibble* and the *labelled* classes. It also shows how different 
-metadata-enriched data publication packages can be used together with the 
-*dataset* package.
-
-- Many small good coding and testing practices were implemented.
-
-- In order to make the dataset package admissible to rOpenSci, references to the
-iris dataset had to be removed, because rOpenSci finds the provenance of this 
-dataset inadmissible.
-
-- Introduction of strict c() and bind_defined_rows() alternatives to the generic
-c() method and rbind() or dplyr::bind_rows().
+This update significantly improves the usability and robustness of semantically enriched vectors in both interactive and programmatic workflows.
 
 # dataset 0.3.4
 

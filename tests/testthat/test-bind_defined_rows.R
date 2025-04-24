@@ -6,7 +6,7 @@ Cdb <- dataset_df(
     dataset_date = Sys.Date()
   )
 )
-
+Cdb
 test_that("bind_defined_rows() works", {
   A <- dataset_df(
     a = defined(c(11, 14, 16), label = "length", unit = "cm"),
@@ -37,10 +37,10 @@ test_that("bind_defined_rows() detects if not dataset_df is the input parameter"
     )
   )
   expect_error(bind_defined_rows(y = A, x = data.frame()),
-    regexp = "x must be a dataset_df"
+    regexp = "x\\` must be a dataset_df object"
   )
   expect_error(bind_defined_rows(A, y = data.frame()),
-    regexp = "y must be a dataset_df"
+    regexp = "y\\` must be a dataset_df"
   )
 })
 
@@ -54,7 +54,7 @@ test_that("bind_defined_rows() detects different labels", {
     height = defined(c(2, 2), label = "height", unit = "cm")
   )
   expect_error(bind_defined_rows(x = A, y = B),
-    regexp = "different labels"
+    regexp = "Variable labels"
   )
 })
 
@@ -68,7 +68,7 @@ test_that("bind_defined_rows() detects different units", {
     height = defined(c(2, 2), label = "height", unit = "cm")
   )
   expect_error(bind_defined_rows(x = A, y = B),
-               regexp = "different units"
+               regexp = "Variable units"
   )
 })
 
@@ -82,7 +82,7 @@ test_that("bind_defined_rows() detects different definitions", {
     height = defined(c(2, 2), label = "height", definition = "cm")
   )
   expect_error(bind_defined_rows(x = A, y = B),
-               regexp = "different definitions"
+               regexp = "Variable definitions"
   )
 })
 
@@ -97,7 +97,7 @@ test_that("bind_defined_rows() detects different namespace", {
     height = defined(c(2, 2), label = "height", unit = "cm")
   )
   expect_error(bind_defined_rows(x = A, y = B),
-    regexp = "different namespaces"
+    regexp = "Variable namespaces"
   )
 })
 
@@ -121,8 +121,8 @@ test_that("bind_defined_rows() has the same rowid namespace", {
     namespace_attribute(bind_defined_rows(x = A, y = B)$rowid),
     namespace_attribute(B$rowid)
   )
-  expect_error(bind_defined_rows(x = A, y = D),
-    regexp = "different namespaces"
+  expect_error(bind_defined_rows(x = A, y = D, strict = TRUE),
+               regexp = "Row identifier namespaces must match"
   )
 })
 

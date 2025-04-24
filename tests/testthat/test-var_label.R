@@ -31,4 +31,12 @@ test_that("var_label.dataset_df() works", {
   expect_equal(var_label(d), "test")
 })
 
-dataset_df(mtcars, identifier = c(mt = "http://mtcars.com/"))
+test_that("var_label<- works for both types", {
+  d <- defined(1:3)
+  var_label(d) <- "demo"
+  expect_equal(var_label(d), "demo")
+
+  df <- dataset_df(x = defined(1:3, label = "a"))
+  var_label(df$x) <- "renamed"
+  expect_equal(var_label(df$x), "renamed")
+})

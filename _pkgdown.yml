@@ -68,6 +68,7 @@ reference:
       - var_namespace
       - as_numeric
       - as_character
+      - as_factor
       - c.haven_labelled_defined
   - title: "Describe"
     desc: >

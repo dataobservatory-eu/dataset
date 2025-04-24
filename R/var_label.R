@@ -21,7 +21,7 @@
 #' var_label(orange_df$circumference)
 #'
 #' # To (re)set the label attribute:
-#' var_label(orange_df$circumference) <- "circumference (breast height)"
+#' `var_label<-`(orange_df$circumference, "circumference (breast height)")
 #' @export
 #' @importFrom labelled var_label
 #' @importFrom labelled `var_label<-`
@@ -33,6 +33,7 @@
 NULL
 
 #' @rdname var_label
+#' @importFrom labelled `var_label<-`
 #' @export
 var_label.defined <- function(x, ...) {
   NextMethod()
@@ -81,11 +82,17 @@ label_attribute <- function(x) {
   attr(x, "label", exact = TRUE)
 }
 
+#' @export
+`var_label<-` <- function(x, value) {
+  UseMethod("var_label<-")
+}
+
 #' @rdname var_label
 #' @importFrom labelled `var_label<-`
 #' @export
-`var_label<-.defined` <- function(x, value) {
-  NextMethod()
+`var_label<-.haven_labelled_defined` <- function(x, value) {
+  attr(x, "label") <- value
+  x
 }
 
 #' @rdname var_label

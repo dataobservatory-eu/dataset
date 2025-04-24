@@ -1,8 +1,8 @@
 ---
-title: "defined"
+title: "Semantically Enriched Vectors with `defined()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{defined}
+  %\VignetteIndexEntry{Semantically Enriched Vectors with defined()}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,7 +18,21 @@ knitr::opts_chunk$set(
 library(dataset)
 ```
 
-`defined()` is a vector subclass of labelled. Labelled improves the semantic capacity of a base R factor with improved value levels and labels by adding a long-form, human-readable label to the variable itself.
+The `defined()` function in the `dataset` package allows you to create semantically enriched vectors that retain human-readable metadata — including labels, measurement units, definitions (e.g. URIs), and namespaces.
+
+This vignette demonstrates how to create, manipulate, and interpret defined vectors, and how they integrate seamlessly into data frames and tidy workflows.
+
+## Introducting the  `defined` Class
+
+The `defined()` constructor enriches a vector by attaching additional attributes that convey semantic meaning. It builds upon the foundation of labelled vectors and introduces three further metadata elements:
+
+-  A `unit of measurement` (e.g. "million dollars")
+
+-  A `definition`, which can be a textual reference or ideally a URI
+
+-  A `namespace`, which enables the construction of meaningful, resolvable identifiers for values or categories
+
+Let’s inspect the metadata attached to a defined vector representing GDP values:
 
 ```{r definedvector}
 gdp_1 <- defined(
@@ -26,7 +40,13 @@ gdp_1 <- defined(
     label = "Gross Domestic Product", 
     unit = "million dollars", 
     definition = "http://data.europa.eu/83i/aa/GDP")
+
+cat("The print method:\n")
+print(gdp_1)
+cat("And the summary:\n")
+summary(gdp_1)
 ```
+When `summary()` is called on a defined vector, its label and unit (if available) are displayed above the summary statistics.
 
 The `defined()` class extends the attributes of a labelled vector with a unit (of measure), a definition and a namespace. 
 
@@ -39,24 +59,39 @@ var_unit(gdp_1)
 cat("Get the definition only: ")
 var_definition(gdp_1)
 ```
+
 What happens if we try to concatenate a semantically under-specified new vector to the GDP vector?
 
-```{r}
+## Semantic Consistency in Concatenation
+
+```{r combine}
+a <- defined(1:3, label = "Length", unit = "metres")
+b <- defined(4:6, label = "Length", unit = "metres")
+
+c(a, b)
+```
+
+
+```{r newexample}
 gdp_2 <- defined(2034, label = "Gross Domestic Product")
 ```
 
 You will get an intended error message that some attributes are not compatible. You certainly want to avoid that you are concatenating figures in euros and dollars, for example.
 
-```{r, eval=FALSE}
+Attempting to concatenate the under-specified `gdp_2` vector with `gdp_1` will trigger an error:
+
+```{r error, eval=FALSE}
 c(gdp_1, gdp_2)
 Error in `vec_c()`:
 ! Can't combine `..1` <haven_labelled_defined> and `..2` <haven_labelled_defined>.
 ✖ Some attributes are incompatible.
 ```
+This error is intentional — it ensures that values with mismatched or incomplete semantic context (e.g., a different currency unit or an undefined concept) do not silently contaminate the dataset.
 
-Let's define better the GDP of San Marino:
+### Aligning Metadata Before Concatenation
+We can resolve this by explicitly defining the missing unit and definition for gdp_2 so that it matches gdp_1:
 
-```{r gpd2}
+```{r smgdp, gpd2}
 var_unit(gdp_2) <- "million dollars"
 ```
 
@@ -65,9 +100,14 @@ var_unit(gdp_2) <- "million dollars"
 var_definition(gdp_2) <- "http://data.europa.eu/83i/aa/GDP"
 ```
 
-```{r c}
+With matching metadata, concatenation now succeeds:
+
+```{r concat}
 summary(c(gdp_1, gdp_2))
 ```
+### Semantic Identifiers via Namespaces
+Namespaces allow defined values — such as country codes — to be expanded into resolvable URIs. This is especially powerful for linked data and machine-readable classification systems.
+
 ```{r country}
 country = defined(c("AD", "LI", "SM"), 
                   label = "Country name", 
@@ -75,9 +115,40 @@ country = defined(c("AD", "LI", "SM"),
                   namespace = "https://www.geonames.org/countries/$1/")
 ```
 
+The namespace attribute allows each value in a vector to become a resolvable URI — useful in linked data and semantic web contexts.
+
 The point of using a namespace is that it can point to a both human- and machine readable definition of the ID column, or any attribute column in the datasets. (Attributes in a statistical datasets are characteristics of the observations or the measured variables.)
 
-For example, the namespace definition above points to <https://www.geonames.org/countries/AD/> in the case of Andorra, <https://www.geonames.org/countries/LI/> for Lichtenstein, and <https://www.geonames.org/countries/SM/> for San Marino. And <http://publications.europa.eu/resource/authority/bna/c_6c2bb82d> resolves to a machine-readable definition of geographical names.
+The namespace acts as a template: $1 is replaced by the actual value of each element, producing links like:
+- <https://www.geonames.org/countries/AD/> in the case of Andorra, 
+- <https://www.geonames.org/countries/LI/> for Lichtenstein, and 
+- <https://www.geonames.org/countries/SM/> for San Marino. 
+
+In addition, the definition URI — <http://publications.europa.eu/resource/authority/bna/c_6c2bb82d> — resolves to a machine-readable classification of country names, helping to align datasets with official vocabularies and standards.
+## Basic Usage
+
+Working with character vectors:
+
+```{r characters}
+countries <- defined(
+  c("AD", "LI"),
+  label = "Country code",
+  namespace = "https://www.geonames.org/countries/$1/"
+)
+
+countries
+as_character(countries)
+```
+### Subsetting and coercion
+
+```{r basicmethods}
+gdp_1[1:2]
+gdp_1 > 5000
+as.vector(gdp_1)
+as.list(gdp_1)
+```
+
+
 
 ## Coerce to base R types
 

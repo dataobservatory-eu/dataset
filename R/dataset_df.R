@@ -172,9 +172,6 @@ new_my_tibble <- function(x,
 
   tmp
 }
-
-
-
 #' @rdname dataset_df
 #' @return \code{is.dataset_df} returns a logical value
 #' (if the object is of class \code{dataset_df}.)
@@ -184,47 +181,71 @@ is.dataset_df <- function(x) {
 }
 
 #' @rdname dataset_df
-#' @importFrom cli cat_line
 #' @export
 print.dataset_df <- function(x, ...) {
-  year <- NULL
-  dataset_bibentry <- get_bibentry(x)
-  author_person <- dataset_bibentry$author
-  year <- dataset_bibentry$year
 
+  dataset_bibentry <- get_bibentry(x)
+  if (is.null(dataset_bibentry)) {
+    dataset_bibentry <- set_default_bibentry()
+  }
+
+  # Retrieve metadata
+  year <- dataset_bibentry$year
   if (is.null(year)) {
     year <- substr(dataset_bibentry$date, 1, 4)
   }
 
-  title <- dataset_bibentry$title
+  # Generate the tibble-like format
+  df_fmt <- format(x)
+  table_header <- df_fmt[1]
+  table_body <- df_fmt[-1]
 
+  # Extract column header line
+  col_line <- table_body[1]
 
-  varlabels <- vapply(x, function(x) {
-    ifelse(is.null(var_label(x)),
-      "          ",
-      substr(var_label(x), 1, 10)
-    )
+  # Detect column start positions and widths
+  col_starts <- gregexpr("\\S+", col_line)[[1]]
+  col_ends <- c(col_starts[-1] - 1, nchar(col_line))
+  col_widths <- col_ends - col_starts + 1
+
+  # Safely extract var_labels
+  labels <- vapply(x, function(col) {
+    lbl <- var_label(col)
+    if (is.null(lbl)) "" else lbl
   }, character(1))
 
+  # Format each label to match column width
+  label_row_parts <- mapply(function(label, width) {
+    if (!nzchar(label)) {
+      strrep(" ", width)
+    } else if (nchar(label) > width) {
+      substr(label, 1, width)
+    } else {
+      format(label, width = width, justify = "centre")
+    }
+  }, labels, col_widths, USE.NAMES = FALSE)
 
-
-  if (inherits(author_person, "persont")) {
-    print_name <- ""
-    if (!is.null(author_person$family)) print_name <- paste0(author_person$family, ", ")
-    if (!is.null(author_person$given)) print_name <- paste0(print_name, author_person$given, ": ")
-  } else if (is.character(attr(x, "person"))) {
-    print_name <- paste0(attr(x, "person"), ": ")
-  } else {
-    print_name <- ""
+  # Build a character vector and insert parts by column position
+  label_row <- rep(" ", nchar(col_line))
+  for (i in seq_along(col_starts)) {
+    start <- col_starts[i]
+    end <- col_ends[i]
+    label_chars <- strsplit(label_row_parts[i], "")[[1]]
+    label_row[start:end] <- label_chars[seq_len(end - start + 1)]
   }
+  label_row_str <- paste0(label_row, collapse = "")
 
-  if (!is.null(year)) {
-    # cat(paste0(" (", substr(as.character(year), 1,4), ")"))
-  }
-  print(get_bibentry(x), "text")
-  # cli::cat_line(paste(as.character(varlabels), collapse=" "))
-  cli::cat_line(format(x)[-1])
+  # Print citation
+  print(dataset_bibentry, "text")
+
+  # Print column header, label row, and table body
+  cat(col_line, "\n")
+  cat(label_row_str, "\n")
+  cat(paste0(table_body[-1], collapse = "\n"), "\n")
+
+  invisible(x)
 }
+
 
 #' @importFrom vctrs df_list
 #' @export

@@ -1,11 +1,29 @@
 #' @title Create a semantically well-defined, labelled vector
-#' @description The \code{defined} constructor creates the objects of this
+#' @description
+#' Creates a semantically well-defined vector enriched with metadata.
+#' `defined()` is an S3 constructor that extends numeric or character vectors
+#' with a human-readable label, unit of measurement, linked definition,
+#' and optional namespace. These objects preserve semantics while behaving
+#' like standard vectors in comparisons, printing, and subsetting.
+#'  The \code{defined} constructor creates the objects of this
 #' class, which are semantically extended vectors inherited from
 #' \code{\link[haven:labelled]{haven::labelled}}.
-#' @details \code{as.character} coerces a defined vector into a character
-#' vector.\cr \code{summary} summarises the \code{defined} vector.\cr For more
-#' details, please check the \code{vignette("defined", package = "dataset")}
-#' vignette.
+#' @details
+#' A `defined` vector is an extension of a base vector with additional
+#' semantic metadata:
+#'
+#' - A **label** (`label`): a short human-readable description
+#' - A **unit** (`unit`): e.g., "kg", "hours", "USD"
+#' - A **definition** (`definition`): a URI or textual reference
+#' - A **namespace** (`namespace`): for URI-based observation or value identifiers
+#'
+#' The class inherits from `haven::labelled`, supports typical vector
+#' operations (subsetting, comparisons, printing), and integrates with
+#' tibbles and tidy workflows via custom `format()`, `print()`, and
+#' `as.vector()` methods.
+#'
+#' Use `is.defined()` to test if an object is of class `defined`.
+#' Use `as_numeric()` and `as_character()` to coerce to base types.
 #' @param x A vector to label. Must be either numeric (integer or double) or
 #'   character.
 #' @param labels A named vector or `NULL`. The vector should be the same type as
@@ -180,17 +198,118 @@ as.character.haven_labelled_defined <- function(x, ...) {
   NextMethod()
 }
 
+#' @export
+`[.haven_labelled_defined` <- function(x, i, ...) {
+  result <- NextMethod("[")
+  most_attrs <- c("label", "unit", "definition", "namespace", "labels")
+  for (attr_name in most_attrs) {
+    attr(result, attr_name) <- attr(x, attr_name)
+  }
+  class(result) <- class(x)
+  result
+}
+
+#' @export
+#' @importFrom vctrs vec_data
+`[[.haven_labelled_defined` <- function(x, i, ...) {
+  defined(vec_data(x)[[i]],
+          label = var_label(x),
+          unit = var_unit(x),
+          definition = var_definition(x),
+          namespace = var_namespace(x),
+          labels = attr(x, "labels"))
+}
+
+
+#' @export
+#' @importFrom vctrs vec_data
+Ops.haven_labelled_defined <- function(e1, e2) {
+  # Comparisons work as expected
+  lhs <- if (inherits(e1, "haven_labelled_defined")) vec_data(e1) else e1
+  rhs <- if (inherits(e2, "haven_labelled_defined")) vec_data(e2) else e2
+  .Generic <- .Generic
+  do.call(.Generic, list(lhs, rhs))
+}
+
+#' @export
+#' @importFrom vctrs vec_data
+length.haven_labelled_defined <- function(x) {
+  length(vec_data(x))
+}
+
+#' @export
+#' @importFrom vctrs vec_data
+head.haven_labelled_defined <- function(x, n = 6L, ...) {
+  x[seq_len(min(n, length(x)))]
+}
+
+#' @export
+#' @importFrom vctrs vec_data
+tail.haven_labelled_defined <- function(x, n = 6L, ...) {
+  x[seq.int(to = length(x), length.out = min(n, length(x)))]
+}
+
+#' @export
+print.haven_labelled_defined <- function(x, ...) {
+  has_def <- !is.null(var_definition(x)) && !is.na(var_definition(x)) && nzchar(var_definition(x))
+  has_unit <- !is.null(var_unit(x)) && !is.na(var_unit(x)) && nzchar(var_unit(x))
+
+  if (has_def && has_unit) {
+    msg <- paste0("Defined as ", var_definition(x), ", measured in ", var_unit(x))
+  } else if (has_def) {
+    msg <- paste0("Defined as ", var_definition(x))
+  } else if (has_unit) {
+    msg <- paste0("Measured in ", var_unit(x))
+  } else {
+    msg <- "Defined vector"
+  }
+
+  cat(msg, "\n")
+  print(vec_data(x), ...)
+  invisible(x)
+}
+
+
+#' @export
+format.haven_labelled_defined <- function(x, ...) {
+  base <- format(vec_data(x), ...)
+  unit <- var_unit(x)
+  def <- var_definition(x)
+
+  if (!is.null(unit) && nzchar(unit)) {
+    suffix <- paste0(" (", unit, ")")
+  } else if (!is.null(def) && nzchar(def) && nchar(def) < 30) {
+    suffix <- paste0(" [", def, "]")
+  } else {
+    suffix <- ""
+  }
+
+  paste0(base, suffix)
+}
+
+#' @export
+as.list.haven_labelled_defined <- function(x, ...) {
+  lapply(seq_along(x), function(i) x[[i]])
+}
+
+#' @export
+as.vector.haven_labelled_defined <- function(x, mode = "any") {
+  as.vector(vec_data(x), mode = mode)
+}
 #' @rdname defined
 #' @param object An R object to be summarised.
 #' @export
 summary.haven_labelled_defined <- function(object, ...) {
-  title <- ifelse(nchar(var_label(object)) > 1, var_label(object), "")
+  label <- var_label(object)
+  unit <- var_unit(object)
 
-  title <- ifelse(nchar(var_unit(object)) & nchar(title) > 1,
-    paste0(title, " (", var_unit(object), ")\n"),
-    paste0(title, "\n")
-  )
-  cat(title)
+  if (!is.null(label) && nzchar(label)) {
+    if (!is.null(unit) && nzchar(unit)) {
+      cat(paste0(label, " (", unit, ")\n"))
+    } else {
+      cat(paste0(label, "\n"))
+    }
+  }
   NextMethod()
 }
 
@@ -208,33 +327,61 @@ as_numeric <- function(x) {
 #' @param x A vector created with \code{\link{defined}}.
 #' @return A character vector.
 #' @examples
-#' as_character(iris_dataset$Species)
+#' x <- defined(c("a", "b", "c"), label = "Letter code")
+#' as_character(x)
+#'
+#' y <- defined(1:3, label = "Index")
+#' as_character(y)
 #' @export
 as_character <- function(x) {
   UseMethod("as_character", x)
 }
 
+
+#' @title Coerce to factor vector
+#' @param x A vector created with \code{\link{defined}}.
+#' @return A factor vector.
+#' @examples
+#' sex <- defined(
+#'   c(0, 1, 1, 0),
+#'   label = "Sex",
+#'   labels = c("Female" = 0, "Male" = 1)
+#' )
+#' as_factor(sex)
+#' @export
+as_factor <- function(x) {
+  UseMethod("as_factor", x)
+}
+
 #' @rdname as_numeric
+#' @importFrom vctrs vec_data
+#' @examples
+#' gdp <- defined(c(3897L, 7365L), label = "GDP", unit = "million dollars")
+#' as_numeric(gdp)
 #' @export
 as_numeric.haven_labelled_defined <- function(x) {
-  class_x <- class(x)
-
-  if (any(class_x %in% c("numeric", "double"))) {
-    class(x) <- "numeric"
-    as.numeric(x)
-  } else if (any(class_x %in% "integer")) {
-    class(x) <- "integer"
-    as.integer(x)
-  } else {
-    stop("as_numeric.haven_labelled_defined(x): x is not numeric")
+  x_data <- vec_data(x)
+  if (!is.numeric(x_data)) {
+    stop("as_numeric.haven_labelled_defined(x): underlying data is not numeric")
   }
+  x_data
 }
 
 #' @rdname as_character
-#' @importFrom haven as_factor
+#' @importFrom vctrs vec_data
 #' @export
 as_character.haven_labelled_defined <- function(x) {
-  as.character(haven::as_factor(x))
+  as.character(vec_data(x))
+}
+
+#' @export
+#' @importFrom haven as_factor
+#' @importFrom vctrs vec_data
+
+
+as_factor.haven_labelled_defined <- function(x, ...) {
+  haven::as_factor(haven::labelled(vec_data(x),
+                                   labels = attr(x, "labels")), ...)
 }
 
 #' @title Combine Values into a defined Vector

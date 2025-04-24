@@ -20,4 +20,6 @@ Coerce a defined vector to numeric
 }
 \examples{
 as_numeric(iris_dataset$Petal.Length)
+gdp <- defined(c(3897L, 7365L), label = "GDP", unit = "million dollars")
+as_numeric(gdp)
 }

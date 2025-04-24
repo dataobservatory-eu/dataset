@@ -19,5 +19,9 @@ A character vector.
 Coerce to character vector
 }
 \examples{
-as_character(iris_dataset$Species)
+x <- defined(c("a", "b", "c"), label = "Letter code")
+as_character(x)
+
+y <- defined(1:3, label = "Index")
+as_character(y)
 }

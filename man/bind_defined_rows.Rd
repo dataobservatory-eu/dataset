@@ -4,43 +4,58 @@
 \alias{bind_defined_rows}
 \title{Bind strictly defined rows}
 \usage{
-bind_defined_rows(x, y, ...)
+bind_defined_rows(x, y, ..., strict = FALSE)
 }
 \arguments{
-\item{x}{A dataset created with \code{\link{dataset_df}}.}
-
-\item{y}{A dataset created with \code{\link{dataset_df}}.}
-
-\item{...}{Optional parameters: \code{dataset_title}, \code{creator}.}
-}
-\value{
-A dataset with the combined rows.
+\item{strict}{Logical. If \code{TRUE} (default), all variables must match
+exactly in both datasets, including variable labels, units, definitions,
+namespaces, and the dataset-level row identifier namespace. If
+\code{FALSE}, only user-defined variable semantics are checked strictly,
+while the row identifier column is inherited from \code{x} without
+requiring an exact match.}
 }
 \description{
-Add rows of the y dataset to the x dataset.
+Add rows of dataset y to dataset x. Metadata (labels, units,
+definitions, namespaces) must match exactly. The combined dataset inherits
+x's citation by default, and creator roles are merged.
 }
 \details{
-By default, the dataset_bibentry bibliographical data and the
-title is recycled from dataset x. You can give a new title with
-..., title="New Title". \cr
-By default, the unique creators of dataset y, who are not present in
-dataset x, are added to the creators of the new dataset.
+This function combines two semantically enriched datasets created with \code{dataset_df()}.
+It ensures that the structure and metadata of the datasets are compatible.
+
+All variable-level attributes — including variable labels, measurement units,
+linked definitions, and namespaces — must match exactly in both datasets.
+
+If \code{strict = TRUE} (the default), the row identifier namespace
+(used in the \code{rowid} column) must also be identical in both datasets.
+If \code{strict = FALSE}, this requirement is relaxed: the resulting dataset
+inherits the row ID structure from \code{x}, even if \code{y} used a different one.
 }
 \examples{
 A <- dataset_df(
-  a = defined(c(11, 14, 16), label = "length", unit = "cm"),
-  dataset_bibentry = dublincore(
-    title = "Test", creator = person("Jane Doe"),
-    dataset_date = Sys.Date()
-  )
+  length = defined(c(10, 15), label = "Length", unit = "cm", namespace = "http://example.org"),
+  identifier = c(id = "http://example.org/dataset#"),
+  dataset_bibentry = dublincore(title = "Dataset A", creator = person("Alice", "Smith"))
 )
 
 B <- dataset_df(
-  a = defined(c(12, 17, 19), label = "length", unit = "cm"),
-  dataset_bibentry = dublincore(
-    title = "Test", creator = person("Jane Doe")
-  )
+  length = defined(c(20, 25), label = "Length", unit = "cm", namespace = "http://example.org"),
+  identifier = c(id = "http://example.org/dataset#")
 )
-bind_defined_rows(x = A, y = B)
 
+# This works: same structure and rowid namespace
+bind_defined_rows(A, B)
+
+C <- dataset_df(
+  length = defined(c(30, 35), label = "Length", unit = "cm", namespace = "http://example.org"),
+  identifier = c(id = "http://another.org/dataset#")
+)
+
+# This throws an error because the rowid namespace differs
+\dontrun{
+bind_defined_rows(A, C, strict = TRUE)
+}
+
+# This succeeds because rowid is inherited from A
+bind_defined_rows(A, C, strict = FALSE)
 }
