@@ -74,10 +74,10 @@ test_that("labelled_defined() works", {
 
 test_that("Subsetting defined vectors works correctly", {
   v <- defined(10:20,
-               label = "Test Vector",
-               unit = "kg",
-               definition = "http://example.com/def",
-               namespace = "http://example.com/ns"
+    label = "Test Vector",
+    unit = "kg",
+    definition = "http://example.com/def",
+    namespace = "http://example.com/ns"
   )
 
   sub_v <- v[1:5]
@@ -272,25 +272,25 @@ test_that("iris_dataset() prints", {
 
 test_that("c() works", {
   a <- defined(iris$Sepal.Length[1:3],
-               labels = NULL,
-               label = "Sepal length",
-               unit = "centimeters",
-               definition = "https://www.wikidata.org/wiki/Property:P2043"
+    labels = NULL,
+    label = "Sepal length",
+    unit = "centimeters",
+    definition = "https://www.wikidata.org/wiki/Property:P2043"
   )
 
 
   b <- defined(iris$Sepal.Length[4:6],
-               labels = NULL,
-               label = "Sepal length",
-               unit = "centimeters",
-               definition = "https://www.wikidata.org/wiki/Property:P2043"
+    labels = NULL,
+    label = "Sepal length",
+    unit = "centimeters",
+    definition = "https://www.wikidata.org/wiki/Property:P2043"
   )
 
   bmm <- defined(iris$Sepal.Length[7:9] * 10,
-                 labels = NULL,
-                 label = "Sepal length",
-                 unit = "milimeters",
-                 definition = "https://www.wikidata.org/wiki/Property:P2043"
+    labels = NULL,
+    label = "Sepal length",
+    unit = "milimeters",
+    definition = "https://www.wikidata.org/wiki/Property:P2043"
   )
   expect_equal(is.defined(c(a, b)), TRUE)
   expect_equal(length(c(a, b)), 6)
@@ -307,7 +307,7 @@ test_that("summary.haven_labelled_defined() works ", {
 
 test_that("summary() produces no output when label/unit are missing", {
   x <- defined(1:5)
-  expect_silent(summary(x))  # expect no printed title
+  expect_silent(summary(x)) # expect no printed title
 })
 
 

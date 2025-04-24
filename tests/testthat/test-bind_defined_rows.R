@@ -68,7 +68,7 @@ test_that("bind_defined_rows() detects different units", {
     height = defined(c(2, 2), label = "height", unit = "cm")
   )
   expect_error(bind_defined_rows(x = A, y = B),
-               regexp = "Variable units"
+    regexp = "Variable units"
   )
 })
 
@@ -82,7 +82,7 @@ test_that("bind_defined_rows() detects different definitions", {
     height = defined(c(2, 2), label = "height", definition = "cm")
   )
   expect_error(bind_defined_rows(x = A, y = B),
-               regexp = "Variable definitions"
+    regexp = "Variable definitions"
   )
 })
 
@@ -122,7 +122,6 @@ test_that("bind_defined_rows() has the same rowid namespace", {
     namespace_attribute(B$rowid)
   )
   expect_error(bind_defined_rows(x = A, y = D, strict = TRUE),
-               regexp = "Row identifier namespaces must match"
+    regexp = "Row identifier namespaces must match"
   )
 })
-

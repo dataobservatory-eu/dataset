@@ -183,7 +183,6 @@ is.dataset_df <- function(x) {
 #' @rdname dataset_df
 #' @export
 print.dataset_df <- function(x, ...) {
-
   dataset_bibentry <- get_bibentry(x)
   if (is.null(dataset_bibentry)) {
     dataset_bibentry <- set_default_bibentry()

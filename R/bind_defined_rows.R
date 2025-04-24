@@ -47,17 +47,21 @@
 #'
 #' # This succeeds because rowid is inherited from A
 #' bind_defined_rows(A, C, strict = FALSE)
-bind_defined_rows <- function(x, y, ..., strict=FALSE) {
+bind_defined_rows <- function(x, y, ..., strict = FALSE) {
   dots <- list(...)
 
   if (!inherits(x, "dataset_df")) {
-    stop("`x` must be a dataset_df object. Got: ",
-         paste(class(x), collapse = ", "))
+    stop(
+      "`x` must be a dataset_df object. Got: ",
+      paste(class(x), collapse = ", ")
+    )
   }
 
   if (!inherits(y, "dataset_df")) {
-    stop("`y` must be a dataset_df object. Got: ",
-         paste(class(y), collapse = ", "))
+    stop(
+      "`y` must be a dataset_df object. Got: ",
+      paste(class(y), collapse = ", ")
+    )
   }
 
 
@@ -95,7 +99,8 @@ bind_defined_rows <- function(x, y, ..., strict=FALSE) {
 
   if (!identical(
     lapply(x[vars], namespace_attribute),
-    lapply(y[vars], namespace_attribute))
+    lapply(y[vars], namespace_attribute)
+  )
   ) {
     stop("Variable namespaces must match in the two datasets.")
   }
@@ -117,4 +122,3 @@ bind_defined_rows <- function(x, y, ..., strict=FALSE) {
   attr(new_dataset, "dataset_bibentry") <- attr(x, "dataset_bibentry")
   new_dataset
 }
-

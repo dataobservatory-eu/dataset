@@ -213,11 +213,12 @@ as.character.haven_labelled_defined <- function(x, ...) {
 #' @importFrom vctrs vec_data
 `[[.haven_labelled_defined` <- function(x, i, ...) {
   defined(vec_data(x)[[i]],
-          label = var_label(x),
-          unit = var_unit(x),
-          definition = var_definition(x),
-          namespace = var_namespace(x),
-          labels = attr(x, "labels"))
+    label = var_label(x),
+    unit = var_unit(x),
+    definition = var_definition(x),
+    namespace = var_namespace(x),
+    labels = attr(x, "labels")
+  )
 }
 
 
@@ -381,7 +382,8 @@ as_character.haven_labelled_defined <- function(x) {
 
 as_factor.haven_labelled_defined <- function(x, ...) {
   haven::as_factor(haven::labelled(vec_data(x),
-                                   labels = attr(x, "labels")), ...)
+    labels = attr(x, "labels")
+  ), ...)
 }
 
 #' @title Combine Values into a defined Vector
