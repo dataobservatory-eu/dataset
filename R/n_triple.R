@@ -53,7 +53,7 @@ n_triple <- function(s, p, o) {
 #' @keywords internal
 create_iri <- function(x) {
   if (any(c("list", "data.frame", "tbl", "data.table") %in% class(x))) {
-    stop("Error: create_iri(x) must be any of an URI, string, integer, double, Date, dateTime, or person.")
+    stop("Error: create_iri(x) must be a URI, string, integer, double, Date, dateTime, or person.")
   }
 
   double_string <- "^^<http://www.w3.org/2001/XMLSchema#double>"
@@ -62,6 +62,7 @@ create_iri <- function(x) {
   date_string <- "^^<http://www.w3.org/2001/XMLSchema#date>"
   datetime_string <- "^^<http://www.w3.org/2001/XMLSchema#dateTime>"
 
+  # Person object handling
   if (inherits(x, "person")) {
     if ("isni" %in% tolower(names(x$comment))) {
       x <- paste0("https://isni.org/isni/", x$comment[which(tolower(names(x$comment)) == "isni")])
@@ -74,17 +75,26 @@ create_iri <- function(x) {
       qid <- gsub("https://www.wikidata.org/wiki/", "", qid)
       x <- paste0("https://www.wikidata.org/wiki/", qid)
     } else {
-      tmp <- x
-      tmp$comment <- ""
-      tmp$email <- ""
-      x <- as.character(tmp)
+      # No external ID found; format manually
+      full_name <- c(x$given, x$family)
+      full_name <- full_name[!is.null(full_name) & nzchar(full_name)]
+      name_str <- paste(full_name, collapse = " ")
+
+      roles <- if (!is.null(x$role) && length(x$role) > 0 && any(nzchar(x$role))) {
+        paste0(" [", paste(x$role, collapse = ", "), "]")
+      } else {
+        ""
+      }
+
+      x <- paste0(name_str, roles)
     }
   }
 
+  # Branching on type
   if (is.integer(x)) {
     sprintf('"%s"%s', as.character(x), integer_string)
   } else if (inherits(x, "POSIXct")) {
-    xsd_convert(x)
+    sprintf('"%s"%s', format(x, "%Y-%m-%dT%H:%M:%SZ"), datetime_string)
   } else if (is.character(x) & substr(x, 1, 5) %in% c("http:", "https")) {
     sprintf("<%s>", as.character(x))
   } else if (grepl("^_\\:", x)) {
@@ -102,6 +112,7 @@ create_iri <- function(x) {
     sprintf('"%s"%s', as.character(x), character_string)
   }
 }
+
 
 #' @keywords internal
 prov_author <- function(author_person) {

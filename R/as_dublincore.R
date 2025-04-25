@@ -60,6 +60,11 @@ as_dublincore <- function(x, type = "bibentry", ...) {
   dataset_subject <- ifelse(is.null(dataset_bibentry$subject), "", as.character(dataset_bibentry$subject))
   dataset_publisher <- ifelse(is.null(dataset_bibentry$publisher), "", as.character(dataset_bibentry$publisher))
 
+  dataset_publisher <- if (is.null(dataset_bibentry$publisher)) ":unas" else fix_publisher(dataset_bibentry$publisher)
+  dataset_contributor <- if (is.null(dataset_bibentry$datasource)) ":unas" else dataset_contributor
+  creators <- if (is.null(creator)) creators <- ":tba" else creators <- creator
+
+
   properties <- c(
     length(dataset_title),
     length(as.character(dataset_creator)),

@@ -3,7 +3,6 @@
 \name{defined}
 \alias{defined}
 \alias{is.defined}
-\alias{as.character.haven_labelled_defined}
 \alias{summary.haven_labelled_defined}
 \title{Create a semantically well-defined, labelled vector}
 \usage{
@@ -17,8 +16,6 @@ defined(
 )
 
 is.defined(x)
-
-\method{as.character}{haven_labelled_defined}(x, ...)
 
 \method{summary}{haven_labelled_defined}(object, ...)
 }
@@ -41,9 +38,9 @@ definition or \code{NULL}.}
 \item{namespace}{A namespace for individual observations or categories or
 \code{NULL}.}
 
-\item{...}{Further parameters for inheritance, not in use.}
-
 \item{object}{An R object to be summarised.}
+
+\item{...}{Further parameters for inheritance, not in use.}
 }
 \value{
 The constructor \code{defined} returns a vector with defined value

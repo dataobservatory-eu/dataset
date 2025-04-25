@@ -313,8 +313,18 @@ test_that("summary() produces no output when label/unit are missing", {
 
 test_that("as_numeric() returns underlying numeric vector", {
   x <- defined(1:3, label = "Test", unit = "kg")
-  expect_equal(as_numeric(x), c(1, 2, 3))
+  expect_equal(as_numeric(x, preserve_attributes = FALSE), c(1, 2, 3))
+  expect_equal(attr(as_numeric(x, TRUE), "unit"), "kg")
   expect_type(as_numeric(x), "integer")
+  expect_error(as_character(x), regexp = "underlying data is not a character")
+})
+
+test_that("as_character() returns underlying character vector", {
+  fruits <- defined(c("apple","avocado", "kiwi"), label = "Fruit", unit = "kg")
+  expect_equal(as_character(fruits, preserve_attributes = FALSE), c("apple","avocado", "kiwi"))
+  expect_equal(attr(as_character(fruits, TRUE), "unit"), "kg")
+  expect_type(as_character(fruits), "character")
+  expect_error(as_numeric(fruits), regexp = "underlying data is not numeric")
 })
 
 test_that("as_factor() works with defined vector", {

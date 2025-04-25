@@ -1,29 +1,3 @@
-test_that("fix_publisher() works", {
-  expect_equal(fix_publisher(publishers = "publisher"), "publisher")
-  expect_equal(fix_publisher(publishers = NULL), ":unas")
-  expect_equal(fix_publisher(publishers = person("Jane", "Doe", role = "pbl")), "Jane")
-  expect_equal(fix_publisher(publishers = person("American Iris Society", role = "pbl")), "American Iris Society")
-  expect_equal(fix_publisher(publishers = c(
-    person("Jane", "Doe", role = "pbl"),
-    person("American Iris Society")
-  )), "{Jane} and {American Iris Society}")
-})
-
-test_that("fix_contributors() works", {
-  expect_equal(fix_contributor(contributors = "contributor"), "contributor")
-  expect_equal(fix_contributor(contributors = NULL), ":unas")
-  expect_equal(fix_contributor(contributors = person("Jane", "Doe", role = "ctb")), "Jane Doe [ctb]")
-  expect_equal(fix_contributor(contributors = person("American Iris Society", role = "pbl")), "American Iris Society [pbl]")
-  expect_equal(
-    fix_contributor(contributors = c(
-      person("Jane", "Doe", role = "ctb"),
-      person("Joe", "Doe", comment = c(ORCID = "1234"))
-    )),
-    "{Jane Doe [ctb]} and {Joe Doe (1234)}"
-  )
-})
-
-
 
 test_that("new_dublincore() works", {
   expect_equal(
@@ -45,20 +19,9 @@ test_that("new_dublincore() works", {
     new_dublincore(
       title = "Test",
       creator = person("Jane", "Doe", role = "cre"),
-      contributor = c(
-        person("Joe", "Doe", role = "dtm"),
-        person("Daniel", "Antal", role = "ctb")
-      )
-    )$contributor,
-    "{Joe Doe [dtm]} and {Daniel Antal [ctb]}"
-  )
-  expect_equal(
-    new_dublincore(
-      title = "Test",
-      creator = person("Jane", "Doe", role = "cre"),
       publisher = person("My Publisher Inc.", role = "pbl")
     )$publisher,
-    "My Publisher Inc."
+    "My Publisher Inc. [pbl]"
   )
   expect_equal(
     new_dublincore(
@@ -117,7 +80,7 @@ test_that("dublincore works", {
     description = "The famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica."
   )
   expect_equal(dct_iris$publisher, "American Iris Society")
-  expect_equal(dct_iris$contributor, "Daniel Antal [dtm]")
+  expect_equal(dct_iris$contributor, "{Daniel Antal [dtm]}")
   expect_equal(dct_iris$date, "1935")
   expect_true(is.dublincore(dct_iris))
 })

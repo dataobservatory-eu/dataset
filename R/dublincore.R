@@ -180,6 +180,7 @@ dublincore <- function(
     datasource = NULL,
     description = NULL,
     coverage = NULL) {
+
   dataset_date <- ifelse(is.null(dataset_date), ":tba", as.character(dataset_date))
   identifier <- ifelse(is.null(identifier), ":tba", as.character(identifier))
   format <- ifelse(is.null(format), ":tba", as.character(format))
@@ -188,17 +189,12 @@ dublincore <- function(
   rights <- ifelse(is.null(rights), ":tba", as.character(rights))
   coverage <- ifelse(is.null(coverage), ":unas", as.character(coverage))
   datasource <- ifelse(is.null(datasource), ":unas", as.character(datasource))
-  publishers <- ifelse(is.null(publisher), ":unas", publisher)
-  contributors <- ifelse(is.null(contributor), ":unas", contributor)
+  publishers <- if (is.null(publisher)) ":unas" else publisher
+  contributors <- if (is.null(contributor)) ":unas" else contributor
   creators <- if (is.null(creator)) creators <- ":tba" else creators <- creator
 
-  ## Fix publishers
-  ## Due to bug in RefManager
   publisher <- fix_publisher(publishers = publishers)
-
-  ## Fix contributors
-  ## Due to bug in RefManager
-  contributor <- fix_contributor(contributors = contributors)
+  contributor <- fix_contributor(contributors)
 
   new_dublincore(
     title = title,
@@ -338,13 +334,6 @@ new_dublincore <- function(title,
                            datasource = NULL,
                            description = NULL,
                            coverage = NULL) {
-  ## Fix publishers
-  ## Due to bug in RefManager
-  publisher <- fix_publisher(publisher)
-
-  ## Fix contributors
-  #' Due to bug in RefManager
-  contributor <- fix_contributor(contributors = contributor)
 
   # Create year from dataset_date
   if (!is.null(dataset_date)) {
@@ -426,113 +415,3 @@ is.dublincore <- function(x) {
 #' Dublin Core specification.
 #' @exportS3Method
 is.dublincore.dublincore <- function(x) inherits(x, "dublincore")
-
-
-#' @keywords internal
-fix_publisher <- function(publishers) {
-  if (is.null(publishers)) {
-    return(":unas")
-  }
-
-  if (all(inherits(publishers, "person"))) {
-    if (length(publishers) > 1) {
-      return_value <- paste0(
-        "{",
-        paste(vapply(publishers, function(x) x$given, character(1)),
-          collapse = "} and {"
-        ),
-        "}"
-      )
-    } else {
-      return_value <- publishers$given
-    }
-  } else if (all(inherits(publishers, "list"))) {
-    if (length(publishers) > 1) {
-      return_value <- paste0(
-        "{",
-        paste(lapply(publishers, function(x) x$given),
-          collapse = "} and {"
-        ),
-        "}"
-      )
-    } else {
-      return_value <- publishers[[1]]$given
-    }
-  } else if (length(publishers) > 1) {
-    #' several character strings
-    return_value <- paste0(
-      "{",
-      paste(vapply(publishers, function(x) x$given, character(1)),
-        collapse = "} and {"
-      ),
-      "}"
-    )
-  } else {
-    return_value <- publishers
-  }
-
-  assertthat::assert_that(is.character(return_value),
-    msg = "Error: fix_publishers(publishers): not character but"
-  )
-  assertthat::assert_that(length(return_value) == 1, msg = "Error: fix_publishers(publishers): not 1")
-
-  return_value
-}
-
-
-#' @keywords internal
-fix_contributor <- function(contributors = NULL) {
-  if (is.null(contributors)) {
-    return(":unas")
-  }
-
-  if (all(inherits(contributors, "person"))) {
-    if (length(contributors) > 1) {
-      return_value <- paste0(
-        "{",
-        paste(
-          vapply(contributors, function(x) {
-            as.character(x)
-          }, character(1)),
-          collapse = "} and {"
-        ),
-        "}"
-      )
-    } else {
-      return_value <- as.character(contributors)
-    }
-  } else if (all(inherits(contributors, "list"))) {
-    if (length(contributors) > 1) {
-      return_value <- paste0(
-        "{",
-        paste(lapply(contributors, function(x) x$given),
-          collapse = "} and {"
-        ),
-        "}"
-      )
-    } else {
-      return_value <- paste(unlist(contributors[[1]]), collapse = " ")
-    }
-  } else if (length(contributors) > 1) {
-    #' several character strings
-    return_value <- paste0(
-      "{",
-      paste(vapply(contributors, function(x) x$given, character(1)),
-        collapse = "} and {"
-      ),
-      "}"
-    )
-  } else {
-    return_value <- contributors
-  }
-
-  assertthat::assert_that(is.character(return_value),
-    msg = "Error: fix_contributor(contributors): not character but"
-  )
-  assertthat::assert_that(length(return_value) == 1,
-    msg = "Error: fix_contributor(contributors): not 1"
-  )
-
-  return_value <- gsub("* dtm", " [dtm]", return_value)
-  return_value
-}

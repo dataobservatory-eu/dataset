@@ -9,7 +9,7 @@ test_that("n_triples()", {
       p = "http://www.w3.org/ns/prov#generatedAtTime",
       o = as.POSIXct(10000, origin = "2024-01-01", tz = "UTC")
     ),
-    "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2024-01-01T03:46:40Z\"^^<xs:dateTime> ."
+    "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2024-01-01T02:46:40Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> ."
   )
   expect_equal(length(n_triples(c(triple_1, triple_2, triple_1))), 2)
   expect_equal(length(n_triples(c(triple_1, triple_2))), 2)
@@ -22,6 +22,24 @@ test_that("n_triples()", {
   expect_equal(create_iri(as.integer(23)), '\"23\"^^<http://www.w3.org/2001/XMLSchema#integer>')
   expect_equal(create_iri(as.Date("2024-10-30")), '\"2024-10-30\"^^<http://www.w3.org/2001/XMLSchema#date>')
   expect_equal(prov_author(author_person), "<https://orcid.org/0000-0001-7513-6760> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> .")
+})
+
+test_that("n_triple() handles POSIXct datetime correctly", {
+  creation_time <- as.POSIXct(10000, origin = "2024-01-01", tz = "UTC")
+  formatted_time <- format(creation_time, "%Y-%m-%dT%H:%M:%SZ")
+
+  expect_equal(
+    n_triple(
+      s = "http://example.com/creation",
+      p = "http://www.w3.org/ns/prov#generatedAtTime",
+      o = creation_time
+    ),
+    paste0(
+      "<http://example.com/creation> ",
+      "<http://www.w3.org/ns/prov#generatedAtTime> ",
+      "\"", formatted_time, "\"^^<http://www.w3.org/2001/XMLSchema#dateTime> ."
+    )
+  )
 })
 
 test_that("prov_author()", {
@@ -44,8 +62,8 @@ test_that("create_iri()", {
     comment = c(ORCID = "0000-0001-7513-6760")
   )
   expect_error(create_iri(list(a = 1:2)))
-  # expect_output(print(create_iri(as.POSIXct(10000, origin = "2024-01-01", tz="UTC"))), "2024-01-01T03:46:40Z")
-  # expect_output(print(create_iri(as.POSIXct(10000, origin = "2024-01-01", tz="UTC"))), "\\^\\^<xs:dateTime>")
+  expect_true(grepl("2024-01-01T02:46:40Z", create_iri(as.POSIXct(10000, origin = "2024-01-01", tz = "UTC"))))
+  expect_true(grepl("http://www.w3.org/2001/XMLSchema#dateTime", create_iri(as.POSIXct(10000, origin = "2024-01-01", tz = "UTC"))))
   expect_equal(create_iri(author_person), "<https://orcid.org/0000-0001-7513-6760>")
   jane_doe <- person(given = "Jane", family = "Doe", role = "aut", email = "example@example.com")
   expect_equal(create_iri(x = jane_doe), "\"Jane Doe [aut]\"^^<http://www.w3.org/2001/XMLSchema#string>")

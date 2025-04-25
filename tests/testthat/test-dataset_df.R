@@ -88,8 +88,6 @@ test_that("dataset_df() works", {
   )))
 })
 
-
-
 test_that("dataset_df() works", {
   test_dataset <- dataset_df(a = 3, dataset_bibentry = datacite(Title = "Hello", Creator = "Jane Doe"))
   expect_equal(get_bibentry(test_dataset)$author, person("Jane", "Doe"))
@@ -99,7 +97,7 @@ test_that("dataset_df() works", {
 test_that("subsetting works", {
   expect_equal(ncol(iris_dataset[, 1]), 1)
   expect_equal(nrow(iris_dataset[1, 2]), 1)
-  expect_equal(iris$Sepal.Length[1], as.numeric(iris_dataset[1, 2]))
+  expect_equal(iris$Sepal.Length[1], as_numeric(iris_dataset[[1, 2]]))
 })
 
 test_that("new_my_tibble() works", {

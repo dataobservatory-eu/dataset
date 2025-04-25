@@ -192,11 +192,8 @@ new_datetime_defined <- function(x,
   tmp
 }
 
-#' @rdname defined
-#' @export
-as.character.haven_labelled_defined <- function(x, ...) {
-  NextMethod()
-}
+
+## Subsetting ------------------------------------------------------
 
 #' @export
 `[.haven_labelled_defined` <- function(x, i, ...) {
@@ -250,6 +247,9 @@ tail.haven_labelled_defined <- function(x, n = 6L, ...) {
   x[seq.int(to = length(x), length.out = min(n, length(x)))]
 }
 
+
+## Print & Summary --------------------------------------------------
+
 #' @export
 print.haven_labelled_defined <- function(x, ...) {
   has_def <- !is.null(var_definition(x)) && !is.na(var_definition(x)) && nzchar(var_definition(x))
@@ -288,15 +288,6 @@ format.haven_labelled_defined <- function(x, ...) {
   paste0(base, suffix)
 }
 
-#' @export
-as.list.haven_labelled_defined <- function(x, ...) {
-  lapply(seq_along(x), function(i) x[[i]])
-}
-
-#' @export
-as.vector.haven_labelled_defined <- function(x, mode = "any") {
-  as.vector(vec_data(x), mode = mode)
-}
 #' @rdname defined
 #' @param object An R object to be summarised.
 #' @export
@@ -314,14 +305,124 @@ summary.haven_labelled_defined <- function(object, ...) {
   NextMethod()
 }
 
+
+## Coercion ----------------------------------------------------------
+
+#' @export
+as.list.haven_labelled_defined <- function(x, ...) {
+  lapply(seq_along(x), function(i) x[[i]])
+}
+
+#' @export
+as.vector.haven_labelled_defined <- function(x, mode = "any") {
+  as.vector(vec_data(x), mode = mode)
+}
+
+#' @title Strip the class from a defined vector
+#' @description Converts a `defined` vector to a base R numeric or character,
+#' retaining metadata as passive attributes.
+#' @param x A `defined` vector.
+#' @return A base R vector with attributes (`label`, `unit`, etc.) intact.
+#' @seealso [as_numeric()], [as_character()]
+#' @examples
+#' gdp <- defined(c(3897L, 7365L), label = "GDP", unit = "million dollars")
+#' strip_defined(gpd)
+#'
+#' fruits <- defined(c("apple","avocado", "kiwi"),
+#'                    label = "Fruit", unit = "kg")
+#' strip_defined(fruits)
+#' @export
+strip_defined <- function(x) {
+  if (!inherits(x, "haven_labelled_defined")) return(x)
+
+  base_class <- typeof(vec_data(x))  # typically "double" or "integer"
+  class(x) <- base_class
+  x
+}
+
+
+## Numeric vectors --------------------------------------------------------
+as.numeric <- function(x, ...) {
+  UseMethod("as.numeric")
+}
+
+#' @rdname as_numeric
+#' @description Base R's `as.numeric()` does not support custom classes like
+#'   `defined`. Calling `as.numeric()` on a `defined` vector will drop all
+#'   metadata and class information, which equals to
+#'   `as_numeric(x, preserve_attributes = FALSE)`.
+#' @export
+#' @seealso \code{\link{as_numeric}}
+as.numeric.haven_labelled_defined <- function(x, ...) {
+  unclass(vec_data(x))
+}
+
 #' @title Coerce a defined vector to numeric
 #' @param x A vector created with \code{\link{defined}}.
+#' @description `as_numeric()` is the recommended method to convert a `defined`
+#' vector to numeric. It is metadata-aware and ensures that the underlying data
+#' is numeric before coercion.
+#' @details `as_numeric()` allows `preserve_attributes = TRUE` when the
+#'   resulting vector will retain relevant metadata such as the `unit`,
+#'   `definition`, and `namespace` attributes, but it will no longer be of class
+#'   `defined`. If `preserve_attributes = FALSE` (default), a plain numeric
+#'   vector is returned with all metadata and class dropped.\cr For
+#'   character-based `defined` vectors, `as_numeric()` will throw an informative
+#'   error to prevent accidental coercion of non-numeric data.
 #' @return A numeric vector.
 #' @examples
 #' as_numeric(iris_dataset$Petal.Length)
 #' @export
-as_numeric <- function(x) {
+as_numeric <- function(x, ...) {
   UseMethod("as_numeric", x)
+}
+
+#' @rdname as_numeric
+#' @param preserve_attributes Defaults to \code{FALSE}, in which case the
+#' \code{unit}, \code{definition} and \code{namespace} attributes will be
+#' preserved, but the returned value will otherwise become a base R integer,
+#' double or numeric value. If false, then the effect will be similar to
+#' \code{\link{strip_defined}}.
+#' @importFrom vctrs vec_data
+#' @seealso [strip_defined()]
+#' @examples
+#' gdp <- defined(c(3897L, 7365L), label = "GDP", unit = "million dollars")
+#' gdp_numbers <- as_numeric(gdp)
+#' gdp_numbers
+#' attributes(gdp_numbers)
+#'
+#' gdp_stiped <- as_numeric(gdp, preserve_attributes = FALSE)
+#' attributes(gdp_striped)
+#' @export
+as_numeric.haven_labelled_defined <- function(
+    x, preserve_attributes = FALSE,
+    ... ) {
+
+  if (!is.numeric(vec_data(x))) {
+    stop("as_numeric(): underlying data is not numeric.")
+  }
+
+  if ( preserve_attributes ) {
+    strip_defined(x)
+  } else {
+    vec_data(x)
+  }
+}
+
+## Character vectors --------------------------------------------------
+as.character <- function(x, ...) {
+  UseMethod("as.character")
+}
+
+#' @rdname as_character
+#' @description Base R's `as.character()` does not support custom classes like
+#'   `defined`. Calling `as.character()` on a `defined` vector will drop all
+#'   metadata and class information, which equals to
+#'   `as_character(x, preserve_attributes = FALSE)`.
+#' @importFrom haven as_factor
+#' @export
+as.character.haven_labelled_defined <- function(x) {
+  unclass(vec_data(x))
 }
 
 #' @title Coerce to character vector
@@ -334,11 +435,61 @@ as_numeric <- function(x) {
 #' y <- defined(1:3, label = "Index")
 #' as_character(y)
 #' @export
-as_character <- function(x) {
+
+as_character <- function(x, ...) {
   UseMethod("as_character", x)
 }
 
+#' @rdname as_character
+#' @title Coerce a defined vector to character
+#' @param x A vector created with \code{\link{defined}}.
+#' @description `as_character()` is the recommended method to convert a `defined`
+#' vector to character. It is metadata-aware and ensures that the underlying data
+#' is character before coercion.
+#' @details `as_character()` uses `preserve_attributes = TRUE`, the resulting
+#'   vector will retain relevant metadata such as the `unit`, `definition`, and
+#'   `namespace` attributes, but it will no longer be of class `defined`. If
+#'   `preserve_attributes = FALSE` (default), a plain character vector is
+#'   returned with all metadata and class dropped.\cr\cr For numeric-based
+#'   `defined` vectors, `as_character()` will throw an informative error to
+#'   prevent accidental coercion of non-numeric data. \cr\cr
+#'   `as.character()` will give a warning that `as_character()` is the
+#'   preferred method.
+#' @param preserve_attributes Defaults to \code{FALSE}. If set to \code{TRUE},
+#'   in which case the \code{unit}, \code{definition} and \code{namespace}
+#'   attributes will be preserved, but the returned value will otherwise become
+#'   a base R character vector. If false, then the effect will be similar to
+#'   \code{\link{strip_defined}}.
+#' @importFrom vctrs vec_data
+#' @seealso [strip_defined()]
+#' @examples
+#' # Keep the metadata, but revert to base R character type:
+#' as_character(fruits, preserve_attributes = TRUE)
+#'
+#' # Revert back to base R character type, and do not keep the metadata:
+#' as_character(fruits, preserve_attributes = FALSE)
+#' @export
+#' @export
+as_character.haven_labelled_defined <- function(
+    x,
+    preserve_attributes = FALSE,
+    ...) {
 
+  if (!is.character(vec_data(x))) {
+    stop("as_character(): underlying data is not a character vector.")
+  }
+
+  tmp <- vec_data(x)
+  if (preserve_attributes) {
+    attr(tmp, "unit") <- attr(x, "unit")
+    attr(tmp, "definition") <- attr(x, "definition")
+    attr(tmp, "namespace") <- attr(x, "namespace")
+  }
+
+  tmp
+}
+
+## Factor vectors ----------------------------------------------------------
 #' @title Coerce to factor vector
 #' @param x A vector created with \code{\link{defined}}.
 #' @return A factor vector.
@@ -350,41 +501,22 @@ as_character <- function(x) {
 #' )
 #' as_factor(sex)
 #' @export
+
 as_factor <- function(x) {
   UseMethod("as_factor", x)
-}
-
-#' @rdname as_numeric
-#' @importFrom vctrs vec_data
-#' @examples
-#' gdp <- defined(c(3897L, 7365L), label = "GDP", unit = "million dollars")
-#' as_numeric(gdp)
-#' @export
-as_numeric.haven_labelled_defined <- function(x) {
-  x_data <- vec_data(x)
-  if (!is.numeric(x_data)) {
-    stop("as_numeric.haven_labelled_defined(x): underlying data is not numeric")
-  }
-  x_data
-}
-
-#' @rdname as_character
-#' @importFrom vctrs vec_data
-#' @export
-as_character.haven_labelled_defined <- function(x) {
-  as.character(vec_data(x))
 }
 
 #' @export
 #' @importFrom haven as_factor
 #' @importFrom vctrs vec_data
-
-
 as_factor.haven_labelled_defined <- function(x, ...) {
   haven::as_factor(haven::labelled(vec_data(x),
     labels = attr(x, "labels")
   ), ...)
 }
+
+
+## Combinations -----------------------------------------------
 
 #' @title Combine Values into a defined Vector
 #' @description
