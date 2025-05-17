@@ -22,16 +22,19 @@
 #' }
 #' @keywords internal
 fix_contributor <- function(contributors = NULL) {
-
   if (is.null(contributors) || (is.character(contributors) && contributors == ":unas")) {
     return(":unas")
   }
 
-  if (!inherits(contributors, "person")) {
-    stop("fix_contributor(): contributors must be of class 'person' or the special string ':unas'.")
+  # Normalize single person to a list
+  if (inherits(contributors, "person")) {
+    contributors_list <- as.list(contributors)
+  } else if (is.list(contributors) && all(vapply(contributors, function(p) inherits(p, "person"), logical(1)))) {
+    contributors_list <- contributors
+  } else {
+    warning("fix_contributor(): Invalid input. Must be a 'person' object, list of 'person', or the string ':unas'. Returning ':unas'.")
+    return(":unas")
   }
-
-  contributors_list <- as.list(contributors)
 
   # Build identity keys: "given|family"
   identity_keys <- vapply(contributors_list, function(p) {
@@ -45,7 +48,7 @@ fix_contributor <- function(contributors = NULL) {
     key <- unique_keys[i]
     matches <- contributors_list[identity_keys == key]
 
-    # Collect roles (fill with "ctb" if missing)
+    # Collect roles (default to "ctb")
     roles <- unique(unlist(lapply(matches, function(p) {
       if (is.null(p$role) || length(p$role) == 0 || all(!nzchar(p$role))) {
         "ctb"
@@ -55,23 +58,13 @@ fix_contributor <- function(contributors = NULL) {
     })))
 
     base <- matches[[1]]
-
-    # Build full name safely
     name_parts <- c(base$given, base$family)
     name_parts <- name_parts[!is.null(name_parts) & nzchar(name_parts)]
     full_name <- paste(name_parts, collapse = " ")
 
-    # Final contributor formatting
-    if (length(roles) > 0) {
-      contributor_entry <- paste0("{", full_name, " [", paste(roles, collapse = ", "), "]}")
-    } else {
-      contributor_entry <- paste0("{", full_name, "}")
-    }
-
+    contributor_entry <- paste0("{", full_name, " [", paste(roles, collapse = ", "), "]}")
     merged[[i]] <- contributor_entry
   }
 
-  # Join all contributors with 'and'
   paste(merged, collapse = " and ")
 }
-

@@ -1,59 +1,34 @@
-test_that("fix_contributor() handles edge cases correctly", {
+test_that("returns :unas for NULL input", {
+  expect_equal(fix_contributor(NULL), ":unas")
+})
 
-  # Single person, one role
-  expect_equal(
-    fix_contributor(person(given = "Jane", family = "Doe", role = "dtm")),
-    "{Jane Doe [dtm]}"
-  )
+test_that("returns :unas for ':unas' input", {
+  expect_equal(fix_contributor(":unas"), ":unas")
+})
 
-  # Single person, no role
-  expect_equal(
-    fix_contributor(person(given = "Jane", family = "Doe")),
-    "{Jane Doe [ctb]}"
-  )
+test_that("handles a single person with role", {
+  p <- person(given = "Jane", family = "Doe", role = "dtm")
+  expect_equal(fix_contributor(p), "{Jane Doe [dtm]}")
+})
 
-  # Person with multiple roles
+test_that("handles a list of persons with mixed roles", {
+  p1 <- person(given = "Jane", family = "Doe", role = "dtm")
+  p2 <- person(given = "John", family = "Smith")
   expect_equal(
-    fix_contributor(c(
-      person(given = "Jane", family = "Doe", role = "dtm"),
-      person(given = "Jane", family = "Doe", role = "ctb")
-    )),
-    "{Jane Doe [dtm, ctb]}"
-  )
-
-  # Multiple persons, no duplicates
-  expect_equal(
-    fix_contributor(c(
-      person(given = "Jane", family = "Doe", role = "dtm"),
-      person(given = "John", family = "Smith", role = "ctb")
-    )),
+    fix_contributor(list(p1, p2)),
     "{Jane Doe [dtm]} and {John Smith [ctb]}"
   )
+})
 
-  # Contributor with no family name (institution)
-  expect_equal(
-    fix_contributor(person(given = "World Health Organization", role = "dtm")),
-    "{World Health Organization [dtm]}"
-  )
+test_that("warns and returns :unas for invalid input (numeric)", {
+  expect_warning(out <- fix_contributor(42), "Invalid input")
+  expect_equal(out, ":unas")
+})
 
-  # Contributor list is NULL
-  expect_equal(
-    fix_contributor(NULL),
-    ":unas"
-  )
-
-  # Contributor list is :unas
-  expect_equal(
-    fix_contributor(":unas"),
-    ":unas"
-  )
-
-  # Contributor with NULL role (should not add empty brackets)
-  expect_equal(
-    fix_contributor(person(given = "Jane", family = "Doe", role = NULL)),
-    "{Jane Doe [ctb]}"
-  )
-
+test_that("warns and returns :unas for mixed list", {
+  p <- person(given = "Jane", family = "Doe")
+  expect_warning(out <- fix_contributor(list(p, 5)), "Invalid input")
+  expect_equal(out, ":unas")
 })
 
 

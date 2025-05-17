@@ -190,11 +190,10 @@ dublincore <- function(
   coverage <- ifelse(is.null(coverage), ":unas", as.character(coverage))
   datasource <- ifelse(is.null(datasource), ":unas", as.character(datasource))
   publishers <- if (is.null(publisher)) ":unas" else publisher
-  contributors <- if (is.null(contributor)) ":unas" else contributor
+  contributor <- if (is.null(contributor)) NULL else fix_contributor(contributor)
   creators <- if (is.null(creator)) creators <- ":tba" else creators <- creator
 
   publisher <- fix_publisher(publishers = publishers)
-  contributor <- fix_contributor(contributors)
 
   new_dublincore(
     title = title,
