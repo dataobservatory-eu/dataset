@@ -385,6 +385,7 @@ as_numeric <- function(x, ...) {
 #' preserved, but the returned value will otherwise become a base R integer,
 #' double or numeric value. If false, then the effect will be similar to
 #' \code{\link{strip_defined}}.
+#' @param ... Further arguments passed to internal methods (not used).
 #' @importFrom vctrs vec_data
 #' @seealso [strip_defined()]
 #' @examples
@@ -462,6 +463,7 @@ as_character <- function(x, ...) {
 #'   attributes will be preserved, but the returned value will otherwise become
 #'   a base R character vector. If false, then the effect will be similar to
 #'   \code{\link{strip_defined}}.
+#' @param ... Further arguments passed to internal methods (not used).
 #' @importFrom vctrs vec_data
 #' @seealso [strip_defined()]
 #' @examples
@@ -491,6 +493,7 @@ as_character.haven_labelled_defined <- function(
 ## Factor vectors ----------------------------------------------------------
 #' @title Coerce to factor vector
 #' @param x A vector created with \code{\link{defined}}.
+#' @param ... Further arguments passed to internal methods (not used).
 #' @return A factor vector.
 #' @examples
 #' sex <- defined(

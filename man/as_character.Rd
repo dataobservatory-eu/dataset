@@ -18,6 +18,8 @@ as_character(x, ...)
 \arguments{
 \item{x}{A vector created with \code{\link{defined}}.}
 
+\item{...}{Further arguments passed to internal methods (not used).}
+
 \item{preserve_attributes}{Defaults to \code{FALSE}. If set to \code{TRUE},
 in which case the \code{unit}, \code{definition} and \code{namespace}
 attributes will be preserved, but the returned value will otherwise become
