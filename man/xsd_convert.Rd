@@ -3,8 +3,8 @@
 \name{xsd_convert}
 \alias{xsd_convert}
 \alias{xsd_convert.data.frame}
-\alias{xsd_convert.dataset}
-\alias{xsd_convert.tibble}
+\alias{xsd_convert.dataset_df}
+\alias{xsd_convert.tbl_df}
 \alias{xsd_convert.character}
 \alias{xsd_convert.numeric}
 \alias{xsd_convert.haven_labelled_defined}
@@ -13,15 +13,16 @@
 \alias{xsd_convert.factor}
 \alias{xsd_convert.POSIXct}
 \alias{xsd_convert.Date}
+\alias{xsd_convert.difftime}
 \title{Convert to XML Schema Definition (XSD) types}
 \usage{
 xsd_convert(x, idcol, ...)
 
 \method{xsd_convert}{data.frame}(x, idcol = NULL, ...)
 
-\method{xsd_convert}{dataset}(x, idcol = NULL, ...)
+\method{xsd_convert}{dataset_df}(x, idcol = "rowid", ...)
 
-\method{xsd_convert}{tibble}(x, idcol = NULL, ...)
+\method{xsd_convert}{tbl_df}(x, idcol = NULL, ...)
 
 \method{xsd_convert}{character}(x, idcol = NULL, ...)
 
@@ -38,6 +39,8 @@ xsd_convert(x, idcol, ...)
 \method{xsd_convert}{POSIXct}(x, idcol = NULL, ...)
 
 \method{xsd_convert}{Date}(x, idcol = NULL, ...)
+
+\method{xsd_convert}{difftime}(x, idcol = NULL, ...)
 }
 \arguments{
 \item{x}{An object to be coerced to an XLM Schema defined string format.}
@@ -49,7 +52,11 @@ from \code{\link[=row.names]{row.names()}}.}
 \item{...}{Further optional parameters for generic method.}
 }
 \value{
-A serialisation of an R vector or data frame (dataset) in XML.
+A character vector of RDF-compatible typed literals. Each element
+corresponds to an input value, serialized according to its type
+(e.g., \code{xs:string}, \code{xs:integer}, \code{xs:dateTime}).
+For data frames or tibbles, each row is converted into a set of
+RDF triples, with columns mapped to predicates.
 }
 \description{
 Convert the numeric, boolean and Date/time columns of a dataset
@@ -57,14 +64,19 @@ Convert the numeric, boolean and Date/time columns of a dataset
 \code{xs:dateTime}.
 }
 \examples{
-
 # Convert data.frame to XML Schema Definition
 xsd_convert(data.frame(a = 1:3, b = c("a", "b", "c")))
-
 # Convert dataset to XML Schema Definition
 xsd_convert(head(dataset_df(orange_df)))
+# Convert characters:
+xsd_convert(c("apple", " banana ", "cherry"))
+
+# To handle whitespace:
+xsd_convert(trimws(c("apple", " banana ", "cherry"), "both"))
 # Convert integers or doubles, numbers:
 xsd_convert(1:3)
 # Convert logical values:
 xsd_convert(TRUE)
+xsd_convert(factor(c("apple", "banana", "cherry")))
+xsd_convert(as.difftime(c(3600, 5400), units = "secs"))
 }
