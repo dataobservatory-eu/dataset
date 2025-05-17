@@ -22,8 +22,8 @@ Add a prefixed identifier to the first column of the dataset.
 \examples{
 
 # Example with a dataset_df object:
-id_to_column(iris_dataset)
+id_to_column(orange_df)
 
-# Example with a data.frame object:#'
-id_to_column(iris, prefix = "eg:iris-o")
+# Example with a data.frame object:
+id_to_column(Orange, prefix = "orange:")
 }

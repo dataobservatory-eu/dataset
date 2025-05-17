@@ -142,7 +142,7 @@ a \code{type="dataset_df"}, or a \code{type="bibentry"} (default).}
 
 \item{...}{Optional parameters to add to a \code{datacite} object.
 \code{author=person("Jane", "Doe")} adds an author to the citation object
-if \code{type="dataset"}. as_datacite(iris_dataset, type="list")}
+if \code{type="dataset"}. as_datacite(orange_df, type="list")}
 }
 \value{
 \code{datacite()} creates a \code{utils::\link[utils]{bibentry}}
@@ -154,8 +154,8 @@ dataset_df, or bibentry object.
 \code{as_datacite(x, type)} returns the DataCite bibliographical
 metadata of x either as a list, a bibentry object, or a dataset_df object.
 
-\code{is.datacite(x)} returns a logical values (if the object \code{x}
-is of class \code{datacite}).
+\code{is.datacite(x)} returns a logical values (if the object
+\code{x} is of class \code{datacite}).
 }
 \description{
 Add metadata conforming the
@@ -194,7 +194,7 @@ datacite(
   Language = "en"
 )
 
-as_datacite(iris_dataset)
+as_datacite(orange_df)
 }
 \seealso{
 Other bibentry functions: 

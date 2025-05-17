@@ -316,7 +316,11 @@ test_that("as_numeric() returns underlying numeric vector", {
   expect_equal(as_numeric(x, preserve_attributes = FALSE), c(1, 2, 3))
   expect_equal(attr(as_numeric(x, TRUE), "unit"), "kg")
   expect_type(as_numeric(x), "integer")
-  expect_error(as_character(x), regexp = "underlying data is not a character")
+})
+
+test_that("as_numeric() returns underlying numeric vector", {
+  x <- defined(1:3, label = "Test", unit = "kg")
+  expect_equal(as.numeric(x), c(1, 2, 3))
 })
 
 test_that("as_character() returns underlying character vector", {

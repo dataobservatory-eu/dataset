@@ -1,30 +1,31 @@
 #' @keywords internal
 idcol_find <- function(x, idcol) {
-  if (!is.null(idcol)) {
-    if (class(idcol)[1] == "character") {
-      if (!idcol %in% names(x)) {
-        stop("idcol_find(x, idcol, ...): idcol cannot be found in x.")
-      }
-
-      ## Return a unique number instead of a string
-      selected_col <- which(names(x) == idcol)
-
-      if (length(selected_col) != 1) {
-        stop("idcol_find(x, idcol, ...): idcol must select a unique variable column in x.")
-      }
-
-      selected_col
-    } else if (class(idcol)[1] %in% c("numeric", "integer")) {
-      # Validate if the numeric idcol is in x
-      if (!idcol %in% seq_along(x)) {
-        stop("xsd_convert(x, idcol, ...): idcol cannot be found in x.")
-      }
-
-      # Return the validated idcol as a number
-      idcol
-    } else {
-      # Throw an error
-      stop("xsd_convert(x, idcol, ...): idcol must be a variable name or a variable position in x.")
-    }
+  if (is.null(idcol)) {
+    stop("idcol_find: 'idcol' must be specified.")
   }
+
+  # Case: character column name
+  if (is.character(idcol)) {
+    if (!idcol %in% names(x)) {
+      stop(sprintf("idcol_find: column '%s' not found in data frame.", idcol))
+    }
+    selected <- which(names(x) == idcol)
+
+    # Case: numeric column index
+  } else if (is.numeric(idcol)) {
+    if (!idcol %in% seq_along(x)) {
+      stop(sprintf("idcol_find: column index %s is out of bounds.", idcol))
+    }
+    selected <- idcol
+
+    # Unsupported type
+  } else {
+    stop("idcol_find: 'idcol' must be a column name (character) or index (numeric).")
+  }
+
+  if (length(selected) != 1) {
+    stop("idcol_find: 'idcol' must refer to exactly one column.")
+  }
+
+  selected
 }

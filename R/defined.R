@@ -326,7 +326,7 @@ as.vector.haven_labelled_defined <- function(x, mode = "any") {
 #' @seealso [as_numeric()], [as_character()]
 #' @examples
 #' gdp <- defined(c(3897L, 7365L), label = "GDP", unit = "million dollars")
-#' strip_defined(gpd)
+#' strip_defined(gdp)
 #'
 #' fruits <- defined(c("apple","avocado", "kiwi"),
 #'                    label = "Fruit", unit = "kg")
@@ -353,6 +353,7 @@ as.numeric <- function(x, ...) {
 #'   `as_numeric(x, preserve_attributes = FALSE)`.
 #' @export
 #' @seealso \code{\link{as_numeric}}
+#' @exportS3Method
 as.numeric.haven_labelled_defined <- function(x, ...) {
   unclass(vec_data(x))
 }
@@ -371,7 +372,7 @@ as.numeric.haven_labelled_defined <- function(x, ...) {
 #'   error to prevent accidental coercion of non-numeric data.
 #' @return A numeric vector.
 #' @examples
-#' as_numeric(iris_dataset$Petal.Length)
+#' as_numeric(orange_df$age, preserve_attributes = TRUE)
 #' @export
 as_numeric <- function(x, ...) {
   UseMethod("as_numeric", x)
@@ -391,7 +392,7 @@ as_numeric <- function(x, ...) {
 #' gdp_numbers
 #' attributes(gdp_numbers)
 #'
-#' gdp_stiped <- as_numeric(gdp, preserve_attributes = FALSE)
+#' gdp_striped <- as_numeric(gdp, preserve_attributes = FALSE)
 #' attributes(gdp_striped)
 #' @export
 as_numeric.haven_labelled_defined <- function(
@@ -410,6 +411,7 @@ as_numeric.haven_labelled_defined <- function(
 }
 
 ## Character vectors --------------------------------------------------
+#' @rdname as_character
 as.character <- function(x, ...) {
   UseMethod("as.character")
 }
@@ -420,6 +422,9 @@ as.character <- function(x, ...) {
 #'   metadata and class information, which equals to
 #'   `as_character(x, preserve_attributes = FALSE)`.
 #' @importFrom haven as_factor
+#' @importFrom vctrs vec_data
+#' @examples
+#' as.character(defined(c("a", "b", "c"), label = "Letter code"))
 #' @export
 as.character.haven_labelled_defined <- function(x) {
   unclass(vec_data(x))
@@ -429,11 +434,7 @@ as.character.haven_labelled_defined <- function(x) {
 #' @param x A vector created with \code{\link{defined}}.
 #' @return A character vector.
 #' @examples
-#' x <- defined(c("a", "b", "c"), label = "Letter code")
-#' as_character(x)
-#'
-#' y <- defined(1:3, label = "Index")
-#' as_character(y)
+#' as_character(defined(c("a", "b", "c"), label = "Letter code"))
 #' @export
 
 as_character <- function(x, ...) {
@@ -463,6 +464,7 @@ as_character <- function(x, ...) {
 #' @importFrom vctrs vec_data
 #' @seealso [strip_defined()]
 #' @examples
+#' fruits <- defined(c("apple","avocado", "kiwi"), label = "Fruit", unit = "kg")
 #' # Keep the metadata, but revert to base R character type:
 #' as_character(fruits, preserve_attributes = TRUE)
 #'
@@ -475,11 +477,7 @@ as_character.haven_labelled_defined <- function(
     preserve_attributes = FALSE,
     ...) {
 
-  if (!is.character(vec_data(x))) {
-    stop("as_character(): underlying data is not a character vector.")
-  }
-
-  tmp <- vec_data(x)
+  tmp <- as.character(vec_data(x))
   if (preserve_attributes) {
     attr(tmp, "unit") <- attr(x, "unit")
     attr(tmp, "definition") <- attr(x, "definition")
