@@ -44,13 +44,13 @@ character-based \code{defined} vectors, \code{as_numeric()} will throw an inform
 error to prevent accidental coercion of non-numeric data.
 }
 \examples{
-as_numeric(iris_dataset$Petal.Length)
+as_numeric(orange_df$age, preserve_attributes = TRUE)
 gdp <- defined(c(3897L, 7365L), label = "GDP", unit = "million dollars")
 gdp_numbers <- as_numeric(gdp)
 gdp_numbers
 attributes(gdp_numbers)
 
-gdp_stiped <- as_numeric(gdp, preserve_attributes = FALSE)
+gdp_striped <- as_numeric(gdp, preserve_attributes = FALSE)
 attributes(gdp_striped)
 }
 \seealso{
