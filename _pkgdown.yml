@@ -69,6 +69,7 @@ reference:
       - as_numeric
       - as_character
       - as_factor
+      - strip_defined
       - c.haven_labelled_defined
   - title: "Describe"
     desc: >

@@ -45,6 +45,7 @@
 #' @importFrom haven labelled
 #' @importFrom labelled to_labelled is.labelled
 #' @import vctrs methods
+#' @importFrom utils head tail
 #' @examples
 #'
 #' gdp_vector <- defined(

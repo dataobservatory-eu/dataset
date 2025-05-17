@@ -1,3 +1,10 @@
+# dataset 0.3.4023
+
+- Changed `iris_df` to `orange_df` in all examples
+- `xsd_convert()` handles difftime classes and edge cases
+- Small errors fixed in examples
+- Test coverage increased
+
 # dataset 0.3.4021
 
 - Added support for generic vector methods: `length()`, `head()`, `tail()`, `as.vector()`, `as.list()`, and subsetting (`[`, `[[`).

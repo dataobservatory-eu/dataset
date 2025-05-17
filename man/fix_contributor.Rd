@@ -25,9 +25,11 @@ the input is \code{NULL} or the special string \code{":unas"}, the function retu
 This formatting is intended for metadata serialization or citation exports.
 }
 \examples{
+\dontrun{
 fix_contributor(person("Jane", "Doe", role = c("dtm", "ctb")))
 fix_contributor(c(person("Jane", "Doe", role = "ctb"),
                   person("John", "Smith")))
 fix_contributor(":unas")
+}
 }
 \keyword{internal}
