@@ -25,6 +25,9 @@
 #' @export
 #' @importFrom labelled var_label
 #' @importFrom labelled `var_label<-`
+#' @usage
+#' var_label(x)
+#' var_label(x) <- value
 #' @param x a vector or a data.frame
 #' @family defined metadata methods and functions
 #' @param value a character string or `NULL` to remove the label

@@ -9,6 +9,9 @@
 \alias{var_label<-.dataset_df}
 \title{Get / Set a variable label}
 \usage{
+var_label(x)
+var_label(x) <- value
+
 \method{var_label}{defined}(x, ...)
 
 \method{var_label}{dataset_df}(

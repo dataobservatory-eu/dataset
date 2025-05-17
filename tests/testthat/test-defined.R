@@ -179,7 +179,7 @@ test_that("as.list.haven_labelled_defined preserves metadata", {
   x <- defined(1:2, label = "Test", unit = "kg", definition = "def")
   lst <- as.list(x)
   expect_length(lst, 2)
-  expect_true(all(sapply(lst, is.defined)))
+  expect_true(all(vapply(lst, is.defined, logical(1))))
   expect_equal(var_unit(lst[[1]]), "kg")
 })
 
