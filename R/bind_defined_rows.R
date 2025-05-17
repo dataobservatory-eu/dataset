@@ -1,24 +1,25 @@
 #' @title Bind strictly defined rows
-#' @description Add rows of dataset y to dataset x. Metadata (labels, units,
-#' definitions, namespaces) must match exactly. The combined dataset inherits
-#' x's citation by default, and creator roles are merged.
+#' @description
+#' Add rows of dataset \code{y} to dataset \code{x}, validating all semantic metadata.
+#' Metadata (labels, units, definitions, namespaces) must match exactly.
+#' Additional dataset-level metadata such as title and creator can be overridden using \code{...}.
+#'
 #' @details
 #' This function combines two semantically enriched datasets created with \code{dataset_df()}.
-#' It ensures that the structure and metadata of the datasets are compatible.
+#' All variable-level attributes — including labels, units, definitions, and namespaces —
+#' must match. If \code{strict = TRUE} (the default), the row identifier namespace
+#' (used in the \code{rowid} column) must also match exactly.
 #'
-#' All variable-level attributes — including variable labels, measurement units,
-#' linked definitions, and namespaces — must match exactly in both datasets.
+#' If \code{strict = FALSE}, row identifiers from \code{y} may differ and will be ignored;
+#' the output will inherit \code{x}'s row identifier scheme.
 #'
-#' If \code{strict = TRUE} (the default), the row identifier namespace
-#' (used in the \code{rowid} column) must also be identical in both datasets.
-#' If \code{strict = FALSE}, this requirement is relaxed: the resulting dataset
-#' inherits the row ID structure from \code{x}, even if \code{y} used a different one.
-#' @param strict Logical. If \code{TRUE} (default), all variables must match
-#'   exactly in both datasets, including variable labels, units, definitions,
-#'   namespaces, and the dataset-level row identifier namespace. If
-#'   \code{FALSE}, only user-defined variable semantics are checked strictly,
-#'   while the row identifier column is inherited from \code{x} without
-#'   requiring an exact match.
+#' @param x A `dataset_df` object.
+#' @param y A `dataset_df` object to bind to `x`.
+#' @param ... Optional dataset-level attributes such as \code{title} or \code{creator} to override.
+#' @param strict Logical. If \code{TRUE} (default), require full semantic compatibility, including rowid.
+#'
+#' @return A new `dataset_df` object with rows from `x` and `y`, combined semantically.
+#'
 #' @export
 #' @examples
 #' A <- dataset_df(
@@ -32,21 +33,18 @@
 #'   identifier = c(id = "http://example.org/dataset#")
 #' )
 #'
-#' # This works: same structure and rowid namespace
-#' bind_defined_rows(A, B)
+#' bind_defined_rows(A, B)  # succeeds
 #'
 #' C <- dataset_df(
 #'   length = defined(c(30, 35), label = "Length", unit = "cm", namespace = "http://example.org"),
 #'   identifier = c(id = "http://another.org/dataset#")
 #' )
 #'
-#' # This throws an error because the rowid namespace differs
 #' \dontrun{
-#' bind_defined_rows(A, C, strict = TRUE)
+#' bind_defined_rows(A, C, strict = TRUE)  # fails: mismatched rowid
 #' }
 #'
-#' # This succeeds because rowid is inherited from A
-#' bind_defined_rows(A, C, strict = FALSE)
+#' bind_defined_rows(A, C, strict = FALSE)  # succeeds: rowid inherited
 bind_defined_rows <- function(x, y, ..., strict = FALSE) {
   dots <- list(...)
 
