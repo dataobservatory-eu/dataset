@@ -1,13 +1,23 @@
 #' @title Format contributor list into citation-friendly string
-#' @description
-#' Given a list of contributors (utils::person objects), formats them into
-#' a LaTeX/BibLaTeX-like string, merging roles and safely formatting names.
+#' @description Given a list of contributors (`utils::person` objects), this
+#' function formats them into a LaTeX/BibLaTeX-compatible string, merging roles
+#' per person and formatting names.
 #'
-#' Contributors without explicit roles are assumed to have role "ctb".
-#' If input is NULL or ":unas", ":unas" is returned.
+#' Contributors without explicit roles are assumed to have the role `"ctb"`. If
+#' the input is `NULL` or the special string `":unas"`, the function returns
+#' `":unas"`.
 #'
-#' @param contributors A person object or character vector or NULL.
-#' @return A character string like "{Jane Doe [dtm, ctb]} and {John Smith [ctb]}".
+#' This formatting is intended for metadata serialization or citation exports.
+#'
+#' @param contributors A vector of `person` objects, or the character string
+#'   `":unas"`, or `NULL`.
+#' @return A character string like `{Jane Doe [dtm, ctb]} and {John Smith
+#'   [ctb]}`.
+#' @examples
+#' fix_contributor(person("Jane", "Doe", role = c("dtm", "ctb")))
+#' fix_contributor(c(person("Jane", "Doe", role = "ctb"),
+#'                   person("John", "Smith")))
+#' fix_contributor(":unas")
 #' @keywords internal
 fix_contributor <- function(contributors = NULL) {
 
