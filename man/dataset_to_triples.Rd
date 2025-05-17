@@ -24,5 +24,5 @@ columns \code{s} for subject, \code{p} for predicate and \code{o} for
 object.
 }
 \examples{
-dataset_to_triples(iris_dataset)
+dataset_to_triples(orange_df)
 }

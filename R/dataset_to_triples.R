@@ -10,7 +10,7 @@
 #' @return The long form version of the original dataset, retaining the
 #' attributes and class.
 #' @examples
-#' dataset_to_triples(iris_dataset)
+#' dataset_to_triples(orange_df)
 #' @export
 
 dataset_to_triples <- function(x, idcol = NULL) {

@@ -12,14 +12,14 @@ describe(x, con)
 \item{con}{A connection, for example, \code{con=tempfile()}.}
 }
 \value{
-The description of the dataset_df object is written to the connection
-in the n-triples form, nothing is returned.
+The description of the dataset_df object is written to the
+connection in the n-triples form, nothing is returned.
 }
 \description{
 Describe a dataset
 }
 \examples{
 temp_prov <- tempfile()
-describe(iris_dataset, con = temp_prov)
+describe(orange_df, con = temp_prov)
 readLines(temp_prov)
 }

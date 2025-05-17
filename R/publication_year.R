@@ -15,8 +15,8 @@
 #' @return Returns the \code{year} metadata field of the \code{DataBibentry} of
 #'   the dataset
 #' @examples
-#' publication_year(iris_dataset)
-#' publication_year(iris_dataset) <- 1936
+#' publication_year(orange_df)
+#' publication_year(orange_df) <- 1998
 #' @family Reference metadata functions
 #' @export
 

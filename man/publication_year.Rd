@@ -35,8 +35,8 @@ made publicly available in \code{YYYY} format. See
 Year: DataCite Additional Guidance}.
 }
 \examples{
-publication_year(iris_dataset)
-publication_year(iris_dataset) <- 1936
+publication_year(orange_df)
+publication_year(orange_df) <- 1998
 }
 \seealso{
 Other Reference metadata functions: 

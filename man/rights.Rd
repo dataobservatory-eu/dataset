@@ -34,8 +34,8 @@ Typically, rights information includes a statement about various property
 rights associated with the resource, including intellectual property rights.
 }
 \examples{
-rights(iris_dataset) <- "CC-BY-SA"
-rights(iris_dataset)
+rights(orange_df) <- "CC-BY-SA"
+rights(orange_df)
 }
 \seealso{
 Other Reference metadata functions: 

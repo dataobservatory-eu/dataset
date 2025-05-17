@@ -26,23 +26,23 @@
 #' @family bibentry functions
 #' @examples
 #' # Get the bibentry of a dataset_df object:
-#' iris_bibentry <- get_bibentry(iris_dataset)
+#' orange_bibentry <- get_bibentry(orange_df)
 #'
 #' # Create a well-formatted bibentry object:
 #' alternative_bibentry <- datacite(
 #'   Creator = person("Jane Doe"),
-#'   Title = "The Famous Iris Dataset",
+#'   Title = "The Orange Trees Dataset",
 #'   Publisher = "MyOrg"
 #' )
 #'
 #' # Assign the new bibentry object:
-#' set_bibentry(iris_dataset) <- alternative_bibentry
+#' set_bibentry(orange_df) <- alternative_bibentry
 #'
 #' # Print the bibentry object according to the DataCite notation:
-#' as_datacite(iris_dataset, "list")
+#' as_datacite(orange_df, "list")
 #'
 #' # Print the bibentry object according to the Dublin Core notation:
-#' as_dublincore(iris_dataset, "list")
+#' as_dublincore(orange_df, "list")
 #' @export
 
 get_bibentry <- function(dataset) {

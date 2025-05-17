@@ -122,7 +122,7 @@
 #'   Language = "en"
 #' )
 #'
-#' as_datacite(iris_dataset)
+#' as_datacite(orange_df)
 #' @export
 
 datacite <- function(Title,
@@ -240,7 +240,7 @@ new_datacite <- function(Title,
 #'   a \code{type="dataset_df"}, or a \code{type="bibentry"} (default).
 #' @param ... Optional parameters to add to a \code{datacite} object.
 #'   \code{author=person("Jane", "Doe")} adds an author to the citation object
-#'   if \code{type="dataset"}. as_datacite(iris_dataset, type="list")
+#'   if \code{type="dataset"}. as_datacite(orange_df, type="list")
 #' @return \code{as_datacite(x, type)} returns the DataCite bibliographical
 #'   metadata of x either as a list, a bibentry object, or a dataset_df object.
 #' @export
@@ -357,8 +357,8 @@ as_datacite <- function(x, type = "bibentry", ...) {
 
 
 #' @rdname datacite
-#' @return \code{is.datacite(x)} returns a logical values (if the object \code{x}
-#' is of class \code{datacite}).
+#' @return \code{is.datacite(x)} returns a logical values (if the object
+#' \code{x} is of class \code{datacite}).
 is.datacite <- function(x) {
   UseMethod("is.datacite", x)
 }

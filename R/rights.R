@@ -14,8 +14,8 @@
 #' property instead of overwriting it. Defaults to \code{FALSE}.
 #' @return The \code{Rights} attribute as a character of length 1 is added to \code{x}.
 #' @examples
-#' rights(iris_dataset) <- "CC-BY-SA"
-#' rights(iris_dataset)
+#' rights(orange_df) <- "CC-BY-SA"
+#' rights(orange_df)
 #' @family Reference metadata functions
 #' @export
 rights <- function(x) {

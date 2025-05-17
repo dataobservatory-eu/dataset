@@ -13,25 +13,25 @@
 #' \code{dataset::\link{as_dataset_df}}.
 #' @examples
 #' # To set the subject of a dataset_df object:
-#' subject(iris_dataset) <- subject_create(
-#'   term = "Irises (plants)",
+#' subject(orange_df) <- subject_create(
+#'   term = "Oranges",
 #'   schemeURI = "http://id.loc.gov/authorities/subjects",
-#'   valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
+#'   valueURI = "http://id.loc.gov/authorities/subjects/sh85095257",
 #'   subjectScheme = "LCCH",
 #'   prefix = "lcch:"
 #' )
 #'
 #' # To retrieve the subject with its subproperties:
-#' subject(iris_dataset)
+#' subject(orange_df)
 #' @export
 #' @return \code{subject(x)} returns the subject attribute of the
 #' \code{\link{dataset_df}} object \code{x}, \code{subject(x)<-value} sets
-#' the same attribute to \code{value} and invisibly returns the \code{x} object with
-#' the changed attributes.
+#' the same attribute to \code{value} and invisibly returns the
+#' \code{x} object with the changed attributes.
 #' @importFrom assertthat assert_that
 #' @rdname subject
 subject <- function(x) {
-  assertthat::assert_that(is.dataset_df(x),
+  assert_that(is.dataset_df(x),
     msg = "subject(x): x must be a dataset_df object created with dataset_df() or as_dataset_df()."
   )
 
@@ -135,8 +135,8 @@ new_Subject <- function(term,
 }
 
 #' @rdname subject
-#' @param value A subject field created by \code{\link{subject}}. The subject field
-#' is overwritten with this value.
+#' @param value A subject field created by \code{\link{subject}}.
+#' The subject field is overwritten with this value.
 #' @export
 `subject<-` <- function(x, value) {
   assert_that(is.dataset_df(x),

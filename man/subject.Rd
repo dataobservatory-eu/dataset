@@ -44,14 +44,14 @@ authority if one is used. It is a namespace.}
 \item{classificationCode}{The classificationCode subproperty may be used for
 subject schemes, like ANZSRC, which do not have valueURIs for each subject term.}
 
-\item{value}{A subject field created by \code{\link{subject}}. The subject field
-is overwritten with this value.}
+\item{value}{A subject field created by \code{\link{subject}}.
+The subject field is overwritten with this value.}
 }
 \value{
 \code{subject(x)} returns the subject attribute of the
 \code{\link{dataset_df}} object \code{x}, \code{subject(x)<-value} sets
-the same attribute to \code{value} and invisibly returns the \code{x} object with
-the changed attributes.
+the same attribute to \code{value} and invisibly returns the
+\code{x} object with the changed attributes.
 
 A \code{subject_create} returns a named list with the subject term,
 the subject scheme, URIs and prefix.
@@ -75,14 +75,14 @@ is added as a separate attribute to the dataset_df object.#'
 }
 \examples{
 # To set the subject of a dataset_df object:
-subject(iris_dataset) <- subject_create(
-  term = "Irises (plants)",
+subject(orange_df) <- subject_create(
+  term = "Oranges",
   schemeURI = "http://id.loc.gov/authorities/subjects",
-  valueURI = "https://id.loc.gov/authorities/subjects/sh85068079",
+  valueURI = "http://id.loc.gov/authorities/subjects/sh85095257",
   subjectScheme = "LCCH",
   prefix = "lcch:"
 )
 
 # To retrieve the subject with its subproperties:
-subject(iris_dataset)
+subject(orange_df)
 }
