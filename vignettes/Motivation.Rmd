@@ -7,11 +7,16 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+if (!requireNamespace("dplyr", quietly = TRUE) || !requireNamespace("tidyr", quietly = TRUE)) { stop("Please install 'dplyr' and 'tidyr' to run this vignette.") }
+
+library(dplyr) 
+library(tidyr) 
 ```
 
 > "A dataset is an identifiable collection of data available for access or download in one or more formats." ISO/IEC 20546
@@ -95,8 +100,6 @@ Let's take a look at the limitations of two, tidy datasets from an interoperabil
 
 ```{r gdpexmampel, warning=FALSE, message=FALSE}
 library(tibble)
-library(dplyr)
-library(tidyr)
 
 # Dataset D (GDP in billions of USD)
 D <- tibble(
@@ -302,7 +305,6 @@ Beyond row and column identification, `dataset` addresses the question of *when*
 
 ```{r ambigousjoinwithdplyr}
 library(tibble)
-library(dplyr)
 
 # Dataset D (GDP in billions of USD)
 D <- tibble(
@@ -323,7 +325,7 @@ E <- tibble(
   GDP = c(18000, 2500, 19000, 2600, 20000, 2700) # GDP in billions of EUR
 )
 
-joined_data <- full_join(D, E)
+joined_data <- dplyr::full_join(D, E)
 joined_data
 ```
 
@@ -337,8 +339,6 @@ First, let us see how we would solve the ambiguity problems without `dataset`, r
 
 ```{r two-gdp-datasets}
 library(tibble)
-library(dplyr)
-library(tidyr)
 
 # Dataset D (GDP in billions of USD)
 D <- tibble(
