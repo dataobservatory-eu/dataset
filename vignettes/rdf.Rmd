@@ -12,6 +12,11 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+if (!requireNamespace("rdflib", quietly = TRUE)) { 
+  stop("Please install 'rdflib' to run this vignette.") 
+  }
+
 ```
 
 ```{r setup}
