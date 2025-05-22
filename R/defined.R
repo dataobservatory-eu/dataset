@@ -153,10 +153,10 @@ vec_ptype_abbr.haven_labelled_defined <- function(x, ...) {
 vec_ptype2.double.haven_labelled_defined <- function(x, y, ...) double()
 
 #' @keywords internal
-vec_cast.double.haven_labelled_defined <- function(x, to, ...) vec_data(x)
+vec_cast.double.haven_labelled_defined <- function(x, to, ...) vctrs::vec_data(x)
 
 #' @keywords internal
-vec_cast.character.haven_labelled_defined <- function(x, to, ...) vec_data(x)
+vec_cast.character.haven_labelled_defined <- function(x, to, ...) vctrs::vec_data(x)
 
 #' From haven
 #' @keywords internal
@@ -249,7 +249,7 @@ new_datetime_defined <- function(x,
 #' @export
 #' @importFrom vctrs vec_data
 `[[.haven_labelled_defined` <- function(x, i, ...) {
-  defined(vec_data(x)[[i]],
+  defined(vctrs::vec_data(x)[[i]],
     label = var_label(x),
     unit = var_unit(x),
     concept = var_concept(x),
@@ -263,8 +263,8 @@ new_datetime_defined <- function(x,
 #' @importFrom vctrs vec_data
 Ops.haven_labelled_defined <- function(e1, e2) {
   # Comparisons work as expected
-  lhs <- if (inherits(e1, "haven_labelled_defined")) vec_data(e1) else e1
-  rhs <- if (inherits(e2, "haven_labelled_defined")) vec_data(e2) else e2
+  lhs <- if (inherits(e1, "haven_labelled_defined")) vctrs::vec_data(e1) else e1
+  rhs <- if (inherits(e2, "haven_labelled_defined")) vctrs::vec_data(e2) else e2
   .Generic <- .Generic
   do.call(.Generic, list(lhs, rhs))
 }
@@ -272,7 +272,7 @@ Ops.haven_labelled_defined <- function(e1, e2) {
 #' @export
 #' @importFrom vctrs vec_data
 length.haven_labelled_defined <- function(x) {
-  length(vec_data(x))
+  length(vctrs::vec_data(x))
 }
 
 #' @export
@@ -306,7 +306,7 @@ print.haven_labelled_defined <- function(x, ...) {
   }
 
   cat(msg, "\n")
-  print(vec_data(x), ...)
+  print(vctrs::vec_data(x), ...)
   invisible(x)
 }
 
@@ -355,7 +355,7 @@ as.list.haven_labelled_defined <- function(x, ...) {
 
 #' @export
 as.vector.haven_labelled_defined <- function(x, mode = "any") {
-  as.vector(vec_data(x), mode = mode)
+  as.vector(vctrs::vec_data(x), mode = mode)
 }
 
 #' @title Strip the class from a defined vector
@@ -375,7 +375,7 @@ as.vector.haven_labelled_defined <- function(x, mode = "any") {
 strip_defined <- function(x) {
   if (!inherits(x, "haven_labelled_defined")) return(x)
 
-  base_class <- typeof(vec_data(x))  # typically "double" or "integer"
+  base_class <- typeof(vctrs::vec_data(x))  # typically "double" or "integer"
   class(x) <- base_class
   x
 }
@@ -395,7 +395,7 @@ as.numeric <- function(x, ...) {
 #' @seealso \code{\link{as_numeric}}
 #' @exportS3Method
 as.numeric.haven_labelled_defined <- function(x, ...) {
-  unclass(vec_data(x))
+  unclass(vctrs::vec_data(x))
 }
 
 #' @title Coerce a defined vector to numeric
@@ -440,7 +440,7 @@ as_numeric.haven_labelled_defined <- function(
     x, preserve_attributes = FALSE,
     ... ) {
 
-  if (!is.numeric(vec_data(x))) {
+  if (!is.numeric(vctrs::vec_data(x))) {
     stop("as_numeric(): underlying data is not numeric.")
   }
 
@@ -519,7 +519,7 @@ as_character.haven_labelled_defined <- function(
     preserve_attributes = FALSE,
     ...) {
 
-  tmp <- as.character(vec_data(x))
+  tmp <- as.character(vctrs::vec_data(x))
   if (preserve_attributes) {
     attr(tmp, "unit") <- attr(x, "unit")
     attr(tmp, "concept") <- attr(x, "concept")
@@ -551,7 +551,7 @@ as_factor <- function(x) {
 #' @importFrom haven as_factor
 #' @importFrom vctrs vec_data
 as_factor.haven_labelled_defined <- function(x, ...) {
-  haven::as_factor(haven::labelled(vec_data(x),
+  haven::as_factor(haven::labelled(vctrs::vec_data(x),
     labels = attr(x, "labels")
   ), ...)
 }
@@ -603,7 +603,7 @@ c.haven_labelled_defined <- function(...) {
     stop("c.haven_labelled_defined(x,y): x,y must have no value labels or the same value labels.")
   }
 
-  defined(unname(do.call(c, lapply(dots, function(x) vec_data(x)))),
+  defined(unname(do.call(c, lapply(dots, function(x) vctrs::vec_data(x)))),
     label = var_labels[[1]],
     labels = val_labels[[1]],
     concept = concepts[[1]],
