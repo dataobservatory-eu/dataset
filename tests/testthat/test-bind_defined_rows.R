@@ -1,12 +1,4 @@
-Cdb <- dataset_df(
-  a = defined(c(11, 14, 16, 12, 17, 19), label = "length", unit = "cm"),
-  dataset_bibentry = dublincore(
-    title = "Test",
-    creator = c(person("Jane Doe")),
-    dataset_date = Sys.Date()
-  )
-)
-Cdb
+
 test_that("bind_defined_rows() works", {
   A <- dataset_df(
     a = defined(c(11, 14, 16), label = "length", unit = "cm"),
@@ -23,12 +15,14 @@ test_that("bind_defined_rows() works", {
   )
   D <- bind_defined_rows(x = A, y = B)
   expect_equal(as_numeric(D$a), c(11, 14, 16, 12, 17, 19))
-  expect_equal(D$a, defined(c(11, 14, 16, 12, 17, 19), label = "length", unit = "cm"))
+  expect_equal(D$a, defined(c(11, 14, 16, 12, 17, 19),
+                            label = "length", unit = "cm"))
   expect_equal(dataset_title(A), dataset_title(D))
   expect_equal(get_bibentry(A)$year, get_bibentry(D)$year)
 })
 
-test_that("bind_defined_rows() detects if not dataset_df is the input parameter", {
+test_that("bind_defined_rows() detects if not dataset_df is
+          the input parameter", {
   A <- dataset_df(
     a = defined(c(11, 14, 16), label = "length", unit = "cm"),
     dataset_bibentry = dublincore(
@@ -74,26 +68,29 @@ test_that("bind_defined_rows() detects different units", {
 
 test_that("bind_defined_rows() detects different definitions", {
   A <- dataset_df(
-    width = defined(c(1, 2), label = "width", definition = "cm"),
-    height = defined(c(3, 4), label = "height", definition = "mm")
+    width = defined(c(1, 2), label = "width", concept = "cm"),
+    height = defined(c(3, 4), label = "height", concept = "mm")
   )
   B <- dataset_df(
-    width = defined(c(3, 4), label = "width", definition = "cm"),
-    height = defined(c(2, 2), label = "height", definition = "cm")
+    width = defined(c(3, 4), label = "width", concept = "cm"),
+    height = defined(c(2, 2), label = "height", concept = "cm")
   )
   expect_error(bind_defined_rows(x = A, y = B),
-    regexp = "Variable definitions"
+    regexp = "Variable concept definitions"
   )
 })
 
 
 test_that("bind_defined_rows() detects different namespace", {
   A <- dataset_df(
-    width = defined(c(1, 2), label = "width", unit = "cm", namespace = "http://example.com"),
-    height = defined(c(3, 4), label = "height", unit = "cm", namespace = "http://example.com")
+    width = defined(c(1, 2), label = "width",
+                    unit = "cm", namespace = "http://example.com"),
+    height = defined(c(3, 4), label = "height",
+                     unit = "cm", namespace = "http://example.com")
   )
   B <- dataset_df(
-    width = defined(c(3, 4), label = "width", unit = "cm", namespace = "http://example.com"),
+    width = defined(c(3, 4), label = "width",
+                    unit = "cm", namespace = "http://example.com"),
     height = defined(c(2, 2), label = "height", unit = "cm")
   )
   expect_error(bind_defined_rows(x = A, y = B),
@@ -103,18 +100,24 @@ test_that("bind_defined_rows() detects different namespace", {
 
 test_that("bind_defined_rows() has the same rowid namespace", {
   A <- dataset_df(
-    width = defined(c(1, 2), label = "width", unit = "cm", namespace = "http://example.com"),
-    height = defined(c(3, 4), label = "height", unit = "cm", namespace = "http://example.com"),
+    width = defined(c(1, 2), label = "width",
+                    unit = "cm", namespace = "http://example.com"),
+    height = defined(c(3, 4), label = "height",
+                     unit = "cm", namespace = "http://example.com"),
     identifier = c(wbi = "https:://example.com/")
   )
   B <- dataset_df(
-    width = defined(c(3, 4), label = "width", unit = "cm", namespace = "http://example.com"),
-    height = defined(c(2, 2), label = "height", unit = "cm", namespace = "http://example.com"),
+    width = defined(c(3, 4), label = "width",
+                    unit = "cm", namespace = "http://example.com"),
+    height = defined(c(2, 2), label = "height",
+                     unit = "cm", namespace = "http://example.com"),
     identifier = c(wbi = "https:://example.com/")
   )
   D <- dataset_df(
-    width = defined(c(3, 4), label = "width", unit = "cm", namespace = "http://example.com"),
-    height = defined(c(2, 2), label = "height", unit = "cm", namespace = "http://example.com"),
+    width = defined(c(3, 4), label = "width",
+                    unit = "cm", namespace = "http://example.com"),
+    height = defined(c(2, 2), label = "height",
+                     unit = "cm", namespace = "http://example.com"),
     identifier = c(wbi = "https:://example.net/")
   )
   expect_equal(

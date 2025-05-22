@@ -1,24 +1,27 @@
 #' @title Bind strictly defined rows
-#' @description
-#' Add rows of dataset \code{y} to dataset \code{x}, validating all semantic metadata.
-#' Metadata (labels, units, definitions, namespaces) must match exactly.
-#' Additional dataset-level metadata such as title and creator can be overridden using \code{...}.
+#' @description Add rows of dataset \code{y} to dataset \code{x}, validating all
+#'   semantic metadata. Metadata (labels, units, concept definitions,
+#'   namespaces) must match exactly. Additional dataset-level metadata such as
+#'   title and creator can be overridden using \code{...}.
 #'
-#' @details
-#' This function combines two semantically enriched datasets created with \code{dataset_df()}.
-#' All variable-level attributes — including labels, units, definitions, and namespaces —
-#' must match. If \code{strict = TRUE} (the default), the row identifier namespace
-#' (used in the \code{rowid} column) must also match exactly.
+#' @details This function combines two semantically enriched datasets created
+#'   with \code{dataset_df()}. All variable-level attributes — including labels,
+#' units, concept definitions, and namespaces — must match. If \code{strict =
+#' TRUE} (the default), the row identifier namespace (used in the \code{rowid}
+#'   column) must also match exactly.
 #'
-#' If \code{strict = FALSE}, row identifiers from \code{y} may differ and will be ignored;
-#' the output will inherit \code{x}'s row identifier scheme.
+#'   If \code{strict = FALSE}, row identifiers from \code{y} may differ and will
+#'   be ignored; the output will inherit \code{x}'s row identifier scheme.
 #'
 #' @param x A `dataset_df` object.
 #' @param y A `dataset_df` object to bind to `x`.
-#' @param ... Optional dataset-level attributes such as \code{title} or \code{creator} to override.
-#' @param strict Logical. If \code{TRUE} (default), require full semantic compatibility, including rowid.
+#' @param ... Optional dataset-level attributes such as \code{title} or
+#'   \code{creator} to override.
+#' @param strict Logical. If \code{TRUE} (default), require full semantic
+#'   compatibility, including rowid.
 #'
-#' @return A new `dataset_df` object with rows from `x` and `y`, combined semantically.
+#' @return A new `dataset_df` object with rows from `x` and `y`, combined
+#'   semantically.
 #'
 #' @export
 #' @examples
@@ -89,10 +92,10 @@ bind_defined_rows <- function(x, y, ..., strict = FALSE) {
   }
 
   if (!identical(
-    lapply(x[vars], function(i) attr(i, "definition")),
-    lapply(y[vars], function(j) attr(j, "definition"))
+    lapply(x[vars], function(i) attr(i, "concept")),
+    lapply(y[vars], function(j) attr(j, "concept"))
   )) {
-    stop("Variable definitions must match in the two datasets.")
+    stop("Variable concept definitions must match in the two datasets.")
   }
 
   if (!identical(
