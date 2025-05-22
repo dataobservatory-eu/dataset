@@ -12,7 +12,8 @@ defined(
   label = NULL,
   unit = NULL,
   concept = NULL,
-  namespace = NULL
+  namespace = NULL,
+  ...
 )
 
 is.defined(x)
@@ -38,9 +39,9 @@ concept or \code{NULL}.}
 \item{namespace}{A namespace for individual observations or categories or
 \code{NULL}.}
 
-\item{object}{An R object to be summarised.}
-
 \item{...}{Further parameters for inheritance, not in use.}
+
+\item{object}{An R object to be summarised.}
 }
 \value{
 The constructor \code{defined} returns a vector with defined value

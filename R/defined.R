@@ -44,7 +44,7 @@
 #'   object is of class \code{defined}.
 #' @importFrom haven labelled
 #' @importFrom labelled to_labelled is.labelled
-#' @import vctrs methods
+#' @import vctrs
 #' @importFrom utils head tail
 #' @examples
 #'
@@ -73,8 +73,10 @@ defined <- function(x,
                     label = NULL,
                     unit = NULL,
                     concept = NULL,
-                    namespace = NULL) {
-  # Catch deprecated `definition` in `...`
+                    namespace = NULL,
+                    ...) {
+
+  # Handle deprecated argument
   dots <- list(...)
   if (!is.null(dots$definition)) {
     warning("`definition` is deprecated; please use `concept` instead.", call. = FALSE)
@@ -91,6 +93,7 @@ defined <- function(x,
                          unit = unit,
                          concept = concept,
                          namespace = namespace)
+
   } else if (is.character(x)) {
     new_labelled_defined(x,
                          labels = labels,
@@ -98,28 +101,34 @@ defined <- function(x,
                          unit = unit,
                          concept = concept,
                          namespace = namespace)
+
   } else if (is.labelled(x)) {
     var_unit(x) <- unit
     var_concept(x) <- concept
     var_namespace(x) <- namespace
     attr(x, "class") <- c("haven_labelled_defined", class(x))
     x
+
   } else if (inherits(x, "Date")) {
     new_datetime_defined(x,
                          label = label,
                          unit = unit,
                          concept = concept,
                          namespace = namespace)
+
   } else if (is.factor(x)) {
     labelled_x <- to_labelled(x)
     var_unit(labelled_x) <- unit
     var_concept(labelled_x) <- concept
     var_namespace(labelled_x) <- namespace
     attr(labelled_x, "class") <- c("haven_labelled_defined", class(labelled_x))
-    class(labelled_x)
     labelled_x
+
+  } else {
+    stop("`defined()` is not implemented for objects of class: ", paste(class(x), collapse = ", "), call. = FALSE)
   }
 }
+
 
 #' @rdname defined
 #' @export

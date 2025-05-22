@@ -190,7 +190,7 @@ test_that("labelled_defined() throws error", {
     x = iris$Species,
     label = "Taxon name within the Iris genus",
     definition = 1,
-    namespace = "Iris"
+    concept = "Iris"
   ))
   expect_error(defined(
     x = iris$Species,
@@ -241,19 +241,19 @@ test_that("new_labelled_defined() throws errors", {
   expect_error(defined(
     x = c(1:3),
     label = c("Numbers", "Numbers"),
-    definition = 1,
+    concept = 1,
     namespace = "Iris"
   ))
   expect_error(defined(
     x = c(1:3),
     label = "Numbers",
-    definition = 1,
+    concept = 1,
     namespace = "Iris"
   ))
   expect_error(defined(
     x = c(1:3),
     label = "Numbers",
-    definition = 1,
+    concept = 1,
     unit = 1,
     namespace = "Iris"
   ))

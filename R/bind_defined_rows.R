@@ -26,20 +26,24 @@
 #' @export
 #' @examples
 #' A <- dataset_df(
-#'   length = defined(c(10, 15), label = "Length", unit = "cm", namespace = "http://example.org"),
+#'   length = defined(c(10, 15), label = "Length",
+#'   unit = "cm", namespace = "http://example.org"),
 #'   identifier = c(id = "http://example.org/dataset#"),
-#'   dataset_bibentry = dublincore(title = "Dataset A", creator = person("Alice", "Smith"))
+#'   dataset_bibentry = dublincore(title = "Dataset A",
+#'   creator = person("Alice", "Smith"))
 #' )
 #'
 #' B <- dataset_df(
-#'   length = defined(c(20, 25), label = "Length", unit = "cm", namespace = "http://example.org"),
+#'   length = defined(c(20, 25), label = "Length",
+#'   unit = "cm", namespace = "http://example.org"),
 #'   identifier = c(id = "http://example.org/dataset#")
 #' )
 #'
 #' bind_defined_rows(A, B)  # succeeds
 #'
 #' C <- dataset_df(
-#'   length = defined(c(30, 35), label = "Length", unit = "cm", namespace = "http://example.org"),
+#'   length = defined(c(30, 35), label = "Length",
+#'   unit = "cm", namespace = "http://example.org"),
 #'   identifier = c(id = "http://another.org/dataset#")
 #' )
 #'
