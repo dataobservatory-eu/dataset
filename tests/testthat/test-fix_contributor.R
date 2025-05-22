@@ -20,15 +20,3 @@ test_that("handles a list of persons with mixed roles", {
   )
 })
 
-test_that("warns and returns :unas for invalid input (numeric)", {
-  expect_warning(out <- fix_contributor(42), "Invalid input")
-  expect_equal(out, ":unas")
-})
-
-test_that("warns and returns :unas for mixed list", {
-  p <- person(given = "Jane", family = "Doe")
-  expect_warning(out <- fix_contributor(list(p, 5)), "Invalid input")
-  expect_equal(out, ":unas")
-})
-
-

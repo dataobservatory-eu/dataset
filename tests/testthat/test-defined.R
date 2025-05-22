@@ -2,22 +2,22 @@ test_that("labelled_defined() works", {
   z <- defined(c(1, 1, 1, 0, 0, 0),
     label = "",
     labels = c("F" = 0, "M" = 1, "_N" = 99),
-    definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
+    concept = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
   )
   x <- defined(c(0, 1, 0, 1, 1, 0),
     label = "sex",
     labels = c("F" = 0, "M" = 1, "_N" = 99),
-    definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
+    concept = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
   )
   v <- defined(c(1, 0),
     label = "sex",
     labels = c("F" = 0, "M" = 1, "_N" = 99),
-    definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
+    concept = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
   )
   y <- defined(c(1, 1, 1, 0, 0, 0),
     label = "sex",
     labels = c("F" = 0, "M" = 1, "_N" = 99),
-    definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
+    concept = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
   )
   expect_equal(c(1:3, y), c(1, 2, 3, 1, 1, 1, 0, 0, 0))
   expect_equal(
@@ -29,7 +29,7 @@ test_that("labelled_defined() works", {
     defined(c(0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0),
       label = "sex",
       labels = c("F" = 0, "M" = 1, "_N" = 99),
-      definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
+      concept = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
     )
   )
   expect_equal(
@@ -37,7 +37,7 @@ test_that("labelled_defined() works", {
     defined(c(0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0),
       label = "sex",
       labels = c("F" = 0, "M" = 1, "_N" = 99),
-      definition = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
+      concept = "https://registry.sdmx.org/sdmx/v2/structure/codelist/SDMX/CL_SEX/2.1#"
     )
   )
   a <- defined(c("a", "b"), label = "c")
@@ -55,18 +55,18 @@ test_that("labelled_defined() works", {
     labels = NULL,
     label = "Sepal length",
     unit = "centimeters",
-    definition = "https://www.wikidata.org/wiki/Property:P2043"
+    concept = "https://www.wikidata.org/wiki/Property:P2043"
   )
   myspecies <- defined(
     x = iris$Species,
     label = "Taxon name within the Iris genus",
-    definition = "https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomygenus?id=6074",
+    concept = "https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomygenus?id=6074",
     namespace = "Iris"
   )
   expect_equal(is.defined(sepal_length), TRUE)
   expect_equal(var_label(sepal_length), "Sepal length")
   expect_equal(var_unit(sepal_length), "centimeters")
-  expect_equal(var_definition(sepal_length), "https://www.wikidata.org/wiki/Property:P2043")
+  expect_equal(var_concept(sepal_length), "https://www.wikidata.org/wiki/Property:P2043")
   expect_equal(var_namespace(myspecies), "Iris")
   expect_true(all(as.character(sepal_length) == as.character(iris$Sepal.Length)))
 })
@@ -76,7 +76,7 @@ test_that("Subsetting defined vectors works correctly", {
   v <- defined(10:20,
     label = "Test Vector",
     unit = "kg",
-    definition = "http://example.com/def",
+    concept = "http://example.com/def",
     namespace = "http://example.com/ns"
   )
 
@@ -97,7 +97,7 @@ test_that("[[.haven_labelled_defined returns a scalar defined value with metadat
     c(10, 20, 30),
     label = "Measurement",
     unit = "cm",
-    definition = "http://example.org/def",
+    concept = "http://example.org/def",
     namespace = "http://example.org/ns",
     labels = c("Low" = 10, "Medium" = 20, "High" = 30)
   )
@@ -108,7 +108,7 @@ test_that("[[.haven_labelled_defined returns a scalar defined value with metadat
   expect_equal(as_numeric(val), 20)
   expect_equal(var_label(val), "Measurement")
   expect_equal(var_unit(val), "cm")
-  expect_equal(var_definition(val), "http://example.org/def")
+  expect_equal(var_concept(val), "http://example.org/def")
   expect_equal(var_namespace(val), "http://example.org/ns")
 
   # Check that labels are preserved too
@@ -116,8 +116,8 @@ test_that("[[.haven_labelled_defined returns a scalar defined value with metadat
 })
 
 test_that("Comparison operations work on defined vectors", {
-  a <- defined(1:5, label = "Test", unit = "x", definition = "def")
-  b <- defined(5:1, label = "Test", unit = "x", definition = "def")
+  a <- defined(1:5, label = "Test", unit = "x", concept = "def")
+  b <- defined(5:1, label = "Test", unit = "x", concept = "def")
 
   expect_equal(a == b, c(FALSE, FALSE, TRUE, FALSE, FALSE))
   expect_equal(a < 3, c(TRUE, TRUE, FALSE, FALSE, FALSE))
@@ -127,7 +127,7 @@ test_that("Comparison operations work on defined vectors", {
 
 
 test_that("length, head, and tail work on defined vectors", {
-  x <- defined(1:10, label = "Demo", unit = "m", definition = "test")
+  x <- defined(1:10, label = "Demo", unit = "m", concept = "test")
 
   expect_equal(length(x), 10)
   expect_equal(length(head(x, 3)), 3)
@@ -139,12 +139,12 @@ test_that("length, head, and tail work on defined vectors", {
   expect_true(is.defined(tail(x, 2)))
   expect_equal(var_label(head(x, 3)), "Demo")
   expect_equal(var_unit(tail(x, 2)), "m")
-  expect_equal(var_definition(head(x, 1)), "test")
+  expect_equal(var_concept(head(x, 1)), "test")
 })
 
 test_that("print.haven_labelled_defined outputs correctly with/without definition and unit", {
-  x1 <- defined(1:3, definition = "https://def", unit = "kg")
-  x2 <- defined(1:3, definition = "https://def")
+  x1 <- defined(1:3, concept = "https://def", unit = "kg")
+  x2 <- defined(1:3, concept = "https://def")
   x3 <- defined(1:3, unit = "kg")
   x4 <- defined(1:3)
 
@@ -155,10 +155,10 @@ test_that("print.haven_labelled_defined outputs correctly with/without definitio
 })
 
 test_that("format.haven_labelled_defined works correctly", {
-  x <- defined(1:3, unit = "kg", definition = "https://def")
+  x <- defined(1:3, unit = "kg", concept = "https://def")
   expect_equal(format(x), c("1 (kg)", "2 (kg)", "3 (kg)"))
 
-  y <- defined(4:6, definition = "short-def")
+  y <- defined(4:6, concept = "short-def")
   expect_equal(format(y), c("4 [short-def]", "5 [short-def]", "6 [short-def]"))
 
   z <- defined(7:9)
@@ -167,7 +167,7 @@ test_that("format.haven_labelled_defined works correctly", {
 
 
 test_that("as.vector.haven_labelled_defined works correctly", {
-  x <- defined(1:3, unit = "kg", definition = "http://example.com")
+  x <- defined(1:3, unit = "kg", concept = "http://example.com")
   expect_equal(as.vector(x), c(1, 2, 3))
   expect_equal(as.vector(x, mode = "character"), c("1", "2", "3"))
 
@@ -176,7 +176,7 @@ test_that("as.vector.haven_labelled_defined works correctly", {
 })
 
 test_that("as.list.haven_labelled_defined preserves metadata", {
-  x <- defined(1:2, label = "Test", unit = "kg", definition = "def")
+  x <- defined(1:2, label = "Test", unit = "kg", concept = "def")
   lst <- as.list(x)
   expect_length(lst, 2)
   expect_true(all(vapply(lst, is.defined, logical(1))))
@@ -215,7 +215,7 @@ test_that("new_datetime_defined() throws errors", {
   expect_error(defined(
     x = Sys.Date(),
     label = 1,
-    definition = "Definition",
+    concept = "Definition",
     namespace = "Iris"
   ))
   expect_error(defined(
@@ -275,7 +275,7 @@ test_that("c() works", {
     labels = NULL,
     label = "Sepal length",
     unit = "centimeters",
-    definition = "https://www.wikidata.org/wiki/Property:P2043"
+    concept = "https://www.wikidata.org/wiki/Property:P2043"
   )
 
 
@@ -283,14 +283,14 @@ test_that("c() works", {
     labels = NULL,
     label = "Sepal length",
     unit = "centimeters",
-    definition = "https://www.wikidata.org/wiki/Property:P2043"
+    concept = "https://www.wikidata.org/wiki/Property:P2043"
   )
 
   bmm <- defined(iris$Sepal.Length[7:9] * 10,
     labels = NULL,
     label = "Sepal length",
     unit = "milimeters",
-    definition = "https://www.wikidata.org/wiki/Property:P2043"
+    concept = "https://www.wikidata.org/wiki/Property:P2043"
   )
   expect_equal(is.defined(c(a, b)), TRUE)
   expect_equal(length(c(a, b)), 6)
@@ -345,19 +345,19 @@ test_that("as_factor() works with defined vector", {
 
 
 test_that("c.haven_labelled_defined() works ", {
-  a <- defined(1:3, label = "testlabel", unit = "meter", definition = "testdef", namespace = "http://example.com")
-  b <- defined(4:6, label = "testlabel", unit = "meter", definition = "testdef", namespace = "http://example.com")
-  ab <- defined(1:6, label = "testlabel", unit = "meter", definition = "testdef", namespace = "http://example.com")
+  a <- defined(1:3, label = "testlabel", unit = "meter", concept = "testdef", namespace = "http://example.com")
+  b <- defined(4:6, label = "testlabel", unit = "meter", concept = "testdef", namespace = "http://example.com")
+  ab <- defined(1:6, label = "testlabel", unit = "meter", concept = "testdef", namespace = "http://example.com")
   expect_equal(ab, c(a, b))
-  cm <- defined(4:6, label = "testlabel", unit = "centimeter", definition = "test", namespace = "http://example.com")
-  def <- defined(4:6, label = "testlabel", unit = "meter", definition = "def", namespace = "http://example.com")
-  nsp <- defined(4:6, label = "testlabel", unit = "meter", definition = "testdef", namespace = "http://examples.com")
-  lbl <- defined(4:6, label = "tested", unit = "meter", definition = "def", namespace = "http://example.com")
+  cm <- defined(4:6, label = "testlabel", unit = "centimeter", concept = "test", namespace = "http://example.com")
+  def <- defined(4:6, label = "testlabel", unit = "meter", concept = "def", namespace = "http://example.com")
+  nsp <- defined(4:6, label = "testlabel", unit = "meter", concept = "testdef", namespace = "http://examples.com")
+  lbl <- defined(4:6, label = "tested", unit = "meter", concept = "def", namespace = "http://example.com")
   expect_error(c(a, cm),
     regexp = "must have no unit or the same unit"
   )
   expect_error(c(a, def),
-    regexp = "must have no definition or the same definition"
+    regexp = "must have no concept definition or the same concept definition"
   )
   expect_error(c(a, nsp),
     regexp = "must have no namespace or the same namespace"

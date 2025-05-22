@@ -21,7 +21,7 @@ as_character(x, ...)
 \item{...}{Further arguments passed to internal methods (not used).}
 
 \item{preserve_attributes}{Defaults to \code{FALSE}. If set to \code{TRUE},
-in which case the \code{unit}, \code{definition} and \code{namespace}
+in which case the \code{unit}, \code{concept} and \code{namespace}
 attributes will be preserved, but the returned value will otherwise become
 a base R character vector. If false, then the effect will be similar to
 \code{\link{strip_defined}}.}
@@ -41,7 +41,7 @@ is character before coercion.
 }
 \details{
 \code{as_character()} uses \code{preserve_attributes = TRUE}, the resulting
-vector will retain relevant metadata such as the \code{unit}, \code{definition}, and
+vector will retain relevant metadata such as the \code{unit}, \code{concept}, and
 \code{namespace} attributes, but it will no longer be of class \code{defined}. If
 \code{preserve_attributes = FALSE} (default), a plain character vector is
 returned with all metadata and class dropped.\cr\cr For numeric-based

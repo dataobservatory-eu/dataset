@@ -15,7 +15,7 @@ orange_df <- dataset_df(
   circumference = defined(Orange$circumference,
     label = "circumference at breast height",
     unit = "milimeter",
-    definition = "https://www.wikidata.org/wiki/Property:P2043"
+    concept = "https://www.wikidata.org/wiki/Property:P2043"
   ),
   dataset_bibentry = orange_bibentry
 )
@@ -48,8 +48,8 @@ orange_bibentry <- dublincore(
   description = "The Orange data frame has 35 rows and 3 columns of records of the growth of orange trees."
 )
 
-
-orange_df$rowid <- defined(orange_df$rowid, namespace = "https://doi.org/10.5281/zenodo.14917851")
+orange_df$rowid <- defined(orange_df$rowid,
+                           namespace = "https://doi.org/10.5281/zenodo.14917851")
 write.csv(orange_df, file = "orange_df.csv", row.names = F)
 saveRDS(orange_df, file = "orange_df.rds")
 

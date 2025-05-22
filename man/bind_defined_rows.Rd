@@ -11,26 +11,31 @@ bind_defined_rows(x, y, ..., strict = FALSE)
 
 \item{y}{A \code{dataset_df} object to bind to \code{x}.}
 
-\item{...}{Optional dataset-level attributes such as \code{title} or \code{creator} to override.}
+\item{...}{Optional dataset-level attributes such as \code{title} or
+\code{creator} to override.}
 
-\item{strict}{Logical. If \code{TRUE} (default), require full semantic compatibility, including rowid.}
+\item{strict}{Logical. If \code{TRUE} (default), require full semantic
+compatibility, including rowid.}
 }
 \value{
-A new \code{dataset_df} object with rows from \code{x} and \code{y}, combined semantically.
+A new \code{dataset_df} object with rows from \code{x} and \code{y}, combined
+semantically.
 }
 \description{
-Add rows of dataset \code{y} to dataset \code{x}, validating all semantic metadata.
-Metadata (labels, units, definitions, namespaces) must match exactly.
-Additional dataset-level metadata such as title and creator can be overridden using \code{...}.
+Add rows of dataset \code{y} to dataset \code{x}, validating all
+semantic metadata. Metadata (labels, units, concept definitions,
+namespaces) must match exactly. Additional dataset-level metadata such as
+title and creator can be overridden using \code{...}.
 }
 \details{
-This function combines two semantically enriched datasets created with \code{dataset_df()}.
-All variable-level attributes — including labels, units, definitions, and namespaces —
-must match. If \code{strict = TRUE} (the default), the row identifier namespace
-(used in the \code{rowid} column) must also match exactly.
+This function combines two semantically enriched datasets created
+with \code{dataset_df()}. All variable-level attributes — including labels,
+units, concept definitions, and namespaces — must match. If \code{strict =
+TRUE} (the default), the row identifier namespace (used in the \code{rowid}
+column) must also match exactly.
 
-If \code{strict = FALSE}, row identifiers from \code{y} may differ and will be ignored;
-the output will inherit \code{x}'s row identifier scheme.
+If \code{strict = FALSE}, row identifiers from \code{y} may differ and will
+be ignored; the output will inherit \code{x}'s row identifier scheme.
 }
 \examples{
 A <- dataset_df(

@@ -13,7 +13,7 @@ dataset_df(
   identifier = c(eg = "http://example.com/dataset#"),
   var_labels = NULL,
   units = NULL,
-  definitions = NULL,
+  concepts = NULL,
   dataset_bibentry = NULL,
   dataset_subject = NULL
 )
@@ -23,7 +23,7 @@ as_dataset_df(
   identifier = c(eg = "http://example.com/dataset#"),
   var_labels = NULL,
   units = NULL,
-  definitions = NULL,
+  concepts = NULL,
   dataset_bibentry = NULL,
   dataset_subject = NULL,
   ...
@@ -48,7 +48,7 @@ to the rows being identified as https://doi.org/1234#1...https://doi.org/1234#n.
 
 \item{units}{The units of measurement for the measured variables.}
 
-\item{definitions}{The linked definitions of the variables, attributes, or constants.}
+\item{concepts}{The linked concepts of the variables, attributes, or constants.}
 
 \item{dataset_bibentry}{A list of bibliographic references and descriptive metadata
 about the dataset as a whole created with \code{\link{datacite}} or
@@ -87,14 +87,14 @@ vignette.
 my_dataset <- dataset_df(
   country_name = defined(
     c("AD", "LI"),
-    definition = "http://data.europa.eu/bna/c_6c2bb82d",
+    concept = "http://data.europa.eu/bna/c_6c2bb82d",
     namespace = "https://www.geonames.org/countries/$1/"
   ),
   gdp = defined(
     c(3897, 7365),
     label = "Gross Domestic Product",
     unit = "million dollars",
-    definition = "http://data.europa.eu/83i/aa/GDP"
+    concept = "http://data.europa.eu/83i/aa/GDP"
   )
 )
 

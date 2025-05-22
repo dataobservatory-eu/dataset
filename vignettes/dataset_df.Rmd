@@ -1,13 +1,13 @@
 ---
-title: "Create Datasets that are Easy to Share Exchange and Extend"
+title: "Why Semantics Matter for R Data Frames"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Create Datasets that are Easy to Share Exchange and Extend}
+  %\VignetteIndexEntry{Why Semantics Matter for R Data Frames}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setupvignette, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -18,132 +18,110 @@ knitr::opts_chunk$set(
 library(dataset)
 ```
 
-The aim of the `dataset_df` is to create semantically richer datasets.
+R users love `data.frame`s and `tibble`s for tidy, rectangular data. But tidy data isn't always **meaningful data**. What does a column labelled `gdp` actually represent? Euros? Millions? Per capita? Current prices? Constant 2010 prices? These questions matter—especially in statistics, open data publishing, and knowledge graph integration.
 
-```{r createdataasetdf}
-small_country_dataset <- dataset_df(
-  country_name = defined(
-    c("AD", "LI"),
-    label = "Country name",
-    definition = "http://data.europa.eu/bna/c_6c2bb82d",
-    namespace = "https://www.geonames.org/countries/$1/"
-  ),
-  gdp = defined(
-    c(3897, 7365),
-    label = "Gross Domestic Product",
-    unit = "million dollars",
-    definition = "http://data.europa.eu/83i/aa/GDP"
-  ),
+The `dataset_df` class extends the familiar `data.frame` structure with lightweight, semantically meaningful metadata. It's built for:
+
+-   **Tidyverse lovers** who want better documentation and safer analysis
+
+-   **Open science workflows** that need interoperable metadata
+
+-   **Semantic web users** who want to export structured RDF data from R
+
+`dataset_df` helps you preserve the meaning of variables, units, identifiers, and dataset-level context.
+
+## From Tidy to Meaningful: An Example
+
+Let's start with a basic data frame and upgrade it to a `dataset_df` with semantically enriched columns using `defined()`:
+
+```{r smallcountries}
+small_country_dataset <- dataset_df(   
+  country_name = defined(c("AD", "LI"),     
+  label = "Country name",
+  concept = "http://data.europa.eu/bna/c_6c2bb82d",
+  namespace = "https://www.geonames.org/countries/$1/"),
+  gdp = defined(c(3897, 7365),
+                label = "Gross Domestic Product",
+                unit = "million dollars",
+                concept = "http://data.europa.eu/83i/aa/GDP"),
   dataset_bibentry = dublincore(
     title = "Small Country Dataset",
     creator = person("Jane", "Doe"),
-    publisher = "Example Inc."
+    publisher = "Example Inc.")
   )
-)
 ```
 
-The `defined` class columns retain the important semantic information about the label, exact definition link, and the unit of measure:
+The `defined()` vectors attach metadata to each column:
 
-```{r varlabel}
-var_label(small_country_dataset$gdp)
+-   `label`: a human-readable name
+
+-   `unit`: an explicit measurement unit
+
+-   `concept`: a URI identifying the concept measured
+
+-   `namespace`: for generating full subject URIs when exporting to RDF
+
+The `dataset_df()` call also allows bibliographic metadata:
+
+-   `dataset_bibentry`: Dublin Core metadata for citation, reuse, and provenance
+
+## Why Units Matter
+
+Many statistical errors begin with a silent assumption about units. In Eurostat data, it's common to see:
+
+-   `EUR`: Euros
+
+-   `MIO_EUR`: Millions of euros
+
+-   `PPS`: Purchasing Power Standards
+
+By making units explicit at the column level, you:
+
+-   Prevent decimal-scale mistakes (e.g., thousands vs millions)
+
+-   Avoid joining or averaging incompatible series
+
+-   Gain confidence in your data exports (CSV, RDF, JSON-LD, etc.)
+
+This is especially important in multi-currency and multi-country datasets such as those published by Eurostat, where harmonization is crucial.
+
+## A Final Structure, Ready for Export
+
+The enriched `dataset_df` object can be serialized to RDF using:
+
+```{r serialisation}
+triples <- dataset_to_triples(small_country_dataset) 
+
+n_triples(mapply(n_triple, triples$s, triples$p, triples$o))
 ```
 
-```{r varunit}
-var_unit(small_country_dataset$gdp)
-```
+This supports export to:
 
-```{r vardefinition}
-var_definition(small_country_dataset$gdp)
-```
+-   **Wikibase** via `wbdataset`
 
-And the `dataset_df` object has the important semantic information about the dataset as a whole, with pre-filled default values for not yet assigned or announced information. The metadata of the entire dataset conforms to the two most universally used definitions, Dublin Core (DCTERMS) and DataCite (DataCite).
+-   **RDF Data Cube** via `datacube`
 
-Each standard Dublinc Core/DataCite metadata field has a simple interface function, for example, you can add the language of the dataset with the following assignment command:
+-   **DataCite or DCAT** metadata formats
 
-```{r language}
-language(small_country_dataset) <- "en"
-```
+This vignette represents the final conceptual structure for `dataset_df` before its rOpenSci submission. Future work will build on this foundation without breaking it.
 
-And to review the descriptive data of the entire dataset as a whole:
+## Summary: Why Use `dataset_df`
 
-```{r bibentry}
-print(get_bibentry(small_country_dataset), "bibtex")
-```
+| Feature            | What It Adds                           |
+|--------------------|----------------------------------------|
+| `label`            | Human-readable variable name           |
+| `unit`             | Explicit unit (e.g., `MIO_EUR`)        |
+| `concept`          | URI identifying what is measured       |
+| `subject`          | Dataset-level topical classification   |
+| `namespace`        | Base URI for RDF subject identifiers   |
+| `dataset_bibentry` | Bibliographic metadata via Dublin Core |
 
-## Wikidata
+The `dataset_df` class is designed to remain fully compatible with the **tidyverse** data workflow, while offering a metadata structure suitable for:
 
-The [wbdataset package](https://wbdataset.dataobservatory.eu/) is an extension of the dataset, which in turn is an R package that helps to exchange, publish and combine datasets more easily by improving their semantics. The *wbdataset* extends the usability of dataset by connecting the Wikibase API with the R statistical environment. It is in an early, exploratory stage, and it is not yet on CRAN.
+-   **Receiving SDMX-style statistical data** into R
 
-```{r install-wbdataset, eval=FALSE}
-devtools::install_github("dataobservatory-eu/wbdataset")
-```
+-   **Exporting semantically meaningful datasets** to DCAT, RDF, or Wikibase
 
-```         
-# Select the following country profiles from Wikidata:
-wikidata_countries <- c(
-  "http://www.wikidata.org/entity/Q756617", "http://www.wikidata.org/entity/Q347",
-  "http://www.wikidata.org/entity/Q3908",   "http://www.wikidata.org/entity/Q1246")
-  
-# Retrieve their labels into a dataset called 'European countries':
-wikidata_countries_df <- get_item(qid = wikidata_countries,
-                                  language ="en",
-                                  title = "European countries",
-                                  creator = person("Daniel", "Antal"))
-                                  
-# Add properties from Wikidata as attributes and variables of this dataset:                             
-ds <- wikidata_countries_df %>%
-  left_join_column( 
-    label = "ISO 3166-1 alpha-2 code", 
-    property = "P297" ) %>%
-  left_join_column( 
-    property = "P1566", 
-    label = "Geonames ID",
-    namespace = "https://www.geonames.org/") 
-    
-```
+-   **Complying with open science repository requirements** (e.g., DataCite, Zenodo)
 
-## Further data platforms
-
-We are planning an extension of the *dataset* package to conform the datacube definition used by statistical data repositories and exchanges, which will require a management of the multi-dimensional datasets and the data structure definition of the Statistical Data and Metadata eXchange. This feature was part of the early release of dataset, but as reviewers pointed out, they were out of focus from the core functionality.
-
-## Serialise to RDF
-
-Our package is aiming to work seamlessly with the rOpenSci [rdflib](https://github.com/ropensci/rdflib) package. For this purpose, we are working on a simple [turtle](https://www.w3.org/TR/turtle/) package that writes the [bibentry](https://dataset.dataobservatory.eu/articles/bibentry.html) about the dataset, and the dataset contents into an RDF-annotated text file, which can be then used or stored with *rdflib*.
-
-The tuRtle package is being co-developed with *dataset*, and will serialise the data and metadata of the `dataset_df` objects.
-
-```{r tuRtle-installation, eval=FALSE}
-remotes::install_github("dataobservatory-eu/tuRtle", build = FALSE)
-```
-
-```{r createdf, eval=FALSE}
-library(tuRtle)
-tdf <- data.frame(
-  s = c("eg:01", "eg:02", "eg:01", "eg:02", "eg:01"),
-  p = c("a", "a", "eg-var:", "eg-var:", "rdfs:label"),
-  o = c(
-    "qb:Observation",
-    "qb:Observation",
-    "\"1\"^^<xs:decimal>",
-    "\"2\"^^<xs:decimal>",
-    '"Example observation"'
-  )
-)
-
-knitr::kable(tdf)
-```
-
-| s     | p          | o                     |
-|:------|:-----------|:----------------------|
-| eg:01 | a          | <qb:Observation>      |
-| eg:02 | a          | <qb:Observation>      |
-| eg:01 | eg-var:    | "1"\^\^<xs:decimal>   |
-| eg:02 | eg-var:    | "2"\^\^<xs:decimal>   |
-| eg:01 | rdfs:label | "Example observation" |
-
-```{r writettl, eval=FALSE}
-example_file <- file.path(tempdir(), "example_ttl.ttl")
-ttl_write(tdf = tdf, ttl_namespace = NULL, file_path = example_file)
-
-readLines(example_file)
-```
+Start tidy. Stay meaningful. Embrace `dataset_df`.

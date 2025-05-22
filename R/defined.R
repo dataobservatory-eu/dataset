@@ -2,7 +2,7 @@
 #' @description
 #' Creates a semantically well-defined vector enriched with metadata.
 #' `defined()` is an S3 constructor that extends numeric or character vectors
-#' with a human-readable label, unit of measurement, linked definition,
+#' with a human-readable label, unit of measurement, linked concept,
 #' and optional namespace. These objects preserve semantics while behaving
 #' like standard vectors in comparisons, printing, and subsetting.
 #'  The \code{defined} constructor creates the objects of this
@@ -14,7 +14,7 @@
 #'
 #' - A **label** (`label`): a short human-readable description
 #' - A **unit** (`unit`): e.g., "kg", "hours", "USD"
-#' - A **definition** (`definition`): a URI or textual reference
+#' - A **concept** (`concept`): a URI or textual reference
 #' - A **namespace** (`namespace`): for URI-based observation or value identifiers
 #'
 #' The class inherits from `haven::labelled`, supports typical vector
@@ -32,15 +32,15 @@
 #' @param label A short, human-readable description of the vector or `NULL`.
 #' @param unit A character string of length one containing the unit of measure
 #'   or `NULL`.
-#' @param definition A character string of length one containing a linked
-#'   definition or `NULL`.
+#' @param concept A character string of length one containing a linked
+#'   concept or `NULL`.
 #' @param namespace A namespace for individual observations or categories or
 #'   `NULL`.
 #' @param ... Further parameters for inheritance, not in use.
 #' @family defined metadata methods and functions
 #' @return The constructor \code{defined} returns a vector with defined value
 #'   labels, a variable label, an optional unit of measurement and linked
-#'   definition.\cr \code{is.defined} returns a logical value, stating if the
+#'   concept.\cr \code{is.defined} returns a logical value, stating if the
 #'   object is of class \code{defined}.
 #' @importFrom haven labelled
 #' @importFrom labelled to_labelled is.labelled
@@ -52,7 +52,7 @@
 #'   c(3897, 7365, 6753),
 #'   label = "Gross Domestic Product",
 #'   unit = "million dollars",
-#'   definition = "http://data.europa.eu/83i/aa/GDP"
+#'   concept = "http://data.europa.eu/83i/aa/GDP"
 #' )
 #'
 #' # To check the s3 class of the vector:
@@ -72,26 +72,48 @@ defined <- function(x,
                     labels = NULL,
                     label = NULL,
                     unit = NULL,
-                    definition = NULL,
+                    concept = NULL,
                     namespace = NULL) {
+  # Catch deprecated `definition` in `...`
+  dots <- list(...)
+  if (!is.null(dots$definition)) {
+    warning("`definition` is deprecated; please use `concept` instead.", call. = FALSE)
+    if (is.null(concept)) {
+      concept <- dots$definition
+    }
+  }
+
   if (is.numeric(x)) {
     x <- vec_data(x)
     labels <- vec_cast_named(labels, x, x_arg = "labels", to_arg = "x")
-    new_labelled_defined(x, labels = labels, label = label, unit = unit, definition = definition, namespace = namespace)
+    new_labelled_defined(x, labels = labels,
+                         label = label,
+                         unit = unit,
+                         concept = concept,
+                         namespace = namespace)
   } else if (is.character(x)) {
-    new_labelled_defined(x, labels = labels, label = label, unit = unit, definition = definition, namespace = namespace)
+    new_labelled_defined(x,
+                         labels = labels,
+                         label = label,
+                         unit = unit,
+                         concept = concept,
+                         namespace = namespace)
   } else if (is.labelled(x)) {
     var_unit(x) <- unit
-    var_definition(x) <- definition
+    var_concept(x) <- concept
     var_namespace(x) <- namespace
     attr(x, "class") <- c("haven_labelled_defined", class(x))
     x
   } else if (inherits(x, "Date")) {
-    new_datetime_defined(x, label = label, unit = unit, definition = definition, namespace = namespace)
+    new_datetime_defined(x,
+                         label = label,
+                         unit = unit,
+                         concept = concept,
+                         namespace = namespace)
   } else if (is.factor(x)) {
     labelled_x <- to_labelled(x)
     var_unit(labelled_x) <- unit
-    var_definition(labelled_x) <- definition
+    var_concept(labelled_x) <- concept
     var_namespace(labelled_x) <- namespace
     attr(labelled_x, "class") <- c("haven_labelled_defined", class(labelled_x))
     class(labelled_x)
@@ -132,14 +154,14 @@ new_labelled_defined <- function(x = double(),
                                  labels = NULL,
                                  label = NULL,
                                  unit = NULL,
-                                 definition = NULL,
+                                 concept = NULL,
                                  namespace = NULL) {
   if (!is.null(unit) && (!is.character(unit) || length(unit) != 1)) {
     stop("defined(..., unit): 'unit' must be a character vector of length one.")
   }
 
-  if (!is.null(definition) && (!is.character(definition) || length(definition) != 1)) {
-    stop("defined(..., defintion): 'definition' must be a character vector of length one or NULL.")
+  if (!is.null(concept) && (!is.character(concept) || length(concept) != 1)) {
+    stop("defined(..., defintion): 'concept' must be a character vector of length one or NULL.")
   }
 
   if (!is.null(label) && (!is.character(label) || length(label) != 1)) {
@@ -153,7 +175,7 @@ new_labelled_defined <- function(x = double(),
   tmp <- haven::labelled(x, labels = labels, label = label)
 
   attr(tmp, "unit") <- unit
-  attr(tmp, "definition") <- definition
+  attr(tmp, "concept") <- concept
   attr(tmp, "namespace") <- namespace
   attr(tmp, "class") <- c("haven_labelled_defined", class(tmp))
 
@@ -165,14 +187,14 @@ new_labelled_defined <- function(x = double(),
 new_datetime_defined <- function(x,
                                  label = NULL,
                                  unit = NULL,
-                                 definition = NULL,
+                                 concept = NULL,
                                  namespace = NULL) {
   if (!is.null(unit) && (!is.character(unit) || length(unit) != 1)) {
     stop("defined(..., unit): 'unit' must be a character vector of length one.")
   }
 
-  if (!is.null(definition) && (!is.character(definition) || length(definition) != 1)) {
-    stop("defined(..., defintion): 'definition' must be a character vector of length one.")
+  if (!is.null(concept) && (!is.character(concept) || length(concept) != 1)) {
+    stop("defined(..., defintion): 'concept' must be a character vector of length one.")
   }
 
   if (!is.null(label) && (!is.character(label) || length(label) != 1)) {
@@ -186,7 +208,7 @@ new_datetime_defined <- function(x,
   tmp <- x
 
   attr(tmp, "unit") <- unit
-  attr(tmp, "definition") <- definition
+  attr(tmp, "concept") <- concept
   attr(tmp, "namespace") <- namespace
   attr(tmp, "class") <- c("datetime_defined", class(tmp))
 
@@ -199,7 +221,7 @@ new_datetime_defined <- function(x,
 #' @export
 `[.haven_labelled_defined` <- function(x, i, ...) {
   result <- NextMethod("[")
-  most_attrs <- c("label", "unit", "definition", "namespace", "labels")
+  most_attrs <- c("label", "unit", "concept", "namespace", "labels")
   for (attr_name in most_attrs) {
     attr(result, attr_name) <- attr(x, attr_name)
   }
@@ -213,7 +235,7 @@ new_datetime_defined <- function(x,
   defined(vec_data(x)[[i]],
     label = var_label(x),
     unit = var_unit(x),
-    definition = var_definition(x),
+    concept = var_concept(x),
     namespace = var_namespace(x),
     labels = attr(x, "labels")
   )
@@ -253,13 +275,13 @@ tail.haven_labelled_defined <- function(x, n = 6L, ...) {
 
 #' @export
 print.haven_labelled_defined <- function(x, ...) {
-  has_def <- !is.null(var_definition(x)) && !is.na(var_definition(x)) && nzchar(var_definition(x))
+  has_def <- !is.null(var_concept(x)) && !is.na(var_concept(x)) && nzchar(var_concept(x))
   has_unit <- !is.null(var_unit(x)) && !is.na(var_unit(x)) && nzchar(var_unit(x))
 
   if (has_def && has_unit) {
-    msg <- paste0("Defined as ", var_definition(x), ", measured in ", var_unit(x))
+    msg <- paste0("Defined as ", var_concept(x), ", measured in ", var_unit(x))
   } else if (has_def) {
-    msg <- paste0("Defined as ", var_definition(x))
+    msg <- paste0("Defined as ", var_concept(x))
   } else if (has_unit) {
     msg <- paste0("Measured in ", var_unit(x))
   } else {
@@ -276,7 +298,7 @@ print.haven_labelled_defined <- function(x, ...) {
 format.haven_labelled_defined <- function(x, ...) {
   base <- format(vec_data(x), ...)
   unit <- var_unit(x)
-  def <- var_definition(x)
+  def <- var_concept(x)
 
   if (!is.null(unit) && nzchar(unit)) {
     suffix <- paste0(" (", unit, ")")
@@ -366,7 +388,7 @@ as.numeric.haven_labelled_defined <- function(x, ...) {
 #' is numeric before coercion.
 #' @details `as_numeric()` allows `preserve_attributes = TRUE` when the
 #'   resulting vector will retain relevant metadata such as the `unit`,
-#'   `definition`, and `namespace` attributes, but it will no longer be of class
+#'   `concept`, and `namespace` attributes, but it will no longer be of class
 #'   `defined`. If `preserve_attributes = FALSE` (default), a plain numeric
 #'   vector is returned with all metadata and class dropped.\cr For
 #'   character-based `defined` vectors, `as_numeric()` will throw an informative
@@ -381,7 +403,7 @@ as_numeric <- function(x, ...) {
 
 #' @rdname as_numeric
 #' @param preserve_attributes Defaults to \code{FALSE}, in which case the
-#' \code{unit}, \code{definition} and \code{namespace} attributes will be
+#' \code{unit}, \code{concept} and \code{namespace} attributes will be
 #' preserved, but the returned value will otherwise become a base R integer,
 #' double or numeric value. If false, then the effect will be similar to
 #' \code{\link{strip_defined}}.
@@ -450,7 +472,7 @@ as_character <- function(x, ...) {
 #' vector to character. It is metadata-aware and ensures that the underlying data
 #' is character before coercion.
 #' @details `as_character()` uses `preserve_attributes = TRUE`, the resulting
-#'   vector will retain relevant metadata such as the `unit`, `definition`, and
+#'   vector will retain relevant metadata such as the `unit`, `concept`, and
 #'   `namespace` attributes, but it will no longer be of class `defined`. If
 #'   `preserve_attributes = FALSE` (default), a plain character vector is
 #'   returned with all metadata and class dropped.\cr\cr For numeric-based
@@ -459,7 +481,7 @@ as_character <- function(x, ...) {
 #'   `as.character()` will give a warning that `as_character()` is the
 #'   preferred method.
 #' @param preserve_attributes Defaults to \code{FALSE}. If set to \code{TRUE},
-#'   in which case the \code{unit}, \code{definition} and \code{namespace}
+#'   in which case the \code{unit}, \code{concept} and \code{namespace}
 #'   attributes will be preserved, but the returned value will otherwise become
 #'   a base R character vector. If false, then the effect will be similar to
 #'   \code{\link{strip_defined}}.
@@ -483,7 +505,7 @@ as_character.haven_labelled_defined <- function(
   tmp <- as.character(vec_data(x))
   if (preserve_attributes) {
     attr(tmp, "unit") <- attr(x, "unit")
-    attr(tmp, "definition") <- attr(x, "definition")
+    attr(tmp, "concept") <- attr(x, "concept")
     attr(tmp, "namespace") <- attr(x, "namespace")
   }
 
@@ -539,7 +561,7 @@ c.haven_labelled_defined <- function(...) {
   var_labels <- unlist(lapply(dots, var_label))
   val_labels <- lapply(dots, function(x) attr(x, "labels"))
   units <- unlist(lapply(dots, var_unit))
-  definitions <- unlist(lapply(dots, definition_attribute))
+  concepts <- unlist(lapply(dots, var_concept))
   namespaces <- unlist(lapply(dots, namespace_attribute))
 
   all.identical <- function(l) all(mapply(identical, head(l, 1), tail(l, -1)))
@@ -552,8 +574,8 @@ c.haven_labelled_defined <- function(...) {
     stop("c.haven_labelled_defined(x,y): x,y must have no unit or the same unit.")
   }
 
-  if (length(unique(as.character(definitions))) > 1) {
-    stop("c.haven_labelled_defined(x,y): x,y must have no definition or the same definition.")
+  if (length(unique(as.character(concepts))) > 1) {
+    stop("c.haven_labelled_defined(x,y): x,y must have no concept definition or the same concept definition.")
   }
 
   if (length(unique(as.character(namespaces))) > 1) {
@@ -567,7 +589,7 @@ c.haven_labelled_defined <- function(...) {
   defined(unname(do.call(c, lapply(dots, function(x) vec_data(x)))),
     label = var_labels[[1]],
     labels = val_labels[[1]],
-    definition = definitions[[1]],
+    concept = concepts[[1]],
     namespace = namespaces[[1]],
     unit = units[[1]]
   )

@@ -18,7 +18,7 @@ as_numeric(x, ...)
 \item{...}{Further arguments passed to internal methods (not used).}
 
 \item{preserve_attributes}{Defaults to \code{FALSE}, in which case the
-\code{unit}, \code{definition} and \code{namespace} attributes will be
+\code{unit}, \code{concept} and \code{namespace} attributes will be
 preserved, but the returned value will otherwise become a base R integer,
 double or numeric value. If false, then the effect will be similar to
 \code{\link{strip_defined}}.}
@@ -39,7 +39,7 @@ is numeric before coercion.
 \details{
 \code{as_numeric()} allows \code{preserve_attributes = TRUE} when the
 resulting vector will retain relevant metadata such as the \code{unit},
-\code{definition}, and \code{namespace} attributes, but it will no longer be of class
+\code{concept}, and \code{namespace} attributes, but it will no longer be of class
 \code{defined}. If \code{preserve_attributes = FALSE} (default), a plain numeric
 vector is returned with all metadata and class dropped.\cr For
 character-based \code{defined} vectors, \code{as_numeric()} will throw an informative

@@ -131,19 +131,19 @@ options(sciphen = 4)
 small_country_dataset <- dataset_df(
   country_name = defined(
     c("AD", "LI"),
-    definition = "http://data.europa.eu/bna/c_6c2bb82d",
+    concept = "http://data.europa.eu/bna/c_6c2bb82d",
     namespace = "https://www.geonames.org/countries/$1/"
   ),
   gdp = defined(
     c(3897, 7365),
     label = "Gross Domestic Product",
     unit = "million dollars",
-    definition = "http://data.europa.eu/83i/aa/GDP"
+    concept = "http://data.europa.eu/83i/aa/GDP"
   ),
   population = defined(
     c(77543, 40015),
     label = "Population",
-    definition = "http://data.europa.eu/bna/c_f2b50efd"
+    concept = "http://data.europa.eu/bna/c_f2b50efd"
   ),
   dataset_bibentry = dublincore(
     creator = person(given = "Jane", family = "Doe"),
@@ -188,15 +188,15 @@ small_country_musicians <- data.frame(
   qid = c("Q275912", "Q116196078"),
   artist_name = defined(
     c("Marta Roure", "wavvyboi"),
-    definition = "https://www.wikidata.org/wiki/Property:P2093"
+    concept = "https://www.wikidata.org/wiki/Property:P2093"
   ),
   location = defined(
     c("Andorra", "Lichtenstein"),
-    definition = "https://www.wikidata.org/wiki/Property:P276"
+    concept = "https://www.wikidata.org/wiki/Property:P276"
   ),
   date_of_birth = defined(
     c(as.Date("1981-01-16"), as.Date("1998-04-28")),
-    definition = "https://www.wikidata.org/wiki/Property:P569"
+    concept = "https://www.wikidata.org/wiki/Property:P569"
   )
 )
 

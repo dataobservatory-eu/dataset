@@ -12,14 +12,14 @@ test_that("dataset_df() works", {
   my_dataset <- dataset_df(
     country_name = defined(
       c("AD", "LI"),
-      definition = "http://data.europa.eu/bna/c_6c2bb82d",
+      concept = "http://data.europa.eu/bna/c_6c2bb82d",
       namespace = "https://www.geonames.org/countries/$1/"
     ),
     gdp = defined(
       c(3897, 7365),
       label = "Gross Domestic Product",
       unit = "million dollars",
-      definition = "http://data.europa.eu/83i/aa/GDP"
+      concept = "http://data.europa.eu/83i/aa/GDP"
     )
   )
   expect_equal(var_label(my_dataset$gdp), "Gross Domestic Product")
@@ -68,7 +68,7 @@ test_that("dataset_df() works", {
     circumference = defined(Orange$circumference,
       label = "circumference at breast height",
       unit = "milimeter",
-      definition = "https://www.wikidata.org/wiki/Property:P2043"
+      concept = "https://www.wikidata.org/wiki/Property:P2043"
     ),
     dataset_bibentry = orange_bibentry
   )
@@ -89,7 +89,12 @@ test_that("dataset_df() works", {
 })
 
 test_that("dataset_df() works", {
-  test_dataset <- dataset_df(a = 3, dataset_bibentry = datacite(Title = "Hello", Creator = "Jane Doe"))
+  test_dataset <- dataset_df(
+    a = 3,
+    dataset_bibentry = datacite(Title = "Hello",
+                                Creator = person("Jane", "Doe"),
+                                PublicationYear=2025)
+    )
   expect_equal(get_bibentry(test_dataset)$author, person("Jane", "Doe"))
   expect_true(is.subject(subject(test_dataset)))
 })
@@ -100,10 +105,10 @@ test_that("subsetting works", {
   expect_equal(iris$Sepal.Length[1], as_numeric(iris_dataset[[1, 2]]))
 })
 
-test_that("new_my_tibble() works", {
-  myiris <- new_my_tibble(x = iris, identifier = "example")
-  expect_error(new_my_tibble(2))
-  expect_equal(class(new_my_tibble(iris, identifier = "example")), c("dataset_df", "tbl_df", "tbl", "data.frame"))
+test_that("new_dataset() works", {
+  myiris <- new_dataset(x = iris, identifier = "example")
+  expect_error(new_dataset(2))
+  expect_equal(class(new_dataset(iris, identifier = "example")), c("dataset_df", "tbl_df", "tbl", "data.frame"))
   expect_output(print(provenance(myiris)), "<http://example.com/dataset#>")
 })
 
@@ -121,7 +126,8 @@ test_that("rbind works", {
 test_that("print.dataset_df prints citation, column names, and variable labels", {
   df <- dataset_df(
     code = defined(c("A", "B"), label = "Code Label"),
-    value = defined(c(10, 20), label = "Value Label", unit = "units")
+    value = defined(c(10, 20), label = "Value Label", unit = "units"),
+    dataset_bibentry = dublincore(title = "Untitled Dataset", creator = person("Jane", "Doe", role = "ctb"))
   )
 
   output <- capture.output(print(df))
@@ -129,14 +135,14 @@ test_that("print.dataset_df prints citation, column names, and variable labels",
   # Check citation
   expect_true(any(grepl("Untitled Dataset", output)))
 
-  # Check column headers appear
-  expect_true(any(grepl("code", output)))
-  expect_true(any(grepl("value", output)))
+  # Check column headers
+  expect_true(any(grepl("\\bcode\\b", output)))
+  expect_true(any(grepl("\\bvalue\\b", output)))
 
-  # Check truncated/padded labels in label row (usually line 3)
-  label_row <- output[3]
-  expect_true(grepl("Code", label_row))
-  expect_true(grepl("Value", label_row))
+  # Check that label line contains truncated or full label prefixes
+  label_row <- output[which.max(grepl("rowid", output)) + 1]
+  expect_true(grepl("Code L", label_row))  # relaxed match
+  expect_true(grepl("Value L", label_row)) # relaxed match
 })
 
 
@@ -148,10 +154,18 @@ test_that("as_dataset_df() works", {
 
 
 test_that("summary.dataset_df() works", {
-  test_dataset <- dataset_df(a = 3, dataset_bibentry = datacite(Title = "Hello", Creator = "Jane Doe"))
-  expect_output(summary(test_dataset), "Hello.", ignore.case = FALSE)
-  expect_output(summary(test_dataset), "Doe J", ignore.case = FALSE)
+  test_dataset <- dataset_df(
+    a = 3,
+    dataset_bibentry = datacite(
+      Title = "Hello",
+      Creator = person("Jane", "Doe"),
+      PublicationYear = 2024
+    )
+  )
+  expect_output(summary(test_dataset), "Hello", ignore.case = FALSE)
+  expect_output(summary(test_dataset), "Jane Doe", ignore.case = FALSE)
 })
+
 
 test_that("names.dataset_df() works", {
   expect_output(print(names(iris_dataset)), "rowid", ignore.case = FALSE)

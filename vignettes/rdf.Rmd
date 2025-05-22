@@ -55,7 +55,7 @@ gdp_vector <- defined(
   c(3897, 7365, 6753),
   label = "Gross Domestic Product",
   unit = "https://rdf.vegdata.no/V440/v440-doc/v440-brudata-owl-doc/unit_MillionUSD.html",
-  definition = "http://data.europa.eu/83i/aa/GDP"
+  concept = "http://data.europa.eu/83i/aa/GDP"
 )
 ```
 

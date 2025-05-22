@@ -28,7 +28,7 @@ The `defined()` constructor enriches a vector by attaching additional attributes
 
 -  A `unit of measurement` (e.g. "million dollars")
 
--  A `definition`, which can be a textual reference or ideally a URI
+-  A `concept`, which can be a textual reference or ideally a URI
 
 -  A `namespace`, which enables the construction of meaningful, resolvable identifiers for values or categories
 
@@ -39,7 +39,7 @@ gdp_1 <- defined(
     c(3897, 7365), 
     label = "Gross Domestic Product", 
     unit = "million dollars", 
-    definition = "http://data.europa.eu/83i/aa/GDP")
+    concept = "http://data.europa.eu/83i/aa/GDP")
 
 cat("The print method:\n")
 print(gdp_1)
@@ -48,7 +48,7 @@ summary(gdp_1)
 ```
 When `summary()` is called on a defined vector, its label and unit (if available) are displayed above the summary statistics.
 
-The `defined()` class extends the attributes of a labelled vector with a unit (of measure), a definition and a namespace. 
+The `defined()` class extends the attributes of a labelled vector with a unit (of measure), a concept definition and a namespace. 
 
 ```{r definedattributes}
 attributes(gdp_1)
@@ -56,8 +56,8 @@ cat("Get the label only: ")
 var_label(gdp_1)
 cat("Get the unit only: ")
 var_unit(gdp_1)
-cat("Get the definition only: ")
-var_definition(gdp_1)
+cat("Get the concept definition only: ")
+var_concept(gdp_1)
 ```
 
 What happens if we try to concatenate a semantically under-specified new vector to the GDP vector?
@@ -97,7 +97,7 @@ var_unit(gdp_2) <- "million dollars"
 
 
 ```{r vardef2}
-var_definition(gdp_2) <- "http://data.europa.eu/83i/aa/GDP"
+var_concept(gdp_2) <- "http://data.europa.eu/83i/aa/GDP"
 ```
 
 With matching metadata, concatenation now succeeds:
@@ -112,7 +112,7 @@ Namespaces allow defined values — such as country codes — to be expanded int
 ```{r country}
 country = defined(c("AD", "LI", "SM"), 
                   label = "Country name", 
-                  definition = "http://data.europa.eu/bna/c_6c2bb82d", 
+                  concept = "http://data.europa.eu/bna/c_6c2bb82d", 
                   namespace = "https://www.geonames.org/countries/$1/")
 ```
 
@@ -159,6 +159,7 @@ Coerce back the labelled country vector to a character vector:
 as_character(country)
 as_character(c(gdp_1, gdp_2))
 ```
+
 And to numeric:
 
 ```{r coerce-num}

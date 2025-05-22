@@ -1,3 +1,10 @@
+# dataset 0.3.4025
+
+- The new `bibrecord()` class is handles is the superclass of the `dublincore` and
+`datacite()` classes; these classes have a new print method.
+- Breaking change: the `definition` metadata field in the `defined()` class is 
+changed to the more understandable `concept` name.
+
 # dataset 0.3.4023
 
 - Changed `iris_df` to `orange_df` in all examples

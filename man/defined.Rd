@@ -11,7 +11,7 @@ defined(
   labels = NULL,
   label = NULL,
   unit = NULL,
-  definition = NULL,
+  concept = NULL,
   namespace = NULL
 )
 
@@ -32,8 +32,8 @@ the values might be labelled.}
 \item{unit}{A character string of length one containing the unit of measure
 or \code{NULL}.}
 
-\item{definition}{A character string of length one containing a linked
-definition or \code{NULL}.}
+\item{concept}{A character string of length one containing a linked
+concept or \code{NULL}.}
 
 \item{namespace}{A namespace for individual observations or categories or
 \code{NULL}.}
@@ -45,13 +45,13 @@ definition or \code{NULL}.}
 \value{
 The constructor \code{defined} returns a vector with defined value
 labels, a variable label, an optional unit of measurement and linked
-definition.\cr \code{is.defined} returns a logical value, stating if the
+concept.\cr \code{is.defined} returns a logical value, stating if the
 object is of class \code{defined}.
 }
 \description{
 Creates a semantically well-defined vector enriched with metadata.
 \code{defined()} is an S3 constructor that extends numeric or character vectors
-with a human-readable label, unit of measurement, linked definition,
+with a human-readable label, unit of measurement, linked concept,
 and optional namespace. These objects preserve semantics while behaving
 like standard vectors in comparisons, printing, and subsetting.
 The \code{defined} constructor creates the objects of this
@@ -64,7 +64,7 @@ semantic metadata:
 \itemize{
 \item A \strong{label} (\code{label}): a short human-readable description
 \item A \strong{unit} (\code{unit}): e.g., "kg", "hours", "USD"
-\item A \strong{definition} (\code{definition}): a URI or textual reference
+\item A \strong{concept} (\code{concept}): a URI or textual reference
 \item A \strong{namespace} (\code{namespace}): for URI-based observation or value identifiers
 }
 
@@ -82,7 +82,7 @@ gdp_vector <- defined(
   c(3897, 7365, 6753),
   label = "Gross Domestic Product",
   unit = "million dollars",
-  definition = "http://data.europa.eu/83i/aa/GDP"
+  concept = "http://data.europa.eu/83i/aa/GDP"
 )
 
 # To check the s3 class of the vector:

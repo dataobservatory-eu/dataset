@@ -23,7 +23,7 @@
 #' \code{\link{dublincore}}.
 #' @param var_labels The long, human readable labels of each variable.
 #' @param units The units of measurement for the measured variables.
-#' @param definitions The linked definitions of the variables, attributes, or constants.
+#' @param concepts The linked concepts of the variables, attributes, or constants.
 #' @param dataset_subject The subject of the dataset, see \code{\link{subject}}.
 #' @param ... The vectors (variables) that should be included in the dataset.
 #' @param x A \code{dataset_df} object for S3 methods.
@@ -36,14 +36,14 @@
 #' my_dataset <- dataset_df(
 #'   country_name = defined(
 #'     c("AD", "LI"),
-#'     definition = "http://data.europa.eu/bna/c_6c2bb82d",
+#'     concept = "http://data.europa.eu/bna/c_6c2bb82d",
 #'     namespace = "https://www.geonames.org/countries/$1/"
 #'   ),
 #'   gdp = defined(
 #'     c(3897, 7365),
 #'     label = "Gross Domestic Product",
 #'     unit = "million dollars",
-#'     definition = "http://data.europa.eu/83i/aa/GDP"
+#'     concept = "http://data.europa.eu/83i/aa/GDP"
 #'   )
 #' )
 #'
@@ -57,7 +57,7 @@ dataset_df <- function(...,
                        identifier = c(eg = "http://example.com/dataset#"),
                        var_labels = NULL,
                        units = NULL,
-                       definitions = NULL,
+                       concepts = NULL,
                        dataset_bibentry = NULL,
                        dataset_subject = NULL) {
   dots <- list(...)
@@ -88,13 +88,13 @@ dataset_df <- function(...,
     dataset_bibentry <- datacite(Title = Title, Creator = Creator, Subject = dataset_subject)
   }
 
-  tmp <- new_my_tibble(
+  tmp <- new_dataset(
     x = tibble::tibble(...),
     identifier = identifier,
     dataset_bibentry = dataset_bibentry,
     var_labels = var_labels,
     units = units,
-    definitions = definitions
+    concepts = concepts
   )
   attr(tmp, "dataset_bibentry") <- dataset_bibentry
   attr(tmp, "subject") <- dataset_subject
@@ -107,7 +107,7 @@ as_dataset_df <- function(df,
                           identifier = c(eg = "http://example.com/dataset#"),
                           var_labels = NULL,
                           units = NULL,
-                          definitions = NULL,
+                          concepts = NULL,
                           dataset_bibentry = NULL,
                           dataset_subject = NULL, ...) {
   dots <- list(...)
@@ -116,27 +116,27 @@ as_dataset_df <- function(df,
     dataset_bibentry <- set_default_bibentry()
   }
 
-  new_my_tibble(df,
+  new_dataset(df,
     identifier = identifier,
     dataset_bibentry = dataset_bibentry,
     var_labels = var_labels,
     units = units,
-    definitions = definitions
+    concepts = concepts
   )
 }
 
 # Developer constructor
 #' @importFrom tibble new_tibble
 #' @keywords internal
-new_my_tibble <- function(x,
+new_dataset <- function(x,
                           add_rowid = TRUE,
                           identifier,
                           dataset_bibentry = NULL,
                           var_labels = NULL,
                           units = NULL,
-                          definitions = NULL) {
+                          concepts = NULL) {
   assertthat::assert_that(is.data.frame(x),
-    msg = "Error: new_my_tibble(x): x is not a data frame"
+    msg = "Error: new_dataset(x): x is not a data frame"
   )
 
   generated_at_time <- Sys.time()

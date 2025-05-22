@@ -10,26 +10,26 @@ iris_dataset <- dataset_df(
   Sepal.Length = defined(eg_iris$Sepal.Length,
     label = "Length of the sepal in cm",
     unit = "centimeter",
-    definition = "https://www.wikidata.org/wiki/Property:P2043"
+    concept = "https://www.wikidata.org/wiki/Property:P2043"
   ),
   Petal.Length = defined(eg_iris$Petal.Length,
     label = "Length of the petal in cm",
     unit = "centimeter",
-    definition = "https://www.wikidata.org/wiki/Property:P2043"
+    concept = "https://www.wikidata.org/wiki/Property:P2043"
   ),
   Sepal.Width = defined(eg_iris$Sepal.Width,
     label = "Width of the sepal in cm",
     unit = "centimeter",
-    definition = "https://www.wikidata.org/wiki/Property:P2049"
+    concept = "https://www.wikidata.org/wiki/Property:P2049"
   ),
   Petal.Width = defined(eg_iris$Petal.Width,
     label = "Width of the petal in cm",
     unit = "centimeter",
-    definition = "https://www.wikidata.org/wiki/Property:P2049"
+    concept = "https://www.wikidata.org/wiki/Property:P2049"
   ),
   Species = defined(eg_iris$Species,
     label = "Taxon name within the Iris genus",
-    definition = "https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomygenus?id=6074",
+    concept = "https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomygenus?id=6074",
     namespace = "Iris"
   ),
   dataset_bibentry = dublincore(
