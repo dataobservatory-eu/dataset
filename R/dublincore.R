@@ -181,6 +181,14 @@ dublincore <- function(
     description = NULL,
     coverage = NULL) {
 
+  if (missing(creator) || is.null(creator)) {
+    stop("dublincore(): A valid `creator` (as person or list of person) is required.")
+  }
+  if (inherits(creator, "person")) {
+    creator <- list(creator)
+  }
+  creators <- normalize_roles(creator, default_role = "cre")
+
   dataset_date <- ifelse(is.null(dataset_date), ":tba", as.character(dataset_date))
   identifier <- ifelse(is.null(identifier), ":tba", as.character(identifier))
   format <- ifelse(is.null(format), ":tba", as.character(format))
@@ -190,20 +198,21 @@ dublincore <- function(
   coverage <- ifelse(is.null(coverage), ":unas", as.character(coverage))
   datasource <- ifelse(is.null(datasource), ":unas", as.character(datasource))
   publishers <- if (is.null(publisher)) ":unas" else publisher
-  contributor <- if (is.null(contributor)) NULL else fix_contributor(contributor)
-  creators <- if (is.null(creator)) creators <- ":tba" else creators <- creator
+  contributor <- if (is.null(contributor)) NULL else contributor
+    creators <- if (is.null(creator)) creators <- ":tba" else creators <- creator
 
   publisher <- fix_publisher(publishers = publishers)
 
   new_dublincore(
     title = title,
-    creator = creators,
+    creators = creators,
     identifier = identifier,
     publisher = publisher,
     subject = subject,
     type = type,
     contributor = contributor,
     dataset_date = dataset_date,
+    year = year,
     language = language,
     relation = relation,
     format = format,
@@ -215,7 +224,8 @@ dublincore <- function(
 }
 
 #' @keywords internal
-dublincore_to_triples <- function(dclist, dataset_id) {
+dublincore_to_triples <- function(dclist,
+                                  dataset_id = "http://example.com/dataset") {
   if (is.null(dclist) || is.null(dclist$title) || nchar(dclist$title) == 0) {
     stop("Error: dublincore_to_triples(dclist, dataset_id): no title found in dclist")
   }
@@ -305,9 +315,7 @@ dublincore_to_triples <- function(dclist, dataset_id) {
     ))
   }
 
-
-
-  if (!is.null(dclist$coverage)) {
+    if (!is.null(dclist$coverage)) {
     dctriples <- c(dctriples, n_triple(
       dataset_id,
       "http://purl.org/dc/terms/coverage",
@@ -317,15 +325,19 @@ dublincore_to_triples <- function(dclist, dataset_id) {
   n_triples(dctriples)
 }
 
+
+
+
 #' @keywords internal
 new_dublincore <- function(title,
-                           creator,
+                           creators,
                            identifier = NULL,
                            publisher = NULL,
                            subject = NULL,
                            type = "DCMITYPE:Dataset",
                            contributor = NULL,
                            dataset_date = NULL,
+                           year = NULL,
                            language = NULL,
                            relation = NULL,
                            format = NULL,
@@ -334,71 +346,26 @@ new_dublincore <- function(title,
                            description = NULL,
                            coverage = NULL) {
 
-  # Create year from dataset_date
-  if (!is.null(dataset_date)) {
-    year <- substr(as.character(dataset_date), 1, 4)
-  } else {
-    year <- NA_character_
-  }
+  year <- if (!is.null(dataset_date)) substr(as.character(dataset_date), 1, 4) else NULL
 
-  if (inherits(creator, "list")) {
-    warning("list", creator)
-    for (i in seq_along(creator)) {
-      if (i == 1) {
-        message(i)
-        creator <- person(
-          given = creator[[i]]$given,
-          middle = creator[[i]]$middle,
-          family = creator[[i]]$family,
-          email = creator[[i]]$email,
-          role = creator[[i]]$role,
-          comment = creator[[i]]$comment,
-          first = creator[[i]]$first,
-          last = creator[[i]]$last
-        )
-      } else {
-        mesage(i)
-        tmp <- person(
-          given = creator[[i]]$given,
-          middle = creator[[i]]$middle,
-          family = creator[[i]]$family,
-          email = creator[[i]]$email,
-          role = creator[[i]]$role,
-          comment = creator[[i]]$comment,
-          first = creator[[i]]$first,
-          last = creator[[i]]$last
-        )
-        creator <- c(creator, tmp)
-      }
-    }
-
-    warning("\n", class(creator))
-  }
-
-  assertthat::assert_that(all(inherits(creator, "person")))
-
-  dublincore_object <- utils::bibentry(
-    bibtype = "Misc",
+  dublincore_object <- bibrecord(
     title = title,
-    author = creator,
-    year = year,
+    author = creators,
     identifier = identifier,
     publisher = publisher,
+    subject = subject,
+    type = type,
     contributor = contributor,
     date = dataset_date,
+    year = year,
     language = language,
     relation = relation,
     format = format,
     rights = rights,
-    description = description,
-    type = type,
     datasource = datasource,
+    description = description,
     coverage = coverage
   )
-
-  assertthat::assert_that(!is.null(dublincore_object$author))
-  assertthat::assert_that(inherits(dublincore_object$author, "person"))
-
   class(dublincore_object) <- c("dublincore", class(dublincore_object))
   dublincore_object
 }
@@ -414,3 +381,26 @@ is.dublincore <- function(x) {
 #' Dublin Core specification.
 #' @exportS3Method
 is.dublincore.dublincore <- function(x) inherits(x, "dublincore")
+
+
+#' @exportS3Method
+print.dublincore <- function(x, ...) {
+  cat("Dublin Core Metadata Record\n")
+  cat("───────────────────────────\n")
+  cat("Title:       ", x$title, "\n")
+  cat("Creator(s):  ", paste(format(x$author), collapse = "; "), "\n")
+
+  contributor <- attr(x, "contributor")
+  if (!is.null(contributor)) {
+    cat("Contributor(s): ", fix_contributor(contributor), "\n")
+  }
+
+  if (!is.null(x$publisher)) cat("Publisher:   ", x$publisher, "\n")
+  if (!is.null(x$year))      cat("Year:        ", x$year, "\n")
+  if (!is.null(x$language))  cat("Language:    ", x$language, "\n")
+  if (!is.null(x$description)) cat("Description: ", x$description, "\n")
+
+  invisible(x)
+}
+
+

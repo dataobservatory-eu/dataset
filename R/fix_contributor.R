@@ -22,7 +22,7 @@
 #' }
 #' @keywords internal
 fix_contributor <- function(contributors = NULL) {
-  if (is.null(contributors) || (is.character(contributors) && contributors == ":unas")) {
+  if (is.null(contributors) || (is.character(contributors) && length(contributors) == 1 && contributors[[1]] == ":unas")) {
     return(":unas")
   }
 
@@ -32,7 +32,6 @@ fix_contributor <- function(contributors = NULL) {
   } else if (is.list(contributors) && all(vapply(contributors, function(p) inherits(p, "person"), logical(1)))) {
     contributors_list <- contributors
   } else {
-    warning("fix_contributor(): Invalid input. Must be a 'person' object, list of 'person', or the string ':unas'. Returning ':unas'.")
     return(":unas")
   }
 

@@ -149,6 +149,15 @@ datacite <- function(Title,
                      Description = ":tba",
                      Geolocation = ":unas",
                      FundingReference = ":unas") {
+
+  if (is.null(PublicationYear)) {
+    if (!is.null(Date) && grepl("^\\d{4}", as.character(Date))) {
+      PublicationYear <- substr(as.character(Date), 1, 4)
+    } else {
+      PublicationYear <- ":tba"
+    }
+  }
+
   Date <- ifelse(is.null(DateList), ":tba", as.character(Date))
   DateList <- ifelse(is.null(DateList), ":tba", as.character(DateList))
   Format <- ifelse(is.null(Format), ":tba", as.character(Format))
@@ -179,6 +188,7 @@ datacite <- function(Title,
     Geolocation = Geolocation,
     FundingReference = FundingReference
   )
+
 }
 
 
@@ -202,21 +212,14 @@ new_datacite <- function(Title,
                          Description,
                          Geolocation,
                          FundingReference) {
-  #' Create year from Date
-  if (!is.null(Date)) {
-    year <- substr(as.character(Date), 1, 4)
-  } else {
-    year <- NA_character_
-  }
 
   datacite_object <- bibentry(
     bibtype = "Misc",
     title = Title,
     author = Creator,
-    year = year,
+    year = as.character(PublicationYear),
     identifier = Identifier,
     publisher = Publisher,
-    year = PublicationYear,
     date = Date,
     language = Language,
     subject = Subject$term,
@@ -229,6 +232,11 @@ new_datacite <- function(Title,
     geolocation = Geolocation,
     fundingreference = FundingReference
   )
+
+  # Store contributor as structured attribute
+  if (!is.null(Contributor)) {
+    attr(datacite_object, "contributor") <- Contributor
+  }
 
   class(datacite_object) <- c("datacite", class(datacite_object))
   datacite_object
@@ -367,3 +375,83 @@ is.datacite <- function(x) {
 #' @param x An object that is tested if it has a class "datacite".
 #' @exportS3Method
 is.datacite.datacite <- function(x) inherits(x, "datacite")
+
+#' @exportS3Method
+print.datacite <- function(x, ...) {
+  cat("DataCite Metadata Record\n")
+  cat("─────────────────────────\n")
+  cat("Title:        ", x$title, "\n")
+  cat("Creator(s):   ", paste(format(x$author), collapse = "; "), "\n")
+
+  contributor <- attr(x, "contributor")
+  if (!is.null(contributor)) {
+    cat("Contributor(s):", fix_contributor(contributor), "\n")
+  }
+
+  if (!is.null(x$identifier)) cat("Identifier:   ", x$identifier, "\n")
+  if (!is.null(x$publisher))  cat("Publisher:    ", x$publisher, "\n")
+  if (!is.null(x$year))       cat("Year:         ", x$year, "\n")
+  if (!is.null(x$language))   cat("Language:     ", x$language, "\n")
+  if (!is.null(x$description)) cat("Description: ", x$description, "\n")
+
+  invisible(x)
+}
+
+#' @keywords internal
+datacite_to_triples <- function(dc_list, dataset_id = "http://example.com/dataset") {
+  if (is.null(dc_list$title) || nchar(dc_list$title) == 0) {
+    stop("datacite_to_triples(): title is required")
+  }
+
+  base <- "http://datacite.org/schema/kernel-4/"
+  triples <- character()
+
+  triples <- c(triples, n_triple(dataset_id, paste0(base, "title"), dc_list$title))
+
+  if (!is.null(dc_list$creator)) {
+    triples <- c(triples, n_triple(dataset_id, paste0(base, "creator"), dc_list$creator))
+  }
+
+  if (!is.null(dc_list$contributor)) {
+    triples <- c(triples, n_triple(dataset_id, paste0(base, "contributor"), dc_list$contributor))
+  }
+
+  if (!is.null(dc_list$identifier)) {
+    triples <- c(triples, n_triple(dataset_id, paste0(base, "identifier"), dc_list$identifier))
+  }
+
+  if (!is.null(dc_list$publisher)) {
+    triples <- c(triples, n_triple(dataset_id, paste0(base, "publisher"), dc_list$publisher))
+  }
+
+  if (!is.null(dc_list$publicationyear)) {
+    triples <- c(triples, n_triple(dataset_id, paste0(base, "publicationYear"), dc_list$publicationyear))
+  }
+
+  if (!is.null(dc_list$language)) {
+    triples <- c(triples, n_triple(dataset_id, paste0(base, "language"), dc_list$language))
+  }
+
+  if (!is.null(dc_list$rights)) {
+    triples <- c(triples, n_triple(dataset_id, paste0(base, "rights"), dc_list$rights))
+  }
+
+  if (!is.null(dc_list$description)) {
+    triples <- c(triples, n_triple(dataset_id, paste0(base, "descriptions"), dc_list$description))
+  }
+
+  if (!is.null(dc_list$subject)) {
+    triples <- c(triples, n_triple(dataset_id, paste0(base, "subjects"), dc_list$subject))
+  }
+
+  if (!is.null(dc_list$format)) {
+    triples <- c(triples, n_triple(dataset_id, paste0(base, "formats"), dc_list$format))
+  }
+
+  if (!is.null(dc_list$version)) {
+    triples <- c(triples, n_triple(dataset_id, paste0(base, "version"), dc_list$version))
+  }
+
+  n_triples(triples)
+}
+
