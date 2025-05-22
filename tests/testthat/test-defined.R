@@ -189,7 +189,7 @@ test_that("labelled_defined() throws error", {
   expect_error(defined(
     x = iris$Species,
     label = "Taxon name within the Iris genus",
-    definition = 1,
+    concept = 1,
     concept = "Iris"
   ))
   expect_error(defined(
@@ -209,7 +209,7 @@ test_that("new_datetime_defined() throws errors", {
   expect_error(defined(
     x = Sys.Date(),
     label = c("Today's date", "Extra label"),
-    definition = 1,
+    concept = 1,
     namespace = "Iris"
   ))
   expect_error(defined(
@@ -221,7 +221,7 @@ test_that("new_datetime_defined() throws errors", {
   expect_error(defined(
     x = Sys.Date(),
     label = "Today's date",
-    definition = 1,
+    concept = 1,
     namespace = "Iris"
   ))
   expect_error(defined(

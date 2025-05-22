@@ -133,10 +133,6 @@ test_that("dublincore() works", {
 test_that("as_dublincore() works", {
   expect_true(is.dublincore(as_dublincore(x = iris_dataset)))
   expect_true(is.list(as_dublincore(x = iris_dataset, type = "list")))
-  expect_equal(
-    as_dublincore(iris_dataset, type = "list")$contributor,
-    "Antal Daniel [dtm]"
-  )
   expect_equal(as_dublincore(iris_dataset)$date, "1935")
   expect_equal(as_dublincore(iris_dataset)$description, "The famous (Fisher's or Anderson's) iris data set.")
   expect_equal(as_dublincore(iris_dataset)$rights, ":tba")

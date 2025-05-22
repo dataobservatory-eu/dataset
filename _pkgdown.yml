@@ -36,7 +36,7 @@ articles:
      Enriching metadata about the dataset as a whole, potential extensions.
     contents:
        - dataset_df
-       - bibentry
+       - bibrecord
   - title: "Semantic Enrichment of Variables"
     desc: >
      Enriching metadata about individual variables.
@@ -64,12 +64,13 @@ reference:
       - defined
       - var_label
       - var_unit
-      - var_definition
+      - var_concept
       - var_namespace
       - as_numeric
       - as_character
       - as_factor
       - strip_defined
+      - get_variable_concepts
       - c.haven_labelled_defined
   - title: "Describe"
     desc: >
@@ -82,6 +83,7 @@ reference:
       Functions to add and retain bibliographical data about the whole dataset, not its
       individual columns only.
     contents:
+      - bibrecord
       - datacite
       - dublincore
       - creator

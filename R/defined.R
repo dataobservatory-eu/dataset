@@ -75,8 +75,6 @@ defined <- function(x,
                     concept = NULL,
                     namespace = NULL,
                     ...) {
-
-  # Handle deprecated argument
   dots <- list(...)
   if (!is.null(dots$definition)) {
     warning("`definition` is deprecated; please use `concept` instead.", call. = FALSE)
@@ -85,48 +83,58 @@ defined <- function(x,
     }
   }
 
+  if (!is.null(unit) && (!is.character(unit) || length(unit) != 1)) {
+    stop("`unit` must be a single character string or NULL", call. = FALSE)
+  }
+  if (!is.null(namespace) && (!is.character(namespace) || is.null(names(namespace)) && length(namespace) != 1)) {
+    stop("`namespace` must be a named character vector or a single string", call. = FALSE)
+  }
+
   if (is.numeric(x)) {
-    x <- vec_data(x)
+    x <- vctrs::vec_data(x)
     labels <- vec_cast_named(labels, x, x_arg = "labels", to_arg = "x")
-    new_labelled_defined(x, labels = labels,
-                         label = label,
-                         unit = unit,
-                         concept = concept,
-                         namespace = namespace)
+    return(new_labelled_defined(x, labels = labels,
+                                label = label,
+                                unit = unit,
+                                concept = concept,
+                                namespace = namespace))
+  }
 
-  } else if (is.character(x)) {
-    new_labelled_defined(x,
-                         labels = labels,
-                         label = label,
-                         unit = unit,
-                         concept = concept,
-                         namespace = namespace)
+  if (is.character(x)) {
+    return(new_labelled_defined(x,
+                                labels = labels,
+                                label = label,
+                                unit = unit,
+                                concept = concept,
+                                namespace = namespace))
+  }
 
-  } else if (is.labelled(x)) {
-    var_unit(x) <- unit
-    var_concept(x) <- concept
-    var_namespace(x) <- namespace
-    attr(x, "class") <- c("haven_labelled_defined", class(x))
-    x
+  if (inherits(x, "Date")) {
+    return(new_datetime_defined(x,
+                                label = label,
+                                unit = unit,
+                                concept = concept,
+                                namespace = namespace))
+  }
 
-  } else if (inherits(x, "Date")) {
-    new_datetime_defined(x,
-                         label = label,
-                         unit = unit,
-                         concept = concept,
-                         namespace = namespace)
-
-  } else if (is.factor(x)) {
+  if (is.factor(x)) {
     labelled_x <- to_labelled(x)
     var_unit(labelled_x) <- unit
     var_concept(labelled_x) <- concept
     var_namespace(labelled_x) <- namespace
-    attr(labelled_x, "class") <- c("haven_labelled_defined", class(labelled_x))
-    labelled_x
-
-  } else {
-    stop("`defined()` is not implemented for objects of class: ", paste(class(x), collapse = ", "), call. = FALSE)
+    class(labelled_x) <- c("haven_labelled_defined", class(labelled_x))
+    return(labelled_x)
   }
+
+  if (is.labelled(x)) {
+    var_unit(x) <- unit
+    var_concept(x) <- concept
+    var_namespace(x) <- namespace
+    class(x) <- c("haven_labelled_defined", class(x))
+    return(x)
+  }
+
+  stop("Unsupported input type to defined().", call. = FALSE)
 }
 
 
