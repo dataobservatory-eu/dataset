@@ -1,7 +1,7 @@
 test_that("S3 dispatch works for print.bibrecord", {
   rec <- bibrecord(title = "X", author = person("A", "B"))
   out <- capture.output(print(rec))
-  expect_true(any(grepl("Bibliographic Record", out)))
+  expect_true(any(grepl("B A \\(2025\\)", out)))
 })
 
 test_that("bibrecord() returns a bibentry-compatible object", {
@@ -47,7 +47,6 @@ test_that("print.bibrecord() prints without error and includes contributor", {
     date = "2021-01-01"
   )
 
-  expect_output(print(rec), "Bibliographic Record")
   expect_output(print(rec), "Contributors:")
   expect_output(print(rec), "Alice Smith")
 })

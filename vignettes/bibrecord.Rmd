@@ -70,7 +70,7 @@ rec <- bibrecord(
 print(rec)
 ```
 
-This prints both the base citation and the contributors, clearly labeled.
+This prints both the base citation and the contributors, clearly labelled.
 
 ## Compatibility with Existing Infrastructure
 

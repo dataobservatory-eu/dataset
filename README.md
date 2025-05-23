@@ -26,7 +26,7 @@ coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](htt
 The `dataset` package provides tools to create semantically rich and
 interoperable datasets in R. It improves metadata handling by
 introducing new S3 classes—`defined()`, `dataset_df()`, and
-`bibrecord()`—that enhance the behavior of `labelled`, `tibble`, and
+`bibrecord()`—that enhance the behaviour of `labelled`, `tibble`, and
 `bibentry` objects to meet the requirements of:
 
 - **Statistical Data and Metadata eXchange (SDMX)** standards,

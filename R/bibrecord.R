@@ -1,10 +1,14 @@
 #' @title Create a modern bibrecord-compatible metadata object
-#' @description Create a `utils::bibentry`-compatible object extended with standard Dublin Core and DataCite-compatible fields.
-#' This serves as a unified metadata structure for use in both `dublincore()` and `datacite()` functions.
+#' @description Create a `utils::bibentry`-compatible object extended with
+#'   standard Dublin Core and DataCite-compatible fields. This serves as a
+#'   unified metadata structure for use in both `dublincore()` and `datacite()`
+#'   functions.
 #'
 #' @param title A character string, the dataset title.
-#' @param author A list or vector of `utils::person` objects. Mapped to `creator` in DataCite and DCTERMS.
-#' @param contributor Optional list/vector of `utils::person`. Contributor roles are merged if repeated.
+#' @param author A list or vector of `utils::person` objects. Mapped to
+#'   `creator` in DataCite and DCTERMS.
+#' @param contributor Optional list/vector of `utils::person`. Contributor roles
+#'   are merged if repeated.
 #' @param publisher Character string or `person`. The publishing entity.
 #' @param year Publication year. Derived from `date` if not explicitly provided.
 #' @param date A character string or `Date` object.
@@ -12,12 +16,10 @@
 #' @param subject Optional keyword(s) or controlled vocabulary string.
 #' @param ... Additional fields (e.g., language, format, rights, description).
 #' @importFrom utils bibentry
-#' @return An object of class `bibrecord` and `bibentry`.
-#' bibrecord(title = "Gross domestic product, volumes",
-#'           author = person("Eurosat"),
-#'           publisher = person("Eurostat"),
-#'           identifier = "https://doi.org/10.2908/TEINA011",
-#'           date = as.Date("2025-05-20"))
+#' @return An object of class `bibrecord` and `bibentry`. bibrecord(title =
+#'   "Gross domestic product, volumes", author = person("Eurosat"), publisher =
+#'   person("Eurostat"), identifier = "https://doi.org/10.2908/TEINA011", date =
+#'   as.Date("2025-05-20"))
 #' @export
 bibrecord <- function(
     title,

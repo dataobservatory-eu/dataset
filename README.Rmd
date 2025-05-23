@@ -24,7 +24,7 @@ rlang::check_installed("here")
 
 # dataset: Semantic Metadata for Datasets in R
 
-The `dataset` package provides tools to create semantically rich and interoperable datasets in R. It improves metadata handling by introducing new S3 classes—`defined()`, `dataset_df()`, and `bibrecord()`—that enhance the behavior of `labelled`, `tibble`, and `bibentry` objects to meet the requirements of:
+The `dataset` package provides tools to create semantically rich and interoperable datasets in R. It improves metadata handling by introducing new S3 classes—`defined()`, `dataset_df()`, and `bibrecord()`—that enhance the behaviour of `labelled`, `tibble`, and `bibentry` objects to meet the requirements of:
 
 -   **Statistical Data and Metadata eXchange (SDMX)** standards,
 -   **Open Science** metadata practices,
