@@ -37,6 +37,11 @@ bibrecord(
 }
 \value{
 An object of class \code{bibrecord} and \code{bibentry}.
+bibrecord(title = "Gross domestic product, volumes",
+author = person("Eurosat"),
+publisher = person("Eurostat"),
+identifier = "https://doi.org/10.2908/TEINA011",
+date = as.Date("2025-05-20"))
 }
 \description{
 Create a \code{utils::bibentry}-compatible object extended with standard Dublin Core and DataCite-compatible fields.

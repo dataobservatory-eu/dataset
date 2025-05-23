@@ -10,9 +10,6 @@
 \alias{var_label<-.dataset_df}
 \title{Get / Set a variable label}
 \usage{
-var_label(x)
-var_label(x) <- value
-
 \method{var_label}{defined}(x, ...)
 
 \method{var_label}{dataset_df}(
@@ -34,14 +31,14 @@ var_label(x) <- value
 \arguments{
 \item{x}{a vector or a data.frame}
 
-\item{...}{Further potential parameters reserved for inherited classes.}
+\item{...}{Further arguments passed to or used by methods.}
 
 \item{unlist}{for data frames, return a named vector instead of a list}
 
 \item{null_action}{for data frames, by default \code{NULL} will be returned for
-columns with no variable label. Use \code{"fill"} to populate with the column name
-instead, \code{"skip"} to remove such values from the returned list, \code{"na"} to
-populate with \code{NA} or \code{"empty"} to populate with an empty string (\code{""}).}
+columns with no variable label. Use "fill" to populate with the column name
+instead, "skip" to remove such values from the returned list, "na" to
+populate with \code{NA} or "empty" to populate with an empty string (\code{""}).}
 
 \item{recurse}{if \code{TRUE}, will apply \code{var_label()} on packed columns
 (see \code{\link[tidyr:pack]{tidyr::pack()}}) to return the variable labels of each sub-column;
@@ -52,11 +49,10 @@ For data frames, with \code{var_labels()}, it could also be a named list or a
 character vector of same length as the number of columns in \code{x}.}
 }
 \value{
-\code{var_label()} returns returns the \code{label} attribute as a character
-string.
-The \code{var_label<-}
-assignment method allows to add, remove, or overwrite this attribute on a vector
-\code{x}. The assignment function returns the \code{x} vector invisibly.
+\code{var_label()} returns the \code{label} attribute as a character
+string. The \code{var_label<-} assignment method allows to add, remove, or
+overwrite this attribute on a vector \code{x}. The assignment function returns
+the \code{x} vector invisibly.
 }
 \description{
 Add a human readable, easier to understand label as a metadata attribute to a
@@ -77,6 +73,7 @@ var_label(orange_df$circumference)
 
 # To (re)set the label attribute:
 `var_label<-`(orange_df$circumference, "circumference (breast height)")
+
 }
 \seealso{
 Other defined metadata methods and functions: 

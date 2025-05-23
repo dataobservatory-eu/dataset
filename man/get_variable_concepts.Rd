@@ -16,3 +16,6 @@ A named list of concept URIs for each variable.
 Returns a named list of concept URIs (or NULLs) for all
 variables.
 }
+\examples{
+get_variable_concepts(orange_df)
+}

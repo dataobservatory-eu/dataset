@@ -29,24 +29,23 @@ Roxygen: list(markdown = TRUE)
 LazyData: true
 Imports: 
     assertthat,
-    datasets,
     haven,
     ISOcodes,
     labelled,
-    methods,
     pillar,
-    RefManageR,
     rlang,
     tibble,
     utils,
     vctrs
 RoxygenNote: 7.3.2
 Suggests: 
+    dplyr,
     jsonld,
     knitr,
     rdflib,
     rmarkdown,
     spelling,
+    tidyr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Depends: 

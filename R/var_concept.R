@@ -72,6 +72,7 @@ var_concept.default <- function(x, ...) {
 #'   variables.
 #' @param x A `dataset_df` object.
 #' @return A named list of concept URIs for each variable.
+#' @examples get_variable_concepts(orange_df)
 #' @export
 get_variable_concepts <- function(x) {
   if (!is.dataset_df(x)) {

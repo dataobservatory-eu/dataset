@@ -64,3 +64,4 @@ test_that("bibrecord() works without contributor field", {
   expect_null(attr(rec, "contributor"))
   expect_output(print(rec), "Doe J")
 })
+
