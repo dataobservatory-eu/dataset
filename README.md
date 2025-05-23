@@ -58,7 +58,8 @@ An extended version of `labelled()` vectors. Adds support for:
 
 This ensures that, for example, “GDP” is always associated with a
 precise concept and unit, avoiding ambiguity across analyses and
-publications.
+publications. See [Semantically Enriched Vectors with
+`defined()`](https://dataset.dataobservatory.eu/articles/defined.html)
 
 ### `bibrecord()`
 
@@ -71,7 +72,9 @@ An extension of R’s built-in `bibentry()` class, with support for:
 
 This makes it easier to produce citations and metadata suitable for
 repositories like [Zenodo](https://zenodo.org/) or
-[Dataverse](https://dataverse.org/).
+[Dataverse](https://dataverse.org/). See more in the [Modernising
+Citation Metadata in R: Introducing
+`bibrecord`](https://dataset.dataobservatory.eu/articles/bibrecord.html)
 
 ### `dataset_df()`
 
@@ -83,6 +86,9 @@ A semantic wrapper around `data.frame` or `tibble`, aligning with SDMX’s
 - Datasets can carry complete metadata inline (title, creator,
   description, etc.)
 - Output can be serialized to linked data formats (N-Triples, RDF, etc.)
+
+See more in the [Why Semantics Matter for R Data
+Frames](https://dataset.dataobservatory.eu/articles/dataset_df.html)
 
 ## Why Use This?
 
@@ -117,7 +123,9 @@ summary(my_data)
 
 We welcome contributions and discussion!
 
-- Please see our [CONTRIBUTING.md](CONTRIBUTING.md) guide.
+- Please see our
+  [CONTRIBUTING.md](https://github.com/dataobservatory-eu/dataset/blob/main/CONTRIBUTING.md)
+  guide.
 - Ideas, bug reports, and feedback are welcome via [GitHub
   issues](https://github.com/dataobservatory-eu/dataset/issues).
 
