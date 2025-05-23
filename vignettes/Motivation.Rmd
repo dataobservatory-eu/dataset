@@ -177,7 +177,7 @@ This early intervention:
 
 -   Enables integration with packages like `frictionless`, `dataspice`, or `rdflib` (the latter two are intended for deep future integration)
 
-This design aligns with the [European Interoperability Framework (EIF)](https://ec.europa.eu/isa2/eif_en), which outlines four levels of interoperability:
+This design aligns with the [European Interoperability Framework (EIF)](https://ec.europa.eu/isa2/eif_en/), which outlines four levels of interoperability:
 
 1.  Legal
 
