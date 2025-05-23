@@ -159,7 +159,8 @@
 #'   dataset_date = 1998,
 #'   identifier = "https://doi.org/10.5281/zenodo.14917851",
 #'   language = "en",
-#'   description = "The Orange data frame has 35 rows and 3 columns of records of the growth of orange trees."
+#'   description = "The Orange data frame has 35 rows and 3 columns\n
+#'                  of records of the growth of orange trees."
 #' )
 #'
 #' # To review the existing dataset_bibentry of a dataset_df object:

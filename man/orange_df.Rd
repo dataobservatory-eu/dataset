@@ -17,8 +17,8 @@ Models in S and S-PLUS, Springer.
 orange_df
 }
 \description{
-The Orange data frame has 35 rows and 3 columns of records of
-the growth of orange trees. This is a replication of
+The Orange data frame has 35 rows and 3 columns of records of\cr
+the growth of orange trees. This is a replication of\cr
 \code{datasets::\link[datasets]{Orange}} as \emph{dataset_df} s3 class.
 }
 \details{
