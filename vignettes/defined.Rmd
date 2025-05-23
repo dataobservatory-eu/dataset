@@ -2,7 +2,7 @@
 title: "Semantically Enriched Vectors with `defined()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Semantically Enriched Vectors with defined()}
+  %\VignetteIndexEntry{Semantically Enriched Vectors with `defined()`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
