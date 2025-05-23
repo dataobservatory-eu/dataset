@@ -379,7 +379,7 @@ is.datacite.datacite <- function(x) inherits(x, "datacite")
 #' @exportS3Method
 print.datacite <- function(x, ...) {
   cat("DataCite Metadata Record\n")
-  cat("─────────────────────────\n")
+  cat("--------------------------\n")
   cat("Title:        ", x$title, "\n")
   cat("Creator(s):   ", paste(format(x$author), collapse = "; "), "\n")
 

@@ -184,9 +184,10 @@ dublincore <- function(
   if (missing(creator) || is.null(creator)) {
     stop("dublincore(): A valid `creator` (as person or list of person) is required.")
   }
+
   if (inherits(creator, "person")) {
-    creator <- list(creator)
-  }
+    creator <- list(creator)  }
+
   creators <- normalize_roles(creator, default_role = "cre")
 
   dataset_date <- ifelse(is.null(dataset_date), ":tba", as.character(dataset_date))
@@ -199,7 +200,8 @@ dublincore <- function(
   datasource <- ifelse(is.null(datasource), ":unas", as.character(datasource))
   publishers <- if (is.null(publisher)) ":unas" else publisher
   contributor <- if (is.null(contributor)) NULL else contributor
-    creators <- if (is.null(creator)) creators <- ":tba" else creators <- creator
+  creators <- if (is.null(creator)) creators <- ":tba" else creators <- creator
+  year <- if (!is.null(dataset_date)) substr(as.character(dataset_date), 1, 4) else NULL
 
   publisher <- fix_publisher(publishers = publishers)
 
@@ -386,7 +388,7 @@ is.dublincore.dublincore <- function(x) inherits(x, "dublincore")
 #' @exportS3Method
 print.dublincore <- function(x, ...) {
   cat("Dublin Core Metadata Record\n")
-  cat("───────────────────────────\n")
+  cat("--------------------------\n")
   cat("Title:       ", x$title, "\n")
   cat("Creator(s):  ", paste(format(x$author), collapse = "; "), "\n")
 
