@@ -15,13 +15,18 @@ knitr::opts_chunk$set(
 
 if (!requireNamespace("rdflib", quietly = TRUE)) { 
   stop("Please install 'rdflib' to run this vignette.") 
-  }
+}
+
+if (!requireNamespace("jsonld", quietly = TRUE)) { 
+  stop("Please install 'jsonld' to run this vignette.") 
+}
 
 ```
 
 ```{r setup}
 library(dataset)
 library(rdflib)
+library(jsonld)
 ```
 
 The **RDF** (Resource Description Framework) annotation significantly enhances the interoperability and exchangeability of datasets in data repositories by leveraging a standardised, machine-readable format for describing and linking data. This vignette shows how to leverage the capabilities of the _dataset_ package with [rdflib](https://docs.ropensci.org/rdflib/index.html), an R-user-friendly wrapper on rOpenSci to work with the _redland_ Python library for performing common tasks on rdf data, such as parsing and converting between formats including rdfxml, turtle, nquads, ntriples, and trig, creating rdf graphs, and performing SPARQL queries.
