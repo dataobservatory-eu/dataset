@@ -57,8 +57,10 @@ xsd_convert.data.frame <- function(x, idcol = NULL, ...) {
     id_name <- ".rowid"
   }
 
-  convert_cols <- setdiff(seq_along(x),
-                          if (!is.null(idcol)) id_idx else integer(0))
+  convert_cols <- setdiff(
+    seq_along(x),
+    if (!is.null(idcol)) id_idx else integer(0)
+  )
 
   # Apply xsd_convert to all non-ID columns
   xsd_list <- lapply(convert_cols, function(c) xsd_convert(x[[c]], ...))
@@ -110,9 +112,12 @@ xsd_convert.character <- function(x, idcol = NULL, ...) {
   }
 
   ifelse(is.na(x),
-         NA_character_,
-         paste0('"',x ,
-                '"^^<', var_type, '>'))
+    NA_character_,
+    paste0(
+      '"', x,
+      '"^^<', var_type, ">"
+    )
+  )
 }
 
 #' @rdname xsd_convert
@@ -136,8 +141,9 @@ xsd_convert.numeric <- function(x, idcol = NULL, ...) {
 
 
   ifelse(is.na(formatted_number),
-         NA_character_,
-         paste0('"', formatted_number, '"^^<', var_type, '>'))
+    NA_character_,
+    paste0('"', formatted_number, '"^^<', var_type, ">")
+  )
 }
 
 #' @rdname xsd_convert
@@ -170,8 +176,9 @@ xsd_convert.integer <- function(x, idcol = NULL, ...) {
   }
 
   ifelse(is.na(x),
-         NA_character_,
-         paste0('"', as.character(x), '"^^<', var_type, '>'))
+    NA_character_,
+    paste0('"', as.character(x), '"^^<', var_type, ">")
+  )
 }
 
 #' @rdname xsd_convert
@@ -188,8 +195,9 @@ xsd_convert.logical <- function(x, idcol = NULL, ...) {
   }
 
   ifelse(is.na(x),
-         NA_character_,
-         paste0('"', tolower(as.character(x)), '"^^<', var_type, '>'))
+    NA_character_,
+    paste0('"', tolower(as.character(x)), '"^^<', var_type, ">")
+  )
 }
 
 
@@ -209,12 +217,14 @@ xsd_convert.factor <- function(x, idcol = NULL, ...) {
   if (is.null(codelist)) {
     var_type <- "xs:string"
     ifelse(is.na(x),
-           NA_character_,
-           paste0('"', as.character(x), '"^^<', var_type, '>'))
+      NA_character_,
+      paste0('"', as.character(x), '"^^<', var_type, ">")
+    )
   } else {
     ifelse(is.na(x),
-           NA_character_,
-           paste0(codelist, ":", as.character(x)))
+      NA_character_,
+      paste0(codelist, ":", as.character(x))
+    )
   }
 }
 
@@ -222,14 +232,16 @@ xsd_convert.factor <- function(x, idcol = NULL, ...) {
 #' @export
 #' @exportS3Method
 xsd_convert.POSIXct <- function(x, idcol = NULL, ...) {
-  var_type <- "<xs:dateTime>"
-  if (length(x) == 0) return('""^^<xs:dateTime>')
+  if (length(x) == 0) {
+    return('""^^<xs:dateTime>')
+  }
 
   time_string <- strftime(x, format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
 
   ifelse(is.na(x),
-         NA_character_,
-         paste0('"', time_string, '"^^<xs:dateTime>'))
+    NA_character_,
+    paste0('"', time_string, '"^^<xs:dateTime>')
+  )
 }
 
 #' @rdname xsd_convert
@@ -245,8 +257,9 @@ xsd_convert.Date <- function(x, idcol = NULL, ...) {
   date_str <- format(x, format = "%Y-%m-%d")
 
   ifelse(is.na(x),
-         NA_character_,
-         paste0('"', date_str, '"^^<', var_type, '>'))
+    NA_character_,
+    paste0('"', date_str, '"^^<', var_type, ">")
+  )
 }
 
 #' @rdname xsd_convert
@@ -256,35 +269,42 @@ xsd_convert.Date <- function(x, idcol = NULL, ...) {
 #' @exportS3Method
 xsd_convert.difftime <- function(x, idcol = NULL, ...) {
   var_type <- "xs:duration"
-  if (length(x) == 0) return('""^^<xs:duration>')
+  if (length(x) == 0) {
+    return('""^^<xs:duration>')
+  }
 
   seconds <- unclass(x)
   unit <- attr(x, "units")
 
   # Convert to seconds based on original units
   multiplier <- switch(unit,
-                       "secs" = 1,
-                       "mins" = 60,
-                       "hours" = 3600,
-                       "days" = 86400,
-                       stop("Unsupported difftime unit: ", unit)
+    "secs" = 1,
+    "mins" = 60,
+    "hours" = 3600,
+    "days" = 86400,
+    stop("Unsupported difftime unit: ", unit)
   )
 
   seconds <- seconds * multiplier
 
   convert_to_iso8601_duration <- function(s) {
-    if (is.na(s)) return(NA_character_)
+    if (is.na(s)) {
+      return(NA_character_)
+    }
     h <- floor(s / 3600)
     m <- floor((s %% 3600) / 60)
     sec <- round(s %% 60)
-    paste0("PT",
-           if (h > 0) paste0(h, "H") else "",
-           if (m > 0) paste0(m, "M") else "",
-           if (sec > 0 || (h == 0 && m == 0)) paste0(sec, "S") else "")
+    paste0(
+      "PT",
+      if (h > 0) paste0(h, "H") else "",
+      if (m > 0) paste0(m, "M") else "",
+      if (sec > 0 || (h == 0 && m == 0)) paste0(sec, "S") else ""
+    )
   }
 
   iso_strs <- vapply(seconds, convert_to_iso8601_duration, character(1))
   ifelse(is.na(seconds),
-         NA_character_,
-         paste0('"', iso_strs, '"^^<', var_type, '>'))
+    NA_character_,
+    paste0('"', iso_strs, '"^^<', var_type, ">")
+  )
 }

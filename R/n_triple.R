@@ -95,7 +95,7 @@ create_iri <- function(x) {
     sprintf('"%s"%s', as.character(x), integer_string)
   } else if (inherits(x, "POSIXct")) {
     sprintf('"%s"%s', format(x, "%Y-%m-%dT%H:%M:%SZ"), datetime_string)
-  } else if (is.character(x) & substr(x, 1, 5) %in% c("http:", "https")) {
+  } else if (is.character(x) && (substr(x, 1, 5) %in% c("http:", "https"))) {
     sprintf("<%s>", as.character(x))
   } else if (grepl("^_\\:", x)) {
     sprintf('"%s"', x)

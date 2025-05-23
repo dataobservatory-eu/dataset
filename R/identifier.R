@@ -85,7 +85,7 @@ identifier <- function(x) {
   }
 
 
-  if (overwrite | old_identifier %in% c(":unas", ":tba")) {
+  if (overwrite || old_identifier %in% c(":unas", ":tba")) {
     ds_bibentry$identifier <- value
     if (is_doi(value)) {
       doi <- gsub("https://doi.org/", "", value)

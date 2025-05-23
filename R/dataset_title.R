@@ -45,22 +45,9 @@ dataset_title <- function(x) {
   if (inherits(value, "factor") || inherits(value, "character")) {
     if (length(value) > 1) {
       stop("title(x) <- value: if you have multiple titles, use dataset_title_create()")
-    } else {
-      # value <- dataset_title_create(Title = value,
-      #                             titleType = "Title")
-    }
-  }
+    }}
 
-  # if (! inherits(value, 'list')) {
-  #  stop("title(x) <- value: value must be a character, a factor, or a list object.")
-  # }
-
-  # if (! all(names(value) %in%  c("Title", "AlternativeTitle", "Subtitle", "TranslatedTitle", "Other"))) {
-  #  stop("title(x) <- value: value must be a list object with a'Title' and optional 'AlternativeTitle', `Subtitle`, `TranslatedTitle` and `Other` columns.")
-  # }
-
-
-  if (!ds_bibentry$title %in% c(":unas", ":tba", "") & !overwrite) {
+  if (!ds_bibentry$title %in% c(":unas", ":tba", "") && !overwrite) {
     warning("The dataset already has a title: ", ds_bibentry$title)
   } else {
     ds_bibentry$title <- value
