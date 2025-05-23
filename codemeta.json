@@ -7,7 +7,7 @@
   "codeRepository": "https://dataset.dataobservatory.eu/",
   "issueTracker": "https://github.com/dataobservatory-eu/dataset/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.3.4013",
+  "version": "0.3.4027",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -39,6 +39,30 @@
     }
   ],
   "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "dplyr",
+      "name": "dplyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "jsonld",
+      "name": "jsonld",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=jsonld"
+    },
     {
       "@type": "SoftwareApplication",
       "identifier": "knitr",
@@ -89,6 +113,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "tidyr",
+      "name": "tidyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tidyr"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
       "version": ">= 3.0.0",
@@ -116,23 +152,6 @@
     },
     "2": {
       "@type": "SoftwareApplication",
-      "identifier": "cli",
-      "name": "cli",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=cli"
-    },
-    "3": {
-      "@type": "SoftwareApplication",
-      "identifier": "datasets",
-      "name": "datasets"
-    },
-    "4": {
-      "@type": "SoftwareApplication",
       "identifier": "haven",
       "name": "haven",
       "provider": {
@@ -143,7 +162,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=haven"
     },
-    "5": {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "ISOcodes",
       "name": "ISOcodes",
@@ -155,7 +174,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=ISOcodes"
     },
-    "6": {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "labelled",
       "name": "labelled",
@@ -167,12 +186,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=labelled"
     },
-    "7": {
-      "@type": "SoftwareApplication",
-      "identifier": "methods",
-      "name": "methods"
-    },
-    "8": {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "pillar",
       "name": "pillar",
@@ -184,19 +198,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=pillar"
     },
-    "9": {
-      "@type": "SoftwareApplication",
-      "identifier": "RefManageR",
-      "name": "RefManageR",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=RefManageR"
-    },
-    "10": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -208,7 +210,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    "11": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "tibble",
       "name": "tibble",
@@ -220,16 +222,15 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tibble"
     },
-    "12": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    "13": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "vctrs",
       "name": "vctrs",
-      "version": ">= 0.5.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -238,7 +239,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=vctrs"
     },
-    "14": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
@@ -246,7 +247,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "495.252KB",
+  "fileSize": "566.981KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -262,7 +263,7 @@
       ],
       "name": "dataset: Create Data Frames that are Easier to Exchange and Reuse",
       "url": "https://dataset.dataobservatory.eu/",
-      "description": "R package version 0.3.4013"
+      "description": "R package version 0.3.4027"
     },
     {
       "@type": "CreativeWork",

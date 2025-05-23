@@ -19,9 +19,11 @@ bibrecord(
 \arguments{
 \item{title}{A character string, the dataset title.}
 
-\item{author}{A list or vector of \code{utils::person} objects. Mapped to \code{creator} in DataCite and DCTERMS.}
+\item{author}{A list or vector of \code{utils::person} objects. Mapped to
+\code{creator} in DataCite and DCTERMS.}
 
-\item{contributor}{Optional list/vector of \code{utils::person}. Contributor roles are merged if repeated.}
+\item{contributor}{Optional list/vector of \code{utils::person}. Contributor roles
+are merged if repeated.}
 
 \item{publisher}{Character string or \code{person}. The publishing entity.}
 
@@ -36,14 +38,14 @@ bibrecord(
 \item{...}{Additional fields (e.g., language, format, rights, description).}
 }
 \value{
-An object of class \code{bibrecord} and \code{bibentry}.
-bibrecord(title = "Gross domestic product, volumes",
-author = person("Eurosat"),
-publisher = person("Eurostat"),
-identifier = "https://doi.org/10.2908/TEINA011",
-date = as.Date("2025-05-20"))
+An object of class \code{bibrecord} and \code{bibentry}. bibrecord(title =
+"Gross domestic product, volumes", author = person("Eurosat"), publisher =
+person("Eurostat"), identifier = "https://doi.org/10.2908/TEINA011", date =
+as.Date("2025-05-20"))
 }
 \description{
-Create a \code{utils::bibentry}-compatible object extended with standard Dublin Core and DataCite-compatible fields.
-This serves as a unified metadata structure for use in both \code{dublincore()} and \code{datacite()} functions.
+Create a \code{utils::bibentry}-compatible object extended with
+standard Dublin Core and DataCite-compatible fields. This serves as a
+unified metadata structure for use in both \code{dublincore()} and \code{datacite()}
+functions.
 }

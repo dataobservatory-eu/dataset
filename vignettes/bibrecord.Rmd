@@ -2,7 +2,7 @@
 title: "Modernising Citation Metadata in R: Introducing `bibrecord`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{bibrecord}
+  %\VignetteIndexEntry{Modernising Citation Metadata in R: Introducing `bibrecord`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
