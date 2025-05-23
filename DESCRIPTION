@@ -2,7 +2,6 @@ Package: dataset
 Title: Create Data Frames that are Easier to Exchange and Reuse
 Version: 0.3.4026
 Date: 2025-05-22
-DOI: 10.32614/CRAN.package.dataset
 Language: en-GB
 Authors@R: 
     c(person(given = "Daniel", family = "Antal", 

@@ -11,12 +11,18 @@ test_that("var_concept() works for defined vectors", {
 
 test_that("var_concept() errors for invalid inputs", {
   x <- defined(c(1, 2, 3), label = "A")
-  expect_error(var_concept(x) <- c("uri1", "uri2"),
-               "must be a single character string or NULL")
-  expect_error(var_concept(x) <- 123,
-               "must be a single character string or NULL")
-  expect_error(var_concept(x) <- list("not a string"),
-               "must be a single character string or NULL")
+  expect_error(
+    var_concept(x) <- c("uri1", "uri2"),
+    "must be a single character string or NULL"
+  )
+  expect_error(
+    var_concept(x) <- 123,
+    "must be a single character string or NULL"
+  )
+  expect_error(
+    var_concept(x) <- list("not a string"),
+    "must be a single character string or NULL"
+  )
 })
 
 test_that("get_variable_concepts() returns named list of concepts", {
@@ -33,6 +39,8 @@ test_that("get_variable_concepts() returns named list of concepts", {
 })
 
 test_that("get_variable_concepts() errors on non-dataset_df input", {
-  expect_error(get_variable_concepts(data.frame(x = 1:3)),
-               "must be a dataset_df object")
+  expect_error(
+    get_variable_concepts(data.frame(x = 1:3)),
+    "must be a dataset_df object"
+  )
 })

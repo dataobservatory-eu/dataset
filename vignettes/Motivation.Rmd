@@ -13,10 +13,12 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-if (!requireNamespace("dplyr", quietly = TRUE) || !requireNamespace("tidyr", quietly = TRUE)) { stop("Please install 'dplyr' and 'tidyr' to run this vignette.") }
+if (!requireNamespace("dplyr", quietly = TRUE) || !requireNamespace("tidyr", quietly = TRUE)) {
+  stop("Please install 'dplyr' and 'tidyr' to run this vignette.")
+}
 
-library(dplyr) 
-library(tidyr) 
+library(dplyr)
+library(tidyr)
 ```
 
 > "A dataset is an identifiable collection of data available for access or download in one or more formats." ISO/IEC 20546

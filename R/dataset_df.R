@@ -129,12 +129,12 @@ as_dataset_df <- function(df,
 #' @importFrom tibble new_tibble
 #' @keywords internal
 new_dataset <- function(x,
-                          add_rowid = TRUE,
-                          identifier,
-                          dataset_bibentry = NULL,
-                          var_labels = NULL,
-                          units = NULL,
-                          concepts = NULL) {
+                        add_rowid = TRUE,
+                        identifier,
+                        dataset_bibentry = NULL,
+                        var_labels = NULL,
+                        units = NULL,
+                        concepts = NULL) {
   assertthat::assert_that(is.data.frame(x),
     msg = "Error: new_dataset(x): x is not a data frame"
   )
@@ -293,19 +293,22 @@ plot.dataset_df <- function(x, y = NULL, ..., main = NULL, sub = NULL) {
   xcol <- df[[numeric_like_cols[1]]]
   ycol <- df[[numeric_like_cols[2]]]
 
-  x_label <-  ifelse(is.null(var_label(x)[numeric_like_cols[1]][[1]]),
-                     names(x)[numeric_like_cols[1]],
-                     var_label(x)[numeric_like_cols[1]])
+  x_label <- ifelse(is.null(var_label(x)[numeric_like_cols[1]][[1]]),
+    names(x)[numeric_like_cols[1]],
+    var_label(x)[numeric_like_cols[1]]
+  )
 
-  y_label <-  ifelse(is.null(var_label(x)[numeric_like_cols[2]][[1]]),
-                     names(x)[numeric_like_cols[2]],
-                     var_label(x)[numeric_like_cols[2]])
+  y_label <- ifelse(is.null(var_label(x)[numeric_like_cols[2]][[1]]),
+    names(x)[numeric_like_cols[2]],
+    var_label(x)[numeric_like_cols[2]]
+  )
 
   plot(xcol, ycol,
-       xlab = x_label,
-       ylab = y_label,
-       main = main,
-       ...)
+    xlab = x_label,
+    ylab = y_label,
+    main = main,
+    ...
+  )
 }
 
 

@@ -35,20 +35,23 @@ The `dataset_df` class extends the familiar `data.frame` structure with lightwei
 Let's start with a basic data frame and upgrade it to a `dataset_df` with semantically enriched columns using `defined()`:
 
 ```{r smallcountries}
-small_country_dataset <- dataset_df(   
-  country_name = defined(c("AD", "LI"),     
-  label = "Country name",
-  concept = "http://data.europa.eu/bna/c_6c2bb82d",
-  namespace = "https://www.geonames.org/countries/$1/"),
+small_country_dataset <- dataset_df(
+  country_name = defined(c("AD", "LI"),
+    label = "Country name",
+    concept = "http://data.europa.eu/bna/c_6c2bb82d",
+    namespace = "https://www.geonames.org/countries/$1/"
+  ),
   gdp = defined(c(3897, 7365),
-                label = "Gross Domestic Product",
-                unit = "million dollars",
-                concept = "http://data.europa.eu/83i/aa/GDP"),
+    label = "Gross Domestic Product",
+    unit = "million dollars",
+    concept = "http://data.europa.eu/83i/aa/GDP"
+  ),
   dataset_bibentry = dublincore(
     title = "Small Country Dataset",
     creator = person("Jane", "Doe"),
-    publisher = "Example Inc.")
+    publisher = "Example Inc."
   )
+)
 ```
 
 The `defined()` vectors attach metadata to each column:
@@ -90,7 +93,7 @@ This is especially important in multi-currency and multi-country datasets such a
 The enriched `dataset_df` object can be serialized to RDF using:
 
 ```{r serialisation}
-triples <- dataset_to_triples(small_country_dataset) 
+triples <- dataset_to_triples(small_country_dataset)
 
 n_triples(mapply(n_triple, triples$s, triples$p, triples$o))
 ```

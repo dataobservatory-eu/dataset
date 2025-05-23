@@ -9,7 +9,7 @@
 \usage{
 as.character(x, ...)
 
-\method{as.character}{haven_labelled_defined}(x)
+\method{as.character}{haven_labelled_defined}(x, ...)
 
 as_character(x, ...)
 
@@ -53,7 +53,7 @@ preferred method.
 \examples{
 as.character(defined(c("a", "b", "c"), label = "Letter code"))
 as_character(defined(c("a", "b", "c"), label = "Letter code"))
-fruits <- defined(c("apple","avocado", "kiwi"), label = "Fruit", unit = "kg")
+fruits <- defined(c("apple", "avocado", "kiwi"), label = "Fruit", unit = "kg")
 # Keep the metadata, but revert to base R character type:
 as_character(fruits, preserve_attributes = TRUE)
 

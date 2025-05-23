@@ -42,4 +42,3 @@ test_that("idcol_find returns correct index in real datasets", {
   expect_equal(idcol_find(mtcars2, "rowid"), ncol(mtcars2))
   expect_error(idcol_find(mtcars2, "bowid"), "not found")
 })
-

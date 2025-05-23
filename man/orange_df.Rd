@@ -5,8 +5,8 @@
 \alias{orange_df}
 \title{Growth of Orange Trees}
 \format{
-orange_df is a data frame with 35 cases (rows) and 3 variables (columns) named
-rowid, tree, age, circumference
+orange_df is a data frame with 35 cases (rows) and 3 variables (columns)
+named rowid, tree, age, circumference.
 }
 \source{
 Draper, N. R. and Smith, H. (1998), Applied Regression Analysis (3rd ed),

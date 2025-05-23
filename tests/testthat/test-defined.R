@@ -265,7 +265,9 @@ test_that("new_labelled_defined() throws errors", {
 })
 
 test_that("iris_dataset() prints", {
-  expect_output(str(iris_dataset), "https://doi.org/10.5281/zenodo.10396807", ignore.case = FALSE)
+  expect_output(str(iris_dataset),
+                "https://doi.org/10.5281/zenodo.10396807",
+                ignore.case = FALSE)
   expect_output(print(iris_dataset), "Iris Dataset.", ignore.case = FALSE)
 })
 
@@ -300,7 +302,8 @@ test_that("c() works", {
 
 test_that("summary.haven_labelled_defined() works ", {
   sepal_length <- iris_dataset$Sepal.Length
-  expect_output(summary(sepal_length), "Length of the sepal in cm \\(centimeter\\)")
+  expect_output(summary(sepal_length),
+                "Length of the sepal in cm \\(centimeter\\)")
   expect_equal(names(summary(sepal_length))[1], "Min.")
 })
 
@@ -324,11 +327,14 @@ test_that("as_numeric() returns underlying numeric vector", {
 })
 
 test_that("as_character() returns underlying character vector", {
-  fruits <- defined(c("apple","avocado", "kiwi"), label = "Fruit", unit = "kg")
-  expect_equal(as_character(fruits, preserve_attributes = FALSE), c("apple","avocado", "kiwi"))
+  fruits <- defined(c("apple", "avocado", "kiwi"),
+                    label = "Fruit", unit = "kg")
+  expect_equal(as_character(fruits, preserve_attributes = FALSE),
+               c("apple", "avocado", "kiwi"))
   expect_equal(attr(as_character(fruits, TRUE), "unit"), "kg")
   expect_type(as_character(fruits), "character")
-  expect_error(as_numeric(fruits), regexp = "underlying data is not numeric")
+  expect_error(as_numeric(fruits),
+               regexp = "underlying data is not numeric")
 })
 
 test_that("as_factor() works with defined vector", {
@@ -345,14 +351,21 @@ test_that("as_factor() works with defined vector", {
 
 
 test_that("c.haven_labelled_defined() works ", {
-  a <- defined(1:3, label = "testlabel", unit = "meter", concept = "testdef", namespace = "http://example.com")
-  b <- defined(4:6, label = "testlabel", unit = "meter", concept = "testdef", namespace = "http://example.com")
-  ab <- defined(1:6, label = "testlabel", unit = "meter", concept = "testdef", namespace = "http://example.com")
+  a <- defined(1:3, label = "testlabel", unit = "meter",
+               concept = "testdef", namespace = "http://example.com")
+  b <- defined(4:6, label = "testlabel", unit = "meter",
+               concept = "testdef", namespace = "http://example.com")
+  ab <- defined(1:6, label = "testlabel", unit = "meter",
+                concept = "testdef", namespace = "http://example.com")
   expect_equal(ab, c(a, b))
-  cm <- defined(4:6, label = "testlabel", unit = "centimeter", concept = "test", namespace = "http://example.com")
-  def <- defined(4:6, label = "testlabel", unit = "meter", concept = "def", namespace = "http://example.com")
-  nsp <- defined(4:6, label = "testlabel", unit = "meter", concept = "testdef", namespace = "http://examples.com")
-  lbl <- defined(4:6, label = "tested", unit = "meter", concept = "def", namespace = "http://example.com")
+  cm <- defined(4:6, label = "testlabel", unit = "centimeter",
+                concept = "test", namespace = "http://example.com")
+  def <- defined(4:6, label = "testlabel", unit = "meter",
+                 concept = "def", namespace = "http://example.com")
+  nsp <- defined(4:6, label = "testlabel", unit = "meter",
+                 concept = "testdef", namespace = "http://examples.com")
+  lbl <- defined(4:6, label = "tested", unit = "meter",
+                 concept = "def", namespace = "http://example.com")
   expect_error(c(a, cm),
     regexp = "must have no unit or the same unit"
   )

@@ -143,4 +143,3 @@ test_that("datacite_to_triples uses custom dataset_id", {
   out <- datacite_to_triples(input, dataset_id = "http://example.org/custom")
   expect_true(all(grepl("^<http://example.org/custom>", out)))
 })
-

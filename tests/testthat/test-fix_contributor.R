@@ -19,4 +19,3 @@ test_that("handles a list of persons with mixed roles", {
     "{Jane Doe [dtm]} and {John Smith [ctb]}"
   )
 })
-

@@ -149,7 +149,6 @@ datacite <- function(Title,
                      Description = ":tba",
                      Geolocation = ":unas",
                      FundingReference = ":unas") {
-
   if (is.null(PublicationYear)) {
     if (!is.null(Date) && grepl("^\\d{4}", as.character(Date))) {
       PublicationYear <- substr(as.character(Date), 1, 4)
@@ -188,7 +187,6 @@ datacite <- function(Title,
     Geolocation = Geolocation,
     FundingReference = FundingReference
   )
-
 }
 
 
@@ -212,7 +210,6 @@ new_datacite <- function(Title,
                          Description,
                          Geolocation,
                          FundingReference) {
-
   datacite_object <- bibentry(
     bibtype = "Misc",
     title = Title,
@@ -389,9 +386,9 @@ print.datacite <- function(x, ...) {
   }
 
   if (!is.null(x$identifier)) cat("Identifier:   ", x$identifier, "\n")
-  if (!is.null(x$publisher))  cat("Publisher:    ", x$publisher, "\n")
-  if (!is.null(x$year))       cat("Year:         ", x$year, "\n")
-  if (!is.null(x$language))   cat("Language:     ", x$language, "\n")
+  if (!is.null(x$publisher)) cat("Publisher:    ", x$publisher, "\n")
+  if (!is.null(x$year)) cat("Year:         ", x$year, "\n")
+  if (!is.null(x$language)) cat("Language:     ", x$language, "\n")
   if (!is.null(x$description)) cat("Description: ", x$description, "\n")
 
   invisible(x)
@@ -454,4 +451,3 @@ datacite_to_triples <- function(dc_list, dataset_id = "http://example.com/datase
 
   n_triples(triples)
 }
-

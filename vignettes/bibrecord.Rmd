@@ -49,16 +49,18 @@ A `bibrecord` is a standard `bibentry` object with additional fields stored in a
 ## Creating a `bibrecord`
 
 ```{r bibrecord}
-person_jane <- person("Jane", "Doe", role = "cre") 
-person_alice <- person("Alice", "Smith", role = "dtm")  
+person_jane <- person("Jane", "Doe", role = "cre")
+person_alice <- person("Alice", "Smith", role = "dtm")
 
-rec <- bibrecord(title = "GDP of Small States",   
-                 author = list(person_jane),   
-                 contributor = list(person_alice),   
-                 publisher = "Tinystat",   
-                 identifier = "doi:10.1234/example",   
-                 date = "2023-05-01",   
-                 subject = "Economic indicators" )
+rec <- bibrecord(
+  title = "GDP of Small States",
+  author = list(person_jane),
+  contributor = list(person_alice),
+  publisher = "Tinystat",
+  identifier = "doi:10.1234/example",
+  date = "2023-05-01",
+  subject = "Economic indicators"
+)
 ```
 
 

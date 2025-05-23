@@ -180,13 +180,13 @@ dublincore <- function(
     datasource = NULL,
     description = NULL,
     coverage = NULL) {
-
   if (missing(creator) || is.null(creator)) {
     stop("dublincore(): A valid `creator` (as person or list of person) is required.")
   }
 
   if (inherits(creator, "person")) {
-    creator <- list(creator)  }
+    creator <- list(creator)
+  }
 
   creators <- normalize_roles(creator, default_role = "cre")
 
@@ -207,7 +207,7 @@ dublincore <- function(
 
   new_dublincore(
     title = title,
-    creators = creators,
+    creator = creators,
     identifier = identifier,
     publisher = publisher,
     subject = subject,
@@ -226,8 +226,9 @@ dublincore <- function(
 }
 
 #' @keywords internal
-dublincore_to_triples <- function(dclist,
-                                  dataset_id = "http://example.com/dataset") {
+dublincore_to_triples <- function(
+    dclist,
+    dataset_id = "http://example.com/dataset") {
   if (is.null(dclist) || is.null(dclist$title) || nchar(dclist$title) == 0) {
     stop("Error: dublincore_to_triples(dclist, dataset_id): no title found in dclist")
   }
@@ -317,7 +318,7 @@ dublincore_to_triples <- function(dclist,
     ))
   }
 
-    if (!is.null(dclist$coverage)) {
+  if (!is.null(dclist$coverage)) {
     dctriples <- c(dctriples, n_triple(
       dataset_id,
       "http://purl.org/dc/terms/coverage",
@@ -332,7 +333,7 @@ dublincore_to_triples <- function(dclist,
 
 #' @keywords internal
 new_dublincore <- function(title,
-                           creators,
+                           creator,
                            identifier = NULL,
                            publisher = NULL,
                            subject = NULL,
@@ -348,11 +349,13 @@ new_dublincore <- function(title,
                            description = NULL,
                            coverage = NULL) {
 
-  year <- if (!is.null(dataset_date)) substr(as.character(dataset_date), 1, 4) else NULL
+  year <- if (!is.null(dataset_date)) {
+    substr(as.character(dataset_date), 1, 4)
+    } else NULL
 
   dublincore_object <- bibrecord(
     title = title,
-    author = creators,
+    author = creator,
     identifier = identifier,
     publisher = publisher,
     subject = subject,
@@ -379,8 +382,8 @@ is.dublincore <- function(x) {
 
 #' @rdname dublincore
 #' @param x An object that is tested if it has a class "dublincore".
-#' @return A logical value, if the bibliographic entries are listed according to the
-#' Dublin Core specification.
+#' @return A logical value, if the bibliographic entries are listed
+#' according to the Dublin Core specification.
 #' @exportS3Method
 is.dublincore.dublincore <- function(x) inherits(x, "dublincore")
 
@@ -398,11 +401,9 @@ print.dublincore <- function(x, ...) {
   }
 
   if (!is.null(x$publisher)) cat("Publisher:   ", x$publisher, "\n")
-  if (!is.null(x$year))      cat("Year:        ", x$year, "\n")
-  if (!is.null(x$language))  cat("Language:    ", x$language, "\n")
+  if (!is.null(x$year)) cat("Year:        ", x$year, "\n")
+  if (!is.null(x$language)) cat("Language:    ", x$language, "\n")
   if (!is.null(x$description)) cat("Description: ", x$description, "\n")
 
   invisible(x)
 }
-
-

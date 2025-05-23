@@ -1,4 +1,3 @@
-
 ## get_type internal function -------------------------------------
 test_that("get_type returns correct XSD types", {
   expect_equal(get_type(1.5), "xs:decimal")

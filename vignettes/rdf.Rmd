@@ -7,20 +7,19 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setupvignette, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-if (!requireNamespace("rdflib", quietly = TRUE)) { 
-  stop("Please install 'rdflib' to run this vignette.") 
+if (!requireNamespace("rdflib", quietly = TRUE)) {
+  stop("Please install 'rdflib' to run this vignette.")
 }
 
-if (!requireNamespace("jsonld", quietly = TRUE)) { 
-  stop("Please install 'jsonld' to run this vignette.") 
+if (!requireNamespace("jsonld", quietly = TRUE)) {
+  stop("Please install 'jsonld' to run this vignette.")
 }
-
 ```
 
 ```{r setup}

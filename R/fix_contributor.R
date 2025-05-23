@@ -16,8 +16,10 @@
 #' @examples
 #' \dontrun{
 #' fix_contributor(person("Jane", "Doe", role = c("dtm", "ctb")))
-#' fix_contributor(c(person("Jane", "Doe", role = "ctb"),
-#'                   person("John", "Smith")))
+#' fix_contributor(c(
+#'   person("Jane", "Doe", role = "ctb"),
+#'   person("John", "Smith")
+#' ))
 #' fix_contributor(":unas")
 #' }
 #' @keywords internal

@@ -97,8 +97,10 @@ test_that("get_person_iri() works", {
   expect_equal(get_person_iri(person("Jane Doe")), NULL)
   expect_equal(
     get_person_iri(p = person(
-      given = "Daniel", family = "Antal",
-      role = "cre", comment = c(ORCID = "0000-0001-7513-6760")
+      given = "Daniel",
+      family = "Antal",
+      role = "cre",
+      comment = c(ORCID = "0000-0001-7513-6760")
     )),
     "https://orcid.org/0000-0001-7513-6760"
   )
@@ -106,8 +108,10 @@ test_that("get_person_iri() works", {
     get_person_iri(
       p =
         person(
-          given = "Edgar", family = "Anderson",
-          role = "cre", comment = c(VIAF = "http://viaf.org/viaf/6440526")
+          given = "Edgar",
+          family = "Anderson",
+          role = "cre",
+          comment = c(VIAF = "http://viaf.org/viaf/6440526")
         )
     ),
     c(VIAF = "http://viaf.org/viaf/6440526")
@@ -115,7 +119,10 @@ test_that("get_person_iri() works", {
   expect_equal(
     get_person_iri(
       p =
-        person(given = "Taylor", family = "Swift", role = "cre", comment = c(ISNI = "https://isni.org/isni/0000000078519858"))
+        person(given = "Taylor",
+               family = "Swift",
+               role = "cre",
+               comment = c(ISNI = "https://isni.org/isni/0000000078519858"))
     ),
     c(ISNI = "https://isni.org/isni/0000000078519858")
   )

@@ -149,8 +149,8 @@ object extended with standard Dublin Core bibliographical metadata,
 dataset_df from its attributes, and returns the contents as list,
 dataset_df, or bibentry object, or an ntriples string.
 
-A logical value, if the bibliographic entries are listed according to the
-Dublin Core specification.
+A logical value, if the bibliographic entries are listed
+according to the Dublin Core specification.
 }
 \description{
 Add metadata conforming the

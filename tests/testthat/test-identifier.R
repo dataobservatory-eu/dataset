@@ -4,7 +4,10 @@ test_that("identifier() works", {
     creator = person("Person", "Unknown"),
     identifier = c(DOI = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x")
   )
-  expect_equal(identifier(a), "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x")
+
+  expect_equal(identifier(a),
+               "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x")
+
   identifier(x = a, overwrite = TRUE) <- "https://doi.org/10.1111/"
   expect_equal(identifier(a), "https://doi.org/10.1111/")
   expect_equal(a$doi, "10.1111")
@@ -19,7 +22,8 @@ test_that("identifier() works", {
       identifier = c(DOI = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x")
     )
   )
-  expect_equal(identifier(test_df), "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x")
+  expect_equal(identifier(test_df),
+               "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x")
   identifier(test_df) <- NULL
   expect_equal(identifier(test_df), ":unas")
   identifier(test_df) <- 1234

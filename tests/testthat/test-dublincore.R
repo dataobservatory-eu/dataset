@@ -1,4 +1,3 @@
-
 test_that("new_dublincore() works", {
   expect_equal(
     new_dublincore(
@@ -23,8 +22,10 @@ test_that("new_dublincore() works", {
   )
 
   expect_equal(
-    new_dublincore(title = "Test",
-                   creator = person("Jane", "Doe", role = "cre"))$title,
+    new_dublincore(
+      title = "Test",
+      creator = person("Jane", "Doe", role = "cre")
+    )$title,
     "Test"
   )
 
@@ -211,6 +212,3 @@ test_that("dublincore_to_triples produces valid n-triples format", {
   expect_true(any(grepl("^<http://example.org/test> <http://purl.org/dc/terms/title>", triples)))
   expect_true(any(grepl("<http://purl.org/dc/terms/subject>", triples)))
 })
-
-
-

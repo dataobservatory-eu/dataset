@@ -1,14 +1,15 @@
 #' @title Growth of Orange Trees
 #'
-#' @description The Orange data frame has 35 rows and 3 columns of records of
-#'   the growth of orange trees. This is a replication of
-#'   \code{datasets::\link[datasets]{Orange}} as \emph{dataset_df} s3 class.
+#' @description
+#' The Orange data frame has 35 rows and 3 columns of records of
+#'  the growth of orange trees. This is a replication of
+#' \code{datasets::\link[datasets]{Orange}} as \emph{dataset_df} s3 class.
 #'
 #' @details See \code{datasets::\link[datasets]{Orange}} for details.
 #'
 #' @format
-#' orange_df is a data frame with 35 cases (rows) and 3 variables (columns) named
-#' rowid, tree, age, circumference
+#' orange_df is a data frame with 35 cases (rows) and 3 variables (columns)
+#' named rowid, tree, age, circumference.
 #' @references
 #' Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988) The New S Language.
 #' Wadsworth & Brooks/Cole.

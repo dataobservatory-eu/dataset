@@ -60,7 +60,6 @@ var_concept.default <- function(x, ...) {
 #' var_concept(x) <- "http://example.org/concept/XYZ"
 #' var_concept(x)
 `var_concept<-.default` <- function(x, value) {
-
   if ((!is.character(value) && !is.null(value)) || length(value) > 1) {
     stop("`concept` must be a single character string or NULL", call. = FALSE)
   }

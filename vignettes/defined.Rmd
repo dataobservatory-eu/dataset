@@ -36,10 +36,11 @@ Let’s inspect the metadata attached to a defined vector representing GDP value
 
 ```{r definedvector}
 gdp_1 <- defined(
-    c(3897, 7365), 
-    label = "Gross Domestic Product", 
-    unit = "million dollars", 
-    concept = "http://data.europa.eu/83i/aa/GDP")
+  c(3897, 7365),
+  label = "Gross Domestic Product",
+  unit = "million dollars",
+  concept = "http://data.europa.eu/83i/aa/GDP"
+)
 
 cat("The print method:\n")
 print(gdp_1)
@@ -82,6 +83,8 @@ Attempting to concatenate the under-specified `gdp_2` vector with `gdp_1` will t
 
 ```{r error, eval=FALSE}
 c(gdp_1, gdp_2)
+```
+```
 Error in `vec_c()`:
 ! Can't combine `..1` <haven_labelled_defined> and `..2` <haven_labelled_defined>.
 ✖ Some attributes are incompatible.
@@ -110,10 +113,11 @@ summary(c(gdp_1, gdp_2))
 Namespaces allow defined values — such as country codes — to be expanded into resolvable URIs. This is especially powerful for linked data and machine-readable classification systems.
 
 ```{r country}
-country = defined(c("AD", "LI", "SM"), 
-                  label = "Country name", 
-                  concept = "http://data.europa.eu/bna/c_6c2bb82d", 
-                  namespace = "https://www.geonames.org/countries/$1/")
+country <- defined(c("AD", "LI", "SM"),
+  label = "Country name",
+  concept = "http://data.europa.eu/bna/c_6c2bb82d",
+  namespace = "https://www.geonames.org/countries/$1/"
+)
 ```
 
 The namespace attribute allows each value in a vector to become a resolvable URI — useful in linked data and semantic web contexts.
@@ -140,6 +144,7 @@ countries <- defined(
 countries
 as_character(countries)
 ```
+
 ### Subsetting and coercion
 
 ```{r basicmethods}
@@ -148,8 +153,6 @@ gdp_1 > 5000
 as.vector(gdp_1)
 as.list(gdp_1)
 ```
-
-
 
 ## Coerce to base R types
 

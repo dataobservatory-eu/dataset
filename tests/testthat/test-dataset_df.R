@@ -91,10 +91,12 @@ test_that("dataset_df() works", {
 test_that("dataset_df() works", {
   test_dataset <- dataset_df(
     a = 3,
-    dataset_bibentry = datacite(Title = "Hello",
-                                Creator = person("Jane", "Doe"),
-                                PublicationYear=2025)
+    dataset_bibentry = datacite(
+      Title = "Hello",
+      Creator = person("Jane", "Doe"),
+      PublicationYear = 2025
     )
+  )
   expect_equal(get_bibentry(test_dataset)$author, person("Jane", "Doe"))
   expect_true(is.subject(subject(test_dataset)))
 })
@@ -141,7 +143,7 @@ test_that("print.dataset_df prints citation, column names, and variable labels",
 
   # Check that label line contains truncated or full label prefixes
   label_row <- output[which.max(grepl("rowid", output)) + 1]
-  expect_true(grepl("Code L", label_row))  # relaxed match
+  expect_true(grepl("Code L", label_row)) # relaxed match
   expect_true(grepl("Value L", label_row)) # relaxed match
 })
 

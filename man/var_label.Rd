@@ -5,6 +5,7 @@
 \alias{var_label.defined}
 \alias{var_label.dataset_df}
 \alias{label_attribute}
+\alias{var_label<-}
 \alias{var_label<-.haven_labelled_defined}
 \alias{var_label<-.dataset_df}
 \title{Get / Set a variable label}
@@ -23,6 +24,8 @@ var_label(x) <- value
 )
 
 label_attribute(x)
+
+var_label(x) <- value
 
 \method{var_label}{haven_labelled_defined}(x) <- value
 

@@ -20,8 +20,9 @@ retaining metadata as passive attributes.
 gdp <- defined(c(3897L, 7365L), label = "GDP", unit = "million dollars")
 strip_defined(gdp)
 
-fruits <- defined(c("apple","avocado", "kiwi"),
-                   label = "Fruit", unit = "kg")
+fruits <- defined(c("apple", "avocado", "kiwi"),
+  label = "Fruit", unit = "kg"
+)
 strip_defined(fruits)
 }
 \seealso{

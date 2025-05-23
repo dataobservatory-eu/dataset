@@ -29,6 +29,7 @@
 #' var_label(x)
 #' var_label(x) <- value
 #' @param x a vector or a data.frame
+#' @param ... Further potential parameters reserved for inherited classes.
 #' @family defined metadata methods and functions
 #' @param value a character string or `NULL` to remove the label
 #'  For data frames, with `var_labels()`, it could also be a named list or a
@@ -85,6 +86,7 @@ label_attribute <- function(x) {
   attr(x, "label", exact = TRUE)
 }
 
+#' @rdname var_label
 #' @export
 `var_label<-` <- function(x, value) {
   UseMethod("var_label<-")

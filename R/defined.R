@@ -93,28 +93,32 @@ defined <- function(x,
   if (is.numeric(x)) {
     x <- vctrs::vec_data(x)
     labels <- vec_cast_named(labels, x, x_arg = "labels", to_arg = "x")
-    return(new_labelled_defined(x, labels = labels,
-                                label = label,
-                                unit = unit,
-                                concept = concept,
-                                namespace = namespace))
+    return(new_labelled_defined(x,
+      labels = labels,
+      label = label,
+      unit = unit,
+      concept = concept,
+      namespace = namespace
+    ))
   }
 
   if (is.character(x)) {
     return(new_labelled_defined(x,
-                                labels = labels,
-                                label = label,
-                                unit = unit,
-                                concept = concept,
-                                namespace = namespace))
+      labels = labels,
+      label = label,
+      unit = unit,
+      concept = concept,
+      namespace = namespace
+    ))
   }
 
   if (inherits(x, "Date")) {
     return(new_datetime_defined(x,
-                                label = label,
-                                unit = unit,
-                                concept = concept,
-                                namespace = namespace))
+      label = label,
+      unit = unit,
+      concept = concept,
+      namespace = namespace
+    ))
   }
 
   if (is.factor(x)) {
@@ -368,14 +372,17 @@ as.vector.haven_labelled_defined <- function(x, mode = "any") {
 #' gdp <- defined(c(3897L, 7365L), label = "GDP", unit = "million dollars")
 #' strip_defined(gdp)
 #'
-#' fruits <- defined(c("apple","avocado", "kiwi"),
-#'                    label = "Fruit", unit = "kg")
+#' fruits <- defined(c("apple", "avocado", "kiwi"),
+#'   label = "Fruit", unit = "kg"
+#' )
 #' strip_defined(fruits)
 #' @export
 strip_defined <- function(x) {
-  if (!inherits(x, "haven_labelled_defined")) return(x)
+  if (!inherits(x, "haven_labelled_defined")) {
+    return(x)
+  }
 
-  base_class <- typeof(vctrs::vec_data(x))  # typically "double" or "integer"
+  base_class <- typeof(vctrs::vec_data(x)) # typically "double" or "integer"
   class(x) <- base_class
   x
 }
@@ -438,13 +445,12 @@ as_numeric <- function(x, ...) {
 #' @export
 as_numeric.haven_labelled_defined <- function(
     x, preserve_attributes = FALSE,
-    ... ) {
-
+    ...) {
   if (!is.numeric(vctrs::vec_data(x))) {
     stop("as_numeric(): underlying data is not numeric.")
   }
 
-  if ( preserve_attributes ) {
+  if (preserve_attributes) {
     strip_defined(x)
   } else {
     vec_data(x)
@@ -467,8 +473,8 @@ as.character <- function(x, ...) {
 #' @examples
 #' as.character(defined(c("a", "b", "c"), label = "Letter code"))
 #' @export
-as.character.haven_labelled_defined <- function(x) {
-  unclass(vec_data(x))
+as.character.haven_labelled_defined <- function(x, ...) {
+  unclass(vctrs::vec_data(x))
 }
 
 #' @title Coerce to character vector
@@ -506,7 +512,7 @@ as_character <- function(x, ...) {
 #' @importFrom vctrs vec_data
 #' @seealso [strip_defined()]
 #' @examples
-#' fruits <- defined(c("apple","avocado", "kiwi"), label = "Fruit", unit = "kg")
+#' fruits <- defined(c("apple", "avocado", "kiwi"), label = "Fruit", unit = "kg")
 #' # Keep the metadata, but revert to base R character type:
 #' as_character(fruits, preserve_attributes = TRUE)
 #'
@@ -543,7 +549,7 @@ as_character.haven_labelled_defined <- function(
 #' as_factor(sex)
 #' @export
 
-as_factor <- function(x) {
+as_factor <- function(x, ...) {
   UseMethod("as_factor", x)
 }
 

@@ -49,8 +49,9 @@ orange_df <- dataset_df(
 
 
 orange_df$rowid <- defined(orange_df$rowid,
-                           namespace = "https://doi.org/10.5281/zenodo.14917851")
-write.csv(orange_df, file = "orange_df.csv", row.names = F)
+  namespace = "https://doi.org/10.5281/zenodo.14917851"
+)
+write.csv(orange_df, file = "orange_df.csv", row.names = FALSE)
 saveRDS(orange_df, file = "orange_df.rds")
 
 usethis::use_data(orange_df, overwrite = TRUE)

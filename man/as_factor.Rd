@@ -4,7 +4,7 @@
 \alias{as_factor}
 \title{Coerce to factor vector}
 \usage{
-as_factor(x)
+as_factor(x, ...)
 }
 \arguments{
 \item{x}{A vector created with \code{\link{defined}}.}
