@@ -31,7 +31,10 @@ bibrecord <- function(
     identifier = NULL,
     subject = NULL,
     ...) {
-  stopifnot(inherits(author, "person") || all(vapply(author, inherits, logical(1), "person")))
+
+  stopifnot(inherits(author, "person") ||
+              all(vapply(author, inherits, logical(1), "person"))
+            )
 
   # Normalize author roles and ensure vector of class "person"
   author <- normalize_roles(as.list(author))

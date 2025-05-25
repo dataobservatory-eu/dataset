@@ -14,7 +14,7 @@ WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.o
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 [![DOI](https://zenodo.org/badge/DOI/10.32614/CRAN.package.dataset.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.3.4027-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.3.9-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Codecov test
 coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset)
@@ -56,6 +56,20 @@ An extended version of `labelled()` vectors. Adds support for:
 - Concept URIs (standardized definitions)
 - Namespaces (to support URI expansion)
 
+``` r
+library(dataset)
+```
+
+``` r
+data(orange_df)
+print(orange_df$age)
+#> orange_df$age: The age of the tree
+#> Measured in days since 1968/12/31 
+#>  [1]  118  484  664 1004 1231 1372 1582  118  484  664 1004 1231 1372 1582  118
+#> [16]  484  664 1004 1231 1372 1582  118  484  664 1004 1231 1372 1582  118  484
+#> [31]  664 1004 1231 1372 1582
+```
+
 This ensures that, for example, “GDP” is always associated with a
 precise concept and unit, avoiding ambiguity across analyses and
 publications. See [Semantically Enriched Vectors with
@@ -69,6 +83,19 @@ An extension of R’s built-in `bibentry()` class, with support for:
 - DataCite metadata
 - Contributor roles (e.g. creator, publisher, data manager)
 - Subject tagging and geolocation
+
+``` r
+as_dublincore(orange_df)
+#> Dublin Core Metadata Record
+#> --------------------------
+#> Title:        Growth of Orange Trees 
+#> Creator(s):   N.R. Draper [cre] (http://viaf.org/viaf/84585260); H Smith [cre] 
+#> Contributor(s):  :unas 
+#> Publisher:    Wiley 
+#> Year:         1998 
+#> Language:     en 
+#> Description:  The Orange data frame has 35 rows and 3 columns of records of the growth of orange trees.
+```
 
 This makes it easier to produce citations and metadata suitable for
 repositories like [Zenodo](https://zenodo.org/) or
@@ -103,20 +130,44 @@ Frames](https://dataset.dataobservatory.eu/articles/dataset_df.html)
 ## Example
 
 ``` r
-library(dataset)
-
 my_data <- dataset_df(
-  country = defined(c("AD", "LI"), 
-                    concept =  "http://data.europa.eu/bna/c_6c2bb82d"),
-  gdp = defined(c(3897, 7365), label = "GDP", unit = "million euros"),
+  country = defined(
+    c("AD", "LI"), 
+    concept =  "http://data.europa.eu/bna/c_6c2bb82d"),
+  gdp = defined(c(3897, 7365), 
+                label = "GDP", 
+                unit = "million euros"),
   dataset_bibentry = datacite(
     Title = "GDP Data for Small Countries",
+    Description = "Example Dataset for the dataset package",
     Creator = person("Jane", "Doe"),
-    Publisher = "Open Data Institute"
+    Publisher = "Open Data Institute",
+    Rights = "CC0", 
+    Language = "en"
   )
 )
 
-summary(my_data)
+head(my_data)
+#> 
+#> 
+#>   rowid      country    gdp        
+#>   <hvn_lbl_> <hvn_lbl_> <hvn_lbl_>
+#> 1 eg:1       AD         3897      
+#> 2 eg:2       LI         7365
+```
+
+``` r
+as_datacite(my_data)
+#> DataCite Metadata Record
+#> --------------------------
+#> Title:         GDP Data for Small Countries 
+#> Creator(s):    Jane Doe 
+#> Contributor(s): :unas 
+#> Identifier:    :tba 
+#> Publisher:     Open Data Institute 
+#> Year:          :tba 
+#> Language:      en 
+#> Description:  Example Dataset for the dataset package
 ```
 
 ## 🧪 Contributing

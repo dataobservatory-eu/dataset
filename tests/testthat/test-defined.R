@@ -379,3 +379,10 @@ test_that("c.haven_labelled_defined() works ", {
     regexp = "must have no var_label or the same var_label"
   )
 })
+
+## Test type_sum ------------------------------------------------
+test_that("type_sum returns <defined> when no label is set", {
+  x <- defined(c(1, 2, 3))
+  expect_equal(type_sum(x), "defined")
+})
+

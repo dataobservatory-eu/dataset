@@ -1,35 +1,35 @@
 #' @title Create a new dataset_df object
-#' @description
-#' The \code{dataset_df} constructor creates the objects of this class, which
-#' are semantically rich, modern data frames inherited from
-#'  \code{\link[tibble:tibble]{tibble::tibble}}.
-#' @details
-#' To check if an object has the class dataset_df use \code{is.dataset_df}.\cr
-#' \cr
-#' \code{print} is the method to print out the semantically rich data frames
-#' created with the constructor of \code{dataset_df}.\cr
-#' \cr
-#' \code{summary} is the method to summarise these semantically rich data frames.\cr
-#' \cr
-#' For more details, please check the \code{vignette("dataset_df", package = "dataset")}
+#' @description The \code{dataset_df} constructor creates the objects of this
+#' class, which are semantically rich, modern data frames inherited from
+#' \code{\link[tibble:tibble]{tibble::tibble}}.
+#' @details To check if an object has the class dataset_df use
+#' \code{is.dataset_df}.\cr \cr \code{print} is the method to print out the
+#' semantically rich data frames created with the constructor of
+#' \code{dataset_df}.\cr \cr \code{summary} is the method to summarise these
+#' semantically rich data frames.\cr \cr
+#' For more details, please check the \code{vignette("dataset_df",
+#' package = "dataset")}
 #' vignette.
-#' @param identifier Defaults to \code{c(eg="http://example.com/dataset#")}, which should be
-#' changed to the permanent identifier of the dataset. For example, if your dataset will be
-#' released with the Digital Object Identifier (DOI) `https;//doi.org/1234`, you should use
-#' a short prefixed identifier like \code{c(obs="https://doi.org/1234#")}, which will resolve
-#' to the rows being identified as https://doi.org/1234#1...https://doi.org/1234#n.
-#' @param dataset_bibentry A list of bibliographic references and descriptive metadata
-#' about the dataset as a whole created with \code{\link{datacite}} or
-#' \code{\link{dublincore}}.
+#' @param identifier Defaults to \code{c(eg="http://example.com/dataset#")},
+#'   which should be changed to the permanent identifier of the dataset. For
+#'   example, if your dataset will be released with the Digital Object
+#'   Identifier (DOI) `https;//doi.org/1234`, you should use a short prefixed
+#'   identifier like \code{c(obs="https://doi.org/1234#")}, which will resolve
+#'   to the rows being identified as
+#'   https://doi.org/1234#1...https://doi.org/1234#n.
+#' @param dataset_bibentry A list of bibliographic references and descriptive
+#'   metadata about the dataset as a whole created with \code{\link{datacite}}
+#'   or \code{\link{dublincore}}.
 #' @param var_labels The long, human readable labels of each variable.
 #' @param units The units of measurement for the measured variables.
-#' @param concepts The linked concepts of the variables, attributes, or constants.
+#' @param concepts The linked concepts of the variables, attributes, or
+#'   constants.
 #' @param dataset_subject The subject of the dataset, see \code{\link{subject}}.
 #' @param ... The vectors (variables) that should be included in the dataset.
 #' @param x A \code{dataset_df} object for S3 methods.
 #' @param df A \code{data.frame} to be converted to \code{dataset_df}.
-#' @return \code{dataset_df} is the constructor of this type, it returns an object
-#' inherited from a data frame with semantically rich metadata.
+#' @return \code{dataset_df} is the constructor of this type, it returns an
+#'   object inherited from a data frame with semantically rich metadata.
 #' @import vctrs
 #' @import pillar
 #' @examples
@@ -44,12 +44,29 @@
 #'     label = "Gross Domestic Product",
 #'     unit = "million dollars",
 #'     concept = "http://data.europa.eu/83i/aa/GDP"
-#'   )
-#' )
+#'   ),
+#'   dataset_bibentry =  dublincore(
+#'     title = "GDP of Andorra And Lichtenstein",
+#'     description = "A small but semantically rich datset example.",
+#'     creator = person("Jane", "Doe", role = "cre"),
+#'     publisher = "Open Data Institute",
+#'     language = "en")
+#'  )
 #'
+#' # Use standard methods, like print, summary, head, tail
 #' print(my_dataset)
+#' head(my_dataset)
+#' tail(my_dataset)
 #'
+#' # Check class:
 #' is.dataset_df(my_dataset)
+#'
+#' # To check the bibliographic metadata of a dataset,
+#' # use as_dublincore for DCTERMS:
+#' as_dublincore(my_dataset)
+#'
+#' # ... and as_datacite for DataCite:
+#' as_datacite(my_dataset)
 #' @export
 
 # User constructor
@@ -85,7 +102,10 @@ dataset_df <- function(...,
   if (is.null(dataset_bibentry)) {
     Title <- "Untitled Dataset"
     Creator <- person("Author", "Unknown")
-    dataset_bibentry <- datacite(Title = Title, Creator = Creator, Subject = dataset_subject)
+    dataset_bibentry <- datacite(Title = Title,
+                                 Creator = Creator,
+                                 Subject = dataset_subject,
+                                 Date = Sys.Date())
   }
 
   tmp <- new_dataset(
@@ -96,6 +116,13 @@ dataset_df <- function(...,
     units = units,
     concepts = concepts
   )
+
+  dataset_bibentry <- get_bibentry(tmp)
+  if ( dataset_bibentry$year == ":tba" ) dataset_bibentry$year <- year
+  if ( dataset_bibentry$date == ":tba" ) {
+    dataset_bibentry$date <- as.character(Sys.Date())
+    }
+
   attr(tmp, "dataset_bibentry") <- dataset_bibentry
   attr(tmp, "subject") <- dataset_subject
   tmp
@@ -152,7 +179,8 @@ new_dataset <- function(x,
   if (add_rowid) {
     tmp <- tibble::rowid_to_column(tmp)
     prefix <- paste0(names(identifier)[1], ":")
-    tmp$rowid <- defined(paste0(prefix, tmp$rowid), namespace = identifier)
+    tmp$rowid <- defined(paste0(prefix, tmp$rowid),
+                         namespace = identifier)
   }
 
   if (is.null(dataset_bibentry)) {
@@ -183,16 +211,53 @@ is.dataset_df <- function(x) {
 #' @rdname dataset_df
 #' @export
 print.dataset_df <- function(x, ...) {
+
   dataset_bibentry <- get_bibentry(x)
   if (is.null(dataset_bibentry)) {
     dataset_bibentry <- set_default_bibentry()
   }
 
-  # Retrieve metadata
-  year <- dataset_bibentry$year
-  if (is.null(year)) {
-    year <- substr(dataset_bibentry$date, 1, 4)
+  # Extract fields
+  authors <- dataset_bibentry$author
+  year  <- dataset_bibentry$year
+  title <- dataset_bibentry$title
+  doi <- dataset_bibentry$identifier
+  dataset_date <- dataset_bibentry$Date
+
+  # Format author(s)
+  author_fmt <- function(authors) {
+    if (length(authors) == 1) {
+      return(authors[[1]]$family %||% format(authors[[1]]))
+    }
+
+    is_institutional <- vapply(authors,
+                               function(a) is.null(a$given) && !is.null(a$family),
+                               logical(1))
+    if (all(is_institutional)) {
+      return(paste(vapply(authors,
+                          function(a) a$family, character(1)),
+                   collapse = "-"))
+    }
+
+    if (length(authors) == 2) {
+      return(paste(vapply(authors,
+                          function(a) a$family,
+                          character(1)), collapse = "-"))
+    }
+
+    return(paste0(authors[[1]]$family, " et al."))
   }
+
+  apa_header <- sprintf("%s (%s): %s [dataset]",
+                        author_fmt(authors),
+                        year,
+                        title)
+
+  if ( ! is.null(doi) && grepl("doi.org", doi)) {
+    apa_header <- paste0(apa_header, ", ", doi)
+  }
+
+  cat(trimws(apa_header), "\n", sep = "")
 
   # Generate the tibble-like format
   df_fmt <- format(x)
@@ -202,56 +267,13 @@ print.dataset_df <- function(x, ...) {
   # Extract column header line
   col_line <- table_body[1]
 
-  # Detect column start positions and widths
-  col_starts <- gregexpr("\\S+", col_line)[[1]]
-  col_ends <- c(col_starts[-1] - 1, nchar(col_line))
-  col_widths <- col_ends - col_starts + 1
-
-  # Safely extract var_labels
-  labels <- vapply(x, function(col) {
-    lbl <- var_label(col)
-    if (is.null(lbl)) "" else lbl
-  }, character(1))
-
-  # Format each label to match column width
-  label_row_parts <- mapply(function(label, width) {
-    if (!nzchar(label)) {
-      strrep(" ", width)
-    } else if (nchar(label) > width) {
-      substr(label, 1, width)
-    } else {
-      format(label, width = width, justify = "centre")
-    }
-  }, labels, col_widths, USE.NAMES = FALSE)
-
-  # Build a character vector and insert parts by column position
-  label_row <- rep(" ", nchar(col_line))
-  for (i in seq_along(col_starts)) {
-    start <- col_starts[i]
-    end <- col_ends[i]
-    label_chars <- strsplit(label_row_parts[i], "")[[1]]
-    label_row[start:end] <- label_chars[seq_len(end - start + 1)]
-  }
-  label_row_str <- paste0(label_row, collapse = "")
-
-  # Print citation
-  print(dataset_bibentry, "text")
-
   # Print column header, label row, and table body
   cat(col_line, "\n")
-  cat(label_row_str, "\n")
   cat(paste0(table_body[-1], collapse = "\n"), "\n")
 
   invisible(x)
 }
 
-
-#' @importFrom vctrs df_list
-#' @export
-# dataset_df <- function(...) {
-#  data <- df_list(...)
-#  new_dataset(data)
-# }
 
 #' @export
 tbl_sum.dataset_df <- function(x, ...) {
@@ -260,7 +282,53 @@ tbl_sum.dataset_df <- function(x, ...) {
 
 #' @export
 summary.dataset_df <- function(object, ...) {
-  print(get_bibentry(object), "text")
+
+  dataset_bibentry <- get_bibentry(object)
+  if (is.null(dataset_bibentry)) {
+    dataset_bibentry <- set_default_bibentry()
+  }
+  # Extract fields
+  authors <- dataset_bibentry$author
+  year  <- dataset_bibentry$year
+  title <- dataset_bibentry$title
+  doi <- dataset_bibentry$identifier
+
+  # Format author(s)
+  author_fmt <- function(authors) {
+    if (length(authors) == 1) {
+      return(authors[[1]]$family %||% format(authors[[1]]))
+    }
+
+    is_institutional <- vapply(authors,
+                               function(a) is.null(a$given) && !is.null(a$family),
+                               logical(1))
+    if (all(is_institutional)) {
+      return(paste(vapply(authors,
+                          function(a) a$family, character(1)),
+                   collapse = "-"))
+    }
+
+    if (length(authors) == 2) {
+      return(paste(vapply(authors,
+                          function(a) a$family,
+                          character(1)), collapse = "-"))
+    }
+
+    return(paste0(authors[[1]]$family, " et al."))
+  }
+
+  apa_header <- sprintf("%s (%s): Summary of %s [dataset]",
+                        author_fmt(authors),
+                        year,
+                        title)
+
+
+  if ( ! is.null(doi) && grepl("doi.org", doi)) {
+    apa_header <- paste0(apa_header, ", ", doi)
+  }
+
+  cat(trimws(apa_header), "\n\n", sep = "")
+
   NextMethod()
 }
 
@@ -320,19 +388,19 @@ is_dataset_df <- function(x) {
 }
 
 #' @keywords internal
-#' @importFrom rlang caller_env env_is_user_facing
 names.dataset_df <- function(x) {
-  should_inform <- rlang::env_is_user_facing(rlang::caller_env())
-  # if (should_inform) {
-  #  cli::cli_inform(c(
-  #    `!` = "The {.fn names} method of {.cls dataset_df} is for internal use only.",
-  #    i = "Did you mean {.fn colnames}?"
-  ##  ))
-  # }
   NextMethod("names")
 }
 
+#' @export
+`[.dataset_df` <- function(x, i, j, drop = FALSE) {
+  out <- NextMethod("[")
+  attributes_to_preserve <- c("dataset_bibentry", "subject", "prov")
 
-# `[[.dataset_df` <- function(x, i, j, ..., exact = TRUE) {
-#  NextMethod()
-#  }
+  for (attr_name in attributes_to_preserve) {
+    attr(out, attr_name) <- attr(x, attr_name)
+  }
+
+  class(out) <- class(x)
+  out
+}

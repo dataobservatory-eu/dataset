@@ -1,9 +1,16 @@
 # dataset 0.3.4027
 
 - The new `bibrecord()` class is handles is the superclass of the `dublincore` and
-`datacite()` classes; these classes have a new print method.
+`datacite()` classes; these classes have a new print method and they are conforming
+the current library standard DCTERMS and current repository standard DataCite;
+unlike `utils::bibentry()`, they handle contributors and their roles, identifiers, 
+and many other attributes.
 - Breaking change: the `definition` metadata field in the `defined()` class is 
 changed to the more understandable `concept` name.
+- The `defined()` vectors print nicely, and the `dataset_df()` class is more 
+readable, too.
+- The missing examples are present, including examples on the use of the 
+semantically richer `orange_df` example dataset.
 - Many code quality improvements and new tests.
 
 # dataset 0.3.4023

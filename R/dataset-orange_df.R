@@ -17,4 +17,15 @@
 #' Draper, N. R. and Smith, H. (1998), Applied Regression Analysis (3rd ed),
 #' Wiley (exercise 24.N). Pinheiro, J. C. and Bates, D. M. (2000) Mixed-effects
 #' Models in S and S-PLUS, Springer.
+#' @examples
+#' # The columns allow rich semantic definitions
+#' print(orange_df)
+#'
+#' # Each column may have a concept and namespace definition, and a long-form
+#' # human readable label:
+#'  print(orange_df$age)
+#'
+#'  # The bibliographical record of the dataset is not detached from the
+#'  # data.frame, tibble, or similar tabular structured object:
+#'  as_dublincore(orange_df)
 "orange_df"

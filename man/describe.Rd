@@ -4,7 +4,7 @@
 \alias{describe}
 \title{Describe a dataset}
 \usage{
-describe(x, con)
+describe(x, con = NULL)
 }
 \arguments{
 \item{x}{A dataset_df object.}
@@ -13,13 +13,19 @@ describe(x, con)
 }
 \value{
 The description of the dataset_df object is written to the
-connection in the n-triples form, nothing is returned.
+connection in the N-Triples form. If \code{con=NULL}, then the serialisation
+takes place in \code{tempfile()} and the contents are printed to the console;
+if a file is given, than no output is returned.
 }
 \description{
 Describe a dataset
 }
 \examples{
-temp_prov <- tempfile()
-describe(orange_df, con = temp_prov)
-readLines(temp_prov)
+
+# See the serialisation on the screen:
+describe(orange_df)
+
+# Save it to a connection:
+temporary_connection <- tempfile()
+describe(orange_df, con = temporary_connection)
 }

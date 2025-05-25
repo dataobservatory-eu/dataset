@@ -97,7 +97,8 @@ test_that("dataset_df() works", {
       PublicationYear = 2025
     )
   )
-  expect_equal(get_bibentry(test_dataset)$author, person("Jane", "Doe"))
+  expect_equal(get_bibentry(test_dataset)$author,
+               person("Jane", "Doe"))
   expect_true(is.subject(subject(test_dataset)))
 })
 
@@ -110,7 +111,8 @@ test_that("subsetting works", {
 test_that("new_dataset() works", {
   myiris <- new_dataset(x = iris, identifier = "example")
   expect_error(new_dataset(2))
-  expect_equal(class(new_dataset(iris, identifier = "example")), c("dataset_df", "tbl_df", "tbl", "data.frame"))
+  expect_equal(class(new_dataset(iris, identifier = "example")),
+               c("dataset_df", "tbl_df", "tbl", "data.frame"))
   expect_output(print(provenance(myiris)), "<http://example.com/dataset#>")
 })
 
@@ -125,30 +127,79 @@ test_that("rbind works", {
   expect_equal(nrow(rbind(iris_dataset1, iris_dataset2)), 300)
 })
 
-test_that("print.dataset_df prints citation, column names, and variable labels", {
-  df <- dataset_df(
-    code = defined(c("A", "B"), label = "Code Label"),
-    value = defined(c(10, 20), label = "Value Label", unit = "units"),
-    dataset_bibentry = dublincore(title = "Untitled Dataset", creator = person("Jane", "Doe", role = "ctb"))
+## Testing citations ---------------------------------------
+# Utility to capture output of print
+capture_output_lines <- function(expr) {
+  output <- capture.output(expr)
+  output[1]  # Return the APA-style citation line
+}
+
+test_that("APA header prints correctly for two personal authors", {
+  bib <- dublincore(
+    title = "Growth of Orange Trees",
+    creator = list(
+      person(given = "N.R.", family = "Draper", role = "cre"),
+      person(given = "H.", family = "Smith", role = "cre")
+    ),
+    publisher = "Wiley",
+    identifier = "https://doi.org/10.5281/zenodo.14917851",
+    dataset_date = 1998,
+    description = "Orange tree growth data"
   )
 
-  output <- capture.output(print(df))
+  df <- orange_df
+  attr(df, "data_bibentry") <- bib
+  class(df) <- c("dataset_df", class(df))
 
-  # Check citation
-  expect_true(any(grepl("Untitled Dataset", output)))
-
-  # Check column headers
-  expect_true(any(grepl("\\bcode\\b", output)))
-  expect_true(any(grepl("\\bvalue\\b", output)))
-
-  # Check that label line contains truncated or full label prefixes
-  label_row <- output[which.max(grepl("rowid", output)) + 1]
-  expect_true(grepl("Code L", label_row)) # relaxed match
-  expect_true(grepl("Value L", label_row)) # relaxed match
+  expect_equal(
+    capture_output_lines(print(df)),
+    "Draper-Smith (1998): Growth of Orange Trees [dataset], https://doi.org/10.5281/zenodo.14917851"
+  )
 })
 
+test_that("APA header prints correctly for institutional author", {
+  bib <- dublincore(
+    title = "GDP Statistics",
+    creator = list(person(family = "Eurostat")),
+    publisher = "Eurostat",
+    identifier = "https://doi.org/10.2908/TEINA011",
+    dataset_date = 2025,
+    description = "Nominal GDP data"
+  )
 
+  df2 <- orange_df
+  set_bibentry(df2) <- bib
 
+  expect_equal(
+    capture_output_lines(print(df2)),
+    "Eurostat (2025): GDP Statistics [dataset], https://doi.org/10.2908/TEINA011"
+  )
+})
+
+test_that("APA header prints correctly for more than two authors", {
+  bib3 <- dublincore(
+    title = "Extended Orange Tree Growth Study",
+    creator = list(
+      person(given = "A.", family = "Miller", role = "cre"),
+      person(given = "B.", family = "Nguyen", role = "cre"),
+      person(given = "C.", family = "Zhang", role = "cre")
+    ),
+    publisher = "Springer",
+    identifier = "https://doi.org/10.9999/multiple.authors",
+    dataset_date = 2020,
+    description = "Extended data on orange trees"
+  )
+
+  df3 <- orange_df
+  set_bibentry(df3) <- bib3
+
+  expect_equal(
+    capture_output_lines(print(df3)),
+    "Miller et al. (2020): Extended Orange Tree Growth Study [dataset], https://doi.org/10.9999/multiple.authors"
+  )
+})
+
+## Test as_dataset_df ---------------------------------------------
 test_that("as_dataset_df() works", {
   expect_s3_class(as_dataset_df(iris), "dataset_df")
   expect_false(is.dataset_df(mtcars))
@@ -164,14 +215,24 @@ test_that("summary.dataset_df() works", {
       PublicationYear = 2024
     )
   )
-  expect_output(summary(test_dataset), "Hello", ignore.case = FALSE)
-  expect_output(summary(test_dataset), "Jane Doe", ignore.case = FALSE)
+  expect_output(summary(test_dataset), "Hello",
+                ignore.case = FALSE)
+  expect_output(summary(test_dataset), "Doe \\(2024\\)",
+                ignore.case = FALSE)
 })
 
 
 test_that("names.dataset_df() works", {
-  expect_output(print(names(iris_dataset)), "rowid", ignore.case = FALSE)
-  expect_output(print(names(iris_dataset)), "Sepal.Length", ignore.case = FALSE)
+  expect_output(print(names(iris_dataset)), "rowid",
+                ignore.case = FALSE)
+  expect_output(print(names(iris_dataset)), "Sepal.Length",
+                ignore.case = FALSE)
   expect_length(names(iris_dataset), 6)
   expect_equal(names(iris_dataset)[1], "rowid")
+})
+
+test_that("Subsetting preserves dataset_df class and attributes", {
+  df_sub <- orange_df[1:3, ]
+  expect_s3_class(df_sub, "dataset_df")
+  expect_true(!is.null(attr(df_sub, "dataset_bibentry")))
 })

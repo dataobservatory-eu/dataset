@@ -164,8 +164,9 @@ vec_cast.character.haven_labelled_defined <- function(x, to, ...) vctrs::vec_dat
 
 #' From haven
 #' @keywords internal
+#' @importFrom vctrs vec_cast
 vec_cast_named <- function(x, to, ...) {
-  stats::setNames(vec_cast(x, to, ...), names(x))
+  stats::setNames(vctrs::vec_cast(x, to, ...), names(x))
 }
 
 #' @importFrom tibble new_tibble
@@ -298,6 +299,12 @@ tail.haven_labelled_defined <- function(x, n = 6L, ...) {
 print.haven_labelled_defined <- function(x, ...) {
   has_def <- !is.null(var_concept(x)) && !is.na(var_concept(x)) && nzchar(var_concept(x))
   has_unit <- !is.null(var_unit(x)) && !is.na(var_unit(x)) && nzchar(var_unit(x))
+  has_label <- !is.null(var_label(x))
+
+  cat(deparse(substitute(x)))
+
+  if(has_label) cat(paste0(": ", var_label(x)))
+  cat("\n")
 
   if (has_def && has_unit) {
     msg <- paste0("Defined as ", var_concept(x), ", measured in ", var_unit(x))
@@ -558,7 +565,7 @@ as_factor <- function(x, ...) {
 #' @importFrom vctrs vec_data
 as_factor.haven_labelled_defined <- function(x, ...) {
   haven::as_factor(haven::labelled(vctrs::vec_data(x),
-    labels = attr(x, "labels")
+                                   labels = attr(x, "labels")
   ), ...)
 }
 
@@ -587,7 +594,9 @@ c.haven_labelled_defined <- function(...) {
   concepts <- unlist(lapply(dots, var_concept))
   namespaces <- unlist(lapply(dots, namespace_attribute))
 
-  all.identical <- function(l) all(mapply(identical, head(l, 1), tail(l, -1)))
+  all.identical <- function(l) all(mapply(identical,
+                                          head(l, 1),
+                                          tail(l, -1)))
 
   if (length(unique(as.character(var_labels))) > 1) {
     stop("c.haven_labelled_defined(x,y): x,y must have no var_label or the same var_label.")
@@ -616,5 +625,10 @@ c.haven_labelled_defined <- function(...) {
     namespace = namespaces[[1]],
     unit = units[[1]]
   )
-  # NextMethod()
+}
+
+#' @importFrom pillar type_sum
+#' @export
+type_sum.haven_labelled_defined <- function(x) {
+ "defined"
 }

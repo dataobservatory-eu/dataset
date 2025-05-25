@@ -47,14 +47,12 @@ articles:
      Making the richer datasets available for other users.
     contents:
        - rdf
-
 reference:
   - title: "Dataset"
     desc: >
       Work with DataSet objects that resemble the [W3C](https://www.w3.org/TR/vocab-data-cube/) and SDMX datacube model.
     contents:
       - dataset_df
-      - get_bibentry
       - provenance
       - bind_defined_rows
   - title: "Defined"
@@ -72,22 +70,27 @@ reference:
       - strip_defined
       - get_variable_concepts
       - c.haven_labelled_defined
-  - title: "Describe"
-    desc: >
-      Describe the metadata in the Resource Description Framework
-    contents:
-      - describe
-      - xsd_convert
   - title: "Bibliography functions"
     desc: >
-      Functions to add and retain bibliographical data about the whole dataset, not its
-      individual columns only.
+      Conctructors for the extended bibentry classes that modernise the old R
+      bibliography entries to make them compatible and interoperable with the
+      international DCTERMS library and DataCite data repository standards.
+      The bibliographic metadata can be converted to bibentry, list, dataset_df,
+      or N-Triples standard RDF text serialisation formats.
     contents:
       - bibrecord
       - datacite
       - dublincore
-      - creator
+  - title: "Bibliography helpers"
+    desc: >
+      These functions allow the direct changing, updating, reading of the
+      bibliography attributes of a dataset_df object. These attributes can be
+      constructed separately with the datacite() or dublincore() constructors,
+      or created together with a dataset_df object.
+    contents:
+      - get_bibentry
       - dataset_title
+      - creator
       - language
       - subject
       - publication_year
@@ -96,17 +99,20 @@ reference:
       - identifier
       - description
       - geolocation
-  - title: "Replication Datasets"
+  - title: "RDF Serialisation"
     desc: >
-      Some R datasets enriched with more metadata.
+      Describe the data or its metadata in the Resource Description Framework
     contents:
-       - orange_df
-       - iris_dataset
-  - title: "Semantic utilities"
-    desc: >
-      Work with DataSet objects that resemble the [W3C](https://www.w3.org/TR/vocab-data-cube/) and SDMX datacube model.
-    contents:
+      - describe
+      - xsd_convert
       - n_triples
       - n_triple
       - dataset_to_triples
       - id_to_column
+  - title: "Replication Datasets"
+    desc: >
+      Some R datasets enriched with more semantic metadata.
+    contents:
+       - orange_df
+       - iris_dataset
+
