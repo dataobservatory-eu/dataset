@@ -60,7 +60,7 @@ as_dublincore(orange_df, "list")
 }
 \seealso{
 Other bibentry functions: 
-\code{\link{as_dublincore}()},
-\code{\link{datacite}()}
+\code{\link{as_datacite}()},
+\code{\link{as_dublincore}()}
 }
 \concept{bibentry functions}

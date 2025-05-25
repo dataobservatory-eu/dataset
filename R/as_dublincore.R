@@ -130,7 +130,9 @@ as_dublincore <- function(x, type = "bibentry", ...) {
     dataset_df(
       data.frame(
         title = dataset_title,
-        creator = as.character(dataset_creator),
+        creator = paste(vapply(dataset_creator,
+                               function(p) p$family, character(1)),
+                        collapse = "; "),
         identifier = dataset_identifier,
         publisher = dataset_publisher,
         subject = dataset_subject,
@@ -144,11 +146,11 @@ as_dublincore <- function(x, type = "bibentry", ...) {
         datasource = datasource,
         description = dataset_description,
         coverage = dataset_coverage
-      ),
-      reference = list(
-        title = paste0("The Dublin Core Metadata of `", dataset_bibentry$title, "'"),
-        author = citation_author,
-        year = substr(as.character(Sys.Date()), 1, 4)
+      ), dataset_bibentry =  dublincore(
+         title = paste0("The Dublin Core Metadata of `", dataset_bibentry$title, "'"),
+         creator  = dataset_creator,
+         dataset_date = dataset_date,
+         identifier = dataset_bibentry$identifier
       )
     )
   } else if (type == "ntriples") {

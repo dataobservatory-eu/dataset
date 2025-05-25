@@ -122,7 +122,11 @@
 #'   Language = "en"
 #' )
 #'
+#' # Bibliographic metadata as bibentry...
 #' as_datacite(orange_df)
+#'
+#' # ... or a list:
+#' as_datacite(orange_df, "list")
 #' @export
 
 datacite <- function(Title,
@@ -160,11 +164,15 @@ datacite <- function(Title,
   Date <- ifelse(is.null(DateList), ":tba", as.character(Date))
   DateList <- ifelse(is.null(DateList), ":tba", as.character(DateList))
   Format <- ifelse(is.null(Format), ":tba", as.character(Format))
-  AlternateIdentifier <- ifelse(is.null(AlternateIdentifier), ":unas", AlternateIdentifier)
-  RelatedIdentifier <- ifelse(is.null(RelatedIdentifier), ":unas", RelatedIdentifier)
+  AlternateIdentifier <- ifelse(is.null(AlternateIdentifier),
+                                ":unas", AlternateIdentifier)
+  RelatedIdentifier <- ifelse(is.null(RelatedIdentifier),
+                              ":unas", RelatedIdentifier)
   Rights <- ifelse(is.null(Rights), ":tba", as.character(Rights))
-  Geolocation <- ifelse(is.null(Geolocation), ":unas", as.character(Geolocation))
-  FundingReference <- ifelse(is.null(FundingReference), ":unas", as.character(FundingReference))
+  Geolocation <- ifelse(is.null(Geolocation), ":unas",
+                        as.character(Geolocation))
+  FundingReference <- ifelse(is.null(FundingReference),
+                             ":unas", as.character(FundingReference))
 
   new_datacite(
     Title = Title,
@@ -239,126 +247,6 @@ new_datacite <- function(Title,
   datacite_object
 }
 
-#' @rdname datacite
-#' @param x A dataset object created with \code{dataset::\link{dataset}}.
-#' @param type A DataCite 4.4  metadata can be returned as a \code{type="list"},
-#'   a \code{type="dataset_df"}, or a \code{type="bibentry"} (default).
-#' @param ... Optional parameters to add to a \code{datacite} object.
-#'   \code{author=person("Jane", "Doe")} adds an author to the citation object
-#'   if \code{type="dataset"}. as_datacite(orange_df, type="list")
-#' @return \code{as_datacite(x, type)} returns the DataCite bibliographical
-#'   metadata of x either as a list, a bibentry object, or a dataset_df object.
-#' @export
-as_datacite <- function(x, type = "bibentry", ...) {
-  citation_author <- person(NULL, NULL)
-
-  is_person <- function(p) ifelse(inherits(p, "person"), TRUE, FALSE)
-
-  arguments <- list(...)
-  if (!is.null(arguments$author)) {
-    if (is_person(arguments$author)) {
-      citation_author <- arguments$author
-    } else {
-      stop("as_datacite(x, ..., author = ): author must be created with utils::person().")
-    }
-  }
-
-  if (!type %in% c("bibentry", "list", "dataset_df")) {
-    warning_message <- "as_datacite(ds, type=...) type cannot be "
-    warning(warning_message, type, ". Reverting to 'bibentry'.")
-    type <- "bibentry"
-  }
-
-  ds_bibentry <- get_bibentry(x)
-  Title <- ds_bibentry$title
-  Creator <- ds_bibentry$author
-  Publisher <- ifelse(is.null(ds_bibentry$publisher), ":unas", as.character(ds_bibentry$publisher))
-  Identifier <- ifelse(is.null(ds_bibentry$identifier), ":tba", as.character(ds_bibentry$identifier))
-  Version <- ifelse(is.null(ds_bibentry$version), ":unas", as.character(ds_bibentry$version))
-  Description <- ifelse(is.null(ds_bibentry$description), ":unas", as.character(ds_bibentry$description))
-  Language <- ifelse(is.null(ds_bibentry$language), ":unas", as.character(ds_bibentry$language))
-  Date <- ifelse(is.null(ds_bibentry$Date), ":tba", as.character(ds_bibentry$Date))
-  DateList <- ifelse(is.null(ds_bibentry$DateList), ":tba", as.character(ds_bibentry$DateList))
-  PublicationYear <- ifelse(is.null(ds_bibentry$year), ":unas", as.character(ds_bibentry$year))
-  Format <- ifelse(is.null(ds_bibentry$format), ":tba", as.character(ds_bibentry$format))
-  AlternateIdentifier <- ifelse(is.null(ds_bibentry$alternateidentifier), ":unas", ds_bibentry$alternateidentifier)
-  RelatedIdentifier <- ifelse(is.null(ds_bibentry$relatedidentifier), ":unas", ds_bibentry$relatedidentifier)
-  Rights <- ifelse(is.null(ds_bibentry$rights), ":tba", as.character(ds_bibentry$rights))
-  Geolocation <- ifelse(is.null(ds_bibentry$geolocation), ":unas", as.character(ds_bibentry$geolocation))
-  FundingReference <- ifelse(is.null(ds_bibentry$fundingreference), ":unas", as.character(ds_bibentry$fundingreference))
-  Contributor <- ifelse(is.null(ds_bibentry$contributor), "", as.character(ds_bibentry$contributor))
-  Subject <- ifelse(is.null(subject(x)), new_Subject(":tba"), subject(x))
-
-  if (type == "bibentry") {
-    new_datacite(
-      Title = Title,
-      Creator = Creator,
-      Identifier = Identifier,
-      Publisher = Publisher,
-      PublicationYear = PublicationYear,
-      Subject = Subject,
-      Type = "Dataset",
-      Contributor = Contributor,
-      Date = Date,
-      DateList = DateList,
-      Language = Language,
-      AlternateIdentifier = AlternateIdentifier,
-      RelatedIdentifier = RelatedIdentifier,
-      Format = Format,
-      Version = Version,
-      Rights = Rights,
-      Description = Description,
-      Geolocation = Geolocation,
-      FundingReference = FundingReference
-    )
-  } else if (type == "list") {
-    list(
-      Title = Title,
-      Creator = Creator,
-      Identifier = Identifier,
-      Publisher = Publisher,
-      PublicationYear = PublicationYear,
-      Subject = Subject,
-      Type = "Dataset",
-      Contributor = Contributor,
-      Date = Date,
-      DateList = DateList,
-      Language = Language,
-      AlternateIdentifier = AlternateIdentifier,
-      RelatedIdentifier = RelatedIdentifier,
-      Format = Format,
-      Version = Version,
-      Rights = Rights,
-      Description = Description,
-      Geolocation = Geolocation,
-      FundingReference = FundingReference
-    )
-  } else if (type == "dataset_df") {
-    dataset_df(
-      data.frame(
-        Title = Title,
-        Creator = as.character(Creator),
-        Identifier = Identifier,
-        Publisher = Publisher,
-        PublicationYear = PublicationYear,
-        Subject = ifelse(is.null(Subject), "", as.character(Subject)),
-        Type = "Dataset",
-        Contributor = ifelse(is.null(Contributor), ":unas", as.character(Contributor)),
-        Date = Date,
-        DateList = DateList,
-        Language = Language,
-        AlternateIdentifier = AlternateIdentifier,
-        RelatedIdentifier = RelatedIdentifier,
-        Format = Format,
-        Version = Version,
-        Rights = Rights,
-        Description = Description,
-        Geolocation = Geolocation,
-        FundingReference = FundingReference
-      )
-    )
-  }
-}
 
 
 #' @rdname datacite
@@ -395,7 +283,9 @@ print.datacite <- function(x, ...) {
 }
 
 #' @keywords internal
-datacite_to_triples <- function(dc_list, dataset_id = "http://example.com/dataset") {
+datacite_to_triples <- function(dc_list,
+                                dataset_id = "http://example.com/dataset") {
+
   if (is.null(dc_list$title) || nchar(dc_list$title) == 0) {
     stop("datacite_to_triples(): title is required")
   }
@@ -403,50 +293,74 @@ datacite_to_triples <- function(dc_list, dataset_id = "http://example.com/datase
   base <- "http://datacite.org/schema/kernel-4/"
   triples <- character()
 
-  triples <- c(triples, n_triple(dataset_id, paste0(base, "title"), dc_list$title))
+  triples <- c(triples, n_triple(dataset_id,
+                                 paste0(base, "title"),
+                                 dc_list$title))
 
   if (!is.null(dc_list$creator)) {
-    triples <- c(triples, n_triple(dataset_id, paste0(base, "creator"), dc_list$creator))
+    triples <- c(triples, n_triple(dataset_id,
+                                   paste0(base, "creator"),
+                                   dc_list$creator))
   }
 
   if (!is.null(dc_list$contributor)) {
-    triples <- c(triples, n_triple(dataset_id, paste0(base, "contributor"), dc_list$contributor))
+    triples <- c(triples, n_triple(dataset_id,
+                                   paste0(base, "contributor"),
+                                   dc_list$contributor))
   }
 
   if (!is.null(dc_list$identifier)) {
-    triples <- c(triples, n_triple(dataset_id, paste0(base, "identifier"), dc_list$identifier))
+    triples <- c(triples, n_triple(dataset_id,
+                                   paste0(base, "identifier"),
+                                   dc_list$identifier))
   }
 
   if (!is.null(dc_list$publisher)) {
-    triples <- c(triples, n_triple(dataset_id, paste0(base, "publisher"), dc_list$publisher))
+    triples <- c(triples, n_triple(dataset_id,
+                                   paste0(base, "publisher"),
+                                   dc_list$publisher))
   }
 
   if (!is.null(dc_list$publicationyear)) {
-    triples <- c(triples, n_triple(dataset_id, paste0(base, "publicationYear"), dc_list$publicationyear))
+    triples <- c(triples, n_triple(dataset_id,
+                                   paste0(base, "publicationYear"),
+                                   dc_list$publicationyear))
   }
 
   if (!is.null(dc_list$language)) {
-    triples <- c(triples, n_triple(dataset_id, paste0(base, "language"), dc_list$language))
+    triples <- c(triples, n_triple(dataset_id,
+                                   paste0(base, "language"),
+                                   dc_list$language))
   }
 
   if (!is.null(dc_list$rights)) {
-    triples <- c(triples, n_triple(dataset_id, paste0(base, "rights"), dc_list$rights))
+    triples <- c(triples, n_triple(dataset_id,
+                                   paste0(base, "rights"),
+                                   dc_list$rights))
   }
 
   if (!is.null(dc_list$description)) {
-    triples <- c(triples, n_triple(dataset_id, paste0(base, "descriptions"), dc_list$description))
+    triples <- c(triples, n_triple(dataset_id,
+                                   paste0(base, "descriptions"),
+                                   dc_list$description))
   }
 
   if (!is.null(dc_list$subject)) {
-    triples <- c(triples, n_triple(dataset_id, paste0(base, "subjects"), dc_list$subject))
+    triples <- c(triples, n_triple(dataset_id,
+                                   paste0(base, "subjects"),
+                                   dc_list$subject))
   }
 
   if (!is.null(dc_list$format)) {
-    triples <- c(triples, n_triple(dataset_id, paste0(base, "formats"), dc_list$format))
+    triples <- c(triples, n_triple(dataset_id,
+                                   paste0(base, "formats"),
+                                   dc_list$format))
   }
 
   if (!is.null(dc_list$version)) {
-    triples <- c(triples, n_triple(dataset_id, paste0(base, "version"), dc_list$version))
+    triples <- c(triples, n_triple(dataset_id,
+                                   paste0(base, "version"),
+                                   dc_list$version))
   }
 
   n_triples(triples)
