@@ -34,34 +34,31 @@ into release and reuse ready form.
     into the attributes of a data frame-like object. See for more
     information the [Bibentry for FAIR
     datasets](https://dataset.dataobservatory.eu/articles/bibentry.html)
-    vignette. 2.**Interoperability outside R**: Extending the
-    `haven_labelled` class of the `tidyverse` for consistently labelled
-    categorical variables with linked (standard) definitions and units
-    of measures in our
-    [defined](https://dataset.dataobservatory.eu/articles/defined.html)
-    class; this enables to share exact definitions, units of measures
-    across computers and systems, and increasing the interoperability of
-    the data set from an R data.frame to any standardised statistical or
-    library system.
-2.  **Tidy data tidier, richer**: Offering a new data frame format,
-    `dataset_df` that extends tibbles with semantically rich metadata,
-    ready to be shared on open data exchange platforms and in data
-    repositories. This s3 class is aimed at developers and we are
-    working on several packages that provide interoperability with SDMX
-    statistical data exchange platforms, Wikidata, or the EU Open Data
-    portal. Read more in the [Create Datasets that are Easy to Share
-    Exchange and
-    Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
     vignette.
-3.  **R+RDF=global interoperability**: The [From R to
-    RDF](https://dataset.dataobservatory.eu/articles/rdf.html) vignette
-    shows how to leverage the capabilities of the *dataset* package with
-    [rdflib](https://docs.ropensci.org/rdflib/index.html), an
-    R-user-friendly wrapper on ROpenSci to work with the *redland*
-    Python library for performing common tasks on rdf data, such as
-    parsing and converting between formats including rdfxml, turtle,
-    nquads, ntriples, and trig, creating rdf graphs, and performing
-    SPARQL queries.
+
+2.**Interoperability outside R**: Extending the `haven_labelled` class
+of the `tidyverse` for consistently labelled categorical variables with
+linked (standard) definitions and units of measures in our
+[defined](https://dataset.dataobservatory.eu/articles/defined.html)
+class; this enables to share exact definitions, units of measures across
+computers and systems, and increasing the interoperability of the data
+set from an R data.frame to any standardised statistical or library
+system. 3. **Tidy data tidier, richer**: Offering a new data frame
+format, `dataset_df` that extends tibbles with semantically rich
+metadata, ready to be shared on open data exchange platforms and in data
+repositories. This s3 class is aimed at developers and we are working on
+several packages that provide interoperability with SDMX statistical
+data exchange platforms, Wikidata, or the EU Open Data portal. Read more
+in the [Create Datasets that are Easy to Share Exchange and
+Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
+vignette. 4. **R+RDF=global interoperability**: The [From R to
+RDF](https://dataset.dataobservatory.eu/articles/rdf.html) vignette
+shows how to leverage the capabilities of the *dataset* package with
+[rdflib](https://docs.ropensci.org/rdflib/index.html), an
+R-user-friendly wrapper on ROpenSci to work with the *redland* Python
+library for performing common tasks on rdf data, such as parsing and
+converting between formats including rdfxml, turtle, nquads, ntriples,
+and trig, creating rdf graphs, and performing SPARQL queries.
 
 <!---
 &#10;The primary aim of dataset is create well-referenced, well-described, interoperable datasets from data.frames, tibbles or data.tables that translate well into the W3C DataSet definition within the [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/) in a reproducible manner. The data cube model in itself is is originated in the _Statistical Data and Metadata eXchange_, and it is almost fully harmonized with the Resource Description Framework (RDF), the standard model for data interchange on the web^[RDF Data Cube Vocabulary, W3C Recommendation 16 January 2014  <https://www.w3.org/TR/vocab-data-cube/>, Introduction to SDMX data modeling <https://www.unescap.org/sites/default/files/Session_4_SDMX_Data_Modeling_%20Intro_UNSD_WS_National_SDG_10-13Sep2019.pdf>].
@@ -113,7 +110,7 @@ Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
 
 ``` r
 summary(iris_ds)
-#> [1] E. Anderson. _Iris Dataset_. En. DCMITYPE:Dataset. 1935.
+#> Anderson (1935): Summary of Iris Dataset [dataset]
 #>     rowid          
 #>  Length:150        
 #>  Class :character  
@@ -121,20 +118,27 @@ summary(iris_ds)
 #>                    
 #>                    
 #>                    
-#>    x.Sepal.Length        x.Sepal.Width       x.Petal.Length        x.Petal.Width          x.Species     
-#>  Min.   :4.300000     Min.   :2.000000     Min.   :1.000        Min.   :0.1000000    setosa    :50      
-#>  1st Qu.:5.100000     1st Qu.:2.800000     1st Qu.:1.600        1st Qu.:0.3000000    versicolor:50      
-#>  Median :5.800000     Median :3.000000     Median :4.350        Median :1.3000000    virginica :50      
-#>  Mean   :5.843333     Mean   :3.057333     Mean   :3.758        Mean   :1.1993333    NA                 
-#>  3rd Qu.:6.400000     3rd Qu.:3.300000     3rd Qu.:5.100        3rd Qu.:1.8000000    NA                 
-#>  Max.   :7.900000     Max.   :4.400000     Max.   :6.900        Max.   :2.5000000    NA
+#>      x.Sepal.Length            x.Sepal.Width           x.Petal.Length            x.Petal.Width              x.Species       
+#>  Min.   :4.30000000000    Min.   :2.00000000000    Min.   :1.000            Min.   :0.10000000000    setosa    :50          
+#>  1st Qu.:5.10000000000    1st Qu.:2.80000000000    1st Qu.:1.600            1st Qu.:0.30000000000    versicolor:50          
+#>  Median :5.80000000000    Median :3.00000000000    Median :4.350            Median :1.30000000000    virginica :50          
+#>  Mean   :5.84333333333    Mean   :3.05733333333    Mean   :3.758            Mean   :1.19933333333    NA                     
+#>  3rd Qu.:6.40000000000    3rd Qu.:3.30000000000    3rd Qu.:5.100            3rd Qu.:1.80000000000    NA                     
+#>  Max.   :7.90000000000    Max.   :4.40000000000    Max.   :6.900            Max.   :2.50000000000    NA
 ```
 
 The dataset_df A brief description of the extended metadata attributes:
 
 ``` r
 print(get_bibentry(iris_ds), "Bibtex")
-#> [1] E. Anderson. _Iris Dataset_. En. DCMITYPE:Dataset. 1935.
+#> Dublin Core Metadata Record
+#> --------------------------
+#> Title:        Iris Dataset 
+#> Creator(s):   Edgar Anderson [aut] 
+#> Publisher:    American Iris Society 
+#> Year:         1935 
+#> Language:     en 
+#> Description:  This famous (Fisher's or Anderson's) iris data set.
 ```
 
 ``` r
@@ -171,6 +175,7 @@ gdp_1 = defined(
     label = "Gross Domestic Product", 
     unit = "million dollars", 
     definition = "http://data.europa.eu/83i/aa/GDP")
+#> Warning: `definition` is deprecated; please use `concept` instead.
 
 # Summarise this semantically better defined vector:
 summary(gdp_1)
@@ -190,7 +195,7 @@ attributes(gdp_1)
 #> $unit
 #> [1] "million dollars"
 #> 
-#> $definition
+#> $concept
 #> [1] "http://data.europa.eu/83i/aa/GDP"
 ```
 
@@ -202,19 +207,19 @@ data("iris_dataset")
 
 # Print the dataset_df object:
 print(iris_dataset)
-#> [1] E. Anderson. _Iris Dataset_. En. DCMITYPE:Dataset. 1935.
-#>    rowid      Sepal.Length Petal.Length Sepal.Width Petal.Width Species   
-#>    <hvn_lbl_> <hvn_lbl_>   <hvn_lbl_>   <hvn_lbl_>  <hvn_lbl_>  <hvn_lbl_>
-#>  1 #1         5.1          1.4          3.5         0.2         1 [setosa]
-#>  2 #2         4.9          1.4          3           0.2         1 [setosa]
-#>  3 #3         4.7          1.3          3.2         0.2         1 [setosa]
-#>  4 #4         4.6          1.5          3.1         0.2         1 [setosa]
-#>  5 #5         5            1.4          3.6         0.2         1 [setosa]
-#>  6 #6         5.4          1.7          3.9         0.4         1 [setosa]
-#>  7 #7         4.6          1.4          3.4         0.3         1 [setosa]
-#>  8 #8         5            1.5          3.4         0.2         1 [setosa]
-#>  9 #9         4.4          1.4          2.9         0.2         1 [setosa]
-#> 10 #10        4.9          1.5          3.1         0.1         1 [setosa]
+#> Anderson (1935): Iris Dataset [dataset], https://doi.org/10.5281/zenodo.10396807
+#>    rowid     Sepal.Length Petal.Length Sepal.Width Petal.Width Species    
+#>    <defined> <defined>    <defined>    <defined>   <defined>   <defined> 
+#>  1 #1        5.1          1.4          3.5         0.2         1 [setosa]
+#>  2 #2        4.9          1.4          3           0.2         1 [setosa]
+#>  3 #3        4.7          1.3          3.2         0.2         1 [setosa]
+#>  4 #4        4.6          1.5          3.1         0.2         1 [setosa]
+#>  5 #5        5            1.4          3.6         0.2         1 [setosa]
+#>  6 #6        5.4          1.7          3.9         0.4         1 [setosa]
+#>  7 #7        4.6          1.4          3.4         0.3         1 [setosa]
+#>  8 #8        5            1.5          3.4         0.2         1 [setosa]
+#>  9 #9        4.4          1.4          2.9         0.2         1 [setosa]
+#> 10 #10       4.9          1.5          3.1         0.1         1 [setosa]
 #> # ℹ 140 more rows
 
 # Summarise the Sepal.Length variable:
@@ -235,7 +240,7 @@ attributes(iris_dataset$Sepal.Length)
 #> $unit
 #> [1] "centimeter"
 #> 
-#> $definition
+#> $concept
 #> [1] "https://www.wikidata.org/wiki/Property:P2043"
 ```
 
@@ -252,13 +257,13 @@ for describing these processes in a flat file.
 
 ``` r
 provenance(iris_dataset)
-#> [1] "<http://example.com/dataset_prov.nt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Bundle> ."                  
-#> [2] "<http://example.com/dataset#> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> ."                         
-#> [3] "<http://example.com/dataset#> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/linked-data/cube#DataSet> ."                 
-#> [4] "<http://viaf.org/viaf/6440526> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."                         
-#> [5] "<https://doi.org/10.32614/CRAN.package.dataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#SoftwareAgent> ."
-#> [6] "<http://example.com/creation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> ."                       
-#> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2024-12-24T23:43:45Z\"^^<xs:dateTime> ."
+#> [1] "<http://example.com/dataset_prov.nt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Bundle> ."                      
+#> [2] "<http://example.com/dataset#> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> ."                             
+#> [3] "<http://example.com/dataset#> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/linked-data/cube#DataSet> ."                     
+#> [4] "<http://viaf.org/viaf/6440526> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."                             
+#> [5] "<https://doi.org/10.32614/CRAN.package.dataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#SoftwareAgent> ."    
+#> [6] "<http://example.com/creation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> ."                           
+#> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2025-05-22T23:19:44Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> ."
 ```
 
 The [From R to
