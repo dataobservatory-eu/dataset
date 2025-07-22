@@ -7,11 +7,11 @@
 #' provenance attributes and returns \code{x} invisibly.
 #' @importFrom utils citation
 #' @examples
-#' provenance(iris_dataset)
+#' provenance(orange_df)
 #'
 #' ## add a statement:
 #'
-#'  provenance(iris_dataset) <- n_triple(
+#'  provenance(orange_df) <- n_triple(
 #'   "https://doi.org/10.5281/zenodo.10396807",
 #'   "http://www.w3.org/ns/prov#wasInformedBy",
 #'   "http://example.com/source#1")
