@@ -20,17 +20,15 @@ provenance(x) <- value
 provenance attributes and returns \code{x} invisibly.
 }
 \description{
-Add or update information about the history (provenance) of the
-dataset.
+Add or update information about the history (provenance) of the dataset.
 }
 \examples{
-provenance(orange_df)
+provenance(iris_dataset)
 
 ## add a statement:
 
-provenance(orange_df) <- n_triple(
-  "https://doi.org/10.5281/zenodo.14917851",
+ provenance(iris_dataset) <- n_triple(
+  "https://doi.org/10.5281/zenodo.10396807",
   "http://www.w3.org/ns/prov#wasInformedBy",
-  "isbn:9780471170822"
-)
+  "http://example.com/source#1")
 }
