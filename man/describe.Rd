@@ -2,30 +2,19 @@
 % Please edit documentation in R/describe.R
 \name{describe}
 \alias{describe}
-\title{Describe a dataset}
+\title{Describe a dataset in N-Triples format}
 \usage{
-describe(x, con = NULL)
+describe(x, con)
 }
 \arguments{
-\item{x}{A dataset_df object.}
+\item{x}{A \code{dataset_df} object.}
 
-\item{con}{A connection, for example, \code{con=tempfile()}.}
+\item{con}{A connection or a character string path (e.g. from \code{tempfile()}).}
 }
 \value{
-The description of the dataset_df object is written to the
-connection in the N-Triples form. If \code{con=NULL}, then the serialisation
-takes place in \code{tempfile()} and the contents are printed to the console;
-if a file is given, than no output is returned.
+Invisibly returns \code{x}. Writes N-Triples to \code{con}.
 }
 \description{
-Describe a dataset
-}
-\examples{
-
-# See the serialisation on the screen:
-describe(orange_df)
-
-# Save it to a connection:
-temporary_connection <- tempfile()
-describe(orange_df, con = temporary_connection)
+Writes provenance and Dublin Core metadata of a dataset to a
+file or connection in N-Triples format.
 }
