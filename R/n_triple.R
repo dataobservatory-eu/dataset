@@ -37,14 +37,20 @@ n_triples <- function(triples) {
 #' o <- "That Seventies Show"
 #' n_triple(s, p, o)
 #' @export
-n_triple <- function(s,p,o) {
-
+n_triple <- function(s, p, o) {
   s <- create_iri(s)
   p <- create_iri(p)
-  o <- create_iri(o)
+
+  # Don't convert `o` if it's already quoted with ^^<...>
+  if (grepl('^".+"\\^\\^<.+>$', o) || grepl('^<.+>$', o)) {
+    # o is already a well-formed literal or URI
+  } else {
+    o <- create_iri(o)
+  }
 
   sprintf('%s %s %s .', s, p, o)
 }
+
 
 #' @keywords internal
 create_iri <- function(x) {
