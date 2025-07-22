@@ -45,20 +45,25 @@ default_provenance <- function(dataset_id = "http://example.com/dataset#",
                                generated_at_time = NULL) {
   cite_dataset <- utils::citation("dataset")
 
-  agent_triples <- prov_author(author)
-  if((!is.null(dtm))) c(agent_triples, prov_author(dtm))
+  agent_triples <- c()
+  if (!is.null(author)) agent_triples <- c(agent_triples, prov_author(author))
+  if (!is.null(dtm))    agent_triples <- c(agent_triples, prov_author(dtm))
 
-  if (is.null(generated_at_time)) generated_at_time <- Sys.time()
+  if (is.null(generated_at_time)) {
+    generated_at_time <- Sys.time()
+  }
+
   bundle_id <- gsub("#", "_prov.nt", dataset_id)
+
   prov <- n_triples(
-    c(n_triple(bundle_id, "a", "http://www.w3.org/ns/prov#Bundle"),
+    c(
+      n_triple(bundle_id, "a", "http://www.w3.org/ns/prov#Bundle"),
       n_triple(dataset_id, "a", "http://www.w3.org/ns/prov#Entity"),
-      n_triple(dataset_id, "a", "http://purl.org/linked-data/cube#DataSet"),
       n_triple(dataset_id, "a", "http://purl.org/linked-data/cube#DataSet"),
       agent_triples,
       n_triple("https://doi.org/10.32614/CRAN.package.dataset", "a", "http://www.w3.org/ns/prov#SoftwareAgent"),
       n_triple("http://example.com/creation", "a", "http://www.w3.org/ns/prov#Activity"),
-      n_triple("http://example.com/creation", "http://www.w3.org/ns/prov#generatedAtTime", generated_at_time ),
+      n_triple("http://example.com/creation", "http://www.w3.org/ns/prov#generatedAtTime", xsd_convert(generated_at_time)),
       n_triple(paste0("https://doi.org/", cite_dataset[[2]]$doi), "a", "http://www.w3.org/ns/prov#SoftwareAgent")
     )
   )
