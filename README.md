@@ -14,7 +14,7 @@ WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.o
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 [![DOI](https://zenodo.org/badge/DOI/10.32614/CRAN.package.dataset.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.3.9-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.3.91-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Codecov test
 coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset)
@@ -89,7 +89,7 @@ as_dublincore(orange_df)
 #> Dublin Core Metadata Record
 #> --------------------------
 #> Title:        Growth of Orange Trees 
-#> Creator(s):   N.R. Draper [cre] (http://viaf.org/viaf/84585260); H Smith [cre] 
+#> Creator(s):   N.R. Draper [cre] (VIAF: http://viaf.org/viaf/84585260); H Smith [cre] 
 #> Contributor(s):  :unas 
 #> Publisher:    Wiley 
 #> Year:         1998 
@@ -148,12 +148,11 @@ my_data <- dataset_df(
 )
 
 head(my_data)
-#> 
-#> 
-#>   rowid      country    gdp        
-#>   <hvn_lbl_> <hvn_lbl_> <hvn_lbl_>
-#> 1 eg:1       AD         3897      
-#> 2 eg:2       LI         7365
+#> Doe (2025): GDP Data for Small Countries [dataset]
+#>   rowid     country   gdp       
+#>   <defined> <defined> <defined>
+#> 1 eg:1      AD        3897     
+#> 2 eg:2      LI        7365
 ```
 
 ``` r
@@ -165,7 +164,7 @@ as_datacite(my_data)
 #> Contributor(s): :unas 
 #> Identifier:    :tba 
 #> Publisher:     Open Data Institute 
-#> Year:          :tba 
+#> Year:          2025 
 #> Language:      en 
 #> Description:  Example Dataset for the dataset package
 ```
