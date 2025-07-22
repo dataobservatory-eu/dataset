@@ -22,15 +22,11 @@ RDF. See
 \href{https://www.w3.org/TR/rdf12-n-triples/}{RDF 1.2 N-Triples. A line-based syntax for an RDF graph}.
 }
 \examples{
-triple_1 <- n_triple(
-  "http://example.org/show/218",
-  "http://www.w3.org/2000/01/rdf-schema#label",
-  "That Seventies Show"
-)
-triple_2 <- n_triple(
-  "http://example.org/show/218",
-  "http://example.org/show/localName",
-  '"Cette Série des Années Septante"@fr-be'
-)
+triple_1 <- n_triple("http://example.org/show/218",
+                      "http://www.w3.org/2000/01/rdf-schema#label",
+                      "That Seventies Show")
+triple_2 <- n_triple("http://example.org/show/218",
+                     "http://example.org/show/localName",
+                     '"Cette Série des Années Septante"@fr-be')
 n_triples(c(triple_1, triple_2, triple_1))
 }

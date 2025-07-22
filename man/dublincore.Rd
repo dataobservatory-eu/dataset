@@ -46,8 +46,8 @@ format, physical medium, or dimensions of the resource, use the Format
 element.}
 
 \item{...}{Optional parameters to add to a \code{dublincore} object.
-\code{author=person("Jane", "Doe")} adds an author to the citation object
-if \code{type="dataset"}.}
+\code{author=person("Jane", "Doe")} adds an author to the citation
+object if \code{type="dataset"}.}
 
 \item{title}{\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title},
 a name given to the resource. \code{\link{datacite}} allows the use of

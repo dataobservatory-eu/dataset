@@ -1,7 +1,7 @@
 Package: dataset
 Title: Create Data Frames that are Easier to Exchange and Reuse
-Version: 0.3.9
-Date: 2025-05-25
+Version: 0.3.91
+Date: 2025-07-22
 Language: en-GB
 Authors@R: 
     c(person(given = "Daniel", family = "Antal", 
