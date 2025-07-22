@@ -28,7 +28,7 @@ test_that("dataset_df() works", {
 test_that("dataset_df() works", {
   orange_bibentry <- dublincore(
     title = "Growth of Orange Trees",
-    creator = c(
+    creator = personList(
       person(
         given = "N.R.",
         family = "Draper",

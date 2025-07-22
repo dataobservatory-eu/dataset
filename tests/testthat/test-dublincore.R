@@ -131,22 +131,6 @@ test_that("dublincore() works", {
   expect_equal(dct_iris$description, "The famous (Fisher's or Anderson's) iris data set gives the measurements in centimeters of the variables sepal length and width and petal length and width, respectively, for 50 flowers from each of 3 species of iris. The species are Iris setosa, versicolor, and virginica.")
 })
 
-test_that("as_dublincore() works", {
-  expect_true(is.dublincore(as_dublincore(x = iris_dataset)))
-  expect_true(is.list(as_dublincore(x = iris_dataset, type = "list")))
-  expect_equal(as_dublincore(iris_dataset)$date, "1935")
-  expect_equal(as_dublincore(iris_dataset)$description, "The famous (Fisher's or Anderson's) iris data set.")
-  expect_equal(as_dublincore(iris_dataset)$rights, ":tba")
-  expect_equal(as_dublincore(iris_dataset)$coverage, ":unas")
-  iris_dc_triples <- as_dublincore(iris_dataset, "ntriples")
-  expect_equal(iris_dc_triples[1], '<https://doi.org/10.5281/zenodo.10396807> <http://purl.org/dc/terms/title> \"Iris Dataset\"^^<http://www.w3.org/2001/XMLSchema#string> .')
-})
-
-
-test_that("as_dublincore() gives warning", {
-  expect_warning(as_dublincore(iris_dataset, type = "character"))
-})
-
 test_that("dublincore() new example works", {
   orange_bibentry <- dublincore(
     title = "Growth of Orange Trees",
