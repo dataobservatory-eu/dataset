@@ -38,14 +38,19 @@ are merged if repeated.}
 \item{...}{Additional fields (e.g., language, format, rights, description).}
 }
 \value{
-An object of class \code{bibrecord} and \code{bibentry}. bibrecord(title =
-"Gross domestic product, volumes", author = person("Eurosat"), publisher =
-person("Eurostat"), identifier = "https://doi.org/10.2908/TEINA011", date =
-as.Date("2025-05-20"))
+An object of class \code{bibrecord} and \code{bibentry}.
 }
 \description{
 Create a \code{utils::bibentry}-compatible object extended with
 standard Dublin Core and DataCite-compatible fields. This serves as a
 unified metadata structure for use in both \code{dublincore()} and \code{datacite()}
 functions.
+}
+\examples{
+bibrecord(
+  title = "Gross domestic product, volumes",
+  author = person("Eurosat"),
+  publisher = person("Eurostat"),
+  identifier = "https://doi.org/10.2908/TEINA011",
+  date = as.Date("2025-05-20"))
 }

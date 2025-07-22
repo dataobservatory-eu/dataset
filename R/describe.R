@@ -4,6 +4,22 @@
 #' @param x A `dataset_df` object.
 #' @param con A connection or a character string path (e.g. from `tempfile()`).
 #' @return Invisibly returns `x`. Writes N-Triples to `con`.
+#' @examples
+#' test_ds <- dataset_df(
+#'    rowid = defined(c("eg:1", "eg:2"),
+#'    namespace = "http://example.com/dataset#"),
+#'    geo = defined(
+#'      gdp$geo[1:2],
+#'      label = "Country",
+#'      concept = "http://example.com/prop/geo",
+#'      namespace = "https://eionet.europa.eu/geo/$1"
+#'    ),
+#'    dataset_bibentry = dublincore(
+#'       title = "Example Dataset",
+#'      creator = person("John", "Doe")
+#'     )
+#'   )
+#' describe(test_ds, con=tempfile())
 #' @export
 describe <- function(x, con) {
   assertthat::assert_that(

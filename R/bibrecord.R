@@ -16,10 +16,14 @@
 #' @param subject Optional keyword(s) or controlled vocabulary string.
 #' @param ... Additional fields (e.g., language, format, rights, description).
 #' @importFrom utils bibentry
-#' @return An object of class `bibrecord` and `bibentry`. bibrecord(title =
-#'   "Gross domestic product, volumes", author = person("Eurosat"), publisher =
-#'   person("Eurostat"), identifier = "https://doi.org/10.2908/TEINA011", date =
-#'   as.Date("2025-05-20"))
+#' @return An object of class `bibrecord` and `bibentry`.
+#' @examples
+#' bibrecord(
+#'   title = "Gross domestic product, volumes",
+#'   author = person("Eurosat"),
+#'   publisher = person("Eurostat"),
+#'   identifier = "https://doi.org/10.2908/TEINA011",
+#'   date = as.Date("2025-05-20"))
 #' @export
 bibrecord <- function(
     title,

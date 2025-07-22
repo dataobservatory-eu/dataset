@@ -24,3 +24,5 @@ test_that("describe() writes provenance and metadata to file", {
   expect_true(length(lines) > 3)
 })
 
+x = orange_df
+con = tempfile()
