@@ -2,27 +2,49 @@
 % Please edit documentation in R/dataset_to_triples.R
 \name{dataset_to_triples}
 \alias{dataset_to_triples}
-\title{Dataset to triples (three columns)}
+\title{Dataset to triples (three columns or N-Triples)}
 \usage{
-dataset_to_triples(x, idcol = NULL)
+dataset_to_triples(x, idcol = NULL, expand_uri = TRUE, format = "data.frame")
 }
 \arguments{
-\item{x}{An R object that contains the data of the dataset (a data.frame or
-inherited from \code{\link[base:data.frame]{data.frame}}), for example,
-\code{\link[=dataset_df]{dataset_df()}}.}
+\item{x}{A \code{dataset_df} or \code{data.frame}.}
 
-\item{idcol}{The identifier column. If \code{idcol} is \code{NULL} it
-attempts to use the \code{row.names(df)} as an \code{idcol}.}
+\item{idcol}{Name or index of the subject column. If NULL, defaults to
+\code{"rowid"} or rownames.}
+
+\item{expand_uri}{Logical; if TRUE, expands URIs using namespaces and
+definitions.}
+
+\item{format}{Output format: \code{"data.frame"} (default) or \code{"nt"} for
+N-Triples.}
 }
 \value{
-The long form version of the original dataset, retaining the
-attributes and class.
+Either a \code{data.frame} with columns \code{s}, \code{p}, and \code{o}, or a character
+vector of N-Triple lines.
 }
 \description{
-The dataset is converted into a three-column long format with
-columns \code{s} for subject, \code{p} for predicate and \code{o} for
-object.
+Converts a dataset to RDF-style triples with subject, predicate,
+and object columns. Supports semantic expansion via variable metadata.
 }
 \examples{
-dataset_to_triples(orange_df)
+# A minimal example with just rowid and geo
+data("gdp", package = "dataset")
+small_geo <- dataset_df(
+  rowid = defined(
+    paste0("eg:", seq_along(gdp$geo[1:3])),
+    namespace = "http://example.com/dataset#"
+  ),
+  geo = defined(
+    gdp$geo[1:3],
+    label = "Geopolitical entity",
+    concept = "http://example.com/prop/geo",
+    namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"
+  )
+)
+
+# View as triple table
+dataset_to_triples(small_geo)
+
+# View as N-Triples
+dataset_to_triples(small_geo, format = "nt")
 }
