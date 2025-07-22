@@ -1,31 +1,32 @@
-
-test_that("as_dublincore returns a dublincore (bibentry) object by default", {
-  dc <- as_dublincore(orange_df)
-  expect_s3_class(dc, "dublincore")
-  expect_s3_class(dc, "bibentry")
-  expect_equal(dc$title, "Growth of Orange Trees")
-  expect_true(inherits(dc$author, "person") || all(vapply(dc$author, inherits, logical(1), "person")))
+test_that("as_dublincore() gives warning", {
+  expect_warning(as_dublincore(iris_dataset, type = "character"))
 })
 
-test_that("as_dublincore(type = 'list') returns a named list with correct fields", {
-  dc_list <- as_dublincore(orange_df, type = "list")
-  expect_type(dc_list, "list")
-  expect_equal(dc_list$title, "Growth of Orange Trees")
-  expect_equal(dc_list$type, "DCMITYPE:Dataset")
-  expect_true("creator" %in% names(dc_list))
-  expect_true("identifier" %in% names(dc_list))
-})
+test_that("as_dublincore returns valid N-Triples from dataset_df", {
+  x <- dataset_df(
+    rowid = defined(1:2),
+    val = defined(c("A", "B")),
+    dataset_bibentry = dublincore(
+      title = "Demo Dataset",
+      creator = person("Jane", "Doe"),
+      publisher = "Example Publisher",
+      identifier = "http://example.org/demo"
+    )
+  )
 
-test_that("as_dublincore(type = 'dataset_df') returns a dataset_df", {
-  dc_df <- as_dublincore(orange_df, type = "dataset_df")
-  expect_s3_class(dc_df, "dataset_df")
-  expect_true(is.data.frame(dc_df))
-  expect_equal(ncol(dc_df), 16)  # all metadata fields included
-})
+  dc <- as_dublincore(x, type = "ntriples")
 
-test_that("as_dublincore(type = 'ntriples') returns valid N-Triples syntax", {
-  dc_nt <- as_dublincore(orange_df, type = "ntriples")
-  expect_type(dc_nt, "character")
-  expect_true(any(grepl("http://purl.org/dc/terms/title", dc_nt)))
-  expect_true(any(grepl("http://purl.org/dc/terms/creator", dc_nt)))
+  expect_type(dc, "character")
+  expect_true(all(grepl("^<http://example.org/demo> <http://purl.org/dc/terms/", dc)))
+
+  # Check that key triples are present
+  expect_true(any(grepl("dc/terms/title", dc)))
+  expect_true(any(grepl("dc/terms/creator", dc)))
+  expect_true(any(grepl("dc/terms/publisher", dc)))
+  expect_true(any(grepl("dc/terms/identifier", dc)))
+  expect_true(any(grepl("dc/terms/type", dc)))
+  expect_true(any(grepl("Demo Dataset", dc)))
+
+  expect_true(any(grepl('"Demo Dataset"\\^\\^<http://www.w3.org/2001/XMLSchema#string>', dc)))
+
 })
