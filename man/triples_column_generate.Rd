@@ -9,7 +9,7 @@ triples_column_generate(s_vec, col, colname)
 \arguments{
 \item{s_vec}{A character vector of subject URIs (length = number of rows)}
 
-\item{col}{The column vector (e.g., x[\link{i}])}
+\item{col}{The column vector (e.g., \code{x[[i]]})}
 
 \item{colname}{The name of the column (used as fallback for predicate)}
 }

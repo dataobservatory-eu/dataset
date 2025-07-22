@@ -13,6 +13,12 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+```{r setup}
+library(dataset)
+data("gdp")
+```
+
+
 
 The `dataset_df()` function helps create semantically rich datasets that are easier to:
 - understand by humans,
@@ -21,22 +27,16 @@ The `dataset_df()` function helps create semantically rich datasets that are eas
 
 This vignette demonstrates how to construct a semantically enriched dataset using a subset of the  *GDP and main aggregates - international data cooperation annual data* dataset created by Eurostat (DOI: <https://doi.org/10.2908/NAIDA_10_GDP>).
 
-While the raw dataset is valid, it can be hard to interpret without external documentation. For example:
-- Countries are encoded in the `geo` variable.
-- Reporting frequency (e.g., `A` for annual) is stored in `freq`
 
 ```{r printgdp}
 print(gdp)
 ```
 
+While the raw dataset is valid, it can be hard to interpret without external documentation. For example:
+- Countries are encoded in the `geo` variable.
+- Reporting frequency (e.g., `A` for annual) is stored in `freq`
+
 ## Getting Started
-
-```{r setup}
-library(dataset)
-data("gdp")
-```
-
-
 The `dataset_df()` constructor enables two levels of semantic annotation for a tibble `tbl_df` object (created from a data.frame or tibble):
 - Per-variable metadata: label, unit, definition, namespace
 - Whole-dataset metadata: title, author, license, etc.

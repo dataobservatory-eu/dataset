@@ -93,7 +93,7 @@ dataset_to_triples <- function(x,
 #' @title Internal: Generate RDF triples for a single column
 #' @description Create subject-predicate-object triples from one column of a dataset
 #' @param s_vec A character vector of subject URIs (length = number of rows)
-#' @param col The column vector (e.g., x[[i]])
+#' @param col The column vector (e.g., \code{x[[i]]})
 #' @param colname The name of the column (used as fallback for predicate)
 #' @return A data.frame with columns s, p, o
 #' @keywords internal
