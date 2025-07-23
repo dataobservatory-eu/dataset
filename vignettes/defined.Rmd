@@ -1,5 +1,5 @@
 ---
-title: "Semantically Enriched Vectors with `defined()`"
+title: "defined: Semantically Enriched Vectors"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Semantically Enriched Vectors with `defined()`}

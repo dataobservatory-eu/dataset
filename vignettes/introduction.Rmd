@@ -12,13 +12,20 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
 
-```{r setup}
-library(dataset)
+
+if (!requireNamespace("rdflib", quietly = TRUE)) {
+  stop("Please install 'rdflib' to run this vignette.")
+}
 ```
 
 In a series of vignette tutorials, we will create a small dataset about the Gross Domestic Product (GDP) of three small countries: Andorra, Liechtenstein, and San Marino.
+
+```{r setup}
+library(dataset)
+data("gdp")
+print(gdp)
+```
 
 ## Remain Tidy
 
@@ -26,9 +33,65 @@ Most data scientists using R have encountered the concept of a tidy dataset and 
 
 The `dataset` package seeks to make better use of base R’s attribute metadata system and enrich vectors and data frames (tibbles) so that, even after various transformations, misunderstandings and logical errors can be avoided.
 
-We build a small dataset with four years of GDP data for three countries. Adding further data—such as new countries or additional time periods—requires a strict definition of the unit of measure (e.g., is it in millions or thousands of euros, euros or dollars?). It must also be clear whether we are discussing nominal or real GDP, at market prices or PPP-adjusted. The vignette on using the defined S3 vector class (an extension of `labelled::labelled` used in tidyverse) demonstrates how to add unambiguous concept definitions and codebook or unit-of-measure namespaces to numerical, categorical, or character vectors. Retaining such metadata is critically important to avoid accidental, syntactically correct but semantically incorrect concatenation of GDP values measured in euros and market prices with PPP-adjusted dollar figures. In terms of statistical data and its exchange, this allows for correct definitions of measured variables, their metadata attributes, and potential dimensional columns that enable semantically meaningful subsetting ("slicing") of the dataset.
+We build a small dataset with four years of GDP data for three countries. Adding further data—such as new countries or additional time periods—requires a strict concept of the unit of measure (e.g., is it in millions or thousands of euros, euros or dollars?). It must also be clear whether we are discussing nominal or real GDP, at market prices or PPP-adjusted. 
+
+### defined: unambigous vectors
+The vignette on using the defined S3 vector class (an extension of `labelled::labelled` used in tidyverse) demonstrates how to add unambiguous concept concepts and codebook or unit-of-measure namespaces to numerical, categorical, or character vectors. Retaining such metadata is critically important to avoid accidental, syntactically correct but semantically incorrect concatenation of GDP values measured in euros and market prices with PPP-adjusted dollar figures. In terms of statistical data and its exchange, this allows for correct concepts of measured variables, their metadata attributes, and potential dimensional columns that enable semantically meaningful subsetting ("slicing") of the dataset.
+
+```{r gdp1}
+gdp_1 = defined(
+    gdp$gdp, 
+    label = "Gross Domestic Product", 
+    unit = "CP_MEUR", 
+    concept = "http://data.europa.eu/83i/aa/GDP")
+
+gdp_1
+```
+
+
+Further reading: [defined: Semantically Enriched Vectors](https://dataset.dataobservatory.eu/articles/defined.html)
+
+### dataset_df: publishable datasets
 
 Similarly, datasets often carry descriptive metadata—known as attributes in statistics—that provide information about the table as a whole.
+
+
+```{r createdataasetdf}
+small_country_dataset <- dataset_df(
+  geo = defined(
+    gdp$geo,
+    label = "Country name",
+    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refArea", 
+    namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"), 
+  year = defined(
+    gdp$year, 
+    label = "Reference Period (Year)", 
+    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"),
+  gdp = defined(
+    gdp$gdp, 
+    label = "Gross Domestic Product", 
+    unit = "CP_MEUR", 
+    concept = "http://data.europa.eu/83i/aa/GDP"),
+  unit = defined(
+    gdp$unit,
+    label = "Unit of Measure", 
+    concept  = "http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure", 
+    namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/unit/$1"
+  ),
+  freq = defined(
+    gdp$freq, 
+    label = "Frequency", 
+    concept = "http://purl.org/linked-data/sdmx/2009/code"
+  ),
+  dataset_bibentry = dublincore(
+    title = "Small Country Dataset", 
+    creator = person("Jane", "Doe"), 
+    publisher = "Example Inc.", 
+    datasource = "https://doi.org/10.2908/NAIDA_10_GDP", 
+    rights = "CC-BY", 
+    coverage = "Andorra, Lichtenstein and San Marino")
+  )
+```
 
 When we add new data to the dataset—for instance, about the Faroe Islands—we must not only ensure the same codebooks, units of measure, and data collection frequencies are used, but also that the provenance is documented. Recording the data sources, who performed the data join, and what procedures were followed is helpful for future use or review. This is what we achieve with a modified tibble: the `dataset_df`.
 
@@ -36,9 +99,36 @@ Base R provides a logical place to store metadata at the data.frame level—i.e.
 
 Statistical data and metadata exchanges have long employed the Resource Description Framework (RDF) to ensure data and metadata remain connected. While official data providers often use RDF, the linkage between R and RDF is only partially supported by the excellent rOpenSci interface to RDFLib. The `rdflib` package supports import and export in all standard RDF serialisations (file formats), but it does not offer helper functions to add the necessary RDF metadata annotations to native R datasets—whether in `data.frame`, `tibble`, `data.table`, or `tsibble` formats.
 
+See more in the [dataset_df: Create Datasets that are Easy to Share Exchange and Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
+
+### From R to RDF: interoperable data publication
+
 Our helper functions and the *R to RDF* vignette demonstrate how we aim to bridge this gap by assisting users in adding and preserving metadata required for standard RDF annotation. Standard RDF datasets conform to a stricter version of tidy data: they are always in long form, with precisely three columns. The first column is the observational unit, the third is the observed measurement, dimension, or attribute, and the middle column—the “predicate”—defines the relationship between the observational unit (data subject) and the observed value. All columns use URI format, conveying how each cell value should be interpreted. For example, the number `12` is annotated as `^^string` if it is a string, or `^^integer` if it is an integer. For a “sex” variable, values such as `M` and `F` resolve to well-defined concepts like “male” and “female”, with potential additions for non-binary gender representations.
 
 Our package is designed to support workflows from the creation of a data frame through to integration with `rdflib`, if required.
+
+
+```{r readrdf}
+library(rdflib)
+ntriples <- dataset_to_triples(small_country_dataset, 
+                               format = "nt")
+# We write to a temporary file our Ntriples created earlier
+temp_file <- tempfile(fileext = ".nt")
+writeLines(ntriples, con = temp_file)
+
+rdf_graph <- rdf()
+rdf_parse(rdf_graph, doc = temp_file, format = "ntriples")
+rdf_graph
+```
+
+Further reading: [From R to RDF](https://dataset.dataobservatory.eu/articles/dataset_df.html)
+
+```{r clenup, echo=FALSE, message=FALSE}
+# Clean up: delete file and clear RDF graph
+unlink(temp_file)
+rm(rdf_graph)
+gc()
+```
 
 ## Design and Further Plans
 
@@ -50,6 +140,6 @@ For pragmatic reasons, we chose to base `dataset` on tidyverse. While full inter
 
 Under the hood, we defined several new S3 classes; the primary ones are `defined` and `dataset_df`.
 
--    The `defined` class extends the popular `labelled` class, part of the tidyverse, which supports the use of variable and codebook labels. It enhances this by adding standardised, machine- and human-readable concept definitions (e.g., for GDP), and a namespace that resolves the codebooks to readable coding schemes. New methods are implemented that disallow concatenation of vectors that are syntactically valid (i.e., they are of the same base R class) but semantically incompatible (e.g., differing currencies or units of measure). This helps avoid logical errors that R itself would not flag.
+-    The `defined` class extends the popular `labelled` class, part of the tidyverse, which supports the use of variable and codebook labels. It enhances this by adding standardised, machine- and human-readable concept concepts (e.g., for GDP), and a namespace that resolves the codebooks to readable coding schemes. New methods are implemented that disallow concatenation of vectors that are syntactically valid (i.e., they are of the same base R class) but semantically incompatible (e.g., differing currencies or units of measure). This helps avoid logical errors that R itself would not flag.
 
 -    The `dataset_df` class adds metadata at the data.frame (more precisely, tibble) level, enabling the dataset to be published in scientific contexts or submitted to data repositories.

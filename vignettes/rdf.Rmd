@@ -152,7 +152,7 @@ rdf_graph <- rdf()
 rdf_parse(rdf_graph, doc = temp_file, format = "ntriples")
 rdf_graph
 ```
-```{r}
+```{r readjsonld}
 # Create temporary JSON-LD output file
 jsonld_file <- tempfile(fileext = ".jsonld")
 
