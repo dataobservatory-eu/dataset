@@ -24,10 +24,14 @@ coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](htt
 # dataset: Semantic Metadata for Datasets in R
 
 The `dataset` package provides tools to create semantically rich and
-interoperable datasets in R. It improves metadata handling by
-introducing new S3 classes—`defined()`, `dataset_df()`, and
-`bibrecord()`—that enhance the behaviour of `labelled`, `tibble`, and
-`bibentry` objects to meet the requirements of:
+interoperable datasets in R. Semantically rich datasets that are easier
+to: - understand by humans, - validate and process by machines, - and
+share across tools, teams, and domains.
+
+It improves metadata handling by introducing new S3 classes—`defined()`,
+`dataset_df()`, and `bibrecord()`—that enhance the behaviour of
+`labelled`, `tibble`, and `bibentry` objects to meet the requirements
+of:
 
 - **Statistical Data and Metadata eXchange (SDMX)** standards,
 - **Open Science** metadata practices,
@@ -38,7 +42,10 @@ introducing new S3 classes—`defined()`, `dataset_df()`, and
 Many tools exist to help document, describe, or publish datasets in R,
 but most separate the metadata from the data itself. This separation
 increases the risk of losing metadata, misaligning it with the data, or
-making documentation hard to maintain.
+making documentation hard to maintain. We wanted to create a tooling
+that enables the user from the birth of a dataset till it is potentially
+seriralised with the help of the
+[rdflib](https://CRAN.R-project.org/package=rdflib) package.
 
 The `dataset` package addresses this by storing all metadata directly in
 R object attributes. This preserves semantic information as data is
@@ -72,8 +79,8 @@ print(orange_df$age)
 
 This ensures that, for example, “GDP” is always associated with a
 precise concept and unit, avoiding ambiguity across analyses and
-publications. See [Semantically Enriched Vectors with
-`defined()`](https://dataset.dataobservatory.eu/articles/defined.html)
+publications. See [defined: Semantically Enriched
+Vectors](https://dataset.dataobservatory.eu/articles/defined.html)
 
 ### `bibrecord()`
 
@@ -114,10 +121,18 @@ A semantic wrapper around `data.frame` or `tibble`, aligning with SDMX’s
   description, etc.)
 - Output can be serialized to linked data formats (N-Triples, RDF, etc.)
 
-See more in the [Why Semantics Matter for R Data
-Frames](https://dataset.dataobservatory.eu/articles/dataset_df.html)
+See more in the [dataset_df: Create Datasets that are Easy to Share
+Exchange and
+Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
 
-## Why Use This?
+## From R to RDF
+
+The vignette [From R to
+RDF](https://dataset.dataobservatory.eu/articles/dataset_df.html)
+explains how you can transform your datasets to be easily used with the
+[rdflib](https://CRAN.R-project.org/package=rdflib) R binding that
+offers exporting (serialisation) to all standard formats to be used in
+web services.
 
 - **Machine-readability**: Your data and metadata are tightly coupled
   and structured for reuse.
@@ -147,12 +162,11 @@ my_data <- dataset_df(
   )
 )
 
-head(my_data)
-#> Doe (2025): GDP Data for Small Countries [dataset]
-#>   rowid     country   gdp       
-#>   <defined> <defined> <defined>
-#> 1 eg:1      AD        3897     
-#> 2 eg:2      LI        7365
+dataset_to_triples(my_data, format="nt")
+#> [1] "<http://example.com/dataset#eg:1> <http://data.europa.eu/bna/c_6c2bb82d> \"AD\"^^<xs:string> ."
+#> [2] "<http://example.com/dataset#eg:2> <http://data.europa.eu/bna/c_6c2bb82d> \"LI\"^^<xs:string> ."
+#> [3] "<http://example.com/dataset#eg:1> <http://example.com/prop/gdp> \"3897\"^^<xs:decimal> ."      
+#> [4] "<http://example.com/dataset#eg:2> <http://example.com/prop/gdp> \"7365\"^^<xs:decimal> ."
 ```
 
 ``` r

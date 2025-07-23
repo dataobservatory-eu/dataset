@@ -21,13 +21,20 @@ authors:
 
 
 articles:
+  - title: "Introduction"
+    desc: >
+     The dataset package helps R users manage and preserve metadata within
+        tidy datasets, ensuring clarity and semantic consistency even after
+        transformations like slicing or joining. It enriches vectors and
+        data frames with standardised metadata using DCTERMS and DataCite,
+        and supports workflows toward RDF-compatible formats. This ensures
+        data remains both human- and machine-readable across statistical and
+        semantic web contexts.
+    contents:
+       - introduction
   - title: "Motivation"
     desc: >
-     A long-form description of the aim of the development. Our `dataset` R package
-         aims to help the Findability, Accessibility, Interoperability,
-         and Reuse of digital assets, particularly datacubes and datasets used
-         in statistics and data analysis. The "Motivation" article will replace
-         the new requirements.
+     Will be removed before the next release.
     contents:
        - Motivation
        - new_requirements
@@ -39,12 +46,13 @@ articles:
        - bibrecord
   - title: "Semantic Enrichment of Variables"
     desc: >
-     Enriching metadata about individual variables.
+     Enriching metadata about individual variables stored as defined vectors.
     contents:
        - defined
   - title: "Dataset exchanges"
     desc: >
-     Making the richer datasets available for other users.
+     Making the richer datasets available for other users outside of the
+         R ecosystem.
     contents:
        - rdf
 reference:
@@ -114,5 +122,6 @@ reference:
       Some R datasets enriched with more semantic metadata.
     contents:
        - orange_df
+       - gdp
        - iris_dataset
 

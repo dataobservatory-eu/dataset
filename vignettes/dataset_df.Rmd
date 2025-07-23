@@ -1,5 +1,5 @@
 ---
-title: "Create Datasets that are Easy to Share Exchange and Extend"
+title: "dataset_df: Create Datasets that are Easy to Share Exchange and Extend"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Create Datasets that are Easy to Share Exchange and Extend}
@@ -17,8 +17,6 @@ knitr::opts_chunk$set(
 library(dataset)
 data("gdp")
 ```
-
-
 
 The `dataset_df()` function helps create semantically rich datasets that are easier to:
 - understand by humans,
@@ -48,27 +46,27 @@ small_country_dataset <- dataset_df(
   geo = defined(
     gdp$geo,
     label = "Country name",
-    definition = "http://purl.org/linked-data/sdmx/2009/dimension#refArea", 
+    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refArea", 
     namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"), 
   year = defined(
     gdp$year, 
     label = "Reference Period (Year)", 
-    definition = "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"),
+    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"),
   gdp = defined(
     gdp$gdp, 
     label = "Gross Domestic Product", 
     unit = "CP_MEUR", 
-    definition = "http://data.europa.eu/83i/aa/GDP"),
+    concept = "http://data.europa.eu/83i/aa/GDP"),
   unit = defined(
     gdp$unit,
     label = "Unit of Measure", 
-    definition  = "http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure", 
+    concept  = "http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure", 
     namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/unit/$1"
   ),
   freq = defined(
     gdp$freq, 
     label = "Frequency", 
-    definition = "http://purl.org/linked-data/sdmx/2009/code"
+    concept = "http://purl.org/linked-data/sdmx/2009/code"
   ),
   dataset_bibentry = dublincore(
     title = "Small Country Dataset", 
@@ -82,7 +80,7 @@ small_country_dataset <- dataset_df(
 
 ## Inspecting Variable-Level Metadata
 
-The `defined` class columns retain the important semantic information about the label, exact definition link, and the unit of measure:
+The `defined` class columns retain the important semantic information about the label, exact concept definition link, and the unit of measure:
 
 ```{r varlabel}
 var_label(small_country_dataset$gdp)

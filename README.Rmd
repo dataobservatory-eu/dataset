@@ -24,7 +24,12 @@ rlang::check_installed("here")
 
 # dataset: Semantic Metadata for Datasets in R
 
-The `dataset` package provides tools to create semantically rich and interoperable datasets in R. It improves metadata handling by introducing new S3 classes—`defined()`, `dataset_df()`, and `bibrecord()`—that enhance the behaviour of `labelled`, `tibble`, and `bibentry` objects to meet the requirements of:
+The `dataset` package provides tools to create semantically rich and interoperable datasets in R. Semantically rich datasets that are easier to:
+- understand by humans,
+- validate and process by machines,
+- and share across tools, teams, and domains.
+
+It improves metadata handling by introducing new S3 classes—`defined()`, `dataset_df()`, and `bibrecord()`—that enhance the behaviour of `labelled`, `tibble`, and `bibentry` objects to meet the requirements of:
 
 -   **Statistical Data and Metadata eXchange (SDMX)** standards,
 -   **Open Science** metadata practices,
@@ -32,7 +37,7 @@ The `dataset` package provides tools to create semantically rich and interoperab
 
 ## Motivation
 
-Many tools exist to help document, describe, or publish datasets in R, but most separate the metadata from the data itself. This separation increases the risk of losing metadata, misaligning it with the data, or making documentation hard to maintain.
+Many tools exist to help document, describe, or publish datasets in R, but most separate the metadata from the data itself. This separation increases the risk of losing metadata, misaligning it with the data, or making documentation hard to maintain. We wanted to create a tooling that enables the user from the birth of a dataset till it is potentially seriralised with the help of the [rdflib](https://CRAN.R-project.org/package=rdflib) package.
 
 The `dataset` package addresses this by storing all metadata directly in R object attributes. This preserves semantic information as data is transformed, combined, or exported, preventing the loss of vital documentation and improving reproducibility.
 
@@ -58,7 +63,7 @@ print(orange_df$age)
 ```
 
 
-This ensures that, for example, "GDP" is always associated with a precise concept and unit, avoiding ambiguity across analyses and publications. See [Semantically Enriched Vectors with `defined()`](https://dataset.dataobservatory.eu/articles/defined.html)
+This ensures that, for example, "GDP" is always associated with a precise concept and unit, avoiding ambiguity across analyses and publications. See [defined: Semantically Enriched Vectors](https://dataset.dataobservatory.eu/articles/defined.html)
 
 ### `bibrecord()`
 
@@ -84,9 +89,11 @@ A semantic wrapper around `data.frame` or `tibble`, aligning with SDMX’s **dat
 -   Datasets can carry complete metadata inline (title, creator, description, etc.)
 -   Output can be serialized to linked data formats (N-Triples, RDF, etc.)
 
-See more in the [Why Semantics Matter for R Data Frames](https://dataset.dataobservatory.eu/articles/dataset_df.html)
+See more in the [dataset_df: Create Datasets that are Easy to Share Exchange and Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
 
-## Why Use This?
+## From R to RDF
+
+The vignette [From R to RDF](https://dataset.dataobservatory.eu/articles/dataset_df.html) explains how you can transform your datasets to be easily used with the [rdflib](https://CRAN.R-project.org/package=rdflib) R binding that offers exporting (serialisation) to all standard formats to be used in web services.
 
 -   **Machine-readability**: Your data and metadata are tightly coupled and structured for reuse.
 -   **Preservation**: Data exported from R retains its full descriptive context.
@@ -113,7 +120,7 @@ my_data <- dataset_df(
   )
 )
 
-head(my_data)
+dataset_to_triples(my_data, format="nt")
 ```
 
 ```{r print_bibliography}
