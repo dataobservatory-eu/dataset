@@ -65,7 +65,8 @@ reference:
       - bind_defined_rows
   - title: "Defined"
     desc: >
-      A new labelled subclass that retains the unit of measure, definition and namespace of the variable.
+      A new labelled subclass that retains the unit of measure, definition and
+          namespace of the variable.
     contents:
       - defined
       - var_label
