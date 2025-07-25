@@ -17,7 +17,7 @@ Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci
 [![devel-version](https://img.shields.io/badge/devel%20version-0.3.91-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Codecov test
-coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset)
+coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset/)
 
 <!-- badges: end -->
 
@@ -37,20 +37,13 @@ of:
 - **Open Science** metadata practices,
 - **Library and archive metadata** conventions (Dublin Core, DataCite).
 
-## Motivation
-
 Many tools exist to help document, describe, or publish datasets in R,
 but most separate the metadata from the data itself. This separation
 increases the risk of losing metadata, misaligning it with the data, or
 making documentation hard to maintain. We wanted to create a tooling
 that enables the user from the birth of a dataset till it is potentially
-seriralised with the help of the
+serialised with the help of the
 [rdflib](https://CRAN.R-project.org/package=rdflib) package.
-
-The `dataset` package addresses this by storing all metadata directly in
-R object attributes. This preserves semantic information as data is
-transformed, combined, or exported, preventing the loss of vital
-documentation and improving reproducibility.
 
 ## Key Features
 
@@ -65,21 +58,49 @@ An extended version of `labelled()` vectors. Adds support for:
 
 ``` r
 library(dataset)
+data(gdp)
 ```
+
+The following small dataset contains the gross domestic product (GDP)
+data of three small countries:
 
 ``` r
-data(orange_df)
-print(orange_df$age)
-#> orange_df$age: The age of the tree
-#> Measured in days since 1968/12/31 
-#>  [1]  118  484  664 1004 1231 1372 1582  118  484  664 1004 1231 1372 1582  118
-#> [16]  484  664 1004 1231 1372 1582  118  484  664 1004 1231 1372 1582  118  484
-#> [31]  664 1004 1231 1372 1582
+print(gdp)
+#> # A tibble: 10 × 5
+#>    geo    year   gdp unit    freq 
+#>    <chr> <int> <dbl> <chr>   <chr>
+#>  1 AD     2020 2355. CP_MEUR A    
+#>  2 AD     2021 2594. CP_MEUR A    
+#>  3 AD     2022 2884. CP_MEUR A    
+#>  4 AD     2023 3120. CP_MEUR A    
+#>  5 LI     2020 5430. CP_MEUR A    
+#>  6 LI     2021 6424. CP_MEUR A    
+#>  7 LI     2022 6759. CP_MEUR A    
+#>  8 SM     2020 1265. CP_MEUR A    
+#>  9 SM     2021 1461. CP_MEUR A    
+#> 10 SM     2022 1612. CP_MEUR A
 ```
 
-This ensures that, for example, “GDP” is always associated with a
-precise concept and unit, avoiding ambiguity across analyses and
-publications. See [defined: Semantically Enriched
+The `defined` vector class, an extension of the `labelled::labelled`
+class, allows to add machine-readable concept definitions and namespaces
+to reveal the coding of the variables. This will allow `AD` to be
+resolved as <https://dd.eionet.europa.eu/vocabulary/eurostat/geo/AD>
+
+``` r
+geo <- defined(
+    gdp$geo,
+    label = "Country name",
+    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refArea", 
+    namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"
+    )
+
+geo[c(1,3)]
+#> x: Country name
+#> Defined as http://purl.org/linked-data/sdmx/2009/dimension#refArea 
+#> [1] "AD" "AD"
+```
+
+See [defined: Semantically Enriched
 Vectors](https://dataset.dataobservatory.eu/articles/defined.html)
 
 ### `bibrecord()`
@@ -125,25 +146,6 @@ See more in the [dataset_df: Create Datasets that are Easy to Share
 Exchange and
 Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
 
-## From R to RDF
-
-The vignette [From R to
-RDF](https://dataset.dataobservatory.eu/articles/dataset_df.html)
-explains how you can transform your datasets to be easily used with the
-[rdflib](https://CRAN.R-project.org/package=rdflib) R binding that
-offers exporting (serialisation) to all standard formats to be used in
-web services.
-
-- **Machine-readability**: Your data and metadata are tightly coupled
-  and structured for reuse.
-- **Preservation**: Data exported from R retains its full descriptive
-  context.
-- **Publication-ready**: Integration with modern repository standards
-  (DataCite, DC Terms).
-- **Tidy + semantic**: Extends tidy principles with semantic rigor.
-
-## Example
-
 ``` r
 my_data <- dataset_df(
   country = defined(
@@ -161,7 +163,33 @@ my_data <- dataset_df(
     Language = "en"
   )
 )
+```
 
+## From R to RDF
+
+The **Resource Description Framework (RDF)** is a World Wide Web
+standard for describing and linking data in a structured way so that
+both humans and machines can understand it. Think of it as a common
+language for data: it allows you to represent information as simple
+*subject–predicate–object* statements (e.g., *“Dataset X has author
+Y”*). These statements can then be connected across different systems,
+making your data interoperable on the web.
+
+- **Machine-readability**: Your data and metadata are tightly coupled
+  and structured for reuse; it contains all definitions to be imported
+  into a foreign database.
+
+- **Preservation**: Data exported from R retains its full descriptive
+  context.
+
+- **Publication-ready**: Integration with modern repository standards
+  (DataCite, DC Terms).
+
+- **Tidy + semantic**: Extends tidy principles with semantically rich
+  definitions to avoid misunderstanding data measurement units and other
+  critical attributes.
+
+``` r
 dataset_to_triples(my_data, format="nt")
 #> [1] "<http://example.com/dataset#eg:1> <http://data.europa.eu/bna/c_6c2bb82d> \"AD\"^^<xs:string> ."
 #> [2] "<http://example.com/dataset#eg:2> <http://data.europa.eu/bna/c_6c2bb82d> \"LI\"^^<xs:string> ."
@@ -183,7 +211,14 @@ as_datacite(my_data)
 #> Description:  Example Dataset for the dataset package
 ```
 
-## 🧪 Contributing
+The vignette [From R to
+RDF](https://dataset.dataobservatory.eu/articles/dataset_df.html)
+explains how you can transform your datasets to be easily used with the
+[rdflib](https://CRAN.R-project.org/package=rdflib) R binding that
+offers exporting (serialisation) to all standard formats to be used in
+web services.
+
+## Contributing
 
 We welcome contributions and discussion!
 
@@ -193,7 +228,7 @@ We welcome contributions and discussion!
 - Ideas, bug reports, and feedback are welcome via [GitHub
   issues](https://github.com/dataobservatory-eu/dataset/issues).
 
-## 📜 Code of Conduct
+## Code of Conduct
 
 This project adheres to the [rOpenSci Code of
 Conduct](https://ropensci.org/code-of-conduct/). By participating, you

@@ -1,3 +1,18 @@
+# dataset 0.3.91
+
+- Rewritten vignettes.
+- A new `dataset_to_triples` and `xsd_convert` for better serialisation.
+- A better handling of empty nodes in RDF.
+- Many bug fixes in the way semantic information is translated to RDF.
+
+# dataset 0.3.9
+
+- New CRAN release with many bug fixes, and improvements from peer-review.
+- The `definition` attributes is renamed to `concept`.
+- Improved printing for `defined` and `dataset_df` classes.
+- Improved compatibility and coercion methods for base R character and numeric types.
+- A clearer `bibrecord` class for extending `utils::person` and `utils::bibentry` classes for more modern and cleaner bibliographic references. 
+
 # dataset 0.3.4027
 
 - The new `bibrecord()` class is handles is the superclass of the `dublincore` and
@@ -15,10 +30,11 @@ semantically richer `orange_df` example dataset.
 
 # dataset 0.3.4023
 
-- Changed `iris_df` to `orange_df` in all examples
-- `xsd_convert()` handles difftime classes and edge cases
-- Small errors fixed in examples
-- Test coverage increased
+- Changed `iris_df` to `orange_df` in all examples.
+- `xsd_convert()` handles difftime classes and edge cases.
+- Small errors fixed in examples.
+- Test coverage increased.
+- The `master` branch is renamed to `main`.
 
 # dataset 0.3.4021
 

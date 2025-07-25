@@ -2,10 +2,11 @@
 title: "defined: Semantically Enriched Vectors"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Semantically Enriched Vectors with `defined()`}
+  %\VignetteIndexEntry{defined: Semantically Enriched Vectors}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
 ```{r setupdefinedvignette, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -15,7 +16,7 @@ knitr::opts_chunk$set(
 
 The `defined()` function creates semantically rich labelled vectors. These are a inherited from haven::labelled and extend the concept by adding:
 
-- A human-readable variable label (available in haven::labelled)
+- A human-readable variable label (available in haven::labelled or [labelled::labelled](https://larmarange.github.io/labelled/articles/labelled.html))
 - A unit of measurement
 - A definition URI linking to external ontologies or concepts
 - (Optionally) a namespace for controlled vocabularies
@@ -42,7 +43,7 @@ gdp_1 = defined(
 The `defined()` class builds on labelled vectors by adding rich metadata:
 
 - label: a description of what the variable represents.
-- unit: a short code for the measurement unit (e.g., CP_MEUR).
+- unit: a short code for the measurement unit (e.g., `CP_MEUR`).
 - definition: a URI linking to a concept or standard.
 - namespace: (optional) for classifying coded values (e.g., SDMX codes).
 
@@ -51,7 +52,7 @@ This is particularly useful for reproducible research, standard-compliant data, 
 ```{r seeattributes}
 attributes(gdp_1)
 ```
-Use the `var_label()`, `var_unit()` and `var_defintion()` helper functions to set or retrieve metadata individually:
+Use the `var_label()`, `var_unit()` and `var_concept()` helper functions to set or retrieve metadata individually:
 
 ```{r convenience}
 cat("Get the label only: ", var_label(gdp_1), "\n")
@@ -111,7 +112,13 @@ country = defined(
 
 The point of using a namespace is that it can point to a both human- and machine readable definition of the ID column, or any attribute column in the datasets. (Attributes in a statistical datasets are characteristics of the observations or the measured variables.)
 
-For example, the namespace definition above points to <https://www.geonames.org/countries/AD/> in the case of Andorra, <https://www.geonames.org/countries/LI/> for Lichtenstein, and <https://www.geonames.org/countries/SM/> for San Marino. And <http://publications.europa.eu/resource/authority/bna/c_6c2bb82d> resolves to a machine-readable definition of geographical names.
+For example, the namespace definition above points to
+
+- <https://www.geonames.org/countries/AD/> in the case of Andorra;
+- <https://www.geonames.org/countries/LI/> for Lichtenstein and
+- <https://www.geonames.org/countries/SM/> for San Marino. 
+
+And <http://publications.europa.eu/resource/authority/bna/c_6c2bb82d> resolves to a machine-readable definition of geographical names.
 
 The use of several defined vectors in a dataset_df class explained in a separate vignette.
 

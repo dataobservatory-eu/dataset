@@ -32,29 +32,29 @@ articles:
         semantic web contexts.
     contents:
        - introduction
-  - title: "Motivation"
+  - title: "Semantic Enrichment of Variables"
     desc: >
-     Will be removed before the next release.
+     Enriching metadata about individual variables stored as defined vectors.
     contents:
-       - Motivation
-       - new_requirements
+       - defined
   - title: "Semantic Enrichment of Datasets"
     desc: >
      Enriching metadata about the dataset as a whole, potential extensions.
     contents:
        - dataset_df
        - bibrecord
-  - title: "Semantic Enrichment of Variables"
-    desc: >
-     Enriching metadata about individual variables stored as defined vectors.
-    contents:
-       - defined
   - title: "Dataset exchanges"
     desc: >
      Making the richer datasets available for other users outside of the
          R ecosystem.
     contents:
        - rdf
+  - title: "Motivation"
+    desc: >
+     Will be removed before the next release.
+    contents:
+       - Motivation
+       - new_requirements
 reference:
   - title: "Dataset"
     desc: >

@@ -3,9 +3,6 @@
 library(eurostat)
 library(tidyverse)
 gdp_raw <- get_eurostat("naida_10_gdp")
-gdp <- gdp_raw
-
-unique(gdp_raw$geo)
 gdp <- gdp_raw %>%
   filter ( geo %in% c("AD", "LI", "SM")) %>%
   filter ( TIME_PERIOD >= as.Date("2020-01-01")) %>%

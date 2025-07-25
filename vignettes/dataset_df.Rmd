@@ -2,7 +2,7 @@
 title: "dataset_df: Create Datasets that are Easy to Share Exchange and Extend"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Create Datasets that are Easy to Share Exchange and Extend}
+  %\VignetteIndexEntry{dataset_df: Create Datasets that are Easy to Share Exchange and Extend}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
