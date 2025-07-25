@@ -115,7 +115,7 @@ The point of using a namespace is that it can point to a both human- and machine
 For example, the namespace definition above points to
 
 - <https://www.geonames.org/countries/AD/> in the case of Andorra;
-- <https://www.geonames.org/countries/LI/> for Lichtenstein and
+- <https://www.geonames.org/countries/LI/> for Liechtenstein and
 - <https://www.geonames.org/countries/SM/> for San Marino. 
 
 And <http://publications.europa.eu/resource/authority/bna/c_6c2bb82d> resolves to a machine-readable definition of geographical names.
@@ -139,9 +139,16 @@ as_character(countries)
 
 ### Subsetting and coercion
 
-```{r basicmethods}
+The subsetting methods work as expected from a vector: 
+
+```{r subsettingmethods}
 gdp_1[1:2]
-gdp_1 > 5000
+gdp_1[gdp_1 > 5000]
+```
+
+The `as.vector()` coercion methods strips the vector from its metadata. The `as.list()` method retains the metadata in a list form, with some redundancy (the definitions are added to each list element.)
+
+```{r coerctionmethods}
 as.vector(gdp_1)
 as.list(gdp_1)
 ```

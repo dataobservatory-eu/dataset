@@ -35,8 +35,8 @@ The `dataset` package seeks to make better use of base R’s attribute metadata 
 
 We build a small dataset with four years of GDP data for three countries. Adding further data—such as new countries or additional time periods—requires a strict concept of the unit of measure (e.g., is it in millions or thousands of euros, euros or dollars?). It must also be clear whether we are discussing nominal or real GDP, at market prices or PPP-adjusted. 
 
-### defined: unambigous vectors
-The vignette on using the defined S3 vector class (an extension of `labelled::labelled` used in tidyverse) demonstrates how to add unambiguous concept concepts and codebook or unit-of-measure namespaces to numerical, categorical, or character vectors. Retaining such metadata is critically important to avoid accidental, syntactically correct but semantically incorrect concatenation of GDP values measured in euros and market prices with PPP-adjusted dollar figures. In terms of statistical data and its exchange, this allows for correct concepts of measured variables, their metadata attributes, and potential dimensional columns that enable semantically meaningful subsetting ("slicing") of the dataset.
+### defined: unambiguous vectors
+The vignette on using the `defined` S3 vector class (an extension of `labelled::labelled` used in tidyverse) demonstrates how to add unambiguous concept concepts and codebook or unit-of-measure namespaces to numerical, categorical, or character vectors. Retaining such metadata is critically important to avoid accidental, syntactically correct but semantically incorrect concatenation of GDP values measured in euros and market prices with PPP-adjusted dollar figures. In terms of statistical data and its exchange, this allows for correct concepts of measured variables, their metadata attributes, and potential dimensional columns that enable semantically meaningful subsetting ("slicing") of the dataset.
 
 ```{r gdp1}
 gdp_1 = defined(
@@ -54,7 +54,6 @@ Further reading: [defined: Semantically Enriched Vectors](https://dataset.dataob
 ### dataset_df: publishable datasets
 
 Similarly, datasets often carry descriptive metadata—known as attributes in statistics—that provide information about the table as a whole.
-
 
 ```{r createdataasetdf}
 small_country_dataset <- dataset_df(
@@ -89,7 +88,7 @@ small_country_dataset <- dataset_df(
     publisher = "Example Inc.", 
     datasource = "https://doi.org/10.2908/NAIDA_10_GDP", 
     rights = "CC-BY", 
-    coverage = "Andorra, Lichtenstein and San Marino")
+    coverage = "Andorra, Liechtenstein and San Marino")
   )
 ```
 

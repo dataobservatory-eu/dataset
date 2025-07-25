@@ -19,6 +19,7 @@ data("gdp")
 ```
 
 The `dataset_df()` function helps create semantically rich datasets that are easier to:
+
 - understand by humans,
 - validate and process by machines,
 - and share across tools, teams, and domains.
@@ -35,6 +36,7 @@ While the raw dataset is valid, it can be hard to interpret without external doc
 - Reporting frequency (e.g., `A` for annual) is stored in `freq`
 
 ## Getting Started
+
 The `dataset_df()` constructor enables two levels of semantic annotation for a tibble `tbl_df` object (created from a data.frame or tibble):
 - Per-variable metadata: label, unit, definition, namespace
 - Whole-dataset metadata: title, author, license, etc.
@@ -74,7 +76,7 @@ small_country_dataset <- dataset_df(
     publisher = "Example Inc.", 
     datasource = "https://doi.org/10.2908/NAIDA_10_GDP", 
     rights = "CC-BY", 
-    coverage = "Andorra, Lichtenstein and San Marino")
+    coverage = "Andorra, Liechtenstein, San Marino and the Feroe Islands")
   )
 ```
 
@@ -88,6 +90,7 @@ var_label(small_country_dataset$gdp)
 ```{r varunit}
 var_unit(small_country_dataset$gdp)
 ```
+
 ## Adding Dataset-Level Metadata
 
 The `dataset_df()` object can also store metadata about the dataset as a whole. It follows widely adopted metadata standards:
@@ -104,12 +107,80 @@ language(small_country_dataset) <- "en"
 ```
 
 ## Reviewing Dataset-Level Metadata
+
 To inspect the full dataset description, use:
 
 ```{r bibentry}
 print(get_bibentry(small_country_dataset), "bibtex" )
 ```
+
 This prints a complete BibTeX-style entry, suitable for citation or export.
+
+
+## Joining datasets
+
+The previous dataset contains observations for three data subjects, Andorra, Liechtenstein and San Marino, but not the Feroe Islands.
+
+```{r feroedf}
+feroe_df <- data.frame(
+  geo = rep("FO", 3),
+  year = 2020:2022,
+  gdp = c(2523.6, 2725.8,	3013.2 ),
+  unit = rep("CP_MEUR", 3),
+  freq = rep("A", 3)
+)
+```
+
+The `dataset_df` objects do not allow simple binding of two datasets, because they check if the concept definitions, units of measures (if they are present) or the URI namespaces match. Of course, this is a bottleneck during a data analysis pipeline, but it is a necessary guarantee of a semantically correct data at the later, publication or exchange phase.
+
+```{r, eval=FALSE}
+rbind(small_country_dataset,feroe_df)
+Error in rbind(deparse.level, ...) :
+numbers of columns of arguments do not match
+```
+
+So we must make sure that the very same definitions, country coding and unit of measures are used for the linked dataset.
+
+```{r fereodataset}
+feroe_dataset <- dataset_df(
+  geo = defined(
+    feroe_df$geo,
+    label = "Country name",
+    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refArea", 
+    namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"),
+  year = defined(
+    feroe_df$year, 
+    label = "Reference Period (Year)", 
+    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"),
+  gdp = defined(
+    feroe_df$gdp, 
+    label = "Gross Domestic Product", 
+    unit = "CP_MEUR", 
+    concept = "http://data.europa.eu/83i/aa/GDP"),
+  unit = defined(
+    feroe_df$unit,
+    label = "Unit of Measure", 
+    concept  = "http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure", 
+    namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/unit/$1"
+  ),
+  freq = defined(
+    feroe_df$freq, 
+    label = "Frequency", 
+    concept = "http://purl.org/linked-data/sdmx/2009/code"
+  )
+)
+```
+
+Now we can bind together the dataset.
+
+```{r binddefinedrows}
+joined_dataset <- bind_defined_rows(small_country_dataset, feroe_dataset)
+joined_dataset
+```
+The joined dataset has full backward compatibility to base R.  Coercing to a `data.frame`, we lose the in-built checks and helper methods to work with the metadata, but the metadata remains in the attributes of the data.frame: 
+```{r backwardcompatibility}
+attributes(as.data.frame(joined_dataset))
+```
 
 ## Conclusion
 With `dataset_df()`, your datasets become:
