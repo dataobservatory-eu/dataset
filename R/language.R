@@ -10,7 +10,7 @@
 #'   added to the object. It will be exported into DataCite applications in a
 #'   capitalized \code{Lanugage} format.
 #' @param x A semantically rich data frame object created by
-#'   \code{\link{dataset_df}} or \code{\link{as_dataset_df}}.
+#'   [dataset_df()] or \code{\link{as_dataset_df}}.
 #' @param value The language to be added to the object attributes, added by
 #'   name, or as a 2- or 3-character code for the language. You can add a
 #'   language code or language name, and the parameter is normalized to

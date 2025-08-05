@@ -11,7 +11,7 @@ language(x, iso_639_code = "639-3") <- value
 }
 \arguments{
 \item{x}{A semantically rich data frame object created by
-\code{\link{dataset_df}} or \code{\link{as_dataset_df}}.}
+\code{\link[=dataset_df]{dataset_df()}} or \code{\link{as_dataset_df}}.}
 
 \item{iso_639_code}{Defaults to \code{ISO 639-3}, alternative is \code{ISO
 639-1}.}

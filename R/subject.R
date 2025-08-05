@@ -8,9 +8,9 @@
 #' a separate \code{subject} attribute. If the user wants to use the more detailed
 #' subproperties (see examples with \code{subject_create}), then the subject$term
 #' value is added to the bibentry as a text, and the more complex subject object
-#' is added as a separate attribute to the dataset_df object.#'
-#' @param x A dataset object created with \code{\link{dataset_df}} or
-#' \code{dataset::\link{as_dataset_df}}.
+#' is added as a separate attribute to the dataset_df object.
+#' @param x A dataset object created with [dataset_df()] or
+#' [as_dataset_df()].
 #' @examples
 #' # To set the subject of a dataset_df object:
 #' subject(orange_df) <- subject_create(
@@ -25,7 +25,7 @@
 #' subject(orange_df)
 #' @export
 #' @return \code{subject(x)} returns the subject attribute of the
-#' \code{\link{dataset_df}} object \code{x}, \code{subject(x)<-value} sets
+#' [dataset_df()] object \code{x}, \code{subject(x)<-value} sets
 #' the same attribute to \code{value} and invisibly returns the
 #' \code{x} object with the changed attributes.
 #' @importFrom assertthat assert_that
@@ -135,7 +135,7 @@ new_Subject <- function(term,
 }
 
 #' @rdname subject
-#' @param value A subject field created by \code{\link{subject}}.
+#' @param value A subject field created by[subject()].
 #' The subject field is overwritten with this value.
 #' @export
 `subject<-` <- function(x, value) {
@@ -161,7 +161,7 @@ new_Subject <- function(term,
 
 #' @rdname subject
 #' @return \code{is.subject} returns a logical value, \code{TRUE} if the subject as a list
-#' is well-formatted by \code{\link{subject_create}} with its necessary key-value pairs.
+#' is well-formatted by[subject_create()] with its necessary key-value pairs.
 is.subject <- function(x) {
   ifelse(inherits(x, "subject"), TRUE, FALSE)
 }

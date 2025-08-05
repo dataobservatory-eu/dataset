@@ -35,9 +35,9 @@
 #' @param Subject Recommended for discovery. Subject, keyword, classification
 #'   code, or key phrase describing the resource. Similar to
 #'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/subject/}{dct:subject}.
-#'   \cr Use \code{\link{subject}} to properly add a key phrase from a
+#'   \cr Use[subject()] to properly add a key phrase from a
 #'   controlled vocabulary and create structured Subject objects with
-#'   \code{\link{subject_create}}.
+#'  [subject_create()].
 #' @param Contributor Recommended for discovery. The institution or person
 #'   responsible for collecting, managing, distributing, or otherwise
 #'   contributing to the development of the resource.

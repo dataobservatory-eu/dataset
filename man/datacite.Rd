@@ -82,9 +82,9 @@ available in \code{YYYY} format.See \code{\link[=publication_year]{publication_y
 \item{Subject}{Recommended for discovery. Subject, keyword, classification
 code, or key phrase describing the resource. Similar to
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/subject/}{dct:subject}.
-\cr Use \code{\link{subject}} to properly add a key phrase from a
+\cr Use\code{\link[=subject]{subject()}} to properly add a key phrase from a
 controlled vocabulary and create structured Subject objects with
-\code{\link{subject_create}}.}
+\code{\link[=subject_create]{subject_create()}}.}
 
 \item{Type}{Defaults to \code{Dataset}. The DataCite resourceType definition
 refers back to

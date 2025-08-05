@@ -54,10 +54,10 @@ https://doi.org/1234#1...https://doi.org/1234#n.}
 constants.}
 
 \item{dataset_bibentry}{A list of bibliographic references and descriptive
-metadata about the dataset as a whole created with \code{\link{datacite}}
-or \code{\link{dublincore}}.}
+metadata about the dataset as a whole created with\code{\link[=datacite]{datacite()}}
+or \code{\link[=dublincore]{dublincore()}}.}
 
-\item{dataset_subject}{The subject of the dataset, see \code{\link{subject}}.}
+\item{dataset_subject}{The subject of the dataset, see\code{\link[=subject]{subject()}}.}
 
 \item{df}{A \code{data.frame} to be converted to \code{dataset_df}.}
 

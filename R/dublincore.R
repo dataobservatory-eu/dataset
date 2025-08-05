@@ -21,11 +21,11 @@
 #'   automatically added to the dataset.
 #' @param title
 #'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title},
-#'   a name given to the resource. \code{\link{datacite}} allows the use of
+#'   a name given to the resource.[datacite()] allows the use of
 #'   alternate titles, too. See \code{\link{dataset_title}}.
 #' @param creator An entity primarily responsible for making the resource.
 #'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/}{dct:creator}
-#'   Corresponds to \code{Creator} in \code{\link{datacite}}. See
+#'   Corresponds to \code{Creator} in[datacite()]. See
 #'   \code{\link{creator}}.
 #' @param identifier An unambiguous reference to the resource within a given
 #'   context. Recommended practice is to identify the resource by means of a
@@ -36,7 +36,7 @@
 #'   URI schemes maintained by IANA}. More details:
 #'   \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines
 #'   for using resource identifiers in Dublin Core metadata and IEEE LOM}.
-#'   Similar to \code{Identifier} in \code{\link{datacite}}. See
+#'   Similar to \code{Identifier} in[datacite()]. See
 #'   \code{\link{identifier}}.
 #' @param publisher Corresponds to
 #'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#publisher}{dct:publisher}
@@ -51,13 +51,13 @@
 #'   \code{\link{publisher}}.
 #' @param subject In
 #'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/subject/}{dct:subject}.
-#'   In \code{\link{datacite}} it is a recommended property for discovery. In
-#'   DataCite, a more complex referencing is used. See \code{\link{subject}} and
-#'   create structured Subject objects with \code{\link{subject_create}}.
+#'   In[datacite()] it is a recommended property for discovery. In
+#'   DataCite, a more complex referencing is used. See[subject()] and
+#'   create structured Subject objects with[subject_create()].
 #' @param dataset_date Corresponds to a point or period of time associated with
 #'   an event in the lifecycle of the resource.
 #'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/date/}{dct:date}.
-#'   \code{Date} is also recommended for discovery in \code{\link{datacite}},
+#'   \code{Date} is also recommended for discovery in[datacite()],
 #'   but it requires a different formatting. To avoid confusion with
 #'   date-related functions, instead of the DCMITERMS date or the DataCite Date
 #'   term, the parameter name is \code{dataset_date}.
@@ -71,10 +71,10 @@
 #'   is to use a controlled vocabulary such as the list of
 #'   \href{https://www.iana.org/assignments/media-types/media-types.xhtml}{Internet
 #'   Media Types, formerly known as MIME}. It is similar to \code{Format} in
-#'   \code{\link{datacite}}.
+#'  [datacite()].
 #' @param rights Corresponds to
 #'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights}
-#'   and \code{\link{datacite}} Rights. Information about rights held in and
+#'   and[datacite()] Rights. Information about rights held in and
 #'   over the resource. Typically, rights information includes a statement about
 #'   various property rights associated with the resource, including
 #'   intellectual property rights. See \code{\link{rights}}.
@@ -82,13 +82,13 @@
 #'   limited to: an abstract, a table of contents, a graphical representation,
 #'   or a free-text account of the resource.
 #'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}.
-#'   In \code{\link{datacite}} it is recommended for discovery. See
+#'   In[datacite()] it is recommended for discovery. See
 #'   \code{\link{description}}.
 #' @param relation A related resource. Recommended best practice is to identify
 #'   the related resource by means of a string conforming to a formal
 #'   identification system. See:
 #'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/relation/}{dct:relation}.
-#'   Similar to \code{RelatedItem} in \code{\link{datacite}}, which is
+#'   Similar to \code{RelatedItem} in[datacite()], which is
 #'   recommended for discovery.
 #' @param type The nature or genre of the resource. Recommended best practice is
 #'   to use a controlled vocabulary such as the DCMI Type Vocabulary
@@ -96,7 +96,7 @@
 #'   For a dataset, the correct term is \code{Dataset}. To describe the file
 #'   format, physical medium, or dimensions of the resource, use the Format
 #'   element.
-#' @param subject Defaults to \code{NULL}. See \code{\link{subject}} to add
+#' @param subject Defaults to \code{NULL}. See[subject()] to add
 #'   subject descriptions to your dataset.
 #' @param datasource The source of the dataset,
 #'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI:

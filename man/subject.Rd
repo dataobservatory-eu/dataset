@@ -23,8 +23,8 @@ subject(x) <- value
 is.subject(x)
 }
 \arguments{
-\item{x}{A dataset object created with \code{\link{dataset_df}} or
-\code{dataset::\link{as_dataset_df}}.}
+\item{x}{A dataset object created with \code{\link[=dataset_df]{dataset_df()}} or
+\code{\link[=as_dataset_df]{as_dataset_df()}}.}
 
 \item{term}{A subject term, for example, \code{"Data sets"}.}
 
@@ -44,12 +44,12 @@ authority if one is used. It is a namespace.}
 \item{classificationCode}{The classificationCode subproperty may be used for
 subject schemes, like ANZSRC, which do not have valueURIs for each subject term.}
 
-\item{value}{A subject field created by \code{\link{subject}}.
+\item{value}{A subject field created by\code{\link[=subject]{subject()}}.
 The subject field is overwritten with this value.}
 }
 \value{
 \code{subject(x)} returns the subject attribute of the
-\code{\link{dataset_df}} object \code{x}, \code{subject(x)<-value} sets
+\code{\link[=dataset_df]{dataset_df()}} object \code{x}, \code{subject(x)<-value} sets
 the same attribute to \code{value} and invisibly returns the
 \code{x} object with the changed attributes.
 
@@ -57,7 +57,7 @@ A \code{subject_create} returns a named list with the subject term,
 the subject scheme, URIs and prefix.
 
 \code{is.subject} returns a logical value, \code{TRUE} if the subject as a list
-is well-formatted by \code{\link{subject_create}} with its necessary key-value pairs.
+is well-formatted by\code{\link[=subject_create]{subject_create()}} with its necessary key-value pairs.
 }
 \description{
 Create/add/retrieve a subject
@@ -71,7 +71,7 @@ character string, it is added to the bibentry of the dataset, and also to
 a separate \code{subject} attribute. If the user wants to use the more detailed
 subproperties (see examples with \code{subject_create}), then the subject$term
 value is added to the bibentry as a text, and the more complex subject object
-is added as a separate attribute to the dataset_df object.#'
+is added as a separate attribute to the dataset_df object.
 }
 \examples{
 # To set the subject of a dataset_df object:

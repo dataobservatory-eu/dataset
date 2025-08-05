@@ -26,7 +26,7 @@
 #' # To remove a namespace
 #' var_namespace(qid) <- NULL
 #' @family defined metadata methods and functions
-#' @return The namespace attribute of a vector constructed with \code{\link{defined}}.
+#' @return The namespace attribute of a vector constructed with[defined()].
 #' @export
 var_namespace <- function(x, ...) {
   # rlang::check_dots_used()

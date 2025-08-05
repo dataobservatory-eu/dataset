@@ -18,13 +18,13 @@
 #'   to the rows being identified as
 #'   https://doi.org/1234#1...https://doi.org/1234#n.
 #' @param dataset_bibentry A list of bibliographic references and descriptive
-#'   metadata about the dataset as a whole created with \code{\link{datacite}}
-#'   or \code{\link{dublincore}}.
+#'   metadata about the dataset as a whole created with[datacite()]
+#'   or [dublincore()].
 #' @param var_labels The long, human readable labels of each variable.
 #' @param units The units of measurement for the measured variables.
 #' @param concepts The linked concepts of the variables, attributes, or
 #'   constants.
-#' @param dataset_subject The subject of the dataset, see \code{\link{subject}}.
+#' @param dataset_subject The subject of the dataset, see[subject()].
 #' @param ... The vectors (variables) that should be included in the dataset.
 #' @param x A \code{dataset_df} object for S3 methods.
 #' @param df A \code{data.frame} to be converted to \code{dataset_df}.

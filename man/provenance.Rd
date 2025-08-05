@@ -10,13 +10,13 @@ provenance(x)
 provenance(x) <- value
 }
 \arguments{
-\item{x}{A dataset created with \code{\link{dataset_df}}.}
+\item{x}{A dataset created with \code{\link[=dataset_df]{dataset_df()}}.}
 
-\item{value}{Use \code{\link{n_triples}} to add further statement values.}
+\item{value}{Use \code{\link[=n_triples]{n_triples()}} to add further statement values.}
 }
 \value{
 \code{provenance(x)} returns the provenance attributes created by
-\code{\link{n_triples}} as a text; \code{provenance(x)<-value} adds the new
+\code{\link[=n_triples]{n_triples()}} as a text; \code{provenance(x)<-value} adds the new
 provenance attributes and returns \code{x} invisibly.
 }
 \description{

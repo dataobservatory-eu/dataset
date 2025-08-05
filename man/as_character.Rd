@@ -16,7 +16,7 @@ as_character(x, ...)
 \method{as_character}{haven_labelled_defined}(x, preserve_attributes = FALSE, ...)
 }
 \arguments{
-\item{x}{A vector created with \code{\link{defined}}.}
+\item{x}{A vector created with\code{\link[=defined]{defined()}}.}
 
 \item{...}{Further arguments passed to internal methods (not used).}
 

@@ -7,7 +7,7 @@
 id_to_column(x, prefix = "eg:", ids = NULL)
 }
 \arguments{
-\item{x}{A dataset created with \code{\link{dataset_df}}.}
+\item{x}{A dataset created with \code{\link[=dataset_df]{dataset_df()}}.}
 
 \item{prefix}{Defaults to \code{eg:} (example.com).}
 

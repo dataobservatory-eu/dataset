@@ -1,7 +1,7 @@
 #' @title Add identifier to columns
 #'
 #' @description Add a prefixed identifier to the first column of the dataset.
-#' @param x A dataset created with \code{\link{dataset_df}}.
+#' @param x A dataset created with [dataset_df()].
 #' @param prefix Defaults to \code{eg:} (example.com).
 #' @param ids Defaults to \code{NULL}.
 #' @return A dataset conforming the original sub-class of \code{x}.

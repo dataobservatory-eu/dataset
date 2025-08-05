@@ -13,7 +13,7 @@ as_numeric(x, ...)
 \method{as_numeric}{haven_labelled_defined}(x, preserve_attributes = FALSE, ...)
 }
 \arguments{
-\item{x}{A vector created with \code{\link{defined}}.}
+\item{x}{A vector created with\code{\link[=defined]{defined()}}.}
 
 \item{...}{Further arguments passed to internal methods (not used).}
 

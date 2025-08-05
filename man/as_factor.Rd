@@ -7,7 +7,7 @@
 as_factor(x, ...)
 }
 \arguments{
-\item{x}{A vector created with \code{\link{defined}}.}
+\item{x}{A vector created with\code{\link[=defined]{defined()}}.}
 
 \item{...}{Further arguments passed to internal methods (not used).}
 }

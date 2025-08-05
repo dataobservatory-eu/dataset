@@ -17,7 +17,7 @@
 #' # To remove a concept definition of variable
 #' var_concept(small_country_dataset$country_name) <- NULL
 #' @return The (linked) concept of the meaning of the data contained by a
-#'   vector constructed with \code{\link{defined}}.
+#'   vector constructed with[defined()].
 #' @export
 
 var_concept <- function(x, ...) {

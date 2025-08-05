@@ -7,7 +7,7 @@
 n_triples(triples)
 }
 \arguments{
-\item{triples}{Concatenated N-Triples created with \code{\link{n_triple}}.}
+\item{triples}{Concatenated N-Triples created with \code{\link[=n_triple]{n_triple()}}.}
 }
 \value{
 A character vector containing unique N-Triple strings.

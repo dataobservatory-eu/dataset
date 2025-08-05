@@ -413,7 +413,7 @@ as.numeric.haven_labelled_defined <- function(x, ...) {
 }
 
 #' @title Coerce a defined vector to numeric
-#' @param x A vector created with \code{\link{defined}}.
+#' @param x A vector created with[defined()].
 #' @description `as_numeric()` is the recommended method to convert a `defined`
 #' vector to numeric. It is metadata-aware and ensures that the underlying data
 #' is numeric before coercion.
@@ -485,7 +485,7 @@ as.character.haven_labelled_defined <- function(x, ...) {
 }
 
 #' @title Coerce to character vector
-#' @param x A vector created with \code{\link{defined}}.
+#' @param x A vector created with[defined()].
 #' @return A character vector.
 #' @examples
 #' as_character(defined(c("a", "b", "c"), label = "Letter code"))
@@ -497,7 +497,7 @@ as_character <- function(x, ...) {
 
 #' @rdname as_character
 #' @title Coerce a defined vector to character
-#' @param x A vector created with \code{\link{defined}}.
+#' @param x A vector created with[defined()].
 #' @description `as_character()` is the recommended method to convert a `defined`
 #' vector to character. It is metadata-aware and ensures that the underlying data
 #' is character before coercion.
@@ -543,7 +543,7 @@ as_character.haven_labelled_defined <- function(
 
 ## Factor vectors ----------------------------------------------------------
 #' @title Coerce to factor vector
-#' @param x A vector created with \code{\link{defined}}.
+#' @param x A vector created with[defined()].
 #' @param ... Further arguments passed to internal methods (not used).
 #' @return A factor vector.
 #' @examples

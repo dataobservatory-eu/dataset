@@ -12,8 +12,7 @@ describe(x, con)
 \item{con}{A connection or a character string path (e.g. from \code{tempfile()}).}
 }
 \value{
-Writes N-Triples to \code{con} and invisibly returns the file contents,
-which is an N-Triples description of \code{x}.
+Writes N-Triples to \code{con} and invisibly returns \code{x}.
 }
 \description{
 Writes provenance and Dublin Core metadata of a dataset to a

@@ -32,7 +32,7 @@ unit_attribute(x) <- value
 \item{value}{A character string or \code{NULL} to remove the unit of measure.}
 }
 \value{
-The unit attribute of a vector constructed with \code{\link{defined}},
+The unit attribute of a vector constructed with\code{\link[=defined]{defined()}},
 or any vector that is enriched with a unit attribute. \cr
 \cr
 The \code{var_unit<-}

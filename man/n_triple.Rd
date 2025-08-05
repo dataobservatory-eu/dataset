@@ -25,7 +25,7 @@ Create a single N-Triple triple.
 \details{
 N-Triples is an easy to parse line-based subset of Turtle to serialize
 RDF. An N-Triple triple is a sequence of RDF terms representing the subject,
-predicate and object of an RDF Triple. Use \code{\link{n_triples}} to serialize
+predicate and object of an RDF Triple. Use \code{\link[=n_triples]{n_triples()}} to serialize
 multiple statements.
 }
 \examples{

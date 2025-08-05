@@ -50,12 +50,12 @@ element.}
 object if \code{type="dataset"}.}
 
 \item{title}{\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title},
-a name given to the resource. \code{\link{datacite}} allows the use of
+a name given to the resource.\code{\link[=datacite]{datacite()}} allows the use of
 alternate titles, too. See \code{\link{dataset_title}}.}
 
 \item{creator}{An entity primarily responsible for making the resource.
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/}{dct:creator}
-Corresponds to \code{Creator} in \code{\link{datacite}}. See
+Corresponds to \code{Creator} in\code{\link[=datacite]{datacite()}}. See
 \code{\link{creator}}.}
 
 \item{contributor}{An entity responsible for making contributions to the
@@ -86,16 +86,16 @@ and Uniform Resource Name (URN). Select and identifier scheme from
 URI schemes maintained by IANA}. More details:
 \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines
 for using resource identifiers in Dublin Core metadata and IEEE LOM}.
-Similar to \code{Identifier} in \code{\link{datacite}}. See
+Similar to \code{Identifier} in\code{\link[=datacite]{datacite()}}. See
 \code{\link{identifier}}.}
 
-\item{subject}{Defaults to \code{NULL}. See \code{\link{subject}} to add
+\item{subject}{Defaults to \code{NULL}. See\code{\link[=subject]{subject()}} to add
 subject descriptions to your dataset.}
 
 \item{dataset_date}{Corresponds to a point or period of time associated with
 an event in the lifecycle of the resource.
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/date/}{dct:date}.
-\code{Date} is also recommended for discovery in \code{\link{datacite}},
+\code{Date} is also recommended for discovery in\code{\link[=datacite]{datacite()}},
 but it requires a different formatting. To avoid confusion with
 date-related functions, instead of the DCMITERMS date or the DataCite Date
 term, the parameter name is \code{dataset_date}.}
@@ -108,7 +108,7 @@ Language}.}
 the related resource by means of a string conforming to a formal
 identification system. See:
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/relation/}{dct:relation}.
-Similar to \code{RelatedItem} in \code{\link{datacite}}, which is
+Similar to \code{RelatedItem} in\code{\link[=datacite]{datacite()}}, which is
 recommended for discovery.}
 
 \item{format}{The file format, physical medium, or dimensions of the dataset.
@@ -118,7 +118,7 @@ Format}.}
 
 \item{rights}{Corresponds to
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights}
-and \code{\link{datacite}} Rights. Information about rights held in and
+and\code{\link[=datacite]{datacite()}} Rights. Information about rights held in and
 over the resource. Typically, rights information includes a statement about
 various property rights associated with the resource, including
 intellectual property rights. See \code{\link{rights}}.}
@@ -133,7 +133,7 @@ naming conflicts with the}
 limited to: an abstract, a table of contents, a graphical representation,
 or a free-text account of the resource.
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}.
-In \code{\link{datacite}} it is recommended for discovery. See
+In\code{\link[=datacite]{datacite()}} it is recommended for discovery. See
 \code{\link{description}}.}
 
 \item{coverage}{The spatial or temporal topic of the resource, spatial

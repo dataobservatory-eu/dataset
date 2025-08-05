@@ -10,9 +10,9 @@ identifier(x)
 identifier(x, overwrite = TRUE) <- value
 }
 \arguments{
-\item{x}{An \code{\link{dataset_df}} object or a
+\item{x}{An \code{\link[=dataset_df]{dataset_df()}} object or a
 \code{\link[utils:bibentry]{utils::bibentry}} object, including possibly an
-instance of its \code{\link{dublincore}} or \code{\link{datacite}}
+instance of its \code{\link[=dublincore]{dublincore()}} or\code{\link[=datacite]{datacite()}}
 subclass.}
 
 \item{overwrite}{If the attributes should be overwritten. In case it is set
@@ -40,7 +40,7 @@ and Uniform Resource Name (URN). Select and identifier scheme from
 URI schemes maintained by IANA}. More details:
 \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines
 for using resource identifiers in Dublin Core metadata and IEEE LOM}.
-Similar to \code{Identifier} in \code{\link{datacite}}.
+Similar to \code{Identifier} in\code{\link[=datacite]{datacite()}}.
 \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#1-identifier}{DataCite
 4.4}.\cr It is not part of the "core" Dublin Core terms, but we always add
 it to the metadata attributes of a dataset (in case you use a strict Dublin

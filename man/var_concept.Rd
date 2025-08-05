@@ -21,7 +21,7 @@ var_concept(x) <- value
 }
 \value{
 The (linked) concept of the meaning of the data contained by a
-vector constructed with \code{\link{defined}}.
+vector constructed with\code{\link[=defined]{defined()}}.
 
 The modified vector with updated \code{concept} metadata.
 }

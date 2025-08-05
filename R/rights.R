@@ -3,7 +3,7 @@
 #' R object.
 #' @details \code{Rights} corresponds to
 #' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights} and
-#' \code{\link{datacite}} Rights. Information about rights held in and over the resource.
+#'[datacite()] Rights. Information about rights held in and over the resource.
 #' Typically, rights information includes a statement about various property
 #' rights associated with the resource, including intellectual property rights.
 #' @param x A semantically rich data frame object created by  \code{dataset::\link{dataset_df}} or

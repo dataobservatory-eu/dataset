@@ -4,7 +4,7 @@
 #' @details N-Triples is an easy to parse line-based subset of Turtle to serialize
 #' RDF. See
 #' \href{https://www.w3.org/TR/rdf12-n-triples/}{RDF 1.2 N-Triples. A line-based syntax for an RDF graph}.
-#' @param triples Concatenated N-Triples created with \code{\link{n_triple}}.
+#' @param triples Concatenated N-Triples created with [n_triple()].
 #' @return A character vector containing unique N-Triple strings.
 #' @examples
 #' triple_1 <- n_triple(
@@ -28,7 +28,7 @@ n_triples <- function(triples) {
 #' @description Create a single N-Triple triple.
 #' @details N-Triples is an easy to parse line-based subset of Turtle to serialize
 #' RDF. An N-Triple triple is a sequence of RDF terms representing the subject,
-#'  predicate and object of an RDF Triple. Use \code{\link{n_triples}} to serialize
+#'  predicate and object of an RDF Triple. Use [n_triples()] to serialize
 #'  multiple statements.
 #' @source \href{https://www.w3.org/TR/n-triples/}{RDF 1.1 N-Triples}
 #' @param s The subject of a triplet.

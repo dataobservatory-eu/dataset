@@ -30,7 +30,7 @@
 #'
 #' # To remove a unit of measure assign the NULL value:
 #' var_unit(mtcars$wt) <- NULL
-#' @return The unit attribute of a vector constructed with \code{\link{defined}},
+#' @return The unit attribute of a vector constructed with[defined()],
 #' or any vector that is enriched with a unit attribute. \cr
 #' \cr
 #' The \code{var_unit<-}
