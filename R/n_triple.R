@@ -38,6 +38,11 @@ n_triples <- function(triples) {
 #' n_triple(s, p, o)
 #' @export
 n_triple <- function(s, p, o) {
+
+  if (length(o) != 1) {
+    stop("n_triple(): object 'o' must be a scalar (length = 1), got: ", length(o))
+  }
+
   s <- create_iri(s)
   p <- create_iri(p)
 

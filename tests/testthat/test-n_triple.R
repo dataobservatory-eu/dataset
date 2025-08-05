@@ -62,6 +62,11 @@ test_that("n_triple and related helpers produce correct N-Triple strings", {
   )
 })
 
+test_that("n_triple() gives error", {
+  expect_error(n_triple(s = c("1","2"), p="author", o = "Jane Doe"),
+               regexp = "a scalar value")
+})
+
 test_that("create_iri()", {
   author_person <- person(given = "Daniel", family = "Antal",
                           email = "daniel.antal@dataobservatory.eu",
