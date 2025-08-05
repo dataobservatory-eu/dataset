@@ -6,7 +6,7 @@
 #'[datacite()] Rights. Information about rights held in and over the resource.
 #' Typically, rights information includes a statement about various property
 #' rights associated with the resource, including intellectual property rights.
-#' @param x A semantically rich data frame object created by  \code{dataset::\link{dataset_df}} or
+#' @param x A semantically rich data frame object created by  [dataset_df()] or
 #'  \code{dataset::\link{as_dataset_df}}.
 #' @param value The \code{Rights} as a character set.
 #' @param overwrite If the \code{Rights} attribute should be overwritten. In case it

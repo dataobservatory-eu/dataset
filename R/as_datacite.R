@@ -1,5 +1,5 @@
 #' @rdname datacite
-#' @param x A dataset object created with \code{dataset::\link{dataset}}.
+#' @param x A dataset object created with [dataset_df()].
 #' @param type A DataCite 4.4  metadata can be returned as a
 #' \code{type="list"}, a \code{type="dataset_df"}, a \code{type="bibentry"}
 #' (default) or  \code{type="ntriples"}.

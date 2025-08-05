@@ -5,7 +5,7 @@
 #'   additional information that does not fit in any of the other categories.
 #'   May be used for technical information. A free text. Similar to
 #'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}.
-#' @param x A dataset object created with \code{dataset::\link{dataset_df}} or
+#' @param x A dataset object created with [dataset_df()] or
 #'   \code{dataset::\link{as_dataset_df}}.
 #' @param value The \code{Description} as a character set.
 #' @param overwrite If the \code{Description} attribute should be overwritten.

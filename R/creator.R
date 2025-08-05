@@ -8,7 +8,7 @@
 #'   dataset. This property will be used to formulate the citation, so consider
 #'   the prominence of the role.
 #' @param x A semantically rich data frame object created by
-#'   \code{dataset::\link{dataset_df}} or \code{dataset::\link{as_dataset_df}}.
+#'   [dataset_df()] or \code{dataset::\link{as_dataset_df}}.
 #' @param value The \code{Creator} as a
 #'   \code{\link[utils:person]{utils::person}} object.
 #' @param overwrite If the attributes should be overwritten. In case it is set
