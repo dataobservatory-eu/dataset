@@ -46,6 +46,7 @@
 #' @importFrom labelled to_labelled is.labelled
 #' @import vctrs
 #' @importFrom utils head tail
+#' @seealso `browseVignettes("dataset")`
 #' @examples
 #'
 #' gdp_vector <- defined(

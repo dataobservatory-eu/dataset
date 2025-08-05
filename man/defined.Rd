@@ -99,6 +99,8 @@ summary(gdp_vector)
 gdp_vector[1:2]
 }
 \seealso{
+\code{browseVignettes("dataset")}
+
 Other defined metadata methods and functions: 
 \code{\link{var_label}()},
 \code{\link{var_namespace}()},
