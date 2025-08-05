@@ -88,13 +88,13 @@ resolved as <https://dd.eionet.europa.eu/vocabulary/eurostat/geo/AD>
 
 ``` r
 geo <- defined(
-    gdp$geo,
-    label = "Country name",
-    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refArea", 
-    namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"
-    )
+  gdp$geo,
+  label = "Country name",
+  concept = "http://purl.org/linked-data/sdmx/2009/dimension#refArea",
+  namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"
+)
 
-geo[c(1,3)]
+geo[c(1, 3)]
 #> x: Country name
 #> Defined as http://purl.org/linked-data/sdmx/2009/dimension#refArea 
 #> [1] "AD" "AD"
@@ -149,17 +149,19 @@ Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
 ``` r
 my_data <- dataset_df(
   country = defined(
-    c("AD", "LI"), 
-    concept =  "http://data.europa.eu/bna/c_6c2bb82d"),
-  gdp = defined(c(3897, 7365), 
-                label = "GDP", 
-                unit = "million euros"),
+    c("AD", "LI"),
+    concept = "http://data.europa.eu/bna/c_6c2bb82d"
+  ),
+  gdp = defined(c(3897, 7365),
+    label = "GDP",
+    unit = "million euros"
+  ),
   dataset_bibentry = datacite(
     Title = "GDP Data for Small Countries",
     Description = "Example Dataset for the dataset package",
     Creator = person("Jane", "Doe"),
     Publisher = "Open Data Institute",
-    Rights = "CC0", 
+    Rights = "CC0",
     Language = "en"
   )
 )
@@ -190,7 +192,7 @@ making your data interoperable on the web.
   critical attributes.
 
 ``` r
-dataset_to_triples(my_data, format="nt")
+dataset_to_triples(my_data, format = "nt")
 #> [1] "<http://example.com/dataset#eg:1> <http://data.europa.eu/bna/c_6c2bb82d> \"AD\"^^<xs:string> ."
 #> [2] "<http://example.com/dataset#eg:2> <http://data.europa.eu/bna/c_6c2bb82d> \"LI\"^^<xs:string> ."
 #> [3] "<http://example.com/dataset#eg:1> <http://example.com/prop/gdp> \"3897\"^^<xs:decimal> ."      

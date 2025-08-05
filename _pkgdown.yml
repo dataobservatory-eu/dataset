@@ -32,6 +32,7 @@ articles:
         semantic web contexts.
     contents:
        - introduction
+       - design
   - title: "Semantic Enrichment of Variables"
     desc: >
      Enriching metadata about individual variables stored as defined vectors.
@@ -66,7 +67,8 @@ reference:
   - title: "Defined"
     desc: >
       A new labelled subclass that retains the unit of measure, definition and
-          namespace of the variable.
+          namespace of the variable. Constructor and helper functions to access
+          or assign new values to the concept, namespace, and unit attributes.
     contents:
       - defined
       - var_label

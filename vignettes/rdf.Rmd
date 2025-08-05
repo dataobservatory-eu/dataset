@@ -128,44 +128,45 @@ gc()
 
 ```{r scaleup}
 small_country_dataset <- dataset_df(
-    geo = defined(
-      gdp$geo,
-      label = "Country name",
-      concept = "http://dd.eionet.europa.eu/vocabulary/eurostat/geo/",
-      namespace = "https://www.geonames.org/countries/$1/"
-    ),
-    year = defined(
-      gdp$year,
-      label = "Reference Period (Year)",
-      concept = "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"
-    ),
-    gdp = defined(
-      gdp$gdp,
-      label = "Gross Domestic Product",
-      unit = "CP_MEUR",
-      concept = "http://data.europa.eu/83i/aa/GDP"
-    ),
-    unit = gdp$unit,
-    freq = defined(
-      gdp$freq,
-      label = "Frequency",
-      concept = "http://purl.org/linked-data/sdmx/2009/code",
-      namespace = "http://purl.org/linked-data/sdmx/2009/code#freq-"
-    ),
-    dataset_bibentry = dublincore(
-      title = "Small Country Dataset",
-      creator = person("Jane", "Doe"),
-      publisher = "Example Inc.",
-      datasource = "https://doi.org/10.2908/NAIDA_10_GDP",
-      rights = "CC-BY",
-      coverage = "Andorra, Lichtenstein and San Marino"
-    )
+  geo = defined(
+    gdp$geo,
+    label = "Country name",
+    concept = "http://dd.eionet.europa.eu/vocabulary/eurostat/geo/",
+    namespace = "https://www.geonames.org/countries/$1/"
+  ),
+  year = defined(
+    gdp$year,
+    label = "Reference Period (Year)",
+    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"
+  ),
+  gdp = defined(
+    gdp$gdp,
+    label = "Gross Domestic Product",
+    unit = "CP_MEUR",
+    concept = "http://data.europa.eu/83i/aa/GDP"
+  ),
+  unit = gdp$unit,
+  freq = defined(
+    gdp$freq,
+    label = "Frequency",
+    concept = "http://purl.org/linked-data/sdmx/2009/code",
+    namespace = "http://purl.org/linked-data/sdmx/2009/code#freq-"
+  ),
+  dataset_bibentry = dublincore(
+    title = "Small Country Dataset",
+    creator = person("Jane", "Doe"),
+    publisher = "Example Inc.",
+    datasource = "https://doi.org/10.2908/NAIDA_10_GDP",
+    rights = "CC-BY",
+    coverage = "Andorra, Lichtenstein and San Marino"
+  )
 )
 ```
 
 ```{r smallcountrydfnt}
-small_country_df_nt <- dataset_to_triples(small_country_dataset, 
-                                          format = "nt")
+small_country_df_nt <- dataset_to_triples(small_country_dataset,
+  format = "nt"
+)
 ```
 
 The following lines read as:
@@ -178,7 +179,7 @@ The following lines read as:
 
 ```{r smallcountrydfntsample}
 ## See rows 1,11,21
-small_country_df_nt[c(1,11,21,31,41)]
+small_country_df_nt[c(1, 11, 21, 31, 41)]
 ```
 
 The statements about `Observation 1`, which is Andorra's national economy in 2020, is not serialised consecutively in the text file. This is not necessary, because each cell is precisely connected to the *row* (first part of the triple) and *column* (second part of the triple). We could say that the entire map to the original dataset is embedded into the flat text file, therefore it can be easily imported into a database.
@@ -187,7 +188,8 @@ The statements about `Observation 1`, which is Andorra's national economy in 202
 # We write to a temporary file our Ntriples created earlier
 temp_file <- tempfile(fileext = ".nt")
 writeLines(small_country_df_nt,
-           con = temp_file)
+  con = temp_file
+)
 
 rdf_graph <- rdf()
 rdf_parse(rdf_graph, doc = temp_file, format = "ntriples")

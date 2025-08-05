@@ -1,0 +1,154 @@
+---
+title: "dataset: Semantically Enriched, Standards-Aligned Datasets in R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{dataset: Semantically Enriched, Standards-Aligned Datasets in R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Abstract 
+
+```{r setup}
+library(dataset)
+```
+
+> "A dataset is an identifiable collection of data available for access or download in one or more formats." — ISO/IEC 20546
+
+The dataset package enriches R's data objects with machine-readable metadata. It embeds semantic definitions and provenance at both the variable and dataset level, offering users interoperable, standards-aligned outputs. It follows a semantic early-binding design: metadata is attached during dataset creation, not retrofitted later. This ensures that context and meaning are preserved from exploration to publication, and some documentation can be automated.
+
+This article outlines the design philosophy behind the dataset package, including its theoretical underpinnings, structure, relation to other R tools, and example workflows. It is intended as a long-form complement to the package vignettes.
+
+## Introduction and Motivation
+
+>"The principles of tidy data provide a standard way to organise data values within a dataset." — Wickham (2014)
+
+Wickham's article refers to a particular manifestation of a dataset within R: a data.frame or tibble object. However, R users often conflate this tangible object that lives in their computer memory and in the R ecosystem with the broader concept of a dataset. In reality, the definition of a dataset refers to its abstract structure and semantics—elements that can be realized in many forms across databases, APIs, or file systems.
+
+The original tidy workflow was conceived for interactive sessions where analysts had full context of their data's source and meaning, and provided a pragmatic approach to work with several datasets: keep the original variable names in the identifier row, or place dimensions and attributes before measured variables.  This design is effective when the analyst is the sole user, but insufficient when data is shared, reused institutionally, or published for open use. In such cases, more semantics is needed: not just tidy structure, but explicit definitions of units, codes, contributors, and provenance. Also, we need to be at least aware that institutional statistical providers use a somewhat more complicated format that resembles the tidy data, but with higher dimensionality: the datacube model.
+
+Tidy data assumes that well-named variables and consistent columnar structure will carry enough meaning for analysis. But when working with datasets from different sources—such as Eurostat and OECD—conflicts emerge. For instance, a variable named geo might encode countries using different standards (ISO codes vs Eurostat codes), and economic indicators like GDP may appear in different currencies or base years. These differences may not be apparent until after erroneous joins or analyses have occurred.
+
+To bridge this semantic gap, the dataset package integrates machine-readable metadata directly into R data objects, preserving this information from creation to export.
+
+The original tidy workflow was conceived for interactive sessions where analysts had full context of their data's source and meaning. This design is effective when the analyst is the sole user, but insufficient when data is shared, reused institutionally, or published for open use. In such cases, more semantics is needed: not just tidy structure, but explicit definitions of units, codes, contributors, and provenance.
+
+Tidy data principles (Wickham, 2014) dramatically improved the consistency of R's data wrangling workflows:
+-	Each variable forms a column
+-	Each observation forms a row
+-	Each observational unit forms a table.
+
+However, this tidy structure often lacks semantics. Consider:
+
+```{r}
+data.frame(
+  geo = c("LI", "SM"),
+  CPI = c("0.8", "0.9"),
+  GNI = c("8976", "9672")
+)
+```
+
+This is tidy but not self-describing. Is geo an ISO code or something else? Is GNI in euros, dollars, or PPP? The dataset is syntactically correct, but semantically ambiguous.
+
+This is common in real-world R workflows, especially with multi-source data. Without machine-readable metadata, tidy datasets can be misinterpreted, joined incorrectly, or published without sufficient context.
+
+The dataset package addresses these issues by providing structures for semantically rich vectors and metadata-annotated tibbles.
+
+## Related Work
+Several R packages have offered tools to improve the metadata management of datasets that were born out of the R ecosystem. 
+
+The `labelled` class in labelled and haven support long-form variable labels and a better handling of value label sets than base R’s factor class. This is mainly useful for character variables collected by sample surveys, which are a very important source of microdata for further statistical analysis.  Real statistical production, as standardised by GSIM, and within GSIM, the DDI, uses a far more complex data model for describing survey questionnaires and answer given to these questions.  An important and easy improvement that we implemented adds standardised cross-domain codebook references to such variables, making sure that the labelling follows standards. 
+
+The dataspice package allows metadata creation for publication, but stores it the metadata in an external, auxiliary dataset. This solution is lightweight and easy to understand, as it requires filling in a standardised CSV file, but its simplicity carries risk: the two files may be detached, or newer versions of the data file may not be reflected in the secondary (metadata) dataset.
+
+The rdflib package, a high-level binding to the same-named Python library supports RDF serialization and querying but assumes retrofitted metadata.
+
+## Semantic Early Binding
+The dataset package introduces several new S3 classes that remain fully compatible with tidyverse idioms and largely interoperable with base R. These classes rely on R's native attribute system to embed metadata directly within vectors and tibbles. This allows metadata such as labels, concept URIs, namespaces, and provenance details to persist during most transformations.
+
+The attribute system is underused, and most user-friendly packages do not offer any helper function or interface to work in the attribute part of an R object.  This leads to redundancy (often much metadata is repeated inside the contents of the dataset). 
+
+The `defined()` constructor builds on labelled::labelled (originally from haven) and provides a more expressive way to annotate vectors with:
+
+-	A human-readable label (e.g., "Gross Domestic Product")
+-	A unit or measurement system (e.g., "CP_MEUR"), supported by the var_unit() function and its assignment function version var_unit()<-
+-	A concept URI that uniquely identifies the variable or dimension, supported by the var_concept() function and its assignment function version. 
+-	A namespace URI pattern for resolving coded values (e.g., ISO or Eurostat country codes), supported by the var_namespace function and its assignment version.
+
+The `dataset_df` class extends tibble and supports combining these enriched vectors with dataset-level metadata. This includes Dublin Core or DataCite elements such as title, creator, publisher, subject, and contributors. Metadata can also track provenance information such as the tool or timestamp of creation.
+
+Since all metadata is stored in object attributes, it remains attached when serialized to .rds or .rda, unlike metadata stored in external files. These attributes can be queried or exported but do not interfere with standard R usage.
+
+Metadata is attached at the time of variable or dataset creation. This contrasts with external metadata files (e.g., JSON-LD), which may be detached or go out of sync.
+
+### Core classes
+
+`defined`: semantically enriched vector, extending labelled
+
+`dataset_df`: tibble-derived object with dataset-level and column-level metadata
+
+Example:
+```{r}
+library(dataset)
+
+gdp <- defined(
+  c(2355, 2592, 2884),
+  label = "Gross Domestic Product",
+  unit = "CP_MEUR",
+  concept = "http://data.europa.eu/83i/aa/GDP"
+)
+
+geo <- defined(
+  rep("AD", 3),
+  label = "Geopolitical Entity",
+  concept = "http://dd.eionet.europa.eu/vocabulary/eurostat/geo/",
+  namespace = "https://www.geonames.org/countries/$1/"
+)
+```
+
+These vectors are self-describing and URI-resolvable.
+
+Constructing a dataset: 
+
+```{r}
+small_dataset <- dataset_df(
+  geo = geo,
+  gdp = gdp,
+  identifier = c(gdp = "http://example.com/dataset#gdp"),
+  dataset_bibentry = dublincore(
+    title = "Small GDP Dataset",
+    creator = person("Jane", "Doe", role = "aut"),
+    publisher = "Small Repository",
+    subject = "Gross Domestic Product"
+  )
+)
+```
+
+### Descriptive Metadata
+
+
+### Provenance
+
+## RDF Interoperability
+
+In the semantic web, datasets are often represented as collections of triples: subject, predicate, and object. The dataset_to_triples() function enables this by converting any dataset_df into a long-form representation where each row represents a semantically annotated cell.
+
+Unlike tidy datasets that require column-wise joins and reshape operations, RDF-based datasets eliminate structural joins by relying on identity, context, and concept URIs. Repeated values are normalized at the semantic level. This makes triple-based data more flexible for publishing, integration, and querying across domains.
+
+This design choice affects how we implemented joins and bindings. The package avoids implementing column-wise joins or wide-format merging because semantically rich datasets can be recombined or queried directly via SPARQL or other RDF tooling. Instead, row-wise binding via bind_defined_rows() is supported, allowing users to append consistent datasets without losing semantics.
+
+This reflects a deliberate philosophy: rather than duplicate tidyverse behaviors, dataset encourages upstream semantic modeling and downstream interoperability.
+
+The dataset_to_triples() function exports a tidy dataset to RDF-style triplets:
+
+triples <- dataset_to_triples(small_dataset)
+head(triples)
+
+Each row becomes a triple (subject, predicate, object), typed with XSD and optionally resolved via URIs. Export is supported through rdflib.
