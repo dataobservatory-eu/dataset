@@ -16,7 +16,7 @@ test_that("describe() writes provenance and metadata to file", {
   )
 
   tmpfile <- tempfile(fileext = ".nt")
-  describe(x=test_ds, con=tmpfile)
+  describe(x = test_ds, con = tmpfile)
 
   lines <- readLines(tmpfile)
   expect_true(any(grepl("prov#", lines)))
@@ -24,5 +24,5 @@ test_that("describe() writes provenance and metadata to file", {
   expect_true(length(lines) > 3)
 })
 
-x = orange_df
-con = tempfile()
+x <- orange_df
+con <- tempfile()
