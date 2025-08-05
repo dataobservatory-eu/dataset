@@ -23,7 +23,8 @@
 #'   author = person("Eurosat"),
 #'   publisher = person("Eurostat"),
 #'   identifier = "https://doi.org/10.2908/TEINA011",
-#'   date = as.Date("2025-05-20"))
+#'   date = as.Date("2025-05-20")
+#' )
 #' @export
 bibrecord <- function(
     title,
@@ -35,10 +36,8 @@ bibrecord <- function(
     identifier = NULL,
     subject = NULL,
     ...) {
-
   stopifnot(inherits(author, "person") ||
-              all(vapply(author, inherits, logical(1), "person"))
-            )
+    all(vapply(author, inherits, logical(1), "person")))
 
   # Normalize author roles and ensure vector of class "person"
   author <- normalize_roles(as.list(author))

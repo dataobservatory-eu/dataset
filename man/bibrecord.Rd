@@ -52,5 +52,6 @@ bibrecord(
   author = person("Eurosat"),
   publisher = person("Eurostat"),
   identifier = "https://doi.org/10.2908/TEINA011",
-  date = as.Date("2025-05-20"))
+  date = as.Date("2025-05-20")
+)
 }

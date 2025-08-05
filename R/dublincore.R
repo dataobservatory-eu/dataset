@@ -226,112 +226,6 @@ dublincore <- function(
 }
 
 #' @keywords internal
-dublincore_to_triples <- function(
-    dclist,
-    dataset_id = "http://example.com/dataset") {
-  if (is.null(dclist) || is.null(dclist$title) || nchar(dclist$title) == 0) {
-    stop("Error: dublincore_to_triples(dclist, dataset_id): no title found in dclist")
-  }
-
-  dctriples <- n_triple(
-    dataset_id,
-    "http://purl.org/dc/terms/title",
-    dclist$title
-  )
-
-  if (!is.null(dclist$description)) {
-    dctriples <- c(dctriples, n_triple(
-      dataset_id,
-      "http://purl.org/dc/terms/description",
-      dclist$description
-    ))
-  }
-
-  if (!is.null(dclist$creator)) {
-    tcreator <- n_triple(
-      dataset_id,
-      "http://purl.org/dc/terms/creator",
-      dclist$creator
-    )
-    dctriples <- c(dctriples, tcreator)
-  }
-
-  if (!is.null(dclist$publisher)) {
-    dctriples <- c(dctriples, n_triple(
-      dataset_id,
-      "http://purl.org/dc/terms/publisher",
-      dclist$publisher
-    ))
-  }
-
-  if (!is.null(dclist$identifier)) {
-    dctriples <- c(dctriples, n_triple(
-      dataset_id,
-      "http://purl.org/dc/terms/identifier",
-      dclist$identifier
-    ))
-  }
-
-  if (!is.null(dclist$subject)) {
-    dctriples <- c(dctriples, n_triple(
-      dataset_id,
-      "http://purl.org/dc/terms/subject",
-      dclist$subject
-    ))
-  }
-
-  if (!is.null(dclist$type)) {
-    dctriples <- c(dctriples, n_triple(
-      dataset_id,
-      "http://purl.org/dc/terms/type",
-      gsub("DCMITYPE:", "http://purl.org/dc/terms/DCMIType", dclist$type)
-    ))
-  }
-
-  if (!is.null(dclist$contributor)) {
-    dctriples <- c(dctriples, n_triple(
-      dataset_id,
-      "http://purl.org/dc/terms/contributor",
-      dclist$contributor
-    ))
-  }
-
-  # if ( !is.null(dclist$date) ) {
-  #  dctriples <- c(dctriples, n_triple(dataset_id,
-  #                                     "http://purl.org/dc/terms/date",
-  #                                     dclist$date))
-  # }
-
-  if (!is.null(dclist$language)) {
-    dctriples <- c(dctriples, n_triple(
-      dataset_id,
-      "http://purl.org/dc/terms/language",
-      dclist$language
-    ))
-  }
-
-  if (!is.null(dclist$datasource)) {
-    dctriples <- c(dctriples, n_triple(
-      dataset_id,
-      "http://purl.org/dc/terms/source",
-      dclist$datasource
-    ))
-  }
-
-  if (!is.null(dclist$coverage)) {
-    dctriples <- c(dctriples, n_triple(
-      dataset_id,
-      "http://purl.org/dc/terms/coverage",
-      dclist$coverage
-    ))
-  }
-  n_triples(dctriples)
-}
-
-
-
-
-#' @keywords internal
 new_dublincore <- function(title,
                            creator,
                            identifier = NULL,
@@ -348,10 +242,11 @@ new_dublincore <- function(title,
                            datasource = NULL,
                            description = NULL,
                            coverage = NULL) {
-
   year <- if (!is.null(dataset_date)) {
     substr(as.character(dataset_date), 1, 4)
-    } else NULL
+  } else {
+    NULL
+  }
 
   dublincore_object <- bibrecord(
     title = title,

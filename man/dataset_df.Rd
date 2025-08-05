@@ -98,26 +98,30 @@ my_dataset <- dataset_df(
     unit = "million dollars",
     concept = "http://data.europa.eu/83i/aa/GDP"
   ),
-  dataset_bibentry =  dublincore(
+  dataset_bibentry = dublincore(
     title = "GDP of Andorra And Lichtenstein",
     description = "A small but semantically rich datset example.",
     creator = person("Jane", "Doe", role = "cre"),
     publisher = "Open Data Institute",
-    language = "en")
- )
+    language = "en"
+  )
+)
 
-# Use standard methods, like print, summary, head, tail
+# Use standard methods, like print, summary, head, tail, which show
+# basic metadata, too.
 print(my_dataset)
 head(my_dataset)
 tail(my_dataset)
 
-# Check class:
-is.dataset_df(my_dataset)
-
-# To check the bibliographic metadata of a dataset,
+# To check the bibliographic metadata of a dataset_df object,
 # use as_dublincore for DCTERMS:
 as_dublincore(my_dataset)
 
 # ... and as_datacite for DataCite:
 as_datacite(my_dataset)
+
+# See the full description of the dataset:
+my_description <- describe(my_dataset, con=tempfile())
+my_description
+
 }

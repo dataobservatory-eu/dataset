@@ -23,9 +23,9 @@
 #'
 #' # Each column may have a concept and namespace definition, and a long-form
 #' # human readable label:
-#'  print(orange_df$age)
+#' print(orange_df$age)
 #'
-#'  # The bibliographical record of the dataset is not detached from the
-#'  # data.frame, tibble, or similar tabular structured object:
-#'  as_dublincore(orange_df)
+#' # The bibliographical record of the dataset is not detached from the
+#' # data.frame, tibble, or similar tabular structured object:
+#' as_dublincore(orange_df)
 "orange_df"

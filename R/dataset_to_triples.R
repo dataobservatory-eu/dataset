@@ -36,8 +36,10 @@ dataset_to_triples <- function(x,
                                idcol = NULL,
                                expand_uri = TRUE,
                                format = "data.frame") {
-  stopifnot(is.data.frame(x))
   is_dataset <- inherits(x, "dataset_df")
+  if (!is_dataset) {
+    stop("Works only with dataset_df objects.")
+  }
 
   # Determine subject (s)
   if (is.null(idcol)) {
@@ -85,10 +87,32 @@ dataset_to_triples <- function(x,
   if (format == "nt") {
     triples_to_ntriples(out)
   } else {
-   out
+    out
   }
 }
 
+#' @title Internal: Expand multi-valued DC fields to RDF triples
+#' @description Converts scalar or vector fields into RDF triples.
+#' @param dataset_id The subject URI
+#' @param predicate_uri The RDF predicate URI
+#' @param values A scalar, character vector, or list (e.g., person objects)
+#' @return A character vector of RDF triples
+#' @keywords internal
+expand_triples <- function(dataset_id, predicate_uri, values) {
+  if (is.null(values)) {
+    return(character(0))
+  }
+
+  # Ensure list for consistency
+  if (!is.list(values)) values <- as.list(values)
+
+  vapply(values, function(val) {
+    if (inherits(val, "person")) {
+      val <- format(val)
+    }
+    n_triple(dataset_id, predicate_uri, val)
+  }, character(1))
+}
 
 #' @title Internal: Generate RDF triples for a single column
 #' @description Create subject-predicate-object triples from one column of a dataset
@@ -99,7 +123,7 @@ dataset_to_triples <- function(x,
 #' @keywords internal
 triples_column_generate <- function(s_vec, col, colname) {
   def <- tryCatch(var_concept(col), error = function(e) NULL)
-  ns  <- tryCatch(var_namespace(col), error = function(e) NULL)
+  ns <- tryCatch(var_namespace(col), error = function(e) NULL)
 
   # predicate: use definition or fallback
   pred_uri <- if (!is.null(def) && nzchar(def)) {

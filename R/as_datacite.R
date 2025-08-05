@@ -98,17 +98,23 @@ as_datacite <- function(x, type = "bibentry", ...) {
     dataset_df(
       data.frame(
         Title = Title,
-        Creator = paste(vapply(Creator,
-                               function(p) p$family, character(1)),
-                        collapse = "; "),
+        Creator = paste(
+          vapply(
+            Creator,
+            function(p) p$family, character(1)
+          ),
+          collapse = "; "
+        ),
         Identifier = Identifier,
         Publisher = Publisher,
         PublicationYear = PublicationYear,
         Subject = ifelse(is.null(Subject), "",
-                         as.character(Subject)),
+          as.character(Subject)
+        ),
         Type = "Dataset",
         Contributor = ifelse(is.null(Contributor),
-                             ":unas", as.character(Contributor)),
+          ":unas", as.character(Contributor)
+        ),
         Date = Date,
         DateList = DateList,
         Language = Language,
@@ -120,11 +126,13 @@ as_datacite <- function(x, type = "bibentry", ...) {
         Description = Description,
         Geolocation = Geolocation,
         FundingReference = FundingReference
-      ), dataset_bibentry = datacite(
+      ),
+      dataset_bibentry = datacite(
         Title = paste0("The DataCite metadata of `", Title, "`"),
         Creator = Creator,
         Identifier = Identifier,
-        Date = Date)
+        Date = Date
+      )
     )
   } else if (type == "ntriples") {
     dc_list <- list(

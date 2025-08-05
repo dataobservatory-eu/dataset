@@ -45,7 +45,8 @@ dataset_title <- function(x) {
   if (inherits(value, "factor") || inherits(value, "character")) {
     if (length(value) > 1) {
       stop("title(x) <- value: if you have multiple titles, use dataset_title_create()")
-    }}
+    }
+  }
 
   if (!ds_bibentry$title %in% c(":unas", ":tba", "") && !overwrite) {
     warning("The dataset already has a title: ", ds_bibentry$title)

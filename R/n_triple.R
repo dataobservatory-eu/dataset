@@ -7,12 +7,16 @@
 #' @param triples Concatenated N-Triples created with \code{\link{n_triple}}.
 #' @return A character vector containing unique N-Triple strings.
 #' @examples
-#' triple_1 <- n_triple("http://example.org/show/218",
-#'                       "http://www.w3.org/2000/01/rdf-schema#label",
-#'                       "That Seventies Show")
-#' triple_2 <- n_triple("http://example.org/show/218",
-#'                      "http://example.org/show/localName",
-#'                      '"Cette Série des Années Septante"@fr-be')
+#' triple_1 <- n_triple(
+#'   "http://example.org/show/218",
+#'   "http://www.w3.org/2000/01/rdf-schema#label",
+#'   "That Seventies Show"
+#' )
+#' triple_2 <- n_triple(
+#'   "http://example.org/show/218",
+#'   "http://example.org/show/localName",
+#'   '"Cette Série des Années Septante"@fr-be'
+#' )
 #' n_triples(c(triple_1, triple_2, triple_1))
 #' @export
 
@@ -38,7 +42,6 @@ n_triples <- function(triples) {
 #' n_triple(s, p, o)
 #' @export
 n_triple <- function(s, p, o) {
-
   if (length(o) != 1) {
     stop("n_triple(): object 'o' must be a scalar (length = 1), got: ", length(o))
   }
@@ -47,19 +50,18 @@ n_triple <- function(s, p, o) {
   p <- create_iri(p)
 
   # Don't convert `o` if it's already quoted with ^^<...>
-  if (grepl('^".+"\\^\\^<.+>$', o) || grepl('^<.+>$', o)) {
+  if (grepl('^".+"\\^\\^<.+>$', o) || grepl("^<.+>$", o)) {
     # o is already a well-formed literal or URI
   } else {
     o <- create_iri(o)
   }
 
-  sprintf('%s %s %s .', s, p, o)
+  sprintf("%s %s %s .", s, p, o)
 }
 
 
 #' @keywords internal
 create_iri <- function(x) {
-
   if (length(x) != 1) {
     stop("create_iri(): input must be a scalar value (length = 1).")
   }
@@ -68,11 +70,11 @@ create_iri <- function(x) {
     stop("Error: create_iri(x) must be a scalar URI, string, integer, double, Date, dateTime, or person.")
   }
 
-  double_string    <- '^^<http://www.w3.org/2001/XMLSchema#double>'
-  integer_string   <- '^^<http://www.w3.org/2001/XMLSchema#integer>'
-  character_string <- '^^<http://www.w3.org/2001/XMLSchema#string>'
-  date_string      <- '^^<http://www.w3.org/2001/XMLSchema#date>'
-  datetime_string  <- '^^<http://www.w3.org/2001/XMLSchema#dateTime>'
+  double_string <- "^^<http://www.w3.org/2001/XMLSchema#double>"
+  integer_string <- "^^<http://www.w3.org/2001/XMLSchema#integer>"
+  character_string <- "^^<http://www.w3.org/2001/XMLSchema#string>"
+  date_string <- "^^<http://www.w3.org/2001/XMLSchema#date>"
+  datetime_string <- "^^<http://www.w3.org/2001/XMLSchema#dateTime>"
 
   if (inherits(x, "person")) {
     if ("isni" %in% tolower(names(x$comment))) {
@@ -97,9 +99,9 @@ create_iri <- function(x) {
   } else if (inherits(x, "POSIXct")) {
     xsd_convert(x)
   } else if (is.character(x) && substr(x, 1, 5) %in% c("http:", "https")) {
-    sprintf('<%s>', as.character(x))
+    sprintf("<%s>", as.character(x))
   } else if (grepl("^_\\:", x)) {
-    x  # return blank node unquoted
+    x # return blank node unquoted
   } else if (grepl("@", x)) {
     sprintf('"%s"', x)
   } else if (inherits(x, "Date")) {
@@ -107,7 +109,7 @@ create_iri <- function(x) {
   } else if (is.numeric(x)) {
     sprintf('"%s"%s', as.character(x), double_string)
   } else if (x == "a") {
-    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'
+    "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
   } else if (is.character(x)) {
     x <- gsub("DCMITYPE\\:", "http://purl.org/dc/dcmitype/", x)
     sprintf('"%s"%s', as.character(x), character_string)
@@ -122,13 +124,13 @@ prov_author <- function(author_person) {
     return(unlist(lapply(author_person, prov_author), use.names = FALSE))
   }
 
-  person_iri <- NULL  # <-- initialize early
+  person_iri <- NULL # <-- initialize early
   print_name <- ""
 
   if (inherits(author_person, "person")) {
     print_name <- "_:"
     if (!is.null(author_person$family)) print_name <- paste0(print_name, tolower(author_person$family))
-    if (!is.null(author_person$given))  print_name <- paste0(print_name, tolower(author_person$given))
+    if (!is.null(author_person$given)) print_name <- paste0(print_name, tolower(author_person$given))
     person_iri <- get_person_iri(author_person)
   } else if (is.character(attr(author_person, "person"))) {
     print_name <- paste0(attr(author_person, "person"), ": ")
@@ -144,7 +146,8 @@ prov_author <- function(author_person) {
 #' @keywords internal
 get_person_iri <- function(p) {
   assertthat::assert_that(inherits(p, "person"),
-                          msg = "Error: get_person_iri(p): p is not a utils::person object.")
+    msg = "Error: get_person_iri(p): p is not a utils::person object."
+  )
 
   if (!is.null(p$comment)) {
     comment_names <- tolower(names(p$comment))
@@ -164,10 +167,40 @@ get_person_iri <- function(p) {
       return(id)
     } else if ("wikidata" %in% comment_names) {
       qid <- comment_values[which(comment_names == "wikidata")[1]]
-      qid <- sub("^https://www.wikidata.org/wiki/", "", qid)  # strip if already full
+      qid <- sub("^https://www.wikidata.org/wiki/", "", qid) # strip if already full
       return(paste0("https://www.wikidata.org/wiki/", qid))
     }
   }
 
   NULL
+}
+
+
+#' @keywords internal
+expand_triples <- function(dataset_id, predicate_uri, values) {
+  if (is.null(values)) {
+    return(character(0))
+  }
+
+  # Normalize: wrap scalar in list
+  if (!is.list(values)) values <- as.list(values)
+
+  # Filter invalid/placeholder values
+  values <- Filter(function(x) {
+    !is.null(x) &&
+      length(x) == 1 &&
+      !is.na(x) &&
+      !(as.character(x) %in% c("", ":unas", ":tba"))
+  }, values)
+
+  if (length(values) == 0) {
+    return(character(0))
+  }
+
+  vapply(values, function(val) {
+    if (inherits(val, "person")) {
+      val <- format(val)
+    }
+    n_triple(dataset_id, predicate_uri, val)
+  }, character(1))
 }

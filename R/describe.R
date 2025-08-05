@@ -3,25 +3,30 @@
 #'   file or connection in N-Triples format.
 #' @param x A `dataset_df` object.
 #' @param con A connection or a character string path (e.g. from `tempfile()`).
-#' @return Invisibly returns `x`. Writes N-Triples to `con`.
+#' @return Writes N-Triples to `con` and invisibly returns `x`.
 #' @examples
 #' test_ds <- dataset_df(
-#'    rowid = defined(c("eg:1", "eg:2"),
-#'    namespace = "http://example.com/dataset#"),
-#'    geo = defined(
-#'      gdp$geo[1:2],
-#'      label = "Country",
-#'      concept = "http://example.com/prop/geo",
-#'      namespace = "https://eionet.europa.eu/geo/$1"
-#'    ),
-#'    dataset_bibentry = dublincore(
-#'       title = "Example Dataset",
-#'      creator = person("John", "Doe")
-#'     )
+#'   rowid = defined(c("eg:1", "eg:2"),
+#'     namespace = "http://example.com/dataset#"
+#'   ),
+#'   geo = defined(
+#'     gdp$geo[1:2],
+#'     label = "Country",
+#'     concept = "http://example.com/prop/geo",
+#'     namespace = "https://eionet.europa.eu/geo/$1"
+#'   ),
+#'   dataset_bibentry = dublincore(
+#'     title = "Example Dataset",
+#'     creator = person("John", "Doe")
 #'   )
-#' describe(test_ds, con=tempfile())
+#' )
+#'
+#' # returns invisibly the contents of the text file serialisation:
+#' testdescription <- describe(test_ds, con = tempfile())
+#' testdescription
 #' @export
 describe <- function(x, con) {
+
   assertthat::assert_that(
     is.dataset_df(x),
     msg = "describe(x, con): x must be a dataset_df object."

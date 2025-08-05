@@ -303,7 +303,7 @@ print.haven_labelled_defined <- function(x, ...) {
 
   cat(deparse(substitute(x)))
 
-  if(has_label) cat(paste0(": ", var_label(x)))
+  if (has_label) cat(paste0(": ", var_label(x)))
   cat("\n")
 
   if (has_def && has_unit) {
@@ -531,7 +531,6 @@ as_character.haven_labelled_defined <- function(
     x,
     preserve_attributes = FALSE,
     ...) {
-
   tmp <- as.character(vctrs::vec_data(x))
   if (preserve_attributes) {
     attr(tmp, "unit") <- attr(x, "unit")
@@ -565,7 +564,7 @@ as_factor <- function(x, ...) {
 #' @importFrom vctrs vec_data
 as_factor.haven_labelled_defined <- function(x, ...) {
   haven::as_factor(haven::labelled(vctrs::vec_data(x),
-                                   labels = attr(x, "labels")
+    labels = attr(x, "labels")
   ), ...)
 }
 
@@ -594,9 +593,13 @@ c.haven_labelled_defined <- function(...) {
   concepts <- unlist(lapply(dots, var_concept))
   namespaces <- unlist(lapply(dots, namespace_attribute))
 
-  all.identical <- function(l) all(mapply(identical,
-                                          head(l, 1),
-                                          tail(l, -1)))
+  all.identical <- function(l) {
+    all(mapply(
+      identical,
+      head(l, 1),
+      tail(l, -1)
+    ))
+  }
 
   if (length(unique(as.character(var_labels))) > 1) {
     stop("c.haven_labelled_defined(x,y): x,y must have no var_label or the same var_label.")
@@ -630,5 +633,5 @@ c.haven_labelled_defined <- function(...) {
 #' @importFrom pillar type_sum
 #' @export
 type_sum.haven_labelled_defined <- function(x) {
- "defined"
+  "defined"
 }

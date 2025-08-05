@@ -45,28 +45,32 @@
 #'     unit = "million dollars",
 #'     concept = "http://data.europa.eu/83i/aa/GDP"
 #'   ),
-#'   dataset_bibentry =  dublincore(
+#'   dataset_bibentry = dublincore(
 #'     title = "GDP of Andorra And Lichtenstein",
 #'     description = "A small but semantically rich datset example.",
 #'     creator = person("Jane", "Doe", role = "cre"),
 #'     publisher = "Open Data Institute",
-#'     language = "en")
-#'  )
+#'     language = "en"
+#'   )
+#' )
 #'
-#' # Use standard methods, like print, summary, head, tail
+#' # Use standard methods, like print, summary, head, tail, which show
+#' # basic metadata, too.
 #' print(my_dataset)
 #' head(my_dataset)
 #' tail(my_dataset)
 #'
-#' # Check class:
-#' is.dataset_df(my_dataset)
-#'
-#' # To check the bibliographic metadata of a dataset,
+#' # To check the bibliographic metadata of a dataset_df object,
 #' # use as_dublincore for DCTERMS:
 #' as_dublincore(my_dataset)
 #'
 #' # ... and as_datacite for DataCite:
 #' as_datacite(my_dataset)
+#'
+#' # See the full description of the dataset:
+#' my_description <- describe(my_dataset, con=tempfile())
+#' my_description
+#'
 #' @export
 
 # User constructor
@@ -102,10 +106,12 @@ dataset_df <- function(...,
   if (is.null(dataset_bibentry)) {
     Title <- "Untitled Dataset"
     Creator <- person("Author", "Unknown")
-    dataset_bibentry <- datacite(Title = Title,
-                                 Creator = Creator,
-                                 Subject = dataset_subject,
-                                 Date = Sys.Date())
+    dataset_bibentry <- datacite(
+      Title = Title,
+      Creator = Creator,
+      Subject = dataset_subject,
+      Date = Sys.Date()
+    )
   }
 
   tmp <- new_dataset(
@@ -118,10 +124,10 @@ dataset_df <- function(...,
   )
 
   dataset_bibentry <- get_bibentry(tmp)
-  if ( dataset_bibentry$year == ":tba" ) dataset_bibentry$year <- year
-  if ( dataset_bibentry$date == ":tba" ) {
+  if (dataset_bibentry$year == ":tba") dataset_bibentry$year <- year
+  if (dataset_bibentry$date == ":tba") {
     dataset_bibentry$date <- as.character(Sys.Date())
-    }
+  }
 
   attr(tmp, "dataset_bibentry") <- dataset_bibentry
   attr(tmp, "subject") <- dataset_subject
@@ -180,7 +186,8 @@ new_dataset <- function(x,
     tmp <- tibble::rowid_to_column(tmp)
     prefix <- paste0(names(identifier)[1], ":")
     tmp$rowid <- defined(paste0(prefix, tmp$rowid),
-                         namespace = identifier)
+      namespace = identifier
+    )
   }
 
   if (is.null(dataset_bibentry)) {
@@ -211,7 +218,6 @@ is.dataset_df <- function(x) {
 #' @rdname dataset_df
 #' @export
 print.dataset_df <- function(x, ...) {
-
   dataset_bibentry <- get_bibentry(x)
   if (is.null(dataset_bibentry)) {
     dataset_bibentry <- set_default_bibentry()
@@ -219,7 +225,7 @@ print.dataset_df <- function(x, ...) {
 
   # Extract fields
   authors <- dataset_bibentry$author
-  year  <- dataset_bibentry$year
+  year <- dataset_bibentry$year
   title <- dataset_bibentry$title
   doi <- dataset_bibentry$identifier
   dataset_date <- dataset_bibentry$Date
@@ -230,30 +236,40 @@ print.dataset_df <- function(x, ...) {
       return(authors[[1]]$family %||% format(authors[[1]]))
     }
 
-    is_institutional <- vapply(authors,
-                               function(a) is.null(a$given) && !is.null(a$family),
-                               logical(1))
+    is_institutional <- vapply(
+      authors,
+      function(a) is.null(a$given) && !is.null(a$family),
+      logical(1)
+    )
     if (all(is_institutional)) {
-      return(paste(vapply(authors,
-                          function(a) a$family, character(1)),
-                   collapse = "-"))
+      return(paste(
+        vapply(
+          authors,
+          function(a) a$family, character(1)
+        ),
+        collapse = "-"
+      ))
     }
 
     if (length(authors) == 2) {
-      return(paste(vapply(authors,
-                          function(a) a$family,
-                          character(1)), collapse = "-"))
+      return(paste(vapply(
+        authors,
+        function(a) a$family,
+        character(1)
+      ), collapse = "-"))
     }
 
     return(paste0(authors[[1]]$family, " et al."))
   }
 
-  apa_header <- sprintf("%s (%s): %s [dataset]",
-                        author_fmt(authors),
-                        year,
-                        title)
+  apa_header <- sprintf(
+    "%s (%s): %s [dataset]",
+    author_fmt(authors),
+    year,
+    title
+  )
 
-  if ( ! is.null(doi) && grepl("doi.org", doi)) {
+  if (!is.null(doi) && grepl("doi.org", doi)) {
     apa_header <- paste0(apa_header, ", ", doi)
   }
 
@@ -282,14 +298,13 @@ tbl_sum.dataset_df <- function(x, ...) {
 
 #' @export
 summary.dataset_df <- function(object, ...) {
-
   dataset_bibentry <- get_bibentry(object)
   if (is.null(dataset_bibentry)) {
     dataset_bibentry <- set_default_bibentry()
   }
   # Extract fields
   authors <- dataset_bibentry$author
-  year  <- dataset_bibentry$year
+  year <- dataset_bibentry$year
   title <- dataset_bibentry$title
   doi <- dataset_bibentry$identifier
 
@@ -299,31 +314,41 @@ summary.dataset_df <- function(object, ...) {
       return(authors[[1]]$family %||% format(authors[[1]]))
     }
 
-    is_institutional <- vapply(authors,
-                               function(a) is.null(a$given) && !is.null(a$family),
-                               logical(1))
+    is_institutional <- vapply(
+      authors,
+      function(a) is.null(a$given) && !is.null(a$family),
+      logical(1)
+    )
     if (all(is_institutional)) {
-      return(paste(vapply(authors,
-                          function(a) a$family, character(1)),
-                   collapse = "-"))
+      return(paste(
+        vapply(
+          authors,
+          function(a) a$family, character(1)
+        ),
+        collapse = "-"
+      ))
     }
 
     if (length(authors) == 2) {
-      return(paste(vapply(authors,
-                          function(a) a$family,
-                          character(1)), collapse = "-"))
+      return(paste(vapply(
+        authors,
+        function(a) a$family,
+        character(1)
+      ), collapse = "-"))
     }
 
     return(paste0(authors[[1]]$family, " et al."))
   }
 
-  apa_header <- sprintf("%s (%s): Summary of %s [dataset]",
-                        author_fmt(authors),
-                        year,
-                        title)
+  apa_header <- sprintf(
+    "%s (%s): Summary of %s [dataset]",
+    author_fmt(authors),
+    year,
+    title
+  )
 
 
-  if ( ! is.null(doi) && grepl("doi.org", doi)) {
+  if (!is.null(doi) && grepl("doi.org", doi)) {
     apa_header <- paste0(apa_header, ", ", doi)
   }
 
