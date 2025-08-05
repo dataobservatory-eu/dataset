@@ -35,19 +35,22 @@ test_that("n_triple and related helpers produce correct N-Triple strings", {
   )
 
   # Expectations
-  expect_equal(triple_1,
-               '<http://example.org/show/218> <http://www.w3.org/2000/01/rdf-schema#label> "That Seventies Show"^^<http://www.w3.org/2001/XMLSchema#string> .'
+  expect_equal(
+    triple_1,
+    '<http://example.org/show/218> <http://www.w3.org/2000/01/rdf-schema#label> "That Seventies Show"^^<http://www.w3.org/2001/XMLSchema#string> .'
   )
 
-  expect_equal(triple_time,
-               '<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> "2024-01-01T02:46:40Z"^^<xs:dateTime> .'
+  expect_equal(
+    triple_time,
+    '<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> "2024-01-01T02:46:40Z"^^<xs:dateTime> .'
   )
 
   expect_equal(length(n_triples(c(triple_1, triple_2, triple_1))), 2)
   expect_equal(length(n_triples(c(triple_1, triple_2))), 2)
 
-  expect_equal(triple_agent,
-               '<https://orcid.org/0000-0001-7513-6760> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> .'
+  expect_equal(
+    triple_agent,
+    "<https://orcid.org/0000-0001-7513-6760> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."
   )
 
   # create_iri() datatype coercion checks
@@ -57,60 +60,120 @@ test_that("n_triple and related helpers produce correct N-Triple strings", {
   expect_equal(create_iri(as.Date("2024-10-30")), '"2024-10-30"^^<http://www.w3.org/2001/XMLSchema#date>')
 
   # prov_author
-  expect_equal(prov_author(author_person),
-               "<https://orcid.org/0000-0001-7513-6760> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."
+  expect_equal(
+    prov_author(author_person),
+    "<https://orcid.org/0000-0001-7513-6760> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."
   )
 })
 
 test_that("n_triple() gives error", {
-  expect_error(n_triple(s = c("1","2"), p="author", o = "Jane Doe"),
-               regexp = "a scalar value")
+  expect_error(n_triple(s = c("1", "2"), p = "author", o = "Jane Doe"),
+    regexp = "a scalar value"
+  )
 })
 
+
+test_that("expand_triples handles multiple values and filtering", {
+  dataset_id <- "http://example.org/demo"
+  predicate <- "http://purl.org/dc/terms/creator"
+
+  # Test with single string
+  single <- expand_triples(dataset_id, predicate, "Jane Doe")
+  expect_type(single, "character")
+  expect_length(single, 1)
+  expect_true(grepl("Jane Doe", single))
+
+  # Test with multiple strings
+  multi <- expand_triples(dataset_id, predicate, c("Jane Doe", "John Smith"))
+  expect_length(multi, 2)
+  expect_true(any(grepl("Jane Doe", multi)))
+  expect_true(any(grepl("John Smith", multi)))
+
+  # Test with person objects
+  creators <- c(
+    person(given = "Ada", family = "Lovelace"),
+    person(given = "Grace", family = "Hopper")
+  )
+  people <- expand_triples(dataset_id, predicate, creators)
+  expect_length(people, 2)
+  expect_true(any(grepl("Lovelace", people)))
+  expect_true(any(grepl("Hopper", people)))
+
+  # Test filtering of placeholder values
+  placeholders <- expand_triples(dataset_id, predicate, c(":tba", ":unas", "", NA, NULL))
+  expect_length(placeholders, 0)
+
+  # Mixed valid and invalid
+  mixed <- expand_triples(dataset_id, predicate, c("Valid Name", ":tba", NA, "", ":unas"))
+  expect_length(mixed, 1)
+  expect_true(grepl("Valid Name", mixed))
+})
+
+
 test_that("create_iri()", {
-  author_person <- person(given = "Daniel", family = "Antal",
-                          email = "daniel.antal@dataobservatory.eu",
-                          role = c("aut", "cre"),
-                          comment = c(ORCID = "0000-0001-7513-6760"))
-  expect_error(create_iri(list(a=1:2)))
-  #expect_output(print(create_iri(as.POSIXct(10000, origin = "2024-01-01", tz="UTC"))), "2024-01-01T03:46:40Z")
-  #expect_output(print(create_iri(as.POSIXct(10000, origin = "2024-01-01", tz="UTC"))), "\\^\\^<xs:dateTime>")
+  author_person <- person(
+    given = "Daniel", family = "Antal",
+    email = "daniel.antal@dataobservatory.eu",
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0001-7513-6760")
+  )
+  expect_error(create_iri(list(a = 1:2)))
+  # expect_output(print(create_iri(as.POSIXct(10000, origin = "2024-01-01", tz="UTC"))), "2024-01-01T03:46:40Z")
+  # expect_output(print(create_iri(as.POSIXct(10000, origin = "2024-01-01", tz="UTC"))), "\\^\\^<xs:dateTime>")
   expect_equal(create_iri(author_person), "<https://orcid.org/0000-0001-7513-6760>")
-  jane_doe <- person(given="Jane", family="Doe", role = "aut", email = "example@example.com")
-  joe_doe <- person(given="Joe", family="Doe", role = "aut", email = "example@example.com",
-                     comment = c(Wikidata="https://www.wikidata.org/wiki/Q000"))
-  expect_equal(create_iri(x=joe_doe), "<https://www.wikidata.org/wiki/Q000>")
-  joe_doe <- person(given="Joe", family="Doe", role = "aut", email = "example@example.com",
-                    comment = c(ISNI="1234"))
-  expect_equal(create_iri(x=joe_doe), "<https://isni.org/isni/1234>")
-  viaf_doe <- person(given="Joe", family="Doe", role = "aut", email = "example@example.com",
-                    comment = c(VIAF="1234"))
-  expect_equal(create_iri(x=viaf_doe), "<https://viaf.org/viaf/1234>")
-  expect_equal(create_iri(x=2), "\"2\"^^<http://www.w3.org/2001/XMLSchema#double>")
-  expect_true(grepl('http://www.w3.org/2001/XMLSchema#date>', create_iri(Sys.Date()) ))
+  jane_doe <- person(given = "Jane", family = "Doe", role = "aut", email = "example@example.com")
+  joe_doe <- person(
+    given = "Joe", family = "Doe", role = "aut", email = "example@example.com",
+    comment = c(Wikidata = "https://www.wikidata.org/wiki/Q000")
+  )
+  expect_equal(create_iri(x = joe_doe), "<https://www.wikidata.org/wiki/Q000>")
+  joe_doe <- person(
+    given = "Joe", family = "Doe", role = "aut", email = "example@example.com",
+    comment = c(ISNI = "1234")
+  )
+  expect_equal(create_iri(x = joe_doe), "<https://isni.org/isni/1234>")
+  viaf_doe <- person(
+    given = "Joe", family = "Doe", role = "aut", email = "example@example.com",
+    comment = c(VIAF = "1234")
+  )
+  expect_equal(create_iri(x = viaf_doe), "<https://viaf.org/viaf/1234>")
+  expect_equal(create_iri(x = 2), "\"2\"^^<http://www.w3.org/2001/XMLSchema#double>")
+  expect_true(grepl("http://www.w3.org/2001/XMLSchema#date>", create_iri(Sys.Date())))
 })
 
 test_that("get_person_iri() works", {
-  author_person <- person(given = "Daniel", family = "Antal",
-                          email = "daniel.antal@dataobservatory.eu",
-                          role = c("aut", "cre"),
-                          comment = c(ORCID = "0000-0001-7513-6760")
+  author_person <- person(
+    given = "Daniel", family = "Antal",
+    email = "daniel.antal@dataobservatory.eu",
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0001-7513-6760")
   )
   expect_equal(get_person_iri(author_person), "https://orcid.org/0000-0001-7513-6760")
   expect_equal(get_person_iri(person("Jane Doe")), NULL)
-  expect_equal(get_person_iri(p=person(given="Daniel", family="Antal",
-                                       role = "cre", comment=c(ORCID = "0000-0001-7513-6760"))),
-               "https://orcid.org/0000-0001-7513-6760"
+  expect_equal(
+    get_person_iri(p = person(
+      given = "Daniel", family = "Antal",
+      role = "cre", comment = c(ORCID = "0000-0001-7513-6760")
+    )),
+    "https://orcid.org/0000-0001-7513-6760"
   )
-  expect_equal(get_person_iri(p=
-    person(given="Edgar", family="Anderson",
-           role = "cre", comment=c(VIAF="https://viaf.org/viaf/6440526"))
+  expect_equal(
+    get_person_iri(
+      p =
+        person(
+          given = "Edgar", family = "Anderson",
+          role = "cre", comment = c(VIAF = "https://viaf.org/viaf/6440526")
+        )
     ),
-           c(VIAF = "https://viaf.org/viaf/6440526"))
-  expect_equal(get_person_iri(p=
-                                person(given="Taylor", family="Swift", role = "cre", comment=c(ISNI="https://isni.org/isni/0000000078519858"))
-  ),
-  c(ISNI = "https://isni.org/isni/0000000078519858"))
+    c(VIAF = "https://viaf.org/viaf/6440526")
+  )
+  expect_equal(
+    get_person_iri(
+      p =
+        person(given = "Taylor", family = "Swift", role = "cre", comment = c(ISNI = "https://isni.org/isni/0000000078519858"))
+    ),
+    c(ISNI = "https://isni.org/isni/0000000078519858")
+  )
 })
 
 test_that("create_iri() handles scalar types correctly", {
@@ -128,7 +191,7 @@ test_that("create_iri() handles scalar types correctly", {
   expect_equal(create_iri(dt), '"2024-01-01T12:34:56Z"^^<xs:dateTime>')
 
   # URI string
-  expect_equal(create_iri("https://example.org/id"), '<https://example.org/id>')
+  expect_equal(create_iri("https://example.org/id"), "<https://example.org/id>")
 
   # Language-tagged literal
   expect_equal(create_iri('"Some value"@en'), '"\"Some value\"@en"')
@@ -204,8 +267,9 @@ test_that("prov_author() handles different person identifiers correctly", {
   # Fallback to blank node with label
   p_fallback <- person("Harper", "Lee", role = "aut")
   triple_fallback <- prov_author(p_fallback)
-  expect_match(triple_fallback,
-               "^_:[a-z]+ <http://www\\.w3\\.org/1999/02/22-rdf-syntax-ns#type> <http://www\\.w3\\.org/ns/prov#Agent> \\.$"
+  expect_match(
+    triple_fallback,
+    "^_:[a-z]+ <http://www\\.w3\\.org/1999/02/22-rdf-syntax-ns#type> <http://www\\.w3\\.org/ns/prov#Agent> \\.$"
   )
 
   # Multiple persons
@@ -214,4 +278,3 @@ test_that("prov_author() handles different person identifiers correctly", {
   expect_length(triples_multi, 2)
   expect_true(all(grepl("^<https://", triples_multi)))
 })
-

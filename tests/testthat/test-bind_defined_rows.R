@@ -25,19 +25,25 @@ test_that("bind_defined_rows() detects if not dataset_df is
           the input parameter", {
   A <- dataset_df(
     a = defined(c(11, 14, 16),
-                label = "length",
-                unit = "cm"),
+      label = "length",
+      unit = "cm"
+    ),
     dataset_bibentry = dublincore(
       title = "Test", creator = person("Jane Doe"),
       dataset_date = Sys.Date()
     )
   )
-  expect_error(bind_defined_rows(y = A,
-                                 x = data.frame()),
+  expect_error(
+    bind_defined_rows(
+      y = A,
+      x = data.frame()
+    ),
     regexp = "x\\` must be a dataset_df object"
   )
-  expect_error(bind_defined_rows(A,
-                                 y = data.frame()),
+  expect_error(
+    bind_defined_rows(A,
+      y = data.frame()
+    ),
     regexp = "y\\` must be a dataset_df"
   )
 })

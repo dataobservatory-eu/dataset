@@ -196,3 +196,6 @@ test_that("dublincore_to_triples produces valid n-triples format", {
   expect_true(any(grepl("^<http://example.org/test> <http://purl.org/dc/terms/title>", triples)))
   expect_true(any(grepl("<http://purl.org/dc/terms/subject>", triples)))
 })
+
+dublincore(title = "Small Dataset",
+           creator = person("Jane Doe", role="aut"))

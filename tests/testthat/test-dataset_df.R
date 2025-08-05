@@ -97,8 +97,10 @@ test_that("dataset_df() works", {
       PublicationYear = 2025
     )
   )
-  expect_equal(get_bibentry(test_dataset)$author,
-               person("Jane", "Doe"))
+  expect_equal(
+    get_bibentry(test_dataset)$author,
+    person("Jane", "Doe")
+  )
   expect_true(is.subject(subject(test_dataset)))
 })
 
@@ -111,8 +113,10 @@ test_that("subsetting works", {
 test_that("new_dataset() works", {
   myiris <- new_dataset(x = iris, identifier = "example")
   expect_error(new_dataset(2))
-  expect_equal(class(new_dataset(iris, identifier = "example")),
-               c("dataset_df", "tbl_df", "tbl", "data.frame"))
+  expect_equal(
+    class(new_dataset(iris, identifier = "example")),
+    c("dataset_df", "tbl_df", "tbl", "data.frame")
+  )
   expect_output(print(provenance(myiris)), "<http://example.com/dataset#>")
 })
 
@@ -131,7 +135,7 @@ test_that("rbind works", {
 # Utility to capture output of print
 capture_output_lines <- function(expr) {
   output <- capture.output(expr)
-  output[1]  # Return the APA-style citation line
+  output[1] # Return the APA-style citation line
 }
 
 test_that("APA header prints correctly for two personal authors", {
@@ -216,17 +220,21 @@ test_that("summary.dataset_df() works", {
     )
   )
   expect_output(summary(test_dataset), "Hello",
-                ignore.case = FALSE)
+    ignore.case = FALSE
+  )
   expect_output(summary(test_dataset), "Doe \\(2024\\)",
-                ignore.case = FALSE)
+    ignore.case = FALSE
+  )
 })
 
 
 test_that("names.dataset_df() works", {
   expect_output(print(names(iris_dataset)), "rowid",
-                ignore.case = FALSE)
+    ignore.case = FALSE
+  )
   expect_output(print(names(iris_dataset)), "Sepal.Length",
-                ignore.case = FALSE)
+    ignore.case = FALSE
+  )
   expect_length(names(iris_dataset), 6)
   expect_equal(names(iris_dataset)[1], "rowid")
 })

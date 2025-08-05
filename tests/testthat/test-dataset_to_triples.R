@@ -42,8 +42,8 @@ test_that("dataset_to_triples expands subject URIs correctly", {
   # Expect all s values to begin with the namespace prefix
   expect_true(all(grepl("^http://example\\.com/dataset#", s_values)))
 
- # Check that s is URI-expanded
-  expect_false(any(s_values %in% gdp$geo))  # none should be raw codes like "AD"
+  # Check that s is URI-expanded
+  expect_false(any(s_values %in% gdp$geo)) # none should be raw codes like "AD"
 })
 
 
@@ -117,11 +117,11 @@ test_that("dataset_to_triples generates valid N-Triples", {
 
   # Validate structure
   expect_true(all(c("s", "p", "o") %in% names(triples_df)))
-  expect_true(all(grepl("^<.*> <.*> .+ \\.$", ntriples)))  # basic N-Triples format
+  expect_true(all(grepl("^<.*> <.*> .+ \\.$", ntriples))) # basic N-Triples format
 
   # Spot-check GDP literal
   gdp_triples <- subset(triples_df, grepl("GDP", p))
-  expect_true(all(grepl('\\^\\^<xs:decimal>$', gdp_triples$o)))
+  expect_true(all(grepl("\\^\\^<xs:decimal>$", gdp_triples$o)))
 
   # Spot-check geo URIs
   geo_triples <- subset(triples_df, grepl("prop/geo", p))
@@ -138,6 +138,3 @@ test_that("dataset_to_triples generates valid N-Triples", {
   # Ensure N-Triples length matches data frame
   expect_equal(length(ntriples), nrow(triples_df))
 })
-
-
-

@@ -28,5 +28,4 @@ test_that("as_dublincore returns valid N-Triples from dataset_df", {
   expect_true(any(grepl("Demo Dataset", dc)))
 
   expect_true(any(grepl('"Demo Dataset"\\^\\^<http://www.w3.org/2001/XMLSchema#string>', dc)))
-
 })
