@@ -1,18 +1,34 @@
-#' @title Convert to XML Schema Definition (XSD) types
-#' @description Convert the numeric, boolean and Date/time columns of a dataset
-#'   \code{xs:decimal}, \code{xsLboolean}, \code{xs:date} and
-#'   \code{xs:dateTime}.
-#' @param x An object to be coerced to an XLM Schema defined string format.
+#' Convert to XML Schema Definition (XSD) Types
+#'
+#' Converts the numeric, logical, and date/time columns of a dataset into [XML
+#' Schema Definition (XSD)](https://www.w3.org/TR/xmlschema11-2/) compatible
+#' string representations such as `xs:decimal`, `xs:boolean`, `xs:date`, and
+#' `xs:dateTime`.
+#'
+#' @param x An object (e.g., vector, data frame) to be coerced to XSD-typed
+#'   string format.
 #' @param idcol The name or position of the column that contains the row
-#'   (observation) identifiers. If \code{NULL}, it will make a new \code{idcol}
-#'   from [row.names()].
-#' @param ... Further optional parameters for generic method.
-#' @return
-#' A character vector of RDF-compatible typed literals. Each element
-#' corresponds to an input value, serialized according to its type
-#' (e.g., `xs:string`, `xs:integer`, `xs:dateTime`).
-#' For data frames or tibbles, each row is converted into a set of
-#' RDF triples, with columns mapped to predicates.
+#'   (observation) identifiers. If `NULL`, a new identifier column will be
+#'   generated using [row.names()].
+#' @param ... Additional arguments passed to methods.
+#'
+#' @return A character vector of RDF-compatible typed literals. Each element
+#'   corresponds to an input value, serialized according to its type (e.g.,
+#'   `xs:string`, `xs:integer`, `xs:dateTime`).
+#'
+#'   For data frames or tibbles, each row is converted into a set of RDF
+#'   triples, with columns mapped to predicates.
+#'
+#' @examples
+#' # Example usage with a simple data frame
+#' df <- data.frame(
+#'   id = 1:2,
+#'   value = c(3.14, 2.71),
+#'   active = c(TRUE, FALSE),
+#'   date = as.Date(c("2020-01-01", "2020-12-31"))
+#' )
+#' as_xsd(df, idcol = "id")
+#'
 #' @export
 
 xsd_convert <- function(x, idcol, ...) {
@@ -42,9 +58,11 @@ get_type <- function(t) {
 }
 
 #' @rdname xsd_convert
+#'
 #' @examples
-#' # Convert data.frame to XML Schema Definition
+#' # Convert a regular data.frame to XSD-typed RDF-compatible literals
 #' xsd_convert(data.frame(a = 1:3, b = c("a", "b", "c")))
+#'
 #' @exportS3Method
 xsd_convert.data.frame <- function(x, idcol = NULL, ...) {
   # Identify ID column (or default to row names)
@@ -76,17 +94,23 @@ xsd_convert.data.frame <- function(x, idcol = NULL, ...) {
 }
 
 #' @rdname xsd_convert
+#'
 #' @examples
-#' # Convert dataset to XML Schema Definition
+#' # Convert a dataset_df object to XSD-typed RDF-compatible literals
 #' xsd_convert(head(dataset_df(orange_df)))
-#' @export
+#'
 #' @exportS3Method
 xsd_convert.dataset_df <- function(x, idcol = "rowid", ...) {
   NextMethod()
 }
 
 #' @rdname xsd_convert
-#' @export
+#'
+#' @examples
+#' # Convert a tibble to XSD-typed RDF-compatible literals
+#' library(tibble)
+#' xsd_convert(tibble(a = 1:3, b = c("x", "y", "z")))
+#'
 #' @exportS3Method
 xsd_convert.tbl_df <- function(x, idcol = NULL, ...) {
   if (!inherits(x, "data.frame")) {
@@ -96,13 +120,13 @@ xsd_convert.tbl_df <- function(x, idcol = NULL, ...) {
 }
 
 #' @rdname xsd_convert
-#' @export
 #' @examples
-#' # Convert characters:
+#' # Convert character vector to XSD-typed literals
 #' xsd_convert(c("apple", " banana ", "cherry"))
 #'
-#' # To handle whitespace:
-#' xsd_convert(trimws(c("apple", " banana ", "cherry"), "both"))
+#' # Preprocess whitespace before conversion
+#' xsd_convert(trimws(c("apple", " banana ", "cherry"), which = "both"))
+#'
 #' @exportS3Method
 xsd_convert.character <- function(x, idcol = NULL, ...) {
   var_type <- "xs:string"
@@ -122,9 +146,11 @@ xsd_convert.character <- function(x, idcol = NULL, ...) {
 
 #' @rdname xsd_convert
 #' @export
+#'
 #' @examples
-#' # Convert integers or doubles, numbers:
+#' # Convert numeric values (integers or doubles) to XSD typed literals
 #' xsd_convert(1:3)
+#'
 #' @exportS3Method
 xsd_convert.numeric <- function(x, idcol = NULL, ...) {
   var_type <- "xs:decimal"
@@ -148,6 +174,13 @@ xsd_convert.numeric <- function(x, idcol = NULL, ...) {
 
 #' @rdname xsd_convert
 #' @export
+#'
+#' @examples
+#' # Convert haven_labelled_defined vectors to XSD typed literals
+#' x <- haven::labelled_spss(c(1, 0, 1), labels = c(Yes = 1, No = 0))
+#' x <- defined(x, concept = "https://example.org/concept", datatype = "xs:boolean")
+#' xsd_convert(x)
+#'
 #' @exportS3Method
 xsd_convert.haven_labelled_defined <- function(x, idcol = NULL, ...) {
   type <- get_type(x)
@@ -167,6 +200,11 @@ xsd_convert.haven_labelled_defined <- function(x, idcol = NULL, ...) {
 
 #' @rdname xsd_convert
 #' @export
+#'
+#' @examples
+#' # Convert integer values to XSD typed literals
+#' xsd_convert(as.integer(c(10, 20, 30)))
+#'
 #' @exportS3Method
 xsd_convert.integer <- function(x, idcol = NULL, ...) {
   var_type <- "xs:integer"
@@ -182,11 +220,13 @@ xsd_convert.integer <- function(x, idcol = NULL, ...) {
 }
 
 #' @rdname xsd_convert
-#' @exportS3Method
-#' @examples
-#' # Convert logical values:
-#' xsd_convert(TRUE)
 #' @export
+#'
+#' @examples
+#' # Convert boolean values to XSD typed literals
+#' xsd_convert(c(TRUE, FALSE))
+#'
+#' @exportS3Method
 xsd_convert.logical <- function(x, idcol = NULL, ...) {
   var_type <- "xs:boolean"
 
@@ -203,8 +243,15 @@ xsd_convert.logical <- function(x, idcol = NULL, ...) {
 
 #' @rdname xsd_convert
 #' @export
+#'
 #' @examples
+#' # Convert factors to XSD typed literals
 #' xsd_convert(factor(c("apple", "banana", "cherry")))
+#'
+#' # With a custom codelist prefix
+#' x <- factor(c("apple", "banana", "cherry"))
+#' xsd_convert(x, codelist = "fruit")
+#'
 #' @exportS3Method
 xsd_convert.factor <- function(x, idcol = NULL, ...) {
   args <- list(...)
@@ -230,13 +277,24 @@ xsd_convert.factor <- function(x, idcol = NULL, ...) {
 
 #' @rdname xsd_convert
 #' @export
+#'
+#' @examples
+#' # Convert POSIXct timestamps to XSD dateTime literals
+#' times <- as.POSIXct(
+#'    c("2021-01-01 12:00:00",
+#'      "2022-06-15 08:30:00"),
+#'      tz = "UTC")
+#' xsd_convert(times)
+#'
 #' @exportS3Method
 xsd_convert.POSIXct <- function(x, idcol = NULL, ...) {
   if (length(x) == 0) {
     return('""^^<xs:dateTime>')
   }
 
-  time_string <- strftime(x, format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+  time_string <- strftime(x,
+                          format = "%Y-%m-%dT%H:%M:%SZ",
+                          tz = "UTC")
 
   ifelse(is.na(x),
     NA_character_,
@@ -245,7 +303,12 @@ xsd_convert.POSIXct <- function(x, idcol = NULL, ...) {
 }
 
 #' @rdname xsd_convert
-#' @export
+#' @examples
+#' # Convert Date values to XSD date literals
+#' dates <- as.Date(c("2020-01-01",
+#'                    "2021-12-31"))
+#' xsd_convert(dates)
+#'
 #' @exportS3Method
 xsd_convert.Date <- function(x, idcol = NULL, ...) {
   var_type <- "xs:date"
@@ -263,9 +326,10 @@ xsd_convert.Date <- function(x, idcol = NULL, ...) {
 }
 
 #' @rdname xsd_convert
-#' @export
 #' @examples
+#' # Convert time differences to XSD duration format
 #' xsd_convert(as.difftime(c(3600, 5400), units = "secs"))
+#'
 #' @exportS3Method
 xsd_convert.difftime <- function(x, idcol = NULL, ...) {
   var_type <- "xs:duration"
