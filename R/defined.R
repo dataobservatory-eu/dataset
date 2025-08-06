@@ -1,54 +1,39 @@
-#' @title Create a semantically well-defined, labelled vector
-#' @description
-#' Creates a semantically well-defined vector enriched with metadata.
-#' `defined()` is an S3 constructor that extends numeric or character vectors
-#' with a human-readable label, unit of measurement, linked concept,
-#' and optional namespace. These objects preserve semantics while behaving
-#' like standard vectors in comparisons, printing, and subsetting.
-#'  The \code{defined} constructor creates the objects of this
-#' class, which are semantically extended vectors inherited from
-#' \code{\link[haven:labelled]{haven::labelled}}.
-#' @details
-#' A `defined` vector is an extension of a base vector with additional
-#' semantic metadata:
+#' Create a semantically well-defined, labelled vector
 #'
-#' - A **label** (`label`): a short human-readable description
-#' - A **unit** (`unit`): e.g., "kg", "hours", "USD"
-#' - A **concept** (`concept`): a URI or textual reference
-#' - A **namespace** (`namespace`): for URI-based observation or value identifiers
+#' `defined()` constructs a vector enriched with semantic metadata such as a
+#' label, unit of measurement, concept URI, and optional namespace. These
+#' vectors behave like base R vectors but retain metadata during subsetting,
+#' comparison, and printing.
 #'
-#' The class inherits from `haven::labelled`, supports typical vector
-#' operations (subsetting, comparisons, printing), and integrates with
-#' tibbles and tidy workflows via custom `format()`, `print()`, and
-#' `as.vector()` methods.
+#' The resulting object inherits from [haven::labelled()] and integrates with
+#' tidyverse workflows, enabling downstream conversion to RDF and other
+#' standards.
 #'
-#' Use `is.defined()` to test if an object is of class `defined`.
-#' Use `as_numeric()` and `as_character()` to coerce to base types.
-#' @param x A vector to label. Must be either numeric (integer or double) or
-#'   character.
-#' @param labels A named vector or `NULL`. The vector should be the same type as
-#'   `x`. Unlike factors, labels don't need to be exhaustive: only a fraction of
-#'   the values might be labelled.
-#' @param label A short, human-readable description of the vector or `NULL`.
-#' @param unit A character string of length one containing the unit of measure
-#'   or `NULL`.
-#' @param concept A character string of length one containing a linked
-#'   concept or `NULL`.
-#' @param namespace A namespace for individual observations or categories or
-#'   `NULL`.
-#' @param ... Further parameters for inheritance, not in use.
-#' @family defined metadata methods and functions
-#' @return The constructor \code{defined} returns a vector with defined value
-#'   labels, a variable label, an optional unit of measurement and linked
-#'   concept.\cr \code{is.defined} returns a logical value, stating if the
-#'   object is of class \code{defined}.
+#' @param x A vector of type character, numeric, Date, factor, or a `labelled`
+#'   object.
+#' @param labels An optional named vector of value labels. Only a subset of
+#'   values may be labelled.
+#' @param label A short human-readable label (string of length 1).
+#' @param unit Unit of measurement (e.g., "kg", "hours"). Must be a string of
+#'   length 1 or `NULL`.
+#' @param concept A URI or concept name representing the meaning of the
+#'   variable.
+#' @param namespace Optional string or named character vector, used for
+#'   value-level URI expansion.
+#' @param ... Reserved for future use.
+#'
+#' @return A vector of class `"defined"` (technically `haven_labelled_defined`),
+#'   which behaves like a standard vector with additional semantic metadata, and
+#'   is inherited from [haven::labelled()].
 #' @importFrom haven labelled
 #' @importFrom labelled to_labelled is.labelled
 #' @import vctrs
 #' @importFrom utils head tail
 #' @seealso `browseVignettes("dataset")`
-#' @examples
+#' @seealso [is.defined()], [as_numeric()], [as_character()], [as_factor()],
+#'   [strip_defined()]
 #'
+#' @examples
 #' gdp_vector <- defined(
 #'   c(3897, 7365, 6753),
 #'   label = "Gross Domestic Product",
@@ -357,8 +342,75 @@ summary.haven_labelled_defined <- function(object, ...) {
   NextMethod()
 }
 
+#' Combine defined vectors with metadata checks
+#'
+#' The `c()` method for `defined` vectors ensures that all semantic metadata
+#' (label, unit, concept, namespace, and value labels) match exactly. This
+#' prevents accidental loss or mixing of incompatible definitions during
+#' concatenation.
+#'
+#' All input vectors must:
+#' - Have identical `label` attributes
+#' - Have identical `unit`, `concept`, and `namespace`
+#' - Have identical value labels (or none)
+#'
+#' @param ... One or more vectors created with [defined()].
+#'
+#' @return A single `defined` vector with concatenated values and retained
+#'   metadata.
+#'
+#' @examples
+#' a <- defined(1:3, label = "Length", unit = "meter")
+#' b <- defined(4:6, label = "Length", unit = "meter")
+#' c(a, b)
+#'
+#' @seealso [defined()]
+#' @export
+c.haven_labelled_defined <- function(...) {
+  dots <- list(...)
+
+  var_labels <- unlist(lapply(dots, var_label))
+  val_labels <- lapply(dots, function(x) attr(x, "labels"))
+  units <- unlist(lapply(dots, var_unit))
+  concepts <- unlist(lapply(dots, var_concept))
+  namespaces <- unlist(lapply(dots, namespace_attribute))
+
+  all_identical <- function(l) {
+    all(mapply(identical, head(l, 1), tail(l, -1)))
+  }
+
+  if (length(unique(as.character(var_labels))) > 1) {
+    stop("c(): var_label must be identical or NULL across inputs")
+  }
+
+  if (length(unique(as.character(units))) > 1) {
+    stop("c(): unit must be identical or NULL across inputs")
+  }
+
+  if (length(unique(as.character(concepts))) > 1) {
+    stop("c(): concept must be identical or NULL across inputs")
+  }
+
+  if (length(unique(as.character(namespaces))) > 1) {
+    stop("c(): namespace must be identical or NULL across inputs")
+  }
+
+  if (!all_identical(val_labels)) {
+    stop("c(): value labels must be identical or NULL across inputs")
+  }
+
+  defined(
+    unname(do.call(c, lapply(dots, vctrs::vec_data))),
+    label = var_labels[[1]],
+    labels = val_labels[[1]],
+    concept = concepts[[1]],
+    namespace = namespaces[[1]],
+    unit = units[[1]]
+  )
+}
 
 ## Coercion ----------------------------------------------------------
+## as_numeric, as_character, as_factor in separate files
 
 #' @export
 as.list.haven_labelled_defined <- function(x, ...) {
@@ -372,7 +424,7 @@ as.vector.haven_labelled_defined <- function(x, mode = "any") {
 
 #' @title Strip the class from a defined vector
 #' @description Converts a `defined` vector to a base R numeric or character,
-#' retaining metadata as passive attributes.
+#'   retaining metadata as passive attributes.
 #' @param x A `defined` vector.
 #' @return A base R vector with attributes (`label`, `unit`, etc.) intact.
 #' @seealso [as_numeric()], [as_character()]
@@ -395,244 +447,9 @@ strip_defined <- function(x) {
   x
 }
 
-
-## Numeric vectors --------------------------------------------------------
-as.numeric <- function(x, ...) {
-  UseMethod("as.numeric")
-}
-
-#' @rdname as_numeric
-#' @description Base R's `as.numeric()` does not support custom classes like
-#'   `defined`. Calling `as.numeric()` on a `defined` vector will drop all
-#'   metadata and class information, which equals to
-#'   `as_numeric(x, preserve_attributes = FALSE)`.
-#' @export
-#' @seealso \code{\link{as_numeric}}
-#' @exportS3Method
-as.numeric.haven_labelled_defined <- function(x, ...) {
-  unclass(vctrs::vec_data(x))
-}
-
-#' @title Coerce a defined vector to numeric
-#' @param x A vector created with[defined()].
-#' @description `as_numeric()` is the recommended method to convert a `defined`
-#' vector to numeric. It is metadata-aware and ensures that the underlying data
-#' is numeric before coercion.
-#' @details `as_numeric()` allows `preserve_attributes = TRUE` when the
-#'   resulting vector will retain relevant metadata such as the `unit`,
-#'   `concept`, and `namespace` attributes, but it will no longer be of class
-#'   `defined`. If `preserve_attributes = FALSE` (default), a plain numeric
-#'   vector is returned with all metadata and class dropped.\cr For
-#'   character-based `defined` vectors, `as_numeric()` will throw an informative
-#'   error to prevent accidental coercion of non-numeric data.
-#' @return A numeric vector.
-#' @examples
-#' as_numeric(orange_df$age, preserve_attributes = TRUE)
-#' @export
-as_numeric <- function(x, ...) {
-  UseMethod("as_numeric", x)
-}
-
-#' @rdname as_numeric
-#' @param preserve_attributes Defaults to \code{FALSE}, in which case the
-#' \code{unit}, \code{concept} and \code{namespace} attributes will be
-#' preserved, but the returned value will otherwise become a base R integer,
-#' double or numeric value. If false, then the effect will be similar to
-#' \code{\link{strip_defined}}.
-#' @param ... Further arguments passed to internal methods (not used).
-#' @importFrom vctrs vec_data
-#' @seealso [strip_defined()]
-#' @examples
-#' gdp <- defined(c(3897L, 7365L), label = "GDP", unit = "million dollars")
-#' gdp_numbers <- as_numeric(gdp)
-#' gdp_numbers
-#' attributes(gdp_numbers)
-#'
-#' gdp_striped <- as_numeric(gdp, preserve_attributes = FALSE)
-#' attributes(gdp_striped)
-#' @export
-as_numeric.haven_labelled_defined <- function(
-    x, preserve_attributes = FALSE,
-    ...) {
-  if (!is.numeric(vctrs::vec_data(x))) {
-    stop("as_numeric(): underlying data is not numeric.")
-  }
-
-  if (preserve_attributes) {
-    strip_defined(x)
-  } else {
-    vec_data(x)
-  }
-}
-
-## Character vectors --------------------------------------------------
-#' @rdname as_character
-as.character <- function(x, ...) {
-  UseMethod("as.character")
-}
-
-#' @rdname as_character
-#' @description Base R's `as.character()` does not support custom classes like
-#'   `defined`. Calling `as.character()` on a `defined` vector will drop all
-#'   metadata and class information, which equals to
-#'   `as_character(x, preserve_attributes = FALSE)`.
-#' @importFrom haven as_factor
-#' @importFrom vctrs vec_data
-#' @examples
-#' as.character(defined(c("a", "b", "c"), label = "Letter code"))
-#' @export
-as.character.haven_labelled_defined <- function(x, ...) {
-  unclass(vctrs::vec_data(x))
-}
-
-#' @title Coerce to character vector
-#' @param x A vector created with[defined()].
-#' @return A character vector.
-#' @examples
-#' as_character(defined(c("a", "b", "c"), label = "Letter code"))
-#' @export
-
-as_character <- function(x, ...) {
-  UseMethod("as_character", x)
-}
-
-#' @rdname as_character
-#' @title Coerce a defined vector to character
-#' @param x A vector created with[defined()].
-#' @description `as_character()` is the recommended method to convert a `defined`
-#' vector to character. It is metadata-aware and ensures that the underlying data
-#' is character before coercion.
-#' @details `as_character()` uses `preserve_attributes = TRUE`, the resulting
-#'   vector will retain relevant metadata such as the `unit`, `concept`, and
-#'   `namespace` attributes, but it will no longer be of class `defined`. If
-#'   `preserve_attributes = FALSE` (default), a plain character vector is
-#'   returned with all metadata and class dropped.\cr\cr For numeric-based
-#'   `defined` vectors, `as_character()` will throw an informative error to
-#'   prevent accidental coercion of non-numeric data. \cr\cr
-#'   `as.character()` will give a warning that `as_character()` is the
-#'   preferred method.
-#' @param preserve_attributes Defaults to \code{FALSE}. If set to \code{TRUE},
-#'   in which case the \code{unit}, \code{concept} and \code{namespace}
-#'   attributes will be preserved, but the returned value will otherwise become
-#'   a base R character vector. If false, then the effect will be similar to
-#'   \code{\link{strip_defined}}.
-#' @param ... Further arguments passed to internal methods (not used).
-#' @importFrom vctrs vec_data
-#' @seealso [strip_defined()]
-#' @examples
-#' fruits <- defined(c("apple", "avocado", "kiwi"), label = "Fruit", unit = "kg")
-#' # Keep the metadata, but revert to base R character type:
-#' as_character(fruits, preserve_attributes = TRUE)
-#'
-#' # Revert back to base R character type, and do not keep the metadata:
-#' as_character(fruits, preserve_attributes = FALSE)
-#' @export
-#' @export
-as_character.haven_labelled_defined <- function(
-    x,
-    preserve_attributes = FALSE,
-    ...) {
-  tmp <- as.character(vctrs::vec_data(x))
-  if (preserve_attributes) {
-    attr(tmp, "unit") <- attr(x, "unit")
-    attr(tmp, "concept") <- attr(x, "concept")
-    attr(tmp, "namespace") <- attr(x, "namespace")
-  }
-
-  tmp
-}
-
-## Factor vectors ----------------------------------------------------------
-#' @title Coerce to factor vector
-#' @param x A vector created with[defined()].
-#' @param ... Further arguments passed to internal methods (not used).
-#' @return A factor vector.
-#' @examples
-#' sex <- defined(
-#'   c(0, 1, 1, 0),
-#'   label = "Sex",
-#'   labels = c("Female" = 0, "Male" = 1)
-#' )
-#' as_factor(sex)
-#' @export
-
-as_factor <- function(x, ...) {
-  UseMethod("as_factor", x)
-}
-
-#' @export
-#' @importFrom haven as_factor
-#' @importFrom vctrs vec_data
-as_factor.haven_labelled_defined <- function(x, ...) {
-  haven::as_factor(haven::labelled(vctrs::vec_data(x),
-    labels = attr(x, "labels")
-  ), ...)
-}
-
-
-## Combinations -----------------------------------------------
-
-#' @title Combine Values into a defined Vector
-#' @description
-#' The c() method with the haven_labelled_defined class requires a strict
-#' matching of the var_label, unit, definiton, and namespace attributes (if
-#' they exist and do not have a \code{NULL} value)
-#' @param ... objects to be concatenated.
-#' @return A haven_labelled_defined vector.
-#' @examples
-#' a <- defined(1:3, label = "Length", unit = "meter")
-#' b <- defined(4:6, label = "Length", unit = "meter")
-#' c(a, b)
-#' @seealso [defined()]
-#' @export
-c.haven_labelled_defined <- function(...) {
-  dots <- list(...)
-
-  var_labels <- unlist(lapply(dots, var_label))
-  val_labels <- lapply(dots, function(x) attr(x, "labels"))
-  units <- unlist(lapply(dots, var_unit))
-  concepts <- unlist(lapply(dots, var_concept))
-  namespaces <- unlist(lapply(dots, namespace_attribute))
-
-  all.identical <- function(l) {
-    all(mapply(
-      identical,
-      head(l, 1),
-      tail(l, -1)
-    ))
-  }
-
-  if (length(unique(as.character(var_labels))) > 1) {
-    stop("c.haven_labelled_defined(x,y): x,y must have no var_label or the same var_label.")
-  }
-
-  if (length(unique(as.character(units))) > 1) {
-    stop("c.haven_labelled_defined(x,y): x,y must have no unit or the same unit.")
-  }
-
-  if (length(unique(as.character(concepts))) > 1) {
-    stop("c.haven_labelled_defined(x,y): x,y must have no concept definition or the same concept definition.")
-  }
-
-  if (length(unique(as.character(namespaces))) > 1) {
-    stop("c.haven_labelled_defined(x,y): x,y must have no namespace or the same namespace.")
-  }
-
-  if (!all.identical(val_labels)) {
-    stop("c.haven_labelled_defined(x,y): x,y must have no value labels or the same value labels.")
-  }
-
-  defined(unname(do.call(c, lapply(dots, function(x) vctrs::vec_data(x)))),
-    label = var_labels[[1]],
-    labels = val_labels[[1]],
-    concept = concepts[[1]],
-    namespace = namespaces[[1]],
-    unit = units[[1]]
-  )
-}
-
-#' @importFrom pillar type_sum
+#' @importFrom pillar type_sum tbl_sum
 #' @export
 type_sum.haven_labelled_defined <- function(x) {
   "defined"
 }
+

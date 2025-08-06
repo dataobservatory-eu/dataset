@@ -21,64 +21,44 @@ is.defined(x)
 \method{summary}{haven_labelled_defined}(object, ...)
 }
 \arguments{
-\item{x}{A vector to label. Must be either numeric (integer or double) or
-character.}
+\item{x}{A vector of type character, numeric, Date, factor, or a \code{labelled}
+object.}
 
-\item{labels}{A named vector or \code{NULL}. The vector should be the same type as
-\code{x}. Unlike factors, labels don't need to be exhaustive: only a fraction of
-the values might be labelled.}
+\item{labels}{An optional named vector of value labels. Only a subset of
+values may be labelled.}
 
-\item{label}{A short, human-readable description of the vector or \code{NULL}.}
+\item{label}{A short human-readable label (string of length 1).}
 
-\item{unit}{A character string of length one containing the unit of measure
-or \code{NULL}.}
+\item{unit}{Unit of measurement (e.g., "kg", "hours"). Must be a string of
+length 1 or \code{NULL}.}
 
-\item{concept}{A character string of length one containing a linked
-concept or \code{NULL}.}
+\item{concept}{A URI or concept name representing the meaning of the
+variable.}
 
-\item{namespace}{A namespace for individual observations or categories or
-\code{NULL}.}
+\item{namespace}{Optional string or named character vector, used for
+value-level URI expansion.}
 
-\item{...}{Further parameters for inheritance, not in use.}
+\item{...}{Reserved for future use.}
 
 \item{object}{An R object to be summarised.}
 }
 \value{
-The constructor \code{defined} returns a vector with defined value
-labels, a variable label, an optional unit of measurement and linked
-concept.\cr \code{is.defined} returns a logical value, stating if the
-object is of class \code{defined}.
+A vector of class \code{"defined"} (technically \code{haven_labelled_defined}),
+which behaves like a standard vector with additional semantic metadata, and
+is inherited from \code{\link[haven:labelled]{haven::labelled()}}.
 }
 \description{
-Creates a semantically well-defined vector enriched with metadata.
-\code{defined()} is an S3 constructor that extends numeric or character vectors
-with a human-readable label, unit of measurement, linked concept,
-and optional namespace. These objects preserve semantics while behaving
-like standard vectors in comparisons, printing, and subsetting.
-The \code{defined} constructor creates the objects of this
-class, which are semantically extended vectors inherited from
-\code{\link[haven:labelled]{haven::labelled}}.
+\code{defined()} constructs a vector enriched with semantic metadata such as a
+label, unit of measurement, concept URI, and optional namespace. These
+vectors behave like base R vectors but retain metadata during subsetting,
+comparison, and printing.
 }
 \details{
-A \code{defined} vector is an extension of a base vector with additional
-semantic metadata:
-\itemize{
-\item A \strong{label} (\code{label}): a short human-readable description
-\item A \strong{unit} (\code{unit}): e.g., "kg", "hours", "USD"
-\item A \strong{concept} (\code{concept}): a URI or textual reference
-\item A \strong{namespace} (\code{namespace}): for URI-based observation or value identifiers
-}
-
-The class inherits from \code{haven::labelled}, supports typical vector
-operations (subsetting, comparisons, printing), and integrates with
-tibbles and tidy workflows via custom \code{format()}, \code{print()}, and
-\code{as.vector()} methods.
-
-Use \code{is.defined()} to test if an object is of class \code{defined}.
-Use \code{as_numeric()} and \code{as_character()} to coerce to base types.
+The resulting object inherits from \code{\link[haven:labelled]{haven::labelled()}} and integrates with
+tidyverse workflows, enabling downstream conversion to RDF and other
+standards.
 }
 \examples{
-
 gdp_vector <- defined(
   c(3897, 7365, 6753),
   label = "Gross Domestic Product",
@@ -101,9 +81,6 @@ gdp_vector[1:2]
 \seealso{
 \code{browseVignettes("dataset")}
 
-Other defined metadata methods and functions: 
-\code{\link{var_label}()},
-\code{\link{var_namespace}()},
-\code{\link{var_unit}()}
+\code{\link[=is.defined]{is.defined()}}, \code{\link[=as_numeric]{as_numeric()}}, \code{\link[=as_character]{as_character()}}, \code{\link[=as_factor]{as_factor()}},
+\code{\link[=strip_defined]{strip_defined()}}
 }
-\concept{defined metadata methods and functions}

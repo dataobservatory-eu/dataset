@@ -52,6 +52,8 @@ This is particularly useful for reproducible research, standard-compliant data, 
 ```{r seeattributes}
 attributes(gdp_1)
 ```
+From this output it is clear that actual s3 class is called `haven_labelled_defined`, which clearly indicates the inheritance from `haven_labelled`. In the dataset summary headers the `<defined>` abbreviation is used.
+
 Use the `var_label()`, `var_unit()` and `var_concept()` helper functions to set or retrieve metadata individually:
 
 ```{r convenience}
