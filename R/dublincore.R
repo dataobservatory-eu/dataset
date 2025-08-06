@@ -1,137 +1,62 @@
-#' @title Add or get Dublin Core metadata
-#' @description Add metadata conforming the
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/}{DCMI
-#'   Metadata Terms}. to datasets, i.e. structured R data.frame or list objects,
-#'   for an accurate and consistent identification of a resource for citation
-#'   and retrieval purposes.
-#' @details The Dublin Core, also known as the Dublin Core Metadata Element Set
-#'   (DCMES), is a set of fifteen main metadata items for describing digital or
-#'   physical resources, such as datasets or their printed versions. Dublin Core
-#'   has been formally standardized internationally as ISO 15836, as IETF RFC
-#'   5013 by the Internet Engineering Task Force (IETF), as well as in the U.S.
-#'   as ANSI/NISO Z39.85.\cr \cr To provide compatibility with
-#'   \code{\link[utils]{bibentry}}  we try to add \code{dataset_date} parameter
-#'   first as \code{publication_date} metadata field, and as a \code{year}
-#'   field, too. This element can be get or set with
-#'   \code{\link{publication_year}}.
-#' @param x An R object of type data.frame, or inherited data.table, tibble;
-#'   alternatively a well structured R list.
-#' @details The \code{ResourceType} property will be by definition "Dataset".
-#'   The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will
-#'   automatically added to the dataset.
-#' @param title
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title},
-#'   a name given to the resource.[datacite()] allows the use of
-#'   alternate titles, too. See \code{\link{dataset_title}}.
-#' @param creator An entity primarily responsible for making the resource.
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/}{dct:creator}
-#'   Corresponds to \code{Creator} in[datacite()]. See
-#'   \code{\link{creator}}.
-#' @param identifier An unambiguous reference to the resource within a given
-#'   context. Recommended practice is to identify the resource by means of a
-#'   string conforming to an identification system. Examples include
-#'   International Standard Book Number (ISBN), Digital Object Identifier (DOI),
-#'   and Uniform Resource Name (URN). Select and identifier scheme from
-#'   \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html}{registered
-#'   URI schemes maintained by IANA}. More details:
-#'   \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines
-#'   for using resource identifiers in Dublin Core metadata and IEEE LOM}.
-#'   Similar to \code{Identifier} in[datacite()]. See
-#'   \code{\link{identifier}}.
-#' @param publisher Corresponds to
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#publisher}{dct:publisher}
-#'   and Publisher in DataCite. The name of the entity that holds, archives,
-#'   publishes prints, distributes, releases, issues, or produces the resource.
-#'   This property will be used to formulate the citation, so consider the
-#'   prominence of the role. For software, use \code{Publisher} for the code
-#'   repository. If there is an entity other than a code repository, that
-#'   "holds, archives, publishes, prints, distributes, releases, issues, or
-#'   produces" the code, use the property
-#'   Contributor/contributorType/hostingInstitution for the code repository. See
-#'   \code{\link{publisher}}.
-#' @param subject In
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/subject/}{dct:subject}.
-#'   In[datacite()] it is a recommended property for discovery. In
-#'   DataCite, a more complex referencing is used. See[subject()] and
-#'   create structured Subject objects with[subject_create()].
-#' @param dataset_date Corresponds to a point or period of time associated with
-#'   an event in the lifecycle of the resource.
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/date/}{dct:date}.
-#'   \code{Date} is also recommended for discovery in[datacite()],
-#'   but it requires a different formatting. To avoid confusion with
-#'   date-related functions, instead of the DCMITERMS date or the DataCite Date
-#'   term, the parameter name is \code{dataset_date}.
-#' @param language The primary language of the resource. Allowed values are
-#'   taken from IETF BCP 47, ISO 639-1 language code. See
-#'   \code{\link{language}}. Corresponds to Language in Datacite.
-#' @param format The file format, physical medium, or dimensions of the
-#'   resource.
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/format/}{dct:format}
-#'   Examples of dimensions include size and duration. Recommended best practice
-#'   is to use a controlled vocabulary such as the list of
-#'   \href{https://www.iana.org/assignments/media-types/media-types.xhtml}{Internet
-#'   Media Types, formerly known as MIME}. It is similar to \code{Format} in
-#'  [datacite()].
-#' @param rights Corresponds to
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights}
-#'   and[datacite()] Rights. Information about rights held in and
-#'   over the resource. Typically, rights information includes a statement about
-#'   various property rights associated with the resource, including
-#'   intellectual property rights. See \code{\link{rights}}.
-#' @param description An account of the resource. It may include but is not
-#'   limited to: an abstract, a table of contents, a graphical representation,
-#'   or a free-text account of the resource.
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}.
-#'   In[datacite()] it is recommended for discovery. See
-#'   \code{\link{description}}.
-#' @param relation A related resource. Recommended best practice is to identify
-#'   the related resource by means of a string conforming to a formal
-#'   identification system. See:
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/relation/}{dct:relation}.
-#'   Similar to \code{RelatedItem} in[datacite()], which is
-#'   recommended for discovery.
-#' @param type The nature or genre of the resource. Recommended best practice is
-#'   to use a controlled vocabulary such as the DCMI Type Vocabulary
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-type-vocabulary/}{DCMITYPE}.
-#'   For a dataset, the correct term is \code{Dataset}. To describe the file
-#'   format, physical medium, or dimensions of the resource, use the Format
-#'   element.
-#' @param subject Defaults to \code{NULL}. See[subject()] to add
-#'   subject descriptions to your dataset.
-#' @param datasource The source of the dataset,
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI:
-#'   Source}, which corresponds to a \code{relatedItem} in the DataCite
-#'   vocabulary. We use \code{datasource} instead of \code{source} to avoid
-#'   naming conflicts with the
-#' @param format The file format, physical medium, or dimensions of the dataset.
-#'   See
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/source/}{DCMI:
-#'   Format}.
-#' @param coverage The spatial or temporal topic of the resource, spatial
-#'   applicability of the dataset, or jurisdiction under which the dataset is
-#'   relevant. See
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/coverage/}{DCMI:
-#'   Coverage}.
-#' @param contributor An entity responsible for making contributions to the
-#'   dataset. See
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/contributor/}{DCMI:
-#'   Contributor}, and for possible contribution type, please review
-#'   \href{https://www.loc.gov/marc/relators/relaterm.html}{MARC Code List for
-#'   Relators}.
-#' @param language A language of the dataset. See
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/language/}{DCMI:
-#'   Language}.
-#' @importFrom utils person bibentry
+#' Add or Retrieve Dublin Core Metadata
+#'
+#' Adds or retrieves metadata conforming to the
+#' [Dublin Core Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/)
+#' standard, enabling consistent and structured citation and retrieval of R
+#' dataset objects.
+#'
+#' @details
+#' The Dublin Core Metadata Element Set (DCMES) is a standardized vocabulary for
+#' describing digital and physical resources. It includes 15 core fields and is
+#' formally standardized as ISO 15836, IETF RFC 5013, and ANSI/NISO Z39.85.
+#'
+#' This function constructs a [utils::bibentry()] object extended with DCMI
+#' terms and is compatible with [dataset_df()] objects. The resulting metadata
+#' can be used for semantic documentation and machine-readable citation.
+#'
+#' For compatibility with [utils::bibentry()], the `dataset_date` parameter is
+#' automatically used to derive both `publication_date` and `year` fields.
+#'
+#' @param x An object to annotate. Typically a [data.frame], [tibble], or named
+#'   list.
+#' @param title A name given to the resource. See [dataset_title()].
+#' @param creator One or more [utils::person()] objects representing the
+#'   creator(s). See [creator()].
+#' @param contributor Additional contributors ([utils::person()]) with optional
+#'   roles. See [contributor()].
+#' @param publisher A character or [utils::person()] indicating the publishing
+#'   entity. See [publisher()].
+#' @param dataset_date A publication or release date (`Date`, `POSIXct`, or
+#'   character in `YYYY`, `YYYY-MM-DD`, or ISO format).
+#' @param year An explicit publication year. If omitted, inferred from
+#'   `dataset_date`.
+#' @param identifier A unique persistent identifier (e.g., DOI). See [identifier()].
+#' @param subject A keyword or controlled vocabulary term. See [subject()] and
+#'   [subject_create()].
+#' @param description A free-text summary of the dataset. See [description()].
+#' @param language ISO 639-1 language code. See [language()].
+#' @param rights A string describing intellectual property or usage rights.
+#'   See [rights()].
+#' @param dataset_format The technical format of the dataset (e.g., MIME type).
+#' See [dataset_format()].
+#' @param relation A related resource (e.g., version, paper, or parent dataset).
+#'   See [relation()].
+#' @param datasource A URL or label for the original source of the dataset.
+#' @param coverage Geographic or temporal extent (spatial/temporal coverage).
+#' @param type The resource type. For datasets, use `"Dataset"`. See
+#'   [DCMI Type Vocabulary](https://www.dublincore.org/specifications/dublin-core/dcmi-type-vocabulary/).
+#' @param ... Additional metadata fields.
+#'
+#' @return
+#' A `bibentry` object extended with class `"bibrecord"`, storing structured
+#' Dublin Core metadata. Use [as_dublincore()] to extract the metadata in list,
+#' tabular, or RDF form.
+#'
 #' @source
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/terms/format/}{	DCMI
-#'   Metadata Terms}.
-#' @family bibentry functions
-#' @return \code{dublincore()} creates a \code{utils::\link[utils]{bibentry}}
-#'   object extended with standard Dublin Core bibliographical metadata,
-#'   \code{as_dublincore()} retrieves the contents of this bibentry object of a
-#'   dataset_df from its attributes, and returns the contents as list,
-#'   dataset_df, or bibentry object, or an ntriples string.
-#' @export
+#' - [DCMI Metadata Terms](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/)
+#'
+#' @importFrom utils person bibentry
+#'
 #' @examples
 #' orange_bibentry <- dublincore(
 #'   title = "Growth of Orange Trees",
@@ -142,28 +67,27 @@
 #'       role = "cre",
 #'       comment = c(VIAF = "http://viaf.org/viaf/84585260")
 #'     ),
-#'     person(
-#'       given = "H",
-#'       family = "Smith",
-#'       role = "cre"
-#'     )
+#'     person(given = "H", family = "Smith", role = "cre")
 #'   ),
-#'   contributor = person(
-#'     given = "Antal",
-#'     family = "Daniel",
-#'     role = "dtm"
-#'   ), #' Add data manager
+#'   contributor = person(given = "Antal", family = "Daniel", role = "dtm"),
 #'   publisher = "Wiley",
 #'   datasource = "https://isbnsearch.org/isbn/9780471170822",
 #'   dataset_date = 1998,
 #'   identifier = "https://doi.org/10.5281/zenodo.14917851",
 #'   language = "en",
-#'   description = "The Orange data frame has 35 rows and 3 columns\n
-#'                  of records of the growth of orange trees."
+#'   description = "The Orange data frame has 35 rows and 3 columns of records
+#'                  of the growth of orange trees."
 #' )
 #'
-#' # To review the existing dataset_bibentry of a dataset_df object:
+#' # To inspect structured metadata from a dataset_df object:
 #' as_dublincore(orange_df, type = "list")
+#'
+#' @export
+#' @seealso
+#' Learn more in the vignette:
+#' [`bibrecord`](https://dataset.dataobservatory.eu/articles/bibrecord.html)
+#' @family bibrecord functions
+
 dublincore <- function(
     title,
     creator,
@@ -175,7 +99,7 @@ dublincore <- function(
     dataset_date = NULL,
     language = NULL,
     relation = NULL,
-    format = "application/r-rds",
+    dataset_format = "application/r-rds",
     rights = NULL,
     datasource = NULL,
     description = NULL,
@@ -192,9 +116,8 @@ dublincore <- function(
 
   dataset_date <- ifelse(is.null(dataset_date), ":tba", as.character(dataset_date))
   identifier <- ifelse(is.null(identifier), ":tba", as.character(identifier))
-  format <- ifelse(is.null(format), ":tba", as.character(format))
+  dataset_format <- ifelse(is.null(dataset_format), "application/r-rds", as.character(dataset_format))
   relation <- ifelse(is.null(relation), ":unas", relation)
-  format <- ifelse(is.null(relation), ":unas", relation)
   rights <- ifelse(is.null(rights), ":tba", as.character(rights))
   coverage <- ifelse(is.null(coverage), ":unas", as.character(coverage))
   datasource <- ifelse(is.null(datasource), ":unas", as.character(datasource))
@@ -217,7 +140,7 @@ dublincore <- function(
     year = year,
     language = language,
     relation = relation,
-    format = format,
+    dataset_format = dataset_format,
     rights = rights,
     datasource = datasource,
     description = description,
@@ -237,7 +160,7 @@ new_dublincore <- function(title,
                            year = NULL,
                            language = NULL,
                            relation = NULL,
-                           format = NULL,
+                           dataset_format = NULL,
                            rights = NULL,
                            datasource = NULL,
                            description = NULL,
@@ -260,7 +183,7 @@ new_dublincore <- function(title,
     year = year,
     language = language,
     relation = relation,
-    format = format,
+    format = dataset_format,
     rights = rights,
     datasource = datasource,
     description = description,
@@ -271,18 +194,25 @@ new_dublincore <- function(title,
 }
 
 #' @rdname dublincore
+#'
+#' @description
+#' `is.dublincore()` checks whether an object inherits from the `"dublincore"`
+#' class.
+#'
+#' @param x An object to test.
+#'
+#' @return
+#' A logical value: `TRUE` if `x` is a Dublin Core metadata record (i.e.,
+#' inherits from `"dublincore"`), otherwise `FALSE`.
+#'
+#' @export
 is.dublincore <- function(x) {
-  UseMethod("is.dublincore", x)
+  inherits(x, "dublincore")
 }
 
+
+
 #' @rdname dublincore
-#' @param x An object that is tested if it has a class "dublincore".
-#' @return A logical value, if the bibliographic entries are listed
-#' according to the Dublin Core specification.
-#' @exportS3Method
-is.dublincore.dublincore <- function(x) inherits(x, "dublincore")
-
-
 #' @exportS3Method
 print.dublincore <- function(x, ...) {
   cat("Dublin Core Metadata Record\n")
