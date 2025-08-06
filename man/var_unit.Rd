@@ -3,16 +3,19 @@
 \name{var_unit}
 \alias{var_unit}
 \alias{var_unit<-}
+\alias{var_unit<-.default}
 \alias{get_variable_units}
 \alias{unit_attribute}
 \alias{get_unit_attribute}
 \alias{set_unit_attribute}
 \alias{unit_attribute<-}
-\title{Get / Set a unit of measure}
+\title{Get or Set a Unit of Measure}
 \usage{
 var_unit(x, ...)
 
 var_unit(x) <- value
+
+\method{var_unit}{default}(x) <- value
 
 get_variable_units(x, ...)
 
@@ -27,53 +30,76 @@ unit_attribute(x) <- value
 \arguments{
 \item{x}{A vector.}
 
-\item{...}{Further potential parameters reserved for inherited classes.}
+\item{...}{Further arguments for method extensions.}
 
-\item{value}{A character string or \code{NULL} to remove the unit of measure.}
+\item{value}{A single character string or \code{NULL}. If not of length one, an
+error is thrown.}
 }
 \value{
-The unit attribute of a vector constructed with\code{\link[=defined]{defined()}},
-or any vector that is enriched with a unit attribute. \cr
-\cr
-The \code{var_unit<-}
-assignment method allows to add, remove, or overwrite this attribute on a vector
-\code{x}. The assignment function returns the \code{x} vector invisibly.
+\itemize{
+\item \code{var_unit(x)} returns the \code{"unit"} attribute as a character string.
+\item \code{var_unit(x) <- value} sets, updates, or removes the unit and returns
+the modified vector invisibly.
+}
+
+The modified object \code{x}, returned invisibly with the updated \code{"unit"}
+attribute.
+
+The \code{"unit"} attribute of the object \code{x}, or \code{NULL} if not set.
+
+The object \code{x} with updated \code{"unit"} attribute.
 }
 \description{
-Get / Set a unit of measure
+Adds or retrieves a unit of measure (UoM) attribute to a vector. Units
+provide semantic meaning for numeric or character data — such as currency,
+weight, or time — helping prevent incorrect operations like merging values
+measured in incompatible units.
+
+The \verb{var_unit<-} assignment method sets, updates, or removes the \code{"unit"}
+attribute of a vector. This can be used with \code{defined()} vectors or base
+vectors to ensure consistent semantic annotation.
+
+\code{unit_attribute()} is a low-level helper to directly access the \code{"unit"}
+attribute of a vector, without applying fallback logic. It is mainly used
+internally.
+
+\code{get_unit_attribute()} is an alias for \code{unit_attribute()}, included for naming
+consistency in codebases that distinguish getter/setter patterns.
+
+\code{set_unit_attribute()} is the low-level assignment function that sets or
+removes the \code{"unit"} attribute of an object. Used internally by
+\verb{unit_attribute<-}.
 }
 \details{
-The aim of the \code{unit} attribute is to add to the R vector object its
-unit of measure (for example, physical units like gram and kilogram or
-currency units like dollars or euros), so that they are not concatenated or
-joined in a syntactically correct but semantically incorrect way (i.e.,
-accidentally concatenating values quoted in dollars and euros from different
-subvectors.) This is particularly useful when working with linked open data,
-i.e., when joins or concatenations are performed on data arriving from a remote
-source.\cr \cr
-\code{get_variable_units()} is identical to \code{var_unit()}.
-\cr
-\cr
-See \code{vignette("defined", package = "dataset")} to use comprehensively
-with variable labels, namespaces, units of measures, and machine-independent
-permanent variable identifiers.
+The \code{"unit"} attribute stores a machine-readable representation of a
+unit of measure (e.g., \code{"kg"}, \code{"USD"}, \code{"days"}). This is useful when
+working with linked open data or when combining data from multiple sources
+where silent mismatches in units could cause errors.
+
+For full integration with semantic metadata (e.g., labels, concepts,
+namespaces), use \code{\link[=defined]{defined()}} vectors or \code{\link[=dataset_df]{dataset_df()}} objects.
+
+\code{get_variable_units()} is an alias for \code{var_unit()}.
+
+See \code{vignette("defined", package = "dataset")} for end-to-end examples
+involving semantic enrichment.
 }
 \examples{
-# The defined vector class and dataset_df support units of measure attributes:
+# Retrieve the unit of measure (if defined)
 var_unit(orange_df$circumference)
 
-# Normally columns of a data.frame do not have a unit attribute:
+# Regular data.frame columns have no unit by default
 var_unit(mtcars$wt)
 
-# You can add them with the assignment function:
+# Add a unit to a column
 var_unit(mtcars$wt) <- "1000 lbs"
 
-# To remove a unit of measure assign the NULL value:
+# Remove the unit
 var_unit(mtcars$wt) <- NULL
+
 }
 \seealso{
 Other defined metadata methods and functions: 
-\code{\link{defined}()},
 \code{\link{var_label}()},
 \code{\link{var_namespace}()}
 }
