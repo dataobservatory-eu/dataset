@@ -102,7 +102,7 @@ Our packages tries to lower the burden of such retrofitting with early binding a
 You can convert any dataset_df object into a tidy 3-column representation (subject–predicate–object) using `dataset_to_triples()`:
 
 ```{r}
-triples <- dataset_to_triples(small_dataset,format = "ntriples")
+triples <- dataset_to_triples(small_dataset, format = "ntriples")
 triples
 ```
 
@@ -110,14 +110,14 @@ This 3-column format (subject–predicate–object) is compatible with semantic 
 
 ```{r}
 mycon <- tempfile("my_dataset", fileext = "nt")
-my_description <- describe(x=small_dataset, con=mycon)
+my_description <- describe(x = small_dataset, con = mycon)
 
 # Only three statements are shown:
-readLines(mycon)[c(4,8,12)]
+readLines(mycon)[c(4, 8, 12)]
 ```
 ```{r}
 ## Show two lines of provenance:
-provenance(small_dataset)[c(6,7)]
+provenance(small_dataset)[c(6, 7)]
 ```
 
 

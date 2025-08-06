@@ -14,211 +14,94 @@ WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.o
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 [![DOI](https://zenodo.org/badge/DOI/10.32614/CRAN.package.dataset.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.3.92-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.3.93-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Codecov test
 coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset/)
 
 <!-- badges: end -->
 
-# dataset: Semantic Metadata for Datasets in R
+# Overview
 
-The `dataset` package provides tools to create semantically rich and
-interoperable datasets in R. Semantically rich datasets that are easier
-to: - understand by humans, - validate and process by machines, - and
-share across tools, teams, and domains.
+The `dataset` package helps you create **semantically rich**,
+**machine-readable**, and **interoperable datasets** in R. It introduces
+S3 classes that enhance data frames, vectors, and bibliographic entries
+with formal metadata structures inspired by:
 
-It improves metadata handling by introducing new S3 classes—`defined()`,
-`dataset_df()`, and `bibrecord()`—that enhance the behaviour of
-`labelled`, `tibble`, and `bibentry` objects to meet the requirements
-of:
+- SDMX (Statistical Data and Metadata eXchange)
 
-- **Statistical Data and Metadata eXchange (SDMX)** standards,
-- **Open Science** metadata practices,
-- **Library and archive metadata** conventions (Dublin Core, DataCite).
+- Dublin Core / DataCite metadata standards for scientific and open data
+  repositories
 
-Many tools exist to help document, describe, or publish datasets in R,
-but most separate the metadata from the data itself. This separation
-increases the risk of losing metadata, misaligning it with the data, or
-making documentation hard to maintain. We wanted to create a tooling
-that enables the user from the birth of a dataset till it is potentially
-serialised with the help of the
-[rdflib](https://CRAN.R-project.org/package=rdflib) package.
+- Open Science publishing practices
 
-## Key Features
+The goal is to reduce metadata loss, improve interoperability, and
+simplify the transition from tidy datasets to web-ready formats like
+RDF.
 
-### `defined()`
+## Installation
 
-An extended version of `labelled()` vectors. Adds support for:
-
-- Variable labels
-- Units of measure (e.g. “million euros”)
-- Concept URIs (standardized definitions)
-- Namespaces (to support URI expansion)
+You can install the latest released version of **`dataset`** from
+[CRAN](https://cran.r-project.org/package=dataset) with:
 
 ``` r
-library(dataset)
-data(gdp)
+install.packages("dataset")
 ```
 
-The following small dataset contains the gross domestic product (GDP)
-data of three small countries:
+To install the development version from GitHub with `pak` or `remotes`:
 
 ``` r
-print(gdp)
-#> # A tibble: 10 × 5
-#>    geo    year   gdp unit    freq 
-#>    <chr> <int> <dbl> <chr>   <chr>
-#>  1 AD     2020 2355. CP_MEUR A    
-#>  2 AD     2021 2594. CP_MEUR A    
-#>  3 AD     2022 2884. CP_MEUR A    
-#>  4 AD     2023 3120. CP_MEUR A    
-#>  5 LI     2020 5430. CP_MEUR A    
-#>  6 LI     2021 6424. CP_MEUR A    
-#>  7 LI     2022 6759. CP_MEUR A    
-#>  8 SM     2020 1265. CP_MEUR A    
-#>  9 SM     2021 1461. CP_MEUR A    
-#> 10 SM     2022 1612. CP_MEUR A
+# install.packages("pak")
+pak::pak("dataobservatory-eu/dataset")
+
+# install.packages("remotes")
+remotes::install_github("dataobservatory-eu/dataset")
 ```
 
-The `defined` vector class, an extension of the `labelled::labelled`
-class, allows to add machine-readable concept definitions and namespaces
-to reveal the coding of the variables. This will allow `AD` to be
-resolved as <https://dd.eionet.europa.eu/vocabulary/eurostat/geo/AD>
+## Minimal Example
 
 ``` r
-geo <- defined(
-  gdp$geo,
-  label = "Country name",
-  concept = "http://purl.org/linked-data/sdmx/2009/dimension#refArea",
-  namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"
-)
-
-geo[c(1, 3)]
-#> x: Country name
-#> Defined as http://purl.org/linked-data/sdmx/2009/dimension#refArea 
-#> [1] "AD" "AD"
-```
-
-See [defined: Semantically Enriched
-Vectors](https://dataset.dataobservatory.eu/articles/defined.html)
-
-### `bibrecord()`
-
-An extension of R’s built-in `bibentry()` class, with support for:
-
-- Dublin Core Terms (`dcterms`)
-- DataCite metadata
-- Contributor roles (e.g. creator, publisher, data manager)
-- Subject tagging and geolocation
-
-``` r
-as_dublincore(orange_df)
-#> Dublin Core Metadata Record
-#> --------------------------
-#> Title:        Growth of Orange Trees 
-#> Creator(s):   N.R. Draper [cre] (VIAF: http://viaf.org/viaf/84585260); H Smith [cre] 
-#> Contributor(s):  :unas 
-#> Publisher:    Wiley 
-#> Year:         1998 
-#> Language:     en 
-#> Description:  The Orange data frame has 35 rows and 3 columns of records of the growth of orange trees.
-```
-
-This makes it easier to produce citations and metadata suitable for
-repositories like [Zenodo](https://zenodo.org/) or
-[Dataverse](https://dataverse.org/). See more in the [Modernising
-Citation Metadata in R: Introducing
-`bibrecord`](https://dataset.dataobservatory.eu/articles/bibrecord.html)
-
-### `dataset_df()`
-
-A semantic wrapper around `data.frame` or `tibble`, aligning with SDMX’s
-**data cube** model:
-
-- Variables (columns) can have units, labels, and definitions.
-- Observations (rows) can be assigned unique identifiers.
-- Datasets can carry complete metadata inline (title, creator,
-  description, etc.)
-- Output can be serialized to linked data formats (N-Triples, RDF, etc.)
-
-See more in the [dataset_df: Create Datasets that are Easy to Share
-Exchange and
-Extend](https://dataset.dataobservatory.eu/articles/dataset_df.html)
-
-``` r
-my_data <- dataset_df(
-  country = defined(
-    c("AD", "LI"),
-    concept = "http://data.europa.eu/bna/c_6c2bb82d"
-  ),
+library(dataset)  
+df <- dataset_df( 
+  country = defined(c("AD", "LI"), label = "Country"),   
   gdp = defined(c(3897, 7365),
-    label = "GDP",
-    unit = "million euros"
-  ),
-  dataset_bibentry = datacite(
-    Title = "GDP Data for Small Countries",
-    Description = "Example Dataset for the dataset package",
-    Creator = person("Jane", "Doe"),
-    Publisher = "Open Data Institute",
-    Rights = "CC0",
-    Language = "en"
+                label = "GDP", unit = "million euros"),
+  dataset_bibentry = dublincore(
+    title = "GDP Dataset", 
+    creator = person("Jane", "Doe", role="aut"), 
+    publisher = "Small Repository"
   )
-)
+) 
+print(df)
+#> Doe (2025): GDP Dataset [dataset]
+#>   rowid     country   gdp       
+#>   <defined> <defined> <defined>
+#> 1 eg:1      AD        3897     
+#> 2 eg:2      LI        7365
 ```
 
-## From R to RDF
-
-The **Resource Description Framework (RDF)** is a World Wide Web
-standard for describing and linking data in a structured way so that
-both humans and machines can understand it. Think of it as a common
-language for data: it allows you to represent information as simple
-*subject–predicate–object* statements (e.g., *“Dataset X has author
-Y”*). These statements can then be connected across different systems,
-making your data interoperable on the web.
-
-- **Machine-readability**: Your data and metadata are tightly coupled
-  and structured for reuse; it contains all definitions to be imported
-  into a foreign database.
-
-- **Preservation**: Data exported from R retains its full descriptive
-  context.
-
-- **Publication-ready**: Integration with modern repository standards
-  (DataCite, DC Terms).
-
-- **Tidy + semantic**: Extends tidy principles with semantically rich
-  definitions to avoid misunderstanding data measurement units and other
-  critical attributes.
+Export as RDF triples:
 
 ``` r
-dataset_to_triples(my_data, format = "nt")
-#> [1] "<http://example.com/dataset#eg:1> <http://data.europa.eu/bna/c_6c2bb82d> \"AD\"^^<xs:string> ."
-#> [2] "<http://example.com/dataset#eg:2> <http://data.europa.eu/bna/c_6c2bb82d> \"LI\"^^<xs:string> ."
-#> [3] "<http://example.com/dataset#eg:1> <http://example.com/prop/gdp> \"3897\"^^<xs:decimal> ."      
+dataset_to_triples(df, format = "nt")
+#> [1] "<http://example.com/dataset#eg:1> <http://example.com/prop/country> \"AD\"^^<xs:string> ."
+#> [2] "<http://example.com/dataset#eg:2> <http://example.com/prop/country> \"LI\"^^<xs:string> ."
+#> [3] "<http://example.com/dataset#eg:1> <http://example.com/prop/gdp> \"3897\"^^<xs:decimal> ." 
 #> [4] "<http://example.com/dataset#eg:2> <http://example.com/prop/gdp> \"7365\"^^<xs:decimal> ."
 ```
 
-``` r
-as_datacite(my_data)
-#> DataCite Metadata Record
-#> --------------------------
-#> Title:         GDP Data for Small Countries 
-#> Creator(s):    Jane Doe 
-#> Contributor(s): :unas 
-#> Identifier:    :tba 
-#> Publisher:     Open Data Institute 
-#> Year:          2025 
-#> Language:      en 
-#> Description:  Example Dataset for the dataset package
-```
+Retain automatically recorded provenance:
 
-The vignette [From R to
-RDF](https://dataset.dataobservatory.eu/articles/dataset_df.html)
-explains how you can transform your datasets to be easily used with the
-[rdflib](https://CRAN.R-project.org/package=rdflib) R binding that
-offers exporting (serialisation) to all standard formats to be used in
-web services.
+``` r
+provenance(df)
+#> [1] "<http://example.com/dataset_prov.nt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Bundle> ."                  
+#> [2] "<http://example.com/dataset#> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> ."                         
+#> [3] "<http://example.com/dataset#> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/linked-data/cube#DataSet> ."                 
+#> [4] "_:doejane <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."                                              
+#> [5] "<https://doi.org/10.32614/CRAN.package.dataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#SoftwareAgent> ."
+#> [6] "<http://example.com/creation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> ."                       
+#> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2025-08-06T11:45:24Z\"^^<xs:dateTime> ."
+```
 
 ## Contributing
 
@@ -232,6 +115,6 @@ We welcome contributions and discussion!
 
 ## Code of Conduct
 
-This project adheres to the [rOpenSci Code of
+This project follows the [rOpenSci Code of
 Conduct](https://ropensci.org/code-of-conduct/). By participating, you
 are expected to uphold these guidelines.

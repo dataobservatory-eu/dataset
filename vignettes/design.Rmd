@@ -305,7 +305,7 @@ This will raise an error or warning because the gdp column has inconsistent unit
 ```{r mutate}
 exchange_rate <- 1.02
 eur_tuv_gdp <- defined(
-  56*exchange_rate,
+  56 * exchange_rate,
   label = "Gross Domestic Product",
   unit = "CP_MEUR",
   concept = "http://data.europa.eu/83i/aa/GDP"
@@ -333,9 +333,9 @@ The joined dataset needs a new title, and it can be attributed to a new author a
 
 ```{r metadatachanges}
 global_dataset <- bind_defined_rows(euros_dataset, tuvalu_dataset)
-dataset_title(global_dataset, overwrite=TRUE) <- "Global Microstates GDP"
+dataset_title(global_dataset, overwrite = TRUE) <- "Global Microstates GDP"
 publisher(global_dataset) <- "My Research Institute"
-creator(global_dataset) <- person("Jane Doe", role="aut")
+creator(global_dataset) <- person("Jane Doe", role = "aut")
 language(global_dataset) <- "en"
 description(global_dataset) <- "A dataset created from various sources about the GDP of very small states."
 global_dataset
