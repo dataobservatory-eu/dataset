@@ -48,10 +48,6 @@ as_character.haven_labelled_defined <- function(
     ...) {
   base <- vctrs::vec_data(x)
 
-  if (!is.character(base)) {
-    stop("as_character(): underlying data is not character.")
-  }
-
   tmp <- as.character(base)
 
   if (preserve_attributes) {
