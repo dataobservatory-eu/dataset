@@ -2,7 +2,7 @@
 % Please edit documentation in R/bibrecord.R
 \name{bibrecord}
 \alias{bibrecord}
-\title{Create a modern bibrecord-compatible metadata object}
+\title{Create a Modern Metadata Object Compatible with bibentry}
 \usage{
 bibrecord(
   title,
@@ -17,34 +17,38 @@ bibrecord(
 )
 }
 \arguments{
-\item{title}{A character string, the dataset title.}
+\item{title}{A character string specifying the dataset title.}
 
-\item{author}{A list or vector of \code{utils::person} objects. Mapped to
-\code{creator} in DataCite and DCTERMS.}
+\item{author}{A \code{\link[utils:person]{utils::person()}} or list/vector of person objects. Mapped to
+\code{creator} in DataCite and DCMI.}
 
-\item{contributor}{Optional list/vector of \code{utils::person}. Contributor roles
-are merged if repeated.}
+\item{contributor}{Optional list or vector of \code{\link[utils:person]{utils::person()}} objects.
+Contributor roles are merged if duplicated.}
 
-\item{publisher}{Character string or \code{person}. The publishing entity.}
+\item{publisher}{A character string or \code{\link[utils:person]{utils::person()}} representing the
+publishing entity.}
 
-\item{year}{Publication year. Derived from \code{date} if not explicitly provided.}
+\item{year}{Publication year. Automatically derived from \code{date} if not
+provided explicitly.}
 
-\item{date}{A character string or \code{Date} object.}
+\item{date}{A \link{Date} object or character string in ISO format.}
 
-\item{identifier}{Unique identifier (e.g., DOI).}
+\item{identifier}{A persistent identifier (e.g., DOI or URL).}
 
-\item{subject}{Optional keyword(s) or controlled vocabulary string.}
+\item{subject}{Optional keyword, tag, or controlled vocabulary term.}
 
-\item{...}{Additional fields (e.g., language, format, rights, description).}
+\item{...}{Additional fields such as \code{language}, \code{format}, \code{rights}, or
+\code{description}.}
 }
 \value{
-An object of class \code{bibrecord} and \code{bibentry}.
+An object of class \code{"bibrecord"} and \code{"bibentry"}, suitable for citation and
+embedding in metadata-aware structures such as \code{\link[=dataset_df]{dataset_df()}}.
 }
 \description{
-Create a \code{utils::bibentry}-compatible object extended with
-standard Dublin Core and DataCite-compatible fields. This serves as a
-unified metadata structure for use in both \code{dublincore()} and \code{datacite()}
-functions.
+Constructs a \code{\link[utils:bibentry]{utils::bibentry()}} object extended with Dublin Core and
+DataCite-compatible fields. This unified structure supports use with
+functions such as \code{\link[=dublincore]{dublincore()}} and \code{\link[=datacite]{datacite()}}, and is the internal
+format for storing rich metadata with datasets.
 }
 \examples{
 bibrecord(
@@ -54,4 +58,14 @@ bibrecord(
   identifier = "https://doi.org/10.2908/TEINA011",
   date = as.Date("2025-05-20")
 )
+
 }
+\seealso{
+Learn more in the vignette:
+\href{https://dataset.dataobservatory.eu/articles/bibrecord.html}{\code{bibrecord}}
+
+Other bibrecord functions: 
+\code{\link{as_datacite}()},
+\code{\link{as_dublincore}()}
+}
+\concept{bibrecord functions}

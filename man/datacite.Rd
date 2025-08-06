@@ -5,12 +5,12 @@
 \alias{datacite}
 \alias{is.datacite}
 \alias{is.datacite.datacite}
-\title{Create a bibentry object with DataCite metadata fields}
+\title{Create a Bibentry Object with DataCite Metadata Fields}
 \source{
-\href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite
-4.3 Mandatory Properties} and
-\href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite
-4.3 Optional Properties}
+\itemize{
+\item \href{https://support.datacite.org/docs/schema-mandatory-properties-v43}{DataCite 4.3 Mandatory Properties}
+\item \href{https://support.datacite.org/docs/schema-optional-properties-v43}{DataCite 4.3 Optional Properties}
+}
 }
 \usage{
 as_datacite(x, type = "bibentry", ...)
@@ -55,125 +55,85 @@ is.datacite(x)
 \code{author=person("Jane", "Doe")} adds an author to the citation object
 if \code{type="dataset"}. as_datacite(orange_df, type="list")}
 
-\item{Title}{The name(s) or title(s) by which a resource is known. May be the
-title of a dataset or the name of a piece of software. Similar to
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title}.\cr}
+\item{Title}{The name(s) by which the resource is known. Similar to
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title}.}
 
-\item{Creator}{The main researchers involved in producing the data, or the
-authors of the publication, in priority order. To supply multiple creators,
-repeat this property.}
+\item{Creator}{One or more \code{\link[utils:person]{utils::person()}} objects describing the main
+authors or contributors responsible for creating the resource.}
 
-\item{Identifier}{The Identifier is a unique string that identifies a
-resource. For software, determine whether the identifier is for a specific
-version of a piece of software, (per the
-\href{https://force11.org/info/software-citation-principles-published-2016/}{Force11
-Software Citation Principles}, or for all versions. Similar to
-\code{dct:title} in \code{\link[=dublincore]{dublincore()}}.}
+\item{Identifier}{A persistent identifier (e.g., DOI or URI). May refer to a
+specific version or all versions of the resource.}
 
-\item{Publisher}{The name of the entity that holds, archives, publishes
-prints, distributes, releases, issues, or produces the resource. This
-property will be used to formulate the citation, so consider the prominence
-of the role. For software, use Publisher for the code repository. Mandatory
-in DataCite, and similar to \code{dct:publisher}. See \code{\link[=publisher]{publisher()}}.}
+\item{Publisher}{The name of the organization that holds, publishes, or
+distributes the resource. Required by DataCite. See \code{\link[=publisher]{publisher()}}.}
 
-\item{PublicationYear}{The year when the data was or will be made publicly
-available in \code{YYYY} format.See \code{\link[=publication_year]{publication_year()}}.}
+\item{PublicationYear}{The year of public availability (in \code{YYYY} format).
+See \code{\link[=publication_year]{publication_year()}}.}
 
-\item{Subject}{Recommended for discovery. Subject, keyword, classification
-code, or key phrase describing the resource. Similar to
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/subject/}{dct:subject}.
-\cr Use\code{\link[=subject]{subject()}} to properly add a key phrase from a
-controlled vocabulary and create structured Subject objects with
-\code{\link[=subject_create]{subject_create()}}.}
+\item{Subject}{A topic, keyword, or classification term. See \code{\link[=subject]{subject()}} and
+\code{\link[=subject_create]{subject_create()}} for structured vocabularies.}
 
-\item{Type}{Defaults to \code{Dataset}. The DataCite resourceType definition
-refers back to
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/type/}{dcm:type}.
-The \code{Type$resourceTypeGeneral} is set to  \code{"Dataset"}, while the
-user can set a more specific \code{Type$resourceType} value.}
+\item{Type}{The resource type. Defaults to \code{"Dataset"} for general use. See
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/type/}{dcm:type}.}
 
-\item{Contributor}{Recommended for discovery. The institution or person
-responsible for collecting, managing, distributing, or otherwise
-contributing to the development of the resource.}
+\item{Contributor}{An individual or institution that contributed to the
+development, distribution, or curation of the resource.}
 
-\item{Date}{A character string in any of the following formats: \code{YYYY},
-\code{YYYY-MM-DD} or \code{YYYY-MM-DDThh:mm:ssTZD}, or an R Date or POSIXct
-object. A list of dates (parameter \code{DateList}) is not yet implemented.}
+\item{Date}{A date in \code{"YYYY"}, \code{"YYYY-MM-DD"} or ISO datetime format.
+Can also be a \link{Date} or \link{POSIXct} object.}
 
-\item{DateList}{DataCite 4.4 allows to set multiple dates to a resource, they
-should be added as a list. Currently not yet implemented.
-See:
-\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#'8-date}{datacite:Date}.}
+\item{DateList}{A list of multiple dates. Currently not supported.}
 
-\item{Language}{The primary language of the resource. Allowed values are
-taken from IETF BCP 47, ISO 639-1 language code. See \code{\link[=language]{language()}}.}
+\item{Language}{Language code as per IETF BCP 47 / ISO 639-1. See \code{\link[=language]{language()}}.}
 
-\item{AlternateIdentifier}{An identifier or identifiers other than the
-primary Identifier applied to the resource being registered. This may be
-any alphanumeric string unique within its domain of issue. It may be used
-for local identifiers. \code{AlternateIdentifier} should be used for
-another identifier of the same instance (same location, same file).
-Defaults to \code{":unas"} for unassigned values.}
+\item{AlternateIdentifier}{Optional local or secondary identifier. Defaults
+to \code{":unas"}.}
 
-\item{RelatedIdentifier}{Recommended for discovery. Defaults to
-\code{":unas"} for unassigned values. Similar to
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/relation/}{dct:relation}.}
+\item{RelatedIdentifier}{Related resources (e.g., prior versions, papers).
+Defaults to \code{":unas"}.}
 
-\item{Format}{Technical format of the resource. Use file extension or MIME
-type where possible, e.g., PDF, XML, MPG or application/pdf, text/xml,
-video/mpeg. Similar to
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/format/}{dct:format}.}
+\item{Format}{A technical format (e.g., \code{"application/pdf"}, \code{"text/csv"}).}
 
-\item{Version}{Free text. Suggested practice: track
-major_version.minor_version. Defaults to \code{"0.1.0"}. See
-\code{\link{version}}.}
+\item{Version}{A free-text version string (e.g., \code{"1.0.0"}). Defaults to
+\code{"0.1.0"}. See \code{\link[=version]{version()}}.}
 
-\item{Rights}{Any rights information for this resource. The property may be
-repeated to record complex rights characteristics, but this is not yet
-supported. Free text. See \code{\link{rights}}. Defaults to \code{":tba"}.}
+\item{Rights}{Licensing or usage restrictions for the resource. Defaults to
+\code{":tba"}. See \code{\link[=rights]{rights()}}.}
 
-\item{Description}{Recommended for discovery. All additional information that
-does not fit in any of the other categories. It may be used for technical
-information—a free text. Defaults to \code{":tba"}. Similar to
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}.}
+\item{Description}{Free-text summary or additional information. Defaults to
+\code{":tba"}.}
 
-\item{Geolocation}{Recommended for discovery. Spatial region or named place
-where the data was gathered or about which the data is focused. See
-\code{\link[=geolocation]{geolocation()}}.}
+\item{Geolocation}{Geographic location covered or referenced by the resource.
+See \code{\link[=geolocation]{geolocation()}}.}
 
-\item{FundingReference}{Information about financial support (funding) for the
-resource being registered. Defaults to \code{":unas"} for unassigned
-values. Complex types with subproperties are not yet implemented.}
+\item{FundingReference}{Information about funding or financial support.
+Defaults to \code{":unas"}. Structured funding metadata not yet implemented.}
 }
 \value{
 \code{as_datacite(x, type)} returns the DataCite bibliographical
 metadata of x either as a list, a bibentry object, an N-Triples text
 serialisation or a dataset_df object.
 
-\code{datacite()} creates a \code{utils::\link[utils]{bibentry}}
-object extended with standard Dublin Core bibliographical metadata,
-\code{as_datacite()} retrieves the contents of this bibentry object of a
-dataset_df from its attributes, and returns the contents as list,
-dataset_df, or bibentry object.
+A \code{\link[utils:bibentry]{utils::bibentry()}} object with DataCite-compliant fields. Use
+\code{\link[=as_datacite]{as_datacite()}} to extract the metadata as a list or bibentry object.
 
 \code{is.datacite(x)} returns a logical values (if the object
 \code{x} is of class \code{datacite}).
 }
 \description{
-Add metadata conforming the
-\href{https://schema.datacite.org/}{DataCite Metadata Schema}.
+Constructs a bibliographic metadata record conforming to the
+\href{https://schema.datacite.org/}{DataCite Metadata Schema}. The resulting
+object is stored as a modified \code{\link[utils:bibentry]{utils::bibentry()}} enriched with structured
+Dublin Core and DataCite-compliant metadata.
 }
 \details{
-DataCite is a leading global non-profit organisation that provides
-persistent identifiers (DOIs) for research data and other research outputs.
-Organisations within the research community join DataCite as members to be
-able to assign DOIs to all their research outputs. This way, their outputs
-become discoverable, and associated metadata is made available to the
-community.
+DataCite is a leading non-profit organization that provides persistent
+identifiers (DOIs) for research data and other research outputs. Members of
+the research community use DataCite to register datasets with globally
+resolvable metadata for citation and discovery.
 
-The \code{ResourceType} property will be by definition "Dataset".
-The \code{Size} attribute (e.g. bytes, pages, inches, etc.) will
-automatically added to the dataset.
+This function sets \code{"Dataset"} as the default resource type. The \code{Size}
+attribute (e.g., bytes, pages, etc.) is automatically added if available.
 }
 \examples{
 datacite(
@@ -196,15 +156,19 @@ datacite(
   Language = "en"
 )
 
-# Bibliographic metadata as bibentry...
+# Extract bibliographic metadata
 as_datacite(orange_df)
 
-# ... or a list:
+# As a list
 as_datacite(orange_df, "list")
+
 }
 \seealso{
-Other bibentry functions: 
+Learn more in the vignette:
+\href{https://dataset.dataobservatory.eu/articles/bibrecord.html}{\code{bibrecord}}
+
+Other bibrecord functions: 
 \code{\link{as_dublincore}()},
-\code{\link{get_bibentry}()}
+\code{\link{bibrecord}()}
 }
-\concept{bibentry functions}
+\concept{bibrecord functions}

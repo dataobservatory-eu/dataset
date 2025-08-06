@@ -14,7 +14,7 @@ WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.o
 [![Status at rOpenSci Software Peer
 Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
 [![DOI](https://zenodo.org/badge/DOI/10.32614/CRAN.package.dataset.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.3.93-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.3.95-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Codecov test
 coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset/)
@@ -61,17 +61,18 @@ remotes::install_github("dataobservatory-eu/dataset")
 ## Minimal Example
 
 ``` r
-library(dataset)  
-df <- dataset_df( 
-  country = defined(c("AD", "LI"), label = "Country"),   
+library(dataset)
+df <- dataset_df(
+  country = defined(c("AD", "LI"), label = "Country"),
   gdp = defined(c(3897, 7365),
-                label = "GDP", unit = "million euros"),
+    label = "GDP", unit = "million euros"
+  ),
   dataset_bibentry = dublincore(
-    title = "GDP Dataset", 
-    creator = person("Jane", "Doe", role="aut"), 
+    title = "GDP Dataset",
+    creator = person("Jane", "Doe", role = "aut"),
     publisher = "Small Repository"
   )
-) 
+)
 print(df)
 #> Doe (2025): GDP Dataset [dataset]
 #>   rowid     country   gdp       
@@ -100,7 +101,7 @@ provenance(df)
 #> [4] "_:doejane <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."                                              
 #> [5] "<https://doi.org/10.32614/CRAN.package.dataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#SoftwareAgent> ."
 #> [6] "<http://example.com/creation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> ."                       
-#> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2025-08-06T11:45:24Z\"^^<xs:dateTime> ."
+#> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2025-08-06T18:35:33Z\"^^<xs:dateTime> ."
 ```
 
 ## Contributing

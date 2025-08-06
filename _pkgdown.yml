@@ -81,6 +81,7 @@ reference:
       - strip_defined
       - get_variable_concepts
       - c.haven_labelled_defined
+      - vec_cast.double.haven_labelled_defined
   - title: "Bibliography functions"
     desc: >
       Conctructors for the extended bibentry classes that modernise the old R
@@ -122,7 +123,8 @@ reference:
       - id_to_column
   - title: "Replication Datasets"
     desc: >
-      Some R datasets enriched with more semantic metadata.
+      Some R datasets enriched with more semantic metadata. The
+      iris_dataset will be removed at the next release.
     contents:
        - orange_df
        - gdp
