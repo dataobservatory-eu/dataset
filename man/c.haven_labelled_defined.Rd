@@ -2,25 +2,36 @@
 % Please edit documentation in R/defined.R
 \name{c.haven_labelled_defined}
 \alias{c.haven_labelled_defined}
-\title{Combine Values into a defined Vector}
+\title{Combine defined vectors with metadata checks}
 \usage{
 \method{c}{haven_labelled_defined}(...)
 }
 \arguments{
-\item{...}{objects to be concatenated.}
+\item{...}{One or more vectors created with \code{\link[=defined]{defined()}}.}
 }
 \value{
-A haven_labelled_defined vector.
+A single \code{defined} vector with concatenated values and retained
+metadata.
 }
 \description{
-The c() method with the haven_labelled_defined class requires a strict
-matching of the var_label, unit, definiton, and namespace attributes (if
-they exist and do not have a \code{NULL} value)
+The \code{c()} method for \code{defined} vectors ensures that all semantic metadata
+(label, unit, concept, namespace, and value labels) match exactly. This
+prevents accidental loss or mixing of incompatible definitions during
+concatenation.
+}
+\details{
+All input vectors must:
+\itemize{
+\item Have identical \code{label} attributes
+\item Have identical \code{unit}, \code{concept}, and \code{namespace}
+\item Have identical value labels (or none)
+}
 }
 \examples{
 a <- defined(1:3, label = "Length", unit = "meter")
 b <- defined(4:6, label = "Length", unit = "meter")
 c(a, b)
+
 }
 \seealso{
 \code{\link[=defined]{defined()}}

@@ -9,14 +9,13 @@ test_that("dataset_df() creates and validates basic object", {
 
 test_that("dataset_df() respects identifier for rowid creation", {
   df <- dataset_df(mtcars,
-                   identifier = c(mt = "http://mtcars.com/dataset#"))
-  expect_s3_class(df$rowid, "defined")
+    identifier = c(mt = "http://mtcars.com/dataset#")
+  )
+  expect_s3_class(df$rowid, "haven_labelled_defined")
   expect_true(all(grepl("^mt:", df$rowid)))
 })
 
-class(df$rowid)
 
-df
 test_that("dataset_df() stores variable metadata", {
   df <- dataset_df(
     foo = defined(1:3, label = "Example Var", unit = "count")
@@ -87,7 +86,7 @@ test_that("summary() outputs metadata", {
   expect_output(summary(df), "Doe")
 })
 
-test_that("print() outputs APA-style citation", {
+test_that("print() outputs full APA-style citation and data", {
   df <- dataset_df(
     x = 1:2,
     dataset_bibentry = dublincore(
@@ -97,7 +96,9 @@ test_that("print() outputs APA-style citation", {
       dataset_date = 2021
     )
   )
-  expect_output(print(df), "Smith (2021): Tiny Data")
+  expect_output(print(df), "Smith \\(2021\\): Tiny Data \\[dataset\\], https://doi.org/10.1234/example")
+  expect_output(print(df), "1 eg:1\\s+1")
+  expect_output(print(df), "2 eg:2\\s+2")
 })
 
 test_that("dataset_df supports multiple authors in APA formatting", {
