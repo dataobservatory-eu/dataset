@@ -281,9 +281,12 @@ xsd_convert.factor <- function(x, idcol = NULL, ...) {
 #' @examples
 #' # Convert POSIXct timestamps to XSD dateTime literals
 #' times <- as.POSIXct(
-#'    c("2021-01-01 12:00:00",
-#'      "2022-06-15 08:30:00"),
-#'      tz = "UTC")
+#'   c(
+#'     "2021-01-01 12:00:00",
+#'     "2022-06-15 08:30:00"
+#'   ),
+#'   tz = "UTC"
+#' )
 #' xsd_convert(times)
 #'
 #' @exportS3Method
@@ -293,8 +296,9 @@ xsd_convert.POSIXct <- function(x, idcol = NULL, ...) {
   }
 
   time_string <- strftime(x,
-                          format = "%Y-%m-%dT%H:%M:%SZ",
-                          tz = "UTC")
+    format = "%Y-%m-%dT%H:%M:%SZ",
+    tz = "UTC"
+  )
 
   ifelse(is.na(x),
     NA_character_,
@@ -305,8 +309,10 @@ xsd_convert.POSIXct <- function(x, idcol = NULL, ...) {
 #' @rdname xsd_convert
 #' @examples
 #' # Convert Date values to XSD date literals
-#' dates <- as.Date(c("2020-01-01",
-#'                    "2021-12-31"))
+#' dates <- as.Date(c(
+#'   "2020-01-01",
+#'   "2021-12-31"
+#' ))
 #' xsd_convert(dates)
 #'
 #' @exportS3Method

@@ -53,8 +53,10 @@ description <- function(x) {
     ds_bibentry$description <- as.character(value)
     attr(x, "dataset_bibentry") <- ds_bibentry
   } else {
-    warning("The dataset already has a description: ",
-            existing_description, ".")
+    warning(
+      "The dataset already has a description: ",
+      existing_description, "."
+    )
   }
   invisible(x)
 }

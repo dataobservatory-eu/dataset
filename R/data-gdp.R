@@ -25,4 +25,3 @@
 #' @examples
 #' head(gdp)
 "gdp"
-

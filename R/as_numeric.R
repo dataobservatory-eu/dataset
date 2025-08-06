@@ -99,4 +99,3 @@ as.numeric.haven_labelled_defined <- function(x, ...) {
 vec_cast.double.haven_labelled_defined <- function(x, to, ...) {
   vctrs::vec_data(x)
 }
-

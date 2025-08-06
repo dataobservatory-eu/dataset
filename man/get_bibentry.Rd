@@ -58,9 +58,4 @@ as_datacite(orange_df, "list")
 # Print the bibentry object according to the Dublin Core notation:
 as_dublincore(orange_df, "list")
 }
-\seealso{
-Other bibentry functions: 
-\code{\link{as_datacite}()},
-\code{\link{as_dublincore}()}
-}
 \concept{bibentry functions}

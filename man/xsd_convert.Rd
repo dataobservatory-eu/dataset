@@ -114,14 +114,19 @@ xsd_convert(x, codelist = "fruit")
 
 # Convert POSIXct timestamps to XSD dateTime literals
 times <- as.POSIXct(
-   c("2021-01-01 12:00:00",
-     "2022-06-15 08:30:00"),
-     tz = "UTC")
+  c(
+    "2021-01-01 12:00:00",
+    "2022-06-15 08:30:00"
+  ),
+  tz = "UTC"
+)
 xsd_convert(times)
 
 # Convert Date values to XSD date literals
-dates <- as.Date(c("2020-01-01",
-                   "2021-12-31"))
+dates <- as.Date(c(
+  "2020-01-01",
+  "2021-12-31"
+))
 xsd_convert(dates)
 
 # Convert time differences to XSD duration format

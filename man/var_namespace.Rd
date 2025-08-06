@@ -62,7 +62,6 @@ var_namespace(qid) <- NULL
 }
 \seealso{
 Other defined metadata methods and functions: 
-\code{\link{defined}()},
 \code{\link{var_label}()},
 \code{\link{var_unit}()}
 }

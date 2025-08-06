@@ -181,7 +181,9 @@ as_dublincore <- function(x, type = "bibentry", ...) {
       coverage    = dataset_coverage
     )
 
-    return(dublincore_to_triples(dclist = dclist,
-                                 dataset_id = dataset_id))
+    return(dublincore_to_triples(
+      dclist = dclist,
+      dataset_id = dataset_id
+    ))
   }
 }

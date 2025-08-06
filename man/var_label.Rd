@@ -89,10 +89,10 @@ var_label(orange_df$circumference) <- "circumference (breast height)"
 
 # Example: Retrieve variable labels from a dataset_df
 df <- dataset_df(
-        id = defined(1:3, label = "Observation ID"),
-        temp = defined(c(22.5, 23.0, 21.8), label = "Temperature (°C)"),
-        site = defined(c("A", "B", "A"))
-        )
+  id = defined(1:3, label = "Observation ID"),
+  temp = defined(c(22.5, 23.0, 21.8), label = "Temperature (°C)"),
+  site = defined(c("A", "B", "A"))
+)
 
 # List form (default)
 var_label(df)

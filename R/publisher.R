@@ -69,8 +69,10 @@ publisher <- function(x) {
   } else if (overwrite) {
     DataBibentry$publisher <- value
   } else {
-    message("The dataset has already an Publisher: ",
-            DataBibentry$publisher)
+    message(
+      "The dataset has already an Publisher: ",
+      DataBibentry$publisher
+    )
   }
 
   attr(x, "dataset_bibentry") <- DataBibentry

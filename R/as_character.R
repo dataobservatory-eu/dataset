@@ -45,8 +45,7 @@ as_character <- function(x, ...) {
 as_character.haven_labelled_defined <- function(
     x,
     preserve_attributes = FALSE,
-    ...
-) {
+    ...) {
   base <- vctrs::vec_data(x)
 
   if (!is.character(base)) {
