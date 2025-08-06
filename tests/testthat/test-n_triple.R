@@ -110,7 +110,7 @@ test_that("expand_triples handles multiple values and filtering", {
 })
 
 
-test_that("create_iri()", {
+test_that("create_iri() helper function", {
   author_person <- person(
     given = "Daniel", family = "Antal",
     email = "daniel.antal@dataobservatory.eu",
@@ -141,7 +141,7 @@ test_that("create_iri()", {
   expect_true(grepl("http://www.w3.org/2001/XMLSchema#date>", create_iri(Sys.Date())))
 })
 
-test_that("get_person_iri() works", {
+test_that("get_person_iri() provides the reformatted iri for the persons", {
   author_person <- person(
     given = "Daniel", family = "Antal",
     email = "daniel.antal@dataobservatory.eu",

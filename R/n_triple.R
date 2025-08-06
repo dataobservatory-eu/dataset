@@ -1,24 +1,34 @@
-#' @title Create N-Triples
-#' @description Create triple statements to annotate your dataset with standard,
+#' Create N-Triples
+#'
+#' Create RDF triple statements to annotate your dataset with standard,
 #' interoperable metadata.
-#' @details N-Triples is an easy to parse line-based subset of Turtle to serialize
-#' RDF. See
-#' \href{https://www.w3.org/TR/rdf12-n-triples/}{RDF 1.2 N-Triples. A line-based syntax for an RDF graph}.
-#' @param triples Concatenated N-Triples created with [n_triple()].
-#' @return A character vector containing unique N-Triple strings.
+#'
+#' N-Triples is a line-based serialization format for RDF. It is easy to parse
+#' and widely supported. For details, see the
+#' [W3C RDF 1.2 N-Triples specification](https://www.w3.org/TR/rdf12-n-triples/).
+#'
+#' @param triples A character vector of concatenated N-Triples, created with
+#'   [`n_triple()`].
+#'
+#' @return A character vector of unique N-Triple strings.
+#'
 #' @examples
 #' triple_1 <- n_triple(
 #'   "http://example.org/show/218",
 #'   "http://www.w3.org/2000/01/rdf-schema#label",
 #'   "That Seventies Show"
 #' )
+#'
 #' triple_2 <- n_triple(
 #'   "http://example.org/show/218",
 #'   "http://example.org/show/localName",
 #'   '"Cette Série des Années Septante"@fr-be'
 #' )
+#'
 #' n_triples(c(triple_1, triple_2, triple_1))
+#'
 #' @export
+
 
 n_triples <- function(triples) {
   unique(triples)
