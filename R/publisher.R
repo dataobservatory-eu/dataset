@@ -1,25 +1,33 @@
-#' @title Get/set the Publisher of the object.
-#' @description Add the optional \code{Publisher} property as an attribute to an
-#'   R object.
-#' @details The \code{Publisher} corresponds to dct:publisher and Publisher in
-#'   DataCite. The name of the entity that holds, archives, publishes prints,
-#'   distributes, releases, issues, or produces the resource. This property will
-#'   be used to formulate the citation, so consider the prominence of the role.
-#'   For software, use Publisher for the code repository. If there is an entity
-#'   other than a code repository, that "holds, archives, publishes, prints,
-#'   distributes, releases, issues, or produces" the code, use the property
-#'   Contributor/contributorType/ hostingInstitution for the code repository.
+#' Get or Set the Publisher of a Dataset Object
+#'
+#' Adds or retrieves the optional `"publisher"` attribute for a dataset object.
+#' This property aligns with `dct:publisher` (Dublin Core) and `publisher`
+#' (DataCite).
+#'
+#' @description
+#' The publisher is the entity responsible for holding, archiving, releasing,
+#' or distributing the resource. It is typically included in dataset citation
+#' metadata.
+#'
+#' For software, this might refer to a code repository (e.g., GitHub). If both
+#' a hosting platform and a producing institution are involved, use the
+#' publisher for the institution and [contributor()] with
+#' `contributorType = "hostingInstitution"` for the platform.
+#'
 #' @param x A dataset object created with [dataset_df()] or
-#'   \code{dataset::\link{as_dataset_df}}.
-#' @param overwrite If the attributes should be overwritten. In case it is set
-#'   to \code{FALSE},it gives a warning with the current \code{publisher}
-#'   property instead of overwriting it. Defaults to \code{FALSE}.
-#' @param value The \code{Publisher} as a character set.
-#' @return The Publisher attribute as a character of length 1 is added to
-#'   \code{x}.
+#'   [as_dataset_df()].
+#' @param overwrite Logical. Should existing publisher metadata be overwritten?
+#'   Defaults to `FALSE`. If `FALSE` and the field exists, a warning is issued.
+#' @param value A character string specifying the publisher.
+#'
+#' @return
+#' A character string of length one containing the `"publisher"` attribute.
+#' When assigning, the updated object `x` is returned invisibly.
+#'
 #' @examples
 #' publisher(orange_df) <- "Wiley"
 #' publisher(orange_df)
+#'
 #' @family Reference metadata functions
 #' @importFrom assertthat assert_that
 #' @export
@@ -61,7 +69,8 @@ publisher <- function(x) {
   } else if (overwrite) {
     DataBibentry$publisher <- value
   } else {
-    message("The dataset has already an Publisher: ", DataBibentry$publisher)
+    message("The dataset has already an Publisher: ",
+            DataBibentry$publisher)
   }
 
   attr(x, "dataset_bibentry") <- DataBibentry

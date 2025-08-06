@@ -3,7 +3,7 @@
 \name{publisher}
 \alias{publisher}
 \alias{publisher<-}
-\title{Get/set the Publisher of the object.}
+\title{Get or Set the Publisher of a Dataset Object}
 \usage{
 publisher(x)
 
@@ -11,35 +11,36 @@ publisher(x, overwrite = TRUE) <- value
 }
 \arguments{
 \item{x}{A dataset object created with \code{\link[=dataset_df]{dataset_df()}} or
-\code{dataset::\link{as_dataset_df}}.}
+\code{\link[=as_dataset_df]{as_dataset_df()}}.}
 
-\item{overwrite}{If the attributes should be overwritten. In case it is set
-to \code{FALSE},it gives a warning with the current \code{publisher}
-property instead of overwriting it. Defaults to \code{FALSE}.}
+\item{overwrite}{Logical. Should existing publisher metadata be overwritten?
+Defaults to \code{FALSE}. If \code{FALSE} and the field exists, a warning is issued.}
 
-\item{value}{The \code{Publisher} as a character set.}
+\item{value}{A character string specifying the publisher.}
 }
 \value{
-The Publisher attribute as a character of length 1 is added to
-\code{x}.
+A character string of length one containing the \code{"publisher"} attribute.
+When assigning, the updated object \code{x} is returned invisibly.
 }
 \description{
-Add the optional \code{Publisher} property as an attribute to an
-R object.
+The publisher is the entity responsible for holding, archiving, releasing,
+or distributing the resource. It is typically included in dataset citation
+metadata.
+
+For software, this might refer to a code repository (e.g., GitHub). If both
+a hosting platform and a producing institution are involved, use the
+publisher for the institution and \code{\link[=contributor]{contributor()}} with
+\code{contributorType = "hostingInstitution"} for the platform.
 }
 \details{
-The \code{Publisher} corresponds to dct:publisher and Publisher in
-DataCite. The name of the entity that holds, archives, publishes prints,
-distributes, releases, issues, or produces the resource. This property will
-be used to formulate the citation, so consider the prominence of the role.
-For software, use Publisher for the code repository. If there is an entity
-other than a code repository, that "holds, archives, publishes, prints,
-distributes, releases, issues, or produces" the code, use the property
-Contributor/contributorType/ hostingInstitution for the code repository.
+Adds or retrieves the optional \code{"publisher"} attribute for a dataset object.
+This property aligns with \code{dct:publisher} (Dublin Core) and \code{publisher}
+(DataCite).
 }
 \examples{
 publisher(orange_df) <- "Wiley"
 publisher(orange_df)
+
 }
 \seealso{
 Other Reference metadata functions: 
