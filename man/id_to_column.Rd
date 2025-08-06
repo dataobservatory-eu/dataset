@@ -2,28 +2,31 @@
 % Please edit documentation in R/id_to_column.R
 \name{id_to_column}
 \alias{id_to_column}
-\title{Add identifier to columns}
+\title{Add Identifier to First Column of a Dataset}
 \usage{
 id_to_column(x, prefix = "eg:", ids = NULL)
 }
 \arguments{
-\item{x}{A dataset created with \code{\link[=dataset_df]{dataset_df()}}.}
+\item{x}{A dataset created with \code{\link[=dataset_df]{dataset_df()}}, or a regular data frame.}
 
-\item{prefix}{Defaults to \code{eg:} (example.com).}
+\item{prefix}{A character string used as the prefix for row identifiers.
+Defaults to \code{"eg:"} (referring to \href{https://example.com}{example.com}).}
 
-\item{ids}{Defaults to \code{NULL}.}
+\item{ids}{Optional. A character vector of custom IDs to use instead of row names.}
 }
 \value{
-A dataset conforming the original sub-class of \code{x}.
+A dataset of the same class as \code{x}, with the first column updated to include
+unique prefixed identifiers.
 }
 \description{
-Add a prefixed identifier to the first column of the dataset.
+Adds a prefixed identifier (e.g., \verb{eg:}) to the first column of a dataset,
+useful for generating semantic row IDs (e.g., for RDF serialization).
 }
 \examples{
-
 # Example with a dataset_df object:
 id_to_column(orange_df)
 
-# Example with a data.frame object:
+# Example with a regular data.frame:
 id_to_column(Orange, prefix = "orange:")
+
 }
