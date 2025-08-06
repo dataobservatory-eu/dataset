@@ -6,7 +6,7 @@
 \alias{is.dataset_df}
 \alias{print.dataset_df}
 \alias{is_dataset_df}
-\title{Create a new dataset_df object}
+\title{Create a new \code{dataset_df} object}
 \usage{
 dataset_df(
   ...,
@@ -36,54 +36,53 @@ is.dataset_df(x)
 is_dataset_df(x)
 }
 \arguments{
-\item{...}{The vectors (variables) that should be included in the dataset.}
+\item{...}{Vectors (columns) that should be included in the dataset.}
 
-\item{identifier}{Defaults to \code{c(eg="http://example.com/dataset#")},
-which should be changed to the permanent identifier of the dataset. For
-example, if your dataset will be released with the Digital Object
-Identifier (DOI) \verb{https;//doi.org/1234}, you should use a short prefixed
-identifier like \code{c(obs="https://doi.org/1234#")}, which will resolve
-to the rows being identified as
-https://doi.org/1234#1...https://doi.org/1234#n.}
+\item{identifier}{A named vector of one or more URI prefixes for row IDs.
+Defaults to \code{c(eg = "http://example.com/dataset#")}. For example, if your
+dataset will be published under DOI \verb{https://doi.org/1234}, you may use
+\code{c(obs = "https://doi.org/1234#")}, which will generate row URIs such as
+\verb{https://doi.org/1234#1}, ..., \verb{#n}.}
 
-\item{var_labels}{The long, human readable labels of each variable.}
+\item{var_labels}{A named list of human-readable labels for each variable.}
 
-\item{units}{The units of measurement for the measured variables.}
+\item{units}{A named list of measurement units for measured variables.}
 
-\item{concepts}{The linked concepts of the variables, attributes, or
-constants.}
+\item{concepts}{A named list of linked concepts (URIs) for variables or
+dimensions.}
 
-\item{dataset_bibentry}{A list of bibliographic references and descriptive
-metadata about the dataset as a whole created with\code{\link[=datacite]{datacite()}}
-or \code{\link[=dublincore]{dublincore()}}.}
+\item{dataset_bibentry}{A bibliographic metadata record for the dataset,
+created using \code{\link[=datacite]{datacite()}} or \code{\link[=dublincore]{dublincore()}}.}
 
-\item{dataset_subject}{The subject of the dataset, see\code{\link[=subject]{subject()}}.}
+\item{dataset_subject}{A subject descriptor created with \code{\link[=subject]{subject()}} or
+\code{\link[=subject_create]{subject_create()}}.}
 
-\item{df}{A \code{data.frame} to be converted to \code{dataset_df}.}
+\item{df}{A \code{data.frame} to convert to a \code{dataset_df}.}
 
-\item{x}{A \code{dataset_df} object for S3 methods.}
+\item{x}{A \code{dataset_df} object (used in method dispatch).}
 }
 \value{
-\code{dataset_df} is the constructor of this type, it returns an
-object inherited from a data frame with semantically rich metadata.
+A \code{dataset_df} object: a tibble with attached metadata stored in
+attributes.
 
 \code{is.dataset_df} returns a logical value
 (if the object is of class \code{dataset_df}.)
 }
 \description{
-The \code{dataset_df} constructor creates the objects of this
-class, which are semantically rich, modern data frames inherited from
-\code{\link[tibble:tibble]{tibble::tibble}}.
+The \code{dataset_df()} constructor creates semantically rich modern data frames.
+These inherit from \code{\link[tibble:tibble]{tibble::tibble}} and carry structured metadata using
+attributes.
 }
 \details{
-To check if an object has the class dataset_df use
-\code{is.dataset_df}.\cr \cr \code{print} is the method to print out the
-semantically rich data frames created with the constructor of
-\code{dataset_df}.\cr \cr \code{summary} is the method to summarise these
-semantically rich data frames.\cr \cr
-For more details, please check the \code{vignette("dataset_df",
-package = "dataset")}
-vignette.
+Use \code{is.dataset_df()} to check class membership.
+
+S3 methods for \code{dataset_df} include:
+\itemize{
+\item \code{print()} to display the dataset with metadata
+\item \code{summary()} to summarize both data and metadata
+}
+
+For full details, see \code{vignette("dataset_df", package = "dataset")}.
 }
 \examples{
 my_dataset <- dataset_df(
@@ -99,29 +98,28 @@ my_dataset <- dataset_df(
     concept = "http://data.europa.eu/83i/aa/GDP"
   ),
   dataset_bibentry = dublincore(
-    title = "GDP of Andorra And Lichtenstein",
-    description = "A small but semantically rich datset example.",
+    title = "GDP of Andorra and Liechtenstein",
+    description = "A small but semantically rich dataset example.",
     creator = person("Jane", "Doe", role = "cre"),
     publisher = "Open Data Institute",
     language = "en"
   )
 )
 
-# Use standard methods, like print, summary, head, tail, which show
-# basic metadata, too.
+# Basic usage
 print(my_dataset)
 head(my_dataset)
-tail(my_dataset)
+summary(my_dataset)
 
-# To check the bibliographic metadata of a dataset_df object,
-# use as_dublincore for DCTERMS:
+# Metadata access
 as_dublincore(my_dataset)
-
-# ... and as_datacite for DataCite:
 as_datacite(my_dataset)
 
-# See the full description of the dataset:
-my_description <- describe(my_dataset, con=tempfile())
+# Export description as RDF triples
+my_description <- describe(my_dataset, con = tempfile())
 my_description
 
+}
+\seealso{
+\code{\link[=defined]{defined()}}, \code{\link[=dublincore]{dublincore()}}, \code{\link[=as_dublincore]{as_dublincore()}}, \code{\link[=subject]{subject()}}
 }

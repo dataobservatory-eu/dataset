@@ -1,37 +1,37 @@
-#' @title Create a new dataset_df object
-#' @description The \code{dataset_df} constructor creates the objects of this
-#' class, which are semantically rich, modern data frames inherited from
-#' \code{\link[tibble:tibble]{tibble::tibble}}.
-#' @details To check if an object has the class dataset_df use
-#' \code{is.dataset_df}.\cr \cr \code{print} is the method to print out the
-#' semantically rich data frames created with the constructor of
-#' \code{dataset_df}.\cr \cr \code{summary} is the method to summarise these
-#' semantically rich data frames.\cr \cr
-#' For more details, please check the \code{vignette("dataset_df",
-#' package = "dataset")}
-#' vignette.
-#' @param identifier Defaults to \code{c(eg="http://example.com/dataset#")},
-#'   which should be changed to the permanent identifier of the dataset. For
-#'   example, if your dataset will be released with the Digital Object
-#'   Identifier (DOI) `https;//doi.org/1234`, you should use a short prefixed
-#'   identifier like \code{c(obs="https://doi.org/1234#")}, which will resolve
-#'   to the rows being identified as
-#'   https://doi.org/1234#1...https://doi.org/1234#n.
-#' @param dataset_bibentry A list of bibliographic references and descriptive
-#'   metadata about the dataset as a whole created with[datacite()]
-#'   or [dublincore()].
-#' @param var_labels The long, human readable labels of each variable.
-#' @param units The units of measurement for the measured variables.
-#' @param concepts The linked concepts of the variables, attributes, or
-#'   constants.
-#' @param dataset_subject The subject of the dataset, see[subject()].
-#' @param ... The vectors (variables) that should be included in the dataset.
-#' @param x A \code{dataset_df} object for S3 methods.
-#' @param df A \code{data.frame} to be converted to \code{dataset_df}.
-#' @return \code{dataset_df} is the constructor of this type, it returns an
-#'   object inherited from a data frame with semantically rich metadata.
-#' @import vctrs
-#' @import pillar
+#' Create a new `dataset_df` object
+#'
+#' The `dataset_df()` constructor creates semantically rich modern data frames.
+#' These inherit from [`tibble::tibble`] and carry structured metadata using
+#' attributes.
+#'
+#' Use `is.dataset_df()` to check class membership.
+#'
+#' S3 methods for `dataset_df` include:
+#' - `print()` to display the dataset with metadata
+#' - `summary()` to summarize both data and metadata
+#'
+#' For full details, see `vignette("dataset_df", package = "dataset")`.
+#'
+#' @param ... Vectors (columns) that should be included in the dataset.
+#' @param identifier A named vector of one or more URI prefixes for row IDs.
+#'   Defaults to `c(eg = "http://example.com/dataset#")`. For example, if your
+#'   dataset will be published under DOI `https://doi.org/1234`, you may use
+#'   `c(obs = "https://doi.org/1234#")`, which will generate row URIs such as
+#'   `https://doi.org/1234#1`, ..., `#n`.
+#' @param dataset_bibentry A bibliographic metadata record for the dataset,
+#'   created using [`datacite()`] or [`dublincore()`].
+#' @param var_labels A named list of human-readable labels for each variable.
+#' @param units A named list of measurement units for measured variables.
+#' @param concepts A named list of linked concepts (URIs) for variables or
+#'   dimensions.
+#' @param dataset_subject A subject descriptor created with [`subject()`] or
+#'   [`subject_create()`].
+#' @param x A `dataset_df` object (used in method dispatch).
+#' @param df A `data.frame` to convert to a `dataset_df`.
+#'
+#' @return A `dataset_df` object: a tibble with attached metadata stored in
+#'   attributes.
+#'
 #' @examples
 #' my_dataset <- dataset_df(
 #'   country_name = defined(
@@ -46,30 +46,28 @@
 #'     concept = "http://data.europa.eu/83i/aa/GDP"
 #'   ),
 #'   dataset_bibentry = dublincore(
-#'     title = "GDP of Andorra And Lichtenstein",
-#'     description = "A small but semantically rich datset example.",
+#'     title = "GDP of Andorra and Liechtenstein",
+#'     description = "A small but semantically rich dataset example.",
 #'     creator = person("Jane", "Doe", role = "cre"),
 #'     publisher = "Open Data Institute",
 #'     language = "en"
 #'   )
 #' )
 #'
-#' # Use standard methods, like print, summary, head, tail, which show
-#' # basic metadata, too.
+#' # Basic usage
 #' print(my_dataset)
 #' head(my_dataset)
-#' tail(my_dataset)
+#' summary(my_dataset)
 #'
-#' # To check the bibliographic metadata of a dataset_df object,
-#' # use as_dublincore for DCTERMS:
+#' # Metadata access
 #' as_dublincore(my_dataset)
-#'
-#' # ... and as_datacite for DataCite:
 #' as_datacite(my_dataset)
 #'
-#' # See the full description of the dataset:
-#' my_description <- describe(my_dataset, con=tempfile())
+#' # Export description as RDF triples
+#' my_description <- describe(my_dataset, con = tempfile())
 #' my_description
+#'
+#' @seealso [defined()], [dublincore()], [as_dublincore()], [subject()]
 #'
 #' @export
 
