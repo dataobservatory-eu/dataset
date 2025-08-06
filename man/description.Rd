@@ -3,7 +3,7 @@
 \name{description}
 \alias{description}
 \alias{description<-}
-\title{Get/set the Description of the object.}
+\title{Get or set the dataset Description}
 \usage{
 description(x)
 
@@ -11,37 +11,31 @@ description(x, overwrite = FALSE) <- value
 }
 \arguments{
 \item{x}{A dataset object created with \code{\link[=dataset_df]{dataset_df()}} or
-\code{dataset::\link{as_dataset_df}}.}
+\code{\link[=as_dataset_df]{as_dataset_df()}}.}
 
-\item{overwrite}{If the \code{Description} attribute should be overwritten.
-In case it is set to \code{FALSE}, it gives a message with the current
-\code{Description} property instead of overwriting it. Defaults to
-\code{FALSE}, when it gives a warning at an accidental overwrite attempt.}
+\item{overwrite}{Logical. If \code{TRUE}, will overwrite any existing description.
+If \code{FALSE} (default), will warn and keep the existing description.}
 
-\item{value}{The \code{Description} as a character set.}
+\item{value}{The new description, as a character string.}
 }
 \value{
-The \code{Description} attribute as a character of length 1 is added
-to \code{x}.
+The \code{Description} attribute as a character vector of length 1.
 }
 \description{
-Get/set the optional \code{Description} property as an attribute
-to an R object.
+Get or set the optional \code{Description} property as an attribute
+on a dataset object.
 }
 \details{
-The \code{Description} is recommended for discovery in DataCite. All
-additional information that does not fit in any of the other categories.
-May be used for technical information. A free text. Similar to
+The \code{Description} is recommended for discovery in DataCite. It
+captures additional information that does not fit other metadata categories —
+such as technical notes or dataset usage. It is a free-text field. See
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/}{dct:description}.
 }
 \examples{
 description(orange_df)
-description(
-  orange_df,
-  overwrite = TRUE
-) <- "The 'orange' dataset has 35 rows and 3 columns
-                          of records of the growth of orange trees."
+description(orange_df, overwrite = TRUE) <- "This dataset records orange tree growth."
 description(orange_df)
+
 }
 \seealso{
 Other Reference metadata functions: 
