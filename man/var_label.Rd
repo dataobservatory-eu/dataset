@@ -3,14 +3,19 @@
 \name{var_label}
 \alias{var_label}
 \alias{var_label.defined}
-\alias{var_label.dataset_df}
 \alias{label_attribute}
 \alias{var_label<-}
 \alias{var_label<-.haven_labelled_defined}
-\alias{var_label<-.dataset_df}
-\title{Get / Set a variable label}
+\alias{var_label.dataset_df}
+\title{Get or Set a Variable Label}
 \usage{
 \method{var_label}{defined}(x, ...)
+
+label_attribute(x)
+
+var_label(x) <- value
+
+\method{var_label}{haven_labelled_defined}(x) <- value
 
 \method{var_label}{dataset_df}(
   x,
@@ -19,65 +24,92 @@
   recurse = FALSE,
   ...
 )
-
-label_attribute(x)
-
-var_label(x) <- value
-
-\method{var_label}{haven_labelled_defined}(x) <- value
-
-\method{var_label}{dataset_df}(x) <- value
 }
 \arguments{
-\item{x}{a vector or a data.frame}
+\item{x}{A vector or data frame.}
 
 \item{...}{Further arguments passed to or used by methods.}
 
-\item{unlist}{for data frames, return a named vector instead of a list}
+\item{value}{A character string to assign as the label, or \code{NULL} to remove it.}
 
-\item{null_action}{for data frames, by default \code{NULL} will be returned for
-columns with no variable label. Use "fill" to populate with the column name
-instead, "skip" to remove such values from the returned list, "na" to
-populate with \code{NA} or "empty" to populate with an empty string (\code{""}).}
+\item{unlist}{For data frames, return a named vector instead of a list.}
 
-\item{recurse}{if \code{TRUE}, will apply \code{var_label()} on packed columns
-(see \code{\link[tidyr:pack]{tidyr::pack()}}) to return the variable labels of each sub-column;
-otherwise, the label of the group of columns will be returned.}
+\item{null_action}{For data frames, controls how to handle columns without a variable label.
+Options are:
+\itemize{
+\item \code{"keep"} (default): keep \code{NULL} for unlabeled columns
+\item \code{"fill"}: use the column name as a fallback
+\item \code{"skip"}: exclude columns with no label from the result
+\item \code{"na"}: use \code{NA_character_}
+\item \code{"empty"}: use an empty string \code{""}
+}}
 
-\item{value}{a character string or \code{NULL} to remove the label
-For data frames, with \code{var_labels()}, it could also be a named list or a
-character vector of same length as the number of columns in \code{x}.}
+\item{recurse}{If \code{TRUE}, applies \code{var_label()} recursively on packed columns
+(as created by \code{\link[tidyr:pack]{tidyr::pack()}}) to retrieve sub-column labels. If \code{FALSE},
+only the outer (grouped) column label is returned.}
 }
 \value{
-\code{var_label()} returns the \code{label} attribute as a character
-string. The \code{var_label<-} assignment method allows to add, remove, or
-overwrite this attribute on a vector \code{x}. The assignment function returns
-the \code{x} vector invisibly.
+\itemize{
+\item \code{var_label(x)} returns the \code{"label"} attribute of \code{x} as a character string.
+\item \code{var_label(x) <- value} sets, removes, or replaces the label attribute of \code{x},
+returning the updated object invisibly.
+}
+
+A character string if the \code{"label"} attribute exists, or \code{NULL} if not present.
+
+The modified object \code{x}, returned invisibly with the updated \code{"label"} attribute.
 }
 \description{
-Add a human readable, easier to understand label as a metadata attribute to a
-variable or vector than the programmatic vector object name, or column name
-in the data frame.
+Adds or retrieves a human-readable label as a metadata attribute for a
+variable or vector. This label is useful for making variables easier to
+understand than their programmatic names (e.g., column names).
+
+\code{label_attribute()} is a low-level helper that retrieves the \code{"label"} attribute
+of an object without any fallback or printing logic. It is primarily used internally.
+
+The \verb{var_label<-} assignment method sets or removes the \code{"label"} attribute
+of a vector or data frame column. This allows attaching human-readable
+descriptions to variables for interpretability and downstream metadata use.
 }
 \details{
-See \code{\link[labelled:var_label]{labelled::var_label}} for details about
-variable labels.
-\cr
-See \code{vignette("defined", package = "dataset")} to use comprehensively
-with variable labels, namespaces, units of measures, and machine-independent
-permanent variable identifiers.
+This interface builds on \code{\link[labelled:var_label]{labelled::var_label()}} and is compatible with
+the \code{defined()} infrastructure for semantic metadata (labels, namespaces,
+units, and variable identifiers).
+
+See \code{\link[labelled:var_label]{labelled::var_label()}} for low-level usage. For a comprehensive
+guide to working with variable labels and semantic metadata, see:
+\code{vignette("defined", package = "dataset")}.
 }
 \examples{
-# Retrieve the label attribute:
+# Retrieve the label attribute
 var_label(orange_df$circumference)
 
-# To (re)set the label attribute:
-`var_label<-`(orange_df$circumference, "circumference (breast height)")
+# Set or update the label attribute
+var_label(orange_df$circumference) <- "circumference (breast height)"
 
+# Example: Retrieve variable labels from a dataset_df
+df <- dataset_df(
+        id = defined(1:3, label = "Observation ID"),
+        temp = defined(c(22.5, 23.0, 21.8), label = "Temperature (°C)"),
+        site = defined(c("A", "B", "A"))
+        )
+
+# List form (default)
+var_label(df)
+
+# Character vector form
+var_label(df, unlist = TRUE, null_action = "empty")
+
+# Exclude variables without labels
+var_label(df, null_action = "skip")
+
+# Replace missing labels with column names
+var_label(df, null_action = "fill")
 }
 \seealso{
+\code{\link[labelled:var_label]{labelled::var_label()}}, \code{\link[=var_labels]{var_labels()}}, \code{\link[=defined]{defined()}}
+
 Other defined metadata methods and functions: 
-\code{\link{defined}()},
 \code{\link{var_namespace}()},
 \code{\link{var_unit}()}
 }
