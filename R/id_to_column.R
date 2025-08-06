@@ -1,17 +1,24 @@
-#' @title Add identifier to columns
+#' Add Identifier to First Column of a Dataset
 #'
-#' @description Add a prefixed identifier to the first column of the dataset.
-#' @param x A dataset created with [dataset_df()].
-#' @param prefix Defaults to \code{eg:} (example.com).
-#' @param ids Defaults to \code{NULL}.
-#' @return A dataset conforming the original sub-class of \code{x}.
+#' Adds a prefixed identifier (e.g., `eg:`) to the first column of a dataset,
+#' useful for generating semantic row IDs (e.g., for RDF serialization).
+#'
+#' @param x A dataset created with [dataset_df()], or a regular data frame.
+#' @param prefix A character string used as the prefix for row identifiers.
+#'   Defaults to `"eg:"` (referring to [example.com](https://example.com)).
+#' @param ids Optional. A character vector of custom IDs to use instead of row names.
+#'
+#' @return
+#' A dataset of the same class as `x`, with the first column updated to include
+#' unique prefixed identifiers.
+#'
 #' @examples
-#'
 #' # Example with a dataset_df object:
 #' id_to_column(orange_df)
 #'
-#' # Example with a data.frame object:
+#' # Example with a regular data.frame:
 #' id_to_column(Orange, prefix = "orange:")
+#'
 #' @export
 id_to_column <- function(x, prefix = "eg:", ids = NULL) {
   is_dataset <- is.dataset_df(x)
