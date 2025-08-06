@@ -48,8 +48,10 @@ test_that("id_to_column preserves dataset_df structure", {
 test_that("id_to_column preserves dataset_df metadata", {
   df <- dataset_df(
     a = 1:2,
-    dataset_bibentry = dublincore(title = "Test",
-                                  creator = person("A", "B"))
+    dataset_bibentry = dublincore(
+      title = "Test",
+      creator = person("A", "B")
+    )
   )
   subject(df) <- "http://example.org/test"
   attr(df, "prov") <- list(generated = "now")

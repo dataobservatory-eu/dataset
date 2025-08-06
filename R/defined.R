@@ -452,4 +452,3 @@ strip_defined <- function(x) {
 type_sum.haven_labelled_defined <- function(x) {
   "defined"
 }
-

@@ -1,6 +1,6 @@
 test_that("rights() retrieves rights from dataset_df", {
   df <- dataset_df(x = 1:3)
-  rights(df, overwrite=TRUE) <- "CC-BY-4.0"
+  rights(df, overwrite = TRUE) <- "CC-BY-4.0"
   expect_equal(rights(df), "CC-BY-4.0")
 })
 
@@ -14,7 +14,7 @@ test_that("rights() errors for non-dataset_df object", {
 
 test_that("rights<- assigns rights when none exists", {
   df <- dataset_df(x = 1:3)
-  expect_silent(rights(df, overwrite=TRUE) <- "GPL-3")
+  expect_silent(rights(df, overwrite = TRUE) <- "GPL-3")
   expect_equal(rights(df), "GPL-3")
 })
 
@@ -27,7 +27,7 @@ test_that("rights<- assigns rights if current is ':unas'", {
 
 test_that("rights<- emits message if overwrite = FALSE and field exists", {
   df <- dataset_df(x = 1:3)
-  rights(df, overwrite=TRUE) <- "Original"
+  rights(df, overwrite = TRUE) <- "Original"
   expect_message(
     rights(df, overwrite = FALSE) <- "Attempted overwrite",
     "already a rights field"

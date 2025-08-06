@@ -28,8 +28,9 @@ test_that("publisher<- assigns publisher if current is :tba", {
 test_that("publisher<- does not overwrite by default if set", {
   df <- dataset_df(x = 1:3)
   publisher(df) <- "Original Publisher"
-  expect_message(publisher(df, overwrite=FALSE) <- "New Publisher",
-                 regexp = "dataset has already an Publisher")
+  expect_message(publisher(df, overwrite = FALSE) <- "New Publisher",
+    regexp = "dataset has already an Publisher"
+  )
   expect_equal(publisher(df), "Original Publisher")
 })
 

@@ -3,9 +3,9 @@
 
 test_that("as.character() drops class and metadata from defined vector", {
   x <- defined(c("apple", "banana", "cherry"),
-               label = "Fruit",
-               unit = "kg",
-               concept = "http://example.org/fruit"
+    label = "Fruit",
+    unit = "kg",
+    concept = "http://example.org/fruit"
   )
   result <- as.character(x)
   expect_type(result, "character")
@@ -15,9 +15,9 @@ test_that("as.character() drops class and metadata from defined vector", {
 
 test_that("as_character() without preserve_attributes drops metadata", {
   x <- defined(c("red", "green", "blue"),
-               label = "Color",
-               unit = "rgb",
-               concept = "http://example.org/color"
+    label = "Color",
+    unit = "rgb",
+    concept = "http://example.org/color"
   )
   result <- as_character(x)
   expect_type(result, "character")
@@ -27,10 +27,10 @@ test_that("as_character() without preserve_attributes drops metadata", {
 
 test_that("as_character() with preserve_attributes keeps metadata", {
   x <- defined(c("yes", "no"),
-               label = "Binary",
-               unit = "boolean",
-               concept = "http://example.org/binary",
-               namespace = "http://example.org/ns"
+    label = "Binary",
+    unit = "boolean",
+    concept = "http://example.org/binary",
+    namespace = "http://example.org/ns"
   )
   result <- as_character(x, preserve_attributes = TRUE)
   expect_type(result, "character")
@@ -38,4 +38,3 @@ test_that("as_character() with preserve_attributes keeps metadata", {
   expect_equal(attr(result, "concept"), "http://example.org/binary")
   expect_equal(attr(result, "namespace"), "http://example.org/ns")
 })
-

@@ -106,17 +106,27 @@ test_that("comparison operations work correctly", {
 })
 
 test_that("combining works only with identical metadata", {
-  a <- defined(1:3, label = "height",
-               unit = "m", concept = "def", namespace = "http://ns")
-  b <- defined(4:6, label = "height",
-               unit = "m", concept = "def", namespace = "http://ns")
+  a <- defined(1:3,
+    label = "height",
+    unit = "m", concept = "def", namespace = "http://ns"
+  )
+  b <- defined(4:6,
+    label = "height",
+    unit = "m", concept = "def", namespace = "http://ns"
+  )
 
-  expect_equal(c(a, b),
-               defined(1:6, label = "height", unit = "m",
-                       concept = "def", namespace = "http://ns"))
+  expect_equal(
+    c(a, b),
+    defined(1:6,
+      label = "height", unit = "m",
+      concept = "def", namespace = "http://ns"
+    )
+  )
 
-  c_diff <- defined(4:6, label = "length",
-                    unit = "m", concept = "def", namespace = "http://ns")
+  c_diff <- defined(4:6,
+    label = "length",
+    unit = "m", concept = "def", namespace = "http://ns"
+  )
   expect_error(c(a, c_diff), "var_label must be identical")
 })
 
@@ -128,16 +138,18 @@ test_that("type_sum returns defined", {
 
 test_that("c() combines compatible defined vectors", {
   a <- defined(1:3,
-               label = "Length",
-               unit = "meter",
-               concept = "http://example.org/def",
-               namespace = "http://example.org/")
+    label = "Length",
+    unit = "meter",
+    concept = "http://example.org/def",
+    namespace = "http://example.org/"
+  )
 
   b <- defined(4:6,
-               label = "Length",
-               unit = "meter",
-               concept = "http://example.org/def",
-               namespace = "http://example.org/")
+    label = "Length",
+    unit = "meter",
+    concept = "http://example.org/def",
+    namespace = "http://example.org/"
+  )
 
   ab <- c(a, b)
 
@@ -198,4 +210,3 @@ test_that("c() throws error on mismatched value labels", {
     "value labels must be identical"
   )
 })
-

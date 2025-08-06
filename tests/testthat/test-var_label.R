@@ -103,4 +103,3 @@ test_that("set_var_labels() assigns multiple labels to a dataset", {
   expect_equal(attr(out, "var_labels")$a, "Label A")
   expect_equal(attr(out, "var_labels")$b, "Label B")
 })
-
