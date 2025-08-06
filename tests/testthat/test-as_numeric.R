@@ -21,10 +21,10 @@ test_that("as_numeric() preserves metadata with preserve_attributes = TRUE", {
 
 test_that("as.numeric() drops all metadata (base R method)", {
   gdp <- defined(c(1, 2, 3), label = "GDP", unit = "million USD")
-  raw <- as.numeric(gdp)
-  expect_equal(raw, c(1, 2, 3))
-  expect_null(attr(raw, "unit"))
-  expect_type(raw, "double")
+  rawnum <- as.numeric(gdp)
+  expect_equal(rawnum, c(1, 2, 3))
+  expect_null(attr(rawnum, "unit"))
+  expect_type(rawnum, "double")
 })
 
 test_that("as_numeric() errors on character defined vectors", {

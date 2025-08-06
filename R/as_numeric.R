@@ -41,6 +41,12 @@ as_numeric <- function(x, ...) {
 }
 
 #' @export
+vec_cast.double.haven_labelled_defined <- function(x, to, ...) {
+  vctrs::vec_data(x)
+}
+
+
+#' @export
 #' @rdname as_numeric
 #' @importFrom vctrs vec_data
 as_numeric.haven_labelled_defined <- function(x,
@@ -57,14 +63,40 @@ as_numeric.haven_labelled_defined <- function(x,
   }
 }
 
-#' @export
 #' @rdname as_numeric
-#'
+#' @exportS3Method as.numeric haven_labelled_defined
 #' @description
 #' Base R's `as.numeric()` does not support custom classes like `defined()`.
 #' This method drops all metadata and class information, returning a plain
 #' numeric vector. It is equivalent to `as_numeric(x, preserve_attributes = FALSE)`.
 as.numeric.haven_labelled_defined <- function(x, ...) {
   unclass(vctrs::vec_data(x))
+}
+
+#' Cast defined vector to base numeric (double)
+#'
+#' This method implements support for converting `defined` vectors to base numeric
+#' via `vctrs` casting, typically triggered by `as.numeric()`, type coercion in
+#' `tibble`, or base subsetting.
+#'
+#' It allows safe and predictable coercion by returning the underlying numeric
+#' vector, dropping all semantic metadata (e.g., unit, concept).
+#'
+#' @param x A [`defined()`] vector of class `haven_labelled_defined`.
+#' @param to Target type (must be `double()`).
+#' @param ... Ignored; reserved for future use.
+#'
+#' @return A plain numeric (double) vector.
+#'
+#' @examples
+#' x <- defined(c(10, 20), unit = "kg")
+#' vec_cast(x, double())
+#'
+#' # This enables as.numeric(x) to work:
+#' as.numeric(x)
+#'
+#' @export
+vec_cast.double.haven_labelled_defined <- function(x, to, ...) {
+  vctrs::vec_data(x)
 }
 
