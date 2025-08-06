@@ -1,8 +1,11 @@
 #' @rdname dublincore
-#' @param type For \code{as_dublincore}, any of \code{"bibentry", "dataset_df", "list", "ntriples"}.
-#' @param ... Optional parameters to add to a \code{dublincore} object.
-#' \code{author=person("Jane", "Doe")} adds an author to the citation
-#' object if \code{type="dataset"}.
+#'
+#' @param type Output format. One of `"bibentry"`, `"dataset_df"`, `"list"`, or
+#'   `"ntriples"`. See Details.
+#' @param ... Optional fields to attach to the `dublincore` object.
+#'   For example, `author = person("Jane", "Doe")` adds an author to the citation
+#'   if `type = "dataset_df"`.
+#'
 #' @export
 as_dublincore <- function(x, type = "bibentry", ...) {
   citation_author <- person(NULL, NULL)
@@ -52,7 +55,7 @@ as_dublincore <- function(x, type = "bibentry", ...) {
   dataset_version <- ifelse(is.null(dataset_bibentry$version), ":unas", as.character(dataset_bibentry$version))
   dataset_description <- ifelse(is.null(dataset_bibentry$description), ":unas", as.character(dataset_bibentry$description))
   dataset_language <- ifelse(is.null(dataset_bibentry$language), ":unas", as.character(dataset_bibentry$language))
-  dataset_format <- ifelse(is.null(dataset_bibentry$format), ":tba", as.character(dataset_bibentry$format))
+  dataset_format <- ifelse(is.null(dataset_bibentry$format), "application/r-rds", as.character(dataset_bibentry$format))
   dataset_rights <- ifelse(is.null(dataset_bibentry$rights), ":tba", as.character(dataset_bibentry$rights))
   dataset_coverage <- ifelse(is.null(dataset_bibentry$coverage), ":unas", as.character(dataset_bibentry$coverage))
   datasource <- ifelse(is.null(dataset_bibentry$datasource), ":unas", as.character(dataset_bibentry$datasource))
@@ -90,7 +93,7 @@ as_dublincore <- function(x, type = "bibentry", ...) {
       dataset_date = dataset_date,
       language = dataset_language,
       relation = dataset_relation,
-      format = dataset_format,
+      dataset_format = dataset_format,
       rights = dataset_rights,
       datasource = datasource,
       description = dataset_description,
@@ -117,7 +120,7 @@ as_dublincore <- function(x, type = "bibentry", ...) {
       date = dataset_date,
       language = dataset_language,
       relation = dataset_relation,
-      format = dataset_format,
+      dataset_format = dataset_format,
       rights = dataset_rights,
       datasource = datasource,
       description = dataset_description,
@@ -125,8 +128,8 @@ as_dublincore <- function(x, type = "bibentry", ...) {
     )
   } else if (type == "dataset_df") {
     assertthat::assert_that(
-      all(properties) == 1,
-      msg = "In as_dublincore() not all properties have a length 1 to export into datataset (data.frame)."
+      all(properties == 1),
+      msg = "In as_dublincore(), not all properties have length 1 and cannot be exported to dataset_df."
     )
     dataset_df(
       data.frame(
@@ -140,7 +143,7 @@ as_dublincore <- function(x, type = "bibentry", ...) {
         date = dataset_date,
         language = dataset_language,
         relation = dataset_relation,
-        format = dataset_format,
+        dataset_format = dataset_format,
         rights = dataset_rights,
         datasource = datasource,
         description = dataset_description,

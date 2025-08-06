@@ -8,6 +8,17 @@ test_that("creates valid dublincore object", {
   expect_true(inherits(dc$author[[1]], "person"))
 })
 
+test_that("dublincore() errors when title has length > 1", {
+  expect_error(
+    dublincore(
+      title = c("Too", "Many", "Titles"),
+      creator = person("Jane", "Doe")
+    ),
+    "title must be a single character string"
+  )
+})
+
+
 test_that("missing creator fails", {
   expect_error(
     dublincore(title = "Missing Creator"),

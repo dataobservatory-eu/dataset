@@ -112,6 +112,10 @@ dublincore <- function(
     creator <- list(creator)
   }
 
+  if (length(title) != 1) {
+    stop("dublincore(): title must be a single character string.")
+  }
+
   creators <- normalize_roles(creator, default_role = "cre")
 
   dataset_date <- ifelse(is.null(dataset_date), ":tba", as.character(dataset_date))
