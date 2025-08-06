@@ -1,23 +1,35 @@
-#' @title Get/set the Rights of the object.
-#' @description Get/set the optional \code{Rights} property as an attribute to an
-#' R object.
-#' @details \code{Rights} corresponds to
-#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights} and
-#'[datacite()] Rights. Information about rights held in and over the resource.
-#' Typically, rights information includes a statement about various property
-#' rights associated with the resource, including intellectual property rights.
-#' @param x A semantically rich data frame object created by  [dataset_df()] or
-#'  \code{dataset::\link{as_dataset_df}}.
-#' @param value The \code{Rights} as a character set.
-#' @param overwrite If the \code{Rights} attribute should be overwritten. In case it
-#' is set to \code{FALSE}, it gives a message with the current \code{Rights}
-#' property instead of overwriting it. Defaults to \code{FALSE}.
-#' @return The \code{Rights} attribute as a character of length 1 is added to \code{x}.
+#' Get or Set the Rights of a Dataset Object
+#'
+#' Adds or retrieves the optional `"rights"` attribute of a dataset object.
+#' This field contains information about intellectual property or usage rights.
+#'
+#' @details
+#' The `"rights"` field corresponds to
+#' [dct:rights](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/)
+#' from Dublin Core, and to `rights` in [DataCite](https://schema.datacite.org/).
+#'
+#' Rights information typically includes statements about legal ownership,
+#' licensing, or usage conditions. It helps ensure that users understand how
+#' a dataset may be reused, cited, or shared.
+#'
+#' @param x A semantically rich data frame created with [dataset_df()] or
+#'   [as_dataset_df()].
+#' @param value A character string specifying the rights (e.g., `"CC-BY-4.0"`).
+#' @param overwrite Logical. Should the existing value be replaced? If `FALSE`
+#'   and a value already exists, the function emits a message instead of
+#'   overwriting. Defaults to `FALSE`.
+#'
+#' @return
+#' The `"rights"` attribute of the dataset as a character string (length 1).
+#' When assigning, the updated object `x` is returned invisibly.
+#'
 #' @examples
 #' rights(orange_df) <- "CC-BY-SA"
 #' rights(orange_df)
+#'
 #' @family Reference metadata functions
 #' @export
+
 rights <- function(x) {
   assertthat::assert_that(is.dataset_df(x),
     msg = "rights(x): x must be a dataset object created with dataset_df() or as_dataset_df()."
@@ -35,7 +47,7 @@ rights <- function(x) {
   )
 
   assertthat::assert_that(is.null(value) | length(value) == 1,
-    msg = "rights(x): x must have length=1 (or set to NUL)."
+    msg = "rights(x): x must have length=1 (or set to NULL)."
   )
 
   DataBibentry <- invisible(get_bibentry(x))
@@ -62,6 +74,6 @@ rights <- function(x) {
     message("The dataset has already a rights field: ", DataBibentry$rights)
   }
 
-  attr(x, "attribtes_bibentry") <- DataBibentry
+  attr(x, "dataset_bibentry") <- DataBibentry
   invisible(x)
 }

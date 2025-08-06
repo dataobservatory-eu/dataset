@@ -3,39 +3,43 @@
 \name{rights}
 \alias{rights}
 \alias{rights<-}
-\title{Get/set the Rights of the object.}
+\title{Get or Set the Rights of a Dataset Object}
 \usage{
 rights(x)
 
 rights(x, overwrite = FALSE) <- value
 }
 \arguments{
-\item{x}{A semantically rich data frame object created by  \code{\link[=dataset_df]{dataset_df()}} or
-\code{dataset::\link{as_dataset_df}}.}
+\item{x}{A semantically rich data frame created with \code{\link[=dataset_df]{dataset_df()}} or
+\code{\link[=as_dataset_df]{as_dataset_df()}}.}
 
-\item{overwrite}{If the \code{Rights} attribute should be overwritten. In case it
-is set to \code{FALSE}, it gives a message with the current \code{Rights}
-property instead of overwriting it. Defaults to \code{FALSE}.}
+\item{overwrite}{Logical. Should the existing value be replaced? If \code{FALSE}
+and a value already exists, the function emits a message instead of
+overwriting. Defaults to \code{FALSE}.}
 
-\item{value}{The \code{Rights} as a character set.}
+\item{value}{A character string specifying the rights (e.g., \code{"CC-BY-4.0"}).}
 }
 \value{
-The \code{Rights} attribute as a character of length 1 is added to \code{x}.
+The \code{"rights"} attribute of the dataset as a character string (length 1).
+When assigning, the updated object \code{x} is returned invisibly.
 }
 \description{
-Get/set the optional \code{Rights} property as an attribute to an
-R object.
+Adds or retrieves the optional \code{"rights"} attribute of a dataset object.
+This field contains information about intellectual property or usage rights.
 }
 \details{
-\code{Rights} corresponds to
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights} and
-\code{\link[=datacite]{datacite()}} Rights. Information about rights held in and over the resource.
-Typically, rights information includes a statement about various property
-rights associated with the resource, including intellectual property rights.
+The \code{"rights"} field corresponds to
+\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/rights/}{dct:rights}
+from Dublin Core, and to \code{rights} in \href{https://schema.datacite.org/}{DataCite}.
+
+Rights information typically includes statements about legal ownership,
+licensing, or usage conditions. It helps ensure that users understand how
+a dataset may be reused, cited, or shared.
 }
 \examples{
 rights(orange_df) <- "CC-BY-SA"
 rights(orange_df)
+
 }
 \seealso{
 Other Reference metadata functions: 
