@@ -1,22 +1,29 @@
-#' @title Create a modern bibrecord-compatible metadata object
-#' @description Create a `utils::bibentry`-compatible object extended with
-#'   standard Dublin Core and DataCite-compatible fields. This serves as a
-#'   unified metadata structure for use in both `dublincore()` and `datacite()`
-#'   functions.
+#' Create a Modern Metadata Object Compatible with bibentry
 #'
-#' @param title A character string, the dataset title.
-#' @param author A list or vector of `utils::person` objects. Mapped to
-#'   `creator` in DataCite and DCTERMS.
-#' @param contributor Optional list/vector of `utils::person`. Contributor roles
-#'   are merged if repeated.
-#' @param publisher Character string or `person`. The publishing entity.
-#' @param year Publication year. Derived from `date` if not explicitly provided.
-#' @param date A character string or `Date` object.
-#' @param identifier Unique identifier (e.g., DOI).
-#' @param subject Optional keyword(s) or controlled vocabulary string.
-#' @param ... Additional fields (e.g., language, format, rights, description).
-#' @importFrom utils bibentry
-#' @return An object of class `bibrecord` and `bibentry`.
+#' Constructs a [utils::bibentry()] object extended with Dublin Core and
+#' DataCite-compatible fields. This unified structure supports use with
+#' functions such as [dublincore()] and [datacite()], and is the internal
+#' format for storing rich metadata with datasets.
+#'
+#' @param title A character string specifying the dataset title.
+#' @param author A [utils::person()] or list/vector of person objects. Mapped to
+#'   `creator` in DataCite and DCMI.
+#' @param contributor Optional list or vector of [utils::person()] objects.
+#'   Contributor roles are merged if duplicated.
+#' @param publisher A character string or [utils::person()] representing the
+#'   publishing entity.
+#' @param year Publication year. Automatically derived from `date` if not
+#'   provided explicitly.
+#' @param date A [Date] object or character string in ISO format.
+#' @param identifier A persistent identifier (e.g., DOI or URL).
+#' @param subject Optional keyword, tag, or controlled vocabulary term.
+#' @param ... Additional fields such as `language`, `format`, `rights`, or
+#'   `description`.
+#'
+#' @return
+#' An object of class `"bibrecord"` and `"bibentry"`, suitable for citation and
+#' embedding in metadata-aware structures such as [dataset_df()].
+#'
 #' @examples
 #' bibrecord(
 #'   title = "Gross domestic product, volumes",
@@ -25,6 +32,12 @@
 #'   identifier = "https://doi.org/10.2908/TEINA011",
 #'   date = as.Date("2025-05-20")
 #' )
+#'
+#' @seealso
+#' Learn more in the vignette:
+#' [`bibrecord`](https://dataset.dataobservatory.eu/articles/bibrecord.html)
+#' @importFrom utils bibentry
+#' @family bibrecord functions
 #' @export
 bibrecord <- function(
     title,
