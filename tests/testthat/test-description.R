@@ -1,19 +1,37 @@
-test_that("description() <- assignment works", {
-  iris_dataset_2 <- iris_dataset
-  expect_equal(description(iris_dataset_2), "The famous (Fisher's or Anderson's) iris data set.")
-  expect_warning(description(iris_dataset_2, overwrite = F) <- "Overwritten.")
+test_that("description() <- assignment works with and without overwrite", {
+  x <- orange_df
+  description(x, overwrite = TRUE) <- "Description 1"
+  expect_equal(description(x), "Description 1")
+
+  # Attempt to overwrite without permission triggers warning and no change
+  expect_warning({
+    description(x, overwrite = FALSE) <- "Should Not Overwrite"
+  }, regexp = "^The dataset has already a description")
+  expect_equal(description(x), "Description 1")
+
+  # Explicit overwrite works
+  description(x, overwrite = TRUE) <- "Description 2"
+  expect_equal(description(x), "Description 2")
 })
 
-
-test_that("description() works", {
-  iris_dataset_2 <- iris_dataset
-  description(iris_dataset_2, TRUE) <- "Overwritten."
-  expect_equal(description(iris_dataset_2), "Overwritten.")
+test_that("description() <- NULL sets to ':unas'", {
+  x <- orange_df
+  description(x, overwrite = TRUE) <- NULL
+  expect_equal(description(x), ":unas")
 })
 
+test_that("description() <- works when no initial description exists", {
+  # Strip description from copy of orange_df
+  x <- orange_df
+  attr(x, "dataset_bibentry")$description <- NULL
+  expect_equal(length(description(x)), 0)
 
-test_that("description() works", {
-  iris_dataset_2 <- iris_dataset
-  description(x = iris_dataset_2, overwrite = TRUE) <- NULL
-  expect_equal(description(iris_dataset_2), ":unas")
+  # Assign a new one without error
+  description(x, overwrite = TRUE) <- "Fresh Description"
+  expect_equal(description(x), "Fresh Description")
+})
+
+test_that("description() fails on non-dataset_df", {
+  expect_error(description(mtcars), "x must be a dataset object")
+  expect_error(description(mtcars, overwrite = TRUE) <- "Bad", "x must be a dataset object")
 })
