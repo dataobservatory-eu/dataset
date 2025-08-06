@@ -26,7 +26,6 @@
 #' testdescription
 #' @export
 describe <- function(x, con) {
-
   assertthat::assert_that(
     is.dataset_df(x),
     msg = "describe(x, con): x must be a dataset_df object."
