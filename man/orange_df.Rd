@@ -5,39 +5,103 @@
 \alias{orange_df}
 \title{Growth of Orange Trees}
 \format{
-orange_df is a data frame with 35 cases (rows) and 3 variables (columns)
-named rowid, tree, age, circumference.
+A data frame with 35 rows and 4 variables:
+\itemize{
+\item \code{rowid}: A unique identifier for each row (character)
+\item \code{tree}: Tree identifier (ordered factor)
+\item \code{age}: Age of the tree in days (numeric)
+\item \code{circumference}: Trunk circumference in mm (numeric)
+}
 }
 \source{
-Draper, N. R. and Smith, H. (1998), Applied Regression Analysis (3rd ed),
-Wiley (exercise 24.N). Pinheiro, J. C. and Bates, D. M. (2000) Mixed-effects
-Models in S and S-PLUS, Springer.
+\href{https://doi.org/10.5281/zenodo.14917851}{Zenodo DOI}
 }
 \usage{
 orange_df
 }
 \description{
-The Orange data frame has 35 rows and 3 columns of records of\cr
-the growth of orange trees. This is a replication of\cr
-\code{datasets::\link[datasets]{Orange}} as \emph{dataset_df} s3 class.
+A dataset recording the growth of orange trees, replicated from the classic
+\href{https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/Orange.html}{\code{datasets::Orange}}
+dataset and implemented as a \code{dataset_df} S3 class with enhanced semantic metadata.
 }
 \details{
-See \code{datasets::\link[datasets]{Orange}} for details.
+This is a semantically enriched version of the classic Orange dataset,
+constructed using the \code{dataset_df()} and \code{dublincore()} constructors.
+Each column includes semantic metadata such as units, labels, concepts,
+or namespace identifiers. The dataset also embeds a machine-readable citation
+for reproducibility and provenance tracking.
+\subsection{Constructor Example}{
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{orange_bibentry <- dublincore(
+  title = "Growth of Orange Trees",
+  creator = c(
+    person(
+      given = "N.R.",
+      family = "Draper",
+      role = "cre",
+      comment = c(VIAF = "http://viaf.org/viaf/84585260")
+    ),
+    person(
+      given = "H",
+      family = "Smith",
+      role = "cre"
+    )
+  ),
+  contributor = person(
+    given = "Antal",
+    family = "Daniel",
+    role = "dtm"
+  ),
+  publisher = "Wiley",
+  datasource = "https://isbnsearch.org/isbn/9780471170822",
+  dataset_date = 1998,
+  identifier = "https://doi.org/10.5281/zenodo.14917851",
+  language = "en",
+  description = "The Orange data frame has 35 rows and 3 columns of records of the growth of orange trees."
+)
+
+orange_df <- dataset_df(
+  rowid = defined(paste0("orange:", row.names(Orange)),
+    label = "ID in the Orange dataset",
+    namespace = c("orange" = "datasets::Orange")
+  ),
+  tree = defined(Orange$Tree,
+    label = "The number of the tree"
+  ),
+  age = defined(Orange$age,
+    label = "The age of the tree",
+    unit = "days since 1968/12/31"
+  ),
+  circumference = defined(Orange$circumference,
+    label = "circumference at breast height",
+    unit = "milimeter",
+    concept = "https://www.wikidata.org/wiki/Property:P2043"
+  ),
+  dataset_bibentry = orange_bibentry
+)
+
+orange_df$rowid <- defined(orange_df$rowid,
+  namespace = "https://doi.org/10.5281/zenodo.14917851"
+)
+}\if{html}{\out{</div>}}
+}
 }
 \examples{
-# The columns allow rich semantic definitions
+# Print with semantic citation and data preview
 print(orange_df)
 
-# Each column may have a concept and namespace definition, and a long-form
-# human readable label:
+# Access semantic metadata associated with variables
 print(orange_df$age)
 
-# The bibliographical record of the dataset is not detached from the
-# data.frame, tibble, or similar tabular structured object:
+# Retrieve the embedded bibliographic record
 as_dublincore(orange_df)
+
 }
 \references{
-Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988) The New S Language.
-Wadsworth & Brooks/Cole.
+\itemize{
+\item Draper, N. R. & Smith, H. (1998). \emph{Applied Regression Analysis} (3rd ed.). Wiley.
+\item Pinheiro, J. C. & Bates, D. M. (2000). \emph{Mixed-effects Models in S and S-PLUS}. Springer.
+\item Becker, R. A., Chambers, J. M. & Wilks, A. R. (1988). \emph{The New S Language}. Wadsworth & Brooks/Cole.
+}
 }
 \keyword{datasets}
