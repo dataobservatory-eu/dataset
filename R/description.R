@@ -1,12 +1,12 @@
 #' @title Get or set the dataset Description
 #'
 #' @description Get or set the optional `Description` property as an attribute
-#' on a dataset object.
+#'   on a dataset object.
 #'
 #' @details The `Description` is recommended for discovery in DataCite. It
-#' captures additional information that does not fit other metadata categories —
-#' such as technical notes or dataset usage. It is a free-text field. See
-#' [dct:description](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/).
+#'   captures additional information that does not fit other metadata categories
+#'   — such as technical notes or dataset usage. It is a free-text field. See
+#'   [dct:description](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/description/).
 #'
 #' @param x A dataset object created with [`dataset_df()`] or
 #'   [`as_dataset_df()`].
@@ -23,7 +23,6 @@
 #'
 #' @family Reference metadata functions
 #' @export
-
 
 description <- function(x) {
   assert_that(is.dataset_df(x),
@@ -49,13 +48,13 @@ description <- function(x) {
   }
 
   if (overwrite ||
-      length(existing_description) == 0 ||
-      existing_description %in% c("", ":unas", ":tba")) {
-
+    length(existing_description) == 0 ||
+    existing_description %in% c("", ":unas", ":tba")) {
     ds_bibentry$description <- as.character(value)
     attr(x, "dataset_bibentry") <- ds_bibentry
   } else {
-    warning("The dataset already has a description: ", existing_description, ".")
+    warning("The dataset already has a description: ",
+            existing_description, ".")
   }
   invisible(x)
 }

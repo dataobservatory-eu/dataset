@@ -6,7 +6,9 @@ test_that("description() <- assignment works with and without overwrite", {
   # Attempt to overwrite without permission triggers warning and no change
   expect_warning({
     description(x, overwrite = FALSE) <- "Should Not Overwrite"
-  }, regexp = "^The dataset has already a description")
+    },
+    regexp = "The dataset already has a description"
+  )
   expect_equal(description(x), "Description 1")
 
   # Explicit overwrite works
