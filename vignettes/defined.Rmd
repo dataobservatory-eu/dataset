@@ -33,7 +33,7 @@ data("gdp")
 We’ll start by wrapping a numeric GDP vector using `defined()`:
 
 ```{r gdp1}
-gdp_1 = defined(
+gdp_1 <- defined(
     gdp$gdp, 
     label = "Gross Domestic Product", 
     unit = "CP_MEUR", 
