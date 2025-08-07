@@ -73,7 +73,7 @@ subject_create <- function(term,
   # }
 
   if (length(term) > 1) {
-    dataset_subject <- lapply(1:seq_along(term), function(x) {
+    dataset_subject <- lapply(seq_along(term), function(x) {
       new_Subject(term[x],
         subjectScheme = subjectScheme[x],
         schemeURI = schemeURI[x],
@@ -165,3 +165,12 @@ new_Subject <- function(term,
 is.subject <- function(x) {
   ifelse(inherits(x, "subject"), TRUE, FALSE)
 }
+
+#' @keywords internal
+default_subject <- subject_create(
+  term = "Data sets",
+  subjectScheme = "LCSH",
+  schemeURI = "http://id.loc.gov/authorities/subjects",
+  valueURI = "http://id.loc.gov/authorities/subjects/sh2018002256",
+  prefix = "lcsh:"
+)
