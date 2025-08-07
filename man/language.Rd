@@ -3,50 +3,90 @@
 \name{language}
 \alias{language}
 \alias{language<-}
-\title{Get/set the primary language of the dataset}
+\title{Set the Primary Language of a Dataset}
 \usage{
 language(x)
 
 language(x, iso_639_code = "639-3") <- value
+
+language(x, iso_639_code = "639-3") <- value
 }
 \arguments{
-\item{x}{A semantically rich data frame object created by
-\code{\link[=dataset_df]{dataset_df()}} or \code{\link{as_dataset_df}}.}
+\item{x}{A dataset object created by \code{\link[=dataset_df]{dataset_df()}} or \code{\link[=as_dataset_df]{as_dataset_df()}}.}
 
-\item{iso_639_code}{Defaults to \code{ISO 639-3}, alternative is \code{ISO
-639-1}.}
+\item{iso_639_code}{A character string indicating the desired return format:
+either \code{"639-3"} (default; terminologic) or \code{"639-1"} (2-letter code).}
 
-\item{value}{The language to be added to the object attributes, added by
-name, or as a 2- or 3-character code for the language. You can add a
-language code or language name, and the parameter is normalized to
-\code{tolower(language)}. (The ISO 639 standard capitalizes language names
-and uses lower case for the codes.)}
+\item{value}{A 2-letter or 3-letter language code (ISO 639-1 or ISO 639-2),
+or a full language name (case-insensitive).}
 }
 \value{
-The Language is added to the \code{x} as \code{ISO 639-1}, the
-Datacite recommendation, or \code{ISO 639-3} used by the Zenodo data
-repository.
+The dataset with an updated \code{language} attribute, typically an ISO
+639-2/T code (\code{Alpha_3_T}) such as \code{"fra"}, \code{"eng"}, \code{"spa"}, etc.
 }
 \description{
-Add the optional Language property as an attribute to an R
-object.
+Assign the primary language of a semantically rich dataset object using an
+ISO 639 language code or full language name. This sets the \code{language}
+attribute in the dataset's metadata.
 }
 \details{
-Language is an optional property in DataCite 4.4; see:
-\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#9-language}{datacite:Language}\cr
-It is a part of the "core" of the
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin
-Core metadata terms}. The language parameter is validated against the
-\code{[ISOcodes]{ISO_639_2}} table.\cr The attribute \code{language} is
-added to the object. It will be exported into DataCite applications in a
-capitalized \code{Lanugage} format.
+This function supports recognition of:
+\itemize{
+\item 2-letter codes (ISO 639-1, e.g., \code{"en"}, \code{"fr"})
+\item 3-letter codes from both:
+\itemize{
+\item \code{Alpha_3_B} (bibliographic, e.g., \code{"fre"})
+\item \code{Alpha_3_T} (terminologic, e.g., \code{"fra"})
+}
+\item Full language names (e.g., \code{"English"}, \code{"French"})
+}
+
+For compatibility with open science repositories and modern metadata
+standards, this function \strong{returns the terminologic code} (\code{Alpha_3_T})
+when available. If \code{Alpha_3_T} is missing for a language, the legacy
+bibliographic code (\code{Alpha_3_B}) is used as a fallback.
+
+Full language names (e.g., \code{"English"}, \code{"Spanish"}) are matched
+case-insensitively against the ISO 639-2 Name field. Exact matches are
+attempted first; if none are found, a prefix match is used. For example:
+\itemize{
+\item \code{"English"} returns \code{"eng"}
+\item \code{"English, Old"} returns \code{"ang"}
+}
+
+This means that:
+\itemize{
+\item Both \code{"fra"} (terminologic) and \code{"fre"} (bibliographic) will be accepted
+as valid input for French
+\item The resulting value stored and returned will be \code{"fra"}
+}
+
+This behavior aligns with:
+\itemize{
+\item \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#9-language}{DataCite Metadata Schema 4.4}
+\item \href{https://schema.org/inLanguage}{schema.org}
+\item Common repository practices (Zenodo, OSF, Figshare)
+}
+
+If \code{value} is \code{NULL}, the language is marked as \code{":unas"} (unspecified).
+
+In some cases—especially for historical or moribund languages—multiple
+similar names may exist. In such cases, it is safer to use a specific
+language code (e.g., \code{"ang"} instead of \code{"English, Old"} and \code{"enm"}
+for \code{"English, Middle (1100-1500)"}). You can also
+refer directly to the definitions in \code{\link[ISOcodes:ISO_639]{ISOcodes::ISO_639_2}}
+for clarity.
 }
 \examples{
-myorange <- orange_df
-language(myorange) <- "English"
-language(myorange)
-language(myorange) <- "fr"
-language(myorange)
+df <- dataset_df(data.frame(x = 1:3))
+
+language(df) <- "English"       # Returns "eng"
+language(df) <- "fre"           # Legacy code; returns "fra"
+language(df) <- "fra"           # Returns "fra"
+language(df, iso_639_code = "639-1") <- "fra"  # Returns "fr"
+
+language(df) <- NULL            # Sets ":unas"
+
 }
 \seealso{
 Other Reference metadata functions: 
