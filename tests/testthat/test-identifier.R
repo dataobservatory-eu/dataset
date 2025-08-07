@@ -1,47 +1,73 @@
-test_that("identifier() assignment and retrieval works:", {
-  a <- dublincore(
-    title = "Test",
-    creator = person("Person", "Unknown"),
-    identifier = c(DOI = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x")
-  )
-
-  expect_equal(
-    identifier(a),
-    "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
-  )
-
-  identifier(x = a, overwrite = TRUE) <- "https://doi.org/10.1111/"
-  expect_equal(identifier(a), "https://doi.org/10.1111/")
-  expect_equal(a$doi, "10.1111")
+test_that("identifier() retrieves the identifier from dataset_df", {
+  df <- dataset_df(data.frame(x = 1:3))
+  identifier(df) <- "http://example.org/dataset/123"
+  expect_equal(identifier(df), "http://example.org/dataset/123")
 })
 
-test_that("identifier overwriting works", {
-  test_df <- dataset_df(
-    a = defined(1:2, label = "test"),
-    dataset_bibentry = dublincore(
-      title = "Test",
-      creator = person("Person", "Unknown"),
-      identifier = c(DOI = "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x")
-    )
-  )
-  expect_equal(
-    identifier(test_df),
-    "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
-  )
-  identifier(test_df) <- NULL
-  expect_equal(identifier(test_df), ":unas")
-  identifier(test_df) <- 1234
-  expect_equal(identifier(test_df), "1234")
+test_that("identifier() retrieves the identifier from bibentry", {
+  be <- dublincore(title = "Example", creator = person("Jane", "Doe"))
+  identifier(be) <- "http://example.org/resource"
+  expect_equal(identifier(be), "http://example.org/resource")
 })
 
-test_that("identifier() uses unas placeholder", {
-  iris_dataset_2 <- iris_dataset
-  identifier(iris_dataset_2) <- NULL
-  expect_equal(identifier(iris_dataset_2), ":unas")
+test_that("identifier<- sets DOI and extracts correctly", {
+  df <- dataset_df(data.frame(x = 1:3))
+  identifier(df) <- "https://doi.org/10.1234/example.doi"
+  expect_equal(identifier(df), "https://doi.org/10.1234/example.doi")
+  expect_equal(attr(df, "doi"), "10.1234/example.doi")
 })
 
-test_that("identifier()<- assignment works", {
-  iris_dataset_2 <- iris_dataset
-  identifier(iris_dataset_2) <- "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x"
-  expect_equal(identifier(iris_dataset_2), "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x")
+test_that("identifier<- accepts unnamed character string", {
+  df <- dataset_df(data.frame(x = 1:3))
+  identifier(df) <- "https://example.org/id/abc123"
+  expect_equal(identifier(df), "https://example.org/id/abc123")
+})
+
+test_that("identifier<- accepts numeric and coerces to character", {
+  df <- dataset_df(data.frame(x = 1:3))
+  identifier(df) <- 12345
+  expect_equal(identifier(df), "12345")
+})
+
+test_that("identifier<- sets default ':unas' on NULL", {
+  df <- dataset_df(data.frame(x = 1:3))
+  identifier(df) <- NULL
+  expect_equal(identifier(df), ":unas")
+})
+
+test_that("identifier<- doesn't overwrite unless allowed", {
+  df <- dataset_df(data.frame(x = 1:3))
+  identifier(df) <- "https://example.org/id/1"
+  expect_warning(
+    identifier(df, overwrite = FALSE) <- "https://example.org/id/2",
+    regexp = "The dataset has already an identifier"
+  )
+  expect_equal(identifier(df), "https://example.org/id/1")
+})
+
+test_that("identifier<- overwrites when allowed", {
+  df <- dataset_df(data.frame(x = 1:3))
+  identifier(df) <- "https://example.org/id/1"
+  identifier(df, overwrite = TRUE) <- "https://example.org/id/2"
+  expect_equal(identifier(df), "https://example.org/id/2")
+})
+
+test_that("identifier<- errors on invalid object types", {
+  expect_error(
+    identifier(data.frame(x = 1)),
+    regexp = "x must be a dataset_df or a bibentry object"
+  )
+  df <- data.frame(x = 1)
+  expect_error(
+    do.call("identifier<-", list(df, value = "id")),
+    regexp = "x must be a dataset_df or a bibentry object"
+  )
+})
+
+test_that("identifier<- errors on invalid value types", {
+  df <- dataset_df(data.frame(x = 1:3))
+  expect_error(
+    identifier(df) <- list("invalid"),
+    regexp = "value must be a named or not named character string"
+  )
 })

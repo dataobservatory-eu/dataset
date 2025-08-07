@@ -1,38 +1,55 @@
-#' @title Get/set the Identifier of the object.
-#' @description Add the optional Identifier property as an attribute to an R
-#'   object.
-#' @details The \code{Identifier} is an unambiguous reference to the resource
-#'   within a given context. Recommended practice is to identify the resource by
-#'   means of a string conforming to an identification system. Examples include
-#'   International Standard Book Number (ISBN), Digital Object Identifier (DOI),
-#'   and Uniform Resource Name (URN). Select and identifier scheme from
-#'   \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/index.html}{registered
-#'   URI schemes maintained by IANA}. More details:
-#'   \href{https://www.ukoln.ac.uk/metadata/dcmi-ieee/identifiers/}{Guidelines
-#'   for using resource identifiers in Dublin Core metadata and IEEE LOM}.
-#'   Similar to \code{Identifier} in[datacite()].
-#'   \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#1-identifier}{DataCite
-#'   4.4}.\cr It is not part of the "core" Dublin Core terms, but we always add
-#'   it to the metadata attributes of a dataset (in case you use a strict Dublin
-#'   Core property sheet you can omit it.)
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/}{Dublin
-#'   Core metadata terms}.
-#' @param x An [dataset_df()] object or a
-#'   \code{\link[utils:bibentry]{utils::bibentry}} object, including possibly an
-#'   instance of its [dublincore()] or[datacite()]
-#'   subclass.
-#' @param value The  \code{Identifier} as a character string.
-#' @param overwrite If the attributes should be overwritten. In case it is set
-#'   to \code{FALSE}, it gives a message with the current \code{Identifier}
-#'   property instead of overwriting it. Defaults to \code{TRUE} when the
-#'   attribute is set to \code{value} regardless of previous setting.
-#' @return The \code{Identifier} attribute as a character of length 1 is added
-#'   to \code{x}.
+#' @title Get or Set the Identifier of a Dataset or Metadata Record
+#'
+#' @description Retrieve or assign the `identifier` attribute of a dataset or
+#' bibliographic metadata object.
+#'
+#' @details An *identifier* provides an unambiguous reference to a resource.
+#' Recommended practice is to supply a persistent identifier string, such as a
+#' DOI, ISBN, or URN, that conforms to a recognized identification system.
+#'
+#' Both [Dublin
+#' Core](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#identifier)
+#' and [DataCite
+#' 4.4](https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#1-identifier)
+#' define `identifier` as a core property. If the identifier is a DOI, it will
+#' also be stored in the `doi` field of the metadata record.
+#'
+#' Although `identifier` is not part of the minimal Dublin Core term set, it is
+#' always included in `dataset` metadata for compatibility with publishing and
+#' indexing systems. You may omit it if working under a strict DC profile.
+#'
+#' For best practice in choosing identifier schemes, see the [IANA-registered
+#' URI schemes](https://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml).
+#'
+#' @param x A [dataset_df()] object or a [`utils::bibentry`] object (including
+#'   [dublincore()] or [datacite()] records).
+#' @param value A character string giving the identifier. Can be named (e.g.,
+#'   `c(doi = "...")`) or unnamed. Numeric values are coerced to character.
+#' @param overwrite Logical. If `TRUE` (default), any existing identifier is
+#'   replaced. If `FALSE`, an existing identifier is preserved unless it is
+#'   `":unas"` or `":tba"`.
+#'
+#' @return For `identifier()`, the current identifier as a character string. For
+#' `identifier<-()`, the updated object (invisible).
+#'
 #' @examples
-#' identifier(orange_df)
 #' orange_copy <- orange_df
-#' identifier(orange_copy) <- "https://doi.org/99999/9999999"
+#'
+#' # Get the current identifier
+#' identifier(orange_copy)
+#'
+#' # Set a new identifier (e.g., a DOI)
+#' identifier(orange_copy) <- "https://doi.org/10.9999/example.doi"
+#'
+#' # Prevent accidental overwrite
+#' identifier(orange_copy, overwrite = FALSE) <- "https://example.org/id"
+#'
+#' # Use numeric and NULL values
+#' identifier(orange_copy) <- 12345
+#' identifier(orange_copy) <- NULL # Sets ":unas"
+#'
 #' @family Reference metadata functions
+#' @rdname identifier
 #' @export
 
 identifier <- function(x) {
@@ -84,7 +101,6 @@ identifier <- function(x) {
     }
   }
 
-
   if (overwrite || old_identifier %in% c(":unas", ":tba")) {
     ds_bibentry$identifier <- value
     if (is_doi(value)) {
@@ -98,7 +114,6 @@ identifier <- function(x) {
       old_identifier, ".\nYou can overwrite this message with identifier(x, overwrite = TRUE) <- value"
     )
   }
-
 
   if (inherits(x, "bibentry")) {
     ds_bibentry
