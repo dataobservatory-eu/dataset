@@ -1,22 +1,27 @@
-#' @title Get/set the publication_year of the object.
-#' @description Get/set the optional \code{publication_year} property as an
-#'   attribute to an R object.
-#' @details The \code{PublicationYear} is the year when the data was or will be
-#'   made publicly available in \code{YYYY} format. See
-#'   \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#publicationyearadditional-guidance}{Publication
-#'   Year: DataCite Additional Guidance}.
-#' @param x A semantically rich data frame object created by
-#'   [dataset_df()] or \code{dataset::\link{as_dataset_df}}.
-#' @param value The publication_year as a character set.
-#' @param overwrite If the attributes should be overwritten. In case it is set
-#'   to \code{FALSE}, it gives a message with the current \code{PublicationYear}
-#'   property instead of overwriting it. Defaults to \code{TRUE} when the
-#'   attribute is set to \code{value} regardless of previous setting.
-#' @return Returns the \code{year} metadata field of the \code{DataBibentry} of
-#'   the dataset
+#' @title Get or Set the Publication Year of a Dataset Object
+#'
+#' @description
+#' Access or assign the optional `publication_year` attribute to a semantically
+#' rich dataset object.
+#'
+#' @details
+#' The `publication_year` represents the year when the dataset was or will be
+#' made publicly available, in `YYYY` format. For additional context, see
+#' [DataCite: Publication Year – Additional Guidance](https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#publicationyearadditional-guidance).
+#'
+#' @param x A dataset object created by [dataset_df()] or
+#'   `dataset::as_dataset_df()`.
+#' @param value A character string specifying the publication year.
+#' @param overwrite Logical. If `TRUE` (default), the existing
+#'   `publication_year` attribute is replaced with `value`. If `FALSE`, the
+#'   function returns a message and does not overwrite the existing value.
+#'
+#' @return The `publication_year` attribute as a character string.
+#'
 #' @examples
 #' publication_year(orange_df)
-#' publication_year(orange_df) <- 1998
+#' publication_year(orange_df) <- "1998"
+#'
 #' @family Reference metadata functions
 #' @export
 
