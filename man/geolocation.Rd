@@ -3,36 +3,36 @@
 \name{geolocation}
 \alias{geolocation}
 \alias{geolocation<-}
-\title{Get/set the Geolocation of the object.}
+\title{Get or Set the Geolocation of a Dataset Object}
 \usage{
 geolocation(x)
 
 geolocation(x, overwrite = TRUE) <- value
 }
 \arguments{
-\item{x}{A semantically rich data frame object created by
-\code{\link[=dataset_df]{dataset_df()}} or \code{dataset::\link{as_dataset_df}}.}
+\item{x}{A dataset object created by \code{\link[=dataset_df]{dataset_df()}} or
+\code{dataset::as_dataset_df()}.}
 
-\item{overwrite}{If the attributes should be overwritten. In case it is set
-to \code{FALSE}, it gives a message with the current \code{Geolocation}
-property instead of overwriting it. Defaults to \code{TRUE} when the
-attribute is set to \code{value} regardless of previous setting.}
+\item{overwrite}{Logical. If \code{TRUE} (default), the existing \code{geolocation}
+attribute is replaced with \code{value}. If \code{FALSE}, the function returns a
+message and does not overwrite the existing value.}
 
-\item{value}{The  \code{Geolocation} as a character string.}
+\item{value}{A character string specifying the \code{geolocation}.}
 }
 \value{
-The \code{Geolocation} attribute as a character of length 1 is added
-to \code{x}.
+A character string of length 1, representing the \code{geolocation}
+attribute attached to \code{x}.
 }
 \description{
-Get/set the optional \code{Geolocation} property as an attribute
-to an R object.
+Access or assign the optional \code{geolocation} attribute to a semantically rich
+dataset object.
 }
 \details{
-The \code{Geolocation} is recommended for discovery in DataCite 4.4.
-Spatial region or named place where the data was gathered or about which
-the data is focused. See:
-\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#18-geolocation}{datacite:Geolocation}.
+The \code{geolocation} field describes the spatial region or named place where
+the data was collected or that the dataset is about. This field is
+recommended for data discovery in DataCite Metadata Schema 4.4.
+
+See: \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#18-geolocation}{DataCite: Geolocation Guidance}
 }
 \examples{
 orange_dataset <- orange_df

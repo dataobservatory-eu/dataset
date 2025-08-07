@@ -1,19 +1,26 @@
-#' @title Get/set the Geolocation of the object.
-#' @description Get/set the optional \code{Geolocation} property as an attribute
-#'   to an R object.
-#' @details The \code{Geolocation} is recommended for discovery in DataCite 4.4.
-#'   Spatial region or named place where the data was gathered or about which
-#'   the data is focused. See:
-#'   \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#18-geolocation}{datacite:Geolocation}.
-#' @param x A semantically rich data frame object created by
-#'   [dataset_df()] or \code{dataset::\link{as_dataset_df}}.
-#' @param value The  \code{Geolocation} as a character string.
-#' @param overwrite If the attributes should be overwritten. In case it is set
-#'   to \code{FALSE}, it gives a message with the current \code{Geolocation}
-#'   property instead of overwriting it. Defaults to \code{TRUE} when the
-#'   attribute is set to \code{value} regardless of previous setting.
-#' @return The \code{Geolocation} attribute as a character of length 1 is added
-#'   to \code{x}.
+#' @title Get or Set the Geolocation of a Dataset Object
+#'
+#' @description
+#' Access or assign the optional `geolocation` attribute to a semantically rich
+#' dataset object.
+#'
+#' @details
+#' The `geolocation` field describes the spatial region or named place where
+#' the data was collected or that the dataset is about. This field is
+#' recommended for data discovery in DataCite Metadata Schema 4.4.
+#'
+#' See: [DataCite: Geolocation Guidance](https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#18-geolocation)
+#'
+#' @param x A dataset object created by [dataset_df()] or
+#'   `dataset::as_dataset_df()`.
+#' @param value A character string specifying the `geolocation`.
+#' @param overwrite Logical. If `TRUE` (default), the existing `geolocation`
+#'   attribute is replaced with `value`. If `FALSE`, the function returns a
+#'   message and does not overwrite the existing value.
+#'
+#' @return A character string of length 1, representing the `geolocation`
+#'   attribute attached to `x`.
+#'
 #' @examples
 #' orange_dataset <- orange_df
 #' geolocation(orange_df) <- "US"
