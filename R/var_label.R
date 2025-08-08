@@ -46,25 +46,6 @@ NULL
 var_label.defined <- function(x, ...) {
   NextMethod()
 }
-
-
-
-
-#' @keywords internal
-set_var_labels <- function(dataset, var_labels) {
-  var_label_list <- list()
-  var_label_list <- lapply(colnames(dataset), function(i) i)
-  names(var_label_list) <- colnames(dataset)
-
-  for (rn in which(names(var_label_list) %in% names(var_labels))) {
-    var_label_list[[rn]] <- var_labels[[which(names(var_label_list)[rn] == names(var_labels))]]
-  }
-
-  attr(dataset, "var_labels") <- var_label_list
-
-  dataset
-}
-
 #' @rdname var_label
 #'
 #' @description
@@ -104,7 +85,6 @@ label_attribute <- function(x) {
   attr(x, "label") <- value
   x
 }
-
 
 #' @rdname var_label
 #'

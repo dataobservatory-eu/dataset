@@ -110,6 +110,7 @@ var_label(df, null_action = "fill")
 \code{\link[labelled:var_label]{labelled::var_label()}}, \code{\link[=var_labels]{var_labels()}}, \code{\link[=defined]{defined()}}
 
 Other defined metadata methods and functions: 
+\code{\link{var_labels}()},
 \code{\link{var_namespace}()},
 \code{\link{var_unit}()}
 }
