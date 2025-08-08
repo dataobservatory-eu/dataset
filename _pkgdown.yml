@@ -50,12 +50,7 @@ articles:
          R ecosystem.
     contents:
        - rdf
-  - title: "Motivation"
-    desc: >
-     Will be removed before the next release.
-    contents:
-       - Motivation
-       - new_requirements
+
 reference:
   - title: "Dataset"
     desc: >
@@ -103,10 +98,12 @@ reference:
       - get_bibentry
       - dataset_title
       - creator
+      - contributor
       - language
       - subject
       - publication_year
       - publisher
+      - dataset_format
       - rights
       - identifier
       - description
@@ -124,10 +121,10 @@ reference:
       - id_to_column
   - title: "Replication Datasets"
     desc: >
-      Some R datasets enriched with more semantic metadata. The
-      iris_dataset will be removed at the next release.
+      The orange_df is an enrichment of the Orange dataset for demonstration
+         purposes. The GDP dataset is a simple dataset to demonstrate the
+         process of metadata enrichment.
     contents:
        - orange_df
        - gdp
-       - iris_dataset
 

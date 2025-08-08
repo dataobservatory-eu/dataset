@@ -24,3 +24,6 @@
 ^vignettes/RDF\.old$
 ^vignettes/RDF\.bak$
 ^review\.md$
+^R/dataset-iris_dataset\.bak$
+^vignettes/Motivation\.bak$
+^vignettes/new_requirements\.bak$

@@ -3,7 +3,7 @@ title: "Design Principles & Future Work Semantically Enriched, Standards-Aligned
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEncoding{UTF-8}
-  %\VignetteIndexEntry{dataset: Semantically Enriched, Standards-Aligned Datasets in R}
+  %\VignetteIndexEntry{Design Principles & Future Work Semantically Enriched, Standards-Aligned Datasets in R}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   markdown: 
