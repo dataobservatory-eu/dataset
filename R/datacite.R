@@ -165,7 +165,6 @@ datacite <- function(Title,
   )
 }
 
-
 #' @keywords internal
 new_datacite <- function(Title,
                          Creator,
@@ -214,8 +213,6 @@ new_datacite <- function(Title,
   class(datacite_object) <- c("datacite", class(datacite_object))
   datacite_object
 }
-
-
 
 #' @rdname datacite
 #' @return \code{is.datacite(x)} returns a logical values (if the object
@@ -331,10 +328,16 @@ datacite_to_triples <- function(dc_list,
   }
 
   if (!is.null(dc_list$subject)) {
+    subj_value <- dc_list$subject
+    if (is.subject(subj_value)) {
+      subj_value <- subj_value$term
+    } else if (is.list(subj_value) && all(vapply(subj_value, is.subject, logical(1)))) {
+      subj_value <- vapply(subj_value, function(s) s$term, character(1))
+    }
     triples <- c(triples, n_triple(
       dataset_id,
       paste0(base, "subjects"),
-      dc_list$subject
+      subj_value
     ))
   }
 
