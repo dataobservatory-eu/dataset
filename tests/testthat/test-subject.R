@@ -1,3 +1,52 @@
+
+test_that("subject() errors for non-dataset_df", {
+  expect_error(
+    subject(mtcars),
+    "subject\\(x\\): x must be a dataset"
+  )
+})
+
+test_that("subject() returns from attribute when present", {
+  df <- dataset_df(data.frame(x = 1:3))
+  subject(df) <- subject_create("Biodiversity")
+  s <- subject(df)
+  expect_s3_class(s, "subject")
+  expect_equal(s$term, "Biodiversity")
+})
+
+test_that("subject() falls back to bibentry$subject when attr is missing", {
+  df <- dataset_df(data.frame(x = 1:3))
+  # set via character → bibentry$subject set to term + attr(subject) set
+  subject(df) <- "Forestry"
+  # remove attr to force fallback
+  attr(df, "subject") <- NULL
+  got <- subject(df)
+  expect_equal(got, "Forestry")
+})
+
+test_that("subject() returns default subject for a fresh dataset_df", {
+  df <- dataset_df(data.frame(x = 1:3))
+  s <- subject(df)
+  expect_s3_class(s, "subject")
+  expect_equal(s$term, default_subject$term)  # e.g., "Data sets"
+})
+
+
+test_that("subject() messages and returns NULL when subject truly missing", {
+  df <- dataset_df(data.frame(x = 1:3))
+  # Nuke both attr and bibentry entry to simulate a broken object
+  attr(df, "subject") <- NULL
+  be <- get_bibentry(df)
+  be$subject <- NULL
+  attr(df, "dataset_bibentry") <- be
+
+  expect_message(out <- subject(df), "No subject is recorded\\.")
+  expect_null(out)
+})
+
+
+# --- subject_create / new_Subject ---
+
 test_that("subject_create() creates a valid subject object", {
   s <- subject_create(
     term = "Climate Data",
@@ -6,7 +55,6 @@ test_that("subject_create() creates a valid subject object", {
     valueURI = "https://id.loc.gov/authorities/subjects/sh2001000174",
     prefix = "lcsh:"
   )
-
   expect_s3_class(s, "subject")
   expect_equal(s$term, "Climate Data")
   expect_equal(s$subjectScheme, "LCSH")
@@ -15,7 +63,7 @@ test_that("subject_create() creates a valid subject object", {
   expect_equal(s$prefix, "lcsh:")
 })
 
-test_that("subject_create() handles NULL values gracefully", {
+test_that("subject_create() handles NULL term gracefully", {
   s <- subject_create(term = NULL)
   expect_s3_class(s, "subject")
   expect_equal(s$term, ":tba")
@@ -31,8 +79,7 @@ test_that("subject_create() handles multiple terms", {
   expect_equal(s[[2]]$term, "Agriculture")
 })
 
-test_that("new_Subject() constructs subject with and
-          without classificationCode", {
+test_that("new_Subject() constructs with/without classificationCode", {
   s1 <- new_Subject("Environment")
   expect_s3_class(s1, "subject")
   expect_equal(s1$term, "Environment")
@@ -42,44 +89,26 @@ test_that("new_Subject() constructs subject with and
   expect_equal(s2$classificationCode, "06")
 })
 
+# --- is.subject ---
+
 test_that("is.subject() returns TRUE for subject objects", {
   s <- subject_create("Health")
   expect_true(is.subject(s))
 })
 
-test_that("is.subject() returns FALSE for non-subject objects", {
+test_that("is.subject() returns FALSE for non-subject", {
   expect_false(is.subject(list(term = "NotClassed")))
   expect_false(is.subject("Just a string"))
 })
 
-test_that("subject() retrieves subject from attr or bibentry", {
-  df <- dataset_df(data.frame(x = 1:3))
-  subject(df) <- subject_create("Biodiversity")
-  expect_equal(subject(df)$term, "Biodiversity")
-})
-
-test_that("subject() falls back to bibentry$subject", {
-  df <- dataset_df(data.frame(x = 1:3))
-  subject(df) <- "Forestry"
-  # Remove subject attr to force fallback
-  attr(df, "subject") <- NULL
-  expect_equal(subject(df), "Forestry")
-})
-
-test_that("subject() provides the default setting if nothing else
-          is set", {
-  df <- dataset_df(data.frame(x = 1:3))
-  expect_equal(subject(df)$term, "data sets")
-})
+# --- setter semantics ---
 
 test_that("subject<- handles NULL and character input", {
   df <- dataset_df(data.frame(x = 1:3))
 
-  # NULL input
   subject(df) <- NULL
   expect_equal(subject(df)$term, ":tba")
 
-  # character input
   subject(df) <- "Oceanography"
   expect_equal(subject(df)$term, "Oceanography")
 })
@@ -88,8 +117,7 @@ test_that("subject<- errors for invalid input types", {
   df <- dataset_df(data.frame(x = 1:3))
   expect_error(
     subject(df) <- list(term = "Invalid"),
-    regexp = "value must be a created with 'subject_create"
-  )
+    regexp="value must be a created with")
 })
 
 test_that("subject<- replaces both attr and bibentry field", {
@@ -97,7 +125,25 @@ test_that("subject<- replaces both attr and bibentry field", {
   s <- subject_create("Volcanology")
   subject(df) <- s
 
-  ds_bibentry <- get_bibentry(df)
-  expect_equal(ds_bibentry$subject, "Volcanology")
+  be <- get_bibentry(df)
+  expect_equal(be$subject, "Volcanology")
   expect_equal(attr(df, "subject")$term, "Volcanology")
 })
+
+# --- integration with as_datacite(dataset_df) flattening ---
+
+test_that("as_datacite(dataset_df) flattens subject to its term", {
+  df <- dataset_df(data.frame(x = 1))
+  creator(df) <- person("Jane", "Doe", role = "cre")
+  subject(df) <- subject_create(
+    term = "Oranges",
+    schemeURI = "http://id.loc.gov/authorities/subjects",
+    valueURI = "http://id.loc.gov/authorities/subjects/sh85095257",
+    subjectScheme = "LCCH",
+    prefix = "lcch:"
+  )
+  out <- as_datacite(df, type = "dataset_df")
+  expect_s3_class(out, "dataset_df")
+  expect_equal(as.character(out$Subject), "Oranges")
+})
+

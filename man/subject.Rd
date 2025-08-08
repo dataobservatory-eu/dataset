@@ -5,7 +5,7 @@
 \alias{subject_create}
 \alias{subject<-}
 \alias{is.subject}
-\title{Create/add/retrieve a subject}
+\title{Create, add, or retrieve a subject}
 \usage{
 subject(x)
 
@@ -23,59 +23,39 @@ subject(x) <- value
 is.subject(x)
 }
 \arguments{
-\item{x}{A dataset object created with \code{\link[=dataset_df]{dataset_df()}} or
-\code{\link[=as_dataset_df]{as_dataset_df()}}.}
-
-\item{term}{A subject term, for example, \code{"Data sets"}.}
-
-\item{schemeURI}{The URI of the subject identifier scheme, for example
-\code{"http://id.loc.gov/authorities/subjects"}}
-
-\item{valueURI}{The URI of the subject term.
-\code{"https://id.loc.gov/authorities/subjects/sh2018002256"}}
-
-\item{prefix}{An abbreviated prefix of a scheme URI, for example,
-\code{"lcch:"} representing \code{"http://id.loc.gov/authorities/subjects"}.
-Widely used namespaces (schemes) have conventional abbreviations.}
-
-\item{subjectScheme}{The name of the subject scheme or classification code or
-authority if one is used. It is a namespace.}
-
-\item{classificationCode}{The classificationCode subproperty may be used for
-subject schemes, like ANZSRC, which do not have valueURIs for each subject term.}
-
-\item{value}{A subject field created by\code{\link[=subject]{subject()}}.
-The subject field is overwritten with this value.}
+\item{x}{A dataset object created with \code{\link[=dataset_df]{dataset_df()}} or \code{\link[=as_dataset_df]{as_dataset_df()}}.}
 }
 \value{
-\code{subject(x)} returns the subject attribute of the
-\code{\link[=dataset_df]{dataset_df()}} object \code{x}, \code{subject(x)<-value} sets
-the same attribute to \code{value} and invisibly returns the
-\code{x} object with the changed attributes.
-
-A \code{subject_create} returns a named list with the subject term,
-the subject scheme, URIs and prefix.
-
-\code{is.subject} returns a logical value, \code{TRUE} if the subject as a list
-is well-formatted by\code{\link[=subject_create]{subject_create()}} with its necessary key-value pairs.
+\itemize{
+\item \code{subject(x)} returns the \code{"subject"} attribute or the \code{subject} field
+from the dataset's bibentry.
+\item \code{subject(x) <- value} sets the \code{"subject"} attribute and updates the
+bibentry's \code{subject} field, returning the modified dataset invisibly.
+}
 }
 \description{
-Create/add/retrieve a subject
+Manage the subject metadata of a dataset. The subject can be a simple
+character term or a structured object with subproperties created by
+\code{\link[=subject_create]{subject_create()}}.
 }
 \details{
-The subject class and its function record the subject property of the dataset.
-The DataCite definition allows the use of multiple subproperties, however, these
-cannot be added to the standard \code{\link[utils:bibentry]{utils::bibentry}}
-object. Therefore, if the user sets the value of the subject field to a
-character string, it is added to the bibentry of the dataset, and also to
-a separate \code{subject} attribute. If the user wants to use the more detailed
-subproperties (see examples with \code{subject_create}), then the subject$term
-value is added to the bibentry as a text, and the more complex subject object
-is added as a separate attribute to the dataset_df object.
+The \href{https://schema.datacite.org/meta/kernel-4/}{DataCite subject property}
+supports multiple subproperties. These cannot be stored directly in a
+standard \code{\link[utils:bibentry]{utils::bibentry}} object.
+Therefore:
+\itemize{
+\item If you set a character string as the subject, it is stored in the bibentry
+and as a \code{"subject"} attribute.
+\item If you set a structured subject (via \code{\link[=subject_create]{subject_create()}}), the \verb{$term}
+value is stored in the bibentry, and the complete object is stored in the
+\code{"subject"} attribute of the \code{\link{dataset_df}} object.
+}
 }
 \examples{
-# To set the subject of a dataset_df object:
-subject(orange_df) <- subject_create(
+df <- dataset_df(data.frame(x = 1))
+
+# Set subject as a structured object
+subject(df) <- subject_create(
   term = "Oranges",
   schemeURI = "http://id.loc.gov/authorities/subjects",
   valueURI = "http://id.loc.gov/authorities/subjects/sh85095257",
@@ -83,6 +63,21 @@ subject(orange_df) <- subject_create(
   prefix = "lcch:"
 )
 
-# To retrieve the subject with its subproperties:
-subject(orange_df)
+# Retrieve subject
+subject(df)
+
 }
+\seealso{
+Other bibliographic helper functions: 
+\code{\link{contributor}()},
+\code{\link{creator}()},
+\code{\link{dataset_title}()},
+\code{\link{description}()},
+\code{\link{geolocation}()},
+\code{\link{get_bibentry}()},
+\code{\link{language}},
+\code{\link{publication_year}()},
+\code{\link{publisher}()},
+\code{\link{rights}()}
+}
+\concept{bibliographic helper functions}
