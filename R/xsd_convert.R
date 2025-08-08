@@ -23,8 +23,7 @@
 #' A character vector or data frame with values serialized as XSD-compatible
 #' RDF literals.
 #'
-#' @section Main example:
-#' ```r
+#' @examples
 #' # Simple data frame with mixed types
 #' df <- data.frame(
 #'   id     = 1:2,
@@ -33,33 +32,17 @@
 #'   date   = as.Date(c("2020-01-01", "2020-12-31"))
 #' )
 #'
-#' xsd_convert(df, idcol = "id")
-#' ```
-#'
 #' @section Class-specific examples:
 #' ```r
-#' xsd_convert(42L)                     # integer -> xs:integer
-#' xsd_convert(c(TRUE, FALSE, NA))       # logical -> xs:boolean
-#' xsd_convert(Sys.Date())               # Date -> xs:date
-#' xsd_convert(Sys.time())               # POSIXct -> xs:dateTime
-#' xsd_convert(factor("apple"))          # factor -> xs:string
-#' xsd_convert(c("apple", "banana"))     # character -> xs:string
+#' xsd_convert(42L)                   # integer -> xs:integer
+#' xsd_convert(c(TRUE, FALSE, NA))    # logical -> xs:boolean
+#' xsd_convert(Sys.Date())            # Date -> xs:date
+#' xsd_convert(Sys.time())            # POSIXct -> xs:dateTime
+#' xsd_convert(factor("apple"))       # factor -> xs:string
+#' xsd_convert(c("apple", "banana"))  # character -> xs:string
 #' ```
-#'
-#' @section Advanced:
-#' For `defined()` vectors with a semantic datatype, the declared datatype is
-#' used when converting to XSD literals.
-#'
-#' ```r
-#' library(haven)
-#' x <- labelled_spss(c(1, 0, 1), labels = c(Yes = 1, No = 0))
-#' x <- defined(x, concept = "https://example.org/concept", datatype = "xs:boolean")
-#' xsd_convert(x)
-#' ```
-#'
 #' @family RDF and linked data helpers
 #' @export
-
 
 xsd_convert <- function(x, idcol, ...) {
   UseMethod("xsd_convert", x)

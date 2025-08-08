@@ -70,10 +70,20 @@ structure but with all values converted to XSD strings.
 preserves dataset-level attributes.
 }
 }
-\section{Main example}{
+\section{Class-specific examples}{
 
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Simple data frame with mixed types
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{xsd_convert(42L)                   # integer -> xs:integer
+xsd_convert(c(TRUE, FALSE, NA))    # logical -> xs:boolean
+xsd_convert(Sys.Date())            # Date -> xs:date
+xsd_convert(Sys.time())            # POSIXct -> xs:dateTime
+xsd_convert(factor("apple"))       # factor -> xs:string
+xsd_convert(c("apple", "banana"))  # character -> xs:string
+}\if{html}{\out{</div>}}
+}
+
+\examples{
+# Simple data frame with mixed types
 df <- data.frame(
   id     = 1:2,
   value  = c(3.14, 2.71),
@@ -81,32 +91,5 @@ df <- data.frame(
   date   = as.Date(c("2020-01-01", "2020-12-31"))
 )
 
-xsd_convert(df, idcol = "id")
-}\if{html}{\out{</div>}}
 }
-
-\section{Class-specific examples}{
-
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{xsd_convert(42L)                     # integer -> xs:integer
-xsd_convert(c(TRUE, FALSE, NA))       # logical -> xs:boolean
-xsd_convert(Sys.Date())               # Date -> xs:date
-xsd_convert(Sys.time())               # POSIXct -> xs:dateTime
-xsd_convert(factor("apple"))          # factor -> xs:string
-xsd_convert(c("apple", "banana"))     # character -> xs:string
-}\if{html}{\out{</div>}}
-}
-
-\section{Advanced}{
-
-For \code{defined()} vectors with a semantic datatype, the declared datatype is
-used when converting to XSD literals.
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(haven)
-x <- labelled_spss(c(1, 0, 1), labels = c(Yes = 1, No = 0))
-x <- defined(x, concept = "https://example.org/concept", datatype = "xs:boolean")
-xsd_convert(x)
-}\if{html}{\out{</div>}}
-}
-
 \concept{RDF and linked data helpers}
