@@ -3,10 +3,11 @@
 #' @param type Output format. One of `"bibentry"`, `"dataset_df"`, `"list"`, or
 #'   `"ntriples"`. See Details.
 #' @param ... Optional fields to attach to the `dublincore` object.
-#'   For example, `author = person("Jane", "Doe")` adds an author to the citation
-#'   if `type = "dataset_df"`.
+#'   For example, `author = person("Jane", "Doe")` adds an author to the
+#'   citation if `type = "dataset_df"`.
 #'
 #' @export
+
 as_dublincore <- function(x, type = "bibentry", ...) {
   citation_author <- person(NULL, NULL)
 
@@ -50,18 +51,42 @@ as_dublincore <- function(x, type = "bibentry", ...) {
     dataset_date <- ":tba"
   }
 
-  dataset_relation <- ifelse(is.null(dataset_bibentry$relation), ":unas", as.character(dataset_bibentry$relation))
-  dataset_identifier <- ifelse(is.null(dataset_bibentry$identifier), ":tba", as.character(dataset_bibentry$identifier))
-  dataset_version <- ifelse(is.null(dataset_bibentry$version), ":unas", as.character(dataset_bibentry$version))
-  dataset_description <- ifelse(is.null(dataset_bibentry$description), ":unas", as.character(dataset_bibentry$description))
-  dataset_language <- ifelse(is.null(dataset_bibentry$language), ":unas", as.character(dataset_bibentry$language))
-  dataset_format <- ifelse(is.null(dataset_bibentry$format), "application/r-rds", as.character(dataset_bibentry$format))
-  dataset_rights <- ifelse(is.null(dataset_bibentry$rights), ":tba", as.character(dataset_bibentry$rights))
-  dataset_coverage <- ifelse(is.null(dataset_bibentry$coverage), ":unas", as.character(dataset_bibentry$coverage))
-  datasource <- ifelse(is.null(dataset_bibentry$datasource), ":unas", as.character(dataset_bibentry$datasource))
-  dataset_contributor <- ifelse(is.null(dataset_bibentry$contributor), "", as.character(dataset_bibentry$contributor))
-  dataset_subject <- ifelse(is.null(dataset_bibentry$subject), "", as.character(dataset_bibentry$subject))
-  dataset_publisher <- ifelse(is.null(dataset_bibentry$publisher), "", as.character(dataset_bibentry$publisher))
+  dataset_relation <- ifelse(
+    is.null(dataset_bibentry$relation), ":unas", as.character(dataset_bibentry$relation)
+  )
+  dataset_identifier <- ifelse(
+    is.null(dataset_bibentry$identifier), ":tba", as.character(dataset_bibentry$identifier)
+  )
+  dataset_version <- ifelse(
+    is.null(dataset_bibentry$version), ":unas", as.character(dataset_bibentry$version)
+  )
+  dataset_description <- ifelse(
+    is.null(dataset_bibentry$description), ":unas", as.character(dataset_bibentry$description)
+  )
+  dataset_language <- ifelse(
+    is.null(dataset_bibentry$language), ":unas", as.character(dataset_bibentry$language)
+  )
+  dataset_format <- ifelse(
+    is.null(dataset_bibentry$format), "application/r-rds", as.character(dataset_bibentry$format)
+  )
+  dataset_rights <- ifelse(
+    is.null(dataset_bibentry$rights), ":tba", as.character(dataset_bibentry$rights)
+  )
+  dataset_coverage <- ifelse(
+    is.null(dataset_bibentry$coverage), ":unas", as.character(dataset_bibentry$coverage)
+  )
+  datasource <- ifelse(
+    is.null(dataset_bibentry$datasource), ":unas", as.character(dataset_bibentry$datasource)
+  )
+  dataset_contributor <- ifelse(
+    is.null(dataset_bibentry$contributor), "", as.character(dataset_bibentry$contributor)
+  )
+  dataset_subject <- ifelse(
+    is.null(dataset_bibentry$subject), "", as.character(dataset_bibentry$subject)
+  )
+  dataset_publisher <- ifelse(
+    is.null(dataset_bibentry$publisher), "", as.character(dataset_bibentry$publisher)
+  )
 
   properties <- c(
     length(dataset_title),
@@ -150,13 +175,17 @@ as_dublincore <- function(x, type = "bibentry", ...) {
         coverage = dataset_coverage
       ),
       reference = list(
-        title = paste0("The Dublin Core Metadata of `", dataset_bibentry$title, "'"),
+        title = paste0(
+          "The Dublin Core Metadata of `",
+          dataset_bibentry$title, "'"
+        ),
         author = citation_author,
         year = substr(as.character(Sys.Date()), 1, 4)
       )
     )
   } else if (type == "ntriples") {
-    dataset_id <- if (is.null(dataset_identifier) || dataset_identifier == ":tba") {
+    dataset_id <- if (is.null(dataset_identifier) ||
+      dataset_identifier == ":tba") {
       "http://example.com/dataset_tba/"
     } else {
       dataset_identifier
@@ -172,7 +201,7 @@ as_dublincore <- function(x, type = "bibentry", ...) {
       identifier  = dataset_identifier,
       publisher   = dataset_publisher,
       subject     = dataset_subject,
-      type        = "http://purl.org/dc/dcmitype/Dataset", # Fixed URI
+      type        = "http://purl.org/dc/dcmitype/Dataset",
       contributor = dataset_contributor,
       date        = dataset_date,
       language    = dataset_language,

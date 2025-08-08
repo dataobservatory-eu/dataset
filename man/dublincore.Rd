@@ -18,6 +18,7 @@ dublincore(
   title,
   creator,
   contributor = NULL,
+  year = NULL,
   publisher = NULL,
   identifier = NULL,
   subject = NULL,
@@ -52,6 +53,9 @@ creator(s). See \code{\link[=creator]{creator()}}.}
 \item{contributor}{Additional contributors (\code{\link[utils:person]{utils::person()}}) with optional
 roles. See \code{\link[=contributor]{contributor()}}.}
 
+\item{year}{An explicit publication year. If omitted, inferred from
+\code{dataset_date}.}
+
 \item{publisher}{A character or \code{\link[utils:person]{utils::person()}} indicating the publishing
 entity. See \code{\link[=publisher]{publisher()}}.}
 
@@ -66,22 +70,20 @@ character in \code{YYYY}, \code{YYYY-MM-DD}, or ISO format).}
 \item{language}{ISO 639-1 language code. See \code{\link[=language]{language()}}.}
 
 \item{relation}{A related resource (e.g., version, paper, or parent dataset).
-See \code{\link[=relation]{relation()}}.}
+Currently only supports an URI, for example,
+\code{"https:://doi.org/10.32614/CRAN.package.dataset"}.}
 
 \item{dataset_format}{The technical format of the dataset (e.g., MIME type).
 See \code{\link[=dataset_format]{dataset_format()}}.}
 
 \item{rights}{A string describing intellectual property or usage rights.
-See \code{\link[=rights]{rights()}}.}
+Use a URI like \code{"https://creativecommons.org/public-domain/cc0/"}.}
 
 \item{datasource}{A URL or label for the original source of the dataset.}
 
 \item{description}{A free-text summary of the dataset. See \code{\link[=description]{description()}}.}
 
 \item{coverage}{Geographic or temporal extent (spatial/temporal coverage).}
-
-\item{year}{An explicit publication year. If omitted, inferred from
-\code{dataset_date}.}
 }
 \value{
 A \code{bibentry} object extended with class \code{"bibrecord"}, storing structured

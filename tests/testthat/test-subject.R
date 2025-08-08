@@ -1,4 +1,3 @@
-
 test_that("subject() errors for non-dataset_df", {
   expect_error(
     subject(mtcars),
@@ -28,7 +27,7 @@ test_that("subject() returns default subject for a fresh dataset_df", {
   df <- dataset_df(data.frame(x = 1:3))
   s <- subject(df)
   expect_s3_class(s, "subject")
-  expect_equal(s$term, default_subject$term)  # e.g., "Data sets"
+  expect_equal(s$term, default_subject$term) # e.g., "Data sets"
 })
 
 
@@ -117,7 +116,8 @@ test_that("subject<- errors for invalid input types", {
   df <- dataset_df(data.frame(x = 1:3))
   expect_error(
     subject(df) <- list(term = "Invalid"),
-    regexp="value must be a created with")
+    regexp = "value must be a created with"
+  )
 })
 
 test_that("subject<- replaces both attr and bibentry field", {
@@ -146,4 +146,3 @@ test_that("as_datacite(dataset_df) flattens subject to its term", {
   expect_s3_class(out, "dataset_df")
   expect_equal(as.character(out$Subject), "Oranges")
 })
-

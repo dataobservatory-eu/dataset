@@ -19,7 +19,7 @@
 #'   \code{x}.
 #' @importFrom utils person
 #' @importFrom assertthat assert_that
-#' @family Bibliographic reference functions
+#' @family bibliographic helper functions
 #' @examples
 #' creator(orange_df)
 #' # To change author:

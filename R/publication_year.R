@@ -22,7 +22,7 @@
 #' publication_year(orange_df)
 #' publication_year(orange_df) <- "1998"
 #'
-#' @family Reference metadata functions
+#' @family bibliographic helper functions
 #' @export
 
 publication_year <- function(x) {

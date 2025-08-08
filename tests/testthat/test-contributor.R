@@ -1,8 +1,10 @@
 test_that("contributor() returns only contributor persons", {
   df <- dataset_df(data.frame(x = 1))
   creator(df) <- person("Alice", "Smith", role = "aut")
-  contributor(df, overwrite = FALSE) <- person("Infra", role = "ctb",
-                                               comment = c(contributorType = "hostingInstitution"))
+  contributor(df, overwrite = FALSE) <- person("Infra",
+    role = "ctb",
+    comment = c(contributorType = "hostingInstitution")
+  )
   cons <- contributor(df)
   chr <- vapply(cons, as.character, character(1))
   expect_true(any(grepl("Infra.*\\[ctb\\]", chr)))
@@ -72,4 +74,3 @@ test_that("contributor<-() errors if role is not 'ctb'", {
   df <- dataset_df(data.frame(x = 1))
   expect_error(contributor(df) <- utils::person("Jane", "Doe", role = "aut"), "role must be 'ctb'")
 })
-

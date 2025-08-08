@@ -14,9 +14,9 @@ default_provenance(
 \arguments{
 \item{dataset_id}{Base IRI for the dataset (used as the \code{Entity} subject).}
 
-\item{author}{Optional creator/author agent; passed to \code{\link[=prov_author]{prov_author()}}.}
+\item{author}{Optional creator/author agent.}
 
-\item{dtm}{Optional data team/maintainer agent; passed to \code{\link[=prov_author]{prov_author()}}.}
+\item{dtm}{Optional data team/maintainer agent.}
 
 \item{generated_at_time}{Optional POSIXct time; defaults to \code{\link[=Sys.time]{Sys.time()}}.}
 }

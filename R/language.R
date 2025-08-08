@@ -29,14 +29,14 @@
 #'   as valid input for French
 #' - The resulting value stored and returned will be `"fra"`
 #'
-#' This behavior aligns with:
+#' This behaviour aligns with:
 #' - [DataCite Metadata Schema 4.4](https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#9-language)
 #' - [schema.org](https://schema.org/inLanguage)
 #' - Common repository practices (Zenodo, OSF, Figshare)
 #'
 #' If `value` is `NULL`, the language is marked as `":unas"` (unspecified).
 #'
-#' In some cases—especially for historical or moribund languages—multiple
+#' In some cases<U+2014>especially for historical or moribund languages<U+2014>multiple
 #' similar names may exist. In such cases, it is safer to use a specific
 #' language code (e.g., `"ang"` instead of `"English, Old"` and `"enm"`
 #'  for `"English, Middle (1100-1500)"`). You can also
@@ -55,14 +55,14 @@
 #' @examples
 #' df <- dataset_df(data.frame(x = 1:3))
 #'
-#' language(df) <- "English"       # Returns "eng"
-#' language(df) <- "fre"           # Legacy code; returns "fra"
-#' language(df) <- "fra"           # Returns "fra"
-#' language(df, iso_639_code = "639-1") <- "fra"  # Returns "fr"
+#' language(df) <- "English" # Returns "eng"
+#' language(df) <- "fre" # Legacy code; returns "fra"
+#' language(df) <- "fra" # Returns "fra"
+#' language(df, iso_639_code = "639-1") <- "fra" # Returns "fr"
 #'
-#' language(df) <- NULL            # Sets ":unas"
+#' language(df) <- NULL # Sets ":unas"
 #'
-#' @family Reference metadata functions
+#' @family bibliographic helper functions
 #' @export
 
 language <- function(x) {
@@ -96,14 +96,15 @@ language <- function(x) {
   ISO_639 <- ISOcodes::ISO_639_2
   ISO_639 <- as.data.frame(
     lapply(ISO_639, as.character),
-    stringsAsFactors = FALSE)
+    stringsAsFactors = FALSE
+  )
 
   value <- tolower(value)
   lang_entry <- data.frame()
 
   # Try matching by Alpha_2 (2-letter code)
   if (nchar(value) == 2) {
-    lang_entry <- ISO_639[which(tolower(ISO_639$Alpha_2)== value), ]
+    lang_entry <- ISO_639[which(tolower(ISO_639$Alpha_2) == value), ]
   }
 
   # Try matching by Alpha_3_B or Alpha_3_T (3-letter code)
@@ -121,8 +122,10 @@ language <- function(x) {
 
   # If Still not found, fail gracefully
   if (nrow(lang_entry) == 0) {
-    stop(paste0("Language='", value,
-                "' is not a valid ISO 639 language code."))
+    stop(paste0(
+      "Language='", value,
+      "' is not a valid ISO 639 language code."
+    ))
   }
 
   # Assign value according to iso_639_code preference
@@ -193,7 +196,7 @@ language <- function(x) {
   # Try matching by full language name
   if (nrow(lang_entry) == 0) {
     matches <- which(value == tolower(ISO_639$Name))
-    if (length(matches) == 0)  {
+    if (length(matches) == 0) {
       matches <- which(grepl(paste0("^", value), tolower(ISO_639$Name)))
     }
     lang_entry <- ISO_639[matches, ]
@@ -202,8 +205,10 @@ language <- function(x) {
   # If still not found, fail gracefully
   if (nrow(lang_entry) == 0) {
     stop(
-      paste0("Language='", value,
-             "' is not a valid ISO 639 language code or name.")
+      paste0(
+        "Language='", value,
+        "' is not a valid ISO 639 language code or name."
+      )
     )
   }
 

@@ -60,10 +60,10 @@ as_character.haven_labelled_defined <- function(
 }
 
 #' @rdname as_character
-#' @description
-#' Base R’s `as.character()` method applied to `defined` vectors simply strips the
-#' class and returns the values as a plain character vector.
-#' This is equivalent to calling [as_character()] with `preserve_attributes = FALSE`.
+#' @description Base R's `as.character()` method applied to `defined` vectors
+#' simply strips the class and returns the values as a plain character vector.
+#' This is equivalent to calling [as_character()] with `preserve_attributes =
+#' FALSE`.
 #'
 #' @export
 as.character.haven_labelled_defined <- function(x, ...) {

@@ -37,12 +37,17 @@ publication_year(orange_df) <- "1998"
 
 }
 \seealso{
-Other Reference metadata functions: 
+Other bibliographic helper functions: 
+\code{\link{contributor}()},
+\code{\link{creator}()},
+\code{\link{dataset_format}()},
+\code{\link{dataset_title}()},
 \code{\link{description}()},
 \code{\link{geolocation}()},
-\code{\link{identifier}()},
+\code{\link{get_bibentry}()},
 \code{\link{language}},
 \code{\link{publisher}()},
-\code{\link{rights}()}
+\code{\link{rights}()},
+\code{\link{subject}()}
 }
-\concept{Reference metadata functions}
+\concept{bibliographic helper functions}

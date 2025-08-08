@@ -24,19 +24,15 @@ The `dataset` package enriches R’s native data structures with machine-readabl
 
 Unlike most metadata packages that attach metadata after the fact, `dataset` follows a **semantic early-binding** approach: metadata is embedded as soon as the data is created.
 
-This vignette provides a high-level introduction. For details on key components, see the following:
-- `vignette("defined", package = "dataset")`: Semantic vectors with `defined()`
-- `vignette("dataset_df", package = "dataset")`: Structuring and metadata with `dataset_df()`
-- `vignette("rdf", package = "dataset")`: Exporting to RDF and Linked Data
-- `vignette("bibrecord", package = "dataset")`: Creating rich citation metadata using `bibrecord()`
+This vignette provides a high-level introduction. For details on key components, see the following: - `vignette("defined", package = "dataset")`: Semantic vectors with `defined()` - `vignette("dataset_df", package = "dataset")`: Structuring and metadata with `dataset_df()` - `vignette("rdf", package = "dataset")`: Exporting to RDF and Linked Data - `vignette("bibrecord", package = "dataset")`: Creating rich citation metadata using `bibrecord()`
 
 ## Why Extend Tidy Data?
 
 Hadley Wickham (2014) defines tidy data with three principles:
 
-- Each variable forms a column  
-- Each observation forms a row  
-- Each observational unit forms a table  
+-   Each variable forms a column\
+-   Each observation forms a row\
+-   Each observational unit forms a table
 
 This structure is ideal for analysis, but lacks **semantic clarity**, particularly when an analyst is working in a realistic, but not ideal scenario with several datasets received from various internet services. For example, two datasets might both contain a column named `gdp`, but one might be in euros and the other in dollars. Without metadata, tools cannot detect this mismatch.
 
@@ -67,8 +63,7 @@ gdp
 geo
 ```
 
-
-In this case, we define `geo` as the geopolitical entity <http://dd.eionet.europa.eu/vocabulary/eurostat/geo/>, and we know that the `AD` value can resolve to Andorra:  <https://www.geonames.org/countries/AD/>. These vectors now carry metadata you can inspect directly — including their label, unit, and concept URI — which will be preserved even after transformation or storage.
+In this case, we define `geo` as the geopolitical entity <http://dd.eionet.europa.eu/vocabulary/eurostat/geo/>, and we know that the `AD` value can resolve to Andorra: <https://www.geonames.org/countries/AD/>. These vectors now carry metadata you can inspect directly — including their label, unit, and concept URI — which will be preserved even after transformation or storage.
 
 ## Example: Creating a Metadata-Enriched Data Frame
 
@@ -93,9 +88,10 @@ This dataset not only stores the variables and values, but also includes embedde
 ```{r}
 as_dublincore(small_dataset)
 ```
+
 ## Exporting to RDF
 
-As Carl Boettinger has shown in the vignettes accompanying the R-binding to the popular Python library [rdflib](https://CRAN.R-project.org/package=rdflib ), (see: [A tidyverse lover's intro to RDF](https://docs.ropensci.org/rdflib/articles/rdf_intro.html)), tidy datasets can be retrofitted with rich metadata if they are pivotted to a strictly three-column long format.
+As Carl Boettinger has shown in the vignettes accompanying the R-binding to the popular Python library [rdflib](https://CRAN.R-project.org/package=rdflib), (see: [A tidyverse lover's intro to RDF](https://docs.ropensci.org/rdflib/articles/rdf_intro.html)), tidy datasets can be retrofitted with rich metadata if they are pivoted to a strictly three-column long format.
 
 Our packages tries to lower the burden of such retrofitting with early binding and sensible defaults to serialise the dataset's contents and the dataset's bibliographic data to this format for those who are not familiar with RDF.
 
@@ -115,28 +111,28 @@ my_description <- describe(x = small_dataset, con = mycon)
 # Only three statements are shown:
 readLines(mycon)[c(4, 8, 12)]
 ```
+
 ```{r}
 ## Show two lines of provenance:
 provenance(small_dataset)[c(6, 7)]
 ```
 
-
 ## Summary
 
-The _dataset_ package enriches tidy data by attaching metadata from the start of the workflow. It helps avoid semantic mismatches, supports RDF publication, and meets interoperability standards like SDMX, DataCite, and Dublin Core. Use it when you need:
+The *dataset* package enriches tidy data by attaching metadata from the start of the workflow. It helps avoid semantic mismatches, supports RDF publication, and meets interoperability standards like SDMX, DataCite, and Dublin Core. Use it when you need:
 
-- Meaningful variable descriptions and URIs
+-   Meaningful variable descriptions and URIs
 
-- Dataset-level metadata embedded directly in .rds or .rda files
+-   Dataset-level metadata embedded directly in .rds or .rda files
 
-- Easy export to RDF and semantic web formats
+-   Easy export to RDF and semantic web formats
 
 For deeper examples, see:
 
-- `vignette("defined", package = "dataset")`: Working with semantic vectors
+-   `vignette("defined", package = "dataset")`: Working with semantic vectors
 
-- `vignette("dataset_df", package = "dataset")`: Dataset-level metadata and structure
+-   `vignette("dataset_df", package = "dataset")`: Dataset-level metadata and structure
 
-- `vignette("rdf", package = "dataset")`: Linked Data and export
+-   `vignette("rdf", package = "dataset")`: Linked Data and export
 
-- `vignette("bibrecord", package = "dataset")`: Creating rich citation metadata using `bibrecord()`
+-   `vignette("bibrecord", package = "dataset")`: Creating rich citation metadata using `bibrecord()`

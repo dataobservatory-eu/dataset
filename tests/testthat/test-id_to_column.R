@@ -53,11 +53,15 @@ test_that("id_to_column preserves dataset_df metadata", {
       creator = person("A", "B")
     )
   )
-  subject(df) <- "http://example.org/test"
+  subject(df) <- subject_create(
+    term = "Test",
+    valueURI = "http://example.org/test"
+  )
   attr(df, "prov") <- list(generated = "now")
 
   out <- id_to_column(df, ids = c("a", "b"))
   expect_equal(attr(out, "dataset_bibentry")$title, "Test")
-  expect_equal(subject(out)$term, "http://example.org/test")
+  expect_equal(subject(out)$term, "Test")
+  expect_equal(subject(out)$valueURI, "http://example.org/test")
   expect_equal(attr(out, "prov")$generated, "now")
 })

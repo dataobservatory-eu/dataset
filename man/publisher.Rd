@@ -29,7 +29,7 @@ metadata.
 
 For software, this might refer to a code repository (e.g., GitHub). If both
 a hosting platform and a producing institution are involved, use the
-publisher for the institution and \code{\link[=contributor]{contributor()}} with
+publisher for the institution and \code{\link[=creator]{creator()}} with
 \code{contributorType = "hostingInstitution"} for the platform.
 }
 \details{
@@ -43,12 +43,17 @@ publisher(orange_df)
 
 }
 \seealso{
-Other Reference metadata functions: 
+Other bibliographic helper functions: 
+\code{\link{contributor}()},
+\code{\link{creator}()},
+\code{\link{dataset_format}()},
+\code{\link{dataset_title}()},
 \code{\link{description}()},
 \code{\link{geolocation}()},
-\code{\link{identifier}()},
+\code{\link{get_bibentry}()},
 \code{\link{language}},
 \code{\link{publication_year}()},
-\code{\link{rights}()}
+\code{\link{rights}()},
+\code{\link{subject}()}
 }
-\concept{Reference metadata functions}
+\concept{bibliographic helper functions}

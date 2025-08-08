@@ -47,13 +47,12 @@ is.datacite(x)
 \arguments{
 \item{x}{An object that is tested if it has a class "datacite".}
 
-\item{type}{A DataCite 4.4  metadata can be returned as a
-\code{type="list"}, a \code{type="dataset_df"}, a \code{type="bibentry"}
-(default) or  \code{type="ntriples"}.}
+\item{type}{A DataCite 4.4 metadata can be returned as:
+\code{"list"}, \code{"dataset_df"}, \code{"bibentry"} (default), or \code{"ntriples"}.}
 
 \item{...}{Optional parameters to add to a \code{datacite} object.
-\code{author=person("Jane", "Doe")} adds an author to the citation object
-if \code{type="dataset"}. as_datacite(orange_df, type="list")}
+For example, \code{author = person("Jane", "Doe")} adds an author if
+\code{type = "dataset_df"}.}
 
 \item{Title}{The name(s) by which the resource is known. Similar to
 \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title}.}
@@ -110,9 +109,9 @@ See \code{\link[=geolocation]{geolocation()}}.}
 Defaults to \code{":unas"}. Structured funding metadata not yet implemented.}
 }
 \value{
-\code{as_datacite(x, type)} returns the DataCite bibliographical
-metadata of x either as a list, a bibentry object, an N-Triples text
-serialisation or a dataset_df object.
+\code{as_datacite(x, type)} returns the DataCite bibliographical metadata
+of \code{x} either as a list, a bibentry object, an N-Triples text serialisation
+or a dataset_df object.
 
 A \code{\link[utils:bibentry]{utils::bibentry()}} object with DataCite-compliant fields. Use
 \code{\link[=as_datacite]{as_datacite()}} to extract the metadata as a list or bibentry object.

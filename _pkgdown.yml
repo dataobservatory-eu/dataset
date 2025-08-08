@@ -71,6 +71,7 @@ reference:
     contents:
       - defined
       - var_label
+      - var_labels
       - var_unit
       - var_concept
       - var_namespace

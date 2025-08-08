@@ -12,7 +12,7 @@
 #' may have short or cryptic column names.
 #'
 #' For internal purposes, this function uses the `"var_labels"` dataset
-#' attribute managed by [set_var_labels()] and delegates to [var_label()] and
+#' attribute and delegates to [var_label()] and
 #' [var_label<-()] on individual columns.
 #'
 #' @param x A `data.frame` or [`dataset_df`] object.
@@ -50,7 +50,7 @@
 #' # Return as a named vector with empty string for unlabeled vars
 #' var_labels(df, unlist = TRUE, null_action = "empty")
 #'
-#' @seealso [var_label()], [set_var_labels()]
+#' @seealso [var_label()]
 #' @family defined metadata methods and functions
 #' @export
 var_labels <- function(x,
@@ -63,11 +63,11 @@ var_labels <- function(x,
     lbl <- var_label(x[[name]])
     if (is.null(lbl)) {
       lbl <- switch(null_action,
-                    keep = NULL,
-                    fill = name,
-                    skip = NULL,
-                    na = NA_character_,
-                    empty = ""
+        keep = NULL,
+        fill = name,
+        skip = NULL,
+        na = NA_character_,
+        empty = ""
       )
     }
     lbl
@@ -106,4 +106,19 @@ var_labels <- function(x,
   x <- set_var_labels(x, value)
 
   invisible(x)
+}
+
+#' @keywords internal
+set_var_labels <- function(dataset, var_labels) {
+  var_label_list <- list()
+  var_label_list <- lapply(colnames(dataset), function(i) i)
+  names(var_label_list) <- colnames(dataset)
+
+  for (rn in which(names(var_label_list) %in% names(var_labels))) {
+    var_label_list[[rn]] <- var_labels[[which(names(var_label_list)[rn] == names(var_labels))]]
+  }
+
+  attr(dataset, "var_labels") <- var_label_list
+
+  dataset
 }

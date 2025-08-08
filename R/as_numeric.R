@@ -73,16 +73,14 @@ as.numeric.haven_labelled_defined <- function(x, ...) {
   unclass(vctrs::vec_data(x))
 }
 
-#' Cast defined vector to base numeric (double)
+#' @title Cast defined vector to base numeric (double)
 #'
-#' This method implements support for converting `defined` vectors to base numeric
-#' via `vctrs` casting, typically triggered by `as.numeric()`, type coercion in
-#' `tibble`, or base subsetting.
+#' @description
+#' S3 method for [`vctrs::vec_cast()`] that converts a
+#' `haven_labelled_defined` vector (created by [defined()]) to a base
+#' `numeric` (double) vector, dropping all semantic metadata.
 #'
-#' It allows safe and predictable coercion by returning the underlying numeric
-#' vector, dropping all semantic metadata (e.g., unit, concept).
-#'
-#' @param x A [`defined()`] vector of class `haven_labelled_defined`.
+#' @param x `haven_labelled_defined` vector (created by [defined()]).
 #' @param to Target type (must be `double()`).
 #' @param ... Ignored; reserved for future use.
 #'
@@ -90,12 +88,11 @@ as.numeric.haven_labelled_defined <- function(x, ...) {
 #'
 #' @examples
 #' x <- defined(c(10, 20), unit = "kg")
-#' vec_cast(x, double())
-#'
-#' # This enables as.numeric(x) to work:
+#' vctrs::vec_cast(x, double())
 #' as.numeric(x)
-#'
 #' @export
+#' @method vec_cast.double haven_labelled_defined
+#' @importFrom vctrs vec_cast vec_data
 vec_cast.double.haven_labelled_defined <- function(x, to, ...) {
   vctrs::vec_data(x)
 }

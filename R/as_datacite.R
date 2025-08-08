@@ -108,7 +108,6 @@ as_datacite <- function(x, type = "bibentry", ...) {
       Geolocation = Geolocation,
       FundingReference = FundingReference
     )
-
   } else if (type == "list") {
     if (identical(Contributor, "")) Contributor <- NULL
     if (identical(Subject, "")) Subject <- NULL
@@ -133,7 +132,6 @@ as_datacite <- function(x, type = "bibentry", ...) {
       Geolocation = Geolocation,
       FundingReference = FundingReference
     )
-
   } else if (type == "dataset_df") {
     # Flatten multi-length values to single strings
     collapse_if_needed <- function(x) {
@@ -141,7 +139,9 @@ as_datacite <- function(x, type = "bibentry", ...) {
     }
 
     flatten_subject <- function(s) {
-      if (is.null(s)) return("")
+      if (is.null(s)) {
+        return("")
+      }
       if (is.subject(s)) {
         # Use only the term for dataset_df export
         return(s$term)
@@ -161,8 +161,11 @@ as_datacite <- function(x, type = "bibentry", ...) {
         PublicationYear = collapse_if_needed(PublicationYear),
         Subject = collapse_if_needed(flatten_subject(Subject)),
         Type = "Dataset",
-        Contributor = if (is.null(Contributor)) ":unas" else {
-          collapse_if_needed(as.character(Contributor))} ,
+        Contributor = if (is.null(Contributor)) {
+          ":unas"
+        } else {
+          collapse_if_needed(as.character(Contributor))
+        },
         Date = collapse_if_needed(Date),
         Language = collapse_if_needed(Language),
         AlternateIdentifier = collapse_if_needed(AlternateIdentifier),
@@ -181,7 +184,6 @@ as_datacite <- function(x, type = "bibentry", ...) {
         Date = collapse_if_needed(Date)
       )
     )
-
   } else if (type == "ntriples") {
     dataset_id <- if (is.null(Identifier) || Identifier == ":tba") {
       "http://example.com/dataset_tba/"
@@ -213,5 +215,3 @@ as_datacite <- function(x, type = "bibentry", ...) {
     datacite_to_triples(dc_list, dataset_id = dataset_id)
   }
 }
-
-

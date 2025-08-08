@@ -61,7 +61,7 @@ as valid input for French
 \item The resulting value stored and returned will be \code{"fra"}
 }
 
-This behavior aligns with:
+This behaviour aligns with:
 \itemize{
 \item \href{https://support.datacite.org/docs/datacite-metadata-schema-v44-recommended-and-optional-properties#9-language}{DataCite Metadata Schema 4.4}
 \item \href{https://schema.org/inLanguage}{schema.org}
@@ -70,7 +70,7 @@ This behavior aligns with:
 
 If \code{value} is \code{NULL}, the language is marked as \code{":unas"} (unspecified).
 
-In some cases—especially for historical or moribund languages—multiple
+In some cases<U+2014>especially for historical or moribund languages<U+2014>multiple
 similar names may exist. In such cases, it is safer to use a specific
 language code (e.g., \code{"ang"} instead of \code{"English, Old"} and \code{"enm"}
 for \code{"English, Middle (1100-1500)"}). You can also
@@ -80,21 +80,26 @@ for clarity.
 \examples{
 df <- dataset_df(data.frame(x = 1:3))
 
-language(df) <- "English"       # Returns "eng"
-language(df) <- "fre"           # Legacy code; returns "fra"
-language(df) <- "fra"           # Returns "fra"
-language(df, iso_639_code = "639-1") <- "fra"  # Returns "fr"
+language(df) <- "English" # Returns "eng"
+language(df) <- "fre" # Legacy code; returns "fra"
+language(df) <- "fra" # Returns "fra"
+language(df, iso_639_code = "639-1") <- "fra" # Returns "fr"
 
-language(df) <- NULL            # Sets ":unas"
+language(df) <- NULL # Sets ":unas"
 
 }
 \seealso{
-Other Reference metadata functions: 
+Other bibliographic helper functions: 
+\code{\link{contributor}()},
+\code{\link{creator}()},
+\code{\link{dataset_format}()},
+\code{\link{dataset_title}()},
 \code{\link{description}()},
 \code{\link{geolocation}()},
-\code{\link{identifier}()},
+\code{\link{get_bibentry}()},
 \code{\link{publication_year}()},
 \code{\link{publisher}()},
-\code{\link{rights}()}
+\code{\link{rights}()},
+\code{\link{subject}()}
 }
-\concept{Reference metadata functions}
+\concept{bibliographic helper functions}

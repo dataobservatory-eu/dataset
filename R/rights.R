@@ -27,7 +27,7 @@
 #' rights(orange_df) <- "CC-BY-SA"
 #' rights(orange_df)
 #'
-#' @family Reference metadata functions
+#' @family bibliographic helper functions
 #' @export
 
 rights <- function(x) {

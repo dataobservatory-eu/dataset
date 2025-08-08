@@ -1,9 +1,9 @@
 #' Create a semantically well-defined, labelled vector
 #'
 #' `defined()` constructs a vector enriched with semantic metadata such as a
-#' label, unit of measurement, concept URI, and optional namespace. These
-#' vectors behave like base R vectors but retain metadata during subsetting,
-#' comparison, and printing.
+#' label, unit of measurement, concept URI, and optional namespace.
+#' These vectors behave like base R vectors but retain metadata during
+#' subsetting, comparison, and printing.
 #'
 #' The resulting object inherits from [haven::labelled()] and integrates with
 #' tidyverse workflows, enabling downstream conversion to RDF and other
@@ -22,9 +22,9 @@
 #'   value-level URI expansion.
 #' @param ... Reserved for future use.
 #'
-#' @return A vector of class `"defined"` (technically `haven_labelled_defined`),
-#'   which behaves like a standard vector with additional semantic metadata, and
-#'   is inherited from [haven::labelled()].
+#' @return A vector of class `"defined"` (technically
+#' `haven_labelled_defined`), which behaves like a standard vector with
+#' additional semantic metadata and is inherited from [haven::labelled()].
 #' @importFrom haven labelled
 #' @importFrom labelled to_labelled is.labelled
 #' @import vctrs

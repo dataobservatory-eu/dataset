@@ -43,93 +43,70 @@ xsd_convert(x, idcol, ...)
 \method{xsd_convert}{difftime}(x, idcol = NULL, ...)
 }
 \arguments{
-\item{x}{An object (e.g., vector, data frame) to be coerced to XSD-typed
-string format.}
+\item{x}{An object (vector, data frame, tibble, or \code{dataset_df}).}
 
-\item{idcol}{The name or position of the column that contains the row
-(observation) identifiers. If \code{NULL}, a new identifier column will be
-generated using \code{\link[=row.names]{row.names()}}.}
+\item{idcol}{Column name or position to use as row (observation) identifier.
+If \code{NULL}, row names are used.}
 
 \item{...}{Additional arguments passed to methods.}
 }
 \value{
-A character vector of RDF-compatible typed literals. Each element
-corresponds to an input value, serialized according to its type (e.g.,
-\code{xs:string}, \code{xs:integer}, \code{xs:dateTime}).
-
-For data frames or tibbles, each row is converted into a set of RDF
-triples, with columns mapped to predicates.
+A character vector or data frame with values serialized as XSD-compatible
+RDF literals.
 }
 \description{
-Converts the numeric, logical, and date/time columns of a dataset into \href{https://www.w3.org/TR/xmlschema11-2/}{XML Schema Definition (XSD)} compatible
-string representations such as \code{xs:decimal}, \code{xs:boolean}, \code{xs:date}, and
-\code{xs:dateTime}.
+Converts R vectors, data frames, and \code{dataset_df} objects to
+\href{https://www.w3.org/TR/xmlschema11-2/}{XML Schema Definition (XSD)}
+compatible string representations such as \code{xs:decimal}, \code{xs:boolean},
+\code{xs:date}, and \code{xs:dateTime}.
 }
-\examples{
-# Example usage with a simple data frame
+\details{
+This is primarily used for generating RDF-compatible typed literals.
+\itemize{
+\item For \strong{vectors}, returns a character vector of typed literals.
+\item For \strong{data frames} or tibbles, returns a data frame with the same
+structure but with all values converted to XSD strings.
+\item For \code{dataset_df} objects, behaves like the data frame method but
+preserves dataset-level attributes.
+}
+}
+\section{Main example}{
+
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{# Simple data frame with mixed types
 df <- data.frame(
-  id = 1:2,
-  value = c(3.14, 2.71),
+  id     = 1:2,
+  value  = c(3.14, 2.71),
   active = c(TRUE, FALSE),
-  date = as.Date(c("2020-01-01", "2020-12-31"))
+  date   = as.Date(c("2020-01-01", "2020-12-31"))
 )
-as_xsd(df, idcol = "id")
 
-# Convert a regular data.frame to XSD-typed RDF-compatible literals
-xsd_convert(data.frame(a = 1:3, b = c("a", "b", "c")))
+xsd_convert(df, idcol = "id")
+}\if{html}{\out{</div>}}
+}
 
-# Convert a dataset_df object to XSD-typed RDF-compatible literals
-xsd_convert(head(dataset_df(orange_df)))
+\section{Class-specific examples}{
 
-# Convert a tibble to XSD-typed RDF-compatible literals
-library(tibble)
-xsd_convert(tibble(a = 1:3, b = c("x", "y", "z")))
 
-# Convert character vector to XSD-typed literals
-xsd_convert(c("apple", " banana ", "cherry"))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{xsd_convert(42L)                     # integer -> xs:integer
+xsd_convert(c(TRUE, FALSE, NA))       # logical -> xs:boolean
+xsd_convert(Sys.Date())               # Date -> xs:date
+xsd_convert(Sys.time())               # POSIXct -> xs:dateTime
+xsd_convert(factor("apple"))          # factor -> xs:string
+xsd_convert(c("apple", "banana"))     # character -> xs:string
+}\if{html}{\out{</div>}}
+}
 
-# Preprocess whitespace before conversion
-xsd_convert(trimws(c("apple", " banana ", "cherry"), which = "both"))
+\section{Advanced}{
 
-# Convert numeric values (integers or doubles) to XSD typed literals
-xsd_convert(1:3)
+For \code{defined()} vectors with a semantic datatype, the declared datatype is
+used when converting to XSD literals.
 
-# Convert haven_labelled_defined vectors to XSD typed literals
-x <- haven::labelled_spss(c(1, 0, 1), labels = c(Yes = 1, No = 0))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(haven)
+x <- labelled_spss(c(1, 0, 1), labels = c(Yes = 1, No = 0))
 x <- defined(x, concept = "https://example.org/concept", datatype = "xs:boolean")
 xsd_convert(x)
-
-# Convert integer values to XSD typed literals
-xsd_convert(as.integer(c(10, 20, 30)))
-
-# Convert boolean values to XSD typed literals
-xsd_convert(c(TRUE, FALSE))
-
-# Convert factors to XSD typed literals
-xsd_convert(factor(c("apple", "banana", "cherry")))
-
-# With a custom codelist prefix
-x <- factor(c("apple", "banana", "cherry"))
-xsd_convert(x, codelist = "fruit")
-
-# Convert POSIXct timestamps to XSD dateTime literals
-times <- as.POSIXct(
-  c(
-    "2021-01-01 12:00:00",
-    "2022-06-15 08:30:00"
-  ),
-  tz = "UTC"
-)
-xsd_convert(times)
-
-# Convert Date values to XSD date literals
-dates <- as.Date(c(
-  "2020-01-01",
-  "2021-12-31"
-))
-xsd_convert(dates)
-
-# Convert time differences to XSD duration format
-xsd_convert(as.difftime(c(3600, 5400), units = "secs"))
-
+}\if{html}{\out{</div>}}
 }
+
+\concept{RDF and linked data helpers}

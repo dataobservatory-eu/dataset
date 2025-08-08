@@ -101,6 +101,7 @@ var_unit(mtcars$wt) <- NULL
 \seealso{
 Other defined metadata methods and functions: 
 \code{\link{var_label}()},
+\code{\link{var_labels}()},
 \code{\link{var_namespace}()}
 }
 \concept{defined metadata methods and functions}

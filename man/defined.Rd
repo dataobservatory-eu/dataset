@@ -43,15 +43,15 @@ value-level URI expansion.}
 \item{object}{An R object to be summarised.}
 }
 \value{
-A vector of class \code{"defined"} (technically \code{haven_labelled_defined}),
-which behaves like a standard vector with additional semantic metadata, and
-is inherited from \code{\link[haven:labelled]{haven::labelled()}}.
+A vector of class \code{"defined"} (technically
+\code{haven_labelled_defined}), which behaves like a standard vector with
+additional semantic metadata and is inherited from \code{\link[haven:labelled]{haven::labelled()}}.
 }
 \description{
 \code{defined()} constructs a vector enriched with semantic metadata such as a
-label, unit of measurement, concept URI, and optional namespace. These
-vectors behave like base R vectors but retain metadata during subsetting,
-comparison, and printing.
+label, unit of measurement, concept URI, and optional namespace.
+These vectors behave like base R vectors but retain metadata during
+subsetting, comparison, and printing.
 }
 \details{
 The resulting object inherits from \code{\link[haven:labelled]{haven::labelled()}} and integrates with

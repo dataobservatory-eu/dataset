@@ -94,12 +94,3 @@ test_that("var_label<- removes label when value is NULL", {
   var_label(x) <- NULL
   expect_null(var_label(x))
 })
-
-test_that("set_var_labels() assigns multiple labels to a dataset", {
-  df <- data.frame(a = 1:3, b = 4:6)
-  lbls <- list(a = "Label A", b = "Label B")
-  out <- set_var_labels(df, lbls)
-
-  expect_equal(attr(out, "var_labels")$a, "Label A")
-  expect_equal(attr(out, "var_labels")$b, "Label B")
-})

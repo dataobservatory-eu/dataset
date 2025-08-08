@@ -11,7 +11,7 @@
 #'
 #' For software, this might refer to a code repository (e.g., GitHub). If both
 #' a hosting platform and a producing institution are involved, use the
-#' publisher for the institution and [contributor()] with
+#' publisher for the institution and [creator()] with
 #' `contributorType = "hostingInstitution"` for the platform.
 #'
 #' @param x A dataset object created with [dataset_df()] or
@@ -28,7 +28,7 @@
 #' publisher(orange_df) <- "Wiley"
 #' publisher(orange_df)
 #'
-#' @family Reference metadata functions
+#' @family bibliographic helper functions
 #' @importFrom assertthat assert_that
 #' @export
 

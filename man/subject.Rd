@@ -24,38 +24,60 @@ is.subject(x)
 }
 \arguments{
 \item{x}{A dataset object created with \code{\link[=dataset_df]{dataset_df()}} or \code{\link[=as_dataset_df]{as_dataset_df()}}.}
+
+\item{term}{A subject term, for example \code{"Data sets"}.}
+
+\item{schemeURI}{URI of the subject identifier scheme, for example
+\code{"http://id.loc.gov/authorities/subjects"}.}
+
+\item{valueURI}{URI of the subject term, for example
+\code{"https://id.loc.gov/authorities/subjects/sh2018002256"}.}
+
+\item{prefix}{Abbreviated prefix for a scheme URI, for example \code{"lcch:"}.
+Widely used namespaces (schemes) have conventional abbreviations.}
+
+\item{subjectScheme}{Name of the subject scheme, classification code, or
+authority if one is used. This acts as a namespace.}
+
+\item{classificationCode}{Classification code for schemes that do not have
+\code{valueURI} entries for each subject term (e.g., ANZSRC).}
+
+\item{value}{A subject object created by \code{\link[=subject_create]{subject_create()}} or a character
+string. Used by \verb{subject<-} to replace the subject.}
 }
 \value{
 \itemize{
-\item \code{subject(x)} returns the \code{"subject"} attribute or the \code{subject} field
-from the dataset's bibentry.
-\item \code{subject(x) <- value} sets the \code{"subject"} attribute and updates the
-bibentry's \code{subject} field, returning the modified dataset invisibly.
+\item \code{subject(x)} returns the \code{"subject"} attribute (structured object) or the
+\code{subject} field from the dataset's bibentry.
+\item \code{subject(x) <- value} sets both the \code{"subject"} attribute and the bibentry
+field, returning the dataset invisibly.
+\item \code{subject_create()} returns a structured \code{subject} object — a named list
+with term, scheme, URIs, prefix, and optional classification code.
+\item \code{is.subject(x)} returns \code{TRUE} if \code{x} inherits from class \code{"subject"}.
 }
 }
 \description{
-Manage the subject metadata of a dataset. The subject can be a simple
-character term or a structured object with subproperties created by
+Manage the subject metadata of a dataset. The subject can be stored as a
+simple character term or as a structured object with subproperties created by
 \code{\link[=subject_create]{subject_create()}}.
 }
 \details{
+The subject property records what the dataset is about.
 The \href{https://schema.datacite.org/meta/kernel-4/}{DataCite subject property}
-supports multiple subproperties. These cannot be stored directly in a
+allows multiple subproperties, but these cannot be stored directly in a
 standard \code{\link[utils:bibentry]{utils::bibentry}} object.
 Therefore:
 \itemize{
-\item If you set a character string as the subject, it is stored in the bibentry
-and as a \code{"subject"} attribute.
-\item If you set a structured subject (via \code{\link[=subject_create]{subject_create()}}), the \verb{$term}
-value is stored in the bibentry, and the complete object is stored in the
-\code{"subject"} attribute of the \code{\link{dataset_df}} object.
+\item If you set a character string as the subject, it is stored in both the
+bibentry and the \code{"subject"} attribute.
+\item If you set a structured subject (via \code{\link[=subject_create]{subject_create()}}), the \verb{$term} value
+is stored in the bibentry, and the full object is stored in the \code{"subject"}
+attribute of the \code{\link{dataset_df}} object.
 }
 }
 \examples{
-df <- dataset_df(data.frame(x = 1))
-
-# Set subject as a structured object
-subject(df) <- subject_create(
+# Set a structured subject
+subject(orange_df) <- subject_create(
   term = "Oranges",
   schemeURI = "http://id.loc.gov/authorities/subjects",
   valueURI = "http://id.loc.gov/authorities/subjects/sh85095257",
@@ -63,14 +85,15 @@ subject(df) <- subject_create(
   prefix = "lcch:"
 )
 
-# Retrieve subject
-subject(df)
+# Retrieve subject with subproperties
+subject(orange_df)
 
 }
 \seealso{
 Other bibliographic helper functions: 
 \code{\link{contributor}()},
 \code{\link{creator}()},
+\code{\link{dataset_format}()},
 \code{\link{dataset_title}()},
 \code{\link{description}()},
 \code{\link{geolocation}()},

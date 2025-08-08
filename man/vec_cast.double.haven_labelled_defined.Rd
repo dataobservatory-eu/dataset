@@ -4,10 +4,10 @@
 \alias{vec_cast.double.haven_labelled_defined}
 \title{Cast defined vector to base numeric (double)}
 \usage{
-\method{vec_cast}{double.haven_labelled_defined}(x, to, ...)
+\method{vec_cast.double}{haven_labelled_defined}(x, to, ...)
 }
 \arguments{
-\item{x}{A \code{\link[=defined]{defined()}} vector of class \code{haven_labelled_defined}.}
+\item{x}{\code{haven_labelled_defined} vector (created by \code{\link[=defined]{defined()}}).}
 
 \item{to}{Target type (must be \code{double()}).}
 
@@ -17,19 +17,12 @@
 A plain numeric (double) vector.
 }
 \description{
-This method implements support for converting \code{defined} vectors to base numeric
-via \code{vctrs} casting, typically triggered by \code{as.numeric()}, type coercion in
-\code{tibble}, or base subsetting.
-}
-\details{
-It allows safe and predictable coercion by returning the underlying numeric
-vector, dropping all semantic metadata (e.g., unit, concept).
+S3 method for \code{\link[vctrs:vec_cast]{vctrs::vec_cast()}} that converts a
+\code{haven_labelled_defined} vector (created by \code{\link[=defined]{defined()}}) to a base
+\code{numeric} (double) vector, dropping all semantic metadata.
 }
 \examples{
 x <- defined(c(10, 20), unit = "kg")
-vec_cast(x, double())
-
-# This enables as.numeric(x) to work:
+vctrs::vec_cast(x, double())
 as.numeric(x)
-
 }

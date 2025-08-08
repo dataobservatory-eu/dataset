@@ -1,17 +1,35 @@
-#' @title Get/set the title of a dataset
-#' @description Get or reset the dataset's main title.
-#' @details In the DataCite definition, several titles can be used; it is not
-#' yet implemented.
-#' @param x A dataset object created with [dataset_df()] or [as_dataset_df()].
-#' @param value The name(s) or title(s) by which a resource is known. See:
-#' \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title}.
-#' @return A string with the dataset's title; \code{set_dataset_title} returns
-#' a dataset object with the changed (main) title.
-#' @family Bibliographic reference functions
+#' @title Get or Set the Title of a Dataset
+#'
+#' @description Retrieve or assign the main title of a dataset, typically used
+#' as the primary label in metadata exports (e.g., DataCite or Dublin Core).
+#'
+#' @details According to the [Dublin Core specification for
+#' `title`](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/),
+#' the title represents the name by which the resource is formally known.
+#'
+#' The DataCite metadata schema supports multiple titles (e.g., translated,
+#' alternative), but this function currently supports only a single main title.
+#'
+#' @param x A dataset object created by [dataset_df()] or [as_dataset_df()].
+#' @param value A character string representing the new title. If `NULL`, a
+#'   placeholder value `":tba"` is assigned. If `value` is a character vector of
+#'   length > 1, an error is raised.
+#' @param overwrite Logical. If `TRUE`, the existing title is replaced. If
+#'   `FALSE` (default) and a title is already present, a warning is issued and
+#'   the title is not changed.
+#'
+#' @return `dataset_title()` returns the current dataset title as a character
+#' string. `dataset_title<-()` returns the updated dataset object (invisible).
+#'
 #' @examples
 #' dataset_title(orange_df)
+#'
+#' # Set a new title with overwrite = TRUE
 #' dataset_title(orange_df, overwrite = TRUE) <- "The Growth of Orange Trees"
 #' dataset_title(orange_df)
+#'
+#' @family bibliographic helper functions
+#' @rdname dataset_title
 #' @export
 
 dataset_title <- function(x) {
@@ -24,9 +42,6 @@ dataset_title <- function(x) {
 }
 
 #' @rdname dataset_title
-#' @param overwrite If the attributes should be overwritten. In case it is set
-#' to \code{FALSE},it gives a warning with the current \code{title}
-#' property instead of overwriting it. Defaults to \code{FALSE}.
 #' @importFrom stats setNames
 #' @export
 `dataset_title<-` <- function(x, overwrite = FALSE, value) {

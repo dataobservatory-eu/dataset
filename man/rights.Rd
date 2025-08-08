@@ -42,12 +42,17 @@ rights(orange_df)
 
 }
 \seealso{
-Other Reference metadata functions: 
+Other bibliographic helper functions: 
+\code{\link{contributor}()},
+\code{\link{creator}()},
+\code{\link{dataset_format}()},
+\code{\link{dataset_title}()},
 \code{\link{description}()},
 \code{\link{geolocation}()},
-\code{\link{identifier}()},
+\code{\link{get_bibentry}()},
 \code{\link{language}},
 \code{\link{publication_year}()},
-\code{\link{publisher}()}
+\code{\link{publisher}()},
+\code{\link{subject}()}
 }
-\concept{Reference metadata functions}
+\concept{bibliographic helper functions}

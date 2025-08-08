@@ -83,5 +83,3 @@ test_that("errors if author argument is not a person", {
     "author must be created with utils\\:\\:person"
   )
 })
-
-

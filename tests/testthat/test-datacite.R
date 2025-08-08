@@ -74,10 +74,9 @@ test_that("is.datacite() and print.datacite() behave correctly", {
 })
 
 test_that("datacite_to_triples() fails when title is missing", {
-  dc <- list()  # missing required field
+  dc <- list() # missing required field
   expect_error(
     datacite_to_triples(dc),
     regexp = "title is required"
   )
 })
-

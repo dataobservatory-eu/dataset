@@ -1,35 +1,50 @@
 #' @title Create, add, or retrieve a subject
 #'
 #' @description
-#' Manage the subject metadata of a dataset. The subject can be a simple
-#' character term or a structured object with subproperties created by
+#' Manage the subject metadata of a dataset. The subject can be stored as a
+#' simple character term or as a structured object with subproperties created by
 #' [subject_create()].
 #'
 #' @details
+#' The subject property records what the dataset is about.
 #' The [DataCite subject property](https://schema.datacite.org/meta/kernel-4/)
-#' supports multiple subproperties. These cannot be stored directly in a
+#' allows multiple subproperties, but these cannot be stored directly in a
 #' standard [`utils::bibentry`] object.
 #' Therefore:
 #'
-#' * If you set a character string as the subject, it is stored in the bibentry
-#'   and as a `"subject"` attribute.
-#' * If you set a structured subject (via [subject_create()]), the `$term`
-#'   value is stored in the bibentry, and the complete object is stored in the
-#'   `"subject"` attribute of the [`dataset_df`] object.
+#' * If you set a character string as the subject, it is stored in both the
+#'   bibentry and the `"subject"` attribute.
+#' * If you set a structured subject (via [subject_create()]), the `$term` value
+#'   is stored in the bibentry, and the full object is stored in the `"subject"`
+#'   attribute of the [`dataset_df`] object.
 #'
 #' @param x A dataset object created with [dataset_df()] or [as_dataset_df()].
+#' @param term A subject term, for example `"Data sets"`.
+#' @param schemeURI URI of the subject identifier scheme, for example
+#'   `"http://id.loc.gov/authorities/subjects"`.
+#' @param valueURI URI of the subject term, for example
+#'   `"https://id.loc.gov/authorities/subjects/sh2018002256"`.
+#' @param prefix Abbreviated prefix for a scheme URI, for example `"lcch:"`.
+#'   Widely used namespaces (schemes) have conventional abbreviations.
+#' @param subjectScheme Name of the subject scheme, classification code, or
+#'   authority if one is used. This acts as a namespace.
+#' @param classificationCode Classification code for schemes that do not have
+#'   `valueURI` entries for each subject term (e.g., ANZSRC).
+#' @param value A subject object created by [subject_create()] or a character
+#'   string. Used by `subject<-` to replace the subject.
 #'
 #' @return
-#' * `subject(x)` returns the `"subject"` attribute or the `subject` field
-#'   from the dataset's bibentry.
-#' * `subject(x) <- value` sets the `"subject"` attribute and updates the
-#'   bibentry's `subject` field, returning the modified dataset invisibly.
+#' * `subject(x)` returns the `"subject"` attribute (structured object) or the
+#'   `subject` field from the dataset's bibentry.
+#' * `subject(x) <- value` sets both the `"subject"` attribute and the bibentry
+#'   field, returning the dataset invisibly.
+#' * `subject_create()` returns a structured `subject` object — a named list
+#'   with term, scheme, URIs, prefix, and optional classification code.
+#' * `is.subject(x)` returns `TRUE` if `x` inherits from class `"subject"`.
 #'
 #' @examples
-#' df <- dataset_df(data.frame(x = 1))
-#'
-#' # Set subject as a structured object
-#' subject(df) <- subject_create(
+#' # Set a structured subject
+#' subject(orange_df) <- subject_create(
 #'   term = "Oranges",
 #'   schemeURI = "http://id.loc.gov/authorities/subjects",
 #'   valueURI = "http://id.loc.gov/authorities/subjects/sh85095257",
@@ -37,12 +52,13 @@
 #'   prefix = "lcch:"
 #' )
 #'
-#' # Retrieve subject
-#' subject(df)
+#' # Retrieve subject with subproperties
+#' subject(orange_df)
 #'
-#' @export
 #' @family bibliographic helper functions
 #' @importFrom assertthat assert_that
+#' @export
+
 subject <- function(x) {
   assertthat::assert_that(
     is.dataset_df(x),
@@ -60,6 +76,7 @@ subject <- function(x) {
 }
 
 #' @rdname subject
+#' @export
 subject_create <- function(term,
                            schemeURI = NULL,
                            valueURI = NULL,

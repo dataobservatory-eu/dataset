@@ -1,55 +1,54 @@
-#' @title Get/set the Bibentry of the object.
-#' @description The [dataset_df()] objects contain among their
-#' attributes bibliographic entries which are stored in a
-#' \code{\link[utils:bibentry]{utils::bibentry}} object. Upon creation, these
-#' entries are filled with default values when applicable. \cr \cr To retrieve
-#' the bibentry of a dataset_df object, use \code{get_bibentry}.\cr \cr To
-#' create a new bibentry, use the[datacite()] function for an
-#' interface and default values according to the DataCite standard, or the
-#' [dublincore()] function for the more general Dublin Core
-#' standard.\cr \cr To change or an entire new bibliographic entry to a
-#' dataset_df object (or any data.frame-like object), use the
-#' \code{`set_bibentry<-`} function (see examples.) For more details, please
-#' check the \code{vignette("bibentry", package="dataset")} vignette.
+#' @title Get or set the bibentry
+#'
+#' @description
+#' Retrieve or replace the bibliographic entry stored in a dataset's attributes.
+#' The entry is a [`utils::bibentry`] used to hold citation metadata for
+#' [`dataset_df()`] objects.
+#'
+#' @details
+#' New datasets are initialized with reasonable defaults. To build a new
+#' bibentry with sensible defaults and field names, use [datacite()] (DataCite)
+#' or [dublincore()] (Dublin Core), then assign it with
+#' `set_bibentry(dataset) <- value`.
+#'
+#' See the vignette for more background:
+#' `vignette("bibentry", package = "dataset")`.
+#'
 #' @param dataset A dataset created with [dataset_df()].
-#' @param value A \code{\link[utils:bibentry]{utils::bibentry}} object, or a
-#'   newly initialised bibentry object with DataCite default values for
-#'   unassigned entries.
-#' @importFrom utils bibentry
-#' @importFrom utils person
-#' @return The \code{get_bibentry} returns from the
-#'   \code{\link[utils]{bibentry}} object of \code{x} from its attributes; the
-#'   \code{`set_bibentry<-`} assignment function sets this attribute to
-#'   \code{value} and invisibly returns \code{x} with the changed attributes. To
-#'   set well-formatted input \code{value}, refer to[datacite()] or
-#'   [dublincore()] (see Details.)
-#' @family bibentry functions
+#' @param value A [`utils::bibentry`] to store on the dataset. If `NULL`, a
+#'   minimal default entry is created.
+#'
+#' @return
+#' * `get_bibentry(dataset)` returns the [`utils::bibentry`] stored in
+#'   `dataset`'s attributes.
+#' * `set_bibentry(dataset) <- value` sets the attribute and returns the
+#'   modified dataset invisibly.
+#'
 #' @examples
 #' # Get the bibentry of a dataset_df object:
-#' orange_bibentry <- get_bibentry(orange_df)
+#' be <- get_bibentry(orange_df)
 #'
-#' # Create a well-formatted bibentry object:
-#' alternative_bibentry <- datacite(
-#'   Creator = person("Jane Doe"),
+#' # Create a well-formed bibentry (DataCite-style):
+#' be2 <- datacite(
+#'   Creator = person("Jane", "Doe"),
 #'   Title = "The Orange Trees Dataset",
 #'   Publisher = "MyOrg"
 #' )
 #'
-#' # Assign the new bibentry object:
-#' set_bibentry(orange_df) <- alternative_bibentry
+#' # Assign the new bibentry:
+#' set_bibentry(orange_df) <- be2
 #'
-#' # Print the bibentry object according to the DataCite notation:
-#' as_datacite(orange_df, "list")
+#' # Inspect in different notations:
+#' as_datacite(orange_df, type = "list")
+#' as_dublincore(orange_df, type = "list")
 #'
-#' # Print the bibentry object according to the Dublin Core notation:
-#' as_dublincore(orange_df, "list")
+#' @family bibliographic helper functions
+#' @importFrom utils bibentry person
 #' @export
-
 get_bibentry <- function(dataset) {
   assertthat::assert_that("dataset_bibentry" %in% names(attributes(dataset)),
     msg = "Error: get_bibentry(dataset): dataset has no dataset_bibentry attribute"
   )
-
   attr(dataset, "dataset_bibentry")
 }
 
@@ -79,6 +78,5 @@ set_default_bibentry <- function() {
   year <- substr(as.character(sys_time), 1, 4)
   Title <- "Untitled Dataset"
   Creator <- person("Unknown", "Author")
-  dataset_bibentry <- datacite(Title = Title, Creator = Creator, PublicationYear = year)
-  dataset_bibentry
+  datacite(Title = Title, Creator = Creator, PublicationYear = year)
 }

@@ -41,8 +41,10 @@
 #'
 #' # Add a contributor
 #' contributor(df, overwrite = FALSE) <-
-#'   person("GitHub", role = "ctb",
-#'          comment = c(contributorType = "hostingInstitution"))
+#'   person("GitHub",
+#'     role = "ctb",
+#'     comment = c(contributorType = "hostingInstitution")
+#'   )
 #'
 #' # Replace all contributors
 #' contributor(df) <- person("Support", "Team", role = "ctb")
@@ -50,7 +52,7 @@
 #' # Inspect only contributors
 #' contributor(df)
 #'
-#' @family bibliographic reference functions
+#' @family bibliographic helper functions
 #' @importFrom utils person
 #' @export
 contributor <- function(x) {
@@ -59,16 +61,20 @@ contributor <- function(x) {
     msg = "contributor(x): x must be a dataset created with dataset_df() or as_dataset_df()."
   )
   auth <- get_bibentry(x)$author
-  if (is.null(auth)) return(auth)
+  if (is.null(auth)) {
+    return(auth)
+  }
 
   as_list <- as.list(auth)
   is_ctb <- function(p) {
     inherits(p, "person") &&
       (identical(p$role, "ctb") ||
-         (!is.null(p$comment) && !is.null(p$comment[["contributorType"]])))
+        (!is.null(p$comment) && !is.null(p$comment[["contributorType"]])))
   }
   keep <- vapply(as_list, is_ctb, logical(1))
-  if (!any(keep)) return(auth[0])
+  if (!any(keep)) {
+    return(auth[0])
+  }
   utils::as.person(as_list[keep])
 }
 
@@ -80,7 +86,9 @@ contributor <- function(x) {
     is.dataset_df(x),
     msg = "contributor(x) <- value: x must be a dataset_df object."
   )
-  if (is.null(value)) return(x)
+  if (is.null(value)) {
+    return(x)
+  }
   if (!inherits(value, "person")) {
     stop("contributor(x) <- value: `value` must be a utils::person object.")
   }

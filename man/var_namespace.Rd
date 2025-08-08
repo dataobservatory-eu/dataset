@@ -54,7 +54,7 @@ is used as a column in a dataset).
 \code{namespace_attribute()} and \code{set_namespace_attribute()} are internal helpers.
 
 For full usage, see:
-\code{vignette("defined", package = "dataset")} — demonstrating integration of
+\code{vignette("defined", package = "dataset")} <U+2014> demonstrating integration of
 variable labels, namespaces, units of measure, and machine-independent
 identifiers.
 }
@@ -80,6 +80,7 @@ namespace_attribute(x) <- "https://example.org/custom/"
 \seealso{
 Other defined metadata methods and functions: 
 \code{\link{var_label}()},
+\code{\link{var_labels}()},
 \code{\link{var_unit}()}
 }
 \concept{defined metadata methods and functions}

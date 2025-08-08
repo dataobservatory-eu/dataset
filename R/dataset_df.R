@@ -91,14 +91,7 @@ dataset_df <- function(...,
   year <- substr(as.character(sys_time), 1, 4)
 
   if (is.null(dataset_subject)) {
-    dataset_subject <- subject_create(
-      term = "data sets",
-      subjectScheme = "Library of Congress Subject Headings (LCSH)",
-      schemeURI = "https://id.loc.gov/authorities/subjects.html",
-      valueURI = "http://id.loc.gov/authorities/subjects/sh2018002256",
-      classificationCode = NULL,
-      prefix = ""
-    )
+    dataset_subject <- default_subject # See: subject.R
   }
 
   if (is.null(dataset_bibentry)) {

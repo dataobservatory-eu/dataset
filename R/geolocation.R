@@ -28,7 +28,7 @@
 #'
 #' geolocation(orange_df, overwrite = FALSE) <- "GB"
 #'
-#' @family Reference metadata functions
+#' @family bibliographic helper functions
 #' @export
 
 geolocation <- function(x) {

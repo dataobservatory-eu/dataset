@@ -17,8 +17,9 @@
 #' For compatibility with [utils::bibentry()], the `dataset_date` parameter is
 #' automatically used to derive both `publication_date` and `year` fields.
 #'
-#' @param x An object to annotate. Typically a [data.frame], [tibble], or named
-#'   list.
+#' @param x An object to annotate. Typically a `data.frame`, `tibble`,
+#'   or named list; can be added with [set_bibentry()] to a semantically
+#'   rich `dataset_df`.
 #' @param title A name given to the resource. See [dataset_title()].
 #' @param creator One or more [utils::person()] objects representing the
 #'   creator(s). See [creator()].
@@ -36,11 +37,12 @@
 #' @param description A free-text summary of the dataset. See [description()].
 #' @param language ISO 639-1 language code. See [language()].
 #' @param rights A string describing intellectual property or usage rights.
-#'   See [rights()].
+#' Use a URI like `"https://creativecommons.org/public-domain/cc0/"`.
 #' @param dataset_format The technical format of the dataset (e.g., MIME type).
 #' See [dataset_format()].
 #' @param relation A related resource (e.g., version, paper, or parent dataset).
-#'   See [relation()].
+#'   Currently only supports an URI, for example,
+#'   `"https:://doi.org/10.32614/CRAN.package.dataset"`.
 #' @param datasource A URL or label for the original source of the dataset.
 #' @param coverage Geographic or temporal extent (spatial/temporal coverage).
 #' @param type The resource type. For datasets, use `"Dataset"`. See
@@ -92,6 +94,7 @@ dublincore <- function(
     title,
     creator,
     contributor = NULL,
+    year = NULL,
     publisher = NULL,
     identifier = NULL,
     subject = NULL,
@@ -213,8 +216,6 @@ new_dublincore <- function(title,
 is.dublincore <- function(x) {
   inherits(x, "dublincore")
 }
-
-
 
 #' @rdname dublincore
 #' @exportS3Method

@@ -57,8 +57,10 @@ creator(df) <- person("Jane", "Doe", role = "aut")
 
 # Add a contributor
 contributor(df, overwrite = FALSE) <-
-  person("GitHub", role = "ctb",
-         comment = c(contributorType = "hostingInstitution"))
+  person("GitHub",
+    role = "ctb",
+    comment = c(contributorType = "hostingInstitution")
+  )
 
 # Replace all contributors
 contributor(df) <- person("Support", "Team", role = "ctb")
@@ -67,4 +69,18 @@ contributor(df) <- person("Support", "Team", role = "ctb")
 contributor(df)
 
 }
-\concept{bibliographic reference functions}
+\seealso{
+Other bibliographic helper functions: 
+\code{\link{creator}()},
+\code{\link{dataset_format}()},
+\code{\link{dataset_title}()},
+\code{\link{description}()},
+\code{\link{geolocation}()},
+\code{\link{get_bibentry}()},
+\code{\link{language}},
+\code{\link{publication_year}()},
+\code{\link{publisher}()},
+\code{\link{rights}()},
+\code{\link{subject}()}
+}
+\concept{bibliographic helper functions}

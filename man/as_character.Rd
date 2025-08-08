@@ -28,8 +28,8 @@ A character vector.
 \code{\link[=defined]{defined()}} vector to a character type. It is metadata-aware and
 ensures that the underlying data is character before coercion.
 
-Base R’s \code{as.character()} method applied to \code{defined} vectors simply strips the
-class and returns the values as a plain character vector.
+Base R's \code{as.character()} method applied to \code{defined} vectors
+simply strips the class and returns the values as a plain character vector.
 This is equivalent to calling \code{\link[=as_character]{as_character()}} with \code{preserve_attributes = FALSE}.
 }
 \details{

@@ -3,7 +3,7 @@
 \name{get_bibentry}
 \alias{get_bibentry}
 \alias{set_bibentry<-}
-\title{Get/set the Bibentry of the object.}
+\title{Get or set the bibentry}
 \usage{
 get_bibentry(dataset)
 
@@ -12,50 +12,62 @@ set_bibentry(dataset) <- value
 \arguments{
 \item{dataset}{A dataset created with \code{\link[=dataset_df]{dataset_df()}}.}
 
-\item{value}{A \code{\link[utils:bibentry]{utils::bibentry}} object, or a
-newly initialised bibentry object with DataCite default values for
-unassigned entries.}
+\item{value}{A \code{\link[utils:bibentry]{utils::bibentry}} to store on the dataset. If \code{NULL}, a
+minimal default entry is created.}
 }
 \value{
-The \code{get_bibentry} returns from the
-\code{\link[utils]{bibentry}} object of \code{x} from its attributes; the
-\code{`set_bibentry<-`} assignment function sets this attribute to
-\code{value} and invisibly returns \code{x} with the changed attributes. To
-set well-formatted input \code{value}, refer to\code{\link[=datacite]{datacite()}} or
-\code{\link[=dublincore]{dublincore()}} (see Details.)
+\itemize{
+\item \code{get_bibentry(dataset)} returns the \code{\link[utils:bibentry]{utils::bibentry}} stored in
+\code{dataset}'s attributes.
+\item \code{set_bibentry(dataset) <- value} sets the attribute and returns the
+modified dataset invisibly.
+}
 }
 \description{
-The \code{\link[=dataset_df]{dataset_df()}} objects contain among their
-attributes bibliographic entries which are stored in a
-\code{\link[utils:bibentry]{utils::bibentry}} object. Upon creation, these
-entries are filled with default values when applicable. \cr \cr To retrieve
-the bibentry of a dataset_df object, use \code{get_bibentry}.\cr \cr To
-create a new bibentry, use the\code{\link[=datacite]{datacite()}} function for an
-interface and default values according to the DataCite standard, or the
-\code{\link[=dublincore]{dublincore()}} function for the more general Dublin Core
-standard.\cr \cr To change or an entire new bibliographic entry to a
-dataset_df object (or any data.frame-like object), use the
-\code{`set_bibentry<-`} function (see examples.) For more details, please
-check the \code{vignette("bibentry", package="dataset")} vignette.
+Retrieve or replace the bibliographic entry stored in a dataset's attributes.
+The entry is a \code{\link[utils:bibentry]{utils::bibentry}} used to hold citation metadata for
+\code{\link[=dataset_df]{dataset_df()}} objects.
+}
+\details{
+New datasets are initialized with reasonable defaults. To build a new
+bibentry with sensible defaults and field names, use \code{\link[=datacite]{datacite()}} (DataCite)
+or \code{\link[=dublincore]{dublincore()}} (Dublin Core), then assign it with
+\code{set_bibentry(dataset) <- value}.
+
+See the vignette for more background:
+\code{vignette("bibentry", package = "dataset")}.
 }
 \examples{
 # Get the bibentry of a dataset_df object:
-orange_bibentry <- get_bibentry(orange_df)
+be <- get_bibentry(orange_df)
 
-# Create a well-formatted bibentry object:
-alternative_bibentry <- datacite(
-  Creator = person("Jane Doe"),
+# Create a well-formed bibentry (DataCite-style):
+be2 <- datacite(
+  Creator = person("Jane", "Doe"),
   Title = "The Orange Trees Dataset",
   Publisher = "MyOrg"
 )
 
-# Assign the new bibentry object:
-set_bibentry(orange_df) <- alternative_bibentry
+# Assign the new bibentry:
+set_bibentry(orange_df) <- be2
 
-# Print the bibentry object according to the DataCite notation:
-as_datacite(orange_df, "list")
+# Inspect in different notations:
+as_datacite(orange_df, type = "list")
+as_dublincore(orange_df, type = "list")
 
-# Print the bibentry object according to the Dublin Core notation:
-as_dublincore(orange_df, "list")
 }
-\concept{bibentry functions}
+\seealso{
+Other bibliographic helper functions: 
+\code{\link{contributor}()},
+\code{\link{creator}()},
+\code{\link{dataset_format}()},
+\code{\link{dataset_title}()},
+\code{\link{description}()},
+\code{\link{geolocation}()},
+\code{\link{language}},
+\code{\link{publication_year}()},
+\code{\link{publisher}()},
+\code{\link{rights}()},
+\code{\link{subject}()}
+}
+\concept{bibliographic helper functions}

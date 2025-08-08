@@ -1,9 +1,17 @@
-# dataset 0.3.91
+# dataset 0.4.0
+
+The release candidate with much improved unit testing and documentation to 
+meet the rOpenSci standards.
 
 - Rewritten vignettes.
 - A new `dataset_to_triples` and `xsd_convert` for better serialisation.
 - A better handling of empty nodes in RDF.
 - Many bug fixes in the way semantic information is translated to RDF.
+- `var_labels()` now similar to `labelled::var_lables()` behavior, generally 
+haven_labelled_defined as an s3 class works better in the tidyverse.
+- New bibliographic helper functions for `dataset_format()` and `contributor()`.
+- Countless small bug fixes to convert to various metadata schemas edge cases, 
+like missing contributors, formatted subjects, etc.
 
 # dataset 0.3.9
 

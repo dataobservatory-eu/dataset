@@ -58,16 +58,7 @@ identifier(orange_copy, overwrite = FALSE) <- "https://example.org/id"
 
 # Use numeric and NULL values
 identifier(orange_copy) <- 12345
-identifier(orange_copy) <- NULL  # Sets ":unas"
+identifier(orange_copy) <- NULL # Sets ":unas"
 
-}
-\seealso{
-Other Reference metadata functions: 
-\code{\link{description}()},
-\code{\link{geolocation}()},
-\code{\link{language}},
-\code{\link{publication_year}()},
-\code{\link{publisher}()},
-\code{\link{rights}()}
 }
 \concept{Reference metadata functions}

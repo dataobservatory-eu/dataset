@@ -55,7 +55,7 @@ Labels are useful for storing human-readable descriptions of variables that
 may have short or cryptic column names.
 
 For internal purposes, this function uses the \code{"var_labels"} dataset
-attribute managed by \code{\link[=set_var_labels]{set_var_labels()}} and delegates to \code{\link[=var_label]{var_label()}} and
+attribute and delegates to \code{\link[=var_label]{var_label()}} and
 \code{\link[=var_label<-]{var_label<-()}} on individual columns.
 }
 \examples{
@@ -76,7 +76,7 @@ var_labels(df, unlist = TRUE, null_action = "empty")
 
 }
 \seealso{
-\code{\link[=var_label]{var_label()}}, \code{\link[=set_var_labels]{set_var_labels()}}
+\code{\link[=var_label]{var_label()}}
 
 Other defined metadata methods and functions: 
 \code{\link{var_label}()},

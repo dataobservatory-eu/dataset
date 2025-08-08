@@ -1,6 +1,7 @@
 test_that("var_namespace() retrieves the namespace correctly", {
   x <- defined("Q42",
-               namespace = "https://www.wikidata.org/wiki/")
+    namespace = "https://www.wikidata.org/wiki/"
+  )
   expect_equal(var_namespace(x), "https://www.wikidata.org/wiki/")
 })
 
@@ -41,7 +42,7 @@ test_that("set_namespace_attribute() validates input correctly", {
   # Valid input
   expect_no_error(set_namespace_attribute(x, "https://valid.org/"))
   x <- (set_namespace_attribute(x, "https://valid.org/"))
-  expect_equal(var_namespace(x),  "https://valid.org/")
+  expect_equal(var_namespace(x), "https://valid.org/")
 
   # NULL input removes namespace
   x <- set_namespace_attribute(x, NULL)

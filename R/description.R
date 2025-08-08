@@ -21,7 +21,7 @@
 #' description(orange_df, overwrite = TRUE) <- "This dataset records orange tree growth."
 #' description(orange_df)
 #'
-#' @family Reference metadata functions
+#' @family bibliographic helper functions
 #' @export
 
 description <- function(x) {

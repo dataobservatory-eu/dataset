@@ -41,7 +41,7 @@ vignettes.
 ## Introduction and Motivation
 
 > “The principles of tidy data provide a standard way to organise data values
-> within a dataset.”  
+> within a dataset.”\
 > — Wickham (2014)
 
 The `dataset` package extends R’s native data structures by embedding
@@ -59,9 +59,9 @@ interface to the W3C Data Cube model.
 
 A tidy dataset, per Wickham’s definition, adheres to three core rules:
 
-- Each variable forms a column  
-- Each observation forms a row  
-- Each value forms a cell  
+-   Each variable forms a column\
+-   Each observation forms a row\
+-   Each value forms a cell
 
 ![Figure 12.1 in R for Data Science: tidy data structure.](images/tidy-1.png)
 
@@ -73,19 +73,19 @@ units, provenance, and contributors.
 
 In research or institutional contexts, a dataset is a form of digital resource,
 often archived, cited, or published. Such resources are typically described with
-metadata using the Resource Description Framework (RDF), enabling machine-actionable,
-language-independent, schema-neutral representation.
+metadata using the Resource Description Framework (RDF), enabling
+machine-actionable, language-independent, schema-neutral representation.
 
-RDF also enables description at the level of **elementary statements** — that is,
-per-cell metadata combining variable (column) and observation (row). This allows
-for fine-grained semantic annotation, supporting full data traceability and
-interoperability.
+RDF also enables description at the level of **elementary statements** — that
+is, per-cell metadata combining variable (column) and observation (row). This
+allows for fine-grained semantic annotation, supporting full data traceability
+and interoperability.
 
 The original tidy workflow was designed for solo, interactive analysis where
 analysts had full context. But in collaborative, institutional, or
-public-sharing contexts, assumptions must be replaced with formal semantics.
-Not only structure, but also clear definitions — of units, classifications,
-codes, and contributors — become essential.
+public-sharing contexts, assumptions must be replaced with formal semantics. Not
+only structure, but also clear definitions — of units, classifications, codes,
+and contributors — become essential.
 
 Moreover, many statistical data providers follow the **data cube model**, which
 resembles tidy data but supports higher dimensionality and more formal metadata.
@@ -107,18 +107,18 @@ data.frame(
 )
 ```
 
-This dataset is tidy, but not self-describing. Is geo using ISO 3166 or
-Eurostat codes? Is GNI measured in euros, dollars, or PPP-adjusted values?
+This dataset is tidy, but not self-describing. Is geo using ISO 3166 or Eurostat
+codes? Is GNI measured in euros, dollars, or PPP-adjusted values?
 
 The dataset package addresses these challenges by introducing structures for
-semantically rich vectors (`defined()`) and annotated tibbles (`dataset_df()`). It integrates machine-readable metadata directly into R objects and ensures that
-labels, units, concept URIs, and provenance are preserved
-from creation to publication.
+semantically rich vectors (`defined()`) and annotated tibbles (`dataset_df()`).
+It integrates machine-readable metadata directly into R objects and ensures that
+labels, units, concept URIs, and provenance are preserved from creation to
+publication.
 
-This approach bridges the gap between tidy data and RDF,
-making formal semantics part of the tidyverse workflow —
-without requiring users to leave R or manually manage
-external metadata schemas.
+This approach bridges the gap between tidy data and RDF, making formal semantics
+part of the tidyverse workflow — without requiring users to leave R or manually
+manage external metadata schemas.
 
 ## Related Work
 
@@ -134,12 +134,12 @@ real statistical production, as standardized by GSIM (Generic Statistical
 Information Model) and DDI (Data Documentation Initiative), involves a far more
 complex metadata model. Our contribution builds on these efforts by enabling
 users to attach standardized, cross-domain codebook references to such
-variables, ensuring that labeling follows recognized metadata vocabularies.
+variables, ensuring that labelling follows recognized metadata vocabularies.
 
 The `dataspice` package allows users to create auxiliary metadata datasets for
 publication. Its strength lies in its simplicity: it uses human-readable CSV
 files to capture key metadata fields. However, this simplicity introduces
-fragility: the metadata may become detached, outdated, or unsynchronized from
+fragility: the metadata may become detached, outdated, or unsynchronised from
 the data file, especially in collaborative or iterative settings.
 
 The `rdflib` package, a high-level interface to the RDF library of the same name
@@ -148,7 +148,7 @@ mapped to RDF triples and serialized into N-Triples, Turtle, RDF/XML, or
 JSON-LD. However, it assumes that metadata is retrofitted — applied after the
 analytical workflow is complete. While `rdflib` is essential for
 interoperability, it requires users to leave the tidyverse workflow or gain RDF
-modeling expertise.
+modelling expertise.
 
 Our goal with the `dataset` package is to bridge the semantic and methodological
 gap between the `tidyverse` and `rdflib`: to make semantically annotated,
@@ -262,7 +262,7 @@ By contrast, many CRAN or rOpenSci packages are schema-based: they require
 external metadata definitions that describe expected columns, data types, and
 semantic rules. While these can support more complex use cases — such as SDMX
 structural metadata or JSON Schema validation — they introduce additional
-overhead, increase complexity, and risk desynchronization between data and
+overhead, increase complexity, and risk desynchronisation between data and
 metadata.
 
 Schema-based solutions may be more appropriate when data analysts work in teams
@@ -326,7 +326,7 @@ var_namespace(geo)
 ```
 
 These attributes are preserved across most data transformations, and persist
-when saving to .rds or .rda.
+when saving to `.rds` or `.rda`.
 
 ### Assembling a Dataset with Metadata
 
@@ -570,7 +570,7 @@ supported, allowing users to append consistent datasets without losing
 semantics.
 
 This reflects a deliberate philosophy: rather than duplicate tidyverse
-behaviors, dataset encourages upstream semantic modeling and downstream
+behaviours, dataset encourages upstream semantic modelling and downstream
 interoperability.
 
 The dataset_to_triples() function exports a tidy dataset to RDF-style triplets:
@@ -619,9 +619,15 @@ These outputs are fully compatible with the
 datasets into: - Turtle (`.ttl`) - RDF/XML (`.rdf`) - N-Triples (`.nt`) -
 JSON-LD (`.jsonld`)
 
-This enables dataset publication to: - SPARQL endpoints - FAIR data
-repositories - Wikibase instances (via planned extensions) - Semantic web
-catalogs
+This enables dataset publication to: 
+
+- SPARQL endpoints 
+
+- FAIR data repositories
+
+- Wikibase instances (via planned extensions) 
+
+- Semantic web catalogues
 
 Triple-based export promotes structural normalization, eliminates redundancy,
 and facilitates data integration across domains and systems.

@@ -3,40 +3,58 @@
 \name{dataset_title}
 \alias{dataset_title}
 \alias{dataset_title<-}
-\title{Get/set the title of a dataset}
+\title{Get or Set the Title of a Dataset}
 \usage{
 dataset_title(x)
 
 dataset_title(x, overwrite = FALSE) <- value
 }
 \arguments{
-\item{x}{A dataset object created with \code{\link[=dataset_df]{dataset_df()}} or \code{\link[=as_dataset_df]{as_dataset_df()}}.}
+\item{x}{A dataset object created by \code{\link[=dataset_df]{dataset_df()}} or \code{\link[=as_dataset_df]{as_dataset_df()}}.}
 
-\item{overwrite}{If the attributes should be overwritten. In case it is set
-to \code{FALSE},it gives a warning with the current \code{title}
-property instead of overwriting it. Defaults to \code{FALSE}.}
+\item{overwrite}{Logical. If \code{TRUE}, the existing title is replaced. If
+\code{FALSE} (default) and a title is already present, a warning is issued and
+the title is not changed.}
 
-\item{value}{The name(s) or title(s) by which a resource is known. See:
-\href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{dct:title}.}
+\item{value}{A character string representing the new title. If \code{NULL}, a
+placeholder value \code{":tba"} is assigned. If \code{value} is a character vector of
+length > 1, an error is raised.}
 }
 \value{
-A string with the dataset's title; \code{set_dataset_title} returns
-a dataset object with the changed (main) title.
+\code{dataset_title()} returns the current dataset title as a character
+string. \verb{dataset_title<-()} returns the updated dataset object (invisible).
 }
 \description{
-Get or reset the dataset's main title.
+Retrieve or assign the main title of a dataset, typically used
+as the primary label in metadata exports (e.g., DataCite or Dublin Core).
 }
 \details{
-In the DataCite definition, several titles can be used; it is not
-yet implemented.
+According to the \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/title/}{Dublin Core specification for \code{title}},
+the title represents the name by which the resource is formally known.
+
+The DataCite metadata schema supports multiple titles (e.g., translated,
+alternative), but this function currently supports only a single main title.
 }
 \examples{
 dataset_title(orange_df)
+
+# Set a new title with overwrite = TRUE
 dataset_title(orange_df, overwrite = TRUE) <- "The Growth of Orange Trees"
 dataset_title(orange_df)
+
 }
 \seealso{
-Other Bibliographic reference functions: 
-\code{\link{creator}()}
+Other bibliographic helper functions: 
+\code{\link{contributor}()},
+\code{\link{creator}()},
+\code{\link{dataset_format}()},
+\code{\link{description}()},
+\code{\link{geolocation}()},
+\code{\link{get_bibentry}()},
+\code{\link{language}},
+\code{\link{publication_year}()},
+\code{\link{publisher}()},
+\code{\link{rights}()},
+\code{\link{subject}()}
 }
-\concept{Bibliographic reference functions}
+\concept{bibliographic helper functions}

@@ -18,7 +18,7 @@
 #' `namespace_attribute()` and `set_namespace_attribute()` are internal helpers.
 #'
 #' For full usage, see:
-#' `vignette("defined", package = "dataset")` — demonstrating integration of
+#' `vignette("defined", package = "dataset")` <U+2014> demonstrating integration of
 #' variable labels, namespaces, units of measure, and machine-independent
 #' identifiers.
 #'
