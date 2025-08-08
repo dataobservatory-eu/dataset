@@ -5,6 +5,7 @@
 \alias{datacite}
 \alias{is.datacite}
 \alias{is.datacite.datacite}
+\alias{print.datacite}
 \title{Create a Bibentry Object with DataCite Metadata Fields}
 \source{
 \itemize{
@@ -43,6 +44,8 @@ datacite(
 is.datacite(x)
 
 \method{is.datacite}{datacite}(x)
+
+\method{print}{datacite}(x, ...)
 }
 \arguments{
 \item{x}{An object that is tested if it has a class "datacite".}

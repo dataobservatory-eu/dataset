@@ -226,6 +226,7 @@ is.datacite <- function(x) {
 #' @exportS3Method
 is.datacite.datacite <- function(x) inherits(x, "datacite")
 
+#' @rdname datacite
 #' @exportS3Method
 print.datacite <- function(x, ...) {
   cat("DataCite Metadata Record\n")

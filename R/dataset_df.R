@@ -198,6 +198,7 @@ new_dataset <- function(x,
 
   tmp
 }
+
 #' @rdname dataset_df
 #' @return \code{is.dataset_df} returns a logical value
 #' (if the object is of class \code{dataset_df}.)
