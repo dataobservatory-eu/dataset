@@ -30,7 +30,7 @@ test_that("publication_year()<- does not overwrite when overwrite = FALSE", {
     publication_year(df, overwrite = FALSE) <- "2005",
     regexp = "The dataset has already an publication_year"
   )
-  expect_equal(publication_year(df), "2001")  # Should not change
+  expect_equal(publication_year(df), "2001") # Should not change
 })
 
 test_that("publication_year()<- handles NULL value by setting ':unas'", {
@@ -42,10 +42,9 @@ test_that("publication_year()<- handles NULL value by setting ':unas'", {
 test_that("publication_year() fails on non-dataset_df input", {
   df <- data.frame(x = 1:3)
   expect_error(publication_year(df),
-               regexp = "publication_year\\(x\\): x must be a dataset object"
+    regexp = "publication_year\\(x\\): x must be a dataset object"
   )
   expect_error(publication_year(df) <- "2020",
-               regexp = "publication_year\\(x\\) <- value: x must be a dataset object"
+    regexp = "publication_year\\(x\\) <- value: x must be a dataset object"
   )
 })
-

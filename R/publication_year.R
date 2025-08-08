@@ -7,7 +7,7 @@
 #' @details
 #' The `publication_year` represents the year when the dataset was or will be
 #' made publicly available, in `YYYY` format. For additional context, see
-#' [DataCite: Publication Year – Additional Guidance](https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#publicationyearadditional-guidance).
+#' [DataCite: Publication Year-Additional Guidance](https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#publicationyearadditional-guidance).
 #'
 #' @param x A dataset object created by [dataset_df()] or
 #'   `dataset::as_dataset_df()`.

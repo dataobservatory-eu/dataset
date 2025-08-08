@@ -45,5 +45,3 @@ test_that("geolocation() works on dataset_df object", {
   geolocation(df) <- "CA"
   expect_equal(geolocation(df), "CA")
 })
-
-

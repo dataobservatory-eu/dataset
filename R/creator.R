@@ -53,7 +53,6 @@ creator <- function(x) {
 
   ds_creator <- get_bibentry(x)$author
 
-
   if (overwrite) {
     ds_creator <- value
   } else {

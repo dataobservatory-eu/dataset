@@ -101,4 +101,3 @@ test_that("subject<- replaces both attr and bibentry field", {
   expect_equal(ds_bibentry$subject, "Volcanology")
   expect_equal(attr(df, "subject")$term, "Volcanology")
 })
-

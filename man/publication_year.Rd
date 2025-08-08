@@ -29,7 +29,7 @@ rich dataset object.
 \details{
 The \code{publication_year} represents the year when the dataset was or will be
 made publicly available, in \code{YYYY} format. For additional context, see
-\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#publicationyearadditional-guidance}{DataCite: Publication Year – Additional Guidance}.
+\href{https://support.datacite.org/docs/datacite-metadata-schema-v44-mandatory-properties#publicationyearadditional-guidance}{DataCite: Publication Year-Additional Guidance}.
 }
 \examples{
 publication_year(orange_df)
