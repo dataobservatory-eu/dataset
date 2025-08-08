@@ -62,7 +62,6 @@ reference:
       Work with DataSet objects that resemble the [W3C](https://www.w3.org/TR/vocab-data-cube/) and SDMX datacube model.
     contents:
       - dataset_df
-      - provenance
       - bind_defined_rows
   - title: "Defined"
     desc: >
@@ -116,6 +115,7 @@ reference:
       Describe the data or its metadata in the Resource Description Framework
     contents:
       - describe
+      - provenance
       - xsd_convert
       - n_triples
       - n_triple

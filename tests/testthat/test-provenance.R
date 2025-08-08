@@ -2,7 +2,8 @@ test_that("dataset_df sets default provenance on creation", {
   data("gdp", package = "dataset")
 
   test_dataset <- dataset_df(
-    rowid = defined(paste0("eg:", 1:2), namespace = "http://example.com/dataset#"),
+    rowid = defined(paste0("eg:", 1:2),
+                    namespace = "http://example.com/dataset#"),
     geo = defined(
       gdp$geo[1:2],
       label = "Geopolitical entity",
@@ -36,3 +37,4 @@ test_that("provenance(x) works", {
   provenance(x = tested) <- n_triple("https://doi.org/10.5281/zenodo.10396807", "http://www.w3.org/ns/prov#wasInformedBy", "http://example.com/source#1")
   expect_output(print(provenance(tested)), "<http://example.com/source#1>")
 })
+
