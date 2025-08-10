@@ -40,7 +40,7 @@ n_triples <- function(triples) {
 #' RDF. An N-Triple triple is a sequence of RDF terms representing the subject,
 #'  predicate and object of an RDF Triple. Use [n_triples()] to serialize
 #'  multiple statements.
-#' @source \href{https://www.w3.org/TR/n-triples/}{RDF 1.1 N-Triples}
+#' @source [RDF 1.1 N-Triples](https://www.w3.org/TR/n-triples/)
 #' @param s The subject of a triplet.
 #' @param p The predicate of a triplet.
 #' @param o The object of a triplet.
