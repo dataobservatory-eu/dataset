@@ -28,11 +28,30 @@ if (!requireNamespace("jsonld", quietly = TRUE)) {
     }
 ```
 
+The `dataset` package supports the creation of semantically enriched datasets that align with the principles outlined in *design.Rmd*: preserving meaning across the data lifecycle, enabling interoperability, and ensuring compliance with modern metadata standards. A key part of these design principles is the ability to export data in machine-readable formats that integrate smoothly with the semantic web.
+
+One such format is the Resource Description Framework (RDF), which expresses data as **subject–predicate–object** triples. By converting R data into RDF, we make each observation and its attributes explicitly defined and linkable to external vocabularies. This allows datasets to be easily merged, queried, and interpreted across systems.
+
+## Purpose
+
+The goal of this vignette is to show how a tidy R dataset can be transformed into RDF triples while retaining all semantic annotations added via the `dataset` package. RDF enables:
+
+- **Interoperability** – linking data to controlled vocabularies and ontologies
+- **Precision** – carrying explicit definitions for every variable and observation
+- **Reusability** – producing outputs that are both human- and machine-readable
+
+Exporting to RDF is a natural extension of the semantic early-binding approach described in *design.Rmd*, where metadata is embedded at the moment of dataset creation. This ensures that when data leaves R, it already contains everything needed for FAIR (Findable, Accessible, Interoperable, Reusable) compliance.
+
 ## From tidy data to RDF triples
 
-This vignette demonstrates how to convert tidy R datasets into semantically enriched RDF triple structures, using the `dataset` and `rdflib` packages. These packages help you annotate variables with machine-readable concept definitions, units, and links to controlled vocabularies.
+A tidy dataset, where each variable is a column and each observation is a row, maps cleanly to RDF triples:
 
-We’ll start with a small example of a tidy dataset representing countries (`geo`) with unique identifiers (`rowid`) and then show how to transform the dataset into RDF triples using standard vocabularies.
+- The **subject** represents an observation or entity (e.g., “Observation #1” or a URI for a country)
+- The **predicate** represents a variable or attribute (e.g., GDP value, reference year, measurement unit)
+- The **object** represents the value, which can be a literal (number, string, date) or a URI pointing to a definition
+
+By structuring data this way, every cell in the dataset becomes an elementary semantic statement that can be validated, linked, and queried via SPARQL.
+
 
 ```{r setup}
 library(dataset)
@@ -41,6 +60,13 @@ data("gdp")
 ```
 
 ## Creating a minimal semantically defined dataset
+
+To illustrate the conversion from tidy data to RDF triples, we start with a very small dataset that contains:
+
+- A unique identifier (`rowid`) for each observation
+- A country code (`geo`) linked to an authoritative vocabulary
+
+By defining both variables with `defined()`, we make their meaning explicit and machine-readable from the outset.
 
 ```{r smallgeo}
 small_geo <- dataset_df(
@@ -56,6 +82,8 @@ small_geo <- dataset_df(
   )
 )
 ```
+
+Once the dataset is defined, we can convert it to RDF triples.
 
 ::: small
 ```{r triplesdf}
@@ -75,9 +103,18 @@ cat(ntriples, sep = "\n")
 
 Each row of your dataset becomes a **subject**, each variable a **predicate**, and each value either a **URI** or a typed literal (like a date or number) — depending on how it's defined.
 
-### RDF triples enable interoperability
+## RDF triples enable interoperability
 
-The *Resource Description Framework* (RDF) represents data as subject–predicate–object triples. This allows your dataset to be machine-readable, linkable to external vocabularies, and queryable via SPARQL. The dataset is presented cell by cell as an elementary semantic (knowledge) statement, carrying the definitions of the observed unit, the measurement or attribute, and the relationship between the observed unit and this variable. Instead of carrying a label like "GDP", or "Gross Domestic Product", it has a precise definition for this statistical variable that anybody can look up.
+The *Resource Description Framework* (RDF) represents data as a series of subject–predicate–object triples.  
+In this representation:
+
+- The **subject** is the entity or observation being described
+- The **predicate** is the property or relationship
+- The **object** is the value, which may be a literal (e.g., a string, number, or date) or another URI
+
+With `dataset_df` and `defined` variables, each triple links directly to authoritative concept definitions and controlled vocabularies. This means that every cell in your dataset is expressed as a precise semantic statement, making it unambiguous, machine-readable, and easy to integrate into linked data systems.
+
+
 
 ```{r ntripleexample}
 one_triple <- n_triple(
@@ -86,6 +123,8 @@ one_triple <- n_triple(
   o = "Small Country Dataset"
 )
 ```
+
+Instead of storing a column name like `"GDP"`, RDF triples can point to an exact definition of GDP from a recognised vocabulary, ensuring consistent meaning across datasets.
 
 ::: small
 ```{r}
@@ -115,7 +154,8 @@ rdf_parse(rdf_graph, doc = temp_file, format = "ntriples")
 
 ## Clean up
 
-It is a good practice to close connections, or clean up larger objects living in the memory:
+When working with RDF output in R, it is good practice to close any file connections and remove large in-memory objects once they are no longer needed.  
+This helps free memory and avoids leaving temporary files behind.
 
 ```{r clenup}
 # Clean up: delete file and clear RDF graph
@@ -125,6 +165,8 @@ gc()
 ```
 
 ## Scale up
+
+The same approach used for the small example can be applied to a complete `dataset_df`. In this example, we add multiple variables, each defined with labels, units, concepts, and (where appropriate) namespaces, along with a dataset-level bibliographic record.
 
 ```{r scaleup}
 small_country_dataset <- dataset_df(
@@ -163,13 +205,15 @@ small_country_dataset <- dataset_df(
 )
 ```
 
+Once the dataset is fully defined, it can be converted to RDF triples in N-Triples format:
+
 ```{r smallcountrydfnt}
 small_country_df_nt <- dataset_to_triples(small_country_dataset,
   format = "nt"
 )
 ```
 
-The following lines read as:
+The following statements illustrate the output:
 
 -   [1] `Observation #1` is a geopolitical entity, `Andorra`.
 -   [11] `Observation #1` has a reference time period of `2020`.
@@ -182,7 +226,12 @@ The following lines read as:
 small_country_df_nt[c(1, 11, 21, 31, 41)]
 ```
 
-The statements about `Observation 1`, which is Andorra's national economy in 2020, is not serialised consecutively in the text file. This is not necessary, because each cell is precisely connected to the *row* (first part of the triple) and *column* (second part of the triple). We could say that the entire map to the original dataset is embedded into the flat text file, therefore it can be easily imported into a database.
+RDF triples are not guaranteed to be serialised in the same order as the dataset’s rows and columns.  
+This is not a limitation — each triple explicitly encodes the observation (subject) and the variable (predicate), making it possible to reconstruct the original dataset from the triples alone.
+
+The statements about `Observation #1` (Andorra’s national economy in 2020) are not consecutive in the text file.  
+This is fine because the mapping to both the *row* and *column* is embedded in the triple structure, allowing the RDF to be imported directly into a database without ambiguity.
+
 
 ```{r readrdf2}
 # We write to a temporary file our Ntriples created earlier
@@ -196,11 +245,12 @@ rdf_parse(rdf_graph, doc = temp_file, format = "ntriples")
 rdf_graph
 ```
 
-Your dataset is now ready to be exported to meet the true FAIR standards, because they are:
+At this point, your dataset is ready for export in a FAIR-compliant format:
 
-- **self-descriptive**: variables carry labels, units, and definitions.
-- **machine-readable**: linked vocabularies and standard identifiers.
-- **ready to publish and share**: they carry the metadata of each variable, potentially each observation unit, and through metadata standards like Dublin Core and DataCite the information about the whole dataset, too.
+- **Self-descriptive** — variables carry labels, units, and precise definitions  
+- **Machine-readable** — linked to standard vocabularies and identifiers  
+- **Ready to publish and share** — includes metadata for variables, observation units, and the dataset itself via standards like Dublin Core and DataCite
+
 
 ```{r readjsonld}
 # Create temporary JSON-LD output file
@@ -210,7 +260,8 @@ jsonld_file <- tempfile(fileext = ".jsonld")
 rdf_serialize(rdf_graph, doc = jsonld_file, format = "jsonld")
 ```
 
-Read it back to R for display (only first 30 lines are shown):
+To verify the output, you can read the JSON-LD back into R (first 30 lines shown):
+
 
 :::: small
 ```{r readjsonldprint}
@@ -218,7 +269,10 @@ cat(readLines(jsonld_file)[1:30], sep = "\n")
 ```
 ::::
 
-```{r clenup2, echo=FALSE, message=FALSE}
+Finally, remove temporary files and clear objects from memory to free resources.
+
+
+```{r clenup2, message=FALSE}
 unlink(temp_file)
 rm(rdf_graph)
 gc()

@@ -18,33 +18,41 @@ knitr::opts_chunk$set(
 library(dataset)
 ```
 
-## Why We Needed `bibrecord`
 
-The base R function `utils::bibentry()` provides a way to structure citation metadata. While effective for simple references, it falls short for modern metadata standards like:
+Descriptive metadata is often added as an afterthought or stored separately from the data it describes. This separation can lead to loss of context when datasets are shared, archived, or reused. To avoid this, the `dataset` package encourages metadata to be embedded at the time of dataset creation.
 
--   **Dublin Core Terms (DCTERMS)**
+For a `dataset_df`, this means not only providing variable-level definitions, units, and namespaces, but also including a complete, standards-aligned citation record for the dataset itself. Encoding citation information early ensures that it travels with the data, supports the FAIR principles (Findable, Accessible, Interoperable, Reusable), and is ready for export to modern metadata formats.
 
--   **DataCite**
+In the [Design Principles & Future Work Semantically Enriched, Standards-Aligned Datasets in R](https://dataset.dataobservatory.eu/articles/articles/design.html), we identify three objectives for dataset-level citation metadata:
 
-Both require clear distinction between creators, contributors, and richly typed relationships — things `bibentry()` doesn't natively support.
+1. **Full compliance** with standards such as Dublin Core Terms (DCTERMS) and DataCite  
+2. **Interoperability** with the R ecosystem, including `dataset_df` and base R tools  
+3. **Preservation of meaning** throughout the dataset’s lifecycle — from creation to publication and reuse
 
-To bridge this gap while preserving compatibility with base R, the `bibrecord` class builds on top of `bibentry`, adding support for:
+## Purpose
 
--   Multiple `person()` entries for contributors
+The base R function `utils::bibentry()` offers a way to structure citation metadata and works well for simple references. However, it does not fully support DCTERMS or DataCite, which require:
 
--   Metadata fields aligned with DCTERMS and DataCite
+- Clear separation of roles (e.g., creators vs. contributors)  
+- Richly typed relationships between resources  
+- Support for additional metadata fields such as identifiers, subjects, and funding information
 
--   Safe serialization and printing
+The `bibrecord` class builds on `bibentry` to bridge this gap while remaining fully compatible with base R. It adds:
+
+- Multiple `person()` entries for contributors  
+- Metadata fields aligned with DCTERMS and DataCite  
+- Safe serialization and extended printing methods  
+
+Ideally, `bibrecord` should evolve in close coordination with `utils::bibentry()` or be replaced by a modernised `bibentry` that supports these capabilities natively, achieving the three objectives described above.
+
 
 ## What is `bibrecord`
 
-A `bibrecord` is a standard `bibentry` object with additional fields stored in attributes. This means:
+A `bibrecord` is a standard `bibentry` object with additional fields stored as attributes. This means:
 
--   You can use it with any code expecting a `bibentry`
-
--   You gain structured metadata fields like `contributor`, `subject`, `identifier`
-
--   Methods like `print()` are extended to reflect these enrichments
+- It works with any function that accepts a `bibentry`
+- It offers structured metadata fields such as `contributor`, `subject`, and `identifier`
+- Extended methods display both the citation and the enriched metadata
 
 ## Creating a `bibrecord`
 
@@ -70,38 +78,45 @@ rec <- bibrecord(
 print(rec)
 ```
 
-This prints both the base citation and the contributors, clearly labelled.
+When printed, a `bibrecord` shows the standard citation along with clearly labelled contributor and metadata fields.
 
-## Compatibility with Existing Infrastructure
+## Compatibility with existing infrastructure
+
 
 Because `bibrecord` inherits from `bibentry`:
 
--   It works with `citation()` and other base R citation tools
+- It works with `citation()` and other base R citation tools
 
--   It integrates with existing bibliographic pipelines
+- It integrates into existing bibliographic workflows
 
--   You can convert it to `as_dublincore()` or `as_datacite()` without loss of structure
+- It can be converted to `as_dublincore()` or `as_datacite()` without loss of information
 
-## Future Extensions
 
-The `bibrecord` class can be further enriched by:
+## Future extensions
 
--   Adding support for `funder`, `geolocation`, `relatedIdentifier`, etc.
+Planned enhancements to `bibrecord` include:
 
--   Exporting to JSON-LD or RDF formats
+- Support for additional metadata fields such as `funder`, `geolocation`, and `relatedIdentifier`
+- Export to JSON-LD or RDF formats
+- Integration with APIs from services like Zenodo, Crossref, or Wikidata
 
--   Integrating with Zenodo, Crossref, or Wikidata APIs
+In the broader context described in [Design Principles & Future Work Semantically Enriched, Standards-Aligned Datasets in R](https://dataset.dataobservatory.eu/articles/articles/design.html), the long-term goal is to ensure that dataset-level citation metadata in R meets three objectives:
+
+1. **Full compliance with modern metadata standards** such as Dublin Core Terms (DCTERMS) and DataCite  
+2. **Seamless interoperability with the R ecosystem**, including `dataset_df` and base R tools  
+3. **Preservation of meaning across the entire data lifecycle**, from dataset creation to long-term publication and reuse  
+
+To achieve this, `bibrecord` should either evolve in close coordination with `utils::bibentry()` or, ideally, be replaced entirely by a modernised version of `bibentry` that supports these capabilities natively.
 
 ## Summary
 
-| Feature        | `bibentry` | `bibrecord` |
-|----------------|------------|-------------|
-| Base R support | ✅         | ✅          |
-| Contributors   | ❌         | ✅          |
-| Semantic roles | ❌         | ✅          |
-| DCTERMS export | ❌         | ✅          |
-| DataCite-ready | ❌         | ✅          |
+The `bibrecord` class extends base R's `bibentry` to provide structured, standards-aligned citation metadata that can be embedded directly into a `dataset_df`. It keeps full compatibility with existing R workflows while adding support for contributor roles, richer metadata fields, and export to standards like DCTERMS and DataCite.
 
-`bibrecord` is your drop-in upgrade for structured metadata in R.
+Embedding a `bibrecord` in a `dataset_df` ensures that citation information is:
 
-Start simple. Stay compatible. Go semantic.
+- **Complete** – all key metadata is included at dataset creation  
+- **Portable** – metadata travels with the dataset and can be exported to common formats  
+- **Interoperable** – remains compatible with base R and external metadata consumers  
+
+By adopting `bibrecord`, you can create datasets that are ready for FAIR-compliant publishing, are easier to share, and maintain their full descriptive context throughout their lifecycle.
+

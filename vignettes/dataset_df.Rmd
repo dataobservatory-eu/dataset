@@ -7,39 +7,62 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setupvignette, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
-```{r setup}
+
+The `dataset` package extends R's native data structures with machine-readable metadata. It follows a *semantic early-binding* approach, which means metadata is embedded as soon as the data is created, making datasets suitable for long-term reuse, FAIR-compliant publishing, and integration into semantic web systems.
+
+In the abstract, and following ISO/IEC 20546, a dataset is an identifiable collection of data available for access or download in one or more formats. This is different from R’s `data.frame` object, which is one specific in-memory structure. While R can already serialise data frames to formats like `.rds`, `.rda`, or `.csv`, these serialisations lack rich, standardised metadata. The `dataset` package aims to bridge that gap by aligning with established metadata standards to produce serialisations that are easier to reuse and interpret.
+
+`dataset_df` works naturally with data structured according to tidy data principles (Wickham, 2014), where each variable is a column, each observation is a row, and each type of observational unit forms a table. It adds an additional semantic layer to these tidy structures, so the meaning of variables and datasets is explicit and machine-readable.
+
+This vignette focuses specifically on the `dataset_df` class and the `dataset_df()` constructor, which you can use to create a semantically enriched data frame. For details on semantically enriched vectors, see `vignette("defined", package = "dataset")`.
+
+## Purpose
+
+The `dataset_df()` function helps you create **semantically rich datasets** that are easier to:
+
+-   understand by humans,
+
+-   validate and process by machines,
+
+-   share across tools, teams, and domains.
+
+This vignette walks you through creating such a dataset using a subset of the *GDP and main aggregates – international data cooperation annual data* dataset from Eurostat\
+(DOI: [https://doi.org/10.2908/NAIDA_10_GDP).](https://doi.org/10.2908/NAIDA_10_GDP).)
+
+## Load example data
+
+```{r loaddata}
 library(dataset)
 data("gdp")
 ```
-
-The `dataset_df()` function helps create semantically rich datasets that are easier to:
-
-- understand by humans,
-- validate and process by machines,
-- and share across tools, teams, and domains.
-
-This vignette demonstrates how to construct a semantically enriched dataset using a subset of the  *GDP and main aggregates - international data cooperation annual data* dataset created by Eurostat (DOI: <https://doi.org/10.2908/NAIDA_10_GDP>).
-
 
 ```{r printgdp}
 print(gdp)
 ```
 
-While the raw dataset is valid, it can be hard to interpret without external documentation. For example:
-- Countries are encoded in the `geo` variable.
-- Reporting frequency (e.g., `A` for annual) is stored in `freq`
+This example dataset is already in tidy format: each row represents a single observation for a country and year, and each column is a variable. `dataset_df` builds on this structure by adding semantic information to the variables and the dataset itself, ensuring that both the shape and the meaning of the data are preserved and unambiguous.
 
-## Getting Started
+While the raw dataset represented in the `gdp` data.frame is valid and tidy, it can be hard to interpret without external documentation. For example:
 
-The `dataset_df()` constructor enables two levels of semantic annotation for a tibble `tbl_df` object (created from a data.frame or tibble):
-- Per-variable metadata: label, unit, definition, namespace
-- Whole-dataset metadata: title, author, license, etc.
+-   Countries are encoded in the `geo` variable.
+
+-   Reporting frequency (e.g., `A` for annual) is stored in `freq`.
+
+## Add metadata to your dataset
+
+The `dataset_df()` constructor enables two levels of semantic annotation for a `tbl_df` object:
+
+-   **Variable-level metadata** — label, unit, definition, namespace.
+
+-   **Dataset-level metadata** — title, author, license, description.
+
+-   Let’s create a smaller dataset and enrich it with metadata.
 
 Let’s create a semantically enriched subset:
 
@@ -48,148 +71,166 @@ small_country_dataset <- dataset_df(
   geo = defined(
     gdp$geo,
     label = "Country name",
-    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refArea", 
-    namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"), 
+    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refArea",
+    namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"
+  ),
   year = defined(
-    gdp$year, 
-    label = "Reference Period (Year)", 
-    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"),
+    gdp$year,
+    label = "Reference Period (Year)",
+    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"
+  ),
   gdp = defined(
-    gdp$gdp, 
-    label = "Gross Domestic Product", 
-    unit = "CP_MEUR", 
-    concept = "http://data.europa.eu/83i/aa/GDP"),
+    gdp$gdp,
+    label = "Gross Domestic Product",
+    unit = "CP_MEUR",
+    concept = "http://data.europa.eu/83i/aa/GDP"
+  ),
   unit = defined(
     gdp$unit,
-    label = "Unit of Measure", 
-    concept  = "http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure", 
+    label = "Unit of Measure",
+    concept = "http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure",
     namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/unit/$1"
   ),
   freq = defined(
-    gdp$freq, 
-    label = "Frequency", 
+    gdp$freq,
+    label = "Frequency",
     concept = "http://purl.org/linked-data/sdmx/2009/code"
   ),
   dataset_bibentry = dublincore(
-    title = "Small Country Dataset", 
-    creator = person("Jane", "Doe"), 
-    publisher = "Example Inc.", 
-    datasource = "https://doi.org/10.2908/NAIDA_10_GDP", 
-    rights = "CC-BY", 
-    coverage = "Andorra, Liechtenstein, San Marino and the Feroe Islands")
+    title = "Small Country Dataset",
+    creator = person("Jane", "Doe"),
+    publisher = "Example Inc.",
+    datasource = "https://doi.org/10.2908/NAIDA_10_GDP",
+    rights = "CC-BY",
+    coverage = "Andorra, Liechtenstein, San Marino and the Feroe Islands"
   )
+)
 ```
 
-## Inspecting Variable-Level Metadata
+## Inspecting variable-level metadata
 
-The `defined` class columns retain the important semantic information about the label, exact concept definition link, and the unit of measure:
+Columns created with the `defined` class store semantic information such as the label, the concept’s definition link, and the unit of measure.
+
+Check the variable label:
 
 ```{r varlabel}
 var_label(small_country_dataset$gdp)
 ```
+
+And the measure of unit:
+
 ```{r varunit}
 var_unit(small_country_dataset$gdp)
 ```
 
-## Adding Dataset-Level Metadata
+## Adding dataset-level metadata
 
-The `dataset_df()` object can also store metadata about the dataset as a whole. It follows widely adopted metadata standards:
+A `dataset_df()` object can also store metadata describing the dataset as a whole. This metadata follows widely adopted standards:
 
-- Dublin Core Terms (`dublincore()`), used in libraries and many data repositories
-- DataCite (`datacite()`), a metadata definition mainly used in data repositories. 
+-   Dublin Core Terms (`dublincore()`), used in libraries and data repositories.
+-   DataCite (`datacite()`), commonly used in research data repositories.
 
-Each metadata field can be accessed and modified using simple assignment functions.
-
-For example, to specify the dataset language:
+Each metadata field can be accessed or modified using simple assignment functions. For example, you can set the dataset language.
 
 ```{r language}
 language(small_country_dataset) <- "en"
 ```
 
-## Reviewing Dataset-Level Metadata
+## Reviewing dataset-level metadata
 
-To inspect the full dataset description, use:
+To see the complete dataset description, you can print it as a BibTeX-style entry, which is suitable for citation or export.
 
 ```{r bibentry}
-print(get_bibentry(small_country_dataset), "bibtex" )
+print(get_bibentry(small_country_dataset), "bibtex")
 ```
 
 This prints a complete BibTeX-style entry, suitable for citation or export.
 
-
 ## Joining datasets
 
-The previous dataset contains observations for three data subjects, Andorra, Liechtenstein and San Marino, but not the Feroe Islands.
+The previous dataset contains observations for three data subjects — Andorra, Liechtenstein, and San Marino — but does not include the Feroe Islands.
 
 ```{r feroedf}
 feroe_df <- data.frame(
   geo = rep("FO", 3),
   year = 2020:2022,
-  gdp = c(2523.6, 2725.8,	3013.2 ),
+  gdp = c(2523.6, 2725.8, 3013.2),
   unit = rep("CP_MEUR", 3),
   freq = rep("A", 3)
 )
 ```
 
-The `dataset_df` objects do not allow simple binding of two datasets, because they check if the concept definitions, units of measures (if they are present) or the URI namespaces match. Of course, this is a bottleneck during a data analysis pipeline, but it is a necessary guarantee of a semantically correct data at the later, publication or exchange phase.
+The `dataset_df` class does not allow binding two datasets directly unless their concept definitions, units of measure, and URI namespaces match.
 
-```{r, eval=FALSE}
-rbind(small_country_dataset,feroe_df)
+```{r notevaluatedrbind, eval=FALSE}
+rbind(small_country_dataset, feroe_df)
+```
+
+```         
 Error in rbind(deparse.level, ...) :
 numbers of columns of arguments do not match
 ```
 
-So we must make sure that the very same definitions, country coding and unit of measures are used for the linked dataset.
+While this constraint can feel restrictive during an analysis workflow, it ensures semantic consistency when the data is later published or exchanged.
+
+This is similar in spirit to tidy data principles: when combining datasets, both structure and meaning must align. In `dataset_df`, the tidy data rule that “variables are columns” is complemented by the requirement that variables with the same name also share the same definition, units, and concept references.
+
+To add the missing Feroe Islands data, first create a compatible dataset using the same definitions, country coding, and units of measure as the original.
 
 ```{r fereodataset}
 feroe_dataset <- dataset_df(
   geo = defined(
     feroe_df$geo,
     label = "Country name",
-    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refArea", 
-    namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"),
+    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refArea",
+    namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"
+  ),
   year = defined(
-    feroe_df$year, 
-    label = "Reference Period (Year)", 
-    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"),
+    feroe_df$year,
+    label = "Reference Period (Year)",
+    concept = "http://purl.org/linked-data/sdmx/2009/dimension#refPeriod"
+  ),
   gdp = defined(
-    feroe_df$gdp, 
-    label = "Gross Domestic Product", 
-    unit = "CP_MEUR", 
-    concept = "http://data.europa.eu/83i/aa/GDP"),
+    feroe_df$gdp,
+    label = "Gross Domestic Product",
+    unit = "CP_MEUR",
+    concept = "http://data.europa.eu/83i/aa/GDP"
+  ),
   unit = defined(
     feroe_df$unit,
-    label = "Unit of Measure", 
-    concept  = "http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure", 
+    label = "Unit of Measure",
+    concept = "http://purl.org/linked-data/sdmx/2009/attribute#unitMeasure",
     namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/unit/$1"
   ),
   freq = defined(
-    feroe_df$freq, 
-    label = "Frequency", 
+    feroe_df$freq,
+    label = "Frequency",
     concept = "http://purl.org/linked-data/sdmx/2009/code"
   )
 )
 ```
 
-Now we can bind together the dataset.
+Once the new dataset is defined in this way, you can combine it with the existing one using `bind_defined_rows()`.
 
 ```{r binddefinedrows}
 joined_dataset <- bind_defined_rows(small_country_dataset, feroe_dataset)
 joined_dataset
 ```
-The joined dataset has full backward compatibility to base R.  Coercing to a `data.frame`, we lose the in-built checks and helper methods to work with the metadata, but the metadata remains in the attributes of the data.frame: 
+
+The combined dataset behaves like a regular tibble but retains its metadata. If you convert it to a base R `data.frame`, you will lose the helper methods and built-in checks, but the metadata will remain in the object’s attributes.
+
 ```{r backwardcompatibility}
 attributes(as.data.frame(joined_dataset))
 ```
 
 ## Conclusion
-With `dataset_df()`, your datasets become:
 
-- Self-descriptive: variables carry labels, units, and definitions.
-- Machine-readable: linked vocabularies and standard identifiers.
-- Ready to publish and share: through metadata standards like Dublin Core and DataCite.
+With `dataset_df()` your datasets are:
 
-This approach supports FAIR data principles (Findable, Accessible, Interoperable, Reusable), and simplifies data reuse, interpretation, and validation.
+-   **Self-descriptive** — variables carry labels, units, and definitions.
+-   **Machine-readable** — linked vocabularies and standard identifiers are embedded.
+-   **Ready to publish and share** — compliant with metadata standards like Dublin Core and DataCite.
 
-Our package is aiming to work seamlessly with the rOpenSci [rdflib](https://github.com/ropensci/rdflib) package.  
+This approach supports the FAIR data principles (Findable, Accessible, Interoperable, Reusable) and makes your data easier to reuse, interpret, and validate. By maintaining metadata from creation through publication, `dataset_df` helps preserve meaning across the entire data lifecycle.
 
+The package is designed to work seamlessly with the rOpenSci [rdflib](https://github.com/ropensci/rdflib) package and complements tidyverse workflows while enabling exports to semantic web formats like RDF.

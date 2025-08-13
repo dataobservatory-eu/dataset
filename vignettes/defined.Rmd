@@ -14,47 +14,58 @@ knitr::opts_chunk$set(
 )
 ```
 
-The `defined()` function creates semantically rich labelled vectors. These are a inherited from haven::labelled and extend the concept by adding:
+The `dataset` package extends R's native data structures with machine-readable metadata. It follows a *semantic early-binding* approach, which means metadata is embedded as soon as the data is created, making datasets suitable for long-term reuse, FAIR-compliant publishing, and integration into semantic web systems.
 
-- A human-readable variable label (available in haven::labelled or [labelled::labelled](https://larmarange.github.io/labelled/articles/labelled.html))
-- A unit of measurement
-- A definition URI linking to external ontologies or concepts
-- (Optionally) a namespace for controlled vocabularies
+`defined` works naturally with data structured according to tidy data principles (Wickham, 2014), where each variable is a column, each observation is a row, and each type of observational unit forms a table. It adds an additional semantic layer to individual vectors so their meaning is explicit, consistent, and machine-readable.
 
-This structure enhances clarity and semantic precision, particularly useful for statistical metadata, time series, and linked open data.
+This vignette focuses specifically on the `defined` function, which you can use to create a semantically enriched vector. For details on semantically enriched data frames, see `vignette("dataset_df", package = "dataset")`.
 
-## Getting Started
+## Purpose
+
+The `defined()` function helps you create **semantically rich labelled vectors** that are easier to:
+
+- understand by humans,
+- validate and process by machines,
+- ensure consistency when combining data from multiple sources,
+- share across tools, teams, and domains.
+
+By attaching metadata at creation time, `defined` prevents the loss of context and meaning that often occurs when data is exchanged or archived. This approach supports the FAIR data principles (Findable, Accessible, Interoperable, Reusable) and facilitates integration into semantic web systems.
+
+## Getting started
 
 ```{r setup}
 library(dataset)
 data("gdp")
 ```
 
-We’ll start by wrapping a numeric GDP vector using `defined()`:
+We’ll start by wrapping a numeric GDP vector using `defined()`.
+
 
 ```{r gdp1}
 gdp_1 <- defined(
-    gdp$gdp, 
-    label = "Gross Domestic Product", 
-    unit = "CP_MEUR", 
-    concept = "http://data.europa.eu/83i/aa/GDP")
+  gdp$gdp,
+  label = "Gross Domestic Product",
+  unit = "CP_MEUR",
+  concept = "http://data.europa.eu/83i/aa/GDP"
+)
 ```
 
 The `defined()` class builds on labelled vectors by adding rich metadata:
 
-- label: a description of what the variable represents.
-- unit: a short code for the measurement unit (e.g., `CP_MEUR`).
-- definition: a URI linking to a concept or standard.
-- namespace: (optional) for classifying coded values (e.g., SDMX codes).
+- **label** — a description of what the variable represents
+- **unit** — a short code for the measurement unit (e.g., `CP_MEUR`)
+- **definition** — a URI linking to a concept or standard
+- **namespace** — optional, for classifying coded values (e.g., SDMX codes)
 
-This is particularly useful for reproducible research, standard-compliant data, or long-term interoperability. The class is defined with the attributes() function of R, and this guarantees a very wide compatibility. A defined vector can be used even in base R. 
+This is particularly useful for reproducible research, standard-compliant data, or long-term interoperability. The class is implemented with R’s `attributes()` function, which guarantees wide compatibility. A defined vector can be used even in base R.
 
 ```{r seeattributes}
 attributes(gdp_1)
 ```
-From this output it is clear that actual s3 class is called `haven_labelled_defined`, which clearly indicates the inheritance from `haven_labelled`. In the dataset summary headers the `<defined>` abbreviation is used.
 
-Use the `var_label()`, `var_unit()` and `var_concept()` helper functions to set or retrieve metadata individually:
+From this output it is clear that the actual S3 class is called `haven_labelled_defined`, which clearly indicates the inheritance from `haven_labelled` (See: [labelled::labelled](https://larmarange.github.io/labelled/articles/labelled.html)). In the dataset summary headers the `<defined>` abbreviation is used.
+
+Use the `var_label()`, `var_unit()` and `var_concept()` helper functions to set or retrieve metadata individually.
 
 ```{r convenience}
 cat("Get the label only: ", var_label(gdp_1), "\n")
@@ -62,32 +73,42 @@ cat("Get the unit only: ", var_unit(gdp_1), "\n")
 cat("Get the concept definition only: ", var_concept(gdp_1), "\n")
 cat("All attributes:\n")
 ```
-## Printing and Summary
+## Printing and summary
+
+The most frequently used vector methods, such as print or summary are implemented as expected: 
 
 ```{r printdefined}
 print(gdp_1)
 ```
+
 ```{r summarydefined}
 summary(gdp_1)
 ```
+
 ## Handling ambiguity
 
-What happens if we try to concatenate a semantically under-specified new vector to the GDP vector?
+If you try to concatenate a semantically under-specified new vector to an existing `defined` vector, you will get an intended error indicating that some attributes are not compatible. This prevents combining values that differ in meaning, such as GDP figures expressed in different currencies.
+
 
 ```{r ambiguous}
 gdp_2 <- defined(
-  c(2523.6, 2725.8, 3013.2), 
-  label = "Gross Domestic Product")
+  c(2523.6, 2725.8, 3013.2),
+  label = "Gross Domestic Product"
+)
 ```
 
-You will get an intended error message that some attributes are not compatible. You certainly want to avoid that you are concatenating figures in euros and dollars, for example.
+In the following example, `gdp_1` and `gdp_2` are not defined with the same level of precision.
 
-```{r, eval=FALSE}
+```{r notevaluatedc, eval=FALSE}
 c(gdp_1, gdp_2)
-Error in `vec_c()`:
-! Can't combine `..1` <haven_labelled_defined> and `..2` <haven_labelled_defined>.
+```
+
+```
+Error in vec_c():
+! Can't combine ..1 <haven_labelled_defined> and ..2 <haven_labelled_defined>.
 ✖ Some attributes are incompatible.
 ```
+To resolve this, you can add the missing attributes so that the vectors are semantically compatible.
 
 Let's define better the GDP of the Faroe Islands:
 
@@ -95,38 +116,50 @@ Let's define better the GDP of the Faroe Islands:
 var_unit(gdp_2) <- "CP_MEUR"
 ```
 
-
 ```{r vardef2}
 var_concept(gdp_2) <- "http://data.europa.eu/83i/aa/GDP"
 ```
+
+Once the metadata matches, you can combine them.
 
 ```{r c}
 new_gdp <- c(gdp_1, gdp_2)
 summary(new_gdp)
 ```
+
+## Using namespaces for coded values
+
+You can also define variables that store codes (like country codes) with a namespace that points to a human- and machine-readable definition of those codes. In statistical datasets, such attribute columns describe characteristics of the observations or the measured variables.
+
+
 ```{r country}
-country = defined(
-  c("AD", "LI", "SM"), 
-  label = "Country name", 
-  concept = "http://dd.eionet.europa.eu/vocabulary/eurostat/geo/", 
-  namespace = "https://www.geonames.org/countries/$1/")
+country <- defined(
+  c("AD", "LI", "SM"),
+  label = "Country name",
+  concept = "http://dd.eionet.europa.eu/vocabulary/eurostat/geo/",
+  namespace = "https://www.geonames.org/countries/$1/"
+)
 ```
 
-The point of using a namespace is that it can point to a both human- and machine readable definition of the ID column, or any attribute column in the datasets. (Attributes in a statistical datasets are characteristics of the observations or the measured variables.)
+For example, the namespace definition above points to:
 
-For example, the namespace definition above points to
+- <https://www.geonames.org/countries/AD/> in the case of Andorra
+- <https://www.geonames.org/countries/LI/> for Liechtenstein
+- <https://www.geonames.org/countries/SM/> for San Marino
 
-- <https://www.geonames.org/countries/AD/> in the case of Andorra;
-- <https://www.geonames.org/countries/LI/> for Liechtenstein and
-- <https://www.geonames.org/countries/SM/> for San Marino. 
+You can get or set the namespace of a defined vector with `var_namespace()`.
 
-And <http://publications.europa.eu/resource/authority/bna/c_6c2bb82d> resolves to a machine-readable definition of geographical names.
+```{r shownamespace}
+var_namespace(country)
+```
+A URI such as <http://publications.europa.eu/resource/authority/bna/c_6c2bb82d> resolves to a machine-readable definition of geographical names.
 
-The use of several defined vectors in a dataset_df class explained in a separate vignette.
+The use of several `defined` vectors in a `dataset_df` object is explained in a separate vignette.
 
 ## Basic Usage
 
-Working with character vectors:
+You can create `defined` vectors from character values as well as numeric values. Methods like `as_character()` and `as_numeric()` let you coerce back to base R types while controlling what happens to the metadata.
+
 
 ```{r characters}
 countries <- defined(
@@ -141,30 +174,52 @@ as_character(countries)
 
 ### Subsetting and coercion
 
-The subsetting methods work as expected from a vector: 
+Subsetting a `defined` vector works like subsetting any other vector.
 
 ```{r subsettingmethods}
 gdp_1[1:2]
 gdp_1[gdp_1 > 5000]
 ```
 
-The `as.vector()` coercion methods strips the vector from its metadata. The `as.list()` method retains the metadata in a list form, with some redundancy (the definitions are added to each list element.)
+- `as.vector()` removes the metadata entirely.  
+- `as.list()` retains the metadata for each element (definitions are repeated for each entry).
+
 
 ```{r coerctionmethods}
 as.vector(gdp_1)
 as.list(gdp_1)
 ```
-## Coerce to base R types
 
-Coerce back the labelled country vector to a character vector:
+### Coerce to base R types
+
+Use `as_character()` to convert to a character vector.
 
 ```{r coerce-char}
 as_character(country)
 as_character(c(gdp_1, gdp_2))
 ```
 
-And to numeric:
+Use `as_factor()` to convert a categorical variable to a `factor`:
+
+```{r coerce-factor}
+as_factor(country)
+```
+
+Use `as_numeric()` to convert to a numeric vector.
 
 ```{r coerce-num}
 as_numeric(c(gdp_1, gdp_2))
 ```
+
+
+## Conclusion
+
+The `defined()` function provides a lightweight yet powerful way to make vectors self-descriptive by attaching semantic metadata directly to them. By combining a variable label, unit of measurement, concept definition, and optional namespace, `defined` ensures that each vector's meaning is explicit, consistent, and machine-readable.
+
+Because the metadata is embedded at creation time, it travels with the vector throughout your workflow — whether you are analysing, transforming, or exporting data.  
+This prevents context loss, supports the FAIR data principles (Findable, Accessible, Interoperable, Reusable), and facilitates integration with semantic web technologies.
+
+`defined` vectors work seamlessly with the [`dataset_df`](https://dataset.dataobservatory.eu/articles/articles/dataset_df.html) class to create semantically enriched data frames where both datasets and their constituent variables carry rich, standardised metadata.  
+For more on creating semantically enriched datasets, see the **dataset_df** vignette.  
+
+For guidance on recording bibliographic metadata and citations, see the **bibrecord** vignette.

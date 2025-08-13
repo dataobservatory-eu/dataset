@@ -26,7 +26,7 @@ Unlike most metadata packages that attach metadata after the fact, `dataset` fol
 
 This vignette provides a high-level introduction. For details on key components, see the following: - `vignette("defined", package = "dataset")`: Semantic vectors with `defined()` - `vignette("dataset_df", package = "dataset")`: Structuring and metadata with `dataset_df()` - `vignette("rdf", package = "dataset")`: Exporting to RDF and Linked Data - `vignette("bibrecord", package = "dataset")`: Creating rich citation metadata using `bibrecord()`
 
-## Why Extend Tidy Data?
+## Why extend tidy data?
 
 Hadley Wickham (2014) defines tidy data with three principles:
 
@@ -38,7 +38,7 @@ This structure is ideal for analysis, but lacks **semantic clarity**, particular
 
 The `dataset` package addresses this by allowing you to define variables explicitly, and to store dataset-level metadata within a tidy tibble.
 
-## Example: Defining Semantically Rich Vectors
+## Example: defining semantically rich vectors
 
 Semantically rich vectors are vectors in a data.frame that contain richer semantics than a simple column name; a long-form human-readable title; a machine- and human-readable variable definition; and if needed, an external resource that contains the codebook.
 
@@ -65,9 +65,9 @@ geo
 
 In this case, we define `geo` as the geopolitical entity <http://dd.eionet.europa.eu/vocabulary/eurostat/geo/>, and we know that the `AD` value can resolve to Andorra: <https://www.geonames.org/countries/AD/>. These vectors now carry metadata you can inspect directly — including their label, unit, and concept URI — which will be preserved even after transformation or storage.
 
-## Example: Creating a Metadata-Enriched Data Frame
+## Example: creating a dataset from a metadata-enriched data frame
 
-```{r}
+```{r smalldatasetexample}
 small_dataset <- dataset_df(
   geo = geo,
   gdp = gdp,
@@ -95,16 +95,16 @@ As Carl Boettinger has shown in the vignettes accompanying the R-binding to the 
 
 Our packages tries to lower the burden of such retrofitting with early binding and sensible defaults to serialise the dataset's contents and the dataset's bibliographic data to this format for those who are not familiar with RDF.
 
-You can convert any dataset_df object into a tidy 3-column representation (subject–predicate–object) using `dataset_to_triples()`:
+You can convert any `dataset_df` object into a tidy 3-column representation (subject–predicate–object) using `dataset_to_triples()`:
 
-```{r}
+```{r triplesexample}
 triples <- dataset_to_triples(small_dataset, format = "ntriples")
 triples
 ```
 
 This 3-column format (subject–predicate–object) is compatible with semantic web tools such as SPARQL, `rdflib`, and triple stores.
 
-```{r}
+```{r ntexample}
 mycon <- tempfile("my_dataset", fileext = "nt")
 my_description <- describe(x = small_dataset, con = mycon)
 
@@ -112,7 +112,7 @@ my_description <- describe(x = small_dataset, con = mycon)
 readLines(mycon)[c(4, 8, 12)]
 ```
 
-```{r}
+```{r provenancexample}
 ## Show two lines of provenance:
 provenance(small_dataset)[c(6, 7)]
 ```
