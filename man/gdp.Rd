@@ -6,12 +6,12 @@
 \title{A Small GDP Dataset}
 \format{
 A data frame with 10 rows and 5 variables:
-\describe{
-\item{geo}{Country name (character)}
-\item{year}{Reference year (integer)}
-\item{gdp}{Gross Domestic Product value (numeric)}
-\item{unit}{Unit of measurement, e.g., "Million EUR" (character)}
-\item{freq}{Observation frequency, e.g., "Annual" (character)}
+\itemize{
+\item \code{geo}: Country name (character)
+\item \code{year}: Reference year (integer)
+\item \code{gdp}: Gross Domestic Product value (numeric)
+\item \code{unit}: Unit of measurement, e.g., "Million EUR" (character)
+\item \code{freq}: Observation frequency, e.g., "Annual" (character)
 }
 }
 \source{

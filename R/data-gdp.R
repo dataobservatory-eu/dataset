@@ -5,13 +5,11 @@
 #' records for select countries and time periods.
 #'
 #' @format A data frame with 10 rows and 5 variables:
-#' \describe{
-#'   \item{geo}{Country name (character)}
-#'   \item{year}{Reference year (integer)}
-#'   \item{gdp}{Gross Domestic Product value (numeric)}
-#'   \item{unit}{Unit of measurement, e.g., "Million EUR" (character)}
-#'   \item{freq}{Observation frequency, e.g., "Annual" (character)}
-#' }
+#' - `geo`: Country name (character)
+#' - `year`: Reference year (integer)
+#' - `gdp`: Gross Domestic Product value (numeric)
+#' - `unit`: Unit of measurement, e.g., "Million EUR" (character)
+#' - `freq`: Observation frequency, e.g., "Annual" (character)
 #'
 #' @details
 #' This dataset is intended for examples, tests, and demonstration purposes. It

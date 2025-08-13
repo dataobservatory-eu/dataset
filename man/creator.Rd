@@ -11,7 +11,7 @@ creator(x, overwrite = TRUE) <- value
 }
 \arguments{
 \item{x}{A semantically rich data frame object created by
-\code{\link[=dataset_df]{dataset_df()}} or \code{dataset::\link{as_dataset_df}}.}
+\code{\link[=dataset_df]{dataset_df()}} or \verb{dataset::\link{as_dataset_df}}.}
 
 \item{overwrite}{If the attributes should be overwritten. In case it is set
 to \code{FALSE},it gives a message with the current \code{Creator} property
@@ -19,7 +19,7 @@ instead of overwriting it. Defaults to \code{TRUE} when the attribute is
 set to \code{value} regardless of previous setting.}
 
 \item{value}{The \code{Creator} as a
-\code{\link[utils:person]{utils::person}} object.}
+\code{\link[utils:person]{utils::person()}} object.}
 }
 \value{
 The Creator attribute as a character of length one is added to

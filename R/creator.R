@@ -1,22 +1,22 @@
 #' @title Get/set the Creator of the object.
-#' @description Add the optional \code{Creator} property as an attribute to a
+#' @description Add the optional `Creator` property as an attribute to a
 #'   dataset object.
-#' @details The \code{Creator} corresponds to
-#'   \href{https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/}{dct:creator}
+#' @details The `Creator` corresponds to
+#'   [dct:creator](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/elements11/creator/)
 #'   in Dublin Core and Creator in DataCite. The name of the entity that holds,
 #'   archives, publishes prints, distributes, releases, issues, or produces the
 #'   dataset. This property will be used to formulate the citation, so consider
 #'   the prominence of the role.
 #' @param x A semantically rich data frame object created by
-#'   [dataset_df()] or \code{dataset::\link{as_dataset_df}}.
-#' @param value The \code{Creator} as a
-#'   \code{\link[utils:person]{utils::person}} object.
+#'   [dataset_df()] or `dataset::\link{as_dataset_df}`.
+#' @param value The `Creator` as a
+#'   [utils::person()] object.
 #' @param overwrite If the attributes should be overwritten. In case it is set
-#'   to \code{FALSE},it gives a message with the current \code{Creator} property
-#'   instead of overwriting it. Defaults to \code{TRUE} when the attribute is
-#'   set to \code{value} regardless of previous setting.
+#'   to `FALSE`,it gives a message with the current `Creator` property
+#'   instead of overwriting it. Defaults to `TRUE` when the attribute is
+#'   set to `value` regardless of previous setting.
 #' @return The Creator attribute as a character of length one is added to
-#'   \code{x}.
+#'   `x`.
 #' @importFrom utils person
 #' @importFrom assertthat assert_that
 #' @family bibliographic helper functions

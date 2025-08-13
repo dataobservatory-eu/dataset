@@ -200,8 +200,8 @@ new_dataset <- function(x,
 }
 
 #' @rdname dataset_df
-#' @return \code{is.dataset_df} returns a logical value
-#' (if the object is of class \code{dataset_df}.)
+#' @return `is.dataset_df` returns a logical value
+#' (if the object is of class `dataset_df`.)
 #' @export
 is.dataset_df <- function(x) {
   ifelse("dataset_df" %in% class(x), TRUE, FALSE)
