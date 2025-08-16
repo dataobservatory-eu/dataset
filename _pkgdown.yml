@@ -29,7 +29,27 @@ navbar:
       href: reference/index.html
     articles:
       text: Articles
-      href: articles/index.html
+      menu:
+      - text: "Introduction"
+      - text: "-------"
+      - text: "Introduction"
+        href: articles/introduction.html
+      - text: "Design"
+        href: articles/design.html
+      - text: "Core concepts"
+      - text: "-------"
+      - text: "Defined"
+        href: articles/defined.html
+      - text: "Dataset_df"
+        href: articles/dataset_df.html
+      - text: "Metadata & citation"
+      - text: "-------"
+      - text: "Bibrecord"
+        href: articles/bibrecord.html
+      - text: "Dataset exchanges"
+      - text: "-------"
+      - text: "RDF"
+        href: articles/rdf.html
     github:
       icon: fab fa-github
       href: https://github.com/dataobservatory-eu/dataset/
