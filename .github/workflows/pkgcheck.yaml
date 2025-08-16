@@ -1,11 +1,14 @@
 name: pkgcheck
 
+# This will cancel running jobs once a new run is triggered
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}
   cancel-in-progress: true
 
 on:
+  # Manually trigger the Action under Actions/pkgcheck
   workflow_dispatch:
+  # Run on every push to main
   push:
     branches:
       - main
@@ -13,10 +16,7 @@ on:
 jobs:
   pkgcheck:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
-      - uses: actions/checkout@v4
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libssl-dev make zlib1g-dev pandoc librdf0-dev libicu-dev libnode-dev libxml2-dev
-      - uses: ropensci-review-tools/pkgcheck-action@v0.1.0
+      - uses: ropensci-review-tools/pkgcheck-action@main
