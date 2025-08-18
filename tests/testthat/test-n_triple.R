@@ -42,7 +42,7 @@ test_that("n_triple and related helpers produce correct N-Triple strings", {
 
   expect_equal(
     triple_time,
-    '<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> "2024-01-01T02:46:40Z"^^<xs:dateTime> .'
+    '<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> "2024-01-01T02:46:40Z"^^<xsd:dateTime> .'
   )
 
   expect_equal(length(n_triples(c(triple_1, triple_2, triple_1))), 2)
@@ -119,7 +119,7 @@ test_that("create_iri() helper function", {
   )
   expect_error(create_iri(list(a = 1:2)))
   # expect_output(print(create_iri(as.POSIXct(10000, origin = "2024-01-01", tz="UTC"))), "2024-01-01T03:46:40Z")
-  # expect_output(print(create_iri(as.POSIXct(10000, origin = "2024-01-01", tz="UTC"))), "\\^\\^<xs:dateTime>")
+  # expect_output(print(create_iri(as.POSIXct(10000, origin = "2024-01-01", tz="UTC"))), "\\^\\^<xsd:dateTime>")
   expect_equal(create_iri(author_person), "<https://orcid.org/0000-0001-7513-6760>")
   jane_doe <- person(given = "Jane", family = "Doe", role = "aut", email = "example@example.com")
   joe_doe <- person(
@@ -188,7 +188,7 @@ test_that("create_iri() handles scalar types correctly", {
 
   # POSIXct
   dt <- as.POSIXct("2024-01-01 12:34:56", tz = "UTC")
-  expect_equal(create_iri(dt), '"2024-01-01T12:34:56Z"^^<xs:dateTime>')
+  expect_equal(create_iri(dt), '"2024-01-01T12:34:56Z"^^<xsd:dateTime>')
 
   # URI string
   expect_equal(create_iri("https://example.org/id"), "<https://example.org/id>")
