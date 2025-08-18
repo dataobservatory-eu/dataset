@@ -65,7 +65,7 @@ test_that("triples_column_generate generates correct RDF triples", {
   # Case 2: numeric without namespace
   x <- c(1.23, 4.56)
   triples <- triples_column_generate(s, x, "value")
-  expect_true(all(grepl('^".+"\\^\\^<xs:decimal>$', triples$o)))
+  expect_true(all(grepl('^".+"\\^\\^<xsd:decimal>$', triples$o)))
 })
 
 test_that("dataset_to_triples generates valid N-Triples", {
@@ -121,7 +121,7 @@ test_that("dataset_to_triples generates valid N-Triples", {
 
   # Spot-check GDP literal
   gdp_triples <- subset(triples_df, grepl("GDP", p))
-  expect_true(all(grepl("\\^\\^<xs:decimal>$", gdp_triples$o)))
+  expect_true(all(grepl("\\^\\^<xsd:decimal>$", gdp_triples$o)))
 
   # Spot-check geo URIs
   geo_triples <- subset(triples_df, grepl("prop/geo", p))
