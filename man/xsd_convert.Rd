@@ -2,12 +2,12 @@
 % Please edit documentation in R/xsd_convert.R
 \name{xsd_convert}
 \alias{xsd_convert}
+\alias{xsd_convert.haven_labelled_defined}
 \alias{xsd_convert.data.frame}
 \alias{xsd_convert.dataset_df}
 \alias{xsd_convert.tbl_df}
 \alias{xsd_convert.character}
 \alias{xsd_convert.numeric}
-\alias{xsd_convert.haven_labelled_defined}
 \alias{xsd_convert.integer}
 \alias{xsd_convert.logical}
 \alias{xsd_convert.factor}
@@ -16,31 +16,31 @@
 \alias{xsd_convert.difftime}
 \title{Convert to XML Schema Definition (XSD) Types}
 \usage{
-xsd_convert(x, idcol, ...)
+xsd_convert(x, idcol = NULL, shortform = TRUE, ...)
 
-\method{xsd_convert}{data.frame}(x, idcol = NULL, ...)
+\method{xsd_convert}{haven_labelled_defined}(x, idcol = NULL, shortform = TRUE, ...)
 
-\method{xsd_convert}{dataset_df}(x, idcol = "rowid", ...)
+\method{xsd_convert}{data.frame}(x, idcol = NULL, shortform = TRUE, ...)
 
-\method{xsd_convert}{tbl_df}(x, idcol = NULL, ...)
+\method{xsd_convert}{dataset_df}(x, idcol = "rowid", shortform = TRUE, ...)
 
-\method{xsd_convert}{character}(x, idcol = NULL, ...)
+\method{xsd_convert}{tbl_df}(x, idcol = NULL, shortform = TRUE, ...)
 
-\method{xsd_convert}{numeric}(x, idcol = NULL, ...)
+\method{xsd_convert}{character}(x, idcol = NULL, shortform = TRUE, ...)
 
-\method{xsd_convert}{haven_labelled_defined}(x, idcol = NULL, ...)
+\method{xsd_convert}{numeric}(x, idcol = NULL, shortform = TRUE, ...)
 
-\method{xsd_convert}{integer}(x, idcol = NULL, ...)
+\method{xsd_convert}{integer}(x, idcol = NULL, shortform = TRUE, ...)
 
-\method{xsd_convert}{logical}(x, idcol = NULL, ...)
+\method{xsd_convert}{logical}(x, idcol = NULL, shortform = TRUE, ...)
 
-\method{xsd_convert}{factor}(x, idcol = NULL, ...)
+\method{xsd_convert}{factor}(x, idcol = NULL, shortform = TRUE, ...)
 
-\method{xsd_convert}{POSIXct}(x, idcol = NULL, ...)
+\method{xsd_convert}{POSIXct}(x, idcol = NULL, shortform = TRUE, ...)
 
-\method{xsd_convert}{Date}(x, idcol = NULL, ...)
+\method{xsd_convert}{Date}(x, idcol = NULL, shortform = TRUE, ...)
 
-\method{xsd_convert}{difftime}(x, idcol = NULL, ...)
+\method{xsd_convert}{difftime}(x, idcol = NULL, shortform = TRUE, ...)
 }
 \arguments{
 \item{x}{An object (vector, data frame, tibble, or \code{dataset_df}).}
@@ -48,17 +48,22 @@ xsd_convert(x, idcol, ...)
 \item{idcol}{Column name or position to use as row (observation) identifier.
 If \code{NULL}, row names are used.}
 
+\item{shortform}{Logical. If \code{TRUE} (default), datatypes are abbreviated with
+the \verb{xsd:} prefix (e.g. \verb{"42"^^<xsd:integer>}). If \code{FALSE}, datatypes are
+expanded to full URIs (e.g.
+\verb{"42"^^<http://www.w3.org/2001/XMLSchema#integer>}).}
+
 \item{...}{Additional arguments passed to methods.}
 }
 \value{
-A character vector or data frame with values serialized as XSD-compatible
-RDF literals.
+A character vector or data frame with values serialized as
+XSD-compatible RDF literals.
 }
 \description{
 Converts R vectors, data frames, and \code{dataset_df} objects to
 \href{https://www.w3.org/TR/xmlschema11-2/}{XML Schema Definition (XSD)}
-compatible string representations such as \code{xs:decimal}, \code{xs:boolean},
-\code{xs:date}, and \code{xs:dateTime}.
+compatible string representations such as \code{xsd:decimal}, \code{xsd:boolean},
+\code{xsd:date}, and \code{xsd:dateTime}.
 }
 \details{
 This is primarily used for generating RDF-compatible typed literals.
@@ -73,12 +78,12 @@ preserves dataset-level attributes.
 \section{Class-specific examples}{
 
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{xsd_convert(42L)                   # integer -> xs:integer
-xsd_convert(c(TRUE, FALSE, NA))    # logical -> xs:boolean
-xsd_convert(Sys.Date())            # Date -> xs:date
-xsd_convert(Sys.time())            # POSIXct -> xs:dateTime
-xsd_convert(factor("apple"))       # factor -> xs:string
-xsd_convert(c("apple", "banana"))  # character -> xs:string
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{xsd_convert(42L)                   # integer -> xsd:integer
+xsd_convert(c(TRUE, FALSE, NA))    # logical -> xsd:boolean
+xsd_convert(Sys.Date())            # Date -> xsd:date
+xsd_convert(Sys.time())            # POSIXct -> xsd:dateTime
+xsd_convert(factor("apple"))       # factor -> xsd:string
+xsd_convert(c("apple", "banana"))  # character -> xsd:string
 }\if{html}{\out{</div>}}
 }
 
@@ -90,6 +95,10 @@ df <- data.frame(
   active = c(TRUE, FALSE),
   date   = as.Date(c("2020-01-01", "2020-12-31"))
 )
+
+# Short vs long-form URI:
+xsd_convert(120L, shortform = TRUE)
+xsd_convert(121L, shortform = FALSE)
 
 }
 \concept{RDF and linked data helpers}
