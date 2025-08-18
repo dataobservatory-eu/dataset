@@ -18,8 +18,8 @@ test_that("get_type returns correct XSD types (short and long)", {
   expect_equal(get_type(Sys.time()), "xsd:dateTime")
   expect_equal(get_type(Sys.time(), shortform = FALSE), "http://www.w3.org/2001/XMLSchema#dateTime")
 
-  expect_equal(get_type(as.difftime(1, units="secs")), "xsd:duration")
-  expect_equal(get_type(as.difftime(1, units="secs"), shortform = FALSE), "http://www.w3.org/2001/XMLSchema#duration")
+  expect_equal(get_type(as.difftime(1, units = "secs")), "xsd:duration")
+  expect_equal(get_type(as.difftime(1, units = "secs"), shortform = FALSE), "http://www.w3.org/2001/XMLSchema#duration")
 })
 
 

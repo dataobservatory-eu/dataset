@@ -435,6 +435,7 @@ as.vector.haven_labelled_defined <- function(x, mode = "any") {
 #' fruits <- defined(c("apple", "avocado", "kiwi"),
 #'   label = "Fruit", unit = "kg"
 #' )
+#'
 #' strip_defined(fruits)
 #' @export
 strip_defined <- function(x) {

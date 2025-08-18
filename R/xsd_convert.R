@@ -158,11 +158,13 @@ xsd_convert.character <- function(x, idcol = NULL,
                                   shortform = TRUE, ...) {
   var_type <- xsd_uri("string", shortform)
 
-  if (length(x) == 0) return(paste0('""^^<', var_type, '>'))
+  if (length(x) == 0) {
+    return(paste0('""^^<', var_type, ">"))
+  }
 
   ifelse(is.na(x),
-         NA_character_,
-         paste0('"', x, '"^^<', var_type, ">")
+    NA_character_,
+    paste0('"', x, '"^^<', var_type, ">")
   )
 }
 
@@ -172,7 +174,9 @@ xsd_convert.character <- function(x, idcol = NULL,
 xsd_convert.numeric <- function(x, idcol = NULL,
                                 shortform = TRUE, ...) {
   var_type <- xsd_uri("decimal", shortform)
-  if (length(x) == 0) return(paste0('""^^<', var_type, '>'))
+  if (length(x) == 0) {
+    return(paste0('""^^<', var_type, ">"))
+  }
 
   formatted <- ifelse(is.na(x), NA_character_, {
     str <- format(x, scientific = FALSE, trim = TRUE, justify = "none")
@@ -180,8 +184,8 @@ xsd_convert.numeric <- function(x, idcol = NULL,
   })
 
   ifelse(is.na(formatted),
-         NA_character_,
-         paste0('"', formatted, '"^^<', var_type, ">")
+    NA_character_,
+    paste0('"', formatted, '"^^<', var_type, ">")
   )
 }
 
@@ -191,12 +195,12 @@ xsd_convert.integer <- function(x, idcol = NULL, shortform = TRUE, ...) {
   var_type <- xsd_uri("integer", shortform)
 
   if (length(x) == 0) {
-    return(paste0('""^^<', var_type, '>'))
+    return(paste0('""^^<', var_type, ">"))
   }
 
   ifelse(is.na(x),
-         NA_character_,
-         paste0('"', as.character(x), '"^^<', var_type, ">")
+    NA_character_,
+    paste0('"', as.character(x), '"^^<', var_type, ">")
   )
 }
 
@@ -207,7 +211,7 @@ xsd_convert.logical <- function(x, idcol = NULL, shortform = TRUE, ...) {
   var_type <- xsd_uri("boolean", shortform)
 
   if (length(x) == 0) {
-    return(paste0('""^^<', var_type, '>'))
+    return(paste0('""^^<', var_type, ">"))
   }
 
   ifelse(
@@ -226,7 +230,7 @@ xsd_convert.factor <- function(x, idcol = NULL, shortform = TRUE, ...) {
   codelist <- args$codelist %||% NULL
 
   if (length(x) == 0) {
-    return(paste0('""^^<', xsd_uri("string", shortform), '>'))
+    return(paste0('""^^<', xsd_uri("string", shortform), ">"))
   }
 
   if (is.null(codelist)) {
@@ -252,7 +256,7 @@ xsd_convert.POSIXct <- function(x, idcol = NULL, shortform = TRUE, ...) {
   var_type <- xsd_uri("dateTime", shortform)
 
   if (length(x) == 0) {
-    return(paste0('""^^<', var_type, '>'))
+    return(paste0('""^^<', var_type, ">"))
   }
 
   time_string <- strftime(x, format = "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
@@ -270,7 +274,7 @@ xsd_convert.Date <- function(x, idcol = NULL, shortform = TRUE, ...) {
   var_type <- xsd_uri("date", shortform)
 
   if (length(x) == 0) {
-    return(paste0('""^^<', var_type, '>'))
+    return(paste0('""^^<', var_type, ">"))
   }
 
   date_str <- format(x, format = "%Y-%m-%d")
@@ -289,14 +293,13 @@ xsd_convert.difftime <- function(x, idcol = NULL, shortform = TRUE, ...) {
   var_type <- xsd_uri("duration", shortform)
 
   if (length(x) == 0) {
-    return(paste0('""^^<', var_type, '>'))
+    return(paste0('""^^<', var_type, ">"))
   }
 
   seconds <- unclass(x)
   unit <- attr(x, "units")
 
-  multiplier <- switch(
-    unit,
+  multiplier <- switch(unit,
     "secs" = 1,
     "mins" = 60,
     "hours" = 3600,
@@ -306,7 +309,9 @@ xsd_convert.difftime <- function(x, idcol = NULL, shortform = TRUE, ...) {
   seconds <- seconds * multiplier
 
   to_iso8601 <- function(s) {
-    if (is.na(s)) return(NA_character_)
+    if (is.na(s)) {
+      return(NA_character_)
+    }
     h <- floor(s / 3600)
     m <- floor((s %% 3600) / 60)
     sec <- round(s %% 60)
@@ -336,4 +341,3 @@ xsd_uri <- function(type, shortform = TRUE) {
     paste0(base, type)
   }
 }
-
