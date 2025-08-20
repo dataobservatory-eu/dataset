@@ -131,9 +131,9 @@ datacite <- function(Title,
   AlternateIdentifier <- ifelse(is.null(AlternateIdentifier),
     ":unas", AlternateIdentifier
   )
-  RelatedIdentifier <- ifelse(is.null(RelatedIdentifier),
-    ":unas", RelatedIdentifier
-  )
+  if (is.null(RelatedIdentifier)) {
+    RelatedIdentifie <- ":unas"
+  }
   Rights <- ifelse(is.null(Rights), ":tba", as.character(Rights))
   Geolocation <- ifelse(is.null(Geolocation), ":unas",
     as.character(Geolocation)
@@ -185,6 +185,7 @@ new_datacite <- function(Title,
                          Description,
                          Geolocation,
                          FundingReference) {
+  # bibentry: subject slot must be character
   datacite_object <- bibentry(
     bibtype = "Misc",
     title = Title,
@@ -194,9 +195,15 @@ new_datacite <- function(Title,
     publisher = Publisher,
     date = Date,
     language = Language,
-    subject = Subject$term,
+    subject = if (is.subject(Subject)) Subject$term else as.character(Subject),
     alternateidentifier = AlternateIdentifier,
-    relatedidentifier = RelatedIdentifier,
+    relatedidentifier = if (is.related(RelatedIdentifier)) {
+      RelatedIdentifier$relatedIdentifier
+    } else if (is.null(RelatedIdentifier)) {
+      ":unas"
+    } else {
+      as.character(RelatedIdentifier)
+    },
     format = Format,
     version = Version,
     rights = Rights,
@@ -205,7 +212,17 @@ new_datacite <- function(Title,
     fundingreference = FundingReference
   )
 
-  # Store contributor as structured attribute
+  # keep the structured subject object as an attribute
+  if (!is.null(Subject) && is.subject(Subject)) {
+    attr(datacite_object, "subject") <- Subject
+  }
+
+  # keep the structured related item object as an attribute
+  if (!is.null(RelatedIdentifier) && is.related(RelatedIdentifier)) {
+    attr(datacite_object, "relatedIdentifier") <- RelatedIdentifier
+  }
+
+  # add structured contributor list
   if (!is.null(Contributor)) {
     attr(datacite_object, "contributor") <- Contributor
   }
@@ -231,132 +248,39 @@ is.datacite.datacite <- function(x) inherits(x, "datacite")
 print.datacite <- function(x, ...) {
   cat("DataCite Metadata Record\n")
   cat("--------------------------\n")
-  cat("Title:        ", x$title, "\n")
-  cat("Creator(s):   ", paste(format(x$author), collapse = "; "), "\n")
+
+  pr <- function(label, value) {
+    if (!is.null(value) && length(value) > 0 && any(nzchar(value))) {
+      # %-12s = left-justify label into 12 chars
+      cat(sprintf("%-12s %s\n", paste0(label, ":"), paste(value, collapse = "; ")))
+    }
+  }
+
+  pr("Title",        x$title)
+  pr("Creator(s)",  paste(format(x$author), collapse = "; "))
 
   contributor <- attr(x, "contributor")
   if (!is.null(contributor)) {
-    cat("Contributor(s):", fix_contributor(contributor), "\n")
+    pr("Contributor(s)", fix_contributor(contributor))
   }
 
-  if (!is.null(x$identifier)) cat("Identifier:   ", x$identifier, "\n")
-  if (!is.null(x$publisher)) cat("Publisher:    ", x$publisher, "\n")
-  if (!is.null(x$year)) cat("Year:         ", x$year, "\n")
-  if (!is.null(x$language)) cat("Language:     ", x$language, "\n")
-  if (!is.null(x$description)) cat("Description: ", x$description, "\n")
+  subj <- attr(x, "subject")
+  if (!is.null(subj) && is.subject(subj)) {
+    subj_val <- subj$term
+    if (!is.null(subj$schemeURI) && nzchar(subj$schemeURI)) {
+      subj_val <- paste0(subj_val, " [", subj$schemeURI, "]")
+    }
+    pr("Subject(s)", subj_val)
+  } else if (!is.null(x$subject)) {
+    pr("Subject(s)", x$subject)
+  }
+
+  pr("Identifier",  x$identifier)
+  pr("Publisher",   x$publisher)
+  pr("Year",        x$year)
+  pr("Language",    x$language)
+  pr("Description", x$description)
 
   invisible(x)
 }
 
-#' @keywords internal
-datacite_to_triples <- function(dc_list,
-                                dataset_id = "http://example.com/dataset") {
-  if (is.null(dc_list$title) || nchar(dc_list$title) == 0) {
-    stop("datacite_to_triples(): title is required")
-  }
-
-  base <- "http://datacite.org/schema/kernel-4/"
-  triples <- character()
-
-  triples <- c(triples, n_triple(
-    dataset_id,
-    paste0(base, "title"),
-    dc_list$title
-  ))
-
-  if (!is.null(dc_list$creator)) {
-    triples <- c(triples, n_triple(
-      dataset_id,
-      paste0(base, "creator"),
-      dc_list$creator
-    ))
-  }
-
-  if (!is.null(dc_list$contributor)) {
-    triples <- c(triples, n_triple(
-      dataset_id,
-      paste0(base, "contributor"),
-      dc_list$contributor
-    ))
-  }
-
-  if (!is.null(dc_list$identifier)) {
-    triples <- c(triples, n_triple(
-      dataset_id,
-      paste0(base, "identifier"),
-      dc_list$identifier
-    ))
-  }
-
-  if (!is.null(dc_list$publisher)) {
-    triples <- c(triples, n_triple(
-      dataset_id,
-      paste0(base, "publisher"),
-      dc_list$publisher
-    ))
-  }
-
-  if (!is.null(dc_list$publicationyear)) {
-    triples <- c(triples, n_triple(
-      dataset_id,
-      paste0(base, "publicationYear"),
-      dc_list$publicationyear
-    ))
-  }
-
-  if (!is.null(dc_list$language)) {
-    triples <- c(triples, n_triple(
-      dataset_id,
-      paste0(base, "language"),
-      dc_list$language
-    ))
-  }
-
-  if (!is.null(dc_list$rights)) {
-    triples <- c(triples, n_triple(
-      dataset_id,
-      paste0(base, "rights"),
-      dc_list$rights
-    ))
-  }
-
-  if (!is.null(dc_list$description)) {
-    triples <- c(triples, n_triple(
-      dataset_id,
-      paste0(base, "descriptions"),
-      dc_list$description
-    ))
-  }
-
-  if (!is.null(dc_list$subject)) {
-    subj_value <- dc_list$subject
-    if (is.subject(subj_value)) {
-      subj_value <- subj_value$term
-    } else if (is.list(subj_value) && all(vapply(subj_value, is.subject, logical(1)))) {
-      subj_value <- vapply(subj_value, function(s) s$term, character(1))
-    }
-    triples <- c(triples, n_triple(
-      dataset_id,
-      paste0(base, "subjects"),
-      subj_value
-    ))
-  }
-
-  if (!is.null(dc_list$format)) {
-    triples <- c(triples, n_triple(
-      dataset_id,
-      paste0(base, "formats"),
-      dc_list$format
-    ))
-  }
-
-  if (!is.null(dc_list$version)) {
-    triples <- c(triples, n_triple(
-      dataset_id,
-      paste0(base, "version"),
-      dc_list$version
-    ))
-  }
-
-  n_triples(triples)
-}

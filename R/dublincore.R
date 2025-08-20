@@ -124,7 +124,9 @@ dublincore <- function(
   dataset_date <- ifelse(is.null(dataset_date), ":tba", as.character(dataset_date))
   identifier <- ifelse(is.null(identifier), ":tba", as.character(identifier))
   dataset_format <- ifelse(is.null(dataset_format), "application/r-rds", as.character(dataset_format))
-  relation <- ifelse(is.null(relation), ":unas", relation)
+  if (is.null(relation)) {
+    relation <- ":unas"
+  }
   rights <- ifelse(is.null(rights), ":tba", as.character(rights))
   coverage <- ifelse(is.null(coverage), ":unas", as.character(coverage))
   datasource <- ifelse(is.null(datasource), ":unas", as.character(datasource))
@@ -155,6 +157,7 @@ dublincore <- function(
   )
 }
 
+
 #' @keywords internal
 new_dublincore <- function(title,
                            creator,
@@ -178,27 +181,50 @@ new_dublincore <- function(title,
     NULL
   }
 
+  # flatten relation for bibrecord
+  relation_flat <- if (is.related(relation)) {
+    relation$relatedIdentifier
+  } else {
+    relation
+  }
+
   dublincore_object <- bibrecord(
-    title = title,
-    author = creator,
-    identifier = identifier,
-    publisher = publisher,
-    subject = subject,
-    type = type,
+    title       = title,
+    author      = creator,
+    identifier  = identifier,
+    publisher   = publisher,
+    subject     = if (is.subject(subject)) subject$term else as.character(subject),
+    type        = type,
     contributor = contributor,
-    date = dataset_date,
-    year = year,
-    language = language,
-    relation = relation,
-    format = dataset_format,
-    rights = rights,
-    datasource = datasource,
+    date        = dataset_date,
+    year        = year,
+    language    = language,
+    relation    = relation_flat,
+    format      = dataset_format,
+    rights      = rights,
+    datasource  = datasource,
     description = description,
-    coverage = coverage
+    coverage    = coverage
   )
+
+  # preserve structured subject
+  if (!is.null(subject) && is.subject(subject)) {
+    attr(dublincore_object, "subject") <- subject
+  }
+
+  # preserve structured relation
+  if (!is.null(relation) && is.related(relation)) {
+    attr(dublincore_object, "relation") <- relation
+  }
+
+  if (!is.null(contributor)) {
+    attr(dublincore_object, "contributor") <- contributor
+  }
+
   class(dublincore_object) <- c("dublincore", class(dublincore_object))
   dublincore_object
 }
+
 
 #' @rdname dublincore
 #'
@@ -222,18 +248,37 @@ is.dublincore <- function(x) {
 print.dublincore <- function(x, ...) {
   cat("Dublin Core Metadata Record\n")
   cat("--------------------------\n")
-  cat("Title:       ", x$title, "\n")
-  cat("Creator(s):  ", paste(format(x$author), collapse = "; "), "\n")
+
+  pr <- function(label, value) {
+    if (!is.null(value) && length(value) > 0 && any(nzchar(value))) {
+      cat(sprintf("%-12s %s\n", paste0(label, ":"), paste(value, collapse = "; ")))
+    }
+  }
+
+  pr("Title",       x$title)
+  pr("Creator(s)", paste(format(x$author), collapse = "; "))
 
   contributor <- attr(x, "contributor")
   if (!is.null(contributor)) {
-    cat("Contributor(s): ", fix_contributor(contributor), "\n")
+    pr("Contributor(s)", fix_contributor(contributor))
   }
 
-  if (!is.null(x$publisher)) cat("Publisher:   ", x$publisher, "\n")
-  if (!is.null(x$year)) cat("Year:        ", x$year, "\n")
-  if (!is.null(x$language)) cat("Language:    ", x$language, "\n")
-  if (!is.null(x$description)) cat("Description: ", x$description, "\n")
+  subj <- attr(x, "subject")
+  if (!is.null(subj) && is.subject(subj)) {
+    subj_val <- subj$term
+    if (!is.null(subj$schemeURI) && nzchar(subj$schemeURI)) {
+      subj_val <- paste0(subj_val, " [", subj$schemeURI, "]")
+    }
+    pr("Subject(s)", subj_val)
+  } else if (!is.null(x$subject)) {
+    pr("Subject(s)", x$subject)
+  }
+
+  pr("Publisher",   x$publisher)
+  pr("Year",        x$year)
+  pr("Language",    x$language)
+  pr("Description", x$description)
 
   invisible(x)
 }
+
