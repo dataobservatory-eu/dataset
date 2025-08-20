@@ -70,7 +70,9 @@ subject <- function(x) {
 
   subj_attr <- attr(x, "subject", exact = TRUE)
   if (!is.null(subj_attr)) {
-    if (is.subject(subj_attr)) return(subj_attr)
+    if (is.subject(subj_attr)) {
+      return(subj_attr)
+    }
     if (is.list(subj_attr) && all(vapply(subj_attr, is.subject, logical(1)))) {
       return(if (length(subj_attr) == 1) subj_attr[[1]] else subj_attr)
     }
@@ -78,7 +80,9 @@ subject <- function(x) {
   }
 
   subj_bib <- get_bibentry(x)$subject
-  if (!is.null(subj_bib)) return(subj_bib)
+  if (!is.null(subj_bib)) {
+    return(subj_bib)
+  }
 
   message("No subject is recorded.")
   NULL

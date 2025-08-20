@@ -72,11 +72,12 @@ test_that("datacite_to_triples uses structured relation attribute", {
 
 test_that("datacite_to_triples handles multiple related items", {
   df <- dataset_df(data.frame(x = 1),
-                   dataset_bibentry = datacite(
-                     Title = "Climate Data",
-                     Creator = person("Jane", "Doe", role = "cre"),
-                     Publisher = "ACME"
-                   ))
+    dataset_bibentry = datacite(
+      Title = "Climate Data",
+      Creator = person("Jane", "Doe", role = "cre"),
+      Publisher = "ACME"
+    )
+  )
 
   relation(df) <- list(
     related_create("10.1111/one", "IsPartOf", "DOI"),
@@ -121,4 +122,3 @@ test_that("datacite_to_triples handles mixed subject lists", {
   expect_true(any(grepl("Forests", triples)))
   expect_true(any(grepl("Agriculture", triples)))
 })
-

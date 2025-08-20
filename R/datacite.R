@@ -256,8 +256,8 @@ print.datacite <- function(x, ...) {
     }
   }
 
-  pr("Title",        x$title)
-  pr("Creator(s)",  paste(format(x$author), collapse = "; "))
+  pr("Title", x$title)
+  pr("Creator(s)", paste(format(x$author), collapse = "; "))
 
   contributor <- attr(x, "contributor")
   if (!is.null(contributor)) {
@@ -275,12 +275,11 @@ print.datacite <- function(x, ...) {
     pr("Subject(s)", x$subject)
   }
 
-  pr("Identifier",  x$identifier)
-  pr("Publisher",   x$publisher)
-  pr("Year",        x$year)
-  pr("Language",    x$language)
+  pr("Identifier", x$identifier)
+  pr("Publisher", x$publisher)
+  pr("Year", x$year)
+  pr("Language", x$language)
   pr("Description", x$description)
 
   invisible(x)
 }
-

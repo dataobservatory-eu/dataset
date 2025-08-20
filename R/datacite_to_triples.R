@@ -83,22 +83,25 @@ datacite_to_triples <- function(dc_list,
 
     if (is.list(rel_attr) && all(vapply(rel_attr, is.related, logical(1)))) {
       for (ri in rel_attr) {
-        triples <- c(triples,
-                     n_triple(dataset_id, paste0(base, "relatedIdentifier"),     ri$relatedIdentifier),
-                     n_triple(dataset_id, paste0(base, "relationType"),          ri$relationType),
-                     n_triple(dataset_id, paste0(base, "relatedIdentifierType"), ri$relatedIdentifierType)
+        triples <- c(
+          triples,
+          n_triple(dataset_id, paste0(base, "relatedIdentifier"), ri$relatedIdentifier),
+          n_triple(dataset_id, paste0(base, "relationType"), ri$relationType),
+          n_triple(dataset_id, paste0(base, "relatedIdentifierType"), ri$relatedIdentifierType)
         )
         if (!is.null(ri$resourceTypeGeneral) && nzchar(ri$resourceTypeGeneral)) {
-          triples <- c(triples,
-                       n_triple(dataset_id, paste0(base, "resourceTypeGeneral"), ri$resourceTypeGeneral)
+          triples <- c(
+            triples,
+            n_triple(dataset_id, paste0(base, "resourceTypeGeneral"), ri$resourceTypeGeneral)
           )
         }
       }
     }
   } else if (!is.null(dc_list$relatedidentifier) &&
-             dc_list$relatedidentifier != ":unas") {
-    triples <- c(triples,
-                 n_triple(dataset_id, paste0(base, "relatedIdentifier"), dc_list$relatedidentifier)
+    dc_list$relatedidentifier != ":unas") {
+    triples <- c(
+      triples,
+      n_triple(dataset_id, paste0(base, "relatedIdentifier"), dc_list$relatedidentifier)
     )
   }
 

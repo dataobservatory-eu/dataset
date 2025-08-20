@@ -125,7 +125,9 @@ test_that("subject<- handles NULL and character input", {
 test_that("subject<- errors for invalid input types", {
   df <- dataset_df(data.frame(x = 1:3))
   expect_error(
-    { subject(df) <- list(term = "Invalid") },
+    {
+      subject(df) <- list(term = "Invalid")
+    },
     regexp = "value must be created with"
   )
 })
@@ -175,6 +177,8 @@ test_that("subject<- handles multiple subjects as list", {
 
   got <- subject(df)
   expect_type(got, "list")
-  expect_equal(vapply(got, `[[`, "term", FUN.VALUE = character(1)),
-               c("Forests", "Agriculture"))
+  expect_equal(
+    vapply(got, `[[`, "term", FUN.VALUE = character(1)),
+    c("Forests", "Agriculture")
+  )
 })

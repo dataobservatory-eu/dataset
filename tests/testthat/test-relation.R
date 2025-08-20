@@ -22,7 +22,9 @@ test_that("relation() gets/sets structured and flat variants", {
 test_that("relation<- errors for invalid input types", {
   df <- dataset_df(data.frame(x = 1))
   expect_error(
-    { relation(df) <- list(relatedIdentifier = "not-classed") },
+    {
+      relation(df) <- list(relatedIdentifier = "not-classed")
+    },
     regexp = "value must be created with `related_create\\(\\)`"
   )
 })
@@ -30,7 +32,7 @@ test_that("relation<- errors for invalid input types", {
 test_that("relation() falls back to bibentry when attribute missing", {
   df <- dataset_df(data.frame(x = 1))
   relation(df) <- related_create("10.1/xyz", "IsPartOf", "DOI")
-  attr(df, "relation") <- NULL  # remove structured attr
+  attr(df, "relation") <- NULL # remove structured attr
   got <- relation(df)
   expect_true(is.character(got))
   expect_equal(got, "10.1/xyz")
@@ -62,6 +64,5 @@ test_that("relation() handles multiple related objects", {
   # bibentry slots should contain the flat identifiers
   be <- get_bibentry(df)
   expect_equal(be$relatedidentifier, c("10.1111/one", "https://example.com/rel"))
-  expect_equal(be$relation,          c("10.1111/one", "https://example.com/rel"))
+  expect_equal(be$relation, c("10.1111/one", "https://example.com/rel"))
 })
-

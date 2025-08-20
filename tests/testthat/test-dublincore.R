@@ -125,13 +125,12 @@ test_that("is.dublincore returns FALSE for non-dublincore object", {
 
 test_that("dublincore stores structured relation as attribute and
           flat relation in slot", {
-
-   rel <- related_create("https://doi.org/10.5678/def", "References", "DOI")
-   dc <- dublincore(
-              title="X",
-              creator=person("A","B", role="cre"),
-              relation = rel
-            )
-   expect_equal(dc$relation, "https://doi.org/10.5678/def")
-   expect_s3_class(attr(dc, "relation"), "related", exact = FALSE)
+  rel <- related_create("https://doi.org/10.5678/def", "References", "DOI")
+  dc <- dublincore(
+    title = "X",
+    creator = person("A", "B", role = "cre"),
+    relation = rel
+  )
+  expect_equal(dc$relation, "https://doi.org/10.5678/def")
+  expect_s3_class(attr(dc, "relation"), "related", exact = FALSE)
 })

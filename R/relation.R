@@ -45,17 +45,17 @@
 #'   relationType = "IsPartOf",
 #'   relatedIdentifierType = "DOI"
 #' )
-#' relation(df)            # structured object
-#' get_bibentry(df)$relation            # "10.1234/example"
-#' get_bibentry(df)$relatedidentifier   # "10.1234/example"
+#' relation(df) # structured object
+#' get_bibentry(df)$relation # "10.1234/example"
+#' get_bibentry(df)$relatedidentifier # "10.1234/example"
 #'
 #' # Character input is normalized to a DOI/URL with default types
 #' relation(df) <- "https://doi.org/10.5678/xyz"
-#' relation(df)  # structured object (relationType/Type filled with defaults)
+#' relation(df) # structured object (relationType/Type filled with defaults)
 #'
 #' # Create related object directly
 #' rel <- related_create("https://doi.org/10.5678/xyz", "References", "DOI")
-#' is.related(rel)   # TRUE
+#' is.related(rel) # TRUE
 #'
 #' @family bibliographic helper functions
 relation <- function(x) {
@@ -66,7 +66,9 @@ relation <- function(x) {
 
   rel_attr <- attr(x, "relation", exact = TRUE)
   if (!is.null(rel_attr)) {
-    if (is.related(rel_attr)) return(rel_attr)
+    if (is.related(rel_attr)) {
+      return(rel_attr)
+    }
     if (is.list(rel_attr) && all(vapply(rel_attr, is.related, logical(1)))) {
       return(if (length(rel_attr) == 1) rel_attr[[1]] else rel_attr)
     }
@@ -74,8 +76,12 @@ relation <- function(x) {
   }
 
   be <- get_bibentry(x)
-  if (!is.null(be$relatedidentifier)) return(be$relatedidentifier)
-  if (!is.null(be$relation)) return(be$relation)
+  if (!is.null(be$relatedidentifier)) {
+    return(be$relatedidentifier)
+  }
+  if (!is.null(be$relation)) {
+    return(be$relation)
+  }
 
   message("No related item is recorded.")
   NULL
@@ -96,15 +102,15 @@ relation <- function(x) {
     value <- list(related_create(":unas", "IsPartOf", "URL"))
   } else if (is.character(value)) {
     # allow vector of strings too
-    value <- lapply(value, function(v)
+    value <- lapply(value, function(v) {
       related_create(
         relatedIdentifier = v,
         relationType = "IsPartOf",
         relatedIdentifierType = if (grepl("^https?://", v)) "URL" else "DOI"
       )
-    )
+    })
   } else if (is.related(value)) {
-    value <- list(value)  # wrap single related in a list
+    value <- list(value) # wrap single related in a list
   } else if (is.list(value) && all(vapply(value, is.related, logical(1)))) {
     # already a list of related objects → nothing to do
   } else {
@@ -114,8 +120,8 @@ relation <- function(x) {
   # --- store in bibentry ---
   # keep only the identifiers (vector of strings)
   be$relatedidentifier <- vapply(value, function(v) v$relatedIdentifier, character(1))
-  be$relation          <- be$relatedidentifier
-  attr(be, "relation") <- value  # structured list of relateds
+  be$relation <- be$relatedidentifier
+  attr(be, "relation") <- value # structured list of relateds
 
   attr(x, "dataset_bibentry") <- be
   attr(x, "relation") <- value
@@ -148,4 +154,3 @@ related_item <- relation
 
 #' @export
 `related_item<-` <- `relation<-`
-

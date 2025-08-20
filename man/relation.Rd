@@ -76,17 +76,17 @@ relation(df) <- related_create(
   relationType = "IsPartOf",
   relatedIdentifierType = "DOI"
 )
-relation(df)            # structured object
-get_bibentry(df)$relation            # "10.1234/example"
-get_bibentry(df)$relatedidentifier   # "10.1234/example"
+relation(df) # structured object
+get_bibentry(df)$relation # "10.1234/example"
+get_bibentry(df)$relatedidentifier # "10.1234/example"
 
 # Character input is normalized to a DOI/URL with default types
 relation(df) <- "https://doi.org/10.5678/xyz"
-relation(df)  # structured object (relationType/Type filled with defaults)
+relation(df) # structured object (relationType/Type filled with defaults)
 
 # Create related object directly
 rel <- related_create("https://doi.org/10.5678/xyz", "References", "DOI")
-is.related(rel)   # TRUE
+is.related(rel) # TRUE
 
 }
 \seealso{

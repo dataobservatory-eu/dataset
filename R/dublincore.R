@@ -255,7 +255,7 @@ print.dublincore <- function(x, ...) {
     }
   }
 
-  pr("Title",       x$title)
+  pr("Title", x$title)
   pr("Creator(s)", paste(format(x$author), collapse = "; "))
 
   contributor <- attr(x, "contributor")
@@ -274,11 +274,10 @@ print.dublincore <- function(x, ...) {
     pr("Subject(s)", x$subject)
   }
 
-  pr("Publisher",   x$publisher)
-  pr("Year",        x$year)
-  pr("Language",    x$language)
+  pr("Publisher", x$publisher)
+  pr("Year", x$year)
+  pr("Language", x$language)
   pr("Description", x$description)
 
   invisible(x)
 }
-

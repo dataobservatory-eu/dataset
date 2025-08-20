@@ -66,16 +66,18 @@ test_that("datacite() fills defaults when values are NULL", {
 
 test_that("datacite stores structured related as attribute,
           flat string in slot", {
-  rel <- related_create("10.1234/abc", relationType =
-                          "IsPartOf", relatedIdentifierType = "DOI")
+  rel <- related_create("10.1234/abc",
+    relationType =
+      "IsPartOf", relatedIdentifierType = "DOI"
+  )
   dc <- datacite(
     Title = "X",
-    Creator = person("A","B", role="cre"),
+    Creator = person("A", "B", role = "cre"),
     Publisher = "Org",
     Subject = subject_create("Test"),
     RelatedIdentifier = rel
   )
-  expect_equal(dc$relatedidentifier, "10.1234/abc")      # flat string
+  expect_equal(dc$relatedidentifier, "10.1234/abc") # flat string
   expect_s3_class(attr(dc, "relatedIdentifier"), "related") # structured
   expect_equal(attr(dc, "relatedIdentifier")$relationType, "IsPartOf")
 })
