@@ -53,6 +53,7 @@ Other bibliographic helper functions:
 \code{\link{get_bibentry}()},
 \code{\link{language}},
 \code{\link{publication_year}()},
+\code{\link{relation}()},
 \code{\link{rights}()},
 \code{\link{subject}()}
 }

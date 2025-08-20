@@ -120,6 +120,7 @@ reference:
       - contributor
       - language
       - subject
+      - relation
       - publication_year
       - publisher
       - dataset_format

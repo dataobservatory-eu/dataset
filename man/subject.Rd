@@ -47,12 +47,17 @@ string. Used by \verb{subject<-} to replace the subject.}
 }
 \value{
 \itemize{
-\item \code{subject(x)} returns the \code{"subject"} attribute (structured object) or the
-\code{subject} field from the dataset's bibentry.
-\item \code{subject(x) <- value} sets both the \code{"subject"} attribute and the bibentry
-field, returning the dataset invisibly.
-\item \code{subject_create()} returns a structured \code{subject} object — a named list
-with term, scheme, URIs, prefix, and optional classification code.
+\item \code{subject(x)} returns:
+\itemize{
+\item a single \code{"subject"} object if only one is present,
+\item a list of \code{"subject"} objects if multiple are present,
+\item otherwise falls back to the plain string from the bibentry.
+}
+\item \code{subject(x) <- value} accepts a character vector, a \code{"subject"} object, or
+a list of \code{"subject"} objects, and updates both the bibentry slot and the
+\code{"subject"} attribute. Returns the dataset invisibly.
+\item \code{subject_create()} returns a structured \code{"subject"} object — or a list of
+them if multiple terms are provided.
 \item \code{is.subject(x)} returns \code{TRUE} if \code{x} inherits from class \code{"subject"}.
 }
 }
@@ -101,6 +106,7 @@ Other bibliographic helper functions:
 \code{\link{language}},
 \code{\link{publication_year}()},
 \code{\link{publisher}()},
+\code{\link{relation}()},
 \code{\link{rights}()}
 }
 \concept{bibliographic helper functions}

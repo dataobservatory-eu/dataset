@@ -48,6 +48,7 @@ Other bibliographic helper functions:
 \code{\link{language}},
 \code{\link{publication_year}()},
 \code{\link{publisher}()},
+\code{\link{relation}()},
 \code{\link{rights}()},
 \code{\link{subject}()}
 }

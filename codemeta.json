@@ -7,7 +7,7 @@
   "codeRepository": "https://dataset.dataobservatory.eu/",
   "issueTracker": "https://github.com/dataobservatory-eu/dataset/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "0.3.99",
+  "version": "0.3.992",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -235,7 +235,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "827.148KB",
+  "fileSize": "871.363KB",
   "citation": [
     {
       "@type": "SoftwareSourceCode",
@@ -251,7 +251,7 @@
       ],
       "name": "dataset: Create Data Frames that are Easier to Exchange and Reuse",
       "url": "https://dataset.dataobservatory.eu/",
-      "description": "R package version 0.3.99"
+      "description": "R package version 0.3.992"
     },
     {
       "@type": "CreativeWork",

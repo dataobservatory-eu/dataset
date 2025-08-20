@@ -70,21 +70,44 @@ test_that("identifier, language, and format are preserved", {
 })
 
 test_that("print.dublincore prints key fields", {
+  s1 <- subject_create("Climate Change", schemeURI = "http://id.loc.gov/subjects", subjectScheme = "LCSH")
+
   dc <- dublincore(
-    title = "Printed Example",
-    creator = person("Jane", "Doe"),
-    publisher = "Example Org",
-    dataset_date = 2020,
-    language = "en",
-    description = "Some description."
+    title = "Climate Data",
+    creator = person("Eve", "Rivera", role = "cre"),
+    publisher = "Climate Org",
+    subject = s1,
+    description = "A dataset on climate change indicators."
   )
+
   expect_output(print(dc), "Dublin Core Metadata Record")
-  expect_output(print(dc), "Title:.*Printed Example")
-  expect_output(print(dc), "Creator.*Doe")
-  expect_output(print(dc), "Publisher:.*Example Org")
-  expect_output(print(dc), "Year:.*2020")
-  expect_output(print(dc), "Language:.*en")
-  expect_output(print(dc), "Description:.*Some description")
+
+  out <- capture_output(print(dc))
+
+  # Header
+  expect_match(out, "Dublin Core Metadata Record")
+  expect_match(out, "--------------------------")
+
+  # Fields
+  expect_match(out, "Title:\\s+Climate Data")
+  expect_match(out, "Creator\\(s\\):\\s+Eve Rivera \\[cre\\]")
+  expect_match(out, "Subject\\(s\\):\\s+Climate Change")
+  expect_match(out, "Publisher:\\s+Climate Org")
+  expect_match(out, "Year:\\s+:tba")
+  expect_match(out, "Description:\\s+A dataset on climate change indicators")
+
+  # Alignment: all labels should have the colon at same position
+  lines <- strsplit(out, "\n")[[1]]
+  meta_lines <- grep(":", lines, value = TRUE)
+
+  # find where values start (first non-space after colon)
+  value_start <- vapply(meta_lines, function(l) {
+    m <- regexpr(":", l)
+    rest <- substr(l, m + 1, nchar(l))
+    m + regexpr("[^ ]", rest)
+  }, integer(1))
+
+  expect_true(length(unique(value_start)) == 1)
 })
 
 test_that("is.dublincore returns TRUE for dublincore object", {
@@ -98,4 +121,17 @@ test_that("is.dublincore returns TRUE for dublincore object", {
 test_that("is.dublincore returns FALSE for non-dublincore object", {
   df <- data.frame(x = 1:3)
   expect_false(is.dublincore(df))
+})
+
+test_that("dublincore stores structured relation as attribute and
+          flat relation in slot", {
+
+   rel <- related_create("https://doi.org/10.5678/def", "References", "DOI")
+   dc <- dublincore(
+              title="X",
+              creator=person("A","B", role="cre"),
+              relation = rel
+            )
+   expect_equal(dc$relation, "https://doi.org/10.5678/def")
+   expect_s3_class(attr(dc, "relation"), "related", exact = FALSE)
 })

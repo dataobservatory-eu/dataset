@@ -12,6 +12,7 @@ haven_labelled_defined as an s3 class works better in the tidyverse.
 - New bibliographic helper functions for `dataset_format()` and `contributor()`.
 - Countless small bug fixes to convert to various metadata schemas edge cases, 
 like missing contributors, formatted subjects, etc.
+- Better handling of structured metadata with `subject()`
 
 # dataset 0.3.9
 
