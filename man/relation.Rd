@@ -4,6 +4,9 @@
 \alias{relation}
 \alias{relation<-}
 \alias{related_create}
+\alias{is.related}
+\alias{related_item}
+\alias{related_item<-}
 \title{Add or retrieve related items (DataCite/Dublin Core)}
 \usage{
 relation(x)
@@ -16,6 +19,12 @@ related_create(
   relatedIdentifierType,
   resourceTypeGeneral = NULL
 )
+
+is.related(x)
+
+related_item(x)
+
+related_item(x) <- value
 }
 \arguments{
 \item{x}{A dataset object created with \code{\link[=dataset_df]{dataset_df()}} or \code{\link[=as_dataset_df]{as_dataset_df()}}.}

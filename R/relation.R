@@ -1,12 +1,11 @@
 #' @title Add or retrieve related items (DataCite/Dublin Core)
 #'
-#' @description
-#' Manage related resources for a dataset using a unified accessor.
+#' @description Manage related resources for a dataset using a unified accessor.
 #' - For **DataCite 4.x**, this maps to `relatedIdentifier` (+ type & relation).
 #' - For **Dublin Core**, this maps to `dct:relation` (string).
 #'
-#' @details
-#' To remain compatible with [utils::bibentry()], the bibentry stores only the
+#' @details To remain compatible with [utils::bibentry()], the bibentry stores
+#' only the
 #' **string identifier** (e.g., DOI/URL). The full structured object created by
 #' [related_create()] is preserved in the `"relation"` attribute.
 #'
@@ -17,24 +16,28 @@
 #' - `resourceTypeGeneral`: optional, the general type of the related resource (e.g., `"Text"`, `"Dataset"`)
 #'
 #' @param x A dataset object created with [dataset_df()] or [as_dataset_df()].
-#' @param value A `related` object from [related_create()] or a character. Vectors
-#'   of characters are also supported and will be converted to a list of
+#' @param value A `related` object from [related_create()] or a character.
+#'   Vectors of characters are also supported and will be converted to a list of
 #'   `"related"` objects.
-#' @param relatedIdentifier A string with the identifier of the related resource.
-#' @param relationType A string naming the relation type (per DataCite vocabulary).
-#' @param relatedIdentifierType A string naming the identifier type (`"DOI"`, `"URL"`, etc.).
-#' @param resourceTypeGeneral Optional: a string naming the general type of the related resource.
+#' @param relatedIdentifier A string with the identifier of the related
+#'   resource.
+#' @param relationType A string naming the relation type (per DataCite
+#'   vocabulary).
+#' @param relatedIdentifierType A string naming the identifier type (`"DOI"`,
+#'   `"URL"`, etc.).
+#' @param resourceTypeGeneral Optional: a string naming the general type of the
+#'   related resource.
 #'
 #' @return
 #' * `relation(x)` returns:
 #'   - a single structured `"related"` object (from [related_create()]) if only
-#'     one relation is present,
+#' one relation is present,
 #'   - a list of `"related"` objects if multiple relations are present,
 #'   - otherwise it falls back to the bibentry field (`relatedidentifier` for
-#'     DataCite or `relation` for Dublin Core).
+#' DataCite or `relation` for Dublin Core).
 #' * `relation(x) <- value` sets the `"relation"` attribute (structured object
-#'   or list of objects) and the bibentry string fields (`relatedidentifier` and
-#'   `relation`), and returns the dataset invisibly.
+#' or list of objects) and the bibentry string fields (`relatedidentifier` and
+#' `relation`), and returns the dataset invisibly.
 #' * `related_create()` constructs a structured `"related"` object.
 #' * `is.related(x)` returns `TRUE` if `x` inherits from class `"related"`.
 #'
@@ -58,6 +61,7 @@
 #' is.related(rel) # TRUE
 #'
 #' @family bibliographic helper functions
+#' @export
 relation <- function(x) {
   assertthat::assert_that(
     is.dataset_df(x),
@@ -145,12 +149,14 @@ related_create <- function(relatedIdentifier,
   rel
 }
 
+#' @rdname relation
 #' @export
 is.related <- function(x) inherits(x, "related")
 
-
+#' @rdname relation
 #' @export
 related_item <- relation
 
+#' @rdname relation
 #' @export
 `related_item<-` <- `relation<-`
