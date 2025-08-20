@@ -5,7 +5,17 @@ test_that("subject() errors for non-dataset_df", {
   )
 })
 
-test_that("subject() returns from attribute when present", {
+test_that("subject() returns the structured subject
+          from attribute when present", {
+  df <- dataset_df(data.frame(x = 1:3))
+  subject(df) <- subject_create("Biodiversity")
+  s <- subject(df)
+  expect_s3_class(s, "subject")
+  expect_equal(s$term, "Biodiversity")
+})
+
+test_that("subject() returns the structured subject
+          from attribute when present", {
   df <- dataset_df(data.frame(x = 1:3))
   subject(df) <- subject_create("Biodiversity")
   s <- subject(df)
@@ -115,10 +125,11 @@ test_that("subject<- handles NULL and character input", {
 test_that("subject<- errors for invalid input types", {
   df <- dataset_df(data.frame(x = 1:3))
   expect_error(
-    subject(df) <- list(term = "Invalid"),
-    regexp = "value must be a created with"
+    { subject(df) <- list(term = "Invalid") },
+    regexp = "value must be created with"
   )
 })
+
 
 test_that("subject<- replaces both attr and bibentry field", {
   df <- dataset_df(data.frame(x = 1:3))
@@ -126,8 +137,9 @@ test_that("subject<- replaces both attr and bibentry field", {
   subject(df) <- s
 
   be <- get_bibentry(df)
-  expect_equal(be$subject, "Volcanology")
-  expect_equal(attr(df, "subject")$term, "Volcanology")
+
+  expect_equal(subject(df)$term, "Volcanology")
+  expect_s3_class(subject(df), "list")
 })
 
 # --- integration with as_datacite(dataset_df) flattening ---
@@ -145,4 +157,24 @@ test_that("as_datacite(dataset_df) flattens subject to its term", {
   out <- as_datacite(df, type = "dataset_df")
   expect_s3_class(out, "dataset_df")
   expect_equal(as.character(out$Subject), "Oranges")
+})
+
+test_that("subject<- handles multiple subjects as list", {
+  df <- dataset_df(data.frame(x = 1:3))
+
+  subject(df) <- subject_create(c("Forests", "Agriculture"))
+
+  s <- attr(df, "subject")
+  expect_type(s, "list")
+  expect_s3_class(s[[1]], "subject")
+  expect_equal(s[[1]]$term, "Forests")
+  expect_equal(s[[2]]$term, "Agriculture")
+
+  be <- get_bibentry(df)
+  expect_true(all(c("Forests", "Agriculture") %in% be$subject))
+
+  got <- subject(df)
+  expect_type(got, "list")
+  expect_equal(vapply(got, `[[`, "term", FUN.VALUE = character(1)),
+               c("Forests", "Agriculture"))
 })

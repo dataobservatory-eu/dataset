@@ -34,12 +34,15 @@
 #'   string. Used by `subject<-` to replace the subject.
 #'
 #' @return
-#' * `subject(x)` returns the `"subject"` attribute (structured object) or the
-#'   `subject` field from the dataset's bibentry.
-#' * `subject(x) <- value` sets both the `"subject"` attribute and the bibentry
-#'   field, returning the dataset invisibly.
-#' * `subject_create()` returns a structured `subject` object — a named list
-#'   with term, scheme, URIs, prefix, and optional classification code.
+#' * `subject(x)` returns:
+#'   - a single `"subject"` object if only one is present,
+#'   - a list of `"subject"` objects if multiple are present,
+#'   - otherwise falls back to the plain string from the bibentry.
+#' * `subject(x) <- value` accepts a character vector, a `"subject"` object, or
+#'   a list of `"subject"` objects, and updates both the bibentry slot and the
+#'   `"subject"` attribute. Returns the dataset invisibly.
+#' * `subject_create()` returns a structured `"subject"` object — or a list of
+#'   them if multiple terms are provided.
 #' * `is.subject(x)` returns `TRUE` if `x` inherits from class `"subject"`.
 #'
 #' @examples
@@ -58,22 +61,30 @@
 #' @family bibliographic helper functions
 #' @importFrom assertthat assert_that
 #' @export
-
+#' @export
 subject <- function(x) {
   assertthat::assert_that(
     is.dataset_df(x),
     msg = "subject(x): x must be a dataset_df object created with dataset_df() or as_dataset_df()."
   )
 
-  if ("subject" %in% names(attributes(x))) {
-    attr(x, "subject")
-  } else if (!is.null(get_bibentry(x)$subject)) {
-    get_bibentry(x)$subject
-  } else {
-    message("No subject is recorded.")
-    NULL
+  subj_attr <- attr(x, "subject", exact = TRUE)
+  if (!is.null(subj_attr)) {
+    if (is.subject(subj_attr)) return(subj_attr)
+    if (is.list(subj_attr) && all(vapply(subj_attr, is.subject, logical(1)))) {
+      return(if (length(subj_attr) == 1) subj_attr[[1]] else subj_attr)
+    }
+    return(subj_attr)
   }
+
+  subj_bib <- get_bibentry(x)$subject
+  if (!is.null(subj_bib)) return(subj_bib)
+
+  message("No subject is recorded.")
+  NULL
 }
+
+
 
 #' @rdname subject
 #' @export
@@ -85,33 +96,29 @@ subject_create <- function(term,
                            classificationCode = NULL) {
   if (is.null(term)) term <- ":tba"
 
-  # if (! all.equal(length(heading), length(subjectScheme))) {
-  #  stop("You must provide exactly one subjectSchemes, URIs and Codes for each heading.")
-  # }
-
   if (length(term) > 1) {
-    dataset_subject <- lapply(seq_along(term), function(x) {
-      new_Subject(term[x],
-        subjectScheme = subjectScheme[x],
-        schemeURI = schemeURI[x],
-        classificationCode = classificationCode[x],
-        prefix = prefix[x]
+    dataset_subject <- lapply(seq_along(term), function(i) {
+      new_Subject(
+        term[i],
+        subjectScheme = subjectScheme[i],
+        schemeURI = schemeURI[i],
+        valueURI = if (!is.null(valueURI)) valueURI[i] else NULL,
+        classificationCode = if (!is.null(classificationCode)) classificationCode[i] else NULL,
+        prefix = prefix[i]
       )
     })
-    # this is not nice
-    class(dataset_subject) <- c("subject", class(subject))
+    # don’t force class on the whole list
+    return(dataset_subject)
   } else {
-    dataset_subject <- new_Subject(
+    return(new_Subject(
       term = term,
       subjectScheme = subjectScheme,
       schemeURI = schemeURI,
       valueURI = valueURI,
       classificationCode = classificationCode,
       prefix = prefix
-    )
+    ))
   }
-
-  dataset_subject
 }
 
 #' @inheritParams Subject
@@ -154,23 +161,33 @@ new_Subject <- function(term,
 #' @rdname subject
 #' @export
 `subject<-` <- function(x, value) {
-  assert_that(is.dataset_df(x),
+  assert_that(
+    is.dataset_df(x),
     msg = "subject<-(x, value): x must be a dataset object created with dataset_df() or as_dataset_df()."
   )
 
   ds_bibentry <- get_bibentry(x)
 
+  # normalize input
   if (is.null(value)) {
-    value <- new_Subject(term = ":tba")
+    value <- list(new_Subject(term = ":tba"))
   } else if (is.character(value)) {
-    value <- new_Subject(term = value)
-  } else if (!is.subject(value)) {
-    stop("subject(x, value)<- : value must be a created with 'subject_create()` or it must be a character string.")
+    value <- lapply(value, new_Subject)
+  } else if (is.subject(value)) {
+    value <- list(value) # wrap single subject
+  } else if (is.list(value) && all(vapply(value, is.subject, logical(1)))) {
+    # already a list of subjects, ok
+  } else {
+    stop("subject(x, value)<- : value must be created with `subject_create()` or be a character string (or list thereof).")
   }
 
-  ds_bibentry$subject <- ifelse(is.character(value), value, value$term)
+  # flatten terms into bibentry
+  ds_bibentry$subject <- vapply(value, function(s) s$term, character(1))
   attr(x, "dataset_bibentry") <- ds_bibentry
+
+  # keep full structured objects
   attr(x, "subject") <- value
+
   invisible(x)
 }
 
