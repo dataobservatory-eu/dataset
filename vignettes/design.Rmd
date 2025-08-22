@@ -71,10 +71,19 @@ often conflate the in-memory structure with the abstract concept of a dataset,
 which in metadata terms refers not just to structure but also to definitions,
 units, provenance, and contributors.
 
+
+Several ISO and W3C standards define what constitutes a dataset. According to ISO/IEC 20546, a dataset is an identifiable collection of data available for access or download in one or more formats. The Dublin Core DCMI Metadata Terms define a [dataset](https://www.dublincore.org/specifications/dublin-core/dcmi-terms/dcmitype/Dataset/) as “data encoded in a defined structure.” The W3C’s [Data Cube Vocabulary](https://www.w3.org/TR/vocab-data-cube/#cubes-model-datasets), widely used in official statistics, describes a dataset as a “collection of statistical data that corresponds to a defined structure.” That structure includes observations, metadata about their organisation, *structural metadata* (e.g., units of measure), and *reference metadata* (e.g., creator, publisher).  
+
+This differs from R’s `data.frame` object, which is defined as “tightly coupled collections of variables which share many of the properties of matrices and of lists, used as the fundamental data structure by most of R's modeling software.” In practice, R users often use the terms *data frame* (or tibble) and *dataset* interchangeably. However, even a tidy data frame is underspecified for use in scientific repositories, statistical data exchanges, or many database applications. A `data.frame` exists only in the memory of an R session, limiting its interoperability and reusability. While R can already serialise data frames to formats like `.rds`, `.rda`, or `.csv`, these serialisations by default lack rich, standardised metadata. The `dataset` package bridges that gap by aligning with established metadata standards, producing serialisations that are easier to reuse and interpret.  
+
+The `dataset` package extends R's native data structures with machine-readable metadata. It follows a *semantic early-binding* approach: metadata is embedded as soon as the data is created, making datasets suitable for long-term reuse, FAIR-compliant publishing, and integration into semantic web systems.  
+
+The central innovation of the package is an extended data-frame-like object: a `tibble::tibble()` enhanced with R’s `attributes()` system to store standard metadata from ISO and W3C vocabularies. This `dataset_df` class integrates naturally with tidy data principles (Wickham, 2014), where each variable is a column, each observation is a row, and each type of observational unit forms a table. On top of this tidy structure, `dataset_df` adds a semantic layer so that the meaning of variables and datasets is explicit and machine-readable.  This new class is introduced in  `vignette("dataset_df", package = "dataset").
+
 In research or institutional contexts, a dataset is a form of digital resource,
 often archived, cited, or published. Such resources are typically described with
 metadata using the Resource Description Framework (RDF), enabling
-machine-actionable, language-independent, schema-neutral representation.
+machine-actionable, language-independent, schema-neutral representation. Our aim is to facilitate the translation or annotation of a tidy R data.frame into such a resource.
 
 RDF also enables description at the level of **elementary statements** — that
 is, per-cell metadata combining variable (column) and observation (row). This

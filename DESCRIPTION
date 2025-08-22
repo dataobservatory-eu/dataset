@@ -1,5 +1,5 @@
 Package: dataset
-Title: Create Data Frames that are Easier to Exchange and Reuse
+Title: Create Data Frames for Exchange and Reuse
 Version: 0.4.0
 Date: 2025-08-22
 Language: en-GB
@@ -23,9 +23,11 @@ Authors@R:
             )
       )
 Maintainer: Daniel Antal <daniel.antal@dataobservatory.eu>
-Description: The aim of the 'dataset' package is to make tidy datasets easier to release, 
-    exchange and reuse. It organizes and formats data frame 'R' objects into well-referenced, 
-    well-described, interoperable datasets into release and reuse ready form.
+Description: The 'dataset' package helps create semantically rich, 
+    machine-readable, and interoperable datasets in R. It extends tidy
+    data frames with metadata that preserves meaning, improves 
+    interoperability, and makes datasets easier to publish, exchange, 
+    and reuse in line with ISO and W3C standards.
 License: GPL (>= 3)
 Encoding: UTF-8
 URL: https://dataset.dataobservatory.eu/

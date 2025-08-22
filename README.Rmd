@@ -24,15 +24,14 @@ rlang::check_installed("here")
 
 # Overview
 
-The `dataset` package helps you create **semantically rich**, **machine-readable**, and **interoperable datasets** in R. It introduces S3 classes that enhance data frames, vectors, and bibliographic entries with formal metadata structures inspired by:
+The `dataset` package helps you create **semantically rich**, **machine-readable**, and **interoperable datasets** in R. It introduces S3 classes that extend data frames, vectors, and bibliographic entries with formal metadata structures inspired by:
 
--    SDMX (Statistical Data and Metadata eXchange)
+- **SDMX** (Statistical Data and Metadata eXchange), widely used in official statistics  
+- **Dublin Core** and **DataCite**, for FAIR-compliant depositing and reuse in scientific and open data repositories  
+- **Open Science publishing practices**, to support transparent and reproducible research  
 
--   Dublin Core / DataCite metadata standards for scientific and open data repositories
+The goal is to preserve metadata when reusing statistical and repository datasets, improve interoperability, and make it easy to turn tidy data frames into web-ready, publishable datasets that comply with ISO and W3C standards.
 
--   Open Science publishing practices
-
-The goal is to reduce metadata loss, improve interoperability, and simplify the transition from tidy datasets to web-ready formats like RDF.
 
 ## Installation
 
@@ -105,9 +104,8 @@ Retain automatically recorded provenance:
 provenance(df)
 ```
 
-
-
 ::: smaller
+
 ```{r provenancesmall, echo=FALSE}
 provenance(df)
 ```

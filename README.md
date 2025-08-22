@@ -25,19 +25,20 @@ coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](htt
 
 The `dataset` package helps you create **semantically rich**,
 **machine-readable**, and **interoperable datasets** in R. It introduces
-S3 classes that enhance data frames, vectors, and bibliographic entries
+S3 classes that extend data frames, vectors, and bibliographic entries
 with formal metadata structures inspired by:
 
-- SDMX (Statistical Data and Metadata eXchange)
+- **SDMX** (Statistical Data and Metadata eXchange), widely used in
+  official statistics  
+- **Dublin Core** and **DataCite**, for FAIR-compliant depositing and
+  reuse in scientific and open data repositories  
+- **Open Science publishing practices**, to support transparent and
+  reproducible research
 
-- Dublin Core / DataCite metadata standards for scientific and open data
-  repositories
-
-- Open Science publishing practices
-
-The goal is to reduce metadata loss, improve interoperability, and
-simplify the transition from tidy datasets to web-ready formats like
-RDF.
+The goal is to preserve metadata when reusing statistical and repository
+datasets, improve interoperability, and make it easy to turn tidy data
+frames into web-ready, publishable datasets that comply with ISO and W3C
+standards.
 
 ## Installation
 
@@ -63,9 +64,13 @@ remotes::install_github("dataobservatory-eu/dataset")
 ``` r
 library(dataset)
 df <- dataset_df(
-  country = defined(c("AD", "LI"), label = "Country"),
+  country = defined(
+    c("AD", "LI"), 
+    label = "Country", 
+    namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"),
   gdp = defined(c(3897, 7365),
-    label = "GDP", unit = "million euros"
+    label = "GDP", 
+    unit = "million euros"
   ),
   dataset_bibentry = dublincore(
     title = "GDP Dataset",
@@ -100,9 +105,9 @@ dataset_to_triples(df, format = "nt")
 
 <div class="smaller">
 
-    #> [1] "<http://example.com/dataset#eg:1> <http://example.com/prop/country> \"AD\"^^<xsd:string> ."
-    #> [2] "<http://example.com/dataset#eg:2> <http://example.com/prop/country> \"LI\"^^<xsd:string> ."
-    #> [3] "<http://example.com/dataset#eg:1> <http://example.com/prop/gdp> \"3897\"^^<xsd:decimal> ." 
+    #> [1] "<http://example.com/dataset#eg:1> <http://example.com/prop/country> <https://dd.eionet.europa.eu/vocabulary/eurostat/geo/AD> ."
+    #> [2] "<http://example.com/dataset#eg:2> <http://example.com/prop/country> <https://dd.eionet.europa.eu/vocabulary/eurostat/geo/LI> ."
+    #> [3] "<http://example.com/dataset#eg:1> <http://example.com/prop/gdp> \"3897\"^^<xsd:decimal> ."                                     
     #> [4] "<http://example.com/dataset#eg:2> <http://example.com/prop/gdp> \"7365\"^^<xsd:decimal> ."
 
 </div>
@@ -121,7 +126,7 @@ provenance(df)
     #> [4] "_:doejane <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."                                              
     #> [5] "<https://doi.org/10.32614/CRAN.package.dataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#SoftwareAgent> ."
     #> [6] "<http://example.com/creation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> ."                       
-    #> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2025-08-22T18:31:35Z\"^^<xsd:dateTime> ."
+    #> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2025-08-22T21:00:07Z\"^^<xsd:dateTime> ."
 
 </div>
 

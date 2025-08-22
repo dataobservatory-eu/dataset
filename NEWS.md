@@ -64,10 +64,6 @@ This update significantly improves the usability and robustness of semantically 
 
 - New release on CRAN.
 
-# dataset 0.3.2
-
-- [New Requirement](https://dataset.dataobservatory.eu/articles/new-requirements.html) setting for further works.
-
 # dataset 0.3.0
 
 - Released on CRAN.
@@ -82,11 +78,8 @@ This update significantly improves the usability and robustness of semantically 
 
 New vignettes on
 
-- [x] [Richer Semantics for the Dataset's Variables](https://dataset.dataobservatory.eu/articles/columns.html)
+- [x] [Richer Semantics for the Dataset's Variables](https://dataset.dataobservatory.eu/articles/defined.html)
 
-- [x] [Richer Semantics for the Dataset's Observations](https://dataset.dataobservatory.eu/articles/rows.html)
-
-- [x] [Richer Description of the Datasets's Structure for Meaningful Reuse Opportunities](https://dataset.dataobservatory.eu/articles/DSD.html)
 
 # dataset 0.2.7 
 
