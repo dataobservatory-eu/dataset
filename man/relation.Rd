@@ -29,17 +29,21 @@ related_item(x) <- value
 \arguments{
 \item{x}{A dataset object created with \code{\link[=dataset_df]{dataset_df()}} or \code{\link[=as_dataset_df]{as_dataset_df()}}.}
 
-\item{value}{A \code{related} object from \code{\link[=related_create]{related_create()}} or a character. Vectors
-of characters are also supported and will be converted to a list of
+\item{value}{A \code{related} object from \code{\link[=related_create]{related_create()}} or a character.
+Vectors of characters are also supported and will be converted to a list of
 \code{"related"} objects.}
 
-\item{relatedIdentifier}{A string with the identifier of the related resource.}
+\item{relatedIdentifier}{A string with the identifier of the related
+resource.}
 
-\item{relationType}{A string naming the relation type (per DataCite vocabulary).}
+\item{relationType}{A string naming the relation type (per DataCite
+vocabulary).}
 
-\item{relatedIdentifierType}{A string naming the identifier type (\code{"DOI"}, \code{"URL"}, etc.).}
+\item{relatedIdentifierType}{A string naming the identifier type (\code{"DOI"},
+\code{"URL"}, etc.).}
 
-\item{resourceTypeGeneral}{Optional: a string naming the general type of the related resource.}
+\item{resourceTypeGeneral}{Optional: a string naming the general type of the
+related resource.}
 }
 \value{
 \itemize{
@@ -66,7 +70,8 @@ Manage related resources for a dataset using a unified accessor.
 }
 }
 \details{
-To remain compatible with \code{\link[utils:bibentry]{utils::bibentry()}}, the bibentry stores only the
+To remain compatible with \code{\link[utils:bibentry]{utils::bibentry()}}, the bibentry stores
+only the
 \strong{string identifier} (e.g., DOI/URL). The full structured object created by
 \code{\link[=related_create]{related_create()}} is preserved in the \code{"relation"} attribute.
 

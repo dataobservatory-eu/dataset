@@ -121,11 +121,11 @@ relation <- function(x) {
     stop("relation(x, value)<- : value must be created with `related_create()` or be a character string (or list thereof).")
   }
 
-  # --- store in bibentry ---
+  # --- store in dataset_bibentry ---
   # keep only the identifiers (vector of strings)
   be$relatedidentifier <- vapply(value, function(v) v$relatedIdentifier, character(1))
   be$relation <- be$relatedidentifier
-  attr(be, "relation") <- value # structured list of relateds
+  attr(be, "relation") <- value # structured list of related items
 
   attr(x, "dataset_bibentry") <- be
   attr(x, "relation") <- value

@@ -219,7 +219,7 @@ The `defined()` function provides a lightweight yet powerful way to make vectors
 Because the metadata is embedded at creation time, it travels with the vector throughout your workflow — whether you are analysing, transforming, or exporting data.  
 This prevents context loss, supports the FAIR data principles (Findable, Accessible, Interoperable, Reusable), and facilitates integration with semantic web technologies.
 
-`defined` vectors work seamlessly with the [`dataset_df`](https://dataset.dataobservatory.eu/articles/articles/dataset_df.html) class to create semantically enriched data frames where both datasets and their constituent variables carry rich, standardised metadata.  
+`defined` vectors work seamlessly with the [`dataset_df`](https://dataset.dataobservatory.eu/articles/dataset_df.html) class to create semantically enriched data frames where both datasets and their constituent variables carry rich, standardised metadata.  
 For more on creating semantically enriched datasets, see the **dataset_df** vignette.  
 
 For guidance on recording bibliographic metadata and citations, see the **bibrecord** vignette.

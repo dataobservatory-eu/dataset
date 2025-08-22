@@ -12,9 +12,9 @@ WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.o
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dataset)](https://cran.r-project.org/package=dataset)
 [![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/dataset)](https://cran.r-project.org/package=dataset)
 [![Status at rOpenSci Software Peer
-Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553)
+Review](https://badges.ropensci.org/681_status.svg)](https://github.com/ropensci/software-review/issues/681)
 [![DOI](https://zenodo.org/badge/DOI/10.32614/CRAN.package.dataset.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU)
-[![devel-version](https://img.shields.io/badge/devel%20version-0.3.96-blue.svg)](https://github.com/dataobservatory-eu/dataset)
+[![devel-version](https://img.shields.io/badge/devel%20version-0.4.0-blue.svg)](https://github.com/dataobservatory-eu/dataset)
 [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/)
 [![Codecov test
 coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset/)
@@ -83,26 +83,47 @@ print(df)
 
 Export as RDF triples:
 
+<style type="text/css">
+.smaller .table {
+  font-size: 11px;
+}
+&#10;.smaller pre,
+.smaller code {
+  font-size: 11px;
+  line-height: 1.2;
+}
+</style>
+
 ``` r
 dataset_to_triples(df, format = "nt")
-#> [1] "<http://example.com/dataset#eg:1> <http://example.com/prop/country> \"AD\"^^<xs:string> ."
-#> [2] "<http://example.com/dataset#eg:2> <http://example.com/prop/country> \"LI\"^^<xs:string> ."
-#> [3] "<http://example.com/dataset#eg:1> <http://example.com/prop/gdp> \"3897\"^^<xs:decimal> ." 
-#> [4] "<http://example.com/dataset#eg:2> <http://example.com/prop/gdp> \"7365\"^^<xs:decimal> ."
 ```
+
+<div class="smaller">
+
+    #> [1] "<http://example.com/dataset#eg:1> <http://example.com/prop/country> \"AD\"^^<xsd:string> ."
+    #> [2] "<http://example.com/dataset#eg:2> <http://example.com/prop/country> \"LI\"^^<xsd:string> ."
+    #> [3] "<http://example.com/dataset#eg:1> <http://example.com/prop/gdp> \"3897\"^^<xsd:decimal> ." 
+    #> [4] "<http://example.com/dataset#eg:2> <http://example.com/prop/gdp> \"7365\"^^<xsd:decimal> ."
+
+</div>
 
 Retain automatically recorded provenance:
 
 ``` r
 provenance(df)
-#> [1] "<http://example.com/dataset_prov.nt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Bundle> ."                  
-#> [2] "<http://example.com/dataset#> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> ."                         
-#> [3] "<http://example.com/dataset#> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/linked-data/cube#DataSet> ."                 
-#> [4] "_:doejane <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."                                              
-#> [5] "<https://doi.org/10.32614/CRAN.package.dataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#SoftwareAgent> ."
-#> [6] "<http://example.com/creation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> ."                       
-#> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2025-08-07T11:15:14Z\"^^<xs:dateTime> ."
 ```
+
+<div class="smaller">
+
+    #> [1] "<http://example.com/dataset_prov.nt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Bundle> ."                  
+    #> [2] "<http://example.com/dataset#> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> ."                         
+    #> [3] "<http://example.com/dataset#> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/linked-data/cube#DataSet> ."                 
+    #> [4] "_:doejane <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Agent> ."                                              
+    #> [5] "<https://doi.org/10.32614/CRAN.package.dataset> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#SoftwareAgent> ."
+    #> [6] "<http://example.com/creation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> ."                       
+    #> [7] "<http://example.com/creation> <http://www.w3.org/ns/prov#generatedAtTime> \"2025-08-22T18:31:35Z\"^^<xsd:dateTime> ."
+
+</div>
 
 ## Contributing
 

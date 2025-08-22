@@ -1,9 +1,12 @@
 # dataset 0.4.0
 
-The release candidate with much improved unit testing and documentation to 
-meet the rOpenSci standards.
+A new CRAN release with much improved unit testing and documentation to 
+meet the rOpenSci standards and better methods for the main s3 classes of
+the package.
 
 - Rewritten vignettes.
+- Improved print, summary methods for `dataset_df` and `defined`.
+- Better handling of multible contributors in `bibrecord`. 
 - A new `dataset_to_triples` and `xsd_convert` for better serialisation.
 - A better handling of empty nodes in RDF.
 - Many bug fixes in the way semantic information is translated to RDF.

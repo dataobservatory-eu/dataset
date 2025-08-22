@@ -7,7 +7,10 @@ test_that("relation() gets/sets structured and flat variants", {
   expect_s3_class(r, "related")
   expect_equal(r$relatedIdentifier, "https://doi.org/10.1234/abc")
   expect_equal(get_bibentry(df)$relation, "https://doi.org/10.1234/abc")
-  expect_equal(get_bibentry(df)$relatedidentifier, "https://doi.org/10.1234/abc")
+  expect_equal(
+    get_bibentry(df)$relatedidentifier,
+    "https://doi.org/10.1234/abc"
+  )
 
   # structured
   rel <- related_create("10.5678/def", "References", "DOI", "Text")
@@ -63,6 +66,9 @@ test_that("relation() handles multiple related objects", {
 
   # bibentry slots should contain the flat identifiers
   be <- get_bibentry(df)
-  expect_equal(be$relatedidentifier, c("10.1111/one", "https://example.com/rel"))
+  expect_equal(
+    be$relatedidentifier,
+    c("10.1111/one", "https://example.com/rel")
+  )
   expect_equal(be$relation, c("10.1111/one", "https://example.com/rel"))
 })

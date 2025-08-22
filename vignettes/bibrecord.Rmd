@@ -23,7 +23,7 @@ Descriptive metadata is often added as an afterthought or stored separately from
 
 For a `dataset_df`, this means not only providing variable-level definitions, units, and namespaces, but also including a complete, standards-aligned citation record for the dataset itself. Encoding citation information early ensures that it travels with the data, supports the FAIR principles (Findable, Accessible, Interoperable, Reusable), and is ready for export to modern metadata formats.
 
-In the [Design Principles & Future Work Semantically Enriched, Standards-Aligned Datasets in R](https://dataset.dataobservatory.eu/articles/articles/design.html), we identify three objectives for dataset-level citation metadata:
+In the [Design Principles & Future Work Semantically Enriched, Standards-Aligned Datasets in R](https://dataset.dataobservatory.eu/articles/design.html), we identify three objectives for dataset-level citation metadata:
 
 1. **Full compliance** with standards such as Dublin Core Terms (DCTERMS) and DataCite  
 2. **Interoperability** with the R ecosystem, including `dataset_df` and base R tools  
@@ -100,7 +100,7 @@ Planned enhancements to `bibrecord` include:
 - Export to JSON-LD or RDF formats
 - Integration with APIs from services like Zenodo, Crossref, or Wikidata
 
-In the broader context described in [Design Principles & Future Work Semantically Enriched, Standards-Aligned Datasets in R](https://dataset.dataobservatory.eu/articles/articles/design.html), the long-term goal is to ensure that dataset-level citation metadata in R meets three objectives:
+In the broader context described in [Design Principles & Future Work Semantically Enriched, Standards-Aligned Datasets in R](https://dataset.dataobservatory.eu/articles/design.html), the long-term goal is to ensure that dataset-level citation metadata in R meets three objectives:
 
 1. **Full compliance with modern metadata standards** such as Dublin Core Terms (DCTERMS) and DataCite  
 2. **Seamless interoperability with the R ecosystem**, including `dataset_df` and base R tools  

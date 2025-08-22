@@ -18,7 +18,7 @@ rlang::check_installed("here")
 
 <!-- badges: start -->
 
-[![rhub](https://github.com/dataobservatory-eu/dataset/actions/workflows/rhub.yaml/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions/workflows/rhub.yaml) [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental) [![Project Status: WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dataset)](https://cran.r-project.org/package=dataset) [![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/dataset)](https://cran.r-project.org/package=dataset) [![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/553_status.svg)](https://github.com/ropensci/software-review/issues/553) [![DOI](https://zenodo.org/badge/DOI/10.32614/CRAN.package.dataset.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU) [![devel-version](https://img.shields.io/badge/devel%20version-0.3.99-blue.svg)](https://github.com/dataobservatory-eu/dataset) [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/) [![Codecov test coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset/)
+[![rhub](https://github.com/dataobservatory-eu/dataset/actions/workflows/rhub.yaml/badge.svg)](https://github.com/dataobservatory-eu/dataset/actions/workflows/rhub.yaml) [![lifecycle](https://lifecycle.r-lib.org/articles/figures/lifecycle-experimental.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental) [![Project Status: WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dataset)](https://cran.r-project.org/package=dataset) [![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/dataset)](https://cran.r-project.org/package=dataset) [![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/681_status.svg)](https://github.com/ropensci/software-review/issues/681) [![DOI](https://zenodo.org/badge/DOI/10.32614/CRAN.package.dataset.svg)](https://zenodo.org/record/6950435#.YukDAXZBzIU) [![devel-version](https://img.shields.io/badge/devel%20version-0.4.0-blue.svg)](https://github.com/dataobservatory-eu/dataset) [![dataobservatory](https://img.shields.io/badge/ecosystem-dataobservatory.eu-3EA135.svg)](https://dataobservatory.eu/) [![Codecov test coverage](https://codecov.io/gh/dataobservatory-eu/dataset/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/dataset/)
 
 <!-- badges: end -->
 
@@ -55,12 +55,16 @@ remotes::install_github("dataobservatory-eu/dataset")
 
 ## Minimal Example
 
-```{r}
+```{r example}
 library(dataset)
 df <- dataset_df(
-  country = defined(c("AD", "LI"), label = "Country"),
+  country = defined(
+    c("AD", "LI"), 
+    label = "Country", 
+    namespace = "https://dd.eionet.europa.eu/vocabulary/eurostat/geo/$1"),
   gdp = defined(c(3897, 7365),
-    label = "GDP", unit = "million euros"
+    label = "GDP", 
+    unit = "million euros"
   ),
   dataset_bibentry = dublincore(
     title = "GDP Dataset",
@@ -73,14 +77,41 @@ print(df)
 
 Export as RDF triples:
 
-```{r}
+```{css, echo=FALSE}
+.smaller .table {
+  font-size: 11px;
+}
+
+.smaller pre,
+.smaller code {
+  font-size: 11px;
+  line-height: 1.2;
+}
+```
+
+```{r ntriples, eval = FALSE}
 dataset_to_triples(df, format = "nt")
 ```
+
+::: smaller
+```{r ntriplessmall, echo=FALSE}
+dataset_to_triples(df, format = "nt")
+```
+:::
+
 Retain automatically recorded provenance: 
 
-```{r}
+```{r provenance, eval=FALSE}
 provenance(df)
 ```
+
+
+
+::: smaller
+```{r provenancesmall, echo=FALSE}
+provenance(df)
+```
+:::
 
 ## Contributing
 
