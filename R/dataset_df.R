@@ -73,7 +73,7 @@
 
 # User constructor
 dataset_df <- function(...,
-                       identifier = c(eg = "http://example.com/dataset#"),
+                       identifier = c(obs = "http://example.com/dataset#obs"),
                        var_labels = NULL,
                        units = NULL,
                        concepts = NULL,
@@ -175,7 +175,7 @@ new_dataset <- function(x,
 
   if (add_rowid) {
     tmp <- tibble::rowid_to_column(tmp)
-    prefix <- paste0(names(identifier)[1], ":")
+    prefix <- names(identifier)[1]
     tmp$rowid <- defined(paste0(prefix, tmp$rowid),
       namespace = identifier
     )
