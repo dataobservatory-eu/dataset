@@ -32,6 +32,10 @@
 #' @return A `dataset_df` object: a tibble with attached metadata stored in
 #'   attributes.
 #'
+#' @note A simple, serverless scaffolding for publishing `dataset_df` objects
+#'   on the web (with HTML + RDF exports) is available at
+#'   <https://github.com/dataobservatory-eu/dataset-template>.
+#'
 #' @examples
 #' my_dataset <- dataset_df(
 #'   country_name = defined(
@@ -44,6 +48,9 @@
 #'     label = "Gross Domestic Product",
 #'     unit = "million dollars",
 #'     concept = "http://data.europa.eu/83i/aa/GDP"
+#'   ),
+#'  identifier = c(
+#'     obs = "https://dataobservatory-eu.github.io/dataset-template#"
 #'   ),
 #'   dataset_bibentry = dublincore(
 #'     title = "GDP of Andorra and Liechtenstein",
@@ -67,18 +74,19 @@
 #' my_description <- describe(my_dataset, con = tempfile())
 #' my_description
 #'
-#' @seealso [defined()], [dublincore()], [as_dublincore()], [subject()]
+#' @seealso [defined()], [dublincore()], [datacite()], [subject()]
 #'
 #' @export
 
 # User constructor
-dataset_df <- function(...,
-                       identifier = c(obs = "http://example.com/dataset#obs"),
-                       var_labels = NULL,
-                       units = NULL,
-                       concepts = NULL,
-                       dataset_bibentry = NULL,
-                       dataset_subject = NULL) {
+dataset_df <- function(
+    ...,
+    identifier = c(obs = "http://example.com/dataset#obs"),
+    var_labels = NULL,
+    units = NULL,
+    concepts = NULL,
+    dataset_bibentry = NULL,
+    dataset_subject = NULL) {
   dots <- list(...)
 
   if (!"rowid" %in% names(dots)) {
@@ -127,13 +135,14 @@ dataset_df <- function(...,
 
 #' @rdname dataset_df
 #' @export
-as_dataset_df <- function(df,
-                          identifier = c(eg = "http://example.com/dataset#"),
-                          var_labels = NULL,
-                          units = NULL,
-                          concepts = NULL,
-                          dataset_bibentry = NULL,
-                          dataset_subject = NULL, ...) {
+as_dataset_df <- function(
+    df,
+    identifier = c(obs = "http://example.com/dataset#obs"),
+    var_labels = NULL,
+    units = NULL,
+    concepts = NULL,
+    dataset_bibentry = NULL,
+    dataset_subject = NULL, ...) {
   dots <- list(...)
 
   if (is.null(dots$dataset_bibentry)) {

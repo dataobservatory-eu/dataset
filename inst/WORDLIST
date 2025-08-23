@@ -6,6 +6,7 @@ Boettinger
 C's
 Codecov
 Crossref
+C’s
 DCAT
 DCMES
 DCMI
@@ -15,7 +16,6 @@ DOIs
 DT
 DataCite
 Dataset's
-Datasets's
 DublinCore
 EuroVoc
 Feroe
@@ -26,6 +26,7 @@ GSIM
 IANA
 IETF
 IRI
+IRIs
 LD
 MEUR
 NISO
@@ -37,8 +38,6 @@ Pinheiro
 R's
 RDF
 RDFLib
-Reusability
-Rmd
 R’s
 SDMX
 SPARQL
@@ -63,6 +62,7 @@ dataspice
 datatypes
 dcm
 dct
+dereferenceable
 desynchronisation
 df
 difftime
@@ -76,19 +76,26 @@ geo
 lifecycle
 md
 microdata
+modeling
 multible
 nabular
+obs
 org
+pivotted
+queryable
 rOpenSci
 rd
 rda
 rdflib
 rds
+reusability
 rhub
 rowid
+serverless
 subproperties
 terminologic
 tibble
 tibbles
 tidyverse
+ttl
 unlabeled

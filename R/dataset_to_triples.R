@@ -11,14 +11,19 @@
 #' @return Either a `data.frame` with columns `s`, `p`, and `o`, or a character
 #'   vector of N-Triple lines.
 #' @export
+#' @details
+#' For publishing examples, a minimal serverless scaffold is provided at
+#' <https://github.com/dataobservatory-eu/dataset-template>, which shows how
+#' to host CSV + RDF serialisations on GitHub Pages without any server setup.
+#'
+#' @note A simple, serverless scaffolding for publishing `dataset_df` objects
+#'   on the web (with HTML + RDF exports) is available at
+#'   <https://github.com/dataobservatory-eu/dataset-template>.
+#'
 #' @examples
 #' # A minimal example with just rowid and geo
 #' data("gdp", package = "dataset")
 #' small_geo <- dataset_df(
-#'   rowid = defined(
-#'     paste0("eg:", seq_along(gdp$geo[1:3])),
-#'     namespace = "http://example.com/dataset#"
-#'   ),
 #'   geo = defined(
 #'     gdp$geo[1:3],
 #'     label = "Geopolitical entity",

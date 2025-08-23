@@ -10,7 +10,7 @@
 \usage{
 dataset_df(
   ...,
-  identifier = c(eg = "http://example.com/dataset#"),
+  identifier = c(obs = "http://example.com/dataset#obs"),
   var_labels = NULL,
   units = NULL,
   concepts = NULL,
@@ -20,7 +20,7 @@ dataset_df(
 
 as_dataset_df(
   df,
-  identifier = c(eg = "http://example.com/dataset#"),
+  identifier = c(obs = "http://example.com/dataset#obs"),
   var_labels = NULL,
   units = NULL,
   concepts = NULL,
@@ -84,6 +84,11 @@ S3 methods for \code{dataset_df} include:
 
 For full details, see \code{vignette("dataset_df", package = "dataset")}.
 }
+\note{
+A simple, serverless scaffolding for publishing \code{dataset_df} objects
+on the web (with HTML + RDF exports) is available at
+\url{https://github.com/dataobservatory-eu/dataset-template}.
+}
 \examples{
 my_dataset <- dataset_df(
   country_name = defined(
@@ -96,6 +101,9 @@ my_dataset <- dataset_df(
     label = "Gross Domestic Product",
     unit = "million dollars",
     concept = "http://data.europa.eu/83i/aa/GDP"
+  ),
+ identifier = c(
+    obs = "https://dataobservatory-eu.github.io/dataset-template#"
   ),
   dataset_bibentry = dublincore(
     title = "GDP of Andorra and Liechtenstein",
@@ -121,5 +129,5 @@ my_description
 
 }
 \seealso{
-\code{\link[=defined]{defined()}}, \code{\link[=dublincore]{dublincore()}}, \code{\link[=as_dublincore]{as_dublincore()}}, \code{\link[=subject]{subject()}}
+\code{\link[=defined]{defined()}}, \code{\link[=dublincore]{dublincore()}}, \code{\link[=datacite]{datacite()}}, \code{\link[=subject]{subject()}}
 }

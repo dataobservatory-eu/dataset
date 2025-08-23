@@ -100,7 +100,7 @@ Each row of your dataset becomes a **subject**, each variable a **predicate**, a
 
 ### RDF triples enable interoperability
 
-The Resource Description Framework (RDF) represents data as subject–predicate–object triples. This allows your dataset to be machine-readable, linkable to external vocabularies, and queryable via SPARQL.
+The Resource Description Framework (RDF) represents data as subject–predicate–object triples. This allows your dataset to be machine-readable, linkable to external vocabularies, and to be ready for queries via SPARQL.
 
 ### RDF triples enable interoperability
 
@@ -125,6 +125,9 @@ rdf_parse(rdf_graph, doc = temp_file, format = "ntriples")
 rdf_graph
 
 ```
+
+A simple, serverless scaffolding for publishing `dataset_df` objects on the web (with HTML + RDF exports) is available at    <https://github.com/dataobservatory-eu/dataset-template> with the example
+of this vignette tutorial.
 
 ## Clean up
 
