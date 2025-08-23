@@ -13,9 +13,6 @@ A data frame with 35 rows and 4 variables:
 \item \code{circumference}: Trunk circumference in mm (numeric)
 }
 }
-\source{
-\href{https://doi.org/10.5281/zenodo.14917851}{Zenodo DOI}
-}
 \usage{
 orange_df
 }

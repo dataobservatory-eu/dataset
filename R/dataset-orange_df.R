@@ -71,9 +71,6 @@
 #'   namespace = "https://doi.org/10.5281/zenodo.14917851"
 #' )
 #' ```
-#'
-#' @source [Zenodo DOI](https://doi.org/10.5281/zenodo.14917851)
-#'
 #' @references
 #' - Draper, N. R. & Smith, H. (1998). *Applied Regression Analysis* (3rd ed.). Wiley.
 #' - Pinheiro, J. C. & Bates, D. M. (2000). *Mixed-effects Models in S and S-PLUS*. Springer.
