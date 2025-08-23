@@ -13,13 +13,9 @@ rOpenSci:
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-Comment:
-This release contains many improvements for the methods of the s3 classes as 
-well as their documentation, based on reviewer comments from rOpenSci. It also 
-corrects a failing test marked by CRAN due to the change of how utils::bibentry()
-handles institutional legal person names.
+## Resubmission
 
-There are false negative errors on some platforms:
+This resubmission addresses the following URL check notes:
 
 Found the following (possibly) invalid URLs:
   URL: http://example.com/dataset#eg:1
@@ -31,11 +27,18 @@ Found the following (possibly) invalid URLs:
     Status: 404
     Message: Not Found
   URL: http://example.com/dataset#eg:3
-  
-The domain `http://example.com/` is retained by the World Wide Web Consortium
-for applications to use a valid but non-existing URL for demonstrating the 
-use of URLs, or in this case, URIs. As the package aims for semantic web
-interoperability, these standard URLs should be retained. The 
-`http://example.com/dataset#eg:3` is not used in the vignette as an URL, 
-but as an URI and only in textual examples
+    From: inst/doc/rdf.html
+    Status: 404
+    Message: Not Found
+
+The domain `http://example.com/` is reserved by the IETF/W3C for use in
+documentation and examples. These IRIs were included in the vignette to
+demonstrate RDF/Linked Data usage, and are valid by design even though they do
+not resolve.
+
+However, to facilitate CRAN publication and avoid repeated URL check notes, I
+replaced these with example URIs hosted on the package website that do return
+HTTP 200 and are published in both HTML and Turtle format. This removes the 404
+check while retaining the intended illustration of example IRIs.
+
 

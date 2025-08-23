@@ -152,7 +152,5 @@ reference:
        - gdp
 
 extra_files:
-  - inst/examples/dataset.ttl
-
-redirects:
-  - [ "examples/dataset", "articles/example-dataset.html" ]
+  - examples/dataset.html
+  - examples/dataset.ttl

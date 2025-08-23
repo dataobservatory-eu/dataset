@@ -1,0 +1,14 @@
+@prefix ex:   <https://dataset.dataobservatory.eu/examples/dataset#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+
+ex:obs1 a dcat:Observation ;
+    rdfs:label "Example observation 1 (not real data)" .
+
+ex:obs2 a dcat:Observation ;
+    rdfs:label "Example observation 2 (not real data)" .
+
+ex:obs3 a dcat:Observation ;
+    rdfs:label "Example observation 3 (not real data)" .
+
+

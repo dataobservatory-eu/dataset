@@ -27,3 +27,8 @@
 ^R/dataset-iris_dataset\.bak$
 ^vignettes/Motivation\.bak$
 ^vignettes/new_requirements\.bak$
+
+^examples$
+^examples/dataset.html
+^examples/index.html
+^examples/dataset.ttl
