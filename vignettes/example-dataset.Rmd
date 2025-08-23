@@ -1,0 +1,74 @@
+---
+title: "Example Dataset Definitions"
+output:
+  rmarkdown::html_vignette:
+    md_extensions: -autolink_bare_uris
+vignette: >
+  %\VignetteIndexEntry{Example Dataset Definitions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<!-- Machine-readable alternate -->
+<link rel="alternate" type="text/turtle" href="../examples/dataset.ttl" />
+
+
+This page documents the illustrative IRIs used in the `dataset` package
+vignettes. They are **examples only** and do not point to real datasets. 
+
+
+## Purpose
+
+- To illustrate how IRIs can uniquely identify dataset elements.  
+- To provide dereferenceable links that pass CRAN checks.  
+- To show Linked Data best practice: one namespace doc, with fragments. 
+
+# Example Dataset Definitions For RDF
+
+The base namespace in `vignette("rdf", package = "dataset")` is:
+
+<https://dataset.dataobservatory.eu/examples/dataset#>
+
+Defined fragments:
+
+- [`#obs:1`](https://dataset.dataobservatory.eu/examples/dataset#obs:1) – Example observation 1 (not real data)  
+- [`#obs:2`](https://dataset.dataobservatory.eu/examples/dataset#obs:2) – Example observation 2 (not real data)  
+- [`#obs:3`](https://dataset.dataobservatory.eu/examples/dataset#obs:3) – Example observation 3 (not real data)  
+
+Where <https://dataset.dataobservatory.eu/examples/dataset#obs:3> is a permanent identifier for an observation.
+
+In real publishing scenarios, you would replace these with persistent URIs
+that identify actual datasets and their observations. For example, a DOI-based identifier such as:
+
+`https://doi.org/10.5281/zenodo.14917851#obs:1`
+
+could be used to refer to the first observation in a dataset archived at Zenodo. 
+
+## Machine-readable form
+
+A Turtle serialization of the same example definitions is also available: 
+
+```
+@prefix ex: <https://dataset.dataobservatory.eu/examples/dataset#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ex:1 a rdfs:Resource ;
+  rdfs:label "Illustrative observation 1" .
+
+ex:2 a rdfs:Resource ;
+  rdfs:label "Illustrative observation 2" .
+
+ex:3 a rdfs:Resource ;
+  rdfs:label "Illustrative observation 3" .
+```
+
+In fact, semantic applications know that they should not even read this HTML page, but instead go directly to the `dataset.ttl` version, as it is a World Wide Web standard to disseminate data and metadata.
+
+👉 [Download dataset.ttl](../examples/dataset.ttl)  
+
+## Purpose
+
+- To illustrate how IRIs can uniquely identify dataset elements.  
+- To provide resolvable links that satisfy CRAN’s link checks.  
+- To follow Linked Data best practice by serving one namespace document with
+  fragment identifiers.  

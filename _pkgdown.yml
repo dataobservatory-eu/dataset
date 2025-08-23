@@ -46,10 +46,11 @@ navbar:
       - text: "-------"
       - text: "Bibrecord"
         href: articles/bibrecord.html
-      - text: "Dataset exchanges"
-      - text: "-------"
       - text: "RDF"
         href: articles/rdf.html
+      - text: "Example dataset"
+        href: articles/example-dataset.html
+      - text: "Dataset exchanges"
     github:
       icon: fab fa-github
       aria-label: "GitHub repository"
@@ -70,6 +71,7 @@ articles:
   - title: "Dataset exchanges"
     contents:
       - rdf
+      - example-dataset
 
 reference:
   - title: "Dataset"
@@ -149,3 +151,8 @@ reference:
        - orange_df
        - gdp
 
+extra_files:
+  - inst/examples/dataset.ttl
+
+redirects:
+  - [ "examples/dataset", "articles/example-dataset.html" ]

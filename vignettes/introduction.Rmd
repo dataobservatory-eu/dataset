@@ -24,7 +24,12 @@ The `dataset` package enriches R’s native data structures with machine-readabl
 
 Unlike most metadata packages that attach metadata after the fact, `dataset` follows a **semantic early-binding** approach: metadata is embedded as soon as the data is created.
 
-This vignette provides a high-level introduction. For details on key components, see the following: - `vignette("defined", package = "dataset")`: Semantic vectors with `defined()` - `vignette("dataset_df", package = "dataset")`: Structuring and metadata with `dataset_df()` - `vignette("rdf", package = "dataset")`: Exporting to RDF and Linked Data - `vignette("bibrecord", package = "dataset")`: Creating rich citation metadata using `bibrecord()`
+This vignette provides a high-level introduction. For details on key components, see the following: 
+
+- `vignette("defined", package = "dataset")`: Semantic vectors with `defined()` 
+- `vignette("dataset_df", package = "dataset")`: Structuring and metadata with `dataset_df()` 
+- `vignette("rdf", package = "dataset")`: Exporting to RDF and Linked Data 
+- `vignette("bibrecord", package = "dataset")`: Creating rich citation metadata using `bibrecord()`
 
 ## Why extend tidy data?
 

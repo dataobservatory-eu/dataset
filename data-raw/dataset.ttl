@@ -1,0 +1,11 @@
+@prefix ex: <https://dataset.dataobservatory.eu/examples/dataset#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+obs:1 a rdfs:Resource ;
+  rdfs:label "Illustrative observation 1" .
+
+obs:2 a rdfs:Resource ;
+  rdfs:label "Illustrative observation 2" .
+
+obs:3 a rdfs:Resource ;
+  rdfs:label "Illustrative observation 3" .
