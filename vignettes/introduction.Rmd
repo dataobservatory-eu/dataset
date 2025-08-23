@@ -35,8 +35,8 @@ This vignette provides a high-level introduction. For details on key components,
 
 Hadley Wickham (2014) defines tidy data with three principles:
 
--   Each variable forms a column\
--   Each observation forms a row\
+-   Each variable forms a column
+-   Each observation forms a row
 -   Each observational unit forms a table
 
 This structure is ideal for analysis, but lacks **semantic clarity**, particularly when an analyst is working in a realistic, but not ideal scenario with several datasets received from various internet services. For example, two datasets might both contain a column named `gdp`, but one might be in euros and the other in dollars. Without metadata, tools cannot detect this mismatch.

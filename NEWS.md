@@ -151,4 +151,5 @@ A minor correction to avoid vignettes downloading data from the Eurostat data wa
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6703765.svg)](https://doi.org/10.5281/zenodo.6703765) First development version release.
 
-* Added the [Motivation of the dataset package](https://dataset.dataobservatory.eu/articles/Motivation.html) vignette article.
+* Added the `Motivation of the dataset package` vignette article, which is later
+replaced with [Design Principles & Future Work Semantically Enriched, Standards-Aligned Datasets in R](https://dataset.dataobservatory.eu/articles/design.html).

@@ -157,7 +157,7 @@ small_country_dataset <- dataset_df(
   gdp = defined(
     gdp$gdp,
     label = "Gross Domestic Product",
-    unit = "CP_MEUR",
+    unit = "https://dd.eionet.europa.eu/vocabularyconcept/eurostat/unit/CP_MEUR",
     concept = "http://data.europa.eu/83i/aa/GDP"
   ),
   unit = gdp$unit,
