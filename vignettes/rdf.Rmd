@@ -108,7 +108,7 @@ The Resource Description Framework (RDF) represents data as subjectâ€“predicateâ
 
 ```{r ntripleexample}
 n_triple(
-  s = "http://example.com/dataset#eg:1",
+  s = "https://dataset.dataobservatory.eu/examples/dataset.html#obs1",
   p = "http://purl.org/dc/terms/title",
   o = "Small Country Dataset"
 )
@@ -218,8 +218,15 @@ writeLines(small_country_df_nt,
 
 rdf_graph <- rdf()
 rdf_parse(rdf_graph, doc = temp_file, format = "ntriples")
+```
+```{r readrdf2print, eval = FALSE}
 rdf_graph
 ```
+:::: smaller
+```{r readrdf2printsmaller}
+rdf_graph
+```
+:::: 
 
 Your dataset is now ready to be exported to meet the true FAIR standards, because they are:
 
