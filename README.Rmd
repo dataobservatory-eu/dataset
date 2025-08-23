@@ -105,7 +105,6 @@ provenance(df)
 ```
 
 ::: smaller
-
 ```{r provenancesmall, echo=FALSE}
 provenance(df)
 ```

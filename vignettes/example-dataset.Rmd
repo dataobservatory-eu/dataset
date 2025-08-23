@@ -12,10 +12,8 @@ vignette: >
 <!-- Machine-readable alternate -->
 <link rel="alternate" type="text/turtle" href="../examples/dataset.ttl" />
 
-
 This page documents the illustrative IRIs used in the `dataset` package
 vignettes. They are **examples only** and do not point to real datasets. 
-
 
 ## Purpose
 
@@ -27,15 +25,37 @@ vignettes. They are **examples only** and do not point to real datasets.
 
 The base namespace in `vignette("rdf", package = "dataset")` is:
 
-<https://dataset.dataobservatory.eu/examples/dataset#>
+<https://dataset.dataobservatory.eu/examples/dataset.html#>
 
-Defined fragments:
+Although these example IRIs use `.html#` in the base namespace, the `.html` part
+does not imply that the resource is literally an HTML file. In RDF, any absolute
+IRI is valid. We use this form only for illustration, because the R package
+documentation infrastructure is not designed to support full content
+negotiation between human-readable HTML and machine-readable Turtle files.  
+In real publishing scenarios, a bare namespace ending with `/dataset#` is more
+conventional.
 
-- [`#obs:1`](https://dataset.dataobservatory.eu/examples/dataset#obs:1) – Example observation 1 (not real data)  
-- [`#obs:2`](https://dataset.dataobservatory.eu/examples/dataset#obs:2) – Example observation 2 (not real data)  
-- [`#obs:3`](https://dataset.dataobservatory.eu/examples/dataset#obs:3) – Example observation 3 (not real data)  
+---
 
-Where <https://dataset.dataobservatory.eu/examples/dataset#obs:3> is a permanent identifier for an observation.
+<a id="obs:1"></a>
+
+## obs:1
+
+Example observation 1 (not real data).  
+
+
+<a id="obs:2"></a>
+
+## obs:2  
+
+Example observation 2 (not real data).  
+
+<a id="obs:3"></a>
+
+## obs:3  
+Example observation 3 (not real data).  
+
+---
 
 In real publishing scenarios, you would replace these with persistent URIs
 that identify actual datasets and their observations. For example, a DOI-based identifier such as:
@@ -48,27 +68,22 @@ could be used to refer to the first observation in a dataset archived at Zenodo.
 
 A Turtle serialization of the same example definitions is also available: 
 
+
 ```
-@prefix ex: <https://dataset.dataobservatory.eu/examples/dataset#> .
+@prefix ex:   <https://dataset.dataobservatory.eu/examples/dataset#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 
-ex:1 a rdfs:Resource ;
-  rdfs:label "Illustrative observation 1" .
+ex:obs1 a dcat:Observation ;
+    rdfs:label "Example observation 1 (not real data)" .
 
-ex:2 a rdfs:Resource ;
-  rdfs:label "Illustrative observation 2" .
+ex:obs2 a dcat:Observation ;
+    rdfs:label "Example observation 2 (not real data)" .
 
-ex:3 a rdfs:Resource ;
-  rdfs:label "Illustrative observation 3" .
+ex:obs3 a dcat:Observation ;
+    rdfs:label "Example observation 3 (not real data)" .
 ```
 
 In fact, semantic applications know that they should not even read this HTML page, but instead go directly to the `dataset.ttl` version, as it is a World Wide Web standard to disseminate data and metadata.
 
 👉 [Download dataset.ttl](../examples/dataset.ttl)  
-
-## Purpose
-
-- To illustrate how IRIs can uniquely identify dataset elements.  
-- To provide resolvable links that satisfy CRAN’s link checks.  
-- To follow Linked Data best practice by serving one namespace document with
-  fragment identifiers.  

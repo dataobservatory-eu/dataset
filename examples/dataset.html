@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Example Dataset Definitions</title>
+
+  <!-- Canonical namespace document (no # in the canonical URL) -->
+  <link rel="canonical" href="https://dataset.dataobservatory.eu/examples/dataset/">
+
+  <!-- Machine-readable alternate -->
+  <link rel="alternate" type="text/turtle" href="dataset.ttl" />
+
+  <script>
+    (function () {
+      // target is your human-readable vignette
+      var target = "../../articles/example-dataset.html";
+      // original fragment (e.g., "#obs:1" or "#obs1")
+      var hash = window.location.hash || "";
+
+      // If your HTML uses ids "obs1/obs2/obs3", normalize colon variants from IRIs:
+      // "#obs:1" --> "#obs1"
+      if (hash.indexOf(":") !== -1) {
+        hash = "#" + hash.slice(1).replace(/:/g, "");
+      }
+
+      // Redirect preserving (normalized) fragment
+      window.location.replace(target + hash);
+    })();
+  </script>
+  <noscript>
+    <!-- Fallback for no-JS: still link humans to the vignette and TTL -->
+    <meta http-equiv="refresh" content="0; url=../../articles/example-dataset.html">
+  </noscript>
+</head>
+<body>
+  <p>If you are not redirected automatically, open the
+    <a href="../../articles/example-dataset.html">example-dataset vignette</a>
+    or the <a href="dataset.ttl">Turtle serialization</a>.
+  </p>
+</body>
+</html>
