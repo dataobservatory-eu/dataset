@@ -10,7 +10,7 @@ vignette: >
 ---
 
 <!-- Machine-readable alternate -->
-<link rel="alternate" type="text/turtle" href="../examples/dataset.ttl" />
+<link rel="alternate" type="text/turtle" href="https://dataset.dataobservatory.eu/examples/dataset.ttl" />
 
 This page documents the illustrative IRIs used in the `dataset` package
 vignettes. They are **examples only** and do not point to real datasets. 
@@ -86,4 +86,4 @@ ex:obs3 a dcat:Observation ;
 
 In fact, semantic applications know that they should not even read this HTML page, but instead go directly to the `dataset.ttl` version, as it is a World Wide Web standard to disseminate data and metadata.
 
-👉 [Download dataset.ttl](../examples/dataset.ttl)  
+👉 [Download dataset.ttl](https://dataset.dataobservatory.eu/examples/dataset.ttl)  
