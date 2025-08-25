@@ -15,10 +15,11 @@ test_that("crosswalk_bib works with minimal dublincore", {
 })
 
 test_that("crosswalk_bib propagates relation attribute", {
-  rel <- related_create("https://doi.org/10.5678/def", "References", "DOI")
+  rel <- related_create("https://doi.org/10.5678/def",
+                        "References", "DOI")
   dc <- dublincore(
     title = "Crosswalk Relation",
-    creator = person("A", "B"),
+    creator = person("Jane", "Doe"),
     relation = rel
   )
 
