@@ -2,36 +2,29 @@
 % Please edit documentation in R/fix_contributor.R
 \name{fix_contributor}
 \alias{fix_contributor}
-\title{Format contributor list into citation-friendly string}
+\title{Format contributors into a citation string}
 \usage{
 fix_contributor(contributors = NULL)
 }
 \arguments{
-\item{contributors}{A vector of \code{person} objects, or the character string
-\code{":unas"}, or \code{NULL}.}
+\item{contributors}{A vector or list of \code{person} objects, or \code{NULL}, or the
+character string \code{":unas"}.}
 }
 \value{
-A character string like \verb{\{Jane Doe [dtm, ctb]\} and \{John Smith [ctb]\}}.
+A single character string, e.g. \code{"{Jane Doe [dtm, ctb]} and {John Smith [ctb]}"}.
 }
 \description{
-Given a list of contributors (\code{utils::person} objects), this
-function formats them into a LaTeX/BibLaTeX-compatible string, merging roles
-per person and formatting names.
-
-Contributors without explicit roles are assumed to have the role \code{"ctb"}. If
-the input is \code{NULL} or the special string \code{":unas"}, the function returns
-\code{":unas"}.
-
-This formatting is intended for metadata serialization or citation exports.
+Format a list of \code{utils::person} objects into a compact string, merging roles
+per person and normalizing names. Contributors without explicit roles are
+assigned \code{"ctb"}. If \code{NULL} or \code{":unas"} is supplied, returns \code{":unas"}.
 }
 \examples{
-\dontrun{
 fix_contributor(person("Jane", "Doe", role = c("dtm", "ctb")))
-fix_contributor(c(
+fix_contributor(list(
   person("Jane", "Doe", role = "ctb"),
   person("John", "Smith")
 ))
 fix_contributor(":unas")
-}
+
 }
 \keyword{internal}
