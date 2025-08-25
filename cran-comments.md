@@ -2,6 +2,7 @@
 
 Local:
 * Windows10 x86_64-w64-mingw32 (64-bit), R version 4.5.0, locally.
+* https://win-builder.r-project.org/ all three configurations
 
 r_hub:
 * latest release: macos, linux, windows (Windows Server 2022)
@@ -15,7 +16,8 @@ rOpenSci:
 
 ## Resubmission
 
-This resubmission addresses the following URL check notes:
+This resubmission addresses the following URL check notes, which are all
+false negatives, but nevertheless must be addressed:
 
 Found the following (possibly) invalid URLs:
   URL: http://example.com/dataset#eg:1
@@ -40,5 +42,11 @@ However, to facilitate CRAN publication and avoid repeated URL check notes, I
 replaced these with example URIs hosted on the package website that do return
 HTTP 200 and are published in both HTML and Turtle format. This removes the 404
 check while retaining the intended illustration of example IRIs.
+
+Furthermore, on https://win-builder.r-project.org/, while testing, once the 
+Eurostat metadata definition server failed. This is extremely unexpected, but 
+I replaced this definition with that of the Statistical Data and Metadata 
+eXchange, i.e., to http://purl.org/linked-data/sdmx/2009/dimension#refArea.
+(This is a permanent IRI not an URL, therefore no https.)
 
 
